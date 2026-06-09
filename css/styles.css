@@ -1,14 +1,14 @@
 :root {
-  --bg: #000000;            /* pure black, TradingView default dark */
-  --chart-bg: #131722;
-  --panel: #131722;
-  --border: #2a2e39;
+  --bg: #000000;            /* pure black */
+  --chart-bg: #0b0b0d;      /* near-black chart surface */
+  --panel: #16181c;         /* dark-gray chrome */
+  --border: #2a2d35;
   --text: #ffffff;
-  --text-dim: #b2b5be;
-  --up: #26a69a;
-  --down: #ef5350;
-  --accent: #2962ff;
-  --hover: #1c2030;
+  --text-dim: #8a8d93;
+  --up: #d1d4dc;            /* near-white (bullish) */
+  --down: #5d6069;         /* mid-gray (bearish) */
+  --accent: #3a3e47;       /* neutral selection gray (white text on top) */
+  --hover: #1c1e24;
   --radius: 4px;
 }
 
@@ -47,7 +47,7 @@ html, body {
 .tb-btn.active { background: var(--accent); color: #fff; }
 #replayBtn.active { background: var(--accent); color: #fff; }
 .badge { color: var(--text-dim); font-size: 11px; }
-.tb-btn.active .badge { color: #cdd6ff; }
+.tb-btn.active .badge { color: #d1d4dc; }
 
 .tb-icon {
   width: 30px; height: 30px; display: grid; place-items: center;
@@ -148,23 +148,76 @@ body.no-toolbar .toolbar { display: none; }
   padding: 8px; box-shadow: 0 10px 30px rgba(0,0,0,.65);
 }
 .settings-panel.open { display: block; }
+.settings-panel { max-height: 80vh; overflow-y: auto; }
 .st-title { font-size: 11px; color: var(--text-dim); text-transform: uppercase;
-  letter-spacing: .4px; margin-bottom: 6px; }
+  letter-spacing: .4px; margin: 8px 0 6px; }
+.st-title:first-child { margin-top: 0; }
+.st-sep { height: 1px; background: var(--border); margin: 10px 0 8px; }
+.st-tf {
+  width: 100%; background: var(--chart-bg); color: var(--text);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 5px 7px; font-size: 12px; outline: none;
+}
+.st-tf:focus { border-color: var(--accent); }
+.st-hint { font-size: 10px; color: var(--text-dim); margin-top: 4px; line-height: 1.4; }
+.st-save {
+  width: 100%; background: var(--accent); color: #fff; border: none;
+  border-radius: var(--radius); padding: 7px; font-size: 12px; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+}
+.st-save:hover { filter: brightness(1.12); }
 .st-row { display: flex; align-items: center; justify-content: space-between;
   font-size: 12px; padding: 5px 2px; }
 .st-row input[type="color"] { width: 36px; height: 22px; padding: 0;
   background: var(--chart-bg); border: 1px solid var(--border); border-radius: 3px; cursor: pointer; }
 .st-row input[type="checkbox"] { accent-color: var(--accent); cursor: pointer; }
 
-/* ===== draggable cut handle ===== */
-.cut-handle {
-  position: absolute; top: 6px; display: none; align-items: center; gap: 3px;
-  transform: translateX(-50%); z-index: 10; padding: 3px 8px;
-  background: rgba(41,98,255,0.18); border: 1px solid var(--accent); border-radius: 4px;
-  color: #cdd6ff; font-size: 13px; font-weight: 600; cursor: ew-resize;
-  user-select: none; pointer-events: auto; white-space: nowrap;
+/* ===== replay arming: scissors cursor while choosing the cut point ===== */
+.chart-host.cutting,
+.chart-host.cutting #chart,
+.chart-host.cutting #chart canvas,
+.chart-host.cutting .draw-layer {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="%23ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>') 6 6, crosshair !important;
 }
-.cut-handle:hover { background: rgba(41,98,255,0.32); }
+
+/* arming hint banner (center-top of chart) */
+.cut-hint {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  z-index: 12; display: none; padding: 7px 14px;
+  background: rgba(255,255,255,0.08); border: 1px solid var(--border); border-radius: 6px;
+  color: #d1d4dc; font-size: 12px; font-weight: 600; white-space: nowrap;
+  pointer-events: none; box-shadow: 0 8px 24px rgba(0,0,0,.5);
+}
+.chart-host.cutting .cut-hint { display: block; }
+
+/* ===== permanent refresh button (center-top of chart) ===== */
+.chart-refresh {
+  position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 11; width: 28px; height: 28px; display: grid; place-items: center;
+  background: rgba(19,23,34,.72); border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--text-dim); cursor: pointer; opacity: .55; transition: opacity .12s, color .12s;
+}
+.chart-refresh:hover { opacity: 1; color: var(--text); background: var(--hover); }
+.chart-refresh svg { width: 16px; height: 16px; }
+/* tuck below the arming hint so they don't overlap */
+.chart-host.cutting .chart-refresh { top: 44px; }
+
+/* ===== right-click context menu ===== */
+.ctx-menu {
+  position: fixed; z-index: 90; display: none; min-width: 180px;
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 4px; box-shadow: 0 12px 34px rgba(0,0,0,.7);
+}
+.ctx-menu.open { display: block; }
+.ctx-item {
+  display: block; width: 100%; text-align: left; background: transparent;
+  color: var(--text); border: none; padding: 7px 10px; font-size: 12px;
+  cursor: pointer; border-radius: 3px;
+}
+.ctx-item:hover { background: var(--hover); }
+.ctx-item:disabled { color: var(--text-dim); opacity: .45; cursor: default; }
+.ctx-item:disabled:hover { background: transparent; }
+.ctx-sep { height: 1px; background: var(--border); margin: 4px 0; }
 
 /* ===== indicators dropdown panel ===== */
 .ind-panel {
@@ -207,18 +260,19 @@ body.no-toolbar .toolbar { display: none; }
 }
 .ind-config input[type="color"] { padding: 0; height: 24px; }
 
-/* ===== replay bar ===== */
+/* ===== replay bar — 3-col grid centers the transport (Play) ===== */
 .replaybar {
-  display: flex; align-items: center; gap: 12px;
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px;
   padding: 8px 12px; border-top: 1px solid var(--border); background: var(--panel);
-  flex-wrap: wrap; min-height: 50px; visibility: hidden; pointer-events: none;
+  min-height: 50px; visibility: hidden; pointer-events: none;
 }
 body.replay-mode .replaybar { visibility: visible; pointer-events: auto; }
+.rb-left  { display: flex; align-items: center; gap: 12px; justify-self: start; }
+.rb-center { display: flex; align-items: center; justify-content: center; justify-self: center; }
+.rb-right { display: flex; align-items: center; gap: 12px; justify-self: end; }
 .transport { display: flex; align-items: center; gap: 4px; }
 .transport .iconbtn { width: 32px; height: 32px; border: 1px solid var(--border); background: var(--chart-bg); color: var(--text); }
 .transport .iconbtn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-.slider-wrap { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 220px; }
-.slider-wrap input[type="range"] { flex: 1; accent-color: var(--accent); }
 .cut-label { font-size: 11px; color: var(--text-dim); white-space: nowrap; }
 .pill { font-size: 11px; padding: 3px 9px; border-radius: 99px; background: var(--chart-bg);
   color: var(--text-dim); border: 1px solid var(--border); }

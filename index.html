@@ -69,58 +69,65 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="6" width="16" height="12" rx="1"/></svg>
       </button>
       <div class="tool-sep"></div>
-      <button class="iconbtn" id="clearBtn" title="Clear all">
+      <button class="iconbtn" id="clearBtn" title="Clear all drawings">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></svg>
-      </button>
-      <button class="iconbtn" id="delBtn" title="Delete selected (Del)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 7h14M9 7V5h6v2M7 7l1 12h8l1-12"/></svg>
       </button>
     </div>
 
     <div class="chart-host" id="chartHost">
       <div id="chart"></div>
-      <!-- draggable cut-line handle, shown only in replay mode -->
-      <div class="cut-handle" id="cutHandle">✂</div>
+
+      <!-- permanent refresh button, centered top of the chart (all modes) -->
+      <button class="chart-refresh" id="refreshBtn" title="Refresh chart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 11a8 8 0 1 0-.5 4"/><path d="M20 4v7h-7"/></svg>
+      </button>
+
+      <!-- replay arming hint (scissors mode, before the cut point is chosen) -->
+      <div class="cut-hint" id="cutHint">✂ Double-click a candle to set the replay start point</div>
+
+      <!-- right-click context menu -->
+      <div class="ctx-menu" id="ctxMenu"></div>
     </div>
   </div>
 
   <!-- ===== REPLAY TRANSPORT — shown via body.replay-mode ===== -->
+  <!-- 3-column grid keeps the transport (Play) perfectly centered -->
   <div class="replaybar">
-    <div class="seg mode-seg" id="modeTabs">
-      <button data-mode="game" class="active">🎮 Game</button>
-      <button data-mode="strategy">⚡ Strategy</button>
-    </div>
-    <div class="transport">
-      <button class="iconbtn" id="rewindBtn" title="Rewind to start">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM20 6L11 12l9 6z"/></svg>
-      </button>
-      <button class="iconbtn primary" id="playBtn" title="Play / Pause (Space)">
-        <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-      </button>
-      <button class="iconbtn" id="stepBtn" title="Step forward one candle (→)">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 5l9 7-9 7zM16 5h2v14h-2z"/></svg>
-      </button>
-    </div>
-
-    <div class="field-inline">
-      <label>Speed</label>
-      <select id="speed"></select>
-    </div>
-    <div class="field-inline">
-      <label>Formation</label>
-      <div class="seg" id="modeSeg">
-        <button data-v="realistic" class="active">Realistic</button>
-        <button data-v="candle">Candle</button>
+    <div class="rb-left">
+      <div class="seg mode-seg" id="modeTabs">
+        <button data-mode="game" class="active">🎮 Game</button>
+        <button data-mode="strategy">⚡ Strategy</button>
       </div>
     </div>
 
-    <div class="slider-wrap">
-      <span class="cut-label">Start</span>
-      <input type="range" id="cutSlider" min="1" max="100" value="45" />
-      <span class="cut-label" id="cutLabel">— / —</span>
+    <div class="rb-center">
+      <div class="transport">
+        <button class="iconbtn" id="rewindBtn" title="Rewind to start">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM20 6L11 12l9 6z"/></svg>
+        </button>
+        <button class="iconbtn primary" id="playBtn" title="Play / Pause (Space)">
+          <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <button class="iconbtn" id="stepBtn" title="Step forward one candle (→)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 5l9 7-9 7zM16 5h2v14h-2z"/></svg>
+        </button>
+      </div>
     </div>
 
-    <span class="pill" id="livePill">paused</span>
+    <div class="rb-right">
+      <div class="field-inline">
+        <label>Speed</label>
+        <select id="speed"></select>
+      </div>
+      <div class="field-inline">
+        <label>Formation</label>
+        <div class="seg" id="modeSeg">
+          <button data-v="realistic" class="active">Realistic</button>
+          <button data-v="candle">Candle</button>
+        </div>
+      </div>
+      <span class="pill" id="livePill">paused</span>
+    </div>
   </div>
 
   <!-- ===== BOTTOM BAR: OHLCV under cursor ===== -->

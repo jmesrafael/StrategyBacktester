@@ -12,14 +12,21 @@ const ChartView = (() => {
     chart = LightweightCharts.createChart(el, {
       layout: { background: { color: T.bg }, textColor: T.text, fontSize: 11,
         fontFamily: "'Inter','Segoe UI',system-ui,sans-serif" },
-      grid: { vertLines: { color: T.grid }, horzLines: { color: T.grid } },
-      rightPriceScale: { borderColor: T.border, scaleMargins: { top: 0.08, bottom: 0.26 } },
+      // grid is off by default (toggle in settings)
+      grid: { vertLines: { color: T.grid, visible: false },
+        horzLines: { color: T.grid, visible: false } },
+      rightPriceScale: { borderColor: T.border, scaleMargins: { top: 0.06, bottom: 0.18 } },
       timeScale: { borderColor: T.border, timeVisible: true, secondsVisible: false,
         rightOffset: 6 },
+      // thin, subtle crosshair — TradingView-like, low-distraction
       crosshair: { mode: LightweightCharts.CrosshairMode.Normal,
-        vertLine: { color: T.textDim, width: 1, style: 3, labelBackgroundColor: T.border },
-        horzLine: { color: T.textDim, width: 1, style: 3, labelBackgroundColor: T.border } },
-      handleScroll: true, handleScale: true,
+        vertLine: { color: 'rgba(178,181,190,0.35)', width: 1, style: 3, labelBackgroundColor: T.border },
+        horzLine: { color: 'rgba(178,181,190,0.35)', width: 1, style: 3, labelBackgroundColor: T.border } },
+      handleScroll: true,
+      // price scaling stays enabled internally so the wheel-over-axis handler can
+      // drive it; real user drags on the price axis are blocked in app.js.
+      handleScale: { axisPressedMouseMove: { time: true, price: true },
+        axisDoubleClickReset: { time: true, price: true }, mouseWheel: true, pinch: true },
       autoSize: true,
     });
 
@@ -29,8 +36,8 @@ const ChartView = (() => {
     volume = chart.addSeries(LightweightCharts.HistogramSeries, {
       priceScaleId: 'vol', priceFormat: { type: 'volume' }, priceLineVisible: false,
     });
-    // lower ~20% of the chart, separated from price area by the margin gap
-    chart.priceScale('vol').applyOptions({ scaleMargins: { top: 0.80, bottom: 0 } });
+    // volume fills the bottom ~18%, flush against the price area (no gap)
+    chart.priceScale('vol').applyOptions({ scaleMargins: { top: 0.82, bottom: 0 } });
 
     cursorSeries = chart.addSeries(LightweightCharts.LineSeries, { color: T.cursor,
       lineWidth: 1, lineStyle: 2, priceLineVisible: false, lastValueVisible: false,
@@ -55,6 +62,16 @@ const ChartView = (() => {
     if (style) candle.applyOptions(style);
   }
 
+  // ---- custom candle colors (body + wick share one color per direction) ----
+  // Overrides the active style so users get a single solid color each way.
+  function setCandleColors(up, down) {
+    candle.applyOptions({
+      upColor: up, downColor: down,
+      borderUpColor: up, borderDownColor: down,
+      wickUpColor: up, wickDownColor: down,
+    });
+  }
+
   // ---- canvas customization (settings) -------------------------------------
   function setBackground(color) {
     chart.applyOptions({ layout: { background: { color } } });
@@ -65,6 +82,15 @@ const ChartView = (() => {
   }
   function setGridColor(color) {
     chart.applyOptions({ grid: { vertLines: { color }, horzLines: { color } } });
+  }
+
+  // Toggle the chart's native crosshair. The drawing overlay sets this to Hidden
+  // while it captures pointer events (so the native crosshair can't leave trails)
+  // and back to Normal when idle.
+  function setCrosshairMode(on) {
+    chart.applyOptions({ crosshair: { mode: on
+      ? LightweightCharts.CrosshairMode.Normal
+      : LightweightCharts.CrosshairMode.Hidden } });
   }
 
   // ---- generic line indicator (used by IndicatorManager) -------------------
@@ -133,8 +159,8 @@ const ChartView = (() => {
   function getVolumeSeries() { return volume; }
   function onCrosshairMove(fn) { onCrosshair = fn; }
 
-  return { create, setSlice, updateForming, setCandleStyle, setBackground,
-    setGridVisible, setGridColor, addLineIndicator, addPaneSeries, setPaneHeight,
+  return { create, setSlice, updateForming, setCandleStyle, setCandleColors, setBackground,
+    setGridVisible, setGridColor, setCrosshairMode, addLineIndicator, addPaneSeries, setPaneHeight,
     setCandleMarkers, clearCandleMarkers, toggleVolume, setCursor,
     scrollToRealtime, getChart, getCandleSeries, getVolumeSeries,
     onCrosshairMove, fmtVol };

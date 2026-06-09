@@ -175,7 +175,10 @@ const Replay = (() => {
   // jump cut to a logical index from a chart click / slider
   function jumpCutTo(idx) { setCut(idx); }
 
+  // repaint the current revealed slice without changing the cut (Refresh button)
+  function rerender() { if (full.length) renderRevealed(); }
+
   return { load, setCut, jumpCutTo, play, pause, toggle, step, rewind,
-    setSpeed, setMode, reload, on, state: stateObj,
+    setSpeed, setMode, reload, rerender, on, state: stateObj,
     get full() { return full; }, get cutIndex() { return cutIndex; } };
 })();

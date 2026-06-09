@@ -33,15 +33,19 @@ const Drawings = (() => {
     window.addEventListener('mousemove', onMove);
     window.addEventListener('mouseup', onUp);
     canvas.addEventListener('mousemove', trackMouse);
+    canvas.addEventListener('mouseenter', () => { inside = true; });
+    canvas.addEventListener('mouseleave', () => { inside = false; render(); });
     window.addEventListener('keydown', onKey);
 
     syncPointerMode();
   }
 
   let lastMouse = { x: 0, y: 0 };
+  let inside = false;
   function trackMouse(e) {
     const r = canvas.getBoundingClientRect();
     lastMouse = { x: e.clientX - r.left, y: e.clientY - r.top };
+    inside = true;
   }
 
   function resize() {
@@ -69,17 +73,23 @@ const Drawings = (() => {
 
   // When a draw tool is active we capture pointer + freeze chart pan.
   // In cursor mode the layer is transparent to events unless hovering a drawing.
+  // Whenever the overlay captures events the chart's native crosshair is hidden
+  // (it would otherwise leave dashed trails since it no longer gets mouse moves)
+  // and the overlay draws its own clean crosshair instead.
+  let nativeCrosshairOn = true;
   function syncPointerMode() {
-    if (tool === 'cursor') {
-      canvas.style.pointerEvents = hover ? 'auto' : 'none';
-      chart.applyOptions({ handleScroll: true, handleScale: true });
-    } else {
-      canvas.style.pointerEvents = 'auto';
-      chart.applyOptions({ handleScroll: false, handleScale: false });
+    const capturing = tool !== 'cursor' || !!hover;
+    canvas.style.pointerEvents = capturing ? 'auto' : 'none';
+    if (tool === 'cursor') chart.applyOptions({ handleScroll: true, handleScale: true });
+    else chart.applyOptions({ handleScroll: false, handleScale: false });
+    if (capturing === nativeCrosshairOn) {
+      nativeCrosshairOn = !capturing;
+      ChartView.setCrosshairMode(nativeCrosshairOn);
     }
   }
 
   function onDown(e) {
+    if (e.button !== 0) return; // ignore right/middle click (context menu)
     const r = canvas.getBoundingClientRect();
     const mx = e.clientX - r.left, my = e.clientY - r.top;
     const time = toTime(mx), price = toPrice(my);
@@ -131,7 +141,12 @@ const Drawings = (() => {
       render();
       return;
     }
-    if (tool === 'cursor') updateHover({ x: mx, y: my });
+    if (tool === 'cursor') {
+      updateHover({ x: mx, y: my });
+      if (hover) render(); // track the overlay crosshair across the hovered drawing
+    }
+    // keep the crosshair tracking the pointer while a draw tool is armed
+    else if (inside) render();
   }
 
   function onUp() {
@@ -216,9 +231,35 @@ const Drawings = (() => {
 
   // ---- render --------------------------------------------------------------
   function render() {
+    // full clear in device space (transform-independent) so nothing survives a frame
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.restore();
+    drawCrosshair();
     const all = draft ? items.concat([draft]) : items;
     all.forEach((it) => drawItem(it, it === selected));
+  }
+
+  // thin, subtle crosshair kept visible whenever a drawing interaction is
+  // active (placing / dragging) — the chart's own crosshair is suppressed then
+  // because this overlay captures the pointer events.
+  function drawCrosshair() {
+    if (!inside) return;
+    // shown whenever this overlay captures the pointer (so the chart's own
+    // crosshair is suppressed): a tool is armed, or we're drafting / dragging /
+    // hovering a drawing.
+    if (tool === 'cursor' && !draft && !drag && !hover) return;
+    const { x: mx, y: my } = lastMouse;
+    ctx.save();
+    ctx.strokeStyle = 'rgba(178,181,190,0.4)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(mx, 0); ctx.lineTo(mx, container.clientHeight);
+    ctx.moveTo(0, my); ctx.lineTo(container.clientWidth, my);
+    ctx.stroke();
+    ctx.restore();
   }
 
   function drawItem(it, sel) {
@@ -269,5 +310,6 @@ const Drawings = (() => {
   }
 
   return { init, setTool, onTool, render, deleteSelected, clearAll,
-    get tool() { return tool; }, get count() { return items.length; } };
+    get tool() { return tool; }, get count() { return items.length; },
+    get hasSelection() { return !!selected; } };
 })();

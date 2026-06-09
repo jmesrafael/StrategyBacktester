@@ -56,18 +56,16 @@ const IndicatorManager = (() => {
   // ---- persistence ---------------------------------------------------------
   function persist() {
     const slim = instances.map(({ id, type, visible, params }) => ({ id, type, visible, params }));
-    try { sessionStorage.setItem(CFG.STORE.indicators, JSON.stringify(slim)); } catch {}
+    try { localStorage.setItem(CFG.STORE.indicators, JSON.stringify(slim)); } catch {}
   }
   function restore() {
     let saved = null;
-    try { saved = JSON.parse(sessionStorage.getItem(CFG.STORE.indicators)); } catch {}
+    try { saved = JSON.parse(localStorage.getItem(CFG.STORE.indicators)); } catch {}
     if (saved && saved.length) {
       saved.forEach((s) => materialize(s.type, s.params, s.visible, s.id));
       idSeq = Math.max(idSeq, ...saved.map((s) => s.id + 1));
     } else {
-      // defaults: MA 10 + MA 50 + Volume on
-      add('ma', { period: 10, maType: 'SMA', color: CFG.MA_COLORS[0], lineWidth: 1 });
-      add('ma', { period: 50, maType: 'SMA', color: CFG.MA_COLORS[1], lineWidth: 1 });
+      // default: Volume only (no SMA indicators)
       add('volume', {});
     }
     renderPanel(); refreshBadge();
@@ -122,6 +120,11 @@ const IndicatorManager = (() => {
     } else if (inst.type === 'volume') ChartView.toggleVolume(false);
     instances = instances.filter((i) => i.id !== id);
     renderPanel(); refreshBadge(); updateLegend(null); persist();
+  }
+
+  // remove every active indicator (right-click → Remove All Indicators)
+  function removeAll() {
+    instances.slice().forEach((i) => remove(i.id));
   }
 
   function setVisible(id, v) {
@@ -364,5 +367,6 @@ const IndicatorManager = (() => {
     cfgPopup.style.top = (r.bottom + 4) + 'px';
   }
 
-  return { init, recompute, updateLegend };
+  return { init, recompute, updateLegend, removeAll,
+    get count() { return instances.length; } };
 })();

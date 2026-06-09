@@ -9,8 +9,16 @@ window.CFG = {
   ],
   SPEEDS: [1, 2, 3, 5, 10, 25, 50],
 
+  // Master timeframe list — the Timeframes setting picks any subset of these.
+  ALL_INTERVALS: [
+    ['1', '1m'], ['3', '3m'], ['5', '5m'], ['15', '15m'], ['30', '30m'],
+    ['60', '1h'], ['120', '2h'], ['240', '4h'], ['360', '6h'], ['720', '12h'],
+    ['D', '1D'], ['W', '1W'],
+  ],
+
   // Max history selector (top bar). Fetched via paginated kline requests.
-  MAX_CANDLES: [500, 1000, 3000, 5000],
+  // Default to the largest so the chart shows as much history as possible.
+  MAX_CANDLES: [1000, 3000, 5000, 10000, 20000],
   PAGE_LIMIT: 1000,         // Bybit v5 per-request maximum
 
   // Replay timing
@@ -20,8 +28,8 @@ window.CFG = {
   CANDLE_STEP_MS: 480,      // base per-candle ms at 1x in candle-by-candle mode
   MIN_FRAME_MS: 6,
 
-  // ~5000 candles ≈ 7 months on 1h → guarantees the ≥6-month requirement.
-  DEFAULTS: { symbol: 'ETHUSDT', interval: '60', maxCandles: 5000, candleStyle: 'mono' },
+  // ~10000 candles ≈ 14 months on 1h → always shows deep history by default.
+  DEFAULTS: { symbol: 'ETHUSDT', interval: '60', maxCandles: 10000, candleStyle: 'mono' },
 
   // Replay trading simulator
   START_BALANCE: 10000,
@@ -30,28 +38,34 @@ window.CFG = {
   DEFAULT_COMMISSION_PCT: 0.055,  // charged on entry AND exit, per side
   DEFAULT_SLIPPAGE_PCT: 0.010,    // worsens the fill price on entry and exit
 
-  // sessionStorage keys (choices persist for the tab session)
+  // localStorage keys (choices persist across reloads and future sessions)
   STORE: { candleStyle: 'cr.candleStyle', indicators: 'cr.indicators',
-    bg: 'cr.bg', grid: 'cr.grid', gridColor: 'cr.gridColor' },
+    bg: 'cr.bg', grid: 'cr.grid', gridColor: 'cr.gridColor',
+    candleUp: 'cr.candleUp', candleDown: 'cr.candleDown',
+    timeframes: 'cr.timeframes', maxCandles: 'cr.maxCandles',
+    defaults: 'cr.defaults', version: 'cr.schema' },
 
-  // Theme (kept in sync with css/styles.css) — pure-black TradingView dark
+  // Bump when default settings change so persisted prefs are migrated once.
+  SCHEMA_VERSION: 2,
+
+  // Theme (kept in sync with css/styles.css) — monochrome gray / black / white
   THEME: {
-    bg: '#131722',
-    grid: 'rgba(255,255,255,0.06)',
+    bg: '#0b0b0d',
+    grid: 'rgba(255,255,255,0.05)',
     text: '#ffffff',
-    textDim: '#b2b5be',
-    border: '#2a2e39',
-    up: '#26a69a',
-    down: '#ef5350',
-    upWick: '#26a69a',
-    downWick: '#ef5350',
-    volUp: 'rgba(38,166,154,0.45)',
-    volDown: 'rgba(239,83,80,0.45)',
-    cursor: 'rgba(178,181,190,0.55)',
-    formGlow: '#f0b90b',
-    draw: '#2962ff',
+    textDim: '#8a8d93',
+    border: '#2a2d35',
+    up: '#d1d4dc',
+    down: '#5d6069',
+    upWick: '#d1d4dc',
+    downWick: '#5d6069',
+    volUp: 'rgba(209,212,220,0.32)',
+    volDown: 'rgba(120,123,134,0.32)',
+    cursor: 'rgba(178,181,190,0.45)',
+    formGlow: '#d1d4dc',
+    draw: '#d1d4dc',
     drawHandle: '#ffffff',
-    drawSel: '#f0b90b',
+    drawSel: '#ffffff',
   },
 
   // Candlestick color modes (applied live via series.applyOptions)
@@ -62,13 +76,13 @@ window.CFG = {
       wickUpColor: '#26a69a', wickDownColor: '#ef5350',
     },
     mono: {
-      // bullish = hollow white body, gray wick
-      upColor: 'rgba(0,0,0,0)', borderUpColor: '#ffffff', wickUpColor: '#787b86',
-      // bearish = solid gray body, gray wick
-      downColor: '#787b86', borderDownColor: '#787b86', wickDownColor: '#787b86',
+      // bullish = solid near-white body + wick
+      upColor: '#d1d4dc', borderUpColor: '#d1d4dc', wickUpColor: '#d1d4dc',
+      // bearish = solid mid-gray body + wick
+      downColor: '#5d6069', borderDownColor: '#5d6069', wickDownColor: '#5d6069',
     },
   },
 
-  // Default MA palette for preloaded / newly added moving averages
-  MA_COLORS: ['#2962ff', '#ff6d00', '#ab47bc', '#26c6da', '#ffca28'],
+  // Default MA palette for newly added moving averages (neutral grays first)
+  MA_COLORS: ['#d1d4dc', '#8a8d93', '#b0b3b8', '#6a6d75', '#e0e0e0'],
 };
