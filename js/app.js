@@ -85,11 +85,53 @@
   chartHost.addEventListener('wheel', (e) => {
     if (!overPriceAxis(e.clientX)) return;            // only over the price axis
     const el = document.elementFromPoint(e.clientX, e.clientY);
-    // bail if the drawing overlay (or anything non-chart) is on top
     if (!el || !$('chart').contains(el)) return;
     e.preventDefault(); e.stopPropagation();
     ChartView.nudgePriceZoom(e.deltaY);
   }, { passive: false, capture: true });
+
+  // Price-axis drag — vertical pan (drag the right axis up/down).
+  // axisPressedMouseMove.price is disabled so the native stretch can't fight us.
+  let priceAxisDragging = false;
+  let lastPriceDragY = 0;
+  chartHost.addEventListener('mousedown', (e) => {
+    if (e.button !== 0 || !overPriceAxis(e.clientX)) return;
+    priceAxisDragging = true;
+    lastPriceDragY = e.clientY;
+    e.preventDefault(); e.stopPropagation();
+    chartHost.style.cursor = 'ns-resize';
+  }, { capture: true });
+
+  // Chart-body drag — vertical pan while dragging anywhere on the chart area.
+  // We DON'T preventDefault so LightweightCharts' native horizontal scroll still
+  // works; we just layer vertical price pan on top of it.
+  // The drawing overlay captures events when a tool is active or a drawing is
+  // hovered, so this handler won't fire during drawing interactions (no conflict).
+  let chartBodyDragging = false;
+  let lastBodyDragY = 0;
+  chartHost.addEventListener('mousedown', (e) => {
+    if (e.button !== 0 || overPriceAxis(e.clientX)) return; // axis handled above
+    chartBodyDragging = true;
+    lastBodyDragY = e.clientY;
+    // no preventDefault — let native horizontal time-scroll run in parallel
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (priceAxisDragging) {
+      const dy = e.clientY - lastPriceDragY;
+      lastPriceDragY = e.clientY;
+      if (dy !== 0) ChartView.panPrice(dy);
+    }
+    if (chartBodyDragging) {
+      const dy = e.clientY - lastBodyDragY;
+      lastBodyDragY = e.clientY;
+      if (dy !== 0) ChartView.panPrice(dy);
+    }
+  });
+  window.addEventListener('mouseup', () => {
+    if (priceAxisDragging) { priceAxisDragging = false; chartHost.style.cursor = ''; }
+    chartBodyDragging = false;
+  });
 
   IndicatorManager.init({
     chart: lwChart,
@@ -99,6 +141,8 @@
     getVisibleCandles: () => replayMode ? candles.slice(0, Replay.cutIndex + 1) : candles,
   });
   Drawings.init(lwChart, ChartView.getCandleSeries(), chartHost);
+  // Re-render drawings after every price-axis pan/zoom repaint so they never lag.
+  ChartView.onPriceRangeChange(() => Drawings.render());
   TradeSim.init({
     chart: lwChart,
     series: ChartView.getCandleSeries(),
@@ -155,9 +199,10 @@
   document.addEventListener('click', () => $('candleStyleMenu').classList.remove('open'));
 
   // ---- canvas settings (grid, colors, candles, timeframes, persisted) --
-  const stBg    = LS.getItem(STORE.bg);
-  const stGridV = LS.getItem(STORE.grid);       // 'true' | 'false' | null
-  const stGridC = LS.getItem(STORE.gridColor);
+  const stBg      = LS.getItem(STORE.bg);
+  const stGridV   = LS.getItem(STORE.grid);       // 'true' | 'false' | null
+  const stGridC   = LS.getItem(STORE.gridColor);
+  const stDLabels = LS.getItem(STORE.drawLabels); // 'true' | 'false' | null (default true)
   if (stBg) ChartView.setBackground(stBg);
   if (stGridV != null) ChartView.setGridVisible(stGridV === 'true');
   if (stGridC) ChartView.setGridColor(stGridC);
@@ -172,6 +217,8 @@
     `<div class="st-title">Candles</div>` +
     `<label class="st-row"><span>Bullish</span><input type="color" id="stUp"></label>` +
     `<label class="st-row"><span>Bearish</span><input type="color" id="stDown"></label>` +
+    `<div class="st-title">Drawings</div>` +
+    `<label class="st-row"><span>Show price labels</span><input type="checkbox" id="stDrawLabels"></label>` +
     `<div class="st-title">Timeframes</div>` +
     `<input class="st-tf" id="stTf" type="text" spellcheck="false" placeholder="1m, 5m, 15m, 1h, 4h, 1D">` +
     `<div class="st-hint">Comma-separated. Available: ${CFG.ALL_INTERVALS.map(([, l]) => l).join(' ')}</div>` +
@@ -180,16 +227,23 @@
   document.body.appendChild(settingsPanel);
   settingsPanel.addEventListener('click', (e) => e.stopPropagation());
 
-  $('stGrid').checked    = stGridV == null ? false : stGridV === 'true';
-  $('stBg').value        = stBg    || CFG.THEME.bg;
-  $('stGridColor').value = stGridC || CFG.THEME.border;
-  $('stUp').value        = candleUp   || CFG.THEME.up;
-  $('stDown').value      = candleDown || CFG.THEME.down;
-  $('stTf').value        = timeframes.map((v) => TF_LABEL.get(v)).join(', ');
+  const initDrawLabels = stDLabels == null ? true : stDLabels === 'true';
+  $('stGrid').checked       = stGridV == null ? false : stGridV === 'true';
+  $('stBg').value           = stBg    || CFG.THEME.bg;
+  $('stGridColor').value    = stGridC || CFG.THEME.border;
+  $('stUp').value           = candleUp   || CFG.THEME.up;
+  $('stDown').value         = candleDown || CFG.THEME.down;
+  $('stDrawLabels').checked = initDrawLabels;
+  $('stTf').value           = timeframes.map((v) => TF_LABEL.get(v)).join(', ');
+  Drawings.setShowLabels(initDrawLabels);
 
   $('stGrid').onchange = (e) => {
     ChartView.setGridVisible(e.target.checked);
     LS.setItem(STORE.grid, String(e.target.checked));
+  };
+  $('stDrawLabels').onchange = (e) => {
+    Drawings.setShowLabels(e.target.checked);
+    LS.setItem(STORE.drawLabels, String(e.target.checked));
   };
   $('stBg').oninput = (e) => {
     ChartView.setBackground(e.target.value);
@@ -221,8 +275,8 @@
     const blob = { symbol: $('symbol').value, interval,
       maxCandles: $('maxCandles').value, candleStyle };
     LS.setItem(STORE.defaults, JSON.stringify(blob));
-    const btn = $('stSave'); const t = btn.textContent;
-    btn.textContent = '✓ Saved'; setTimeout(() => { btn.textContent = t; }, 1200);
+    const btn = $('stSave'); const t = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-check"></i> Saved'; setTimeout(() => { btn.innerHTML = t; }, 1200);
   };
 
   $('settingsBtn').addEventListener('click', (e) => {
@@ -344,9 +398,9 @@
     chartHost.classList.remove('cutting');
     $('replayBtn').classList.remove('active');
     $('replayBtn').textContent = 'Replay';
-    // un-freeze the price scale that the cut locked, so full history fits again
+    // un-freeze the price scale (cut had locked it) and return to auto-fit
     lwChart.priceScale('right').applyOptions({ autoScale: true });
-    ChartView.resetPriceZoom();
+    ChartView.resetPriceZoom(); // clears manual range + restores base margins
     ChartView.setSlice(candles);
     IndicatorManager.recompute(candles);
     ChartView.setCursor(null);

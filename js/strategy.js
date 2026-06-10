@@ -411,7 +411,7 @@ const StrategyMode = (() => {
     liveSL = null; liveTP = null;
     clearError();
     elLog.innerHTML = '';
-    appendLog('—', `Watching ${strat.name} from candle ${replay.cutIndex + 1}`);
+    appendLog('<i class="fas fa-eye"></i>', `Watching ${strat.name} from candle ${replay.cutIndex + 1}`);
   }
 
   // re-seed live strategy internal state over revealed history without trading
@@ -454,12 +454,12 @@ const StrategyMode = (() => {
       const hitTP = isLong ? (liveTP != null && c.high >= liveTP) : (liveTP != null && c.low <= liveTP);
       if (hitSL || hitTP) {
         tradeSim.close(); clearSLTPLines();
-        appendLog('■', `Candle ${i} — ${hitSL ? 'STOP' : 'TARGET'} hit`);
+        appendLog('<i class="fas fa-square-xmark"></i>', `Candle ${i} — ${hitSL ? 'STOP' : 'TARGET'} hit`);
         return;
       }
     }
 
-    if (i < (strat.warmUpBars || 0)) { appendLog('✗', `Candle ${i} — Warming up (${i}/${strat.warmUpBars})`); return; }
+    if (i < (strat.warmUpBars || 0)) { appendLog('<i class="fas fa-hourglass-half"></i>', `Candle ${i} — Warming up (${i}/${strat.warmUpBars})`); return; }
 
     const closes = candles.slice(0, i + 1).map((x) => x.close);
     const indicators = makeIndicators(closes, candles.slice(0, i + 1));
@@ -469,16 +469,16 @@ const StrategyMode = (() => {
     } catch (e) {
       replay.pause();
       showError(`${strat.name}.onCandle() threw at candle ${i}: ${e.message}`);
-      appendLog('⚠', `Candle ${i} — ERROR: ${e.message}`);
+      appendLog('<i class="fas fa-triangle-exclamation"></i>', `Candle ${i} — ERROR: ${e.message}`);
       return;
     }
     const signal = typeof res === 'string' ? res : (res && res.signal) || null;
     const reason = live.reason || '';
 
-    if (signal === 'long') { if (acct.position === 'short') { tradeSim.close(); clearSLTPLines(); } tradeSim.open('long'); appendLog('▲', `Candle ${i} — LONG · ${reason}`); }
-    else if (signal === 'short') { if (acct.position === 'long') { tradeSim.close(); clearSLTPLines(); } tradeSim.open('short'); appendLog('▼', `Candle ${i} — SHORT · ${reason}`); }
-    else if (signal === 'close') { if (acct.position) { tradeSim.close(); clearSLTPLines(); appendLog('■', `Candle ${i} — CLOSE · ${reason}`); } else appendLog('·', `Candle ${i} — No signal · ${reason}`); }
-    else appendLog('·', `Candle ${i} — No signal · ${reason}`);
+    if (signal === 'long') { if (acct.position === 'short') { tradeSim.close(); clearSLTPLines(); } tradeSim.open('long'); appendLog('<i class="fas fa-arrow-up"></i>', `Candle ${i} — LONG · ${reason}`); }
+    else if (signal === 'short') { if (acct.position === 'long') { tradeSim.close(); clearSLTPLines(); } tradeSim.open('short'); appendLog('<i class="fas fa-arrow-down"></i>', `Candle ${i} — SHORT · ${reason}`); }
+    else if (signal === 'close') { if (acct.position) { tradeSim.close(); clearSLTPLines(); appendLog('<i class="fas fa-xmark"></i>', `Candle ${i} — CLOSE · ${reason}`); } else appendLog('<i class="fas fa-minus"></i>', `Candle ${i} — No signal · ${reason}`); }
+    else appendLog('<i class="fas fa-minus"></i>', `Candle ${i} — No signal · ${reason}`);
 
     // apply any stop-loss / take-profit returned for the (possibly new) position
     if (!tradeSim.getAccount().position) {

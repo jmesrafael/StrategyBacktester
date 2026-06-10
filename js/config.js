@@ -43,7 +43,8 @@ window.CFG = {
     bg: 'cr.bg', grid: 'cr.grid', gridColor: 'cr.gridColor',
     candleUp: 'cr.candleUp', candleDown: 'cr.candleDown',
     timeframes: 'cr.timeframes', maxCandles: 'cr.maxCandles',
-    defaults: 'cr.defaults', version: 'cr.schema' },
+    defaults: 'cr.defaults', version: 'cr.schema',
+    drawLabels: 'cr.drawLabels' },
 
   // Bump when default settings change so persisted prefs are migrated once.
   SCHEMA_VERSION: 2,
@@ -63,9 +64,9 @@ window.CFG = {
     volDown: 'rgba(120,123,134,0.32)',
     cursor: 'rgba(178,181,190,0.45)',
     formGlow: '#d1d4dc',
-    draw: '#d1d4dc',
-    drawHandle: '#ffffff',
-    drawSel: '#ffffff',
+    draw: '#787b86',
+    drawHandle: '#b0b3bc',
+    drawSel: '#d1d4dc',
   },
 
   // Candlestick color modes (applied live via series.applyOptions)
@@ -88,5 +89,5 @@ window.CFG = {
 
   // Drawing tools — line-thickness presets (right-click editor) + default width
   DRAW_WIDTHS: [1, 2, 3, 4],
-  DRAW_DEFAULT_WIDTH: 2,
+  DRAW_DEFAULT_WIDTH: 1,
 };

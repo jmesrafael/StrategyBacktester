@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Chart Replay — TradingView-style</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -86,7 +87,7 @@
       </button>
 
       <!-- replay arming hint (scissors mode, before the cut point is chosen) -->
-      <div class="cut-hint" id="cutHint">✂ Double-click a candle to set the replay start point</div>
+      <div class="cut-hint" id="cutHint"><i class="fas fa-scissors"></i> Double-click a candle to set the replay start point</div>
 
       <!-- right-click context menu -->
       <div class="ctx-menu" id="ctxMenu"></div>
@@ -98,8 +99,8 @@
   <div class="replaybar">
     <div class="rb-left">
       <div class="seg mode-seg" id="modeTabs">
-        <button data-mode="game" class="active">🎮 Game</button>
-        <button data-mode="strategy">⚡ Strategy</button>
+        <button data-mode="game" class="active"><i class="fas fa-gamepad"></i> Game</button>
+        <button data-mode="strategy"><i class="fas fa-bolt"></i> Strategy</button>
       </div>
     </div>
 

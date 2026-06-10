@@ -5,8 +5,9 @@ const Drawings = (() => {
   let tool = 'cursor'; // cursor | trend | hline | hray | vline | rect
   let items = [];      // {id,type,p1:{time,price},p2:{time,price},color,width}
   let selected = null;
-  let draft = null;    // in-progress creation
-  let drag = null;     // {item, handle:'p1'|'p2'|'body', startMouse, startP1, startP2}
+  let draft = null;    // two-point tool in progress (p1 locked, tracking p2)
+  let ghost = null;    // hover preview for single-click tools (not yet placed)
+  let drag = null;     // {item, handle:'p1'|'p2'|'body', start, p1, p2}
   let hover = null;
   let idSeq = 1;
   let onToolChange = null;
@@ -14,6 +15,7 @@ const Drawings = (() => {
   // last-used style — new drawings inherit it (updated by the right-click editor)
   let defaultColor = CFG.THEME.draw;
   let defaultWidth = CFG.DRAW_DEFAULT_WIDTH;
+  let showLabels = true; // toggled via Settings → "Show price labels"
 
   const HANDLE_R = 5;
   const HIT = 7;
@@ -26,19 +28,23 @@ const Drawings = (() => {
     ctx = canvas.getContext('2d');
     resize();
 
-    // redraw on any chart movement
+    // redraw whenever the time scale moves (pan / zoom)
     chart.timeScale().subscribeVisibleLogicalRangeChange(render);
-    chart.subscribeCrosshairMove(() => { if (tool === 'cursor') updateHover(lastMouse); });
+    // also re-render on every crosshair move — this fires during any mouse drag,
+    // including price-axis pan, so drawings stay glued to the chart at all times.
+    chart.subscribeCrosshairMove(() => {
+      if (tool === 'cursor') updateHover(lastMouse);
+      render();
+    });
 
     window.addEventListener('resize', () => { resize(); render(); });
 
-    // pointer handling on the overlay/container
     canvas.addEventListener('mousedown', onDown);
     window.addEventListener('mousemove', onMove);
     window.addEventListener('mouseup', onUp);
     canvas.addEventListener('mousemove', trackMouse);
     canvas.addEventListener('mouseenter', () => { inside = true; });
-    canvas.addEventListener('mouseleave', () => { inside = false; render(); });
+    canvas.addEventListener('mouseleave', () => { inside = false; ghost = null; render(); });
     window.addEventListener('keydown', onKey);
 
     syncPointerMode();
@@ -62,13 +68,13 @@ const Drawings = (() => {
   }
 
   // coordinate conversion (data <-> pixels)
-  function x(time) { return chart.timeScale().timeToCoordinate(time); }
+  function x(time)  { return chart.timeScale().timeToCoordinate(time); }
   function y(price) { return series.priceToCoordinate(price); }
-  function toTime(px) { return chart.timeScale().coordinateToTime(px); }
+  function toTime(px)  { return chart.timeScale().coordinateToTime(px); }
   function toPrice(py) { return series.coordinateToPrice(py); }
 
   function setTool(t) {
-    tool = t; selected = null; draft = null;
+    tool = t; selected = null; draft = null; ghost = null;
     syncPointerMode();
     if (onToolChange) onToolChange(t);
     render();
@@ -77,9 +83,6 @@ const Drawings = (() => {
 
   // When a draw tool is active we capture pointer + freeze chart pan.
   // In cursor mode the layer is transparent to events unless hovering a drawing.
-  // Whenever the overlay captures events the chart's native crosshair is hidden
-  // (it would otherwise leave dashed trails since it no longer gets mouse moves)
-  // and the overlay draws its own clean crosshair instead.
   let nativeCrosshairOn = true;
   function syncPointerMode() {
     const capturing = tool !== 'cursor' || !!hover;
@@ -93,12 +96,13 @@ const Drawings = (() => {
   }
 
   function onDown(e) {
-    if (e.button !== 0) return; // ignore right/middle click (context menu)
+    if (e.button !== 0) return; // ignore right/middle click
     const r = canvas.getBoundingClientRect();
     const mx = e.clientX - r.left, my = e.clientY - r.top;
     const time = toTime(mx), price = toPrice(my);
     if (time == null || price == null) return;
 
+    // --- cursor mode: select / start drag ---
     if (tool === 'cursor') {
       const hit = hitTest(mx, my);
       if (hit) {
@@ -107,19 +111,27 @@ const Drawings = (() => {
           start: { mx, my },
           p1: { ...hit.item.p1 }, p2: hit.item.p2 ? { ...hit.item.p2 } : null };
         e.preventDefault();
-      } else {
-        selected = null;
-      }
-      render();
-      return;
+      } else { selected = null; }
+      render(); return;
     }
 
-    // creating a new drawing — single-click tools (full-width line / right-ray / vertical line)
+    // --- single-click tools: place immediately at the cursor ---
     if (tool === 'hline' || tool === 'hray' || tool === 'vline') {
+      ghost = null;
       const item = { id: idSeq++, type: tool, p1: { time, price },
         color: defaultColor, width: defaultWidth };
       items.push(item); selected = item; setTool('cursor'); render(); return;
     }
+
+    // --- two-point tools: click-click paradigm ---
+    // First click locks p1; second click finalizes p2.
+    if (draft) {
+      // Second click: lock p2 at this exact position and commit.
+      draft.p2 = { time, price };
+      items.push(draft); selected = draft;
+      draft = null; setTool('cursor'); render(); return;
+    }
+    // First click: lock p1, start previewing p2 on mouse move.
     draft = { id: idSeq++, type: tool, p1: { time, price }, p2: { time, price },
       color: defaultColor, width: defaultWidth };
     e.preventDefault();
@@ -128,41 +140,45 @@ const Drawings = (() => {
   function onMove(e) {
     const r = canvas.getBoundingClientRect();
     const mx = e.clientX - r.left, my = e.clientY - r.top;
-    lastMouse = { x: mx, y: my }; // keep fresh even when canvas pointer-events:none
+    lastMouse = { x: mx, y: my };
 
+    // two-point draft: update the live preview of p2
     if (draft) {
       const t = toTime(mx), p = toPrice(my);
       if (t != null && p != null) { draft.p2 = { time: t, price: p }; render(); }
       return;
     }
+
+    // cursor drag (move / resize a drawing)
     if (drag) {
       const dx = mx - drag.start.mx, dy = my - drag.start.my;
       if (drag.handle === 'p1' || drag.handle === 'p2') {
         const t = toTime(mx), p = toPrice(my);
         if (t != null && p != null) drag.item[drag.handle] = { time: t, price: p };
-      } else { // body move
+      } else {
         moveByPixels(drag.item, drag.p1, drag.p2, dx, dy);
       }
-      render();
-      return;
+      render(); return;
     }
+
+    // single-click tools: show a ghost (hover preview) while the tool is armed
+    if (tool === 'hline' || tool === 'hray' || tool === 'vline') {
+      const t = toTime(mx), p = toPrice(my);
+      ghost = (t != null && p != null)
+        ? { type: tool, p1: { time: t, price: p }, color: defaultColor, width: defaultWidth }
+        : null;
+      render(); return;
+    }
+
     if (tool === 'cursor') {
       updateHover({ x: mx, y: my });
-      if (hover) render(); // track the overlay crosshair across the hovered drawing
-    }
-    // keep the crosshair tracking the pointer while a draw tool is armed
-    else if (inside) render();
+      if (hover) render();
+    } else if (inside) render();
   }
 
   function onUp() {
-    if (draft) {
-      // ignore zero-size accidental drawings
-      const x1 = x(draft.p1.time), x2 = x(draft.p2.time);
-      if (x1 != null && x2 != null && Math.abs(x2 - x1) > 2) {
-        items.push(draft); selected = draft;
-      }
-      draft = null; setTool('cursor');
-    }
+    // Two-point drafts are committed on the second click (onDown), NOT on mouseup.
+    // mouseup only releases cursor-mode drags.
     drag = null;
   }
 
@@ -233,15 +249,13 @@ const Drawings = (() => {
     if ((e.key === 'Delete' || e.key === 'Backspace') && selected) {
       items = items.filter((d) => d !== selected); selected = null; render();
     }
-    if (e.key === 'Escape') { draft = null; setTool('cursor'); }
+    if (e.key === 'Escape') { draft = null; ghost = null; setTool('cursor'); }
   }
 
   function deleteSelected() { if (selected) { items = items.filter((d) => d !== selected); selected = null; render(); } }
-  function clearAll() { items = []; selected = null; draft = null; render(); }
+  function clearAll() { items = []; selected = null; draft = null; ghost = null; render(); }
 
   // ---- right-click editor hooks --------------------------------------------
-  // Select the drawing under a screen point (used by the context menu); returns
-  // the hit item or null. Renders so the selection handles show immediately.
   function selectAt(clientX, clientY) {
     const r = canvas.getBoundingClientRect();
     const hit = hitTest(clientX - r.left, clientY - r.top);
@@ -264,24 +278,21 @@ const Drawings = (() => {
 
   // ---- render --------------------------------------------------------------
   function render() {
-    // full clear in device space (transform-independent) so nothing survives a frame
     ctx.save();
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.restore();
     drawCrosshair();
-    const all = draft ? items.concat([draft]) : items;
-    all.forEach((it) => drawItem(it, it === selected));
+
+    // committed items + active draft (two-point preview) + hover ghost (single-click preview)
+    const all = items.slice();
+    if (draft) all.push(draft);
+    if (ghost) all.push(ghost);
+    all.forEach((it) => drawItem(it, it === selected, it === ghost || it === draft));
   }
 
-  // thin, subtle crosshair kept visible whenever a drawing interaction is
-  // active (placing / dragging) — the chart's own crosshair is suppressed then
-  // because this overlay captures the pointer events.
   function drawCrosshair() {
     if (!inside) return;
-    // shown whenever this overlay captures the pointer (so the chart's own
-    // crosshair is suppressed): a tool is armed, or we're drafting / dragging /
-    // hovering a drawing.
     if (tool === 'cursor' && !draft && !drag && !hover) return;
     const { x: mx, y: my } = lastMouse;
     ctx.save();
@@ -295,45 +306,49 @@ const Drawings = (() => {
     ctx.restore();
   }
 
-  function drawItem(it, sel) {
-    // always stroke with the drawing's own color (even when selected) so a color
-    // change is immediately visible — selection is shown by the endpoint handles.
+  function drawItem(it, sel, isPreview) {
     ctx.lineWidth = it.width || defaultWidth;
     ctx.strokeStyle = it.color;
+    // previews (ghost / draft) are drawn slightly transparent + dashed
+    ctx.globalAlpha = isPreview ? 0.6 : 1;
+    ctx.setLineDash(isPreview ? [5, 4] : []);
 
-    // horizontal line / ray — both anchor at the clicked point and extend right
     if (it.type === 'hline' || it.type === 'hray') {
-      const yy = y(it.p1.price); if (yy == null) return;
+      const yy = y(it.p1.price); if (yy == null) { ctx.globalAlpha = 1; ctx.setLineDash([]); return; }
       const xx = x(it.p1.time); const sx = xx == null ? 0 : xx;
       ctx.beginPath(); ctx.moveTo(sx, yy); ctx.lineTo(container.clientWidth, yy); ctx.stroke();
-      label(container.clientWidth - 60, yy, it.p1.price);
+      if (!isPreview && showLabels) label(container.clientWidth - 60, yy, it.p1.price);
       if (sel) handle(sx, yy);
-      return;
+      ctx.globalAlpha = 1; ctx.setLineDash([]); return;
     }
-    // vertical line — anchors at the clicked time and spans the full pane height
     if (it.type === 'vline') {
-      const xx = x(it.p1.time); if (xx == null) return;
+      const xx = x(it.p1.time); if (xx == null) { ctx.globalAlpha = 1; ctx.setLineDash([]); return; }
       ctx.beginPath(); ctx.moveTo(xx, 0); ctx.lineTo(xx, container.clientHeight); ctx.stroke();
       if (sel) handle(xx, y(it.p1.price) ?? container.clientHeight / 2);
-      return;
+      ctx.globalAlpha = 1; ctx.setLineDash([]); return;
     }
     const x1 = x(it.p1.time), y1 = y(it.p1.price), x2 = x(it.p2.time), y2 = y(it.p2.price);
-    if (x1 == null || x2 == null || y1 == null || y2 == null) return;
+    if (x1 == null || x2 == null || y1 == null || y2 == null) { ctx.globalAlpha = 1; ctx.setLineDash([]); return; }
     if (it.type === 'trend') {
       ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+      if (isPreview) { handle(x1, y1); } // show locked p1 while placing p2
     } else if (it.type === 'rect') {
-      ctx.fillStyle = hexA(it.color, 0.10);
+      ctx.fillStyle = hexA(it.color, isPreview ? 0.05 : 0.10);
       ctx.fillRect(x1, y1, x2 - x1, y2 - y1);
       ctx.strokeRect(x1, y1, x2 - x1, y2 - y1);
     }
     if (sel) { handle(x1, y1); handle(x2, y2); }
+    ctx.globalAlpha = 1; ctx.setLineDash([]);
   }
 
   function handle(px, py) {
+    ctx.save();
+    ctx.globalAlpha = 1; ctx.setLineDash([]);
     ctx.fillStyle = CFG.THEME.drawHandle;
     ctx.strokeStyle = CFG.THEME.drawSel;
     ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.arc(px, py, HANDLE_R, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.restore();
   }
 
   function label(px, py, price) {
@@ -351,8 +366,10 @@ const Drawings = (() => {
     return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
   }
 
+  function setShowLabels(v) { showLabels = v; render(); }
+
   return { init, setTool, onTool, render, deleteSelected, clearAll,
-    selectAt, getSelected, setSelectedColor, setSelectedWidth,
+    selectAt, getSelected, setSelectedColor, setSelectedWidth, setShowLabels,
     get tool() { return tool; }, get count() { return items.length; },
     get hasSelection() { return !!selected; } };
 })();

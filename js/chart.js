@@ -4,26 +4,32 @@ const ChartView = (() => {
   let chart, candle, volume, cursorSeries;
   let container;
   let onCrosshair = null;
+  let onPriceChange = null;   // fired after every manual price-range update
   let candleMarkers = null;   // v5 markers primitive on the candle series
 
-  // price-axis zoom (wheel-over-axis). Lightweight-Charts has no public price-zoom
-  // API, so we scale the right price scale's margins: smaller margins = taller
-  // candles (zoom in), larger = compressed (zoom out). Public + flicker-free.
+  // ---- manual price-range state -------------------------------------------
+  // When the user first interacts with the price axis (wheel or drag) we capture
+  // the exact visible price range and switch to "manual" mode: an
+  // autoscaleInfoProvider on the candle series returns a user-controlled {min,max}
+  // that the chart uses as-is (scaleMargins 0/0 so the range is pixel-exact).
+  // This lets the user freely pan/zoom past the data's high/low.
+  // Refreshing or exiting replay restores auto-fit mode.
   const PRICE_MARGINS_BASE = { top: 0.06, bottom: 0.18 };
-  let priceZoom = 1;
+  let manualRange = null;    // { min, max } or null (auto-fit)
+  let mainPaneSeries = [];   // overlay indicator series on the right price scale
 
   function create(el) {
     container = el;
     const T = CFG.THEME;
     chart = LightweightCharts.createChart(el, {
-      layout: { background: { color: T.bg }, textColor: T.text, fontSize: 11,
-        fontFamily: "'Inter','Segoe UI',system-ui,sans-serif" },
+      layout: { background: { color: T.bg }, textColor: T.text, fontSize: 10,
+        fontFamily: "'Space Grotesk','Segoe UI',system-ui,sans-serif" },
       // grid is off by default (toggle in settings)
       grid: { vertLines: { color: T.grid, visible: false },
         horzLines: { color: T.grid, visible: false } },
       rightPriceScale: { borderColor: T.border, scaleMargins: { ...PRICE_MARGINS_BASE } },
       timeScale: { borderColor: T.border, timeVisible: true, secondsVisible: false,
-        rightOffset: 6 },
+        rightOffset: 6, minBarSpacing: 0.5 },
       // thin, subtle crosshair — TradingView-like, low-distraction
       crosshair: { mode: LightweightCharts.CrosshairMode.Normal,
         vertLine: { color: 'rgba(178,181,190,0.35)', width: 1, style: 3, labelBackgroundColor: T.border },
@@ -81,22 +87,76 @@ const ChartView = (() => {
     });
   }
 
-  // ---- price-axis zoom (wheel-over-axis) -----------------------------------
-  function applyPriceZoom() {
-    const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
-    // bottom kept >= base so candles never spill into the volume band below
-    const top    = clamp(PRICE_MARGINS_BASE.top * priceZoom, 0.02, 0.45);
-    const bottom = clamp(PRICE_MARGINS_BASE.bottom * priceZoom, PRICE_MARGINS_BASE.bottom, 0.45);
-    chart.priceScale('right').applyOptions({ scaleMargins: { top, bottom } });
-  }
-  // deltaY > 0 (wheel down) compresses; deltaY < 0 (wheel up) expands.
-  function nudgePriceZoom(deltaY) {
-    const step = clampNum(deltaY, -120, 120) / 120 * 0.12; // softened per-tick
-    priceZoom = Math.max(0.25, Math.min(4, priceZoom * (1 + step)));
-    applyPriceZoom();
-  }
-  function resetPriceZoom() { priceZoom = 1; applyPriceZoom(); }
+  // ---- price-axis free pan / zoom -----------------------------------------
   function clampNum(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+  // Read what's currently visible (exact pixel edges of the pane).
+  function readVisiblePriceRange() {
+    const h = container.clientHeight;
+    if (!h) return null;
+    const hi = candle.coordinateToPrice(0);
+    const lo = candle.coordinateToPrice(h);
+    if (hi == null || lo == null || hi === lo) return null;
+    return { min: Math.min(lo, hi), max: Math.max(lo, hi) };
+  }
+
+  // Push the current manualRange to the chart via autoscaleInfoProvider.
+  // We set scaleMargins 0/0 so the range is pixel-exact (no extra padding).
+  // Indicator series exclusion is done once in enterManualMode, not here,
+  // so this hot path only touches the candle series per frame.
+  function _applyManualRange() {
+    const { min, max } = manualRange;
+    candle.applyOptions({ autoscaleInfoProvider: () =>
+      ({ priceRange: { minValue: min, maxValue: max } }) });
+    chart.priceScale('right').applyOptions({ scaleMargins: { top: 0, bottom: 0 } });
+    // Fire after the chart's next rAF repaint so priceToCoordinate() returns
+    // the updated values (drawings re-render with zero lag).
+    if (onPriceChange) requestAnimationFrame(onPriceChange);
+  }
+
+  // Lazily enter manual mode on first user interaction.
+  function enterManualMode() {
+    if (manualRange) return;
+    manualRange = readVisiblePriceRange();
+    if (!manualRange) return;
+    // Exclude overlay indicators once here — they never need to force-expand the range.
+    mainPaneSeries.forEach((s) => s.applyOptions({ autoscaleInfoProvider: () => null }));
+    _applyManualRange();
+  }
+
+  // Wheel over price axis — zoom around the center of the visible range.
+  // deltaY > 0 (wheel down / scroll toward user) = zoom out (compress).
+  function nudgePriceZoom(deltaY) {
+    enterManualMode();
+    if (!manualRange) return;
+    const center   = (manualRange.min + manualRange.max) / 2;
+    const halfSpan = (manualRange.max - manualRange.min) / 2;
+    // each wheel "click" (~120 units) changes span by ~12%; capped so it feels natural.
+    const factor = 1 + clampNum(deltaY, -120, 120) / 120 * 0.12;
+    manualRange = { min: center - halfSpan * factor, max: center + halfSpan * factor };
+    _applyManualRange();
+  }
+
+  // Drag price axis — pan the visible range up/down freely.
+  // dy > 0 means the mouse moved down → show higher prices (shift range up).
+  function panPrice(dy) {
+    enterManualMode();
+    if (!manualRange) return;
+    const h = container.clientHeight || 1;
+    const ppp = (manualRange.max - manualRange.min) / h; // price per pixel
+    const shift = dy * ppp;   // drag down → candles move down (grab-and-pull)
+    manualRange = { min: manualRange.min + shift, max: manualRange.max + shift };
+    _applyManualRange();
+  }
+
+  // Restore auto-fit (Refresh, exit replay, etc.).
+  function resetPriceZoom() {
+    if (!manualRange) return; // already auto
+    manualRange = null;
+    candle.applyOptions({ autoscaleInfoProvider: null });
+    mainPaneSeries.forEach((s) => s.applyOptions({ autoscaleInfoProvider: null }));
+    chart.priceScale('right').applyOptions({ autoScale: true, scaleMargins: { ...PRICE_MARGINS_BASE } });
+  }
 
   // ---- canvas customization (settings) -------------------------------------
   function setBackground(color) {
@@ -127,12 +187,18 @@ const ChartView = (() => {
       color: opts.color, lineWidth: opts.lineWidth || 1,
       priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false,
     }, paneIndex || 0);
+    // Track overlay series on the right price scale so manual range mode can
+    // exclude them from auto-scale (otherwise they'd force-expand the range).
+    if (!paneIndex || paneIndex === 0) mainPaneSeries.push(s);
     return {
       series: s,
       setData: (d) => s.setData(d),
       applyOptions: (o) => s.applyOptions(o),
       setVisible: (v) => s.applyOptions({ visible: v }),
-      remove: () => chart.removeSeries(s),
+      remove: () => {
+        mainPaneSeries = mainPaneSeries.filter((x) => x !== s);
+        chart.removeSeries(s);
+      },
     };
   }
   // back-compat alias — MAs live on the main pane
@@ -187,11 +253,12 @@ const ChartView = (() => {
   function getCandleSeries() { return candle; }
   function getVolumeSeries() { return volume; }
   function onCrosshairMove(fn) { onCrosshair = fn; }
+  function onPriceRangeChange(fn) { onPriceChange = fn; }
 
   return { create, setSlice, updateForming, setCandleStyle, setCandleColors, setBackground,
     setGridVisible, setGridColor, setCrosshairMode, addLineIndicator, addPaneSeries, setPaneHeight,
     setCandleMarkers, clearCandleMarkers, toggleVolume, setCursor,
-    nudgePriceZoom, resetPriceZoom,
+    nudgePriceZoom, panPrice, resetPriceZoom,
     scrollToRealtime, getChart, getCandleSeries, getVolumeSeries,
-    onCrosshairMove, fmtVol };
+    onCrosshairMove, onPriceRangeChange, fmtVol };
 })();
