@@ -85,4 +85,8 @@ window.CFG = {
 
   // Default MA palette for newly added moving averages (neutral grays first)
   MA_COLORS: ['#d1d4dc', '#8a8d93', '#b0b3b8', '#6a6d75', '#e0e0e0'],
+
+  // Drawing tools — line-thickness presets (right-click editor) + default width
+  DRAW_WIDTHS: [1, 2, 3, 4],
+  DRAW_DEFAULT_WIDTH: 2,
 };

@@ -6,6 +6,12 @@ const ChartView = (() => {
   let onCrosshair = null;
   let candleMarkers = null;   // v5 markers primitive on the candle series
 
+  // price-axis zoom (wheel-over-axis). Lightweight-Charts has no public price-zoom
+  // API, so we scale the right price scale's margins: smaller margins = taller
+  // candles (zoom in), larger = compressed (zoom out). Public + flicker-free.
+  const PRICE_MARGINS_BASE = { top: 0.06, bottom: 0.18 };
+  let priceZoom = 1;
+
   function create(el) {
     container = el;
     const T = CFG.THEME;
@@ -15,7 +21,7 @@ const ChartView = (() => {
       // grid is off by default (toggle in settings)
       grid: { vertLines: { color: T.grid, visible: false },
         horzLines: { color: T.grid, visible: false } },
-      rightPriceScale: { borderColor: T.border, scaleMargins: { top: 0.06, bottom: 0.18 } },
+      rightPriceScale: { borderColor: T.border, scaleMargins: { ...PRICE_MARGINS_BASE } },
       timeScale: { borderColor: T.border, timeVisible: true, secondsVisible: false,
         rightOffset: 6 },
       // thin, subtle crosshair — TradingView-like, low-distraction
@@ -23,9 +29,9 @@ const ChartView = (() => {
         vertLine: { color: 'rgba(178,181,190,0.35)', width: 1, style: 3, labelBackgroundColor: T.border },
         horzLine: { color: 'rgba(178,181,190,0.35)', width: 1, style: 3, labelBackgroundColor: T.border } },
       handleScroll: true,
-      // price scaling stays enabled internally so the wheel-over-axis handler can
-      // drive it; real user drags on the price axis are blocked in app.js.
-      handleScale: { axisPressedMouseMove: { time: true, price: true },
+      // time-axis drag/zoom stays native; price scaling is wheel-only via
+      // nudgePriceZoom() (axis drag disabled so the two can't fight).
+      handleScale: { axisPressedMouseMove: { time: true, price: false },
         axisDoubleClickReset: { time: true, price: true }, mouseWheel: true, pinch: true },
       autoSize: true,
     });
@@ -41,7 +47,10 @@ const ChartView = (() => {
 
     cursorSeries = chart.addSeries(LightweightCharts.LineSeries, { color: T.cursor,
       lineWidth: 1, lineStyle: 2, priceLineVisible: false, lastValueVisible: false,
-      crosshairMarkerVisible: false });
+      crosshairMarkerVisible: false,
+      // the cursor spans far past the data to read as a full-height line — keep it
+      // out of auto-scaling so those extreme points don't blow up the price range.
+      autoscaleInfoProvider: () => null });
 
     chart.subscribeCrosshairMove((param) => { if (onCrosshair) onCrosshair(param); });
     return chart;
@@ -71,6 +80,23 @@ const ChartView = (() => {
       wickUpColor: up, wickDownColor: down,
     });
   }
+
+  // ---- price-axis zoom (wheel-over-axis) -----------------------------------
+  function applyPriceZoom() {
+    const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+    // bottom kept >= base so candles never spill into the volume band below
+    const top    = clamp(PRICE_MARGINS_BASE.top * priceZoom, 0.02, 0.45);
+    const bottom = clamp(PRICE_MARGINS_BASE.bottom * priceZoom, PRICE_MARGINS_BASE.bottom, 0.45);
+    chart.priceScale('right').applyOptions({ scaleMargins: { top, bottom } });
+  }
+  // deltaY > 0 (wheel down) compresses; deltaY < 0 (wheel up) expands.
+  function nudgePriceZoom(deltaY) {
+    const step = clampNum(deltaY, -120, 120) / 120 * 0.12; // softened per-tick
+    priceZoom = Math.max(0.25, Math.min(4, priceZoom * (1 + step)));
+    applyPriceZoom();
+  }
+  function resetPriceZoom() { priceZoom = 1; applyPriceZoom(); }
+  function clampNum(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
 
   // ---- canvas customization (settings) -------------------------------------
   function setBackground(color) {
@@ -147,10 +173,13 @@ const ChartView = (() => {
       color: bar.close >= bar.open ? CFG.THEME.volUp : CFG.THEME.volDown });
   }
 
-  // vertical replay cursor at a given time
+  // vertical replay cursor at a given time — drawn far past the data so it reads
+  // as a full-height line (clipped to the pane); excluded from auto-scaling above.
   function setCursor(time, priceLo, priceHi) {
     if (time == null) { cursorSeries.setData([]); return; }
-    cursorSeries.setData([{ time, value: priceLo }, { time, value: priceHi }]);
+    const span = (priceHi - priceLo) || Math.abs(priceHi) || 1;
+    const pad = span * 100;
+    cursorSeries.setData([{ time, value: priceLo - pad }, { time, value: priceHi + pad }]);
   }
 
   function scrollToRealtime() { chart.timeScale().scrollToRealTime(); }
@@ -162,6 +191,7 @@ const ChartView = (() => {
   return { create, setSlice, updateForming, setCandleStyle, setCandleColors, setBackground,
     setGridVisible, setGridColor, setCrosshairMode, addLineIndicator, addPaneSeries, setPaneHeight,
     setCandleMarkers, clearCandleMarkers, toggleVolume, setCursor,
+    nudgePriceZoom, resetPriceZoom,
     scrollToRealtime, getChart, getCandleSeries, getVolumeSeries,
     onCrosshairMove, fmtVol };
 })();

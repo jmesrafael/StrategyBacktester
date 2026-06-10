@@ -2,14 +2,18 @@
 
 const Drawings = (() => {
   let chart, series, container, canvas, ctx;
-  let tool = 'cursor'; // cursor | trend | hline | hray | rect
-  let items = [];      // {id,type,p1:{time,price},p2:{time,price},color}
+  let tool = 'cursor'; // cursor | trend | hline | hray | vline | rect
+  let items = [];      // {id,type,p1:{time,price},p2:{time,price},color,width}
   let selected = null;
   let draft = null;    // in-progress creation
   let drag = null;     // {item, handle:'p1'|'p2'|'body', startMouse, startP1, startP2}
   let hover = null;
   let idSeq = 1;
   let onToolChange = null;
+
+  // last-used style — new drawings inherit it (updated by the right-click editor)
+  let defaultColor = CFG.THEME.draw;
+  let defaultWidth = CFG.DRAW_DEFAULT_WIDTH;
 
   const HANDLE_R = 5;
   const HIT = 7;
@@ -110,13 +114,14 @@ const Drawings = (() => {
       return;
     }
 
-    // creating a new drawing — single-click tools (full-width line / right-ray)
-    if (tool === 'hline' || tool === 'hray') {
-      const item = { id: idSeq++, type: tool, p1: { time, price }, color: CFG.THEME.draw };
+    // creating a new drawing — single-click tools (full-width line / right-ray / vertical line)
+    if (tool === 'hline' || tool === 'hray' || tool === 'vline') {
+      const item = { id: idSeq++, type: tool, p1: { time, price },
+        color: defaultColor, width: defaultWidth };
       items.push(item); selected = item; setTool('cursor'); render(); return;
     }
     draft = { id: idSeq++, type: tool, p1: { time, price }, p2: { time, price },
-      color: CFG.THEME.draw };
+      color: defaultColor, width: defaultWidth };
     e.preventDefault();
   }
 
@@ -189,6 +194,11 @@ const Drawings = (() => {
         if (yy != null && Math.abs(my - yy) <= HIT && mx >= sx - HIT) return { item: it, handle: 'body' };
         continue;
       }
+      if (it.type === 'vline') {
+        const xx = x(it.p1.time);
+        if (xx != null && Math.abs(mx - xx) <= HIT) return { item: it, handle: 'body' };
+        continue;
+      }
       const x1 = x(it.p1.time), y1 = y(it.p1.price);
       const x2 = x(it.p2.time), y2 = y(it.p2.price);
       if (x1 == null || x2 == null || y1 == null || y2 == null) continue;
@@ -229,6 +239,29 @@ const Drawings = (() => {
   function deleteSelected() { if (selected) { items = items.filter((d) => d !== selected); selected = null; render(); } }
   function clearAll() { items = []; selected = null; draft = null; render(); }
 
+  // ---- right-click editor hooks --------------------------------------------
+  // Select the drawing under a screen point (used by the context menu); returns
+  // the hit item or null. Renders so the selection handles show immediately.
+  function selectAt(clientX, clientY) {
+    const r = canvas.getBoundingClientRect();
+    const hit = hitTest(clientX - r.left, clientY - r.top);
+    selected = hit ? hit.item : null;
+    render();
+    return selected;
+  }
+  function getSelected() {
+    return selected ? { type: selected.type, color: selected.color,
+      width: selected.width || defaultWidth } : null;
+  }
+  function setSelectedColor(color) {
+    if (!selected) return;
+    selected.color = color; defaultColor = color; render();
+  }
+  function setSelectedWidth(width) {
+    if (!selected) return;
+    selected.width = width; defaultWidth = width; render();
+  }
+
   // ---- render --------------------------------------------------------------
   function render() {
     // full clear in device space (transform-independent) so nothing survives a frame
@@ -263,8 +296,10 @@ const Drawings = (() => {
   }
 
   function drawItem(it, sel) {
-    ctx.lineWidth = 1.6;
-    ctx.strokeStyle = sel ? CFG.THEME.drawSel : it.color;
+    // always stroke with the drawing's own color (even when selected) so a color
+    // change is immediately visible — selection is shown by the endpoint handles.
+    ctx.lineWidth = it.width || defaultWidth;
+    ctx.strokeStyle = it.color;
 
     // horizontal line / ray — both anchor at the clicked point and extend right
     if (it.type === 'hline' || it.type === 'hray') {
@@ -275,12 +310,19 @@ const Drawings = (() => {
       if (sel) handle(sx, yy);
       return;
     }
+    // vertical line — anchors at the clicked time and spans the full pane height
+    if (it.type === 'vline') {
+      const xx = x(it.p1.time); if (xx == null) return;
+      ctx.beginPath(); ctx.moveTo(xx, 0); ctx.lineTo(xx, container.clientHeight); ctx.stroke();
+      if (sel) handle(xx, y(it.p1.price) ?? container.clientHeight / 2);
+      return;
+    }
     const x1 = x(it.p1.time), y1 = y(it.p1.price), x2 = x(it.p2.time), y2 = y(it.p2.price);
     if (x1 == null || x2 == null || y1 == null || y2 == null) return;
     if (it.type === 'trend') {
       ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
     } else if (it.type === 'rect') {
-      ctx.fillStyle = hexA(sel ? CFG.THEME.drawSel : it.color, 0.10);
+      ctx.fillStyle = hexA(it.color, 0.10);
       ctx.fillRect(x1, y1, x2 - x1, y2 - y1);
       ctx.strokeRect(x1, y1, x2 - x1, y2 - y1);
     }
@@ -310,6 +352,7 @@ const Drawings = (() => {
   }
 
   return { init, setTool, onTool, render, deleteSelected, clearAll,
+    selectAt, getSelected, setSelectedColor, setSelectedWidth,
     get tool() { return tool; }, get count() { return items.length; },
     get hasSelection() { return !!selected; } };
 })();

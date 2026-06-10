@@ -219,6 +219,21 @@ body.no-toolbar .toolbar { display: none; }
 .ctx-item:disabled:hover { background: transparent; }
 .ctx-sep { height: 1px; background: var(--border); margin: 4px 0; }
 
+/* per-drawing edit section (color + thickness) */
+.ctx-edit { padding: 4px 6px 6px; display: flex; flex-direction: column; gap: 7px; }
+.ctx-color { display: flex; align-items: center; justify-content: space-between;
+  font-size: 12px; color: var(--text); }
+.ctx-color input[type="color"] { width: 36px; height: 22px; padding: 0;
+  background: var(--chart-bg); border: 1px solid var(--border); border-radius: 3px; cursor: pointer; }
+.ctx-thick { display: flex; gap: 4px; }
+.ctx-w {
+  flex: 1; background: var(--chart-bg); color: var(--text-dim);
+  border: 1px solid var(--border); border-radius: 3px; padding: 4px 0;
+  font-size: 11px; cursor: pointer; font-family: inherit;
+}
+.ctx-w:hover { color: var(--text); }
+.ctx-w.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
 /* ===== indicators dropdown panel ===== */
 .ind-panel {
   position: fixed; z-index: 60; width: 280px;

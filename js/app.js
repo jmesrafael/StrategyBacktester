@@ -72,10 +72,9 @@
   const lwChart   = ChartView.getChart();
   const chartHost = $('chartHost');
 
-  // ---- price-axis stretch: wheel-over-axis only (drag disabled) ---------
-  // Lightweight-Charts exposes no price-zoom API, so reuse its native axis-drag
-  // scaling by synthesizing a flagged mouse drag on the price-axis canvas when
-  // the wheel is used over the right axis. Real user drags there are blocked.
+  // ---- price-axis zoom: wheel-over-axis only ---------------------------
+  // Scales the right price scale (via ChartView.nudgePriceZoom) when the wheel is
+  // used over the price axis; over the chart body the native time-zoom runs.
   function priceAxisLeftX() {
     let w = 64;
     try { w = lwChart.priceScale('right').width() || w; } catch {}
@@ -89,23 +88,8 @@
     // bail if the drawing overlay (or anything non-chart) is on top
     if (!el || !$('chart').contains(el)) return;
     e.preventDefault(); e.stopPropagation();
-    const dy = Math.max(-48, Math.min(48, e.deltaY)) * 0.6; // clamp + soften
-    const x = e.clientX, y = e.clientY;
-    const mk = (type, cy) => {
-      const ev = new MouseEvent(type, { bubbles: true, cancelable: true,
-        clientX: x, clientY: cy, button: 0, buttons: 1 });
-      ev.__synthAxis = true; return ev;
-    };
-    el.dispatchEvent(mk('mousedown', y));
-    document.dispatchEvent(mk('mousemove', y + dy));
-    document.dispatchEvent(mk('mouseup', y + dy));
+    ChartView.nudgePriceZoom(e.deltaY);
   }, { passive: false, capture: true });
-
-  // block real (non-synthetic) click-drag stretch on the price axis
-  chartHost.addEventListener('mousedown', (e) => {
-    if (e.__synthAxis) return;
-    if (overPriceAxis(e.clientX)) e.stopPropagation();
-  }, { capture: true });
 
   IndicatorManager.init({
     chart: lwChart,
@@ -341,8 +325,12 @@
       ? Math.max(1, Math.min(candles.length - 2, cutIdx))
       : Math.max(1, Math.min(candles.length - 2, Math.floor(candles.length * 0.55)));
     lastCut = idx;
+    // Freeze the view so the cut doesn't auto-layout: keep the exact visible range
+    // and lock the price scale (no rescale) — future candles just vanish in place.
+    const lr = lwChart.timeScale().getVisibleLogicalRange();
+    lwChart.priceScale('right').applyOptions({ autoScale: false });
     Replay.load(candles, idx);
-    ChartView.scrollToRealtime();        // bring the cut candle to the right edge
+    if (lr) lwChart.timeScale().setVisibleLogicalRange(lr);
     TradeSim.setMode(tradeMode);
     TradeSim.start(candles[Replay.cutIndex].close);
     if (tradeMode === 'strategy') StrategyMode.onEnterReplay();
@@ -356,6 +344,9 @@
     chartHost.classList.remove('cutting');
     $('replayBtn').classList.remove('active');
     $('replayBtn').textContent = 'Replay';
+    // un-freeze the price scale that the cut locked, so full history fits again
+    lwChart.priceScale('right').applyOptions({ autoScale: true });
+    ChartView.resetPriceZoom();
     ChartView.setSlice(candles);
     IndicatorManager.recompute(candles);
     ChartView.setCursor(null);
@@ -443,29 +434,56 @@
     applyCandleStyle(candleStyle);
     applyCandleColors();
     Drawings.render();
+    ChartView.resetPriceZoom();
     lwChart.priceScale('right').applyOptions({ autoScale: true });
     lwChart.timeScale().fitContent();
   }
   $('refreshBtn').onclick = refreshChart;
 
   // ---- right-click context menu ----------------------------------------
+  // Right-clicking a drawing selects it and shows an edit section (color +
+  // thickness); right-clicking empty space shows the global remove-all actions.
   const ctxMenu = $('ctxMenu');
   function buildCtxMenu() {
-    const sel = Drawings.hasSelection;
-    ctxMenu.innerHTML =
-      (sel ? `<button class="ctx-item" data-act="delSel">Delete Selected</button>` +
-             `<div class="ctx-sep"></div>` : '') +
+    const sel = Drawings.getSelected();
+    let html = '';
+    if (sel) {
+      html +=
+        `<div class="ctx-edit">` +
+          `<label class="ctx-color"><span>Color</span>` +
+            `<input type="color" id="ctxColor" value="${sel.color}"></label>` +
+          `<div class="ctx-thick">` +
+            CFG.DRAW_WIDTHS.map((w) =>
+              `<button class="ctx-w${w === sel.width ? ' active' : ''}" data-w="${w}">${w}px</button>`).join('') +
+          `</div>` +
+        `</div>` +
+        `<div class="ctx-sep"></div>` +
+        `<button class="ctx-item" data-act="delSel">Delete Selected</button>` +
+        `<div class="ctx-sep"></div>`;
+    }
+    html +=
       `<button class="ctx-item" data-act="delDraw"${Drawings.count ? '' : ' disabled'}>Remove All Drawings</button>` +
       `<button class="ctx-item" data-act="delInd"${IndicatorManager.count ? '' : ' disabled'}>Remove All Indicators</button>`;
+    ctxMenu.innerHTML = html;
+    const colorInput = ctxMenu.querySelector('#ctxColor');
+    if (colorInput) colorInput.oninput = (ev) => Drawings.setSelectedColor(ev.target.value);
   }
   chartHost.addEventListener('contextmenu', (e) => {
     e.preventDefault();
+    Drawings.selectAt(e.clientX, e.clientY);   // select the drawing under the cursor (if any)
     buildCtxMenu();
     ctxMenu.classList.add('open');
     ctxMenu.style.left = Math.min(e.clientX, window.innerWidth - 200) + 'px';
-    ctxMenu.style.top  = Math.min(e.clientY, window.innerHeight - 130) + 'px';
+    ctxMenu.style.top  = Math.min(e.clientY, window.innerHeight - 200) + 'px';
   });
   ctxMenu.addEventListener('click', (e) => {
+    e.stopPropagation();                       // keep the menu open while editing
+    const w = e.target.closest('.ctx-w');
+    if (w) {
+      Drawings.setSelectedWidth(parseInt(w.dataset.w));
+      ctxMenu.querySelectorAll('.ctx-w').forEach((x) => x.classList.toggle('active', x === w));
+      return;
+    }
     const b = e.target.closest('.ctx-item'); if (!b || b.disabled) return;
     if (b.dataset.act === 'delSel')  Drawings.deleteSelected();
     else if (b.dataset.act === 'delDraw') Drawings.clearAll();
