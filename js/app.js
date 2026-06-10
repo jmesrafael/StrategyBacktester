@@ -1,10 +1,10 @@
-// app.js — wires controls, data, chart, replay, indicators, and drawing tools
+﻿// app.js â€” wires controls, data, chart, replay, indicators, and drawing tools
 
 (function () {
   let candles = [];
   let replayMode = false;     // true once a cut point is committed
   let replayArming = false;   // true after Replay clicked, before double-click
-  let firstLoad = true;       // fitContent only once — never on later UI actions
+  let firstLoad = true;       // fitContent only once â€” never on later UI actions
   let lastCut = null;         // remembered cut for Play Again / mode switch
   let interval = CFG.DEFAULTS.interval;
 
@@ -84,13 +84,11 @@
 
   chartHost.addEventListener('wheel', (e) => {
     if (!overPriceAxis(e.clientX)) return;            // only over the price axis
-    const el = document.elementFromPoint(e.clientX, e.clientY);
-    if (!el || !$('chart').contains(el)) return;
     e.preventDefault(); e.stopPropagation();
     ChartView.nudgePriceZoom(e.deltaY);
   }, { passive: false, capture: true });
 
-  // Price-axis drag — vertical pan (drag the right axis up/down).
+  // Price-axis drag â€” vertical pan (drag the right axis up/down).
   // axisPressedMouseMove.price is disabled so the native stretch can't fight us.
   let priceAxisDragging = false;
   let lastPriceDragY = 0;
@@ -102,7 +100,7 @@
     chartHost.style.cursor = 'ns-resize';
   }, { capture: true });
 
-  // Chart-body drag — vertical pan while dragging anywhere on the chart area.
+  // Chart-body drag â€” vertical pan while dragging anywhere on the chart area.
   // We DON'T preventDefault so LightweightCharts' native horizontal scroll still
   // works; we just layer vertical price pan on top of it.
   // The drawing overlay captures events when a tool is active or a drawing is
@@ -113,7 +111,7 @@
     if (e.button !== 0 || overPriceAxis(e.clientX)) return; // axis handled above
     chartBodyDragging = true;
     lastBodyDragY = e.clientY;
-    // no preventDefault — let native horizontal time-scroll run in parallel
+    // no preventDefault â€” let native horizontal time-scroll run in parallel
   });
 
   window.addEventListener('mousemove', (e) => {
@@ -141,8 +139,11 @@
     getVisibleCandles: () => replayMode ? candles.slice(0, Replay.cutIndex + 1) : candles,
   });
   Drawings.init(lwChart, ChartView.getCandleSeries(), chartHost);
+  FVGIndicator.init(lwChart, ChartView.getCandleSeries(), chartHost);
+  // Volume highlight: applied in setSlice so replay frames also get colored candles.
+  ChartView.setSliceTransform((c) => FVGIndicator.applyVolColors(c));
   // Re-render drawings after every price-axis pan/zoom repaint so they never lag.
-  ChartView.onPriceRangeChange(() => Drawings.render());
+  ChartView.onPriceRangeChange(() => { Drawings.render(); FVGIndicator.render(); });
   TradeSim.init({
     chart: lwChart,
     series: ChartView.getCandleSeries(),
@@ -304,7 +305,7 @@
       `<span>H <b>${c.high.toFixed(dec)}</b></span>` +
       `<span>L <b>${c.low.toFixed(dec)}</b></span>` +
       `<span>C <b style="color:${col}">${c.close.toFixed(dec)}</b></span>` +
-      `<span>Vol <b>${v ? ChartView.fmtVol(v.value) : '—'}</b></span>`;
+      `<span>Vol <b>${v ? ChartView.fmtVol(v.value) : 'â€”'}</b></span>`;
   });
 
   // ---- data load -------------------------------------------------------
@@ -312,16 +313,31 @@
     const symbol = $('symbol').value;
     const max    = parseInt($('maxCandles').value);
 
+    // Synchronous cache peek: if data is already in memory we never show a
+    // loading indicator and the chart swap is imperceptible to the user.
+    const hot = peekCandleCache(symbol, interval, max);
+
+    // Save the currently visible time range so we can restore it after the
+    // data swap â€” this keeps the chart anchored to the same price history
+    // across timeframe changes (TradingView-style smooth switching).
+    const savedRange = (!firstLoad && !replayMode)
+      ? lwChart.timeScale().getVisibleRange()
+      : null;
+
+    if (!hot) {
+      $('status').textContent = `Loading ${symbol} ${interval}â€¦`;
+    }
+
     const onProgress = (page, pages) => {
-      $('status').textContent = pages > 1 ? `Loading… page ${page} / ${pages}` : 'Loading…';
+      $('status').textContent = pages > 1 ? `Loadingâ€¦ page ${page} / ${pages}` : 'Loadingâ€¦';
     };
-    $('status').textContent = `Loading ${symbol} ${interval}…`;
+
     try {
-      candles = await fetchCandles(symbol, interval, max, onProgress);
-      $('status').textContent = `${candles.length} candles · Bybit live`;
+      candles = hot || await fetchCandles(symbol, interval, max, onProgress);
+      $('status').textContent = `${candles.length} candles Â· ${hot ? 'cached' : 'Bybit live'}`;
     } catch {
       candles = syntheticCandles(symbol, interval, max);
-      $('status').textContent = `${candles.length} candles · offline sample`;
+      $('status').textContent = `${candles.length} candles Â· offline sample`;
     }
 
     if (replayMode) {
@@ -335,13 +351,19 @@
         cutIdx = Math.max(1, Math.min(candles.length - 2, Math.floor(candles.length * 0.55)));
       }
       lastCut = cutIdx;
-      Replay.load(candles, cutIdx); // renderRevealed() recomputes indicators
+      Replay.load(candles, cutIdx);
     } else {
       ChartView.setSlice(candles);
-      IndicatorManager.recompute(candles);
+      IndicatorManager.recompute(candles, intervalToSeconds(interval));
       ChartView.setCursor(null);
-      // fit only on the very first load so later actions keep zoom + scroll
-      if (firstLoad) lwChart.timeScale().fitContent();
+      if (firstLoad) {
+        lwChart.timeScale().fitContent();
+      } else if (savedRange) {
+        // Restore the exact time window the user was looking at.
+        // LightweightCharts clips to available data automatically so we never
+        // end up with a blank chart even if the range is partially out of bounds.
+        lwChart.timeScale().setVisibleRange(savedRange);
+      }
     }
     firstLoad = false;
     applyCandleStyle(candleStyle);
@@ -350,15 +372,15 @@
   }
 
   // ---- replay arming + mode ---------------------------------------------
-  // 1) click Replay → scissors cursor, chart stays full + interactive
-  // 2) double-click a candle → that candle becomes the replay start
+  // 1) click Replay â†’ scissors cursor, chart stays full + interactive
+  // 2) double-click a candle â†’ that candle becomes the replay start
   function armReplay() {
     if (!candles.length || replayMode) return;
     replayArming = true;
     Drawings.setTool('cursor');          // let the chart receive the dbl-click
     chartHost.classList.add('cutting');
     $('replayBtn').classList.add('active');
-    $('replayBtn').textContent = '✕ Cancel';
+    $('replayBtn').textContent = 'âœ• Cancel';
   }
   function cancelArming() {
     replayArming = false;
@@ -374,19 +396,20 @@
     replayMode = true;
     document.body.classList.add('replay-mode');
     $('replayBtn').classList.add('active');
-    $('replayBtn').textContent = '✕ Exit Replay';
+    $('replayBtn').textContent = 'âœ• Exit Replay';
     const idx = (cutIdx != null)
       ? Math.max(1, Math.min(candles.length - 2, cutIdx))
       : Math.max(1, Math.min(candles.length - 2, Math.floor(candles.length * 0.55)));
     lastCut = idx;
     // Freeze the view so the cut doesn't auto-layout: keep the exact visible range
-    // and lock the price scale (no rescale) — future candles just vanish in place.
+    // and lock the price scale (no rescale) â€” future candles just vanish in place.
     const lr = lwChart.timeScale().getVisibleLogicalRange();
     lwChart.priceScale('right').applyOptions({ autoScale: false });
     Replay.load(candles, idx);
     if (lr) lwChart.timeScale().setVisibleLogicalRange(lr);
     TradeSim.setMode(tradeMode);
     TradeSim.start(candles[Replay.cutIndex].close);
+    TradeSim.playReplayStartSound();
     if (tradeMode === 'strategy') StrategyMode.onEnterReplay();
   }
 
@@ -402,11 +425,12 @@
     lwChart.priceScale('right').applyOptions({ autoScale: true });
     ChartView.resetPriceZoom(); // clears manual range + restores base margins
     ChartView.setSlice(candles);
-    IndicatorManager.recompute(candles);
+    IndicatorManager.recompute(candles, intervalToSeconds(interval));
     ChartView.setCursor(null);
     applyCandleStyle(candleStyle);
     applyCandleColors();
     Drawings.render();
+    TradeSim.playReplayExitSound();
     TradeSim.stop(showSummary);
   }
 
@@ -415,6 +439,7 @@
     else if (replayArming) cancelArming();
     else armReplay();
   };
+  $('exitReplayBtn').onclick = () => exitReplayMode(true);
 
   // double-click on a candle commits the replay start point
   lwChart.subscribeDblClick((param) => {
@@ -450,7 +475,7 @@
     if (replayMode) enterReplayMode(lastCut); // restart the session in the new mode
   });
 
-  // ---- replay state → UI -----------------------------------------------
+  // ---- replay state â†’ UI -----------------------------------------------
   Replay.on('state', (st) => {
     $('playIcon').innerHTML = st.playing
       ? '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>'
@@ -473,18 +498,34 @@
   $('rewindBtn').onclick = () => Replay.rewind();
   $('speed').onchange    = (e) => Replay.setSpeed(parseFloat(e.target.value));
 
-  $('modeSeg').addEventListener('click', (e) => {
-    const b = e.target.closest('button'); if (!b) return;
-    $('modeSeg').querySelectorAll('button').forEach((x) => x.classList.toggle('active', x === b));
-    Replay.setMode(b.dataset.v);
-  });
+  // ---- Formation dropup ---------------------------------------------------
+  (function () {
+    const picker = $('fmPicker');
+    const btn    = $('fmBtn');
+    const menu   = $('fmMenu');
+    const label  = $('fmLabel');
 
-  // ---- chart refresh — repaint + reset to a clean fitted view -----------
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      menu.classList.toggle('open');
+    });
+    menu.addEventListener('click', (e) => {
+      const opt = e.target.closest('.fm-opt'); if (!opt) return;
+      menu.querySelectorAll('.fm-opt').forEach((x) => x.classList.toggle('fm-active', x === opt));
+      label.textContent = opt.textContent.split('â€”')[0].trim();
+      Replay.setMode(opt.dataset.v);
+      menu.classList.remove('open');
+    });
+    document.addEventListener('click', () => menu.classList.remove('open'));
+  })();
+
+  // ---- chart refresh â€” repaint + reset to a clean fitted view -----------
   // Re-fits the time scale and re-enables price auto-scale so a squeezed /
   // over-stretched chart returns to normal (TradingView-style refresh).
   function refreshChart() {
-    if (replayMode) Replay.rerender();
-    else { ChartView.setSlice(candles); IndicatorManager.recompute(candles); }
+    clearCandleCache($('symbol').value, interval, parseInt($('maxCandles').value));
+    if (replayMode) { load(); return; } // full reload so we get fresh data
+    ChartView.setSlice(candles); IndicatorManager.recompute(candles, intervalToSeconds(interval));
     applyCandleStyle(candleStyle);
     applyCandleColors();
     Drawings.render();
@@ -560,6 +601,30 @@
     const anchorTime = (replayMode && candles[Replay.cutIndex]) ? candles[Replay.cutIndex].time : null;
     load(anchorTime);
   });
+
+  // ---- floating toolbar drag -------------------------------------------
+  (function () {
+    const ft = $('toolbar');
+    const grip = $('ftGrip');
+    let dragging = false, offX = 0, offY = 0;
+    grip.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+      dragging = true;
+      const r = ft.getBoundingClientRect();
+      offX = e.clientX - r.left; offY = e.clientY - r.top;
+      e.preventDefault(); e.stopPropagation();
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (!dragging) return;
+      const hr = chartHost.getBoundingClientRect();
+      let nx = e.clientX - hr.left - offX;
+      let ny = e.clientY - hr.top  - offY;
+      nx = Math.max(0, Math.min(hr.width  - ft.offsetWidth,  nx));
+      ny = Math.max(0, Math.min(hr.height - ft.offsetHeight, ny));
+      ft.style.left = nx + 'px'; ft.style.top = ny + 'px';
+    });
+    window.addEventListener('mouseup', () => { dragging = false; });
+  })();
 
   // ---- drawing toolbar -------------------------------------------------
   $('toolbar').addEventListener('click', (e) => {

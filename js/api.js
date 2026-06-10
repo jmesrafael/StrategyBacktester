@@ -1,11 +1,48 @@
 // api.js — data loading (Bybit live paginated, with offline synthetic fallback)
 
+// ---- in-memory candle cache -------------------------------------------------
+// Avoids re-fetching when switching timeframes back and forth.
+// TTL = 5 min for live data; synthetic fallback is cached for the session.
+const _candleCache = new Map();
+const CACHE_TTL_MS = 5 * 60 * 1000;
+
+function _cacheKey(symbol, interval, target) { return `${symbol}|${interval}|${target}`; }
+
+function _cacheGet(symbol, interval, target) {
+  const entry = _candleCache.get(_cacheKey(symbol, interval, target));
+  if (!entry) return null;
+  if (entry.live && Date.now() - entry.ts > CACHE_TTL_MS) {
+    _candleCache.delete(_cacheKey(symbol, interval, target));
+    return null;
+  }
+  return entry.data;
+}
+
+function _cacheSet(symbol, interval, target, data, live) {
+  _candleCache.set(_cacheKey(symbol, interval, target), { data, ts: Date.now(), live });
+}
+
+// Synchronous read — returns cached data or null without any async overhead.
+// Use this to decide whether to show a loading indicator before awaiting fetchCandles.
+function peekCandleCache(symbol, interval, target) {
+  return _cacheGet(symbol, interval, target);
+}
+
+// Call this to force a fresh fetch (e.g. Refresh button).
+function clearCandleCache(symbol, interval, target) {
+  if (symbol == null) { _candleCache.clear(); return; }
+  _candleCache.delete(_cacheKey(symbol, interval, target));
+}
+
 // Returns ascending array of { time(sec), open, high, low, close, volume }.
 // Walks backward through Bybit v5 kline pages until `target` candles are
 // collected (or history runs out), then deduplicates the one-bar page overlap.
 //   target     — how many candles to end up with (most-recent kept)
 //   onProgress — optional (pageNo, pages) callback for the loading indicator
 async function fetchCandles(symbol, interval, target, onProgress) {
+  const cached = _cacheGet(symbol, interval, target);
+  if (cached) return cached;
+
   const pages = Math.max(1, Math.ceil(target / CFG.PAGE_LIMIT));
   const merged = new Map(); // keyed by candle.time(sec) → dedupes page overlap
   let end = null;           // ms upper bound for the next page (exclusive)
@@ -46,7 +83,9 @@ async function fetchCandles(symbol, interval, target, onProgress) {
 
   // dedupe → sort ascending → keep the most-recent `target`
   const all = [...merged.values()].sort((a, b) => a.time - b.time);
-  return all.length > target ? all.slice(all.length - target) : all;
+  const result = all.length > target ? all.slice(all.length - target) : all;
+  _cacheSet(symbol, interval, target, result, true);
+  return result;
 }
 
 // Deterministic synthetic OHLC so the app fully works offline / if CORS blocks.

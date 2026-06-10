@@ -6,7 +6,7 @@ const Replay = (() => {
   let startCut = 0;       // remembered cut for rewind
   let playing = false;
   let speed = 1;
-  let mode = 'realistic'; // 'realistic' | 'candle'
+  let mode = 'candle'; // 'realistic' | 'candle'
   let timer = null;
 
   // realistic-mode forming state

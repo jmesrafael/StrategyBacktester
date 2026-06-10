@@ -67,10 +67,35 @@ const Drawings = (() => {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  // coordinate conversion (data <-> pixels)
-  function x(time)  { return chart.timeScale().timeToCoordinate(time); }
+  // coordinate conversion (data <-> pixels) — with extrapolation past the cut
+  function _barRef() {
+    const ts = chart.timeScale();
+    const lr = ts.getVisibleLogicalRange();
+    if (!lr) return null;
+    const refL = Math.max(1, Math.min(Math.floor(lr.to), Math.floor(lr.from) + 1));
+    const refPx  = ts.logicalToCoordinate(refL);
+    const prevPx = ts.logicalToCoordinate(refL - 1);
+    if (refPx == null || prevPx == null) return null;
+    const refT  = ts.coordinateToTime(refPx);
+    const prevT = ts.coordinateToTime(prevPx);
+    if (refT == null || prevT == null) return null;
+    const dur = refT - prevT; if (!dur) return null;
+    return { refPx, prevPx, refT, dur, pxPerBar: refPx - prevPx };
+  }
+
+  function x(time) {
+    const px = chart.timeScale().timeToCoordinate(time);
+    if (px != null) return px;
+    const r = _barRef(); if (!r) return null;
+    return r.refPx + ((time - r.refT) / r.dur) * r.pxPerBar;
+  }
   function y(price) { return series.priceToCoordinate(price); }
-  function toTime(px)  { return chart.timeScale().coordinateToTime(px); }
+  function toTime(px) {
+    const t = chart.timeScale().coordinateToTime(px);
+    if (t != null) return t;
+    const r = _barRef(); if (!r) return null;
+    return r.refT + Math.round(((px - r.refPx) / r.pxPerBar) * r.dur);
+  }
   function toPrice(py) { return series.coordinateToPrice(py); }
 
   function setTool(t) {

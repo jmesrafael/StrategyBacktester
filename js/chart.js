@@ -106,11 +106,14 @@ const ChartView = (() => {
   // so this hot path only touches the candle series per frame.
   function _applyManualRange() {
     const { min, max } = manualRange;
+    // Set the provider first so it is ready before autoScale is (re-)enabled.
+    // autoScale:true is required here because when replay mode sets autoScale:false
+    // the chart ignores autoscaleInfoProvider entirely — the wheel ran JS but had
+    // no visual effect. Enabling autoScale before the next render frame means the
+    // provider's fixed range is always respected, in both normal and replay modes.
     candle.applyOptions({ autoscaleInfoProvider: () =>
       ({ priceRange: { minValue: min, maxValue: max } }) });
-    chart.priceScale('right').applyOptions({ scaleMargins: { top: 0, bottom: 0 } });
-    // Fire after the chart's next rAF repaint so priceToCoordinate() returns
-    // the updated values (drawings re-render with zero lag).
+    chart.priceScale('right').applyOptions({ autoScale: true, scaleMargins: { top: 0, bottom: 0 } });
     if (onPriceChange) requestAnimationFrame(onPriceChange);
   }
 
@@ -219,11 +222,16 @@ const ChartView = (() => {
 
   function toggleVolume(on) { volume.applyOptions({ visible: on }); }
 
+  // Optional transform applied to candles before setData (e.g. volume highlight).
+  let _sliceTransform = null;
+  function setSliceTransform(fn) { _sliceTransform = fn; }
+
   // Render a slice of candles (used on cut + each replay frame).
   // MA recompute is owned by IndicatorManager — call it after setSlice.
   function setSlice(candles, formingBar) {
     const T = CFG.THEME;
-    const data = candles.map((c) => ({ ...c }));
+    const src = _sliceTransform ? _sliceTransform(candles) : candles;
+    const data = src.map((c) => ({ ...c }));
     if (formingBar) data.push(formingBar);
     candle.setData(data);
     volume.setData(candles.concat(formingBar ? [formingBar] : []).map((c) => ({
@@ -255,7 +263,7 @@ const ChartView = (() => {
   function onCrosshairMove(fn) { onCrosshair = fn; }
   function onPriceRangeChange(fn) { onPriceChange = fn; }
 
-  return { create, setSlice, updateForming, setCandleStyle, setCandleColors, setBackground,
+  return { create, setSlice, setSliceTransform, updateForming, setCandleStyle, setCandleColors, setBackground,
     setGridVisible, setGridColor, setCrosshairMode, addLineIndicator, addPaneSeries, setPaneHeight,
     setCandleMarkers, clearCandleMarkers, toggleVolume, setCursor,
     nudgePriceZoom, panPrice, resetPriceZoom,

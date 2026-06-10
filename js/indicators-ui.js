@@ -26,6 +26,11 @@ const IndicatorManager = (() => {
         overbought: 70, oversold: 30 }),
     },
     volume: { name: 'Volume', label: () => 'Volume', defaults: () => ({}) },
+    fvg: {
+      name: '⚡ VolHi / FVG',
+      label: () => '⚡ VolHi/FVG',
+      defaults: () => ({ ...FVGIndicator.getDefaults() }),
+    },
   };
 
   const RSI_PANE = 1;   // stacked sub-pane below the main price/volume pane
@@ -87,6 +92,8 @@ const IndicatorManager = (() => {
       ChartView.setPaneHeight(RSI_PANE, 120);
     } else if (type === 'volume') {
       ChartView.toggleVolume(inst.visible);
+    } else if (type === 'fvg') {
+      FVGIndicator.setActive(inst.visible);
     }
     instances.push(inst);
     return inst;
@@ -117,7 +124,11 @@ const IndicatorManager = (() => {
     if (inst.type === 'ma') { handles.get(id).remove(); handles.delete(id); }
     else if (inst.type === 'rsi') {
       const h = handles.get(id); removeRsiLevelLines(h); h.remove(); handles.delete(id);
-    } else if (inst.type === 'volume') ChartView.toggleVolume(false);
+    } else if (inst.type === 'volume') {
+      ChartView.toggleVolume(false);
+    } else if (inst.type === 'fvg') {
+      FVGIndicator.setActive(false);
+    }
     instances = instances.filter((i) => i.id !== id);
     renderPanel(); refreshBadge(); updateLegend(null); persist();
   }
@@ -132,6 +143,7 @@ const IndicatorManager = (() => {
     inst.visible = v;
     if (inst.type === 'ma' || inst.type === 'rsi') handles.get(id).setVisible(v);
     else if (inst.type === 'volume') ChartView.toggleVolume(v);
+    else if (inst.type === 'fvg') FVGIndicator.setActive(v);
     recompute(lastCandles);
     renderPanel(); refreshBadge(); updateLegend(null); persist();
   }
@@ -145,13 +157,15 @@ const IndicatorManager = (() => {
       const h = handles.get(id);
       h.applyOptions({ color: inst.params.color, lineWidth: inst.params.lineWidth });
       removeRsiLevelLines(h); addRsiLevelLines(h, inst.params);
+    } else if (inst.type === 'fvg') {
+      FVGIndicator.updateParams(inst.params);
     }
     recompute(lastCandles);
     renderPanel(); persist();
   }
 
   // ---- recompute (called by replay + on data load) -------------------------
-  function recompute(candles) {
+  function recompute(candles, ivSecs) {
     lastCandles = candles || [];
     instances.forEach((inst) => {
       if (inst.type === 'ma') {
@@ -160,6 +174,8 @@ const IndicatorManager = (() => {
       } else if (inst.type === 'rsi') {
         const h = handles.get(inst.id);
         h.setData(inst.visible ? rsiLineData(lastCandles, inst.params.period) : []);
+      } else if (inst.type === 'fvg' && inst.visible) {
+        FVGIndicator.compute(lastCandles, ivSecs);
       }
     });
     updateLegend(null);
@@ -228,7 +244,7 @@ const IndicatorManager = (() => {
         if (v != null) valTxt = ' · ' + ChartView.fmtVol(v);
         name = 'Vol'; color = 'var(--text-dim)';
       }
-      const gear = (inst.type === 'ma' || inst.type === 'rsi')
+      const gear = (inst.type === 'ma' || inst.type === 'rsi' || inst.type === 'fvg')
         ? `<button class="lg-ic" data-act="gear" data-id="${inst.id}" title="Settings">⚙</button>` : '';
       return `<div class="lg-row${inst.visible ? '' : ' lg-off'}">` +
         `<span class="lg-name" style="color:${color}">${name}${valTxt}</span>` +
@@ -288,10 +304,11 @@ const IndicatorManager = (() => {
       const row = document.createElement('div');
       row.className = 'ind-row';
       const hasColor = inst.type === 'ma' || inst.type === 'rsi';
+      const hasGear  = hasColor || inst.type === 'fvg';
       row.innerHTML =
         `<span class="ind-name" style="${hasColor ? 'color:' + inst.params.color : ''}">${def.label(inst.params)}</span>` +
         `<span class="ind-actions">` +
-        (hasColor ? `<button class="ind-ic ind-gear" title="Settings">⚙</button>` : '') +
+        (hasGear ? `<button class="ind-ic ind-gear" title="Settings">⚙</button>` : '') +
         `<button class="ind-ic ind-eye" title="Toggle">${inst.visible ? '👁' : '🚫'}</button>` +
         `<button class="ind-ic ind-x" title="Remove">✕</button>` +
         `</span>`;
@@ -306,6 +323,7 @@ const IndicatorManager = (() => {
   // builds a wired settings panel for an indicator instance
   function buildConfigEl(inst) {
     if (inst.type === 'rsi') return buildRsiConfigEl(inst);
+    if (inst.type === 'fvg') return buildFvgConfigEl(inst);
     const cfg = document.createElement('div');
     cfg.className = 'ind-config';
     cfg.innerHTML =
@@ -342,6 +360,42 @@ const IndicatorManager = (() => {
     cfg.querySelector('.cf-os').onchange = (e) =>
       updateParams(inst.id, { oversold: parseFloat(e.target.value) || inst.params.oversold });
     return cfg;
+  }
+
+  function buildFvgConfigEl(inst) {
+    const p = inst.params;
+    const cfg = document.createElement('div');
+    cfg.className = 'ind-config';
+    cfg.style.gridTemplateColumns = '1fr 1fr';
+    cfg.innerHTML =
+      `<label>Vol Period <input type="number" class="fvg-vp" min="2" max="200" value="${p.volPeriod}"></label>` +
+      `<label>Vol Mult <input type="number" class="fvg-vf" min="0.1" step="0.05" value="${p.volFactor}"></label>` +
+      `<label>Max Boxes <input type="number" class="fvg-mb" min="1" max="20" value="${p.maxBoxes}"></label>` +
+      `<label>FVG Length <input type="number" class="fvg-fl" min="1" max="500" value="${p.fvgLen}"></label>` +
+      `<label>Demand Color <input type="color" class="fvg-cd" value="${p.colorDemand.startsWith('#') ? p.colorDemand : '#26a69a'}"></label>` +
+      `<label>Supply Color <input type="color" class="fvg-cs" value="${p.colorSupply.startsWith('#') ? p.colorSupply : '#ef5350'}"></label>` +
+      `<label style="grid-column:1/-1">HTF Multiplier (0=off) <input type="number" class="fvg-hm" min="0" max="24" value="${p.htfMult}"></label>` +
+      `<label style="grid-column:1/-1" class="st-row"><span>Show Vol Highlight</span><input type="checkbox" class="fvg-sv" ${p.showVolHL ? 'checked' : ''}></label>` +
+      `<label style="grid-column:1/-1" class="st-row"><span>Show NY Session Line</span><input type="checkbox" class="fvg-sn" ${p.showNY ? 'checked' : ''}></label>`;
+    const up = (patch) => updateParams(inst.id, patch);
+    cfg.querySelector('.fvg-vp').onchange = (e) => up({ volPeriod: Math.max(2, +e.target.value || 20) });
+    cfg.querySelector('.fvg-vf').onchange = (e) => up({ volFactor: Math.max(0.1, +e.target.value || 1.25) });
+    cfg.querySelector('.fvg-mb').onchange = (e) => up({ maxBoxes:  Math.max(1,  +e.target.value || 6) });
+    cfg.querySelector('.fvg-fl').onchange = (e) => up({ fvgLen:    Math.max(1,  +e.target.value || 50) });
+    cfg.querySelector('.fvg-cd').oninput  = (e) => up({ colorDemand: hexToRgba(e.target.value, 0.22) });
+    cfg.querySelector('.fvg-cs').oninput  = (e) => up({ colorSupply: hexToRgba(e.target.value, 0.22) });
+    cfg.querySelector('.fvg-hm').onchange = (e) => {
+      const v = Math.max(0, +e.target.value || 0);
+      up({ htfMult: v, showHTF: v > 0 });
+    };
+    cfg.querySelector('.fvg-sv').onchange = (e) => up({ showVolHL: e.target.checked });
+    cfg.querySelector('.fvg-sn').onchange = (e) => up({ showNY: e.target.checked });
+    return cfg;
+  }
+
+  function hexToRgba(hex, alpha) {
+    const n = parseInt(hex.replace('#',''), 16);
+    return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${alpha})`;
   }
 
   // inline config inside the dropdown panel row

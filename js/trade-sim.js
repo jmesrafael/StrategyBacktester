@@ -16,6 +16,7 @@ const TradeSim = (() => {
   let commissionPct = CFG.DEFAULT_COMMISSION_PCT; // per side, on entry and exit
   let slippagePct = CFG.DEFAULT_SLIPPAGE_PCT;     // worsens entry/exit fill
   let totalFees = 0;     // accumulated commission across the session
+  let sessionPnl = 0;   // running total of all closed-trade net P&L
   let position = null;   // {side, entryPrice, size, entryTime, entryCandleIndex}
   let trades = [];       // closed trades
   let currentPrice = 0;
@@ -23,7 +24,7 @@ const TradeSim = (() => {
   let mode = 'game';     // 'game' (manual buttons) | 'strategy' (read-only status)
 
   // DOM
-  let widget, elBalance, elPrice, elPnl, elLogList, elSizes, elLong, elShort, elClose;
+  let widget, elBalance, elPrice, elPnl, elSessionPnl, elLogList, elSizes, elLong, elShort, elClose;
   let elComm, elSlip, elStatus, elActions;
   let pnlLabel, toast, summary;
   let entryLine = null;
@@ -81,12 +82,14 @@ const TradeSim = (() => {
       `</div>` +
       `<div class="tw-status" style="display:none">No position</div>` +
       `<div class="tw-pnl" style="display:none">P&amp;L <b class="tw-pnl-val">+$0.00 (+0.00%)</b></div>` +
+      `<div class="tw-session-pnl">Session P&amp;L <b class="tw-session-pnl-val">$0.00</b></div>` +
       `<div class="tw-log"><div class="tw-log-title">TRADE LOG</div><div class="tw-log-list"></div></div>`;
     chartHost.appendChild(widget);
 
-    elBalance = widget.querySelector('.tw-balance');
-    elPrice   = widget.querySelector('.tw-price');
-    elPnl     = widget.querySelector('.tw-pnl');
+    elBalance    = widget.querySelector('.tw-balance');
+    elPrice      = widget.querySelector('.tw-price');
+    elPnl        = widget.querySelector('.tw-pnl');
+    elSessionPnl = widget.querySelector('.tw-session-pnl-val');
     elLogList = widget.querySelector('.tw-log-list');
     elSizes   = widget.querySelector('.tw-sizes');
     elLong    = widget.querySelector('.tw-long');
@@ -184,6 +187,7 @@ const TradeSim = (() => {
     position = null;
     hasTraded = false;
     totalFees = 0;
+    sessionPnl = 0;
     currentPrice = initialPrice || 0;
 
     elLogList.innerHTML = '';
@@ -195,6 +199,7 @@ const TradeSim = (() => {
     elPrice.textContent = currentPrice ? fmtPrice(currentPrice) : '—';
     elPnl.style.display = 'none';
     summary.style.display = 'none';
+    updateSessionPnl();
     clearChartMarks();
     setMode(mode);
     refreshButtons();
@@ -231,6 +236,7 @@ const TradeSim = (() => {
     updatePnl();
     updateStatus();
     refreshButtons();
+    playOpenSound(side);
   }
 
   function close() {
@@ -245,9 +251,12 @@ const TradeSim = (() => {
     totalFees += fees;
     const usd = grossUsd - fees;
     balance += usd;
+    sessionPnl += usd;
     trades.push({ side: position.side, entry: position.entryPrice, exit: exitFill,
       pct: grossPct, usd, fees });
     addLogRow(trades[trades.length - 1]);
+    updateSessionPnl();
+    playCloseSound(usd >= 0);
     showToast(position.side, usd, grossPct);
 
     position = null;
@@ -341,6 +350,91 @@ const TradeSim = (() => {
     elLogList.prepend(row);
   }
 
+  function updateSessionPnl() {
+    if (!elSessionPnl) return;
+    const abs = Math.abs(sessionPnl).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const sign = sessionPnl > 0 ? '+' : sessionPnl < 0 ? '-' : '';
+    elSessionPnl.textContent = `${sign}$${abs}`;
+    elSessionPnl.style.color = sessionPnl > 0 ? UP : sessionPnl < 0 ? DOWN : '#8a8d93';
+  }
+
+  // ---- sounds --------------------------------------------------------------
+  let _audioCtx = null;
+  function _ac() {
+    if (!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (_audioCtx.state === 'suspended') _audioCtx.resume();
+    return _audioCtx;
+  }
+
+  function _tone(ac, freq, startT, dur, gainPeak, type = 'sine') {
+    const osc  = ac.createOscillator();
+    const gain = ac.createGain();
+    osc.connect(gain); gain.connect(ac.destination);
+    osc.type = type; osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0, startT);
+    gain.gain.linearRampToValueAtTime(gainPeak, startT + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.001, startT + dur);
+    osc.start(startT); osc.stop(startT + dur);
+  }
+
+  // Short confirmatory blip when opening a position
+  function playOpenSound(side) {
+    try {
+      const ac = _ac();
+      const freq = side === 'long' ? 660 : 440; // higher pitch for long, lower for short
+      _tone(ac, freq,       ac.currentTime,        0.12, 0.55);
+      _tone(ac, freq * 1.5, ac.currentTime + 0.10, 0.10, 0.35);
+    } catch {}
+  }
+
+  // Two-note jingle when closing — ascending = win, descending = loss
+  function playCloseSound(win) {
+    try {
+      const ac = _ac();
+      const notes = win ? [784, 1047] : [523, 370]; // G5→C6 win  /  C5→F#4 loss
+      notes.forEach((freq, i) => {
+        _tone(ac, freq, ac.currentTime + i * 0.15, 0.28, 0.6);
+      });
+    } catch {}
+  }
+
+  // Cinematic "tape start" whoosh when entering replay
+  function playReplayStartSound() {
+    try {
+      const ac = _ac();
+      // Rising sweep: sine gliding from 200→600 Hz
+      const osc  = ac.createOscillator();
+      const gain = ac.createGain();
+      osc.connect(gain); gain.connect(ac.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(200, ac.currentTime);
+      osc.frequency.linearRampToValueAtTime(600, ac.currentTime + 0.25);
+      gain.gain.setValueAtTime(0, ac.currentTime);
+      gain.gain.linearRampToValueAtTime(0.45, ac.currentTime + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.35);
+      osc.start(ac.currentTime); osc.stop(ac.currentTime + 0.35);
+      // Short accent click on top
+      _tone(ac, 880, ac.currentTime + 0.18, 0.12, 0.3);
+    } catch {}
+  }
+
+  // Short downward whoosh when exiting / ending replay
+  function playReplayExitSound() {
+    try {
+      const ac = _ac();
+      const osc  = ac.createOscillator();
+      const gain = ac.createGain();
+      osc.connect(gain); gain.connect(ac.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(500, ac.currentTime);
+      osc.frequency.linearRampToValueAtTime(180, ac.currentTime + 0.28);
+      gain.gain.setValueAtTime(0, ac.currentTime);
+      gain.gain.linearRampToValueAtTime(0.4, ac.currentTime + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.32);
+      osc.start(ac.currentTime); osc.stop(ac.currentTime + 0.32);
+    } catch {}
+  }
+
   // ---- toast ---------------------------------------------------------------
   let toastTimer = null;
   function showToast(side, usd, pct) {
@@ -368,12 +462,17 @@ const TradeSim = (() => {
     const ret = ((final - startBalance) / startBalance) * 100;
     const wins = trades.filter((t) => t.usd > 0).length;
     const winRate = trades.length ? Math.round((wins / trades.length) * 100) : 0;
-    const best = trades.length ? Math.max(...trades.map((t) => t.usd)) : 0;
+    const best  = trades.length ? Math.max(...trades.map((t) => t.usd)) : 0;
     const worst = trades.length ? Math.min(...trades.map((t) => t.usd)) : 0;
     const retCol = ret >= 0 ? UP : DOWN;
+    const pnlCol = sessionPnl >= 0 ? UP : DOWN;
 
     summary.innerHTML =
       `<div class="ts-title">SESSION SUMMARY</div>` +
+      `<div class="ts-pnl-banner" style="color:${pnlCol};border-color:${pnlCol}">` +
+        `<span class="ts-pnl-label">Total P&amp;L</span>` +
+        `<span class="ts-pnl-val">${fmtMoney(sessionPnl)}</span>` +
+      `</div>` +
       `<div class="ts-row"><span>Starting balance</span><b>${fmtBal(startBalance)}</b></div>` +
       `<div class="ts-row"><span>Final balance</span><b>${fmtBal(final)}</b></div>` +
       `<div class="ts-row"><span>Total return</span><b style="color:${retCol}">${fmtPct(ret)}</b></div>` +
@@ -395,5 +494,6 @@ const TradeSim = (() => {
   }
 
   return { init, start, stop, onTick, open, close, setMode, getAccount,
+    playReplayStartSound, playReplayExitSound,
     get active() { return active; }, get mode() { return mode; } };
 })();
