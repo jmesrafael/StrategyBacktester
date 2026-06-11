@@ -17,25 +17,32 @@
     <div class="tb-left">
       <select id="symbol" class="sym-select" title="Symbol"></select>
 
-      <div class="seg tf-seg" id="intervalSeg"></div>
+      <!-- TF tabs + manage dropdown -->
+      <div class="tf-picker" id="tfPicker">
+        <div class="tf-tabs" id="tfTabs"></div>
+        <button class="tf-manage-btn iconbtn" id="tfManageBtn" title="Manage timeframes"><i class="fas fa-chevron-down tf-caret"></i></button>
+        <div class="tf-menu" id="tfMenu"></div>
+      </div>
 
-      <!-- candle style picker -->
+      <!-- chart type picker -->
       <div class="picker">
-        <button class="iconbtn tb-icon" id="candleStyleBtn" title="Candle style">
+        <button class="iconbtn tb-icon" id="candleStyleBtn" title="Chart type">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
             <rect x="5" y="7" width="4" height="10" rx="1"/><path d="M7 4v3M7 17v3"/>
             <rect x="15" y="5" width="4" height="9" rx="1"/><path d="M17 2v3M17 14v3"/>
           </svg>
         </button>
         <div class="menu" id="candleStyleMenu">
-          <button data-style="classic" class="menu-item">Classic</button>
-          <button data-style="mono" class="menu-item">Monochrome</button>
+          <button data-style="candlestick" class="menu-item active">Candlestick</button>
+          <button data-style="heiken_ashi" class="menu-item">Heikin Ashi</button>
+          <button data-style="line" class="menu-item">Line</button>
         </div>
       </div>
 
       <button class="tb-btn" id="indicatorsBtn">Indicators <span class="badge" id="indBadge"></span></button>
       <button class="tb-btn" id="strategyBtn">Strategy</button>
       <button class="tb-btn" id="replayBtn">Replay</button>
+      <button class="tb-btn" id="dataBtn">Data</button>
     </div>
 
     <div class="tb-right">
@@ -105,7 +112,7 @@
   <!-- ===== REPLAY TRANSPORT — shown via body.replay-mode ===== -->
   <div class="replaybar">
     <div class="rb-left">
-      <button class="rb-exit-btn" id="exitReplayBtn" title="Exit replay">✕ Exit</button>
+      <button class="rb-exit-btn" id="exitReplayBtn" title="Exit replay"><i class="fas fa-xmark"></i> Exit</button>
       <div class="seg mode-seg" id="modeTabs">
         <button data-mode="game" class="active"><i class="fas fa-gamepad"></i> Game</button>
         <button data-mode="strategy"><i class="fas fa-bolt"></i> Strategy</button>
@@ -148,10 +155,21 @@
     <div class="ohlcv" id="ohlcv"></div>
     <div class="draw-info" id="drawInfo"></div>
   </div>
+
+  <!-- ===== DATA PAGE ===== -->
+  <section class="data-page" id="dataPage">
+    <div class="data-page-header">
+      <h2 class="data-page-title">Saved Backtests</h2>
+      <button class="tb-btn" id="dataBackBtn"><i class="fas fa-arrow-left"></i> Chart</button>
+    </div>
+    <div class="data-grid" id="dataGrid"></div>
+  </section>
 </div>
 
 <script src="https://unpkg.com/lightweight-charts@5.0.0/dist/lightweight-charts.standalone.production.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="js/config.js"></script>
+<script src="js/supabase-config.js"></script>
 <script src="js/api.js"></script>
 <script src="js/indicators.js"></script>
 <script src="js/chart.js"></script>
@@ -161,9 +179,12 @@
 <script src="js/fvg.js"></script>
 <script src="js/trade-sim.js"></script>
 <script src="strategies/registry.js"></script>
+<script src="strategies/ema-rsi-divergence-strategy.js"></script>
 <script src="strategies/emacross-strategy.js"></script>
 <script src="strategies/rsi-strategy.js"></script>
 <script src="js/strategy.js"></script>
+<script src="js/data-page.js"></script>
+<script src="js/supabase-client.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

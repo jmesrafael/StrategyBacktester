@@ -44,7 +44,9 @@ window.CFG = {
     candleUp: 'cr.candleUp', candleDown: 'cr.candleDown',
     timeframes: 'cr.timeframes', maxCandles: 'cr.maxCandles',
     defaults: 'cr.defaults', version: 'cr.schema',
-    drawLabels: 'cr.drawLabels' },
+    drawLabels: 'cr.drawLabels', drawings: 'cr.drawings',
+    stratInputs: 'cr.stratInputs', lastStrategy: 'cr.lastStrategy',
+    chartType: 'cr.chartType' },
 
   // Bump when default settings change so persisted prefs are migrated once.
   SCHEMA_VERSION: 2,

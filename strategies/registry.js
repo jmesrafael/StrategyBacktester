@@ -11,6 +11,7 @@
 window.__STRATEGIES = window.__STRATEGIES || {};
 
 window.STRATEGY_REGISTRY = [
+  { id: 'emarsidiv', label: 'EMA + RSI Divergence' },
   { id: 'emacross', label: 'EMA Crossover' },
   { id: 'rsi', label: 'RSI Reversal' },
 ];

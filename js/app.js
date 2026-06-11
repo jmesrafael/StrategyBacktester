@@ -48,16 +48,87 @@
     return CFG.ALL_INTERVALS.map(([v]) => v); // default: all of them
   }
 
+  // ---- TF tabs + manage dropdown -------------------------------------------
+  // Tab row shows all enabled TFs. Clicking a tab switches interval.
+  // The chevron button opens the manage dropdown (all TFs with enable/disable checks).
   function buildIntervalSeg() {
-    const seg = $('intervalSeg');
-    seg.innerHTML = '';
+    // Rebuild tab row
+    const tabs = $('tfTabs');
+    tabs.innerHTML = '';
     timeframes.forEach((v) => {
-      const b = document.createElement('button');
-      b.dataset.v = v; b.textContent = TF_LABEL.get(v) || v;
-      if (v === interval) b.classList.add('active');
-      seg.appendChild(b);
+      const btn = document.createElement('button');
+      btn.className = 'tf-tab tb-btn' + (v === interval ? ' active' : '');
+      btn.textContent = TF_LABEL.get(v) || v;
+      btn.dataset.v = v;
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const prev = interval;
+        interval = v;
+        buildIntervalSeg();
+        closeTfMenu();
+        if (interval !== prev) {
+          const anchorTime = (replayMode && candles[Replay.cutIndex]) ? candles[Replay.cutIndex].time : null;
+          load(anchorTime);
+        }
+      });
+      tabs.appendChild(btn);
+    });
+
+    // Rebuild manage dropdown (checklist of all possible TFs)
+    const menu = $('tfMenu');
+    menu.innerHTML = '';
+    CFG.ALL_INTERVALS.forEach(([v, label]) => {
+      const enabled = timeframes.includes(v);
+      const active  = v === interval;
+      const row = document.createElement('div');
+      row.className = 'tf-row' + (enabled ? ' tf-enabled' : '') + (active ? ' tf-current' : '');
+      row.dataset.v = v;
+      row.innerHTML =
+        `<span class="tf-check"><i class="fas fa-check"></i></span>` +
+        `<span class="tf-row-label">${label}</span>` +
+        (active ? `<i class="fas fa-circle tf-active-dot"></i>` : '');
+      row.querySelector('.tf-check').addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (enabled && timeframes.length > 1) {
+          timeframes = timeframes.filter((x) => x !== v);
+          if (interval === v) interval = timeframes[0];
+        } else if (!enabled) {
+          const order = CFG.ALL_INTERVALS.map(([x]) => x);
+          timeframes = order.filter((x) => timeframes.includes(x) || x === v);
+        }
+        LS.setItem(STORE.timeframes, JSON.stringify(timeframes));
+        buildIntervalSeg();
+      });
+      row.addEventListener('click', () => {
+        if (!timeframes.includes(v)) {
+          const order = CFG.ALL_INTERVALS.map(([x]) => x);
+          timeframes = order.filter((x) => timeframes.includes(x) || x === v);
+          LS.setItem(STORE.timeframes, JSON.stringify(timeframes));
+        }
+        const prev = interval;
+        interval = v;
+        buildIntervalSeg();
+        closeTfMenu();
+        if (interval !== prev) {
+          const anchorTime = (replayMode && candles[Replay.cutIndex]) ? candles[Replay.cutIndex].time : null;
+          load(anchorTime);
+        }
+      });
+      menu.appendChild(row);
     });
   }
+
+  function closeTfMenu() {
+    $('tfMenu').classList.remove('open');
+    $('tfPicker').classList.remove('open');
+  }
+
+  $('tfManageBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = $('tfMenu').classList.toggle('open');
+    $('tfPicker').classList.toggle('open', open);
+  });
+  document.addEventListener('click', closeTfMenu);
 
   // max candles (persisted; defaults to the largest = most history)
   CFG.MAX_CANDLES.forEach((n) => $('maxCandles').add(new Option(String(n), n)));
@@ -139,6 +210,7 @@
     getVisibleCandles: () => replayMode ? candles.slice(0, Replay.cutIndex + 1) : candles,
   });
   Drawings.init(lwChart, ChartView.getCandleSeries(), chartHost);
+  Drawings.loadDrawings();
   FVGIndicator.init(lwChart, ChartView.getCandleSeries(), chartHost);
   // Volume highlight: applied in setSlice so replay frames also get colored candles.
   ChartView.setSliceTransform((c) => FVGIndicator.applyVolColors(c));
@@ -163,9 +235,12 @@
 
   let tradeMode = 'game'; // 'game' | 'strategy'
 
-  // ---- candle style (persisted) ----------------------------------------
+  // ---- candle style / chart type (persisted) ----------------------------------------
   let candleStyle = startupDefaults.candleStyle ||
     LS.getItem(STORE.candleStyle) || CFG.DEFAULTS.candleStyle;
+  let chartType = startupDefaults.chartType ||
+    LS.getItem(STORE.chartType) || 'candlestick';
+  ChartView.setChartType(chartType);
   // custom per-direction colors (override the named style when set)
   let candleUp   = LS.getItem(STORE.candleUp)   || null;
   let candleDown = LS.getItem(STORE.candleDown) || null;
@@ -174,8 +249,21 @@
     candleStyle = name;
     ChartView.setCandleStyle(name);
     LS.setItem(STORE.candleStyle, name);
-    $('candleStyleMenu').querySelectorAll('.menu-item').forEach((b) =>
+    // update theme buttons in settings panel (built later; guard with ?.)
+    settingsPanel.querySelectorAll('.st-theme-btn').forEach((b) =>
       b.classList.toggle('active', b.dataset.style === name));
+  }
+  function applyChartType(type) {
+    chartType = type;
+    ChartView.setChartType(type);
+    LS.setItem(STORE.chartType, type);
+    $('candleStyleMenu').querySelectorAll('.menu-item').forEach((b) =>
+      b.classList.toggle('active', b.dataset.style === type));
+    // Re-render current data with new transform
+    if (candles && candles.length) {
+      ChartView.setSlice(candles);
+      IndicatorManager.recompute(candles, intervalToSeconds(interval));
+    }
   }
   function applyCandleColors() {
     if (candleUp || candleDown) {
@@ -189,12 +277,7 @@
   });
   $('candleStyleMenu').addEventListener('click', (e) => {
     const b = e.target.closest('.menu-item'); if (!b) return;
-    // picking a named style clears any custom candle colors
-    candleUp = null; candleDown = null;
-    LS.removeItem(STORE.candleUp); LS.removeItem(STORE.candleDown);
-    if ($('stUp'))   $('stUp').value   = CFG.THEME.up;
-    if ($('stDown')) $('stDown').value = CFG.THEME.down;
-    applyCandleStyle(b.dataset.style);
+    applyChartType(b.dataset.style);
     $('candleStyleMenu').classList.remove('open');
   });
   document.addEventListener('click', () => $('candleStyleMenu').classList.remove('open'));
@@ -215,14 +298,16 @@
     `<label class="st-row"><span>Show grid</span><input type="checkbox" id="stGrid"></label>` +
     `<label class="st-row"><span>Background</span><input type="color" id="stBg"></label>` +
     `<label class="st-row"><span>Grid color</span><input type="color" id="stGridColor"></label>` +
-    `<div class="st-title">Candles</div>` +
+    `<div class="st-title">Candle theme</div>` +
+    `<div class="st-row st-theme-row">` +
+      `<button class="st-theme-btn" data-style="mono">Monochrome</button>` +
+      `<button class="st-theme-btn" data-style="classic">Classic</button>` +
+    `</div>` +
+    `<div class="st-title">Candle colors</div>` +
     `<label class="st-row"><span>Bullish</span><input type="color" id="stUp"></label>` +
     `<label class="st-row"><span>Bearish</span><input type="color" id="stDown"></label>` +
     `<div class="st-title">Drawings</div>` +
     `<label class="st-row"><span>Show price labels</span><input type="checkbox" id="stDrawLabels"></label>` +
-    `<div class="st-title">Timeframes</div>` +
-    `<input class="st-tf" id="stTf" type="text" spellcheck="false" placeholder="1m, 5m, 15m, 1h, 4h, 1D">` +
-    `<div class="st-hint">Comma-separated. Available: ${CFG.ALL_INTERVALS.map(([, l]) => l).join(' ')}</div>` +
     `<div class="st-sep"></div>` +
     `<button class="st-save" id="stSave">Save current as defaults</button>`;
   document.body.appendChild(settingsPanel);
@@ -235,8 +320,19 @@
   $('stUp').value           = candleUp   || CFG.THEME.up;
   $('stDown').value         = candleDown || CFG.THEME.down;
   $('stDrawLabels').checked = initDrawLabels;
-  $('stTf').value           = timeframes.map((v) => TF_LABEL.get(v)).join(', ');
   Drawings.setShowLabels(initDrawLabels);
+
+  // init candle theme buttons
+  settingsPanel.querySelectorAll('.st-theme-btn').forEach((btn) => {
+    btn.classList.toggle('active', btn.dataset.style === candleStyle);
+    btn.onclick = () => {
+      candleUp = null; candleDown = null;
+      LS.removeItem(STORE.candleUp); LS.removeItem(STORE.candleDown);
+      $('stUp').value   = CFG.THEME.up;
+      $('stDown').value = CFG.THEME.down;
+      applyCandleStyle(btn.dataset.style);
+    };
+  });
 
   $('stGrid').onchange = (e) => {
     ChartView.setGridVisible(e.target.checked);
@@ -260,21 +356,9 @@
   $('stDown').oninput = (e) => {
     candleDown = e.target.value; LS.setItem(STORE.candleDown, candleDown); applyCandleColors();
   };
-  $('stTf').onchange = (e) => {
-    const labels = e.target.value.split(',').map((s) => s.trim()).filter(Boolean);
-    const vals = [...new Set(labels.map((l) => TF_VALUE.get(l)).filter(Boolean))];
-    if (!vals.length) { e.target.value = timeframes.map((v) => TF_LABEL.get(v)).join(', '); return; }
-    timeframes = vals;
-    LS.setItem(STORE.timeframes, JSON.stringify(timeframes));
-    const prev = interval;
-    if (!timeframes.includes(interval)) interval = timeframes[0];
-    buildIntervalSeg();
-    e.target.value = timeframes.map((v) => TF_LABEL.get(v)).join(', ');
-    if (interval !== prev) load();
-  };
   $('stSave').onclick = () => {
     const blob = { symbol: $('symbol').value, interval,
-      maxCandles: $('maxCandles').value, candleStyle };
+      maxCandles: $('maxCandles').value, candleStyle, chartType };
     LS.setItem(STORE.defaults, JSON.stringify(blob));
     const btn = $('stSave'); const t = btn.innerHTML;
     btn.innerHTML = '<i class="fas fa-check"></i> Saved'; setTimeout(() => { btn.innerHTML = t; }, 1200);
@@ -401,12 +485,11 @@
       ? Math.max(1, Math.min(candles.length - 2, cutIdx))
       : Math.max(1, Math.min(candles.length - 2, Math.floor(candles.length * 0.55)));
     lastCut = idx;
-    // Freeze the view so the cut doesn't auto-layout: keep the exact visible range
-    // and lock the price scale (no rescale) â€” future candles just vanish in place.
-    const lr = lwChart.timeScale().getVisibleLogicalRange();
-    lwChart.priceScale('right').applyOptions({ autoScale: false });
+    // Follow-the-edge view: auto-fit price to revealed candles and keep the newest
+    // revealed candle pinned near the right edge so price extends past the cut line.
+    lwChart.priceScale('right').applyOptions({ autoScale: true });
     Replay.load(candles, idx);
-    if (lr) lwChart.timeScale().setVisibleLogicalRange(lr);
+    ChartView.scrollToRealtime();
     TradeSim.setMode(tradeMode);
     TradeSim.start(candles[Replay.cutIndex].close);
     TradeSim.playReplayStartSound();
@@ -415,6 +498,7 @@
 
   function exitReplayMode(showSummary) {
     Replay.pause();
+    StrategyMode.onExitReplay();   // restore the user's indicators before repainting full data
     replayMode = false;
     replayArming = false;
     document.body.classList.remove('replay-mode');
@@ -489,6 +573,8 @@
     Drawings.render();
     if (p && p.candle) TradeSim.onTick(p.candle.close);
     StrategyMode.onTick(p);   // no-op unless strategy mode + watching replay
+    // keep the newest revealed candle near the right edge (per-candle, no jitter)
+    if (replayMode && p && !p.forming) ChartView.scrollToRealtime();
   });
   Replay.on('end', () => exitReplayMode(true));
 
@@ -594,13 +680,6 @@
     LS.setItem(STORE.maxCandles, $('maxCandles').value);
     load();
   };
-  $('intervalSeg').addEventListener('click', (e) => {
-    const b = e.target.closest('button'); if (!b) return;
-    interval = b.dataset.v;
-    $('intervalSeg').querySelectorAll('button').forEach((x) => x.classList.toggle('active', x === b));
-    const anchorTime = (replayMode && candles[Replay.cutIndex]) ? candles[Replay.cutIndex].time : null;
-    load(anchorTime);
-  });
 
   // ---- floating toolbar drag -------------------------------------------
   (function () {
@@ -649,6 +728,13 @@
       else if (replayMode) exitReplayMode(true);
     }
   });
+
+  // ---- Data page nav ---------------------------------------------------
+  $('dataBtn').onclick = () => {
+    if (replayMode) exitReplayMode(false);
+    DataPage.show();
+  };
+  $('dataBackBtn').onclick = () => DataPage.hide();
 
   // ---- initial load ----------------------------------------------------
   load();

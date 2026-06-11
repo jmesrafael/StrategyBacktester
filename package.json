@@ -1,0 +1,8 @@
+{
+  "name": "backtester",
+  "version": "1.0.0",
+  "scripts": {
+    "setup-db": "node scripts/setup-supabase.mjs",
+    "serve": "node .serve.js"
+  }
+}

@@ -1,8 +1,10 @@
 // chart.js — Lightweight Charts wrapper for the replay surface
 
 const ChartView = (() => {
-  let chart, candle, volume, cursorSeries;
+  let chart, candle, volume, cursorSeries, closeLine;
   let container;
+  let chartType = 'candlestick';
+  let lastHaState = null; // { open, close } of the last permanent HA candle, for updateForming
   let onCrosshair = null;
   let onPriceChange = null;   // fired after every manual price-range update
   let candleMarkers = null;   // v5 markers primitive on the candle series
@@ -51,6 +53,11 @@ const ChartView = (() => {
     // volume fills the bottom ~18%, flush against the price area (no gap)
     chart.priceScale('vol').applyOptions({ scaleMargins: { top: 0.82, bottom: 0 } });
 
+    closeLine = chart.addSeries(LightweightCharts.LineSeries, {
+      color: '#d1d4dc', lineWidth: 2, priceLineVisible: false,
+      lastValueVisible: false, crosshairMarkerVisible: false, visible: false,
+    });
+
     cursorSeries = chart.addSeries(LightweightCharts.LineSeries, { color: T.cursor,
       lineWidth: 1, lineStyle: 2, priceLineVisible: false, lastValueVisible: false,
       crosshairMarkerVisible: false,
@@ -87,6 +94,26 @@ const ChartView = (() => {
     });
   }
 
+  // ---- chart type (candlestick | heiken_ashi | line) -----------------------
+  function toHeikenAshi(src) {
+    const out = [];
+    for (let i = 0; i < src.length; i++) {
+      const c = src[i];
+      const haClose = (c.open + c.high + c.low + c.close) / 4;
+      const haOpen  = i === 0 ? (c.open + c.close) / 2 : (out[i-1].open + out[i-1].close) / 2;
+      const haHigh  = Math.max(c.high, haOpen, haClose);
+      const haLow   = Math.min(c.low,  haOpen, haClose);
+      out.push({ ...c, open: haOpen, high: haHigh, low: haLow, close: haClose });
+    }
+    return out;
+  }
+
+  function setChartType(type) {
+    chartType = type;
+    candle.applyOptions({ visible: type !== 'line' });
+    closeLine.applyOptions({ visible: type === 'line' });
+  }
+
   // ---- price-axis free pan / zoom -----------------------------------------
   function clampNum(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
 
@@ -106,13 +133,9 @@ const ChartView = (() => {
   // so this hot path only touches the candle series per frame.
   function _applyManualRange() {
     const { min, max } = manualRange;
-    // Set the provider first so it is ready before autoScale is (re-)enabled.
-    // autoScale:true is required here because when replay mode sets autoScale:false
-    // the chart ignores autoscaleInfoProvider entirely — the wheel ran JS but had
-    // no visual effect. Enabling autoScale before the next render frame means the
-    // provider's fixed range is always respected, in both normal and replay modes.
-    candle.applyOptions({ autoscaleInfoProvider: () =>
-      ({ priceRange: { minValue: min, maxValue: max } }) });
+    const provider = () => ({ priceRange: { minValue: min, maxValue: max } });
+    candle.applyOptions({ autoscaleInfoProvider: provider });
+    if (closeLine) closeLine.applyOptions({ autoscaleInfoProvider: provider });
     chart.priceScale('right').applyOptions({ autoScale: true, scaleMargins: { top: 0, bottom: 0 } });
     if (onPriceChange) requestAnimationFrame(onPriceChange);
   }
@@ -157,6 +180,7 @@ const ChartView = (() => {
     if (!manualRange) return; // already auto
     manualRange = null;
     candle.applyOptions({ autoscaleInfoProvider: null });
+    if (closeLine) closeLine.applyOptions({ autoscaleInfoProvider: null });
     mainPaneSeries.forEach((s) => s.applyOptions({ autoscaleInfoProvider: null }));
     chart.priceScale('right').applyOptions({ autoScale: true, scaleMargins: { ...PRICE_MARGINS_BASE } });
   }
@@ -231,9 +255,25 @@ const ChartView = (() => {
   function setSlice(candles, formingBar) {
     const T = CFG.THEME;
     const src = _sliceTransform ? _sliceTransform(candles) : candles;
-    const data = src.map((c) => ({ ...c }));
-    if (formingBar) data.push(formingBar);
-    candle.setData(data);
+
+    if (chartType === 'heiken_ashi') {
+      const all = formingBar ? [...src, formingBar] : src;
+      const ha  = toHeikenAshi(all);
+      candle.setData(ha);
+      lastHaState = ha.length > (formingBar ? 1 : 0)
+        ? ha[ha.length - (formingBar ? 2 : 1)]
+        : null;
+    } else {
+      const data = src.map((c) => ({ ...c }));
+      if (formingBar) data.push(formingBar);
+      candle.setData(data);
+    }
+
+    if (chartType === 'line') {
+      const all = formingBar ? [...src, formingBar] : src;
+      closeLine.setData(all.map((c) => ({ time: c.time, value: c.close })));
+    }
+
     volume.setData(candles.concat(formingBar ? [formingBar] : []).map((c) => ({
       time: c.time, value: c.volume || 0,
       color: c.close >= c.open ? T.volUp : T.volDown,
@@ -242,7 +282,15 @@ const ChartView = (() => {
 
   // lighter update path while animating one forming candle
   function updateForming(bar) {
-    candle.update(bar);
+    if (chartType === 'heiken_ashi' && lastHaState) {
+      const haClose = (bar.open + bar.high + bar.low + bar.close) / 4;
+      const haOpen  = (lastHaState.open + lastHaState.close) / 2;
+      candle.update({ ...bar, open: haOpen, high: Math.max(bar.high, haOpen, haClose),
+        low: Math.min(bar.low, haOpen, haClose), close: haClose });
+    } else {
+      candle.update(bar);
+    }
+    if (chartType === 'line') closeLine.update({ time: bar.time, value: bar.close });
     volume.update({ time: bar.time, value: bar.volume || 0,
       color: bar.close >= bar.open ? CFG.THEME.volUp : CFG.THEME.volDown });
   }
@@ -263,7 +311,7 @@ const ChartView = (() => {
   function onCrosshairMove(fn) { onCrosshair = fn; }
   function onPriceRangeChange(fn) { onPriceChange = fn; }
 
-  return { create, setSlice, setSliceTransform, updateForming, setCandleStyle, setCandleColors, setBackground,
+  return { create, setSlice, setSliceTransform, updateForming, setChartType, setCandleStyle, setCandleColors, setBackground,
     setGridVisible, setGridColor, setCrosshairMode, addLineIndicator, addPaneSeries, setPaneHeight,
     setCandleMarkers, clearCandleMarkers, toggleVolume, setCursor,
     nudgePriceZoom, panPrice, resetPriceZoom,

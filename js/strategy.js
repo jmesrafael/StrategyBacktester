@@ -11,13 +11,15 @@ const StrategyMode = (() => {
 
   // panel DOM
   let panel, elSelect, elDesc, elParams, elSize, elComm, elSlip,
-      elRun, elWatch, elResults, elLog, elLogToggle, elError;
+      elRun, elWatch, elResults, elLog, elLogToggle, elError, elMtfBtn, elMtf;
+  let elDirtySave;   // appears when inputs change
   let tooltip, banner;
 
   // current selection + run state
   let stratId = null;          // registry id
   let params = {};             // resolved param values for the active strategy
   let lastResult = null;       // last backtest result (signals/stats)
+  let lastStats = null;        // stats from the most recent single backtest (for Save button)
   let signalsByTime = new Map();// time -> signal record (for the marker tooltip)
 
   // live replay-execution state
@@ -25,6 +27,8 @@ const StrategyMode = (() => {
   let live = null;             // fresh strategy instance for replay
   let lastProcessedIndex = -1;
   let liveSL = null, liveTP = null;
+  let liveMarkers = [];        // entry/exit dots drawn live as trades execute
+  let savedIndicators = null;  // user's indicator set, restored when replay ends
 
   // ---- formatters ----------------------------------------------------------
   function fmtMoney(v) {
@@ -51,10 +55,12 @@ const StrategyMode = (() => {
 
     chart.subscribeCrosshairMove((param) => updateTooltip(param));
 
-    // default selection
-    if (window.STRATEGY_REGISTRY && window.STRATEGY_REGISTRY.length) {
-      selectStrategy(window.STRATEGY_REGISTRY[0].id);
-    }
+    // restore last selected strategy (falls back to first in registry)
+    const _savedStrat = localStorage.getItem(CFG.STORE.lastStrategy);
+    const _initialId = (_savedStrat && window.__STRATEGIES && window.__STRATEGIES[_savedStrat])
+      ? _savedStrat
+      : (window.STRATEGY_REGISTRY && window.STRATEGY_REGISTRY.length ? window.STRATEGY_REGISTRY[0].id : null);
+    if (_initialId) selectStrategy(_initialId);
   }
 
   function getStrategy(id) { return (window.__STRATEGIES || {})[id] || null; }
@@ -75,13 +81,16 @@ const StrategyMode = (() => {
         `<label>Commission % <input class="sg-comm" type="number" min="0" step="0.001"></label>` +
         `<label>Slippage % <input class="sg-slip" type="number" min="0" step="0.001"></label>` +
       `</div>` +
+      `<button class="sg-dirty-save" style="display:none"><i class="fas fa-floppy-disk"></i> Save inputs</button>` +
       `<div class="sg-actions">` +
-        `<button class="sg-run">▶ Run Backtest</button>` +
-        `<button class="sg-watch" disabled>👁 Watch Replay</button>` +
+        `<button class="sg-run"><i class="fas fa-play"></i> Run Backtest</button>` +
+        `<button class="sg-watch" disabled><i class="fas fa-eye"></i> Watch Replay</button>` +
       `</div>` +
+      `<button class="sg-mtf-btn"><i class="fas fa-flask"></i> Test 1m / 5m / 1h / 4h / 1D</button>` +
       `<div class="sg-error" style="display:none"></div>` +
       `<div class="sg-results"></div>` +
-      `<div class="sg-logwrap"><button class="sg-logtoggle">▸ Signal Log</button>` +
+      `<div class="sg-mtf"></div>` +
+      `<div class="sg-logwrap"><button class="sg-logtoggle"><i class="fas fa-chevron-right sg-log-caret"></i> Signal Log</button>` +
         `<div class="sg-log" style="display:none"></div></div>`;
     document.body.appendChild(panel);
     panel.addEventListener('click', (e) => e.stopPropagation());
@@ -98,6 +107,9 @@ const StrategyMode = (() => {
     elLog = panel.querySelector('.sg-log');
     elLogToggle = panel.querySelector('.sg-logtoggle');
     elError = panel.querySelector('.sg-error');
+    elMtfBtn = panel.querySelector('.sg-mtf-btn');
+    elMtf = panel.querySelector('.sg-mtf');
+    elDirtySave = panel.querySelector('.sg-dirty-save');
 
     (window.STRATEGY_REGISTRY || []).forEach((s) => elSelect.add(new Option(s.label, s.id)));
     elSize.value = CFG.DEFAULT_SIZE_PCT;
@@ -107,12 +119,67 @@ const StrategyMode = (() => {
     elSelect.onchange = () => selectStrategy(elSelect.value);
     elRun.onclick = runBacktestClicked;
     elWatch.onclick = () => { if (onWatchReplay) onWatchReplay(); };
+    elMtfBtn.onclick = runMultiTimeframe;
     elLogToggle.onclick = () => {
       const open = elLog.style.display === 'none';
       elLog.style.display = open ? 'block' : 'none';
-      elLogToggle.textContent = (open ? '▾' : '▸') + ' Signal Log';
+      elLogToggle.innerHTML = `<i class="fas fa-chevron-${open ? 'down' : 'right'} sg-log-caret"></i> Signal Log`;
     };
     [elSize, elComm, elSlip].forEach((el) => el.addEventListener('change', onGlobalsChanged));
+    elDirtySave.onclick = saveInputs;
+  }
+
+  // ---- input dirty tracking -----------------------------------------------
+
+  function markDirty() {
+    elDirtySave.innerHTML = '<i class="fas fa-floppy-disk"></i> Save inputs';
+    elDirtySave.disabled = false;
+    elDirtySave.style.display = 'block';
+  }
+
+  function saveInputs() {
+    if (!stratId) return;
+    const blob = {
+      params: { ...params },
+      sizePct: parseFloat(elSize.value),
+      commissionPct: parseFloat(elComm.value),
+      slippagePct: parseFloat(elSlip.value),
+    };
+    // Consolidated key → SettingsSync shim picks it up and syncs to Supabase
+    const allInputs = JSON.parse(localStorage.getItem(CFG.STORE.stratInputs) || '{}');
+    allInputs[stratId] = blob;
+    localStorage.setItem(CFG.STORE.stratInputs, JSON.stringify(allInputs));
+    localStorage.setItem(CFG.STORE.lastStrategy, stratId);
+    elDirtySave.innerHTML = '<i class="fas fa-check"></i> Saved';
+    elDirtySave.disabled = true;
+    setTimeout(() => { elDirtySave.style.display = 'none'; elDirtySave.disabled = false; }, 1400);
+  }
+
+  function restoreSavedInputs(id) {
+    try {
+      const allInputs = JSON.parse(localStorage.getItem(CFG.STORE.stratInputs) || '{}');
+      let saved = allInputs[id];
+      // migrate from old per-strategy key (cr.strat.<id>)
+      if (!saved) {
+        const legacy = JSON.parse(localStorage.getItem('cr.strat.' + id));
+        if (legacy) {
+          allInputs[id] = legacy;
+          localStorage.setItem(CFG.STORE.stratInputs, JSON.stringify(allInputs));
+          saved = legacy;
+        }
+      }
+      if (!saved) return false;
+      const strat = getStrategy(id);
+      if (saved.params && strat) {
+        Object.keys(strat.params || {}).forEach((k) => {
+          if (saved.params[k] != null) params[k] = saved.params[k];
+        });
+      }
+      if (saved.sizePct != null)       elSize.value = saved.sizePct;
+      if (saved.commissionPct != null) elComm.value = saved.commissionPct;
+      if (saved.slippagePct != null)   elSlip.value = saved.slippagePct;
+      return true;
+    } catch { return false; }
   }
 
   function buildExtras() {
@@ -141,13 +208,17 @@ const StrategyMode = (() => {
     if (!strat) return;
     stratId = id;
     elSelect.value = id;
+    localStorage.setItem(CFG.STORE.lastStrategy, id);
     elDesc.textContent = strat.description || '';
     params = {};
     Object.entries(strat.params || {}).forEach(([key, def]) => { params[key] = def.default; });
+    restoreSavedInputs(id);   // overlay with user's saved values if any
     renderParams(strat);
     lastResult = null;
+    lastStats = null;
     elWatch.disabled = true;
     elResults.innerHTML = '';
+    if (elDirtySave) elDirtySave.style.display = 'none';
     clearError();
   }
 
@@ -161,7 +232,7 @@ const StrategyMode = (() => {
         const sel = document.createElement('select');
         (def.options || []).forEach((o) => sel.add(new Option(o, o)));
         sel.value = params[key];
-        sel.onchange = () => { params[key] = sel.value; onParamChanged(); };
+        sel.onchange = () => { params[key] = sel.value; markDirty(); onParamChanged(); };
         wrap.appendChild(sel);
       } else {
         wrap.innerHTML = `<span>${def.label}</span>`;
@@ -175,7 +246,7 @@ const StrategyMode = (() => {
           if (isNaN(v)) v = def.default;
           if (def.min != null) v = Math.max(def.min, v);
           if (def.max != null) v = Math.min(def.max, v);
-          inp.value = v; params[key] = v; onParamChanged();
+          inp.value = v; params[key] = v; markDirty(); onParamChanged();
         };
         wrap.appendChild(inp);
       }
@@ -192,7 +263,7 @@ const StrategyMode = (() => {
     };
   }
 
-  function onGlobalsChanged() { onParamChanged(); }
+  function onGlobalsChanged() { markDirty(); onParamChanged(); }
 
   // Param/settings change: if watching a live replay, re-sync per spec §4F
   // (pause, re-run silent backtest, refresh markers, resume from current candle).
@@ -231,6 +302,98 @@ const StrategyMode = (() => {
     renderResults(result.stats);
     drawFadedMarkers(result.signals);
     return result;
+  }
+
+  // ---- multi-timeframe test (5m / 1h / 4h) --------------------------------
+  // Runs the CURRENT strategy + params through the same `simulate()` engine on
+  // three timeframes so you can verify how it performs across them at a glance.
+  async function runMultiTimeframe() {
+    const strat = getStrategy(stratId);
+    if (!strat) return;
+    const symbol = (document.getElementById('symbol') || {}).value || CFG.DEFAULTS.symbol;
+    const target = parseInt((document.getElementById('maxCandles') || {}).value) || CFG.DEFAULTS.maxCandles;
+    const cfg = settings();
+    const tfs = [['1m', '1'], ['5m', '5'], ['1h', '60'], ['4h', '240'], ['1D', 'D']];
+
+    elMtfBtn.disabled = true;
+    elMtf.innerHTML = `<div class="sg-mtf-title">MULTI-TIMEFRAME TEST · ${symbol}</div>` +
+      `<div class="sg-mtf-loading">Running ${strat.name} on 1m / 5m / 1h / 4h / 1D…</div>`;
+
+    const rows = [];
+    for (const [label, interval] of tfs) {
+      let candles = null;
+      try { candles = await fetchCandles(symbol, interval, target); }
+      catch (e) { try { candles = syntheticCandles(symbol, interval, target); } catch (_) { candles = null; } }
+      if (!candles || !candles.length) { rows.push({ label, err: true }); continue; }
+      try { rows.push({ label, st: simulate(strat, params, candles, cfg).stats, bars: candles.length }); }
+      catch (e) { rows.push({ label, err: true }); }
+    }
+    renderMtf(symbol, strat.name, rows);
+    elMtfBtn.disabled = false;
+  }
+
+  function renderMtf(symbol, name, rows) {
+    const head = `<div class="sg-mtf-title">MULTI-TIMEFRAME TEST · ${symbol}</div>` +
+      `<div class="sg-mtf-sub">${name}</div>` +
+      `<table class="sg-mtf-tbl"><thead><tr>` +
+      `<th>TF</th><th>Net P&L</th><th>Win%</th><th>PF</th><th>Trades</th><th>Bars</th>` +
+      `</tr></thead><tbody>`;
+    const body = rows.map((r) => {
+      if (r.err) return `<tr><td>${r.label}</td><td colspan="5" class="sg-mtf-err">no data</td></tr>`;
+      const st = r.st;
+      const pf = st.profitFactor === Infinity ? '∞' : st.profitFactor.toFixed(2);
+      const col = st.netUsd >= 0 ? UP : DOWN;
+      return `<tr><td><b>${r.label}</b></td>` +
+        `<td style="color:${col}">${fmtMoney(st.netUsd)}<br><span class="sg-mtf-pct">${fmtPct(st.netPct)}</span></td>` +
+        `<td>${st.winRate.toFixed(0)}%</td>` +
+        `<td>${pf}</td>` +
+        `<td>${st.totalTrades}</td>` +
+        `<td>${r.bars}</td></tr>`;
+    }).join('');
+    // highlight the best timeframe by net P&L
+    const ok = rows.filter((r) => !r.err);
+    let bestLine = '';
+    if (ok.length) {
+      const best = ok.reduce((a, b) => (b.st.netUsd > a.st.netUsd ? b : a));
+      bestLine = `<div class="sg-mtf-best">Best by Net P&L: <b>${best.label}</b> (${fmtMoney(best.st.netUsd)})</div>`;
+    }
+    elMtf.innerHTML = head + body + `</tbody></table>` + bestLine;
+
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'sg-save-btn';
+    saveBtn.innerHTML = '<i class="fas fa-floppy-disk"></i> Save to Data';
+    saveBtn.onclick = () => saveMtfRun(saveBtn, symbol, name, rows);
+    elMtf.appendChild(saveBtn);
+  }
+
+  async function saveMtfRun(btn, symbol, stratName, rows) {
+    const strat = getStrategy(stratId);
+    const cfg = settings();
+    const ok_rows = rows.filter((r) => !r.err);
+    const best = ok_rows.length
+      ? ok_rows.reduce((a, b) => (b.st.netUsd > a.st.netUsd ? b : a))
+      : null;
+    const record = {
+      kind: 'mtf',
+      strategy_id: stratId,
+      strategy_label: stratName,
+      symbol,
+      interval: 'multi',
+      max_candles: parseInt((document.getElementById('maxCandles') || {}).value) || 0,
+      params: { ...params },
+      settings: { sizePct: cfg.sizePct, commissionPct: cfg.commissionPct, slippagePct: cfg.slippagePct },
+      result: {
+        rows: rows.map((r) => r.err ? { label: r.label, err: true } : { label: r.label, bars: r.bars, st: r.st }),
+        best: best ? { label: best.label, netUsd: best.st.netUsd } : null,
+      },
+      note: '',
+    };
+    const orig = btn.textContent;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving…';
+    const saved = window.DataStore ? await window.DataStore.saveRun(record) : false;
+    btn.innerHTML = saved ? '<i class="fas fa-check"></i> Saved' : '<i class="fas fa-triangle-exclamation"></i> Failed';
+    setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 2000);
   }
 
   // Pure simulation over ALL candles. Returns { trades, signals, stats, finalBalance }.
@@ -344,6 +507,7 @@ const StrategyMode = (() => {
   }
 
   function renderResults(st) {
+    lastStats = st;
     const pf = st.profitFactor === Infinity ? '∞' : st.profitFactor.toFixed(2);
     const col = st.netUsd >= 0 ? UP : DOWN;
     const row = (label, val, color) =>
@@ -360,6 +524,36 @@ const StrategyMode = (() => {
       row('Largest win / loss', `${fmtMoney(st.largestWin)} / ${fmtMoney(st.largestLoss)}`) +
       row('Max consec. W / L', `${st.maxConsecWins} / ${st.maxConsecLosses}`) +
       row('Total fees paid', `$${st.totalFees.toFixed(2)}`);
+
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'sg-save-btn';
+    saveBtn.innerHTML = '<i class="fas fa-floppy-disk"></i> Save to Data';
+    saveBtn.onclick = () => saveSingleRun(saveBtn);
+    elResults.appendChild(saveBtn);
+  }
+
+  async function saveSingleRun(btn) {
+    if (!lastStats || !stratId) return;
+    const strat = getStrategy(stratId);
+    const cfg = settings();
+    const record = {
+      kind: 'single',
+      strategy_id: stratId,
+      strategy_label: strat ? strat.name || stratId : stratId,
+      symbol: (document.getElementById('symbol') || {}).value || '',
+      interval: (document.querySelector('#intervalSeg .active') || {}).dataset?.v || '',
+      max_candles: parseInt((document.getElementById('maxCandles') || {}).value) || 0,
+      params: { ...params },
+      settings: { sizePct: cfg.sizePct, commissionPct: cfg.commissionPct, slippagePct: cfg.slippagePct },
+      result: { ...lastStats },
+      note: '',
+    };
+    const orig = btn.textContent;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving…';
+    const ok = window.DataStore ? await window.DataStore.saveRun(record) : false;
+    btn.innerHTML = ok ? '<i class="fas fa-check"></i> Saved' : '<i class="fas fa-triangle-exclamation"></i> Failed';
+    setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 2000);
   }
 
   // ---- faded markers + tooltip (§4E / §4H) --------------------------------
@@ -368,11 +562,14 @@ const StrategyMode = (() => {
     signals.forEach((s) => signalsByTime.set(s.time, s));
   }
 
+  // Dots on the MAIN PRICE CHART at the candle where each trade happens:
+  //   green dot  = long entry, red dot = short entry, blue dot = trade closed.
+  // (ChartView.setCandleMarkers attaches to the candlestick series, not the RSI pane.)
   function drawFadedMarkers(signals) {
     const markers = signals.map((s) => {
-      if (s.type === 'long') return { time: s.time, position: 'belowBar', color: 'rgba(38,166,154,0.55)', shape: 'arrowUp', text: 'L' };
-      if (s.type === 'short') return { time: s.time, position: 'aboveBar', color: 'rgba(239,83,80,0.55)', shape: 'arrowDown', text: 'S' };
-      return { time: s.time, position: 'aboveBar', color: 'rgba(178,181,190,0.6)', shape: 'square', text: 'C' };
+      if (s.type === 'long') return { time: s.time, position: 'belowBar', color: '#22c55e', shape: 'circle', text: '' };
+      if (s.type === 'short') return { time: s.time, position: 'aboveBar', color: '#ef4444', shape: 'circle', text: '' };
+      return { time: s.time, position: 'aboveBar', color: '#3b82f6', shape: 'circle', text: '' };
     });
     ChartView.setCandleMarkers(markers);
   }
@@ -398,13 +595,30 @@ const StrategyMode = (() => {
   // ---- live replay execution (§4F / §4G) ----------------------------------
   function setModeActive(on) {
     modeActive = on;
-    if (!on) { clearMarkers(); tooltip.style.display = 'none'; clearSLTPLines(); }
+    if (!on) { restoreIndicators(); clearMarkers(); tooltip.style.display = 'none'; clearSLTPLines(); }
+  }
+
+  // Show the strategy's own indicators during replay; remember the user's set.
+  function swapInStrategyIndicators() {
+    const strat = getStrategy(stratId);
+    if (!strat || typeof strat.chartIndicators !== 'function') return;
+    if (typeof IndicatorManager === 'undefined') return;
+    savedIndicators = IndicatorManager.snapshot();
+    IndicatorManager.restoreSet(strat.chartIndicators(params));
+  }
+  // Put the user's indicators back (no-op if we never swapped).
+  function restoreIndicators() {
+    if (savedIndicators == null || typeof IndicatorManager === 'undefined') return;
+    IndicatorManager.restoreSet(savedIndicators);
+    savedIndicators = null;
   }
 
   // called from app when (re)entering replay while in strategy mode
   function onEnterReplay() {
     const strat = getStrategy(stratId);
     if (!strat) return;
+    swapInStrategyIndicators();
+    liveMarkers = []; clearMarkers();
     live = Object.create(strat);
     live.init(params);
     lastProcessedIndex = replay.cutIndex; // skip already-revealed history
@@ -412,6 +626,23 @@ const StrategyMode = (() => {
     clearError();
     elLog.innerHTML = '';
     appendLog('<i class="fas fa-eye"></i>', `Watching ${strat.name} from candle ${replay.cutIndex + 1}`);
+  }
+
+  // called from app when leaving replay — restore the user's indicators + clean up
+  function onExitReplay() {
+    restoreIndicators();
+    liveMarkers = []; clearMarkers();
+    clearSLTPLines();
+  }
+
+  // a live entry/exit dot on the price chart at the trade candle
+  function pushLiveMarker(time, type) {
+    const m = type === 'long'  ? { time, position: 'belowBar', color: '#22c55e', shape: 'circle', text: '' }
+            : type === 'short' ? { time, position: 'aboveBar', color: '#ef4444', shape: 'circle', text: '' }
+            :                    { time, position: 'aboveBar', color: '#3b82f6', shape: 'circle', text: '' };
+    liveMarkers.push(m);
+    liveMarkers.sort((a, b) => a.time - b.time);   // LWC requires ascending time
+    ChartView.setCandleMarkers(liveMarkers);
   }
 
   // re-seed live strategy internal state over revealed history without trading
@@ -453,7 +684,7 @@ const StrategyMode = (() => {
       const hitSL = isLong ? (liveSL != null && c.low <= liveSL) : (liveSL != null && c.high >= liveSL);
       const hitTP = isLong ? (liveTP != null && c.high >= liveTP) : (liveTP != null && c.low <= liveTP);
       if (hitSL || hitTP) {
-        tradeSim.close(); clearSLTPLines();
+        tradeSim.close(); clearSLTPLines(); pushLiveMarker(c.time, 'close');
         appendLog('<i class="fas fa-square-xmark"></i>', `Candle ${i} — ${hitSL ? 'STOP' : 'TARGET'} hit`);
         return;
       }
@@ -475,9 +706,9 @@ const StrategyMode = (() => {
     const signal = typeof res === 'string' ? res : (res && res.signal) || null;
     const reason = live.reason || '';
 
-    if (signal === 'long') { if (acct.position === 'short') { tradeSim.close(); clearSLTPLines(); } tradeSim.open('long'); appendLog('<i class="fas fa-arrow-up"></i>', `Candle ${i} — LONG · ${reason}`); }
-    else if (signal === 'short') { if (acct.position === 'long') { tradeSim.close(); clearSLTPLines(); } tradeSim.open('short'); appendLog('<i class="fas fa-arrow-down"></i>', `Candle ${i} — SHORT · ${reason}`); }
-    else if (signal === 'close') { if (acct.position) { tradeSim.close(); clearSLTPLines(); appendLog('<i class="fas fa-xmark"></i>', `Candle ${i} — CLOSE · ${reason}`); } else appendLog('<i class="fas fa-minus"></i>', `Candle ${i} — No signal · ${reason}`); }
+    if (signal === 'long') { if (acct.position === 'short') { tradeSim.close(); clearSLTPLines(); pushLiveMarker(c.time, 'close'); } tradeSim.open('long'); pushLiveMarker(c.time, 'long'); appendLog('<i class="fas fa-arrow-up"></i>', `Candle ${i} — LONG · ${reason}`); }
+    else if (signal === 'short') { if (acct.position === 'long') { tradeSim.close(); clearSLTPLines(); pushLiveMarker(c.time, 'close'); } tradeSim.open('short'); pushLiveMarker(c.time, 'short'); appendLog('<i class="fas fa-arrow-down"></i>', `Candle ${i} — SHORT · ${reason}`); }
+    else if (signal === 'close') { if (acct.position) { tradeSim.close(); clearSLTPLines(); pushLiveMarker(c.time, 'close'); appendLog('<i class="fas fa-xmark"></i>', `Candle ${i} — CLOSE · ${reason}`); } else appendLog('<i class="fas fa-minus"></i>', `Candle ${i} — No signal · ${reason}`); }
     else appendLog('<i class="fas fa-minus"></i>', `Candle ${i} — No signal · ${reason}`);
 
     // apply any stop-loss / take-profit returned for the (possibly new) position
@@ -530,9 +761,9 @@ const StrategyMode = (() => {
 
   // ---- error banner --------------------------------------------------------
   function showError(msg) {
-    elError.textContent = '⚠ ' + msg;
+    elError.innerHTML = '<i class="fas fa-triangle-exclamation"></i> ' + msg;
     elError.style.display = 'block';
-    banner.textContent = '⚠ ' + msg;
+    banner.innerHTML = '<i class="fas fa-triangle-exclamation"></i> ' + msg;
     banner.style.display = 'block';
     if (panel.style.display !== 'block') togglePanel();
   }
@@ -541,6 +772,7 @@ const StrategyMode = (() => {
     banner.style.display = 'none';
   }
 
-  return { init, setModeActive, onEnterReplay, onTick, clearMarkers,
+  return { init, setModeActive, onEnterReplay, onExitReplay, onTick, clearMarkers,
+    simulate, makeIndicators,
     get active() { return modeActive; } };
 })();

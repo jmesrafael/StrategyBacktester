@@ -16,3 +16,6 @@ Thumbs.db
 # temp files
 *.tmp
 lwc5_tmp.js
+
+# credentials — never commit
+SupabaseCredentials.txt

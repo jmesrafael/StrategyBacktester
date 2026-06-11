@@ -138,6 +138,21 @@ const IndicatorManager = (() => {
     instances.slice().forEach((i) => remove(i.id));
   }
 
+  // ---- snapshot / restore (used by Strategy Watch Replay) ------------------
+  // snapshot() captures the current active set; restoreSet(list) replaces the
+  // active set with `list` (each {type, visible, params}). Together they let the
+  // strategy temporarily show its own indicators during replay, then put the
+  // user's set back on exit.
+  function snapshot() {
+    return instances.map(({ type, visible, params }) => ({ type, visible, params: { ...params } }));
+  }
+  function restoreSet(list) {
+    removeAll();
+    (list || []).forEach((s) => materialize(s.type, { ...s.params }, s.visible !== false));
+    recompute(lastCandles);
+    renderPanel(); refreshBadge(); persist();
+  }
+
   function setVisible(id, v) {
     const inst = instances.find((i) => i.id === id); if (!inst) return;
     inst.visible = v;
@@ -421,6 +436,6 @@ const IndicatorManager = (() => {
     cfgPopup.style.top = (r.bottom + 4) + 'px';
   }
 
-  return { init, recompute, updateLegend, removeAll,
+  return { init, recompute, updateLegend, removeAll, snapshot, restoreSet,
     get count() { return instances.length; } };
 })();

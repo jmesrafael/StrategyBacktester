@@ -145,7 +145,7 @@ const Drawings = (() => {
       ghost = null;
       const item = { id: idSeq++, type: tool, p1: { time, price },
         color: defaultColor, width: defaultWidth };
-      items.push(item); selected = item; setTool('cursor'); render(); return;
+      items.push(item); selected = item; setTool('cursor'); render(); saveDrawings(); return;
     }
 
     // --- two-point tools: click-click paradigm ---
@@ -154,7 +154,7 @@ const Drawings = (() => {
       // Second click: lock p2 at this exact position and commit.
       draft.p2 = { time, price };
       items.push(draft); selected = draft;
-      draft = null; setTool('cursor'); render(); return;
+      draft = null; setTool('cursor'); render(); saveDrawings(); return;
     }
     // First click: lock p1, start previewing p2 on mouse move.
     draft = { id: idSeq++, type: tool, p1: { time, price }, p2: { time, price },
@@ -204,6 +204,7 @@ const Drawings = (() => {
   function onUp() {
     // Two-point drafts are committed on the second click (onDown), NOT on mouseup.
     // mouseup only releases cursor-mode drags.
+    if (drag) saveDrawings();
     drag = null;
   }
 
@@ -272,13 +273,13 @@ const Drawings = (() => {
 
   function onKey(e) {
     if ((e.key === 'Delete' || e.key === 'Backspace') && selected) {
-      items = items.filter((d) => d !== selected); selected = null; render();
+      items = items.filter((d) => d !== selected); selected = null; render(); saveDrawings();
     }
     if (e.key === 'Escape') { draft = null; ghost = null; setTool('cursor'); }
   }
 
-  function deleteSelected() { if (selected) { items = items.filter((d) => d !== selected); selected = null; render(); } }
-  function clearAll() { items = []; selected = null; draft = null; ghost = null; render(); }
+  function deleteSelected() { if (selected) { items = items.filter((d) => d !== selected); selected = null; render(); saveDrawings(); } }
+  function clearAll() { items = []; selected = null; draft = null; ghost = null; render(); saveDrawings(); }
 
   // ---- right-click editor hooks --------------------------------------------
   function selectAt(clientX, clientY) {
@@ -294,11 +295,11 @@ const Drawings = (() => {
   }
   function setSelectedColor(color) {
     if (!selected) return;
-    selected.color = color; defaultColor = color; render();
+    selected.color = color; defaultColor = color; render(); saveDrawings();
   }
   function setSelectedWidth(width) {
     if (!selected) return;
-    selected.width = width; defaultWidth = width; render();
+    selected.width = width; defaultWidth = width; render(); saveDrawings();
   }
 
   // ---- render --------------------------------------------------------------
@@ -393,8 +394,28 @@ const Drawings = (() => {
 
   function setShowLabels(v) { showLabels = v; render(); }
 
+  // ---- persistence --------------------------------------------------------
+  function saveDrawings() {
+    try {
+      const data = items.map(({ id, type, p1, p2, color, width }) =>
+        ({ id, type, p1, p2, color, width }));
+      localStorage.setItem(CFG.STORE.drawings, JSON.stringify(data));
+    } catch {}
+  }
+
+  function loadDrawings() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(CFG.STORE.drawings));
+      if (Array.isArray(saved)) {
+        items = saved.map((d) => ({ ...d }));
+        idSeq = items.reduce((m, d) => Math.max(m, d.id || 0), 0) + 1;
+      }
+    } catch {}
+  }
+
   return { init, setTool, onTool, render, deleteSelected, clearAll,
     selectAt, getSelected, setSelectedColor, setSelectedWidth, setShowLabels,
+    saveDrawings, loadDrawings,
     get tool() { return tool; }, get count() { return items.length; },
     get hasSelection() { return !!selected; } };
 })();
