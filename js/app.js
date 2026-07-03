@@ -240,7 +240,7 @@
     LS.getItem(STORE.candleStyle) || CFG.DEFAULTS.candleStyle;
   let chartType = startupDefaults.chartType ||
     LS.getItem(STORE.chartType) || 'candlestick';
-  ChartView.setChartType(chartType);
+  applyChartType(chartType);
   // custom per-direction colors (override the named style when set)
   let candleUp   = LS.getItem(STORE.candleUp)   || null;
   let candleDown = LS.getItem(STORE.candleDown) || null;

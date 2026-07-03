@@ -10,8 +10,15 @@ import https from 'https';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const PROJECT_REF = 'vkfetsmnlylcsbwxcord';
-const SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrZmV0c21ubHlsY3Nid3hjb3JkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTEyNjY0NywiZXhwIjoyMDk2NzAyNjQ3fQ.07crSUeF2cFXNPAGhxLtBrm15rEQDAUo2Q63G4dQYhs';
+const PROJECT_REF = process.env.SUPABASE_PROJECT_REF || 'vkfetsmnlylcsbwxcord';
+const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!SERVICE_ROLE_KEY) {
+  console.error('Missing SUPABASE_SERVICE_ROLE_KEY environment variable.');
+  console.error('Set it before running this script, e.g.:');
+  console.error('  SUPABASE_SERVICE_ROLE_KEY=your-key node scripts/setup-supabase.mjs');
+  process.exit(1);
+}
 
 const schemaPath = join(__dirname, '..', 'db', 'schema.sql');
 const sql = readFileSync(schemaPath, 'utf8');

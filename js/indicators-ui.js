@@ -59,7 +59,11 @@ const IndicatorManager = (() => {
   }
 
   // ---- persistence ---------------------------------------------------------
+  // Suppressed during a Watch Replay indicator swap so the strategy's temporary
+  // set never overwrites the user's saved indicators locally or in Supabase.
+  let suspendPersist = false;
   function persist() {
+    if (suspendPersist) return;
     const slim = instances.map(({ id, type, visible, params }) => ({ id, type, visible, params }));
     try { localStorage.setItem(CFG.STORE.indicators, JSON.stringify(slim)); } catch {}
   }
@@ -146,11 +150,14 @@ const IndicatorManager = (() => {
   function snapshot() {
     return instances.map(({ type, visible, params }) => ({ type, visible, params: { ...params } }));
   }
-  function restoreSet(list) {
+  function restoreSet(list, opts) {
+    const skipPersist = !!(opts && opts.skipPersist);
+    if (skipPersist) suspendPersist = true;
     removeAll();
     (list || []).forEach((s) => materialize(s.type, { ...s.params }, s.visible !== false));
     recompute(lastCandles);
-    renderPanel(); refreshBadge(); persist();
+    renderPanel(); refreshBadge();
+    if (skipPersist) suspendPersist = false; else persist();
   }
 
   function setVisible(id, v) {

@@ -541,7 +541,7 @@ const StrategyMode = (() => {
       strategy_id: stratId,
       strategy_label: strat ? strat.name || stratId : stratId,
       symbol: (document.getElementById('symbol') || {}).value || '',
-      interval: (document.querySelector('#intervalSeg .active') || {}).dataset?.v || '',
+      interval: (document.querySelector('#tfTabs .active') || {}).dataset?.v || '',
       max_candles: parseInt((document.getElementById('maxCandles') || {}).value) || 0,
       params: { ...params },
       settings: { sizePct: cfg.sizePct, commissionPct: cfg.commissionPct, slippagePct: cfg.slippagePct },
@@ -604,7 +604,7 @@ const StrategyMode = (() => {
     if (!strat || typeof strat.chartIndicators !== 'function') return;
     if (typeof IndicatorManager === 'undefined') return;
     savedIndicators = IndicatorManager.snapshot();
-    IndicatorManager.restoreSet(strat.chartIndicators(params));
+    IndicatorManager.restoreSet(strat.chartIndicators(params), { skipPersist: true });
   }
   // Put the user's indicators back (no-op if we never swapped).
   function restoreIndicators() {

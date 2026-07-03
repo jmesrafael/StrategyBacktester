@@ -54,7 +54,7 @@
         const remote = data.data || {};
         let changed = false;
         for (const [k, v] of Object.entries(remote)) {
-          if (v !== null && v !== undefined && localStorage.getItem(k) !== v) {
+          if (typeof v === 'string' && localStorage.getItem(k) !== v) {
             localStorage.setItem(k, v);
             changed = true;
           }
