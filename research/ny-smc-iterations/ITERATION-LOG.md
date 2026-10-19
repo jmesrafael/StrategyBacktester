@@ -662,3 +662,78 @@ Sensitivity (literal 08:30–11:30 ET window): same picture (v7 at the 99.8th / 
   on this same data, so a fair bar after that selection is higher than the 95th percentile; B shows the in-sample profit
   is not an engine artefact, not that the signal generalises. Random outcomes are very wide (a single random
   3-year run is anywhere from −$220 to +$180), so even +$367 over 79 trades leaves large uncertainty.
+
+### 2026-10-19 · Check C run (intrabar-ordering audit) — result: SOL PASS, ETH PASS
+
+Scripts: `trades-windows.js`, `fetch1m.js` + `extend1m.js` (Bybit 1m candles for the trade windows: SOL 92,980, ETH 99,305; 0 missing
+minutes), `execC.js` (execution-mode simulator, a separate file so `ie.js` stays frozen), `checkC.js`. Full tables in
+`results/validation_C.md`.
+- **Harness check:** `execC` in 'current' mode reproduces `ie.js` trade-for-trade (SOL 129, ETH 150 trades across Oct21–Oct26).
+- **Modes.** current = unchanged engine. pessimistic = the same engine plus (a) a candle that reaches the +1R breakeven
+  trigger and also comes back to the entry level is stopped at breakeven that candle (current mode arms breakeven at
+  the end of the candle and lets the trade continue) and (b) one extra tick (SOL 0.001, ETH 0.01) on breakeven and
+  tightened-stop exits. Stop-before-target on one candle was already the rule in current mode. 1m replay = the same trades with
+  exits re-simulated on 1m candles; entries unchanged.
+- **Interpretation choice (made before reading the numbers):** the rule says to assume "the adverse one was hit first".
+  For the breakeven trigger vs the breakeven level, the worst case for the trade is trigger first, then the return to
+  entry, so that is what the pessimistic mode assumes.
+- **A finding that is not an ambiguity:** the 15m engine ignores price movement inside the fill candle after the limit fills.
+  The 1m replay shows that in a few trades price bounced right after the fill, so the follow-through tightening would
+  not have triggered. The first pass of the replay dropped these 3 trades because they ran past the downloaded window;
+  the window was extended and all 279 trades now complete.
+
+**Exposure — trades with at least one ambiguous 15m candle**
+
+| Coin | A2 | A1 | Y1 | Y2 | Y3 | All |
+|---|---|---|---|---|---|---|
+| SOL | 0 of 20 | 2 of 30 | 0 of 25 | 3 of 30 | 1 of 24 | **6 of 129 (5%)** |
+| ETH | 5 of 32 | 2 of 34 | 1 of 22 | 0 of 24 | 2 of 29 | **10 of 150 (7%)** |
+
+Almost all are "price reached +1R and returned to entry inside one candle" (SOL 5, ETH 8); the rest are stop-and-target
+in one candle (SOL 1, ETH 2).
+
+**Profit under the three modes ($10 per R)**
+
+| Coin | Period | Current | Pessimistic | Pess ÷ current | 1m replay |
+|---|---|---|---|---|---|
+| SOL | Y1 / Y2 / Y3 | +$118 / +$132 / +$117 | +$118 / +$133 / +$87 | 100% / 101% / 74% | +$118 / +$133 / +$117 |
+| SOL | Oct23–Oct26 | **+$367** | **+$338** | 92% | +$368 (+0.3%) |
+| SOL | Oct21–Oct23 | −$145 | −$145 | — | −$140 |
+| ETH | Y1 / Y2 / Y3 | +$136 / +$197 / +$176 | +$104 / +$197 / +$176 | 77% / 100% / 100% | +$131 / +$192 / +$181 |
+| ETH | Oct23–Oct26 | **+$509** | **+$477** | 94% | +$504 (−1.0%) |
+| ETH | Oct21–Oct23 | +$21 | −$98 | — | +$25 |
+
+Verdict: SOL PASS (92% ≥ 60%, all years ≥ $0, 1m within 0.3%); ETH PASS (94%, all years ≥ $0, 1m within 1.0%). Exit
+ordering does not explain v7's profit. The pessimistic mode is the more cautious headline and costs about 8% of it.
+
+---
+
+## Validation summary (Checks A–C), 2026-10-19
+
+**1. Result table**
+
+| | Check A (pre-2023, A1+A2) | Check B (random entries) | Check C (intrabar) |
+|---|---|---|---|
+| SOL | **FAIL** — −$145, PF 0.45, 50 trades | **PASS** — +$367 vs random 95th pct +$179 (99.9th pct) | **PASS** — pessimistic 92%, 1m within 0.3% |
+| ETH | **FAIL** — +$21, PF 1.06 < 1.2, 66 trades | **PASS** — +$509 vs random 95th pct +$175 (100th pct) | **PASS** — pessimistic 94%, 1m within 1.0% |
+
+**2. Headline v7 under pessimistic mode (Oct23–Oct26, $10 per R, 1:3 target, breakeven +1R):** SOL **+$338** (79 trades; years
++$118 / +$133 / +$87), ETH **+$477** (75 trades; +$104 / +$197 / +$176), both **+$815** (about +$22 per month; current mode
++$876, +$24 per month).
+
+**3. Ambiguous-candle exposure:** see the table above (5% of SOL trades, 7% of ETH trades; 0–16% per coin-year).
+
+**4. Decision (decision table):** the checks split. B and C pass, so v7's in-sample profit is not an engine artefact and not an
+exit-ordering artefact. A fails on both coins, so "the edge may depend on the 2023–26 regime. Do not scale up", and "a coin
+that fails any check is not traded". **Neither coin is cleared for real-money trading.** The sensible next step is forward
+paper trading (or replay in the app) at zero risk, using pessimistic-mode numbers as the expectation.
+
+**5. Still unvalidated**
+- Forward performance: every number so far is on data v7 was tuned on, or on pre-2023 data where it failed.
+- Live slippage and fills: limit orders filled when price merely touches the level; live fills may need the market to trade
+  through. Breakeven stops may slip more than one tick in fast markets.
+- Funding costs are not modelled (a trade held several hours pays or receives funding at the 8-hour marks).
+- One position at a time across *each coin*, but SOL and ETH positions overlap (25 trades); combined margin and correlation are untested.
+- v7 was chosen from ~200 variants on the same data; random-entry percentiles do not correct for that selection.
+- The mechanism behind the 2023–26 versus pre-2023 difference has not been identified (market regime, volatility, a change
+  in how crypto trades around the US open).
