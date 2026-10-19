@@ -485,3 +485,78 @@ After Check C, append a summary to ITERATION-LOG.md with:
 - In-sample data sha256: sol15-oos `bf0ad8d4…6f162d`, sol15 `558ed3bc…230d67`, eth15-all `177e2876…bef9f2`.
 - Interpretation notes: v7 runs on **15m** candles, so "5m (or whatever timeframe v7 uses)" means 15m. "$" means
   R × $10 (fixed $10 risk, no compounding).
+
+---
+
+## Validation run log
+
+### 2026-10-19 · Check A run 1 (pre-Oct-2023 history) — result: SOL FAIL, ETH FAIL
+
+**Harness and data (no v7 change; `ie.js` sha256 still `6539c98f…0a9807`)**
+- New scripts: `fetchq.js` (Bybit v5 linear klines; keeps every raw row so duplicates can be counted), `dataq.js`
+  (data-quality audit), `checkA.js` (the run). Candles in `research/ny-smc-iterations/data/` (git-ignored).
+- Where history begins on Bybit's API (15m): **SOLUSDT perp 2021-10-15**, **ETHUSDT perp 2021-03-15**. So A1 and A2
+  are complete for both coins. A3 (Oct20–Oct21) does not exist for SOL. For ETH it only covers 2021-03-15 → 2021-10-18.
+- **Decided before seeing results:** ETH's partial A3 is run and shown for information only and is excluded from the
+  pooled verdict, because the rule asks for years with complete data.
+- Data quality, both coins:
+  - 0 gaps, 0 duplicate timestamps (raw = unique rows), 0 out-of-order timestamps, 0 broken OHLC.
+  - The pre-2023 files join contiguously onto the in-sample files (last close = first open).
+  - Zero-volume candles: SOL 1, ETH 2, all flat (O=H=L=C) during a Bybit maintenance window on 2022-04-06
+    08:30–09:00 UTC (04:30 ET). **Left as is:** outside v7's window, price unchanged, and a flat candle cannot become
+    a swing pivot (the pivot test is strict).
+  - Volume grows steadily over time (SOL monthly median 3.4k → 212k SOL from Dec 2021 to Jan 2023). No month is more
+    than 4× off its neighbours.
+- Session / DST: on **every** day of both series (SOL 1,831, ETH 2,045), the session start is 08:30 ET, the NY line
+  09:30 ET and order expiry 16:00 ET. Spot dates on both sides of each DST change, 2021–2023, show the NY line moving
+  13:30 ↔ 14:30 UTC correctly. All 279 v7 trades have their CHoCH inside 08:30–09:30 / 10:30–11:30 ET.
+- Method: each coin runs as one continuous series (pre-2023 + in-sample) and trades are assigned by fill time. The
+  in-sample part reproduces the frozen headline exactly (SOL 79 trades / +36.71R, ETH 75 / +50.85R).
+
+**Results ($10 per R, headline costs)** — full table in `results/validation_A.md`
+
+| Coin | Period | Trades | hit / stop / tight / BE | Profit | PF | Max DD |
+|---|---|---|---|---|---|---|
+| SOL | A2 Oct21–Oct22 | 20 | 2 / 5 / 8 / 5 | −$40 (−4.0R) | 0.60 | −$77 |
+| SOL | A1 Oct22–Oct23 | 30 | 2 / 13 / 3 / 12 | −$105 (−10.5R) | 0.36 | −$105 |
+| **SOL** | **pooled** | **50** | | **−$145 (−14.5R)** | **0.45** | −$145 |
+| ETH | A3p Mar21–Oct21 (info only) | 9 — insufficient sample | 3 / 3 / 1 / 2 | +$51 (+5.1R) | 2.30 | −$17 |
+| ETH | A2 Oct21–Oct22 | 32 | 7 / 10 / 7 / 8 | +$50 (+5.0R) | 1.32 | −$60 |
+| ETH | A1 Oct22–Oct23 | 34 | 5 / 12 / 3 / 14 | −$29 (−2.9R) | 0.84 | −$49 |
+| **ETH** | **pooled** | **66** | | **+$21 (+2.1R)** | **1.06** | −$60 |
+| ref | SOL in-sample Oct23–Oct26 | 79 | 21 / 18 / 8 / 32 | +$367 (+36.7R) | 2.43 | −$43 |
+| ref | ETH in-sample Oct23–Oct26 | 75 | 26 / 17 / 9 / 23 | +$509 (+50.9R) | 2.95 | −$69 |
+
+**Verdict against the pre-registered criteria**
+- **SOL: FAIL.** Net −$145, PF 0.45, and A1 −$105 is worse than the −$60 limit (50 trades, so not inconclusive).
+- **ETH: FAIL.** Net +$21 and no year below −$60, but PF 1.06 < 1.2 (66 trades).
+- Under the decision table ("A fails … on both coins"), the edge may depend on the 2023–26 regime. **Do not scale up.**
+  Checks B and C are still to run, as specified; they can explain *why*, but cannot turn A into a pass.
+- Biggest difference from in-sample: the 3R target hit rate. SOL hit 2 of 20 and 2 of 30 trades pre-2023, against 21
+  of 79 in-sample. ETH hit 7 of 32 and 5 of 34, against 26 of 75.
+
+### 2026-10-19 · MEXC data + monthly comparison of target 1:3 vs 1:2 (v7 otherwise frozen; `ie.js` unchanged)
+
+Not one of the pre-registered checks A–C: it is an in-sample comparison on the 2023–26 data that v7 was tuned on, so
+it says nothing about whether the edge is real (Check A, pre-2023, failed for both coins — see above). Check B and C
+have not been run yet.
+
+- **MEXC data (`fetchMexc.js`, the endpoint the app's `js/mexc.js` uses):** 15m candles exist only from
+  **2025-10-23**. Earlier 15m requests return empty. 1m and 5m are also empty for 2024–25; 30m and 1h go back years but
+  15m cannot be rebuilt from them. So MEXC covers only the last year (34,479 candles each for SOL_USDT and ETH_USDT;
+  0 gaps, 0 broken candles, 2 flat zero-volume candles each). Against the Bybit candles for the same 15-minute slots,
+  closes differ by 0.013% (SOL) / 0.008% (ETH) on average and candle ranges by about 5%.
+- **Results, same $10/R and costs, target 1:3 vs 1:2** (`node monthly-rr.js mexc|bybit`, tables in
+  `results/monthly-rr-mexc.md` and `results/monthly-rr-bybit.md`):
+
+| Data | Target | Trades | Target hits | Profit SOL / ETH / both | PF (both) | Avg per month (both) | Profitable months (both) | Max DD (both) |
+|---|---|---|---|---|---|---|---|---|
+| MEXC, 23 Oct 25 – 17 Oct 26 | 1:3 | 54 | 31% | +$147 / +$143 / **+$290** | 2.37 | +$22 | 8 of 13 | −$61 |
+| MEXC, 23 Oct 25 – 17 Oct 26 | 1:2 | 51 | 37% | +$118 / +$55 / **+$174** | 1.88 | +$13 | 8 of 13 | −$61 |
+| Bybit, 18 Oct 23 – 17 Oct 26 | 1:3 | 154 | 31% | +$367 / +$509 / **+$876** | 2.69 | +$24 | 26 of 37 | −$57 |
+| Bybit, 18 Oct 23 – 17 Oct 26 | 1:2 | 150 | 37% | +$270 / +$312 / **+$582** | 2.17 | +$16 | 26 of 37 | −$44 |
+
+- 1:3 (Bybit) reproduces the frozen headline exactly (SOL +$367, ETH +$509).
+- The MEXC year earns +$290 vs +$293 on Bybit for the same year at 1:3 — the data source makes little difference.
+- 1:2 hits the target more often (37% vs 31%) but earns about a third less. The same ranking appeared in the tuning
+  rounds (round 4: 2R was worse than 3R).
