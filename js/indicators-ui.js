@@ -25,6 +25,11 @@ const IndicatorManager = (() => {
       defaults: () => ({ period: 14, color: '#7e57c2', lineWidth: 1,
         overbought: 70, oversold: 30 }),
     },
+    bb: {
+      name: 'Bollinger Bands',
+      label: (p) => `BB ${p.period} ${p.mult}`,
+      defaults: () => ({ period: 20, mult: 2, color: '#42a5f5', lineWidth: 1 }),
+    },
     volume: { name: 'Volume', label: () => 'Volume', defaults: () => ({}) },
     fvg: {
       name: '⚡ VolHi / FVG',
@@ -99,6 +104,10 @@ const IndicatorManager = (() => {
       addRsiLevelLines(h, inst.params);
       handles.set(inst.id, h);
       ChartView.setPaneHeight(RSI_PANE, 120);
+    } else if (type === 'bb') {
+      const h = makeBandHandle(inst.params);
+      h.setVisible(inst.visible);
+      handles.set(inst.id, h);
     } else if (type === 'volume') {
       ChartView.toggleVolume(inst.visible);
     } else if (type === 'fvg') {
@@ -109,6 +118,28 @@ const IndicatorManager = (() => {
     }
     instances.push(inst);
     return inst;
+  }
+
+  // Bollinger Bands: three main-pane lines (upper / dotted basis / lower) behind one handle
+  function makeBandHandle(p) {
+    const parts = [0, 1, 2].map(() => ChartView.addLineIndicator({ color: p.color, lineWidth: p.lineWidth }));
+    parts[1].applyOptions({ lineStyle: LightweightCharts.LineStyle.Dotted });
+    return {
+      parts, series: parts[1].series,
+      setData: ([up, mid, lo]) => { parts[0].setData(up); parts[1].setData(mid); parts[2].setData(lo); },
+      applyOptions: (o) => parts.forEach((h) => h.applyOptions(o)),
+      setVisible: (v) => parts.forEach((h) => h.setVisible(v)),
+      remove: () => parts.forEach((h) => h.remove()),
+    };
+  }
+  function bandData(candles, p) {
+    const b = bollinger(candles.map((c) => c.close), p.period, p.mult), out = [[], [], []];
+    for (let i = 0; i < candles.length; i++) {
+      if (b.middle[i] == null) continue;
+      const t = candles[i].time;
+      out[0].push({ time: t, value: b.upper[i] }); out[1].push({ time: t, value: b.middle[i] }); out[2].push({ time: t, value: b.lower[i] });
+    }
+    return out;
   }
 
   // overbought / oversold dashed reference lines on an RSI pane series
@@ -134,7 +165,7 @@ const IndicatorManager = (() => {
 
   function remove(id) {
     const inst = instances.find((i) => i.id === id); if (!inst) return;
-    if (inst.type === 'ma') { handles.get(id).remove(); handles.delete(id); }
+    if (inst.type === 'ma' || inst.type === 'bb') { handles.get(id).remove(); handles.delete(id); }
     else if (inst.type === 'rsi') {
       const h = handles.get(id); removeRsiLevelLines(h); h.remove(); handles.delete(id);
     } else if (inst.type === 'volume') {
@@ -174,7 +205,7 @@ const IndicatorManager = (() => {
   function setVisible(id, v) {
     const inst = instances.find((i) => i.id === id); if (!inst) return;
     inst.visible = v;
-    if (inst.type === 'ma' || inst.type === 'rsi') handles.get(id).setVisible(v);
+    if (inst.type === 'ma' || inst.type === 'rsi' || inst.type === 'bb') handles.get(id).setVisible(v);
     else if (inst.type === 'volume') ChartView.toggleVolume(v);
     else if (inst.type === 'fvg') FVGIndicator.setActive(v);
     else if (inst.type === 'smc') SMCIndicator.setActive(v);
@@ -185,7 +216,7 @@ const IndicatorManager = (() => {
   function updateParams(id, patch) {
     const inst = instances.find((i) => i.id === id); if (!inst) return;
     Object.assign(inst.params, patch);
-    if (inst.type === 'ma') {
+    if (inst.type === 'ma' || inst.type === 'bb') {
       handles.get(id).applyOptions({ color: inst.params.color, lineWidth: inst.params.lineWidth });
     } else if (inst.type === 'rsi') {
       const h = handles.get(id);
@@ -225,6 +256,8 @@ const IndicatorManager = (() => {
       } else if (inst.type === 'rsi') {
         const h = handles.get(inst.id);
         h.setData(inst.visible ? rsiLineData(lastCandles, inst.params.period) : []);
+      } else if (inst.type === 'bb') {
+        handles.get(inst.id).setData(inst.visible ? bandData(lastCandles, inst.params) : [[], [], []]);
       } else if (inst.type === 'fvg' && inst.visible) {
         FVGIndicator.compute(lastCandles, ivSecs);
       } else if (inst.type === 'smc' && inst.visible) {
@@ -288,6 +321,19 @@ const IndicatorManager = (() => {
         if (val != null) valTxt = ' · ' + val.toFixed(1);
         name = REGISTRY.rsi.label(inst.params);
         color = inst.params.color;
+      } else if (inst.type === 'bb') {
+        let mid = null;
+        if (inst.visible && param && param.seriesData) {
+          const d = param.seriesData.get(handles.get(inst.id).series);
+          if (d) mid = d.value;
+        }
+        if (mid == null && inst.visible) {
+          const arr = bandData(lastCandles, inst.params)[1];
+          if (arr.length) mid = arr[arr.length - 1].value;
+        }
+        if (mid != null) valTxt = ' · ' + mid.toFixed(dec(mid));
+        name = REGISTRY.bb.label(inst.params);
+        color = inst.params.color;
       } else if (inst.type === 'fvg' || inst.type === 'smc') {
         name = REGISTRY[inst.type].label(inst.params); color = 'var(--text-dim)';
       } else {
@@ -299,7 +345,7 @@ const IndicatorManager = (() => {
         if (v != null) valTxt = ' · ' + ChartView.fmtVol(v);
         name = 'Vol'; color = 'var(--text-dim)';
       }
-      const gear = (inst.type === 'ma' || inst.type === 'rsi' || inst.type === 'fvg' || inst.type === 'smc')
+      const gear = (inst.type === 'ma' || inst.type === 'rsi' || inst.type === 'bb' || inst.type === 'fvg' || inst.type === 'smc')
         ? `<button class="lg-ic" data-act="gear" data-id="${inst.id}" title="Settings">⚙</button>` : '';
       return `<div class="lg-row${inst.visible ? '' : ' lg-off'}">` +
         `<span class="lg-name" style="color:${color}">${name}${valTxt}</span>` +
@@ -358,7 +404,7 @@ const IndicatorManager = (() => {
       const def = REGISTRY[inst.type];
       const row = document.createElement('div');
       row.className = 'ind-row';
-      const hasColor = inst.type === 'ma' || inst.type === 'rsi';
+      const hasColor = inst.type === 'ma' || inst.type === 'rsi' || inst.type === 'bb';
       const hasGear  = hasColor || inst.type === 'fvg' || inst.type === 'smc';
       row.innerHTML =
         `<span class="ind-name" style="${hasColor ? 'color:' + inst.params.color : ''}">${def.label(inst.params)}</span>` +
@@ -378,6 +424,7 @@ const IndicatorManager = (() => {
   // builds a wired settings panel for an indicator instance
   function buildConfigEl(inst) {
     if (inst.type === 'rsi') return buildRsiConfigEl(inst);
+    if (inst.type === 'bb') return buildBbConfigEl(inst);
     if (inst.type === 'fvg') return buildFvgConfigEl(inst);
     if (inst.type === 'smc') return SMCIndicator.buildConfigEl(inst.params, (patch) => updateParams(inst.id, patch));
     const cfg = document.createElement('div');
@@ -415,6 +462,25 @@ const IndicatorManager = (() => {
       updateParams(inst.id, { overbought: parseFloat(e.target.value) || inst.params.overbought });
     cfg.querySelector('.cf-os').onchange = (e) =>
       updateParams(inst.id, { oversold: parseFloat(e.target.value) || inst.params.oversold });
+    return cfg;
+  }
+
+  // settings panel for a Bollinger Bands instance (period / σ multiplier / color / width)
+  function buildBbConfigEl(inst) {
+    const cfg = document.createElement('div');
+    cfg.className = 'ind-config';
+    cfg.innerHTML =
+      `<label>Period <input type="number" class="cf-period" min="2" max="400" value="${inst.params.period}"></label>` +
+      `<label>σ <input type="number" class="cf-mult" min="0.5" max="5" step="0.1" value="${inst.params.mult}"></label>` +
+      `<label>Color <input type="color" class="cf-color" value="${inst.params.color}"></label>` +
+      `<label>Width <input type="number" class="cf-width" min="1" max="5" value="${inst.params.lineWidth}"></label>`;
+    cfg.querySelector('.cf-period').onchange = (e) =>
+      updateParams(inst.id, { period: Math.max(2, parseInt(e.target.value) || inst.params.period) });
+    cfg.querySelector('.cf-mult').onchange = (e) =>
+      updateParams(inst.id, { mult: Math.max(0.5, parseFloat(e.target.value) || inst.params.mult) });
+    cfg.querySelector('.cf-color').oninput = (e) => updateParams(inst.id, { color: e.target.value });
+    cfg.querySelector('.cf-width').onchange = (e) =>
+      updateParams(inst.id, { lineWidth: Math.max(1, parseInt(e.target.value) || 1) });
     return cfg;
   }
 

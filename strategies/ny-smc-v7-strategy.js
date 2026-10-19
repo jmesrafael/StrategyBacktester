@@ -20,6 +20,11 @@
 //   5. Stop → entry at +breakEvenR. Follow-through check: at the close of the ftBars-th candle
 //      after the fill, if price never reached +ftMinR, the stop moves to −ftTightR.
 //   6. Sized to risk riskPct of balance at the stop. One position at a time.
+//   7. Risk mode "Less risk (Bollinger stretch)": a setup is only taken if the CHoCH leg's extreme
+//      closed the gap to the outer Bollinger band (bbLen, bbMult) — long: the leg low traded below the
+//      lower band; short: the leg high above the upper band. Research (ITERATION-LOG.md, Round 3,
+//      Binance 15m, Oct 2019/20 – Oct 2026, SOL + ETH): ~1/3 fewer trades, max drawdown 18.4R → 8.8R,
+//      total +60.5R → +68.7R, much better in 2019–23 but weaker in Oct 2025–26 (+3.7R vs +20.2R).
 // Use it on 15m candles with "Fill at: Next bar open" and the session filter OFF.
 (function () {
   // US daylight saving: 2nd Sunday of March 07:00 UTC → 1st Sunday of Nov 06:00 UTC (same as smc.js)
@@ -43,7 +48,9 @@
     description: 'NY-morning Smart Money setup, refined over 7 backtest rounds. A displacement CHoCH ' +
       '(08:30–09:30 or 10:30–11:30 ET) → limit at the first FVG\'s midpoint → stop beyond the CHoCH leg, ' +
       '3R target, breakeven at 1R, stop tightened to −0.5R if price shows no follow-through in 4 candles. ' +
-      'Built for SOL / ETH 15m (PF ≈ 2.7 there, 2023–26); weak on other coins. Use "Next bar open", session filter off.',
+      'Built for SOL / ETH 15m (PF ≈ 2.7 there, 2023–26); weak on other coins. Use "Next bar open", session filter off. ' +
+      'Risk mode "Less risk" only takes setups whose CHoCH leg stretched beyond the Bollinger band (20, 2): about a third ' +
+      'fewer trades and roughly half the drawdown in the 2019–26 backtest, at the cost of some winners in strong years.',
     warmUpBars: 20,
 
     params: {
@@ -61,13 +68,19 @@
       ftTightR:    { label: 'No follow-through → stop at −R', type: 'number', default: 0.5, min: 0, max: 1 },
       riskPct:     { label: 'Risk % per trade', type: 'number', default: 1, min: 0.1, max: 10 },
       direction:   { label: 'Direction', type: 'select', options: ['Both', 'Long only', 'Short only'], default: 'Both' },
+      riskMode:    { label: 'Risk mode', type: 'select', options: ['Standard', 'Less risk (Bollinger stretch)'], default: 'Standard' },
+      bbLen:       { label: 'Less risk: Bollinger length', type: 'number', default: 20, min: 5, max: 100 },
+      bbMult:      { label: 'Less risk: Bollinger σ', type: 'number', default: 2, min: 0.5, max: 4 },
     },
 
-    // Show the SMC Toolkit's 15m layers (same swing length) while the strategy runs.
+    // Show the SMC Toolkit's 15m layers (same swing length) while the strategy runs,
+    // plus the Bollinger bands the "Less risk" mode checks.
     chartIndicators(p) {
       const d = typeof SMCIndicator !== 'undefined' ? SMCIndicator.getDefaults() : {};
-      return [{ type: 'smc', visible: true, params: { ...d, ch1_on: false, fvg1_on: false,
+      const list = [{ type: 'smc', visible: true, params: { ...d, ch1_on: false, fvg1_on: false,
         ch2_on: true, ch2_tf: '15', ch2_len: (p && p.swingLen) || 5, fvg2_on: true, fvg2_tf: '15' } }];
+      if (p && p.riskMode !== 'Standard') list.push({ type: 'bb', visible: true, params: { period: p.bbLen, mult: p.bbMult } });
+      return list;
     },
 
     init(p) {
@@ -130,6 +143,8 @@
 
       // ---- 4. FVG completing on this candle (c1 = i-2, c3 = i) → setups for waiting CHoCHs
       const setups = [];
+      const bb = p.riskMode !== 'Standard' ? ind.bollinger(ind.closes, p.bbLen, p.bbMult) : null;
+      let bbSkip = 0;
       if (i >= 2 && atr != null) {
         const c1 = C[i - 2], c3 = candle;
         const fvg = c3.low > c1.high ? { bull: true, top: c3.low, bottom: c1.high }
@@ -138,12 +153,16 @@
           if (i <= w.b) return true;
           if (fvg && fvg.bull === w.long) {
             const long = w.long;
-            let legX = long ? Infinity : -Infinity;
-            for (let j = w.p; j <= w.b; j++) legX = long ? Math.min(legX, C[j].low) : Math.max(legX, C[j].high);
+            let legX = long ? Infinity : -Infinity, legXi = w.p;
+            for (let j = w.p; j <= w.b; j++) { const v = long ? C[j].low : C[j].high; if (long ? v < legX : v > legX) { legX = v; legXi = j; } }
             const entry = (fvg.top + fvg.bottom) / 2;
             const stop = long ? legX * (1 - 0.0002) : legX * (1 + 0.0002);
             const risk = Math.abs(entry - stop);
-            const ok = (long ? entry > stop : entry < stop) && risk <= p.maxStopATR * atr && fvg.top - fvg.bottom >= p.minFvgATR * atr;
+            let ok = (long ? entry > stop : entry < stop) && risk <= p.maxStopATR * atr && fvg.top - fvg.bottom >= p.minFvgATR * atr;
+            if (ok && bb) { // Less risk: the leg extreme must have stretched beyond the outer band
+              const band = long ? bb.lower[legXi] : bb.upper[legXi];
+              if (band == null || (long ? legX >= band : legX <= band)) { ok = false; bbSkip++; }
+            }
             if (ok) setups.push({ long, entry, stop, risk, tp: entry + (long ? 1 : -1) * p.targetR * risk, fvgIdx: i, sessEnd: w.sessEnd });
             return false;                                       // only the FIRST same-direction FVG counts
           }
@@ -184,7 +203,7 @@
       }
 
       // ---- 7. place a new setup (earliest CHoCH first) while flat
-      if (!setups.length) { this.reason = 'No setup'; return null; }
+      if (!setups.length) { this.reason = bbSkip ? 'Less risk: setup skipped, CHoCH leg stayed inside the Bollinger bands' : 'No setup'; return null; }
       if (busy) { this.reason = 'Setup skipped: a trade closed on this candle'; return null; }
       const s = setups[0];
       this.order = { ...s, placedAt: i };

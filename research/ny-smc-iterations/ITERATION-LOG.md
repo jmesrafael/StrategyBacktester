@@ -844,3 +844,40 @@ Pass = average R/trade ≥ v7 in ≥ 3 of 4 cells (SOL/ETH × 2019–23/2023–2
   21% → 55% and cuts max DD 15.9R → 11.3R; average R/trade +0.19 → +0.17, total +60.5R → +53.5R; better in both 2019–23 cells, worse
   in both 2023–26 cells. J4 session exit +15.9R and J5 8h stop +10.3R: clearly worse (v7's profit needs trades held past 16:00).
   J1 is offered to the user as an optional comfort/drawdown trade-off, not as an improvement.
+
+### 2026-10-19 · Round 3 — indicators (SOL only, Binance 15m, Oct 2020 – Oct 2026) — PROTOCOL, written before any run
+Objective (user): maximize profit while minimizing risk. Score = total R ÷ max drawdown (R) and average R/trade.
+**Part A — indicator filters on v7 setups (live-style: setups filtered before execution).** All values at the CHoCH candle close.
+ A1 RSI14 > 50 long / < 50 short (momentum) · A2 RSI14 extreme in the CHoCH leg (< 30 long / > 70 short, exhaustion) ·
+ A3 RSI14 divergence at the leg extreme vs the previous swing (long: lower low in price, higher RSI) · A4 with 15m EMA200 · A5 against 15m EMA200 ·
+ A6 1h EMA50 vs EMA200 aligned · A7 15m MACD(12,26,9) histogram in trade direction · A8 1h MACD line vs signal aligned · A9 ADX14 < 20 ·
+ A10 ADX14 > 25 · A11 leg extreme beyond Bollinger(20,2) · A12 entry at a discount to the NY-day VWAP (long below, short above; VWAP from 00:00 ET) ·
+ A13 CHoCH-leg relative volume ≥ 1.3 (leg volume per bar vs previous 96 bars) · A14 OBV change over the CHoCH leg in trade direction ·
+ A15 15m ATR above its 30-day median.
+ Pass = avg R/trade above v7 in both 2020–23 and 2023–26, random-subset percentile ≥ 97.5 (stricter: 15 tests), ≥ 35% of trades kept,
+ and total/maxDD ≥ v7. Passers: confirmation run on ETH (same rule, no changes), then combinations of passers only.
+**Part B — standalone indicator systems on SOL** (bar-close signals, next-bar-open fills, ATR stops, same fees/slippage, 1R risk):
+ B1 4h Donchian(20) breakout, 2×ATR stop, exit on 10-bar opposite channel · B2 1h EMA50/200 trend + RSI14 pullback to 40/60 then cross back, 1.5×ATR stop, 3R ·
+ B3 4h RSI2 mean reversion with SMA200 filter (long RSI2 < 10 above SMA200, exit close > SMA5; shorts mirrored), 2.5×ATR stop ·
+ B4 4h MACD cross with EMA200 filter, 2×ATR stop, exit on opposite cross. Fixed parameters, no tuning.
+ Judge each alone (both regimes) and as a portfolio with v7 (correlation of monthly R, combined total/maxDD vs v7 alone).
+- **User note:** indicators are to sit on top of v7 (confluence), so Part B (standalone systems) is dropped.
+- **Result Part A, SOL** (`node hyp3a.js SOL` → `results/hyp3a-sol.md`): only **A11 (CHoCH leg extreme beyond Bollinger(20,2)) PASSES**:
+  2020–23 +0.02 vs −0.18R/trade, 2023–26 +0.56 vs +0.41, 65% kept, total +32.3 vs +20.3R, max DD 5.6 vs 15.9R, random pct 99.4.
+  Near misses A5 (against EMA200, 96.4) and A9 (ADX < 20, 86.0); all others fail.
+- **ETH confirmation** (`node hyp3a.js ETH A11,A5,A9,A3`): A11 2019–23 +0.17 vs −0.04, 2023–26 +0.44 vs +0.57, total +36.4 vs +40.2R, DD 5.9 vs 10.8R,
+  random pct 85 → fails the strict rule, but cuts risk the same way. A5 and A9 fail on ETH (SOL flukes).
+- **Plateau** (`node bb-plateau.js`, bands 14/20/30 × 1.5/2/2.5σ): ETH 8 of 9 settings improve total÷DD (all 9 make 2019–23 positive);
+  SOL 7 of 9 improve total÷DD but (20,2) is the peak (5.74 vs neighbours 1.7–4.2; 2.5σ worse than v7). SOL gain is overstated.
+- **Both coins, (20,2)** (`node bb-years.js`): total +68.7 vs +60.5R, max DD 8.8 vs 18.4R, total÷DD 7.79 vs 3.29, avg +0.32 vs +0.19R/trade,
+  218 vs 322 trades. Years: −3.8/+13.0/+2.5/−0.1/+18.0/+35.3/+3.7 vs v7 −9.2/+2.4/+0.1/−9.2/+20.8/+35.3/+20.2 — much better in bad years,
+  **but the latest year Oct25–26 is +3.7 vs +20.2R.** Candidate "v7 + BB stretch"; to be forward-tested side by side with v7 (flag logged per trade).
+
+### 2026-10-19 · App: v7 "Less risk (Bollinger stretch)" mode + Bollinger Bands chart indicator; $5 overview
+- `strategies/ny-smc-v7-strategy.js`: new params riskMode (Standard / Less risk), bbLen 20, bbMult 2; Less risk skips setups whose CHoCH-leg
+  extreme did not trade beyond the outer band; shows BB on the chart in that mode. `js/indicators-ui.js`: new "Bollinger Bands" indicator.
+- `node validate-app-bb.js` (Binance, zero costs): SOL Standard 149/149 and Less risk 97/97 trades identical; ETH 175/175 and 122/122
+  identical + 3 app-only each (known same-candle break/fill case).
+- `node overview5.js` → `results/overview-5usd.md` ($500 account per coin, $5 fixed vs 1% compounding):
+  SOL Std +$102 (DD −$79, −15.5%) · Less +$161 (DD −$28, −5.4%); ETH Std +$201 (DD −$54, −10.8%) · Less +$182 (DD −$30, −5.6%).
+  Compounding at 1% adds +$2…+$31 over 6–7 years; it scales later drawdowns in $ with the balance (ETH Less: −$30 → −$41).
