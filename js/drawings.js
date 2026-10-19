@@ -11,6 +11,7 @@ const Drawings = (() => {
   let hover = null;
   let idSeq = 1;
   let onToolChange = null;
+  let symbol = null;   // drawings are stored per symbol (shared across timeframes)
 
   // last-used style — new drawings inherit it (updated by the right-click editor)
   let defaultColor = CFG.THEME.draw;
@@ -44,8 +45,14 @@ const Drawings = (() => {
     window.addEventListener('mouseup', onUp);
     canvas.addEventListener('mousemove', trackMouse);
     canvas.addEventListener('mouseenter', () => { inside = true; });
-    canvas.addEventListener('mouseleave', () => { inside = false; ghost = null; render(); });
+    canvas.addEventListener('mouseleave', () => {
+      inside = false; ghost = null;
+      if (capturing) chart.clearCrosshairPosition();
+      render();
+    });
     window.addEventListener('keydown', onKey);
+    // last-chance save (tab close / reload) — drawings are also saved on every edit
+    window.addEventListener('pagehide', saveDrawings);
 
     syncPointerMode();
   }
@@ -108,16 +115,31 @@ const Drawings = (() => {
 
   // When a draw tool is active we capture pointer + freeze chart pan.
   // In cursor mode the layer is transparent to events unless hovering a drawing.
-  let nativeCrosshairOn = true;
+  // While capturing, the chart can't see the mouse, so we drive its native
+  // crosshair ourselves (syncCrosshair) — that keeps the date/time label on the
+  // time axis and the price label on the price axis in every mode.
+  let capturing = false;
   function syncPointerMode() {
-    const capturing = tool !== 'cursor' || !!hover;
-    canvas.style.pointerEvents = capturing ? 'auto' : 'none';
+    const cap = tool !== 'cursor' || !!hover || !!drag || !!draft;
+    canvas.style.pointerEvents = cap ? 'auto' : 'none';
     if (tool === 'cursor') chart.applyOptions({ handleScroll: true, handleScale: true });
     else chart.applyOptions({ handleScroll: false, handleScale: false });
-    if (capturing === nativeCrosshairOn) {
-      nativeCrosshairOn = !capturing;
-      ChartView.setCrosshairMode(nativeCrosshairOn);
+    if (cap !== capturing) {
+      capturing = cap;
+      // on release the chart sees the mouse again and takes the crosshair back
+      if (cap) syncCrosshair(lastMouse.x, lastMouse.y);
+      else chart.clearCrosshairPosition();
     }
+  }
+
+  function syncCrosshair(mx, my) {
+    if (!capturing) return;
+    const w = container.clientWidth, h = container.clientHeight;
+    if (!inside && !drag && !draft) { chart.clearCrosshairPosition(); return; }
+    if (mx < 0 || my < 0 || mx > w || my > h) { chart.clearCrosshairPosition(); return; }
+    const t = toTime(mx), p = toPrice(my);
+    if (t == null || p == null) return;
+    chart.setCrosshairPosition(p, t, series);
   }
 
   function onDown(e) {
@@ -135,6 +157,7 @@ const Drawings = (() => {
         drag = { item: hit.item, handle: hit.handle,
           start: { mx, my },
           p1: { ...hit.item.p1 }, p2: hit.item.p2 ? { ...hit.item.p2 } : null };
+        syncPointerMode();
         e.preventDefault();
       } else { selected = null; }
       render(); return;
@@ -166,6 +189,7 @@ const Drawings = (() => {
     const r = canvas.getBoundingClientRect();
     const mx = e.clientX - r.left, my = e.clientY - r.top;
     lastMouse = { x: mx, y: my };
+    syncCrosshair(mx, my);
 
     // two-point draft: update the live preview of p2
     if (draft) {
@@ -204,8 +228,7 @@ const Drawings = (() => {
   function onUp() {
     // Two-point drafts are committed on the second click (onDown), NOT on mouseup.
     // mouseup only releases cursor-mode drags.
-    if (drag) saveDrawings();
-    drag = null;
+    if (drag) { saveDrawings(); drag = null; syncPointerMode(); }
   }
 
   function moveByPixels(item, p1, p2, dx, dy) {
@@ -308,28 +331,12 @@ const Drawings = (() => {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.restore();
-    drawCrosshair();
 
     // committed items + active draft (two-point preview) + hover ghost (single-click preview)
     const all = items.slice();
     if (draft) all.push(draft);
     if (ghost) all.push(ghost);
     all.forEach((it) => drawItem(it, it === selected, it === ghost || it === draft));
-  }
-
-  function drawCrosshair() {
-    if (!inside) return;
-    if (tool === 'cursor' && !draft && !drag && !hover) return;
-    const { x: mx, y: my } = lastMouse;
-    ctx.save();
-    ctx.strokeStyle = 'rgba(178,181,190,0.4)';
-    ctx.lineWidth = 1;
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath();
-    ctx.moveTo(mx, 0); ctx.lineTo(mx, container.clientHeight);
-    ctx.moveTo(0, my); ctx.lineTo(container.clientWidth, my);
-    ctx.stroke();
-    ctx.restore();
   }
 
   function drawItem(it, sel, isPreview) {
@@ -394,28 +401,67 @@ const Drawings = (() => {
 
   function setShowLabels(v) { showLabels = v; render(); }
 
-  // ---- persistence --------------------------------------------------------
+  // ---- persistence (localStorage, one key per symbol) ---------------------
+  // Drawings are anchored to {time, price}, so they survive timeframe switches,
+  // replay, and reloads. Each symbol keeps its own set (ETH lines don't show on SOL).
+  function storeKey(sym) { return CFG.STORE.drawings + '.' + sym; }
+
   function saveDrawings() {
+    if (!symbol) return;
     try {
       const data = items.map(({ id, type, p1, p2, color, width }) =>
         ({ id, type, p1, p2, color, width }));
-      localStorage.setItem(CFG.STORE.drawings, JSON.stringify(data));
+      localStorage.setItem(storeKey(symbol), JSON.stringify(data));
     } catch {}
   }
 
-  function loadDrawings() {
+  function readDrawings(sym) {
     try {
-      const saved = JSON.parse(localStorage.getItem(CFG.STORE.drawings));
-      if (Array.isArray(saved)) {
-        items = saved.map((d) => ({ ...d }));
-        idSeq = items.reduce((m, d) => Math.max(m, d.id || 0), 0) + 1;
+      const saved = JSON.parse(localStorage.getItem(storeKey(sym)));
+      return Array.isArray(saved) ? saved.filter((d) => d && d.type && d.p1) : [];
+    } catch { return []; }
+  }
+
+  // Switch the active symbol: persist the current set, load that symbol's set.
+  function setSymbol(sym) {
+    if (!sym || sym === symbol) return;
+    if (symbol) saveDrawings();
+    symbol = sym;
+    selected = null; draft = null; ghost = null; drag = null; hover = null;
+    items = readDrawings(sym).map((d) => ({ ...d }));
+    idSeq = items.reduce((m, d) => Math.max(m, d.id || 0), 0) + 1;
+    syncPointerMode();
+    render();
+  }
+
+  // One-time move of the old single global key into a symbol's key.
+  function migrateLegacy(ownerSymbol) {
+    try {
+      const legacy = localStorage.getItem(CFG.STORE.drawings);
+      if (legacy == null) return;
+      if (localStorage.getItem(storeKey(ownerSymbol)) == null) {
+        localStorage.setItem(storeKey(ownerSymbol), legacy);
       }
+      localStorage.removeItem(CFG.STORE.drawings);
+    } catch {}
+  }
+
+  // One-time copy of drawings made on the old Bybit symbols ("SOLUSDT") onto
+  // their MEXC perpetual ("SOLUSDT.P"), unless that symbol already has its own.
+  function migrateToPerp() {
+    try {
+      CFG.SYMBOLS.forEach((sym) => {
+        const old = localStorage.getItem(storeKey(sym.replace(/\.P$/, '')));
+        if (old != null && localStorage.getItem(storeKey(sym)) == null) {
+          localStorage.setItem(storeKey(sym), old);
+        }
+      });
     } catch {}
   }
 
   return { init, setTool, onTool, render, deleteSelected, clearAll,
     selectAt, getSelected, setSelectedColor, setSelectedWidth, setShowLabels,
-    saveDrawings, loadDrawings,
+    saveDrawings, setSymbol, migrateLegacy, migrateToPerp,
     get tool() { return tool; }, get count() { return items.length; },
     get hasSelection() { return !!selected; } };
 })();

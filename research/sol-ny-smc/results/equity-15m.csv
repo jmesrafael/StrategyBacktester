@@ -1,0 +1,302 @@
+series,exitTimeISO,cumR
+Frozen baseline,2023-10-20T22:15:00.000Z,-1.065
+Frozen baseline,2023-10-23T19:00:00.000Z,0.014
+Frozen baseline,2023-10-28T23:00:00.000Z,0.869
+Frozen baseline,2023-11-04T01:15:00.000Z,-0.179
+Frozen baseline,2023-11-12T22:30:00.000Z,-0.230
+Frozen baseline,2023-11-15T19:15:00.000Z,-1.272
+Frozen baseline,2023-11-22T18:15:00.000Z,-2.343
+Frozen baseline,2023-11-23T19:00:00.000Z,-2.101
+Frozen baseline,2023-12-02T17:00:00.000Z,-1.281
+Frozen baseline,2023-12-06T22:45:00.000Z,-2.337
+Frozen baseline,2023-12-08T17:45:00.000Z,-3.417
+Frozen baseline,2023-12-11T02:00:00.000Z,-4.462
+Frozen baseline,2023-12-14T21:00:00.000Z,-5.591
+Frozen baseline,2023-12-15T19:30:00.000Z,-6.631
+Frozen baseline,2023-12-23T01:00:00.000Z,-6.675
+Frozen baseline,2023-12-26T15:45:00.000Z,-5.915
+Frozen baseline,2023-12-30T08:15:00.000Z,-5.348
+Frozen baseline,2024-01-16T07:30:00.000Z,-5.025
+Frozen baseline,2024-02-11T18:30:00.000Z,-4.104
+Frozen baseline,2024-02-12T16:30:00.000Z,-3.823
+Frozen baseline,2024-02-21T21:45:00.000Z,-4.865
+Frozen baseline,2024-02-26T01:15:00.000Z,-4.537
+Frozen baseline,2024-02-26T16:30:00.000Z,-4.195
+Frozen baseline,2024-03-06T19:15:00.000Z,-3.943
+Frozen baseline,2024-03-09T06:00:00.000Z,-3.978
+Frozen baseline,2024-03-10T02:00:00.000Z,-5.018
+Frozen baseline,2024-03-14T16:00:00.000Z,-5.037
+Frozen baseline,2024-03-15T18:30:00.000Z,-4.665
+Frozen baseline,2024-03-19T20:45:00.000Z,-5.688
+Frozen baseline,2024-03-20T16:15:00.000Z,-5.156
+Frozen baseline,2024-03-24T20:15:00.000Z,-6.246
+Frozen baseline,2024-03-26T16:15:00.000Z,-5.583
+Frozen baseline,2024-03-31T18:30:00.000Z,-6.555
+Frozen baseline,2024-04-02T18:30:00.000Z,-5.765
+Frozen baseline,2024-04-08T21:45:00.000Z,-6.876
+Frozen baseline,2024-04-10T10:45:00.000Z,-7.925
+Frozen baseline,2024-04-17T21:15:00.000Z,-7.602
+Frozen baseline,2024-04-19T23:00:00.000Z,-8.659
+Frozen baseline,2024-04-21T16:15:00.000Z,-8.143
+Frozen baseline,2024-04-22T17:30:00.000Z,-9.238
+Frozen baseline,2024-04-22T22:00:00.000Z,-8.734
+Frozen baseline,2024-04-24T15:30:00.000Z,-8.007
+Frozen baseline,2024-04-26T22:15:00.000Z,-9.057
+Frozen baseline,2024-04-28T20:00:00.000Z,-10.167
+Frozen baseline,2024-05-04T18:30:00.000Z,-11.452
+Frozen baseline,2024-05-04T19:45:00.000Z,-10.843
+Frozen baseline,2024-05-19T13:00:00.000Z,-10.088
+Frozen baseline,2024-05-26T15:30:00.000Z,-10.214
+Frozen baseline,2024-05-26T21:30:00.000Z,-9.816
+Frozen baseline,2024-05-30T06:15:00.000Z,-10.924
+Frozen baseline,2024-05-30T20:00:00.000Z,-11.988
+Frozen baseline,2024-06-04T15:45:00.000Z,-13.035
+Frozen baseline,2024-06-18T01:15:00.000Z,-14.068
+Frozen baseline,2024-06-21T19:30:00.000Z,-15.112
+Frozen baseline,2024-06-29T20:45:00.000Z,-13.989
+Frozen baseline,2024-07-08T20:00:00.000Z,-14.063
+Frozen baseline,2024-07-20T16:00:00.000Z,-13.419
+Frozen baseline,2024-07-21T14:30:00.000Z,-14.629
+Frozen baseline,2024-07-27T05:15:00.000Z,-13.515
+Frozen baseline,2024-07-28T22:45:00.000Z,-14.670
+Frozen baseline,2024-08-22T20:00:00.000Z,-14.148
+Frozen baseline,2024-08-23T14:45:00.000Z,-15.279
+Frozen baseline,2024-08-26T17:45:00.000Z,-14.673
+Frozen baseline,2024-08-29T18:45:00.000Z,-14.170
+Frozen baseline,2024-09-01T05:45:00.000Z,-12.278
+Frozen baseline,2024-09-01T18:15:00.000Z,-11.641
+Frozen baseline,2024-09-03T21:15:00.000Z,-12.739
+Frozen baseline,2024-09-10T15:15:00.000Z,-11.972
+Frozen baseline,2024-09-13T10:00:00.000Z,-11.700
+Frozen baseline,2024-09-14T18:00:00.000Z,-12.921
+Frozen baseline,2024-09-16T17:00:00.000Z,-12.470
+Frozen baseline,2024-09-18T00:15:00.000Z,-13.517
+Frozen baseline,2024-09-21T04:30:00.000Z,-13.074
+Frozen baseline,2024-09-26T00:45:00.000Z,-12.274
+Frozen baseline,2024-10-06T14:15:00.000Z,-11.874
+Frozen baseline,2024-10-07T22:45:00.000Z,-11.092
+Frozen baseline,2024-10-09T13:00:00.000Z,-10.161
+Frozen baseline,2024-10-13T03:15:00.000Z,-9.346
+Frozen baseline,2024-10-15T14:45:00.000Z,-10.391
+Frozen baseline,2024-10-20T20:30:00.000Z,-8.975
+Frozen baseline,2024-10-26T14:30:00.000Z,-7.650
+Frozen baseline,2024-10-28T22:00:00.000Z,-6.331
+Frozen baseline,2024-10-29T16:45:00.000Z,-5.900
+Frozen baseline,2024-11-05T22:30:00.000Z,-6.081
+Frozen baseline,2024-11-06T20:00:00.000Z,-7.186
+Frozen baseline,2024-11-13T02:15:00.000Z,-8.236
+Frozen baseline,2024-11-15T20:45:00.000Z,-7.906
+Frozen baseline,2024-11-18T01:15:00.000Z,-6.854
+Frozen baseline,2024-11-20T18:00:00.000Z,-6.352
+Frozen baseline,2024-11-23T19:30:00.000Z,-5.738
+Frozen baseline,2024-11-24T23:00:00.000Z,-4.692
+Frozen baseline,2024-12-03T06:30:00.000Z,-5.726
+Frozen baseline,2024-12-03T19:45:00.000Z,-5.339
+Frozen baseline,2024-12-17T17:00:00.000Z,-6.372
+Frozen baseline,2024-12-23T17:00:00.000Z,-7.437
+Frozen baseline,2024-12-31T14:00:00.000Z,-7.307
+Frozen baseline,2025-01-13T05:45:00.000Z,-8.360
+Frozen baseline,2025-01-20T17:15:00.000Z,-8.407
+Frozen baseline,2025-01-21T18:00:00.000Z,-7.413
+Frozen baseline,2025-01-22T19:30:00.000Z,-8.476
+Frozen baseline,2025-01-23T17:00:00.000Z,-8.525
+Frozen baseline,2025-01-24T20:15:00.000Z,-7.962
+Frozen baseline,2025-01-29T19:00:00.000Z,-9.052
+Frozen baseline,2025-02-08T17:00:00.000Z,-10.140
+Frozen baseline,2025-02-08T21:45:00.000Z,-9.656
+Frozen baseline,2025-02-13T19:00:00.000Z,-8.961
+Frozen baseline,2025-02-23T00:00:00.000Z,-8.481
+Frozen baseline,2025-02-27T19:30:00.000Z,-7.838
+Frozen baseline,2025-03-04T16:30:00.000Z,-8.880
+Frozen baseline,2025-03-07T16:45:00.000Z,-9.923
+Frozen baseline,2025-03-13T16:00:00.000Z,-9.306
+Frozen baseline,2025-03-18T21:15:00.000Z,-8.566
+Frozen baseline,2025-03-27T21:30:00.000Z,-8.028
+Frozen baseline,2025-03-31T00:30:00.000Z,-9.074
+Frozen baseline,2025-04-01T15:00:00.000Z,-10.161
+Frozen baseline,2025-04-04T16:45:00.000Z,-9.503
+Frozen baseline,2025-05-02T19:15:00.000Z,-10.587
+Frozen baseline,2025-05-03T17:00:00.000Z,-11.695
+Frozen baseline,2025-05-04T22:15:00.000Z,-11.363
+Frozen baseline,2025-05-11T22:00:00.000Z,-11.189
+Frozen baseline,2025-05-15T21:15:00.000Z,-12.225
+Frozen baseline,2025-05-16T16:15:00.000Z,-11.654
+Frozen baseline,2025-05-19T14:45:00.000Z,-10.683
+Frozen baseline,2025-05-20T18:45:00.000Z,-11.771
+Frozen baseline,2025-05-21T23:15:00.000Z,-12.820
+Frozen baseline,2025-06-02T21:45:00.000Z,-12.299
+Frozen baseline,2025-06-03T20:15:00.000Z,-13.404
+Frozen baseline,2025-06-07T23:30:00.000Z,-12.906
+Frozen baseline,2025-06-10T15:30:00.000Z,-12.628
+Frozen baseline,2025-06-12T15:15:00.000Z,-13.758
+Frozen baseline,2025-06-12T19:45:00.000Z,-13.075
+Frozen baseline,2025-06-21T17:30:00.000Z,-12.490
+Frozen baseline,2025-06-29T15:45:00.000Z,-13.651
+Frozen baseline,2025-07-12T12:45:00.000Z,-12.849
+Frozen baseline,2025-07-14T02:15:00.000Z,-13.923
+Frozen baseline,2025-07-14T18:45:00.000Z,-13.601
+Frozen baseline,2025-07-15T17:45:00.000Z,-14.654
+Frozen baseline,2025-07-17T16:15:00.000Z,-13.790
+Frozen baseline,2025-07-27T22:00:00.000Z,-12.687
+Frozen baseline,2025-08-03T17:00:00.000Z,-13.980
+Frozen baseline,2025-08-07T21:15:00.000Z,-15.029
+Frozen baseline,2025-08-09T05:00:00.000Z,-14.759
+Frozen baseline,2025-08-09T19:00:00.000Z,-15.860
+Frozen baseline,2025-08-20T17:30:00.000Z,-15.471
+Frozen baseline,2025-08-23T23:15:00.000Z,-14.898
+Frozen baseline,2025-08-28T16:45:00.000Z,-14.548
+Frozen baseline,2025-09-03T21:30:00.000Z,-14.091
+Frozen baseline,2025-09-06T13:30:00.000Z,-13.665
+Frozen baseline,2025-09-10T21:00:00.000Z,-13.884
+Frozen baseline,2025-09-16T15:30:00.000Z,-15.027
+Frozen baseline,2025-09-16T17:00:00.000Z,-14.436
+Frozen baseline,2025-09-27T21:45:00.000Z,-15.565
+Frozen baseline,2025-10-02T16:00:00.000Z,-16.686
+Frozen baseline,2025-10-02T18:45:00.000Z,-15.578
+Frozen baseline,2025-10-05T17:00:00.000Z,-15.816
+Frozen baseline,2025-10-12T14:45:00.000Z,-16.884
+Frozen baseline,2025-10-13T17:00:00.000Z,-16.286
+Frozen baseline,2025-10-16T15:15:00.000Z,-15.277
+Frozen baseline,2025-11-06T16:30:00.000Z,-14.826
+Frozen baseline,2025-11-11T01:15:00.000Z,-15.887
+Frozen baseline,2025-11-15T17:15:00.000Z,-15.668
+Frozen baseline,2025-11-23T14:00:00.000Z,-15.161
+Frozen baseline,2025-11-27T22:30:00.000Z,-16.315
+Frozen baseline,2025-11-30T21:00:00.000Z,-16.107
+Frozen baseline,2025-12-10T22:15:00.000Z,-17.153
+Frozen baseline,2025-12-22T00:00:00.000Z,-16.779
+Frozen baseline,2025-12-27T20:00:00.000Z,-16.417
+Frozen baseline,2025-12-31T20:00:00.000Z,-16.106
+Frozen baseline,2026-01-03T21:15:00.000Z,-17.489
+Frozen baseline,2026-01-05T18:45:00.000Z,-16.812
+Frozen baseline,2026-01-07T18:00:00.000Z,-16.365
+Frozen baseline,2026-01-09T18:15:00.000Z,-17.455
+Frozen baseline,2026-01-09T20:00:00.000Z,-17.273
+Frozen baseline,2026-01-16T18:30:00.000Z,-18.412
+Frozen baseline,2026-01-16T20:30:00.000Z,-18.226
+Frozen baseline,2026-01-23T16:45:00.000Z,-17.658
+Frozen baseline,2026-01-27T20:15:00.000Z,-15.674
+Frozen baseline,2026-01-28T17:30:00.000Z,-15.228
+Frozen baseline,2026-02-09T17:30:00.000Z,-14.563
+Frozen baseline,2026-02-21T11:00:00.000Z,-14.229
+Frozen baseline,2026-02-23T17:00:00.000Z,-13.703
+Frozen baseline,2026-02-24T17:00:00.000Z,-13.273
+Frozen baseline,2026-03-04T01:00:00.000Z,-12.674
+Frozen baseline,2026-03-06T05:30:00.000Z,-12.349
+Frozen baseline,2026-03-15T20:30:00.000Z,-11.524
+Frozen baseline,2026-03-20T21:15:00.000Z,-12.624
+Frozen baseline,2026-03-26T03:15:00.000Z,-11.909
+Frozen baseline,2026-04-01T00:45:00.000Z,-11.588
+Frozen baseline,2026-04-08T23:00:00.000Z,-11.218
+Frozen baseline,2026-04-09T15:30:00.000Z,-12.367
+Frozen baseline,2026-04-21T17:15:00.000Z,-13.512
+Frozen baseline,2026-04-21T19:30:00.000Z,-13.156
+Frozen baseline,2026-05-16T16:30:00.000Z,-12.544
+Frozen baseline,2026-05-20T15:15:00.000Z,-11.996
+Frozen baseline,2026-05-22T18:30:00.000Z,-13.116
+Frozen baseline,2026-05-27T04:30:00.000Z,-12.750
+Frozen baseline,2026-06-07T19:00:00.000Z,-13.861
+Frozen baseline,2026-06-22T15:45:00.000Z,-13.455
+Frozen baseline,2026-06-23T22:00:00.000Z,-11.312
+Frozen baseline,2026-07-03T15:00:00.000Z,-12.516
+Frozen baseline,2026-07-04T17:45:00.000Z,-11.163
+Frozen baseline,2026-07-11T23:00:00.000Z,-10.729
+Frozen baseline,2026-07-16T17:45:00.000Z,-10.341
+Frozen baseline,2026-07-19T01:45:00.000Z,-9.931
+Frozen baseline,2026-07-23T07:00:00.000Z,-11.023
+Frozen baseline,2026-07-26T22:00:00.000Z,-10.460
+Frozen baseline,2026-07-27T14:15:00.000Z,-11.610
+Frozen baseline,2026-07-29T18:45:00.000Z,-10.563
+Frozen baseline,2026-07-31T21:45:00.000Z,-9.795
+Frozen baseline,2026-08-10T15:00:00.000Z,-9.143
+Frozen baseline,2026-08-12T21:15:00.000Z,-8.957
+Frozen baseline,2026-08-16T20:45:00.000Z,-8.500
+Frozen baseline,2026-08-30T20:30:00.000Z,-7.066
+Frozen baseline,2026-09-01T08:15:00.000Z,-8.134
+Frozen baseline,2026-09-07T15:30:00.000Z,-7.349
+Frozen baseline,2026-09-13T08:30:00.000Z,-6.532
+Frozen baseline,2026-09-13T20:15:00.000Z,-6.002
+Frozen baseline,2026-09-16T22:00:00.000Z,-6.087
+Frozen baseline,2026-09-20T02:30:00.000Z,-4.037
+Frozen baseline,2026-09-24T16:15:00.000Z,-3.581
+Frozen baseline,2026-10-02T01:45:00.000Z,-2.732
+Frozen baseline,2026-10-03T17:15:00.000Z,-1.796
+Frozen baseline,2026-10-10T23:15:00.000Z,-2.087
+Frozen baseline,2026-10-14T08:00:00.000Z,-1.525
++ location filter,2023-10-23T19:00:00.000Z,1.080
++ location filter,2023-11-22T18:15:00.000Z,0.009
++ location filter,2023-12-06T22:45:00.000Z,-1.047
++ location filter,2023-12-30T08:15:00.000Z,-0.480
++ location filter,2024-01-16T07:30:00.000Z,-0.157
++ location filter,2024-03-20T16:15:00.000Z,0.375
++ location filter,2024-03-26T16:15:00.000Z,1.038
++ location filter,2024-04-02T18:30:00.000Z,1.828
++ location filter,2024-04-21T16:15:00.000Z,2.344
++ location filter,2024-05-26T15:30:00.000Z,2.218
++ location filter,2024-05-26T21:30:00.000Z,2.616
++ location filter,2024-05-30T06:15:00.000Z,1.508
++ location filter,2024-06-04T15:45:00.000Z,0.462
++ location filter,2024-07-08T20:00:00.000Z,0.388
++ location filter,2024-07-20T16:00:00.000Z,1.032
++ location filter,2024-07-21T14:30:00.000Z,-0.178
++ location filter,2024-08-26T17:45:00.000Z,0.428
++ location filter,2024-09-16T17:00:00.000Z,0.879
++ location filter,2024-10-13T03:15:00.000Z,1.695
++ location filter,2024-10-20T20:30:00.000Z,3.111
++ location filter,2024-11-06T20:00:00.000Z,2.006
++ location filter,2024-11-13T02:15:00.000Z,0.956
++ location filter,2024-11-24T23:00:00.000Z,2.002
++ location filter,2024-12-03T19:45:00.000Z,2.389
++ location filter,2024-12-17T17:00:00.000Z,1.356
++ location filter,2025-01-13T05:45:00.000Z,0.303
++ location filter,2025-01-20T17:15:00.000Z,0.256
++ location filter,2025-01-22T19:30:00.000Z,-0.807
++ location filter,2025-01-29T19:00:00.000Z,-1.898
++ location filter,2025-03-07T16:45:00.000Z,-2.941
++ location filter,2025-03-27T21:30:00.000Z,-2.402
++ location filter,2025-04-01T15:00:00.000Z,-3.489
++ location filter,2025-05-03T17:00:00.000Z,-4.597
++ location filter,2025-05-04T22:15:00.000Z,-4.265
++ location filter,2025-05-16T16:15:00.000Z,-3.693
++ location filter,2025-06-07T23:30:00.000Z,-3.194
++ location filter,2025-06-10T15:30:00.000Z,-2.916
++ location filter,2025-06-12T15:15:00.000Z,-4.046
++ location filter,2025-06-21T17:30:00.000Z,-3.461
++ location filter,2025-07-14T02:15:00.000Z,-4.535
++ location filter,2025-07-14T18:45:00.000Z,-4.213
++ location filter,2025-07-15T17:45:00.000Z,-5.266
++ location filter,2025-07-27T22:00:00.000Z,-4.163
++ location filter,2025-08-03T17:00:00.000Z,-5.456
++ location filter,2025-08-09T05:00:00.000Z,-5.186
++ location filter,2025-08-20T17:30:00.000Z,-4.797
++ location filter,2025-09-06T13:30:00.000Z,-4.371
++ location filter,2025-10-02T18:45:00.000Z,-3.263
++ location filter,2025-10-12T14:45:00.000Z,-4.331
++ location filter,2025-11-23T14:00:00.000Z,-3.824
++ location filter,2025-12-31T20:00:00.000Z,-3.513
++ location filter,2026-01-03T21:15:00.000Z,-4.896
++ location filter,2026-01-05T18:45:00.000Z,-4.218
++ location filter,2026-01-16T18:30:00.000Z,-5.358
++ location filter,2026-01-16T20:30:00.000Z,-5.172
++ location filter,2026-01-27T20:15:00.000Z,-3.188
++ location filter,2026-01-28T17:30:00.000Z,-2.742
++ location filter,2026-02-21T11:00:00.000Z,-2.408
++ location filter,2026-03-04T01:00:00.000Z,-1.809
++ location filter,2026-03-26T03:15:00.000Z,-1.094
++ location filter,2026-04-21T19:30:00.000Z,-0.738
++ location filter,2026-05-20T15:15:00.000Z,-0.191
++ location filter,2026-05-22T18:30:00.000Z,-1.310
++ location filter,2026-06-07T19:00:00.000Z,-2.421
++ location filter,2026-06-22T15:45:00.000Z,-2.015
++ location filter,2026-07-11T23:00:00.000Z,-1.581
++ location filter,2026-07-16T17:45:00.000Z,-1.193
++ location filter,2026-07-19T01:45:00.000Z,-0.783
++ location filter,2026-07-23T07:00:00.000Z,-1.875
++ location filter,2026-07-26T22:00:00.000Z,-1.312
++ location filter,2026-08-12T21:15:00.000Z,-1.126
++ location filter,2026-08-16T20:45:00.000Z,-0.669
++ location filter,2026-08-30T20:30:00.000Z,0.764
++ location filter,2026-09-01T08:15:00.000Z,-0.304
++ location filter,2026-09-07T15:30:00.000Z,0.482
++ location filter,2026-09-24T16:15:00.000Z,0.938
++ location filter,2026-10-02T01:45:00.000Z,1.787

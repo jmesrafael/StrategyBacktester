@@ -220,13 +220,19 @@ const TradeSim = (() => {
     if (position) updatePnl();
   }
 
-  function open(side) {
+  // `price` (optional) fills at a specific price instead of the current tick —
+  // Strategy Mode uses it for next-bar-open entries and SL/TP level exits.
+  // `size` (optional) — notional to open (per-trade / risk-based sizing); omitted →
+  // the widget's size % of balance.
+  // `opts.noSlip` — limit-order fill at an exact price (no slippage).
+  function open(side, price, size, opts) {
     if (!active || position) return;
-    const slip = slippagePct / 100;
+    const slip = opts && opts.noSlip ? 0 : slippagePct / 100;
+    const px = price != null ? price : currentPrice;
     // slippage worsens the entry fill (pay up for longs, sell lower for shorts)
-    const fill = side === 'long' ? currentPrice * (1 + slip) : currentPrice * (1 - slip);
-    const size = balance * (sizePct / 100);
-    position = { side, entryPrice: fill, size, entryTime: Date.now(),
+    const fill = side === 'long' ? px * (1 + slip) : px * (1 - slip);
+    const notional = size > 0 ? size : balance * (sizePct / 100);
+    position = { side, entryPrice: fill, size: notional, entryTime: Date.now(),
       entryCandleIndex: (typeof Replay !== 'undefined' ? Replay.cutIndex : null) };
     hasTraded = true;
     elBalance.readOnly = true;
@@ -239,10 +245,11 @@ const TradeSim = (() => {
     playOpenSound(side);
   }
 
-  function close() {
+  function close(price) {
     if (!position) return;
     const slip = slippagePct / 100;
-    const exitFill = position.side === 'long' ? currentPrice * (1 - slip) : currentPrice * (1 + slip);
+    const px = price != null ? price : currentPrice;
+    const exitFill = position.side === 'long' ? px * (1 - slip) : px * (1 + slip);
     const grossPct = position.side === 'long'
       ? ((exitFill - position.entryPrice) / position.entryPrice) * 100
       : ((position.entryPrice - exitFill) / position.entryPrice) * 100;
@@ -490,7 +497,8 @@ const TradeSim = (() => {
 
   function getAccount() {
     return { position: position ? position.side : null,
-      entryPrice: position ? position.entryPrice : null, balance };
+      entryPrice: position ? position.entryPrice : null,
+      size: position ? position.size : 0, balance };
   }
 
   return { init, start, stop, onTick, open, close, setMode, getAccount,

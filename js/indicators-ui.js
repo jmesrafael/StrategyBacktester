@@ -31,6 +31,11 @@ const IndicatorManager = (() => {
       label: () => '⚡ VolHi/FVG',
       defaults: () => ({ ...FVGIndicator.getDefaults() }),
     },
+    smc: {
+      name: '📐 SMC Toolkit (NY · PDH/PDL · FVG · CHoCH)',
+      label: (p) => SMCIndicator.label(p),
+      defaults: () => ({ ...SMCIndicator.getDefaults() }),
+    },
   };
 
   const RSI_PANE = 1;   // stacked sub-pane below the main price/volume pane
@@ -98,6 +103,9 @@ const IndicatorManager = (() => {
       ChartView.toggleVolume(inst.visible);
     } else if (type === 'fvg') {
       FVGIndicator.setActive(inst.visible);
+    } else if (type === 'smc') {
+      SMCIndicator.updateParams(inst.params);
+      SMCIndicator.setActive(inst.visible);
     }
     instances.push(inst);
     return inst;
@@ -117,7 +125,8 @@ const IndicatorManager = (() => {
   }
 
   function add(type, params) {
-    if (type === 'volume' && instances.some((i) => i.type === 'volume')) return;
+    // single-instance types (they own one shared overlay)
+    if (['volume', 'fvg', 'smc'].includes(type) && instances.some((i) => i.type === type)) return;
     materialize(type, params || {});
     recompute(lastCandles);
     renderPanel(); refreshBadge(); persist();
@@ -132,6 +141,8 @@ const IndicatorManager = (() => {
       ChartView.toggleVolume(false);
     } else if (inst.type === 'fvg') {
       FVGIndicator.setActive(false);
+    } else if (inst.type === 'smc') {
+      SMCIndicator.setActive(false);
     }
     instances = instances.filter((i) => i.id !== id);
     renderPanel(); refreshBadge(); updateLegend(null); persist();
@@ -166,6 +177,7 @@ const IndicatorManager = (() => {
     if (inst.type === 'ma' || inst.type === 'rsi') handles.get(id).setVisible(v);
     else if (inst.type === 'volume') ChartView.toggleVolume(v);
     else if (inst.type === 'fvg') FVGIndicator.setActive(v);
+    else if (inst.type === 'smc') SMCIndicator.setActive(v);
     recompute(lastCandles);
     renderPanel(); refreshBadge(); updateLegend(null); persist();
   }
@@ -181,14 +193,31 @@ const IndicatorManager = (() => {
       removeRsiLevelLines(h); addRsiLevelLines(h, inst.params);
     } else if (inst.type === 'fvg') {
       FVGIndicator.updateParams(inst.params);
+    } else if (inst.type === 'smc') {
+      SMCIndicator.updateParams(inst.params);
     }
     recompute(lastCandles);
-    renderPanel(); persist();
+    if (inst.type !== 'smc') renderPanel();   // keep the SMC form (and its focus) open while editing
+    persist();
   }
 
   // ---- recompute (called by replay + on data load) -------------------------
+  // Bar interval of a candle array = smallest spacing among its recent bars
+  // (weekend / exchange gaps only ever make a spacing larger).
+  function inferInterval(c) {
+    let best = 0;
+    for (let i = Math.max(1, c.length - 30); i < c.length; i++) {
+      const d = c[i].time - c[i - 1].time;
+      if (d > 0 && (!best || d < best)) best = d;
+    }
+    return best || null;
+  }
+
   function recompute(candles, ivSecs) {
     lastCandles = candles || [];
+    // Replay passes no interval, and a value remembered from before a timeframe
+    // switch would be wrong, so derive it from the candles themselves.
+    ivSecs = inferInterval(lastCandles) || ivSecs;
     instances.forEach((inst) => {
       if (inst.type === 'ma') {
         const h = handles.get(inst.id);
@@ -198,6 +227,8 @@ const IndicatorManager = (() => {
         h.setData(inst.visible ? rsiLineData(lastCandles, inst.params.period) : []);
       } else if (inst.type === 'fvg' && inst.visible) {
         FVGIndicator.compute(lastCandles, ivSecs);
+      } else if (inst.type === 'smc' && inst.visible) {
+        SMCIndicator.compute(lastCandles, ivSecs);
       }
     });
     updateLegend(null);
@@ -257,6 +288,8 @@ const IndicatorManager = (() => {
         if (val != null) valTxt = ' · ' + val.toFixed(1);
         name = REGISTRY.rsi.label(inst.params);
         color = inst.params.color;
+      } else if (inst.type === 'fvg' || inst.type === 'smc') {
+        name = REGISTRY[inst.type].label(inst.params); color = 'var(--text-dim)';
       } else {
         let v = null;
         if (inst.visible && param && param.seriesData) {
@@ -266,7 +299,7 @@ const IndicatorManager = (() => {
         if (v != null) valTxt = ' · ' + ChartView.fmtVol(v);
         name = 'Vol'; color = 'var(--text-dim)';
       }
-      const gear = (inst.type === 'ma' || inst.type === 'rsi' || inst.type === 'fvg')
+      const gear = (inst.type === 'ma' || inst.type === 'rsi' || inst.type === 'fvg' || inst.type === 'smc')
         ? `<button class="lg-ic" data-act="gear" data-id="${inst.id}" title="Settings">⚙</button>` : '';
       return `<div class="lg-row${inst.visible ? '' : ' lg-off'}">` +
         `<span class="lg-name" style="color:${color}">${name}${valTxt}</span>` +
@@ -326,7 +359,7 @@ const IndicatorManager = (() => {
       const row = document.createElement('div');
       row.className = 'ind-row';
       const hasColor = inst.type === 'ma' || inst.type === 'rsi';
-      const hasGear  = hasColor || inst.type === 'fvg';
+      const hasGear  = hasColor || inst.type === 'fvg' || inst.type === 'smc';
       row.innerHTML =
         `<span class="ind-name" style="${hasColor ? 'color:' + inst.params.color : ''}">${def.label(inst.params)}</span>` +
         `<span class="ind-actions">` +
@@ -346,6 +379,7 @@ const IndicatorManager = (() => {
   function buildConfigEl(inst) {
     if (inst.type === 'rsi') return buildRsiConfigEl(inst);
     if (inst.type === 'fvg') return buildFvgConfigEl(inst);
+    if (inst.type === 'smc') return SMCIndicator.buildConfigEl(inst.params, (patch) => updateParams(inst.id, patch));
     const cfg = document.createElement('div');
     cfg.className = 'ind-config';
     cfg.innerHTML =

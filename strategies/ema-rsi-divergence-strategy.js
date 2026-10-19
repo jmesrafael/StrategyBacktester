@@ -5,9 +5,11 @@
 // onCandle(candle, indicators, account) for each revealed candle.
 //
 //   candle:     { time, open, high, low, close, volume }
-//   indicators: { ema(closes,p), sma(closes,p), rsi(closes,p), closes[], candles[] }
-//   account:    { position:'long'|'short'|null, entryPrice, balance }
-//   return:     'long' | 'short' | 'close' | null
+//   indicators: { ema/sma/rsi(closes,p), atr(candles,p), macd, bollinger, vwap, stochastic,
+//                 adx, htf(iv), time, inSession, closes[], candles[] }  (full list: README)
+//   account:    { position:'long'|'short'|null, entryPrice, balance, size, stopLoss, ... }
+//   return:     'long' | 'short' | 'close' | null  — or { signal, stopLoss, takeProfit,
+//               trailingStop, breakEvenAt, sizePct } (used here when the ATR inputs are on)
 //
 // Idea: a divergence between price and RSI signals exhaustion of the current move;
 // the EMA cross then CONFIRMS the reversal has begun. The divergence ARMS a setup,
@@ -62,6 +64,10 @@
       pivotStrength:      { label: 'Pivot strength',  type: 'number', default: 2,  min: 1,  max: 5 },
       direction:          { label: 'Direction', type: 'select',
                             options: ['Both', 'Long only', 'Short only'], default: 'Both' },
+      // optional ATR risk management (0 = off → plain signals, exits only on the opposite setup)
+      stopATR:            { label: 'Stop (× ATR, 0=off)',   type: 'number', default: 0, min: 0, max: 10 },
+      tpR:                { label: 'Target (R, 0=off)',     type: 'number', default: 0, min: 0, max: 20 },
+      trailATR:           { label: 'Trail (× ATR, 0=off)',  type: 'number', default: 0, min: 0, max: 10 },
     },
 
     // Indicators this strategy reads — shown on the chart during Watch Replay so
@@ -86,6 +92,9 @@
       this.lookback = params.divergenceLookback;
       this.k = params.pivotStrength;
       this.direction = params.direction;
+      this.stopATR = params.stopATR || 0;
+      this.tpR = params.tpR || 0;
+      this.trailATR = params.trailATR || 0;
       this.prevFastAbove = null;   // for EMA cross detection
       this.lastBullIdx = -1;       // pivot idx that last armed a long (dedupe)
       this.lastBearIdx = -1;       // pivot idx that last armed a short (dedupe)
@@ -157,6 +166,20 @@
         ? `${trigger === 'long' ? 'Bullish' : 'Bearish'} divergence (${detail}) → EMA${this.fast}/${this.slow} cross ${trigger === 'long' ? 'up' : 'down'}`
         : `Waiting · armed L:${this.armLong != null ? 'yes' : 'no'} S:${this.armShort != null ? 'yes' : 'no'} · ` +
           `EMA${this.fast}${fastAbove ? '>' : '<'}EMA${this.slow} · RSI ${rsiArr[to] != null ? rsiArr[to].toFixed(0) : '-'}`;
+
+      // --- optional ATR stop / target / trail on new entries -------------
+      if ((signal === 'long' || signal === 'short') && (this.stopATR > 0 || this.trailATR > 0)) {
+        const a = indicators.atr(candles, 14)[n - 1];
+        if (a != null) {
+          const dir = signal === 'long' ? 1 : -1, c = candle.close, risk = this.stopATR * a;
+          return {
+            signal,
+            stopLoss: risk > 0 ? c - dir * risk : undefined,
+            takeProfit: risk > 0 && this.tpR > 0 ? c + dir * risk * this.tpR : undefined,
+            trailingStop: this.trailATR > 0 ? this.trailATR * a : undefined,
+          };
+        }
+      }
       return signal;
     },
   };

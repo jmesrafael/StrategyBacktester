@@ -1,31 +1,62 @@
-// api.js — data loading (Bybit live paginated, with offline synthetic fallback)
+// api.js — data loading (MEXC USDT perpetuals live paginated, saved on-device
+// per enabled TF via CandleStore, with offline synthetic fallback)
 
 // ---- in-memory candle cache -------------------------------------------------
 // Avoids re-fetching when switching timeframes back and forth.
-// TTL = 5 min for live data; synthetic fallback is cached for the session.
+// Entries older than CACHE_TTL_MS are "stale": still served instantly (so a TF
+// switch never blocks on the network) while the caller revalidates in the
+// background. Synthetic fallback data never goes stale.
 const _candleCache = new Map();
+const _inflight = new Map();   // key -> Promise, so concurrent callers share one fetch
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
-function _cacheKey(symbol, interval, target) { return `${symbol}|${interval}|${target}`; }
-
-function _cacheGet(symbol, interval, target) {
-  const entry = _candleCache.get(_cacheKey(symbol, interval, target));
-  if (!entry) return null;
-  if (entry.live && Date.now() - entry.ts > CACHE_TTL_MS) {
-    _candleCache.delete(_cacheKey(symbol, interval, target));
-    return null;
-  }
-  return entry.data;
+// endSec (optional) anchors the window so it ENDS at that time instead of "now"
+// (used by replay when a lower timeframe's latest history doesn't reach back far enough).
+function _cacheKey(symbol, interval, target, endSec) {
+  return `${symbol}|${interval}|${target}|${endSec || 'now'}`;
 }
 
-function _cacheSet(symbol, interval, target, data, live) {
-  _candleCache.set(_cacheKey(symbol, interval, target), { data, ts: Date.now(), live });
+function _cacheEntry(symbol, interval, target, endSec) {
+  return _candleCache.get(_cacheKey(symbol, interval, target, endSec)) || null;
 }
 
-// Synchronous read — returns cached data or null without any async overhead.
-// Use this to decide whether to show a loading indicator before awaiting fetchCandles.
-function peekCandleCache(symbol, interval, target) {
-  return _cacheGet(symbol, interval, target);
+function _isFresh(entry) {
+  return !!entry && (!entry.live || Date.now() - entry.ts <= CACHE_TTL_MS);
+}
+
+function _cacheSet(symbol, interval, target, data, live, endSec) {
+  _candleCache.set(_cacheKey(symbol, interval, target, endSec), { data, ts: Date.now(), live });
+  // latest-window live data is also saved on-device (only for enabled TFs)
+  if (live && !endSec) CandleStore.save(symbol, interval, data, data.length < target);
+}
+
+// Fill the memory cache from the on-device copy (if it covers `target` bars).
+// The entry is marked stale, so the caller shows it instantly and then only the
+// newest bars are fetched on top (refreshCandles). Resolves true when served.
+async function hydrateCandles(symbol, interval, target) {
+  if (_cacheEntry(symbol, interval, target)) return true;
+  const stored = await CandleStore.get(symbol, interval);
+  if (!stored || !stored.data || !stored.data.length) return false;
+  if (stored.data.length < target && !stored.complete) return false;
+  if (_cacheEntry(symbol, interval, target)) return true; // a fetch landed meanwhile
+  const data = stored.data.length > target ? stored.data.slice(stored.data.length - target) : stored.data;
+  _candleCache.set(_cacheKey(symbol, interval, target), { data, ts: 0, live: true });
+  return true;
+}
+
+function dataSourceName() {
+  return 'MEXC live';
+}
+
+// Synchronous read — returns cached data (fresh OR stale) or null.
+// Use isCandleCacheFresh() to decide whether to revalidate in the background.
+function peekCandleCache(symbol, interval, target, endSec) {
+  const e = _cacheEntry(symbol, interval, target, endSec);
+  return e ? e.data : null;
+}
+
+function isCandleCacheFresh(symbol, interval, target, endSec) {
+  return _isFresh(_cacheEntry(symbol, interval, target, endSec));
 }
 
 // Call this to force a fresh fetch (e.g. Refresh button).
@@ -35,68 +66,87 @@ function clearCandleCache(symbol, interval, target) {
 }
 
 // Returns ascending array of { time(sec), open, high, low, close, volume }.
-// Walks backward through Bybit v5 kline pages until `target` candles are
-// collected (or history runs out), then deduplicates the one-bar page overlap.
+// Walks backward through MEXC perpetual kline pages (js/mexc.js) until `target`
+// candles are collected (or history runs out).
 //   target     — how many candles to end up with (most-recent kept)
 //   onProgress — optional (pageNo, pages) callback for the loading indicator
-async function fetchCandles(symbol, interval, target, onProgress) {
-  const cached = _cacheGet(symbol, interval, target);
-  if (cached) return cached;
+//   opts.endSec — optional window end (unix sec); default = now
+//   opts.force  — bypass a fresh cache entry (background revalidation)
+async function fetchCandles(symbol, interval, target, onProgress, opts) {
+  const endSec = opts && opts.endSec ? Math.floor(opts.endSec) : null;
+  const force = !!(opts && opts.force);
+  const entry = _cacheEntry(symbol, interval, target, endSec);
+  if (!force && _isFresh(entry)) return entry.data;
 
-  const pages = Math.max(1, Math.ceil(target / CFG.PAGE_LIMIT));
-  const merged = new Map(); // keyed by candle.time(sec) → dedupes page overlap
-  let end = null;           // ms upper bound for the next page (exclusive)
+  const key = _cacheKey(symbol, interval, target, endSec);
+  if (_inflight.has(key)) return _inflight.get(key); // share an in-progress (e.g. prefetch) request
 
-  for (let page = 1; page <= pages; page++) {
-    if (onProgress) onProgress(page, pages);
+  const p = _fetchPages(symbol, interval, target, onProgress, endSec)
+    .then((result) => { _cacheSet(symbol, interval, target, result, true, endSec); return result; })
+    .finally(() => _inflight.delete(key));
+  _inflight.set(key, p);
+  return p;
+}
 
-    let url = `https://api.bybit.com/v5/market/kline?category=linear` +
-      `&symbol=${symbol}&interval=${interval}&limit=${CFG.PAGE_LIMIT}`;
-    if (end != null) url += `&end=${end}`;
+function _fetchPages(symbol, interval, target, onProgress, endSec) {
+  return MEXC.fetchPages(symbol, interval, target, onProgress, endSec);
+}
 
-    const res = await fetch(url);
-    const data = await res.json();
-    if (data.retCode !== 0) throw new Error(data.retMsg || 'Bybit error');
+// Bring a cached (stale) series up to date cheaply: fetch only the newest page
+// and merge it onto the cached history. Falls back to a full fetch when there is
+// no cache yet, or when the newest page doesn't reach back to the cached end (gap).
+function refreshCandles(symbol, interval, target) {
+  const entry = _cacheEntry(symbol, interval, target);
+  if (!entry || !entry.live) return fetchCandles(symbol, interval, target);
+  if (_isFresh(entry)) return Promise.resolve(entry.data);
 
-    const raw = data.result.list; // descending: newest first
-    if (!raw || raw.length === 0) break;
-
-    for (const c of raw) {
-      const t = Math.floor(parseInt(c[0]) / 1000); // ms -> sec
-      merged.set(t, {
-        time: t,
-        open: parseFloat(c[1]),
-        high: parseFloat(c[2]),
-        low: parseFloat(c[3]),
-        close: parseFloat(c[4]),
-        volume: parseFloat(c[5]),
-      });
+  const key = _cacheKey(symbol, interval, target) + '|refresh';
+  if (_inflight.has(key)) return _inflight.get(key);
+  const p = (async () => {
+    const old = entry.data;
+    const latest = await _fetchPages(symbol, interval, Math.min(target, MEXC.PAGE), null, null);
+    const sec = intervalToSeconds(interval);
+    if (!old.length || latest[0].time > old[old.length - 1].time + sec) {
+      return fetchCandles(symbol, interval, target, null, { force: true });
     }
+    const cutoff = latest[0].time;
+    const merged = old.filter((c) => c.time < cutoff).concat(latest);
+    const result = merged.length > target ? merged.slice(merged.length - target) : merged;
+    _cacheSet(symbol, interval, target, result, true);
+    return result;
+  })().finally(() => _inflight.delete(key));
+  _inflight.set(key, p);
+  return p;
+}
 
-    // earliest bar in this page (descending list → last element)
-    const earliestMs = parseInt(raw[raw.length - 1][0]);
-    end = earliestMs - 1; // step the boundary so the bar is not refetched
-
-    if (raw.length < CFG.PAGE_LIMIT) break; // hit the start of available data
-    if (merged.size >= target) break;
+// ---- background prefetch -----------------------------------------------------
+// Quietly downloads the other enabled timeframes for the current symbol, one at a
+// time, so a later TF switch is served straight from memory (no loading state).
+// A TF already saved on-device only fetches its newest bars.
+// Calling it again (symbol / max change) cancels the previous queue.
+let _prefetchGen = 0;
+async function prefetchCandles(symbol, intervals, target) {
+  const gen = ++_prefetchGen;
+  for (const iv of intervals) {
+    if (gen !== _prefetchGen) return;
+    await hydrateCandles(symbol, iv, target);
+    if (gen !== _prefetchGen) return;
+    if (isCandleCacheFresh(symbol, iv, target)) continue;
+    try { await refreshCandles(symbol, iv, target); }
+    catch { return; } // offline / blocked — no point hammering the remaining TFs
+    await new Promise((r) => setTimeout(r, 120)); // stay gentle on the public API
   }
-
-  // dedupe → sort ascending → keep the most-recent `target`
-  const all = [...merged.values()].sort((a, b) => a.time - b.time);
-  const result = all.length > target ? all.slice(all.length - target) : all;
-  _cacheSet(symbol, interval, target, result, true);
-  return result;
 }
 
 // Deterministic synthetic OHLC so the app fully works offline / if CORS blocks.
-function syntheticCandles(symbol, interval, count) {
+function syntheticCandles(symbol, interval, count, endSec) {
   const seedBase = [...symbol].reduce((a, c) => a + c.charCodeAt(0), 0);
   let rng = mulberry32(seedBase * 7 + 13);
   const stepSec = intervalToSeconds(interval);
   const startPrice = { ETHUSDT: 3400, BTCUSDT: 64000, SOLUSDT: 150, BNBUSDT: 580,
-    XRPUSDT: 0.52, DOGEUSDT: 0.16, APEUSDT: 1.2 }[symbol] || 100;
+    XRPUSDT: 0.52, DOGEUSDT: 0.16, APEUSDT: 1.2, ZECUSDT: 50 }[symbol.replace(/\.P$/, '')] || 100;
   const now = Math.floor(Date.now() / 1000);
-  const t0 = now - stepSec * count;
+  const t0 = Math.floor((now - stepSec * count) / stepSec) * stepSec; // bar-aligned
   const out = [];
   let price = startPrice;
   for (let i = 0; i < count; i++) {

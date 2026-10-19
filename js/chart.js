@@ -1,7 +1,8 @@
 // chart.js — Lightweight Charts wrapper for the replay surface
 
 const ChartView = (() => {
-  let chart, candle, volume, cursorSeries, closeLine;
+  let chart, candle, volume, closeLine, timeline;
+  let cursorEl = null, cursorTime = null; // replay cut marker (DOM line, not a series)
   let container;
   let chartType = 'candlestick';
   let lastHaState = null; // { open, close } of the last permanent HA candle, for updateForming
@@ -39,8 +40,11 @@ const ChartView = (() => {
       handleScroll: true,
       // time-axis drag/zoom stays native; price scaling is wheel-only via
       // nudgePriceZoom() (axis drag disabled so the two can't fight).
+      // native time-axis double-click reset is replaced by app.js (fitData /
+      // follow the replay cut) — the native one scrolls to the end of the
+      // whitespace timeline and would show an empty chart.
       handleScale: { axisPressedMouseMove: { time: true, price: false },
-        axisDoubleClickReset: { time: true, price: true }, mouseWheel: true, pinch: true },
+        axisDoubleClickReset: { time: false, price: true }, mouseWheel: true, pinch: true },
       autoSize: true,
     });
 
@@ -58,11 +62,24 @@ const ChartView = (() => {
       lastValueVisible: false, crosshairMarkerVisible: false, visible: false,
     });
 
-    cursorSeries = chart.addSeries(LightweightCharts.LineSeries, { color: T.cursor,
-      lineWidth: 1, lineStyle: 2, priceLineVisible: false, lastValueVisible: false,
-      crosshairMarkerVisible: false,
-      // the cursor spans far past the data to read as a full-height line — keep it
-      // out of auto-scaling so those extreme points don't blow up the price range.
+    // Replay cut marker: a dashed vertical DOM line placed via timeToCoordinate.
+    // (It used to be a 2-point line series at one timestamp — invalid data that
+    // LWC can fail to paint ("Value is null"), blanking the whole chart.)
+    cursorEl = document.createElement('div');
+    cursorEl.className = 'replay-cursor';
+    cursorEl.style.cssText = 'position:absolute;top:0;width:0;pointer-events:none;z-index:2;display:none;' +
+      `border-left:1px dashed ${T.cursor};`;
+    el.appendChild(cursorEl);
+    chart.timeScale().subscribeVisibleLogicalRangeChange(positionCursor);
+    chart.timeScale().subscribeSizeChange(positionCursor);
+
+    // Whitespace-only series that owns the time axis: every candle time plus a
+    // run of future slots. It keeps date/time labels (and the crosshair's time
+    // label) on the axis past the last candle — e.g. right of the replay cut —
+    // without touching the candle series (whose update() must stay append-only).
+    timeline = chart.addSeries(LightweightCharts.LineSeries, {
+      lineVisible: false, pointMarkersVisible: false, priceLineVisible: false,
+      lastValueVisible: false, crosshairMarkerVisible: false,
       autoscaleInfoProvider: () => null });
 
     chart.subscribeCrosshairMove((param) => { if (onCrosshair) onCrosshair(param); });
@@ -112,6 +129,9 @@ const ChartView = (() => {
     chartType = type;
     candle.applyOptions({ visible: type !== 'line' });
     closeLine.applyOptions({ visible: type === 'line' });
+    // a hidden series still contributes its times to the shared time scale —
+    // stale line data from another timeframe would squash/blank the candles.
+    if (type !== 'line') closeLine.setData([]);
   }
 
   // ---- price-axis free pan / zoom -----------------------------------------
@@ -295,13 +315,67 @@ const ChartView = (() => {
       color: bar.close >= bar.open ? CFG.THEME.volUp : CFG.THEME.volDown });
   }
 
-  // vertical replay cursor at a given time — drawn far past the data so it reads
-  // as a full-height line (clipped to the pane); excluded from auto-scaling above.
-  function setCursor(time, priceLo, priceHi) {
-    if (time == null) { cursorSeries.setData([]); return; }
-    const span = (priceHi - priceLo) || Math.abs(priceHi) || 1;
-    const pad = span * 100;
-    cursorSeries.setData([{ time, value: priceLo - pad }, { time, value: priceHi + pad }]);
+  // vertical replay cursor at a given time (null hides it)
+  function setCursor(time) {
+    cursorTime = time == null ? null : time;
+    positionCursor();
+    requestAnimationFrame(positionCursor); // again once LWC has laid out new data
+  }
+  function positionCursor() {
+    if (!cursorEl) return;
+    const x = cursorTime == null ? null : chart.timeScale().timeToCoordinate(cursorTime);
+    if (x == null) { cursorEl.style.display = 'none'; return; }
+    let axisH = 0;
+    try { axisH = chart.timeScale().height(); } catch {}
+    cursorEl.style.display = 'block';
+    cursorEl.style.left = Math.round(x) + 'px';
+    cursorEl.style.height = Math.max(0, container.clientHeight - axisH) + 'px';
+  }
+
+  // ---- time axis / view helpers --------------------------------------------
+  // Timeline = all candle times + `futureBars` evenly spaced slots after the last.
+  function setTimeline(candles, stepSec, futureBars) {
+    if (!candles.length) { timeline.setData([]); return; }
+    const pts = candles.map((c) => ({ time: c.time }));
+    let t = candles[candles.length - 1].time;
+    for (let i = 0; i < futureBars; i++) pts.push({ time: (t += stepSec) });
+    timeline.setData(pts);
+  }
+
+  function visibleBars() {
+    const lr = chart.timeScale().getVisibleLogicalRange();
+    return lr ? lr.to - lr.from : null;
+  }
+
+  function setLogicalRange(from, to) {
+    if (!(to > from)) return;
+    chart.timeScale().setVisibleLogicalRange({ from, to });
+  }
+
+  // Fit all data (like fitContent, but ignoring the whitespace future slots).
+  function fitData(lastIdx) {
+    if (lastIdx == null || lastIdx < 0) return;
+    const w = chart.timeScale().width() || container.clientWidth || 800;
+    const maxBars = Math.max(20, Math.floor(w / 0.5)); // minBarSpacing = 0.5
+    const to = lastIdx + 6;
+    setLogicalRange(Math.max(-2, to - maxBars), to);
+  }
+
+  // Default view: newest bars at a readable spacing (TradingView-like ~6px/bar),
+  // instead of cramming the whole history in at the 0.5px minimum.
+  function resetView(lastIdx, spacing) {
+    if (lastIdx == null || lastIdx < 0) return;
+    const w = chart.timeScale().width() || container.clientWidth || 800;
+    const bars = Math.max(20, Math.round(w / (spacing || 6)));
+    const to = lastIdx + 6;
+    setLogicalRange(to - bars, to);
+  }
+
+  // Keep bar `idx` pinned near the right edge (replay follow), preserving zoom.
+  function followIndex(idx, bars) {
+    const width = bars || visibleBars() || 150;
+    const pad = Math.max(6, Math.round(width * 0.12));
+    setLogicalRange(idx + pad - width, idx + pad);
   }
 
   function scrollToRealtime() { chart.timeScale().scrollToRealTime(); }
@@ -315,6 +389,7 @@ const ChartView = (() => {
     setGridVisible, setGridColor, setCrosshairMode, addLineIndicator, addPaneSeries, setPaneHeight,
     setCandleMarkers, clearCandleMarkers, toggleVolume, setCursor,
     nudgePriceZoom, panPrice, resetPriceZoom,
+    setTimeline, visibleBars, setLogicalRange, fitData, resetView, followIndex,
     scrollToRealtime, getChart, getCandleSeries, getVolumeSeries,
     onCrosshairMove, onPriceRangeChange, fmtVol };
 })();

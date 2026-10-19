@@ -1,7 +1,7 @@
 // config.js — shared constants and theme tokens
 window.CFG = {
-  // Bybit symbols / intervals
-  SYMBOLS: ['ETHUSDT', 'BTCUSDT', 'SOLUSDT', 'BNBUSDT', 'XRPUSDT', 'DOGEUSDT', 'APEUSDT'],
+  // Symbols — MEXC USDT perpetuals ("XXXUSDT.P"), loaded via proxy (see js/mexc.js)
+  SYMBOLS: ['SOLUSDT.P', 'BTCUSDT.P', 'ETHUSDT.P', 'XRPUSDT.P', 'DOGEUSDT.P', 'ZECUSDT.P'],
   INTERVALS: [
     ['1', '1m'], ['3', '3m'], ['5', '5m'], ['15', '15m'], ['30', '30m'],
     ['60', '1h'], ['120', '2h'], ['240', '4h'], ['360', '6h'], ['720', '12h'],
@@ -19,7 +19,6 @@ window.CFG = {
   // Max history selector (top bar). Fetched via paginated kline requests.
   // Default to the largest so the chart shows as much history as possible.
   MAX_CANDLES: [1000, 3000, 5000, 10000, 20000],
-  PAGE_LIMIT: 1000,         // Bybit v5 per-request maximum
 
   // Replay timing
   // realistic mode: each candle is animated over FRAMES sub-steps
@@ -29,7 +28,7 @@ window.CFG = {
   MIN_FRAME_MS: 6,
 
   // ~10000 candles ≈ 14 months on 1h → always shows deep history by default.
-  DEFAULTS: { symbol: 'ETHUSDT', interval: '60', maxCandles: 10000, candleStyle: 'mono' },
+  DEFAULTS: { symbol: 'SOLUSDT.P', interval: '60', maxCandles: 10000, candleStyle: 'mono' },
 
   // Replay trading simulator
   START_BALANCE: 10000,
@@ -46,7 +45,13 @@ window.CFG = {
     defaults: 'cr.defaults', version: 'cr.schema',
     drawLabels: 'cr.drawLabels', drawings: 'cr.drawings',
     stratInputs: 'cr.stratInputs', lastStrategy: 'cr.lastStrategy',
-    chartType: 'cr.chartType' },
+    chartType: 'cr.chartType', defaultSymbolV: 'cr.defaultSymbolV' },
+
+  // Future whitespace slots appended to the time axis so date/time labels (and
+  // the crosshair time label) keep showing past the last candle / replay cut.
+  FUTURE_BARS: 500,
+  // Background-download the other timeframes after a load so TF switches are instant.
+  PREFETCH_TIMEFRAMES: true,
 
   // Bump when default settings change so persisted prefs are migrated once.
   SCHEMA_VERSION: 2,

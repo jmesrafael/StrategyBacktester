@@ -15,20 +15,28 @@ const Replay = (() => {
   let pathPos = 0;
   let runHi = 0, runLo = 0, formOpen = 0;
 
+  // Partially-formed bar shown after switching UP a timeframe mid-replay:
+  // { bar, endTime } — bar = aggregate of the lower-TF candles revealed so far
+  // inside full[cutIndex + 1], endTime = replay clock (no lookahead). It is
+  // replaced by the real bar as soon as playback advances.
+  let partial = null;
+
   let listeners = { tick: [], end: [], state: [] };
   function on(ev, fn) { listeners[ev].push(fn); }
   function emit(ev, payload) { listeners[ev].forEach((f) => f(payload)); }
 
-  function load(candles, cut) {
+  function load(candles, cut, partialBar) {
     full = candles;
-    setCut(cut != null ? cut : Math.min(full.length - 1, Math.floor(full.length * 0.45)));
+    setCut(cut != null ? cut : Math.min(full.length - 1, Math.floor(full.length * 0.45)), partialBar);
   }
 
-  function setCut(idx) {
+  function setCut(idx, partialBar) {
     stop();
     cutIndex = Math.max(1, Math.min(full.length - 1, idx));
     startCut = cutIndex;
     forming = false; path = []; pathPos = 0;
+    const nxt = full[cutIndex + 1];
+    partial = (partialBar && nxt && partialBar.bar && partialBar.bar.time === nxt.time) ? partialBar : null;
     renderRevealed();
     emit('state', stateObj());
   }
@@ -37,18 +45,18 @@ const Replay = (() => {
 
   function renderRevealed() {
     const vis = revealed();
-    ChartView.setSlice(vis);
+    ChartView.setSlice(vis, partial ? partial.bar : undefined);
     IndicatorManager.recompute(vis);
-    drawCursorAt(full[cutIndex].time);
-    emit('tick', { index: cutIndex, candle: full[cutIndex], forming: false });
+    if (partial) {
+      drawCursorAt(partial.bar.time);
+      emit('tick', { index: cutIndex, candle: partial.bar, forming: true });
+    } else {
+      drawCursorAt(full[cutIndex].time);
+      emit('tick', { index: cutIndex, candle: full[cutIndex], forming: false });
+    }
   }
 
-  function drawCursorAt(time) {
-    const vis = revealed();
-    const lo = Math.min(...vis.map((c) => c.low));
-    const hi = Math.max(...vis.map((c) => c.high));
-    ChartView.setCursor(time, lo, hi);
-  }
+  function drawCursorAt(time) { ChartView.setCursor(time); }
 
   // ---- playback loop -------------------------------------------------------
   function scheduleNext() {
@@ -77,6 +85,7 @@ const Replay = (() => {
   // candle-by-candle: drop the next finished candle in whole
   function advanceCandle() {
     if (cutIndex >= full.length - 1) return;
+    partial = null;
     cutIndex++;
     const c = full[cutIndex];
     ChartView.updateForming(c);
@@ -90,10 +99,18 @@ const Replay = (() => {
     if (!forming) {
       if (cutIndex >= full.length - 1) return;
       const next = full[cutIndex + 1];
-      path = intrabarPath(next, CFG.FRAMES_PER_CANDLE);
       pathPos = 0;
       formOpen = next.open;
-      runHi = next.open; runLo = next.open;
+      if (partial) {
+        // continue forming from where the partial bar left off (no visual reset)
+        const pb = partial.bar;
+        path = intrabarPath({ ...next, open: pb.close }, CFG.FRAMES_PER_CANDLE);
+        runHi = pb.high; runLo = pb.low;
+      } else {
+        path = intrabarPath(next, CFG.FRAMES_PER_CANDLE);
+        runHi = next.open; runLo = next.open;
+      }
+      partial = null;
       forming = true;
     }
     const next = full[cutIndex + 1];
@@ -180,5 +197,6 @@ const Replay = (() => {
 
   return { load, setCut, jumpCutTo, play, pause, toggle, step, rewind,
     setSpeed, setMode, reload, rerender, on, state: stateObj,
-    get full() { return full; }, get cutIndex() { return cutIndex; } };
+    get full() { return full; }, get cutIndex() { return cutIndex; },
+    get partial() { return partial; } };
 })();

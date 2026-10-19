@@ -760,3 +760,87 @@ and labels, plus a vector diagram from `pdf/svg/*.svg` and the rules in plain wo
 `pdf/svgs.py`, trade export: `export-examples.js`). The numbers quoted in it (154 trades, 31/36/34% outcomes, +$815–876, random −$55, 8-trade dry spell,
 longs +$499 / shorts +$376) come from the runs above. Not yet included, pending approval of this draft: ~10 winning examples each for SOL and ETH and
 app screenshots of the SMC Toolkit / strategy.
+
+### 2026-10-19 · Stress test: parameter sensitivity, harder fills, higher costs, luck (v7 frozen) — `node sensitivity.js`, `node luck.js`
+- ±20% on 12 settings (24 runs): Oct23–26 profit +$579 to +$912 (base +$876); all positive. Same runs on Oct21–Oct23: all negative (−$22 to −$170).
+- Fill must trade through entry by 0.03/0.06/0.10/0.20%: +$771 / +$743 / +$660 / +$503. Costs ×1.5/×2/×3: +$825 / +$775 / +$674. 0.06% through + 1.5× costs: +$701.
+- Drop best 3/5/10 trades: +$786 / +$726 / +$577. Trade bootstrap 5th–95th: +$546…+$1,214. Winners −25%: +$527.
+- Conclusion: robust inside 2023–26; the open problem is still the pre-2023 failure and the ~200-variant selection. Plain-language summary: `results/REPORT-v7-stress-test.md`.
+
+### 2026-10-19 · Binance USDT-M futures = official data source; v7 (frozen) on 2019–2026 — `node fetchBinance.js …`, `node binance.js`
+- Data: `data/binance-sol15.json` (213,572 bars from 2020-09-14), `data/binance-eth15.json` (241,601 bars from 2019-11-27); 0 gaps, 0 broken candles.
+  Versus Bybit on the overlap: closes differ 0.025% (SOL) / 0.018% (ETH); 107/129 SOL and 116/141 ETH trades identical. Binance is the official source from here on.
+- Results ($1/R, tables in `results/binance-v7.md`): Dec 2019–Oct 2021 (never seen): −6.77R, 58 trades, 3R hit 14%. Oct 2021–Oct 2023: −9.07R.
+  Oct 2023–Oct 2026: +76.33R (156 trades, t 3.75, 3R hit 29%). All years: +60.49R, 322 trades, t 2.27, PF 1.44, max DD 18.4R.
+- Every one of the four pre-2023 years is flat or negative; all three 2023–26 years are positive. Profit exists only in the years v7 was tuned on.
+- Rolling 12 months fell from +42.1R (Jun 2026) to +17.0R (Sep 2026).
+
+### 2026-10-19 · v7+1m (SOL only) — engine `v7m.js`, sweeps `v7m-sweep.js`; data Binance futures 1m
+- Engine: v7's 15m setups, executed/managed on 1m. Baseline mode reproduces 15m v7 on SOL Oct25–Oct26 exactly (27 trades, +10.35R).
+- Trade study (SOL, Oct25–Oct26): BE at 1R adds ~5R vs no BE; the next 15m swing is mostly 0.4–1.0R away (swing target = small RR);
+  several full losers reached +0.6–0.86R first.
+- Dev-year sweep (Oct25–Oct26, SOL, R): earlier BE 0.3–0.75R ≤ v7; lock +0.2R at 0.75–1R +1.5–2R (noise); swing target +7.3R; fib entry
+  (inside FVG) 0–6 trades, clamped ≈ v7 or worse; 1m trailing worse (+5.5–6.7R); **1m-CHoCH confirmation entry (touch FVG mid → 1m CHoCH, pivot 2,
+  stop under the 1m sweep low, target = v7's 3R price): +33.74R, 23 trades, PF 3.43** — but pivot 1 → +14.9R, pivot 3 → +7.6R, FVG-edge touch → −2.3R (fragile).
+- **Pre-registered before any other year is looked at:** C1 = confirm k2, touch mid, 1m sweep stop, v7 3R target price, BE 1R. C2 = same but fixed 5R target.
+  Control = v7. Validate on SOL Oct20–Oct25 (five years never used for 1m tuning). Pass = C beats v7 in ≥ 4 of 5 years and total > v7; no tuning on those years.
+- **Validation (SOL, `node v7m-monthly.js` → `results/v7m-monthly.md`):** C1 Oct22–23 −22.05R (v7 −6.75), Oct24–25 −6.56R (v7 +16.77);
+  C2 −16.86 / −8.58. C1 beat v7 in 2 of 11 and 2 of 12 months. **FAIL** (0 of 2 validation years so far; ≥4 of 5 is no longer reachable).
+  The +33.7R in Oct25–26 was fitted to that year.
+- 1m early-exit idea (exit on a 1m CHoCH against the trade before +0.5R), checked on Oct22, Oct24, Oct25 together: totals +10.3…+16.3R vs v7 +20.4R.
+  It flattens the bad year (Oct22 −6.75 → about −0.5…+1) but cuts more winners in good years. Not adopted.
+- Small management tweaks over the same three years: lock +0.2R at 1R +20.9R, no follow-through rule +23.5R, v7 +20.4R — within noise.
+
+### 2026-10-19 · v7 concept run natively on 1m (SOL) — `v1m.js`, `v1m-grid.js`; split pre-registered: tune Oct21–Oct24, hold out Oct20 + Oct24–Oct26
+- Same ie.js setup/execution code fed Binance 1m bars (1m CHoCH, 1m FVG, mid entry, leg stop, 3R, BE 1R). Literal bar counts: −185R over
+  1,126 trades in Oct21–Oct26, negative every year; clock-time windows −247R. Gross edge before fees +0.06R/trade; fees ~0.15R/trade.
+- Tuning years (Oct21–Oct24): 15m/1h/4h trend, displacement, FVG size, 1 trade/session, 5R, first window only: all negative (−16 … −124R).
+  Only swing length 30 was positive (+6.5R, 24 trades; with 1h trend +6.4R, 13 trades); swing 20 and 45 negative (spike).
+- Holdout (Oct20, Oct24, Oct25): swing 30 −12.1R (38 trades); swing 30 + 1h trend −0.2R (18 trades). **FAIL.** No positive 1m-native version found.
+
+### 2026-10-19 · v7 double-check across all years — `node validate-app.js`, `node v7-years.js` → `results/v7-years.md`
+- ie.js unchanged (sha 6539c98f). App strategy defaults = research rules. App vs research (current working tree): SOL 79/79 identical, ETH 75/75 + 2 app-only (known same-candle break/fill case).
+- Binance 15m, $1/R: SOL +20.3R (149 trades; Oct20–23 −12.4R, Oct23–26 +32.7R); ETH +40.2R (173; Oct19–23 −3.4R, Oct23–26 +43.5R).
+  Combined by year: −9.2 / +2.4 / +0.1 / −9.2 / +20.8 / +35.3 / +20.2. Costs ×2: SOL +11.8R, ETH +25.9R.
+- SOL re-run on Binance 1m candles: +21.8R total (vs +20.3R on 15m); per year within ~±3.5R (largest gap Oct23–24: +2.7R on 1m vs +6.2R on 15m).
+
+### 2026-10-19 · PDH/PDL confluence on v7 — `pd-study.js` (labels), `pd-rules.js` (rules); Binance 15m
+- Study (SOL+ETH, 322 trades): a PD level between +1R and 3R is weaker in both regimes (2019–23 −0.14R/trade vs −0.10; 2023–26 +0.33 vs +0.49);
+  "no PD level involved" weakest group in both. Sweeps +0.03 / +0.56 (≈ v7). Bounce / break-and-retest: 9–29 trades, too few.
+- Rules on SOL+ETH (2019–23 | 2023–26, R): v7 −15.2 (165) | +76.3 (156). Skip block3-or-none +0.5 (52) | +42.7 (69). Only sweep/bounce/retest +1.6 (55) | +33.3 (63).
+  TP at the PD level (1R/1.5R/2R floors) +51.5 … +58.0 total vs +61.1 — not useful.
+- **Pre-registered untouched check:** P1 = skip if a PD level lies between +1R and 3R or no PD level is involved; P2 = only sweep/bounce/retest.
+  On BTC, XRP, DOGE, BNB, AVAX pooled (Binance 15m): pass = average R per trade above v7's in both 2019–23 and 2023–26.
+- **User change:** test on SOL + ETH only (other-coin check dropped) and define PDH/PDL in New York time (`pdny.js`): `nyday` = previous ET
+  calendar day, `nysess` = previous day's 08:30–16:00 ET session. `PD=nyday|nysess|utc node pd-study.js / pd-rules.js`.
+- Label effects change sign between definitions (block3: weak under utc, above average under nysess post-2023; reclaim strong under nyday,
+  negative under nysess). Only "entry outside previous-day range" is ≥ v7 per trade in both regimes under all three definitions.
+- Best rules (pooled R/trade, 2019–23 | 2023–26): nyday "outside range or reclaim" +0.22 (29) | +0.62 (33), total +26.9R vs v7 +61.1R;
+  nysess same rule +0.06 (79) | +0.45 (82), +41.9R. v7: −0.09 (165) | +0.49 (156). ~36 rule × definition combinations tried on the same data,
+  no holdout left; 2019–23 gain for nyday is t ≈ 0.7. **Not adopted.** Suggest logging the label during paper trading as forward evidence.
+
+### 2026-10-19 · Hypothesis round H1–H8 on frozen v7 (SOL + ETH, Binance 15m) — PROTOCOL, written before any run
+Each hypothesis has one primary rule (thresholds fixed here). A rule removes trades from v7's trade list (no re-simulation of freed slots).
+Cells: SOL/ETH × 2019–23/2023–26. **Pass** = (a) average R/trade above v7 in ≥ 3 of 4 cells, (b) pooled average above the 95th percentile of
+5,000 random subsets of the same size drawn within each cell, (c) ≥ 40% of trades kept. Failing rules are reported, not tuned.
+- H1 Weekday only (CHoCH on Mon–Fri ET). Reason: the NY-open effect needs the US equity open.
+- H2 Daily trend: trade only with the daily trend (last completed UTC daily close vs EMA20 of daily closes).
+- H3 4h trend: with the 4h trend (last completed 4h close vs EMA50 of 4h closes).
+- H4 Volume: CHoCH candle volume ≥ 1.5 × mean volume of the previous 20 candles (institutional participation).
+- H5 Overnight sweep: the CHoCH leg's extreme swept the overnight range (00:00–08:30 ET same day) on the trade's side (long: below overnight low).
+- H6 BTC agreement: BTC's last completed 1h close on the trade's side of BTC's 1h EMA50.
+- H7 Regime switch (equity-curve filter): trade only if the sum of R of v7's last 20 closed trades on that coin (closed before the signal) > 0.
+- H8 Volatility regime: daily ATR(14) as % of price in the top half of its trailing 365-day range (expansion regimes).
+- **Result H1–H8:** all FAIL, both as post-hoc subsets (`hyp.js` → `results/hyp.md`) and live-style with setups filtered before execution
+  (`hyp-live.js` → `results/hyp-live.md`, per user request "simulate like a live test"). Best cells-better 2/4; best random percentile 77.
+  Trend filters (H2 daily, H3 4h, H6 BTC) help ETH (+0.79…+0.96R/trade 2023–26) and hurt SOL (+0.03…+0.11) — no common rule.
+
+### 2026-10-19 · Round 2 (management, live-style re-simulation) — PROTOCOL, written before any run
+Goal: raise the share of trades that end positive without lowering average R. All via ie.js switches, every setup re-executed.
+- J1 Partial: take 50% at +1R (maker), rest runs to 3R with BE at 1R.  J2 Partial 50% at +1.5R.  J3 Partial 33% at +1R.
+- J4 Session exit: flatten any open trade at 16:00 ET.  J5 Time stop: exit at market after 8 hours (32 candles).
+Pass = average R/trade ≥ v7 in ≥ 3 of 4 cells (SOL/ETH × 2019–23/2023–26) and pooled average ≥ v7; win rate reported alongside.
+- **Result round 2** (`node mgmt.js` → `results/mgmt.md`): all FAIL the pass rule. J1 (50% at +1R) raises the share of positive trades
+  21% → 55% and cuts max DD 15.9R → 11.3R; average R/trade +0.19 → +0.17, total +60.5R → +53.5R; better in both 2019–23 cells, worse
+  in both 2023–26 cells. J4 session exit +15.9R and J5 8h stop +10.3R: clearly worse (v7's profit needs trades held past 16:00).
+  J1 is offered to the user as an optional comfort/drawdown trade-off, not as an improvement.
