@@ -1,0 +1,22 @@
+const B4 = { sessOffsetH: -1, chochWindowH: 3, sessionHours: 7.5, tpMode: 'R', tpR: 3, minDispATR: 1 };
+module.exports = { round: 5, base: B4, exps: [
+ ['v4', 'v4 = v3 + CHoCH bar >= 1 ATR', {}],
+ ['D1.25', 'nbr: CHoCH bar >= 1.25 ATR', { minDispATR: 1.25 }],
+ ['D1.5', 'nbr: CHoCH bar >= 1.5 ATR', { minDispATR: 1.5 }],
+ ['T2.5', 'nbr: 2.5R target', { tpR: 2.5 }],
+ ['T3.5', 'nbr: 3.5R target', { tpR: 3.5 }],
+ ['+H4-200', '+ with 4h EMA200', { htfMin: 240, htfEma: 200 }],
+ ['+H4-100', '+ with 4h EMA100', { htfMin: 240, htfEma: 100 }],
+ ['+H1-200', '+ with 1h EMA200', { htfMin: 60, htfEma: 200 }],
+ ['+HD-50', '+ with 1D EMA50', { htfMin: 1440, htfEma: 50 }],
+ ['+G.2', '+ FVG >= 0.2 ATR', { minFvgATR: 0.2 }],
+ ['+G.3', '+ FVG >= 0.3 ATR', { minFvgATR: 0.3 }],
+ ['+BEL.2', '+ BE lock +0.2R', { beLockR: 0.2 }],
+ ['+BEL.1', '+ BE lock +0.1R', { beLockR: 0.1 }],
+ ['+E.25', '+ entry 25% into FVG', { entryFrac: 0.25 }],
+ ['+S.25', '+ stop 0.25 ATR wider', { stopMode: 'legATR', stopATR: 0.25 }],
+ ['+N.5', '+ skip stop < 0.5%', { minStopPct: 0.005 }],
+ ['+Ffib', '+ fib golden zone', { filter: (s) => s.f.fib }],
+ ['+M1', '+ max 1 trade/session', { maxTradesPerSession: 1 }],
+ ['+FW5', '+ FVG within 5 bars', { fvgWindow: 5 }],
+]};

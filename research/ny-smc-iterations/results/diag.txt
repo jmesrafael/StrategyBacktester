@@ -1,0 +1,143 @@
+v3 trades, SOL+ETH, 2023-10 → 2026-10. avg/sum = R per trade / total R. TP% = share hitting the 3R target.
+
+### All
+v3 all                             | train n=316 TP 21% avg  +0.13 sum  +40.8 | Y3 n=141 avg  +0.09 sum  +12.8 | SOL  +32.0 ETH  +21.6
+v4 subset (CHoCH ≥ 1 ATR)          | train n=293 TP 22% avg  +0.18 sum  +52.4 | Y3 n=138 avg  +0.11 sum  +15.4 | SOL  +39.4 ETH  +28.4
+v5b subset                         | train n=209 TP 23% avg  +0.25 sum  +51.3 | Y3 n=104 avg  +0.15 sum  +15.4 | SOL  +29.5 ETH  +37.2
+
+### Path after fill (ignoring breakeven): share of trades reaching +kR before the original stop
+train  0.5R: 71%  1R: 56%  1.5R: 41%  2R: 34%  2.5R: 27%  3R: 23%  4R: 15%  5R: 10%
+Y3     0.5R: 68%  1R: 52%  1.5R: 40%  2R: 36%  2.5R: 30%  3R: 25%  4R: 21%  5R: 14%
+train: no-BE fixed target expectancy (gross R/trade): 1R  +0.13  1.5R  +0.01  2R  +0.02  2.5R  -0.06  3R  -0.09  4R  -0.27  5R  -0.41
+median bars fill→+1R (trades that got there): 8  fill→+3R: 46  fill→stop (stopped before 1R): 9
+BE exits that later reached +3R before the original stop: 27 of 159
+
+### Early momentum: best excursion in the 4 bars after the fill
+mfe4 -∞..0.25                      | train n=103 TP 11% avg  -0.46 sum  -47.5 | Y3 n= 47 avg  -0.59 sum  -27.7 | SOL  -32.7 ETH  -42.5
+mfe4 0.25..0.5                     | train n= 83 TP 23% avg  +0.19 sum  +15.4 | Y3 n= 30 avg  +0.19 sum   +5.6 | SOL   +1.0 ETH  +19.9
+mfe4 0.5..1                        | train n= 78 TP 22% avg  +0.27 sum  +21.1 | Y3 n= 37 avg  +0.54 sum  +20.0 | SOL  +32.4 ETH   +8.6
+mfe4 ≥ 1                           | train n= 52 TP 37% avg  +1.00 sum  +51.8 | Y3 n= 27 avg  +0.55 sum  +15.0 | SOL  +31.2 ETH  +35.6
+
+### Fill candle close vs entry (R; >0 = closed back in trade direction)
+fillClose -∞..-0.5                 | train n=  7 TP  0% avg  -0.86 sum   -6.0 | Y3 n=  8 avg  -1.13 sum   -9.1 | SOL   -7.9 ETH   -7.2
+fillClose -0.5..-0.25              | train n= 25 TP 16% avg  -0.24 sum   -6.1 | Y3 n= 10 avg  +0.43 sum   +4.3 | SOL   +0.7 ETH   -2.5
+fillClose -0.25..0                 | train n=120 TP 18% avg  +0.00 sum   +0.0 | Y3 n= 44 avg  +0.06 sum   +2.8 | SOL  +10.0 ETH   -7.1
+fillClose 0..0.25                  | train n=123 TP 22% avg  +0.19 sum  +23.1 | Y3 n= 59 avg  +0.36 sum  +21.5 | SOL  +27.7 ETH  +16.9
+fillClose ≥ 0.25                   | train n= 41 TP 32% avg  +0.73 sum  +29.7 | Y3 n= 20 avg  -0.33 sum   -6.7 | SOL   +1.5 ETH  +21.5
+
+### Bars from FVG to fill
+1                                  | train n=127 TP 19% avg  +0.08 sum   +9.8 | Y3 n= 52 avg  +0.08 sum   +4.3 | SOL  +17.2 ETH   -3.1
+2-3                                | train n= 85 TP 25% avg  +0.27 sum  +23.2 | Y3 n= 40 avg  +0.13 sum   +5.2 | SOL  +11.9 ETH  +16.5
+4-8                                | train n= 69 TP 23% avg  +0.20 sum  +14.0 | Y3 n= 30 avg  +0.19 sum   +5.7 | SOL   +4.7 ETH  +15.0
+9+                                 | train n= 35 TP 14% avg  -0.18 sum   -6.2 | Y3 n= 19 avg  -0.13 sum   -2.4 | SOL   -1.8 ETH   -6.8
+
+### CHoCH time (ET)
+08:30-09:30 pre-open               | train n= 95 TP 24% avg  +0.27 sum  +25.4 | Y3 n= 48 avg  +0.12 sum   +5.5 | SOL  +19.0 ETH  +11.9
+09:30-10:30                        | train n=125 TP 14% avg  -0.14 sum  -17.3 | Y3 n= 57 avg  -0.02 sum   -1.0 | SOL  -13.1 ETH   -5.2
+10:30-11:30                        | train n= 96 TP 26% avg  +0.34 sum  +32.7 | Y3 n= 36 avg  +0.23 sum   +8.3 | SOL  +26.1 ETH  +14.9
+
+### Fill time (ET)
+before 09:30                       | train n= 17 TP 35% avg  +0.62 sum  +10.6 | Y3 n=  4 avg  -0.17 sum   -0.7 | SOL   +6.0 ETH   +3.9
+09:30-11:30                        | train n=162 TP 20% avg  +0.12 sum  +19.6 | Y3 n= 79 avg  +0.05 sum   +4.1 | SOL  +20.9 ETH   +2.9
+11:30-16:00                        | train n=137 TP 20% avg  +0.08 sum  +10.6 | Y3 n= 58 avg  +0.16 sum   +9.4 | SOL   +5.2 ETH  +14.8
+
+### Weekday
+Mon                                | train n= 48 TP 21% avg  +0.24 sum  +11.3 | Y3 n= 28 avg  +0.14 sum   +3.9 | SOL  +15.1 ETH   +0.2
+Tue                                | train n= 52 TP 15% avg  -0.15 sum   -7.8 | Y3 n= 21 avg  +0.02 sum   +0.3 | SOL   -2.2 ETH   -5.3
+Wed                                | train n= 44 TP 14% avg  -0.21 sum   -9.3 | Y3 n= 26 avg  +0.02 sum   +0.5 | SOL   -5.9 ETH   -2.9
+Thu                                | train n= 38 TP 29% avg  +0.42 sum  +15.8 | Y3 n= 11 avg  +0.38 sum   +4.2 | SOL  +16.0 ETH   +4.1
+Fri                                | train n= 56 TP 25% avg  +0.29 sum  +16.2 | Y3 n= 19 avg  +0.05 sum   +0.9 | SOL   +2.8 ETH  +14.3
+Sat                                | train n= 36 TP 22% avg  +0.20 sum   +7.2 | Y3 n= 21 avg  +0.02 sum   +0.4 | SOL   +7.9 ETH   -0.3
+Sun                                | train n= 42 TP 21% avg  +0.17 sum   +7.3 | Y3 n= 15 avg  +0.17 sum   +2.5 | SOL   -1.7 ETH  +11.6
+
+### Direction
+long                               | train n=143 TP 21% avg  +0.17 sum  +24.9 | Y3 n= 66 avg  +0.26 sum  +17.3 | SOL  +13.1 ETH  +29.2
+short                              | train n=173 TP 21% avg  +0.09 sum  +15.9 | Y3 n= 75 avg  -0.06 sum   -4.5 | SOL  +18.9 ETH   -7.6
+
+### CHoCH candle range / ATR
+dispATR -∞..0.75                   | train n=  3 TP  0% avg  -1.05 sum   -3.2 | Y3 n=  0 avg  +0.00 sum   +0.0 | SOL   -3.2 ETH   +0.0
+dispATR 0.75..1                    | train n= 20 TP 10% avg  -0.42 sum   -8.5 | Y3 n=  3 avg  -0.86 sum   -2.6 | SOL   -4.3 ETH   -6.8
+dispATR 1..1.5                     | train n= 73 TP 18% avg  +0.04 sum   +2.9 | Y3 n= 31 avg  +0.54 sum  +16.6 | SOL   +9.9 ETH   +9.6
+dispATR 1.5..2                     | train n=101 TP 18% avg  +0.09 sum   +8.9 | Y3 n= 40 avg  -0.13 sum   -5.3 | SOL   -7.1 ETH  +10.6
+dispATR ≥ 2                        | train n=119 TP 28% avg  +0.34 sum  +40.7 | Y3 n= 67 avg  +0.06 sum   +4.1 | SOL  +36.6 ETH   +8.1
+
+### CHoCH candle body / range
+body -∞..0.4                       | train n= 32 TP  9% avg  -0.28 sum   -8.8 | Y3 n= 14 avg  +0.93 sum  +13.0 | SOL   +1.7 ETH   +2.5
+body 0.4..0.6                      | train n= 76 TP 22% avg  +0.22 sum  +16.9 | Y3 n= 35 avg  -0.16 sum   -5.7 | SOL   +6.3 ETH   +4.9
+body 0.6..0.8                      | train n=120 TP 22% avg  +0.15 sum  +18.2 | Y3 n= 56 avg  -0.06 sum   -3.1 | SOL   +8.5 ETH   +6.6
+body ≥ 0.8                         | train n= 88 TP 23% avg  +0.16 sum  +14.5 | Y3 n= 36 avg  +0.24 sum   +8.5 | SOL  +15.4 ETH   +7.6
+
+### CHoCH candle close location (1 = at extreme)
+closeLoc -∞..0.5                   | train n= 21 TP 10% avg  -0.30 sum   -6.3 | Y3 n=  9 avg  +0.12 sum   +1.1 | SOL   -3.8 ETH   -1.4
+closeLoc 0.5..0.75                 | train n=105 TP 21% avg  +0.11 sum  +11.9 | Y3 n= 40 avg  -0.27 sum  -10.6 | SOL   -7.7 ETH   +8.9
+closeLoc 0.75..0.9                 | train n=110 TP 23% avg  +0.20 sum  +22.0 | Y3 n= 60 avg  +0.12 sum   +7.1 | SOL  +20.3 ETH   +8.8
+closeLoc ≥ 0.9                     | train n= 80 TP 21% avg  +0.17 sum  +13.3 | Y3 n= 32 avg  +0.48 sum  +15.2 | SOL  +23.2 ETH   +5.3
+
+### FVG height / ATR
+fvgATR -∞..0.1                     | train n= 57 TP 19% avg  +0.10 sum   +5.4 | Y3 n= 19 avg  -0.27 sum   -5.0 | SOL   +4.1 ETH   -3.7
+fvgATR 0.1..0.2                    | train n= 38 TP 16% avg  -0.18 sum   -7.0 | Y3 n= 17 avg  +0.21 sum   +3.6 | SOL   +6.1 ETH   -9.6
+fvgATR 0.2..0.4                    | train n= 61 TP 23% avg  +0.23 sum  +13.7 | Y3 n= 29 avg  -0.30 sum   -8.7 | SOL   -5.2 ETH  +10.2
+fvgATR 0.4..0.7                    | train n= 75 TP 23% avg  +0.23 sum  +17.5 | Y3 n= 25 avg  +0.59 sum  +14.8 | SOL   +6.0 ETH  +26.3
+fvgATR ≥ 0.7                       | train n= 85 TP 21% avg  +0.13 sum  +11.1 | Y3 n= 51 avg  +0.16 sum   +8.1 | SOL  +20.9 ETH   -1.6
+
+### Bars CHoCH → FVG completes
+1                                  | train n=232 TP 22% avg  +0.20 sum  +45.8 | Y3 n=108 avg  +0.00 sum   +0.2 | SOL  +26.5 ETH  +19.5
+2                                  | train n=  6 TP 33% avg  +0.63 sum   +3.8 | Y3 n=  3 avg  -0.38 sum   -1.2 | SOL   +0.8 ETH   +1.8
+3-5                                | train n= 36 TP  8% avg  -0.39 sum  -14.0 | Y3 n= 11 avg  +0.55 sum   +6.1 | SOL   +0.4 ETH   -8.4
+6-10                               | train n= 42 TP 21% avg  +0.12 sum   +5.2 | Y3 n= 19 avg  +0.41 sum   +7.7 | SOL   +4.3 ETH   +8.7
+
+### Stop distance %
+stopPct -∞..0.005                  | train n= 11 TP 27% avg  +0.34 sum   +3.7 | Y3 n= 12 avg  -0.35 sum   -4.2 | SOL   -3.7 ETH   +3.3
+stopPct 0.005..0.0075              | train n= 25 TP 20% avg  +0.06 sum   +1.6 | Y3 n= 21 avg  -0.13 sum   -2.8 | SOL   -5.3 ETH   +4.1
+stopPct 0.0075..0.01               | train n= 36 TP 19% avg  +0.01 sum   +0.5 | Y3 n= 24 avg  +0.11 sum   +2.7 | SOL   +6.3 ETH   -3.1
+stopPct 0.01..0.015                | train n= 67 TP 24% avg  +0.26 sum  +17.6 | Y3 n= 26 avg  +0.20 sum   +5.3 | SOL   +2.9 ETH  +20.0
+stopPct 0.015..0.02                | train n= 66 TP 18% avg  +0.01 sum   +0.7 | Y3 n= 29 avg  +0.33 sum   +9.7 | SOL  +12.7 ETH   -2.3
+stopPct ≥ 0.02                     | train n=111 TP 21% avg  +0.15 sum  +16.7 | Y3 n= 29 avg  +0.07 sum   +2.1 | SOL  +19.1 ETH   -0.4
+
+### Stop distance / ATR
+stopATR -∞..1.5                    | train n= 26 TP 19% avg  +0.10 sum   +2.7 | Y3 n=  9 avg  -0.36 sum   -3.2 | SOL   +0.6 ETH   -1.2
+stopATR 1.5..2.5                   | train n=123 TP 21% avg  +0.13 sum  +15.4 | Y3 n= 45 avg  -0.07 sum   -3.3 | SOL   +3.4 ETH   +8.8
+stopATR 2.5..4                     | train n=128 TP 22% avg  +0.21 sum  +27.0 | Y3 n= 67 avg  +0.43 sum  +29.0 | SOL  +31.9 ETH  +24.1
+stopATR 4..6                       | train n= 35 TP 14% avg  -0.26 sum   -9.2 | Y3 n= 20 avg  -0.49 sum   -9.7 | SOL   -5.8 ETH  -13.1
+stopATR ≥ 6                        | train n=  4 TP 50% avg  +1.23 sum   +4.9 | Y3 n=  0 avg  +0.00 sum   +0.0 | SOL   +1.9 ETH   +3.0
+
+### Impulse leg / ATR
+legATR -∞..3                       | train n= 27 TP 11% avg  -0.16 sum   -4.3 | Y3 n=  9 avg  +0.95 sum   +8.5 | SOL   -0.5 ETH   +4.7
+legATR 3..5                        | train n=197 TP 20% avg  +0.11 sum  +21.7 | Y3 n= 91 avg  +0.07 sum   +6.1 | SOL   +8.7 ETH  +19.1
+legATR 5..8                        | train n= 90 TP 24% avg  +0.23 sum  +20.4 | Y3 n= 40 avg  -0.02 sum   -0.9 | SOL  +23.7 ETH   -4.2
+legATR ≥ 8                         | train n=  2 TP 50% avg  +1.48 sum   +3.0 | Y3 n=  1 avg  -1.04 sum   -1.0 | SOL   -0.0 ETH   +1.9
+
+### Entry retracement of the impulse (fib)
+fib -∞..0.382                      | train n=164 TP 20% avg  +0.05 sum   +7.9 | Y3 n= 69 avg  +0.06 sum   +4.0 | SOL  +11.7 ETH   +0.2
+fib 0.382..0.5                     | train n= 92 TP 15% avg  +0.04 sum   +3.7 | Y3 n= 45 avg  +0.25 sum  +11.3 | SOL  +14.8 ETH   +0.2
+fib 0.5..0.618                     | train n= 44 TP 30% avg  +0.32 sum  +14.1 | Y3 n= 20 avg  -0.41 sum   -8.2 | SOL   -5.4 ETH  +11.3
+fib 0.618..0.786                   | train n= 16 TP 44% avg  +0.94 sum  +15.1 | Y3 n=  6 avg  +1.00 sum   +6.0 | SOL  +10.9 ETH  +10.2
+fib ≥ 0.786                        | train n=  0 TP  0% avg  +0.00 sum   +0.0 | Y3 n=  1 avg  -0.27 sum   -0.3 | SOL   +0.0 ETH   -0.3
+
+### Volatility regime (ATR% vs 30-day median)
+regime -∞..0.8                     | train n= 50 TP 24% avg  +0.27 sum  +13.6 | Y3 n= 27 avg  +0.05 sum   +1.4 | SOL   -5.5 ETH  +20.6
+regime 0.8..1                      | train n= 59 TP 19% avg  -0.05 sum   -3.2 | Y3 n= 26 avg  -0.17 sum   -4.5 | SOL   +1.7 ETH   -9.4
+regime 1..1.25                     | train n= 84 TP 18% avg  +0.02 sum   +1.8 | Y3 n= 37 avg  +0.34 sum  +12.5 | SOL  +15.0 ETH   -0.6
+regime 1.25..1.6                   | train n= 76 TP 22% avg  +0.18 sum  +13.4 | Y3 n= 32 avg  +0.13 sum   +4.3 | SOL  +17.0 ETH   +0.7
+regime ≥ 1.6                       | train n= 47 TP 23% avg  +0.32 sum  +15.3 | Y3 n= 19 avg  -0.05 sum   -1.0 | SOL   +3.9 ETH  +10.4
+
+### Liquidity sweep: leg extreme took the overnight (18:00-08:30) high/low
+swept overnight                    | train n=110 TP 20% avg  +0.06 sum   +6.7 | Y3 n= 48 avg  +0.28 sum  +13.6 | SOL  +14.5 ETH   +5.8
+no sweep                           | train n=206 TP 21% avg  +0.17 sum  +34.1 | Y3 n= 93 avg  -0.01 sum   -0.8 | SOL  +17.4 ETH  +15.8
+
+### Liquidity sweep: leg extreme took the London (02:00-08:00) high/low
+swept London                       | train n=179 TP 25% avg  +0.23 sum  +40.3 | Y3 n= 86 avg  +0.04 sum   +3.6 | SOL  +33.5 ETH  +10.5
+no sweep                           | train n=137 TP 16% avg  +0.00 sum   +0.5 | Y3 n= 55 avg  +0.17 sum   +9.2 | SOL   -1.5 ETH  +11.1
+
+### Entry location in overnight range (0 = discount for longs / premium for shorts)
+onPos -∞..0                        | train n=  0 TP  0% avg  +0.00 sum   +0.0 | Y3 n=  0 avg  +0.00 sum   +0.0 | SOL   +0.0 ETH   +0.0
+onPos 0..0.25                      | train n= 26 TP 19% avg  -0.07 sum   -1.7 | Y3 n=  9 avg  +0.77 sum   +7.0 | SOL   +6.9 ETH   -1.6
+onPos 0.25..0.5                    | train n= 94 TP 19% avg  +0.08 sum   +7.4 | Y3 n= 43 avg  +0.20 sum   +8.6 | SOL   -4.1 ETH  +20.1
+onPos 0.5..0.75                    | train n= 94 TP 18% avg  +0.11 sum  +10.8 | Y3 n= 47 avg  -0.03 sum   -1.5 | SOL  +13.0 ETH   -3.7
+onPos 0.75..1                      | train n= 76 TP 28% avg  +0.29 sum  +22.3 | Y3 n= 31 avg  +0.04 sum   +1.4 | SOL  +22.2 ETH   +1.5
+onPos ≥ 1                          | train n= 26 TP 19% avg  +0.08 sum   +2.0 | Y3 n= 11 avg  -0.24 sum   -2.6 | SOL   -6.0 ETH   +5.4
+
+### Toolkit confluence
+S/D zone                           | train n= 79 TP 15% avg  -0.09 sum   -6.9 | Y3 n= 36 avg  +0.34 sum  +12.3 | SOL   +4.7 ETH   +0.8
+PDH/PDL                            | train n= 39 TP 26% avg  +0.27 sum  +10.7 | Y3 n= 24 avg  +0.58 sum  +14.0 | SOL   +9.2 ETH  +15.5
+neither                            | train n=206 TP 21% avg  +0.16 sum  +32.5 | Y3 n= 85 avg  -0.09 sum   -7.7 | SOL  +21.8 ETH   +2.9
