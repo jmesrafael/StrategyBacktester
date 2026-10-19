@@ -632,3 +632,33 @@ these points open; I fix them here so the verdict cannot be shaped by the result
    *any* tested period. The Check A years are also run; there v7's actual total is shown against the random distribution
    as an out-of-sample information line, but Check A itself already decided that question and B does not re-decide it.
 6. Seeds 1…1000 (mulberry32), $10 per R, same data files as Check A (continuous Bybit series, pre-2023 + in-sample).
+
+### 2026-10-19 · Check B run 1 (random-entry control, 1,000 seeds per coin per period) — result: SOL PASS, ETH PASS, no structural bias
+
+`node checkB.js 1000` (13 s); full tables, per-year ranges and histograms in `results/validation_B.md`. Design as logged
+before the run; v7 frozen (`ie.js` hash check passes inside the script). No seed fell short of v7's trade count.
+
+Primary control (random signal candles in v7's own windows), $ at $10 per R:
+
+| Coin | Period | v7 trades | **v7 actual** | Random mean | 5th – 95th pct | 99th pct | v7 percentile | Random mean / year |
+|---|---|---|---|---|---|---|---|---|
+| SOL | Oct23–Oct26 | 79 | **+$367** | −$25 | −$222 … +$179 | +$271 | **99.9%** | −$8 |
+| ETH | Oct23–Oct26 | 75 | **+$509** | −$30 | −$228 … +$175 | +$308 | **100.0%** | −$10 |
+| SOL | Oct21–Oct23 (A2+A1) | 50 | −$145 | −$9 | −$168 … +$158 | +$234 | 8.5% | −$4 |
+| ETH | Oct21–Oct23 (A2+A1) | 66 | +$21 | −$55 | −$229 … +$144 | +$222 | 76.2% | −$28 |
+
+Sensitivity (literal 08:30–11:30 ET window): same picture (v7 at the 99.8th / 100th percentile in-sample; random means
+−$3 to −$29 per year).
+
+- **Pass criteria:** v7 is above the 95th percentile in-sample for both coins (SOL +$367 vs +$179, ETH +$509 vs +$175),
+  and the random mean is at or below zero everywhere (worst −$3 per year, limit +$30), so **no BIAS DETECTED**. The
+  engine's exits (breakeven, tightening, 3R target) do not manufacture profit from random entries; random entries pay
+  slightly negative after costs, as they should.
+- **Year by year:** v7 beats the random 95th percentile in all six in-sample coin-years, but SOL only narrowly (Y1 +$118
+  vs +$114, Y3 +$117 vs +$112).
+- **Pre-2023 (information only):** v7 is *below* random for SOL (8.5th percentile) and at the 76th percentile for ETH
+  — nothing there separates v7's signal from a random entry. This agrees with Check A.
+- **What B does not settle:** the percentile is for one pre-specified strategy. v7 was chosen from ~200 configurations
+  on this same data, so a fair bar after that selection is higher than the 95th percentile; B shows the in-sample profit
+  is not an engine artefact, not that the signal generalises. Random outcomes are very wide (a single random
+  3-year run is anywhere from −$220 to +$180), so even +$367 over 79 trades leaves large uncertainty.
