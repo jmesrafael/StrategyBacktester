@@ -605,3 +605,30 @@ the fill) is a separate rule and was left as is. `node monthly-be.js mexc|bybit`
 | 2.0R lock +1.0R | +600 | 1.76 | −$88 | 6.8 | −51 | 0/6 | 103/87/27 | 104/121/157 | +212 | −$93 | 38 / 29 / 83 |
 
 **Reading it:** +1R is a sharp local peak (+0.75R and +1.25R are both 15–20% worse); every later trigger lets too many winners turn into full stops (profit factor falls from 2.7 to ~2.0). A small lock on top of +1R is the only change that trades profit for lower drawdown without losing profit: +0.2R lock → +$898 vs +$876, max DD −$49 vs −$57, but only 3 of 6 coin-years beat plain +1R, so the gain is within noise. Recommendation: keep the +1R trigger; a +0.2R lock is optional and unproven.
+
+### 2026-10-19 · Check B design notes (written BEFORE any Check B run; the pre-registered rules above are unchanged)
+
+v7 frozen as at the Step 0 fingerprint (target 1:3, breakeven +1R, no lock; `ie.js` sha256 `6539c98f…`). The rules left
+these points open; I fix them here so the verdict cannot be shaped by the results.
+1. **What a "random entry" is.** v7 places a limit order after a CHoCH + FVG: price pulls back to the FVG midpoint.
+   To keep the entry mechanics identical, a random setup is a random *signal candle* + random direction, with a limit
+   order, a stop and a 3R target built from a **randomly drawn (limit offset, stop distance) pair taken from one of
+   that coin's actual v7 trades**, both measured in ATR(14) at the signal candle: offset = distance from the signal
+   candle's close to the limit price, stop = distance from the limit price to the stop. Drawing the pair together keeps
+   their correlation. (The rule only names the stop distance; the offset is added so the limit-fill behaviour matches.)
+   Everything after placement is the unchanged v7 engine (`execute()` in `ie.js`): fill when price touches the limit
+   (8-candle expiry, cancelled on an opposite structure break, target-first or 16:00 ET), +1R breakeven, follow-through
+   tightening, one position at a time, same fees and slippage. The only things that differ are *when* and *which way*.
+2. **Window.** Primary control: signal candles drawn uniformly from the windows v7 actually trades in, i.e. 08:30–09:30
+   and 10:30–11:30 ET (v7 skips the 09:30–10:30 open hour). Sensitivity run: the literal 08:30–11:30 ET window. The
+   verdict uses the primary control; both are reported.
+3. **Trade counts.** For each year, a pool of 8× v7's trade count of random signals is drawn, run chronologically through
+   the engine (some do not fill or overlap an open trade), and v7's exact yearly trade count is then drawn at random from
+   the executed ones. If fewer executed, all are used and the shortfall is reported.
+4. **Geometry source.** For Oct23–Oct26 the pairs come from that coin's v7 trades in that period; for the Check A
+   years from that coin's v7 trades in A1+A2.
+5. **Verdict per coin.** PASS needs v7's actual Oct23–Oct26 total above the 95th percentile of the 1,000 random totals
+   AND random mean ≤ +$30 per year (≤ +$90 over the 3 years). BIAS DETECTED if the random mean exceeds +$30 per year in
+   *any* tested period. The Check A years are also run; there v7's actual total is shown against the random distribution
+   as an out-of-sample information line, but Check A itself already decided that question and B does not re-decide it.
+6. Seeds 1…1000 (mulberry32), $10 per R, same data files as Check A (continuous Bybit series, pre-2023 + in-sample).
