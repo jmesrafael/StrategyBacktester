@@ -750,3 +750,13 @@ Tables in `results/monthly-B.md` and `results/monthly-C.md` (37 calendar months,
   month and the −$44 maximum monthly drawdown are the same in all three.
 - Correction to the line above: Oct 2025 differs by $1 in both modes; Nov 2025 is +$5 under 1m replay (not rounding). Pessimistic differs in
   Feb 2024, Oct 2025, Feb 2026; 1m replay in Nov 2023 (−$5), Nov 2024 (−$5), Oct 2025 (+$1), Nov 2025 (+$5).
+
+### 2026-10-19 · Trading-system steps PDF (draft 1)
+
+`pdf/NY-SMC-v7-Trading-System-DRAFT.pdf` (15 landscape pages): cover, system at a glance (steps + NY/PH time windows), one page per step
+(1 swing, 2 CHoCH, 3 FVG, 4 entry, 5 stop, 6 target + size, 7 cancel rules, 8 manage, 9 review), the short-trade mirror, must do / must
+not do, a printable checklist and a status page. Each step page has the same real ETH trade (Fri 26 Sep 2025, +3R) annotated with circles, lines
+and labels, plus a vector diagram from `pdf/svg/*.svg` and the rules in plain words. Built by `pdf/build_pdf.py` (charts: `pdf/charts.py`, diagrams:
+`pdf/svgs.py`, trade export: `export-examples.js`). The numbers quoted in it (154 trades, 31/36/34% outcomes, +$815–876, random −$55, 8-trade dry spell,
+longs +$499 / shorts +$376) come from the runs above. Not yet included, pending approval of this draft: ~10 winning examples each for SOL and ETH and
+app screenshots of the SMC Toolkit / strategy.
