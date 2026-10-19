@@ -2,13 +2,13 @@
 // • App files (same origin): network-first, so code edits show up on the next
 //   load; the cached copy is only used when offline.
 // • Versioned CDN libraries + fonts: stale-while-revalidate.
-// • Market data (MEXC via the /mexc/ proxy) and Supabase: never cached here (the
+// • Market data (Binance futures API) and Supabase: never cached here (the
 //   app keeps its own copy in IndexedDB and has an offline sample-data fallback).
 
-const CACHE = 'replay-game-v3';
+const CACHE = 'replay-game-v4';
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'css/styles.css',
-  'js/config.js', 'js/supabase-config.js', 'js/mexc.js', 'js/candle-store.js',
+  'js/config.js', 'js/supabase-config.js', 'js/binance.js', 'js/candle-store.js',
   'js/api.js', 'js/indicators.js', 'js/chart.js',
   'js/indicators-ui.js', 'js/replay.js', 'js/drawings.js', 'js/fvg.js', 'js/smc.js', 'js/trade-sim.js',
   'js/strategy.js', 'js/data-page.js', 'js/supabase-client.js', 'js/app.js', 'js/mobile.js',
@@ -60,5 +60,5 @@ self.addEventListener('fetch', (e) => {
       return hit || net;
     }));
   }
-  // everything else (MEXC proxy, Supabase) goes straight to the network
+  // everything else (Binance, Supabase) goes straight to the network
 });

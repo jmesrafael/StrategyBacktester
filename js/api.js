@@ -1,4 +1,4 @@
-// api.js — data loading (MEXC USDT perpetuals live paginated, saved on-device
+// api.js — data loading (Binance USDT-M futures live paginated, saved on-device
 // per enabled TF via CandleStore, with offline synthetic fallback)
 
 // ---- in-memory candle cache -------------------------------------------------
@@ -45,7 +45,7 @@ async function hydrateCandles(symbol, interval, target) {
 }
 
 function dataSourceName() {
-  return 'MEXC live';
+  return 'Binance live';
 }
 
 // Synchronous read — returns cached data (fresh OR stale) or null.
@@ -66,7 +66,7 @@ function clearCandleCache(symbol, interval, target) {
 }
 
 // Returns ascending array of { time(sec), open, high, low, close, volume }.
-// Walks backward through MEXC perpetual kline pages (js/mexc.js) until `target`
+// Walks backward through Binance futures kline pages (js/binance.js) until `target`
 // candles are collected (or history runs out).
 //   target     — how many candles to end up with (most-recent kept)
 //   onProgress — optional (pageNo, pages) callback for the loading indicator
@@ -89,7 +89,7 @@ async function fetchCandles(symbol, interval, target, onProgress, opts) {
 }
 
 function _fetchPages(symbol, interval, target, onProgress, endSec) {
-  return MEXC.fetchPages(symbol, interval, target, onProgress, endSec);
+  return BINANCE.fetchPages(symbol, interval, target, onProgress, endSec);
 }
 
 // Bring a cached (stale) series up to date cheaply: fetch only the newest page
@@ -104,7 +104,7 @@ function refreshCandles(symbol, interval, target) {
   if (_inflight.has(key)) return _inflight.get(key);
   const p = (async () => {
     const old = entry.data;
-    const latest = await _fetchPages(symbol, interval, Math.min(target, MEXC.PAGE), null, null);
+    const latest = await _fetchPages(symbol, interval, Math.min(target, BINANCE.PAGE), null, null);
     const sec = intervalToSeconds(interval);
     if (!old.length || latest[0].time > old[old.length - 1].time + sec) {
       return fetchCandles(symbol, interval, target, null, { force: true });

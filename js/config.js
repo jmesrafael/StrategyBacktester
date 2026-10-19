@@ -1,6 +1,6 @@
 // config.js — shared constants and theme tokens
 window.CFG = {
-  // Symbols — MEXC USDT perpetuals ("XXXUSDT.P"), loaded via proxy (see js/mexc.js)
+  // Symbols — Binance USDT-M perpetuals ("XXXUSDT.P"), loaded directly (see js/binance.js)
   SYMBOLS: ['SOLUSDT.P', 'BTCUSDT.P', 'ETHUSDT.P', 'XRPUSDT.P', 'DOGEUSDT.P', 'ZECUSDT.P'],
   INTERVALS: [
     ['1', '1m'], ['3', '3m'], ['5', '5m'], ['15', '15m'], ['30', '30m'],
