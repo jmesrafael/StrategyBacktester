@@ -560,3 +560,23 @@ have not been run yet.
 - The MEXC year earns +$290 vs +$293 on Bybit for the same year at 1:3 — the data source makes little difference.
 - 1:2 hits the target more often (37% vs 31%) but earns about a third less. The same ranking appeared in the tuning
   rounds (round 4: 2R was worse than 3R).
+
+### 2026-10-19 · Breakeven trigger +1R vs +0.5R (target 1:3; v7 otherwise frozen) — in-sample, not a validation check
+
+Only `beR` changed (1 → 0.5); the follow-through tightening (stop to −0.5R if +0.25R is not reached within 4 candles of
+the fill) is a separate rule and was left as is. `node monthly-be.js mexc|bybit`; tables in `results/monthly-be-*.md`.
+
+| Data | Breakeven | Trades | Target hits | Profit SOL / ETH / both | PF (both) | Avg / month | Profitable months | Max DD |
+|---|---|---|---|---|---|---|---|---|
+| MEXC, 23 Oct 25 – 17 Oct 26 | +1R | 54 | 31% | +$147 / +$143 / **+$290** | 2.37 | +$22 | 8 of 13 | −$61 |
+| MEXC, 23 Oct 25 – 17 Oct 26 | +0.5R | 55 | 25% | +$146 / +$92 / **+$238** | 2.35 | +$18 | 7 of 13 | −$51 |
+| Bybit, 18 Oct 23 – 17 Oct 26 | +1R | 154 | 31% | +$367 / +$509 / **+$876** | 2.69 | +$24 | 26 of 37 | −$57 |
+| Bybit, 18 Oct 23 – 17 Oct 26 | +0.5R | 156 | 23% | +$264 / +$401 / **+$665** | 2.66 | +$18 | 24 of 37 | −$48 |
+
+- Per coin-year profit (SOL / ETH, Bybit data), +1R → +0.5R: Y1 118/136 → 80/115, Y2 132/197 → 56/162, Y3 117/176 → 127/124.
+  Only SOL Y3 improved; the other five coin-years got worse.
+- Why: 11 trades that hit the 3R target at +1R breakeven were stopped at breakeven instead (−$337), while 15 trades
+  that would have been full stops became breakeven (+$131). Net −$206 from those 26 trades; the rest of the −$211
+  total difference comes from knock-on effects on the sequence of trades (one position at a time).
+- Result: the earlier breakeven cuts max drawdown only slightly (−$57 → −$48 over 3 years) for about 24% less profit.
+  Matches the tuning round 1 observation that BE at 0.5R helps only when targets are close. +1R stays.
