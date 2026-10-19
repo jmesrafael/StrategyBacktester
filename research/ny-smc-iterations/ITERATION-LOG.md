@@ -737,3 +737,14 @@ paper trading (or replay in the app) at zero risk, using pessimistic-mode number
 - v7 was chosen from ~200 variants on the same data; random-entry percentiles do not correct for that selection.
 - The mechanism behind the 2023–26 versus pre-2023 difference has not been identified (market regime, volatility, a change
   in how crypto trades around the US open).
+
+### 2026-10-19 · Month-by-month view of Checks B and C (no new rule changes; v7 frozen) — `node monthly-BC.js`
+
+Tables in `results/monthly-B.md` and `results/monthly-C.md` (37 calendar months, Oct 2023 – Oct 2026, SOL + ETH, $10 per R).
+- **B (v7 vs random entries):** v7 +$876 (+$24 per month, 26 of 37 months profitable, worst −$44). The average random run: −$55
+  (−$1 per month, about 15 profitable months). v7 beat the random average in 29 of 37 months, was above the random 95th percentile in
+  6 months (Feb 2024, Aug 2025, Sep 2025, Nov 2025, Jan 2026, Mar 2026; chance alone gives about 2) and never below the 5th.
+  A single month is too noisy to judge on its own (random months range about −$40 to +$50).
+- **C (exit ordering):** current +$876, pessimistic +$815, 1m replay +$872. Only 3–4 of 37 months differ (Nov 2023, Feb 2024, Nov 2024,
+  Feb 2026, and rounding in Oct 2025 / Nov 2025); the largest gap is Feb 2024 (−$31) and Feb 2026 (−$31) under pessimistic. Best/worst
+  month and the −$44 maximum monthly drawdown are the same in all three.
