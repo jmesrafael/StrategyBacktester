@@ -108,6 +108,172 @@ function macdLineData(candles, fast, slow, signalP) {
   return { macd, signal, hist };
 }
 
+// ---- Strategy building blocks ----------------------------------------------
+// All return arrays aligned to the input (leading nulls until computable) and are
+// causal: the value at bar i only uses bars 0..i, so they are safe to precompute
+// once over a full series and read bar by bar (the strategy engine does this).
+
+// SMA / EMA over a series that may contain leading nulls (e.g. MACD line).
+function _smaSkipNull(values, period) {
+  const out = new Array(values.length).fill(null);
+  let sum = 0, n = 0;
+  const win = [];
+  for (let i = 0; i < values.length; i++) {
+    const v = values[i];
+    if (v == null) continue;
+    win.push(v); sum += v; n++;
+    if (win.length > period) sum -= win.shift();
+    if (win.length === period) out[i] = sum / period;
+  }
+  return out;
+}
+function _emaSkipNull(values, period) {
+  const out = new Array(values.length).fill(null);
+  const k = 2 / (period + 1);
+  let prev = null, seed = [];
+  for (let i = 0; i < values.length; i++) {
+    const v = values[i];
+    if (v == null) continue;
+    if (prev === null) {
+      seed.push(v);
+      if (seed.length === period) prev = seed.reduce((a, b) => a + b, 0) / period;
+      else continue;
+    } else {
+      prev = v * k + prev * (1 - k);
+    }
+    out[i] = prev;
+  }
+  return out;
+}
+
+function highest(values, period) {
+  const out = new Array(values.length).fill(null);
+  for (let i = period - 1; i < values.length; i++) {
+    let m = -Infinity;
+    for (let j = i - period + 1; j <= i; j++) if (values[j] > m) m = values[j];
+    out[i] = m;
+  }
+  return out;
+}
+function lowest(values, period) {
+  const out = new Array(values.length).fill(null);
+  for (let i = period - 1; i < values.length; i++) {
+    let m = Infinity;
+    for (let j = i - period + 1; j <= i; j++) if (values[j] < m) m = values[j];
+    out[i] = m;
+  }
+  return out;
+}
+
+function _trueRange(candles) {
+  return candles.map((c, i) => i === 0 ? c.high - c.low
+    : Math.max(c.high - c.low, Math.abs(c.high - candles[i - 1].close), Math.abs(c.low - candles[i - 1].close)));
+}
+
+// Average True Range — Wilder's smoothing. Use for volatility-based stops,
+// e.g. stopLoss = close - 2 * atr.
+function atr(candles, period = 14) {
+  const out = new Array(candles.length).fill(null);
+  if (candles.length < period) return out;
+  const tr = _trueRange(candles);
+  let a = 0;
+  for (let i = 0; i < period; i++) a += tr[i];
+  a /= period; out[period - 1] = a;
+  for (let i = period; i < candles.length; i++) { a = (a * (period - 1) + tr[i]) / period; out[i] = a; }
+  return out;
+}
+
+// MACD → { macd, signal, hist } (each aligned to closes)
+function macd(closes, fast = 12, slow = 26, signal = 9) {
+  const ef = ema(closes, fast), es = ema(closes, slow);
+  const line = closes.map((_, i) => (ef[i] != null && es[i] != null) ? ef[i] - es[i] : null);
+  const sig = _emaSkipNull(line, signal);
+  const hist = line.map((v, i) => (v != null && sig[i] != null) ? v - sig[i] : null);
+  return { macd: line, signal: sig, hist };
+}
+
+// Bollinger Bands → { middle, upper, lower, width } (width = (upper-lower)/middle)
+function bollinger(closes, period = 20, mult = 2) {
+  const mid = sma(closes, period);
+  const upper = new Array(closes.length).fill(null);
+  const lower = new Array(closes.length).fill(null);
+  const width = new Array(closes.length).fill(null);
+  for (let i = period - 1; i < closes.length; i++) {
+    let v = 0;
+    for (let j = i - period + 1; j <= i; j++) v += (closes[j] - mid[i]) ** 2;
+    const sd = Math.sqrt(v / period);
+    upper[i] = mid[i] + mult * sd; lower[i] = mid[i] - mult * sd;
+    width[i] = mid[i] ? (upper[i] - lower[i]) / mid[i] : null;
+  }
+  return { middle: mid, upper, lower, width };
+}
+
+// VWAP of typical price, reset every `anchor` period:
+// 'D' = UTC day (default), 'W' = week (Mon 00:00 UTC), 'none' = never reset.
+function vwap(candles, anchor = 'D') {
+  const out = new Array(candles.length).fill(null);
+  const bucket = (t) => anchor === 'W' ? Math.floor((t - 345600) / 604800)
+    : anchor === 'none' ? 0 : Math.floor(t / 86400);
+  let pv = 0, vol = 0, cur = null;
+  for (let i = 0; i < candles.length; i++) {
+    const c = candles[i], b = bucket(c.time);
+    if (b !== cur) { cur = b; pv = 0; vol = 0; }
+    const v = c.volume || 0;
+    pv += ((c.high + c.low + c.close) / 3) * v; vol += v;
+    out[i] = vol ? pv / vol : (c.high + c.low + c.close) / 3;
+  }
+  return out;
+}
+
+// Stochastic oscillator → { k, d } (0..100). kSmooth=1 gives the "fast" stochastic.
+function stochastic(candles, kPeriod = 14, kSmooth = 3, dPeriod = 3) {
+  const hh = highest(candles.map((c) => c.high), kPeriod);
+  const ll = lowest(candles.map((c) => c.low), kPeriod);
+  const raw = candles.map((c, i) => hh[i] == null ? null
+    : (hh[i] === ll[i] ? 50 : (100 * (c.close - ll[i])) / (hh[i] - ll[i])));
+  const k = kSmooth > 1 ? _smaSkipNull(raw, kSmooth) : raw;
+  return { k, d: _smaSkipNull(k, dPeriod) };
+}
+
+// Average Directional Index (Wilder) → { adx, plusDI, minusDI }.
+// adx > ~20-25 = trending market; plusDI > minusDI = up-trend.
+function adx(candles, period = 14) {
+  const n = candles.length;
+  const out = { adx: new Array(n).fill(null), plusDI: new Array(n).fill(null), minusDI: new Array(n).fill(null) };
+  if (n <= period * 2) return out;
+  const tr = _trueRange(candles);
+  let sTR = 0, sP = 0, sM = 0;
+  const dx = new Array(n).fill(null);
+  for (let i = 1; i < n; i++) {
+    const up = candles[i].high - candles[i - 1].high;
+    const dn = candles[i - 1].low - candles[i].low;
+    const pDM = up > dn && up > 0 ? up : 0;
+    const mDM = dn > up && dn > 0 ? dn : 0;
+    if (i <= period) {
+      sTR += tr[i]; sP += pDM; sM += mDM;
+      if (i < period) continue;
+    } else {
+      sTR = sTR - sTR / period + tr[i];
+      sP = sP - sP / period + pDM;
+      sM = sM - sM / period + mDM;
+    }
+    const pDI = sTR ? (100 * sP) / sTR : 0, mDI = sTR ? (100 * sM) / sTR : 0;
+    out.plusDI[i] = pDI; out.minusDI[i] = mDI;
+    dx[i] = (pDI + mDI) ? (100 * Math.abs(pDI - mDI)) / (pDI + mDI) : 0;
+  }
+  // ADX = Wilder average of DX, seeded with the mean of the first `period` DX values
+  let seed = 0, cnt = 0, a = null;
+  for (let i = period; i < n; i++) {
+    if (a === null) {
+      seed += dx[i]; cnt++;
+      if (cnt === period) { a = seed / period; out.adx[i] = a; }
+    } else {
+      a = (a * (period - 1) + dx[i]) / period; out.adx[i] = a;
+    }
+  }
+  return out;
+}
+
 // ---- Realistic candle formation -------------------------------------------
 // Given a completed candle, produce an array of `frames` synthetic close
 // prices that start at open, pass through both extremes, and end at close,

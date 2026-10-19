@@ -1,7 +1,7 @@
 // tools/parity-check.js — guards the invariant "backtest == replay" for EVERY strategy.
 //
 // The backtest (StrategyMode.simulate) and the live replay (processCandle + TradeSim) are
-// two execution paths that now share one decision core (evalStrategyCandle in js/strategy.js).
+// two execution paths that share the same order/stop/sizing logic (toOrder, applyOrderStops, orderSize… in js/strategy.js).
 // This tool proves they still agree: for each registered strategy it runs BOTH over the SAME
 // candles (full history, default params) and asserts an identical trade sequence + net P&L.
 //
@@ -84,6 +84,11 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
         const prms = {}; Object.entries(strat.params || {}).forEach(([k, d]) => { prms[k] = d.default; });
         const canon = StrategyMode.simulate(strat, prms, Replay.full, cfg);
         const cTrades = canon.trades.map((t) => ({ side: t.side, usd: +t.usd.toFixed(4) }));
+        // The backtest force-closes any open position at the last bar ('Session end'). In replay that
+        // close happens when the app exits replay mode — TradeSim's internal close, which the wrapper
+        // below cannot see — so leave it out of the trade-by-trade comparison. Net P&L still covers it.
+        const lastSig = canon.signals[canon.signals.length - 1];
+        if (lastSig && lastSig.type === 'close' && lastSig.reason === 'Session end') cTrades.pop();
         const canonNet = +(canon.finalBalance - cfg.startBalance).toFixed(2);
 
         // REPLAY: drive candle-by-candle, capture each closed trade, force-close at end.

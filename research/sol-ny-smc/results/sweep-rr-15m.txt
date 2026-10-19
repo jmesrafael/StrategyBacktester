@@ -1,0 +1,44 @@
+done SOL
+done ETH
+done BTC
+done DOGE
+done ZEC
+
+PER COIN (3 years) — net $, PF, trades, win%, BE exits, max DD $, profitable years
+SOL
+  1:1          net=-36    PF=0.97   n=264   win=52%   W/L/BE=137/127/0  avgW/L=9.7/-10.8   DD=203   yrs+=1/3  [-75 | -67 | +106]
+  1:2 + BE     net=+16    PF=1.01   n=291   win=27%   W/L/BE=80/138/73  avgW/L=19.7/-10.8  DD=203   yrs+=2/3  [-138 | +14 | +140]
+  1:2 no BE    net=-223   PF=0.89   n=280   win=33%   W/L/BE=92/188/0   avgW/L=19.7/-10.8  DD=399   yrs+=1/3  [-251 | -30 | +57]
+  1:2.5 + BE   net=+79    PF=1.05   n=284   win=23%   W/L/BE=66/136/82  avgW/L=24.7/-10.8  DD=197   yrs+=2/3  [-113 | +44 | +148]
+  1:2.5 no BE  net=-83    PF=0.96   n=273   win=30%   W/L/BE=81/192/0   avgW/L=24.7/-10.9  DD=310   yrs+=1/3  [-144 | -40 | +102]
+ETH
+  1:1          net=-171   PF=0.86   n=223   win=50%   W/L/BE=111/112/0  avgW/L=9.6/-11.1   DD=234   yrs+=1/3  [-83 | -109 | +21]
+  1:2 + BE     net=-311   PF=0.79   n=252   win=24%   W/L/BE=60/127/65  avgW/L=19.6/-11.1  DD=407   yrs+=1/3  [-231 | -101 | +22]
+  1:2 no BE    net=-228   PF=0.87   n=242   win=33%   W/L/BE=80/162/0   avgW/L=19.6/-11.1  DD=481   yrs+=1/3  [-180 | -215 | +168]
+  1:2.5 + BE   net=-299   PF=0.80   n=252   win=19%   W/L/BE=49/127/76  avgW/L=24.6/-11.1  DD=437   yrs+=1/3  [-248 | -74 | +24]
+  1:2.5 no BE  net=-168   PF=0.91   n=240   win=29%   W/L/BE=70/170/0   avgW/L=24.5/-11.1  DD=496   yrs+=1/3  [-131 | -212 | +175]
+BTC
+  1:1          net=-134   PF=0.91   n=262   win=52%   W/L/BE=136/126/0  avgW/L=9.6/-11.4   DD=233   yrs+=2/3  [-152 | +12 | +6]
+  1:2 + BE     net=-386   PF=0.77   n=284   win=24%   W/L/BE=68/140/76  avgW/L=19.5/-11.5  DD=463   yrs+=1/3  [-335 | -64 | +13]
+  1:2 no BE    net=-545   PF=0.74   n=264   win=30%   W/L/BE=80/184/0   avgW/L=19.5/-11.4  DD=590   yrs+=0/3  [-258 | -257 | -30]
+  1:2.5 + BE   net=-245   PF=0.86   n=278   win=22%   W/L/BE=60/139/79  avgW/L=24.5/-11.5  DD=494   yrs+=1/3  [-341 | -30 | +126]
+  1:2.5 no BE  net=-375   PF=0.82   n=258   win=28%   W/L/BE=72/186/0   avgW/L=24.5/-11.5  DD=583   yrs+=1/3  [-258 | -222 | +105]
+DOGE
+  1:1          net=-171   PF=0.87   n=246   win=49%   W/L/BE=121/125/0  avgW/L=9.7/-10.8   DD=271   yrs+=1/3  [-134 | -52 | +15]
+  1:2 + BE     net=-373   PF=0.76   n=270   win=22%   W/L/BE=59/136/75  avgW/L=19.7/-10.8  DD=511   yrs+=1/3  [-85 | -295 | +7]
+  1:2 no BE    net=-216   PF=0.88   n=254   win=33%   W/L/BE=83/171/0   avgW/L=19.7/-10.8  DD=368   yrs+=1/3  [-92 | -170 | +46]
+  1:2.5 + BE   net=-399   PF=0.74   n=268   win=17%   W/L/BE=46/135/87  avgW/L=24.7/-10.8  DD=452   yrs+=1/3  [-126 | -274 | +1]
+  1:2.5 no BE  net=-322   PF=0.83   n=243   win=27%   W/L/BE=65/178/0   avgW/L=24.6/-10.8  DD=417   yrs+=0/3  [-142 | -129 | -51]
+ZEC
+  1:1          net=-15    PF=0.98   n=190   win=52%   W/L/BE=98/92/0    avgW/L=9.8/-10.6   DD=182   yrs+=2/3  [+58 | +62 | -135]
+  1:2 + BE     net=+173   PF=1.16   n=217   win=30%   W/L/BE=65/101/51  avgW/L=19.8/-10.6  DD=105   yrs+=1/3  [-4 | +195 | -18]
+  1:2 no BE    net=+248   PF=1.18   n=208   win=39%   W/L/BE=81/127/0   avgW/L=19.8/-10.7  DD=152   yrs+=3/3  [+103 | +129 | +15]
+  1:2.5 + BE   net=+248   PF=1.23   n=216   win=25%   W/L/BE=55/99/62   avgW/L=24.5/-10.7  DD=132   yrs+=1/3  [-16 | +314 | -50]
+  1:2.5 no BE  net=+363   PF=1.26   n=204   win=35%   W/L/BE=72/132/0   avgW/L=24.6/-10.6  DD=128   yrs+=3/3  [+47 | +280 | +36]
+
+POOLED, all 5 coins
+  1:1          net=-528   PF=0.92   n=1185   win=50.9%   BE exits=0     exp=-0.045R/trade  t=-1.49  fees=$523  coin-years profitable: 7/15
+  1:2 + BE     net=-880   PF=0.88   n=1314   win=25.3%   BE exits=340   exp=-0.067R/trade  t=-1.94  fees=$700  coin-years profitable: 6/15
+  1:2 no BE    net=-964   PF=0.89   n=1248   win=33.3%   BE exits=0     exp=-0.077R/trade  t=-1.89  fees=$631  coin-years profitable: 6/15
+  1:2.5 + BE   net=-616   PF=0.92   n=1298   win=21.3%   BE exits=386   exp=-0.047R/trade  t=-1.24  fees=$715  coin-years profitable: 6/15
+  1:2.5 no BE  net=-585   PF=0.94   n=1218   win=29.6%   BE exits=0     exp=-0.048R/trade  t=-1.03  fees=$637  coin-years profitable: 6/15

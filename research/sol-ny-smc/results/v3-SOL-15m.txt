@@ -1,0 +1,24 @@
+SOL 15m | Original rules
+   3y: n=224 W/L/BE=133/78/13 win=59.4% net=$-15 PF=0.98 DD=$193 (1.93%) avgWin=$6.41 avgLoss=$-10.94 avgBE=$-1.12 reachedBE=23 streak=6 RR=0.85
+   sizing: planned loss avg $10.00 | stop-outs avg $-10.94 | worst trade $-13.82 | capped 0 | max leverage 0.3x | fees $88 funding $-2 | skipped <3R: 0 | median position 561
+   Oct23–Oct24: n=79 win=51% net=$-104 PF=0.71 BE=6
+   Oct24–Oct25: n=79 win=56% net=$-49 PF=0.85 BE=5
+   Oct25–Oct26: n=66 win=74% net=$138 PF=1.79 BE=2
+SOL 15m | Modified (swing target ≥ 3R)
+   3y: n=4 W/L/BE=0/2/2 win=0.0% net=$-22 PF=0.00 DD=$22 (0.22%) avgWin=$0.00 avgLoss=$-10.85 avgBE=$0.03 reachedBE=2 streak=1 RR=3.22
+   sizing: planned loss avg $10.00 | stop-outs avg $-10.85 | worst trade $-11.05 | capped 0 | max leverage 0.2x | fees $3 funding $-0 | skipped <3R: 531 | median position 905
+   Oct23–Oct24: n=2 win=0% net=$-11 PF=0.01 BE=1
+   Oct24–Oct25: n=2 win=0% net=$-11 PF=0.00 BE=1
+   Oct25–Oct26: n=0 win=0% net=$0 PF=0.00 BE=0
+SOL 15m | Modified alt A: nearest swing ≥ 3R
+   3y: n=232 W/L/BE=30/112/90 win=12.9% net=$-205 PF=0.83 DD=$357 (3.56%) avgWin=$33.82 avgLoss=$-10.84 avgBE=$-0.06 reachedBE=120 streak=12 RR=3.36
+   sizing: planned loss avg $10.00 | stop-outs avg $-10.84 | worst trade $-13.82 | capped 0 | max leverage 0.3x | fees $119 funding $1 | skipped <3R: 0 | median position 574
+   Oct23–Oct24: n=78 win=10% net=$-169 PF=0.61 BE=30
+   Oct24–Oct25: n=82 win=13% net=$-102 PF=0.77 BE=30
+   Oct25–Oct26: n=72 win=15% net=$65 PF=1.19 BE=30
+SOL 15m | Modified alt B: fixed 3R target
+   3y: n=279 W/L/BE=46/134/99 win=16.5% net=$-89 PF=0.94 DD=$325 (3.24%) avgWin=$29.70 avgLoss=$-10.81 avgBE=$-0.07 reachedBE=145 streak=9 RR=3.00
+   sizing: planned loss avg $10.00 | stop-outs avg $-10.81 | worst trade $-13.82 | capped 0 | max leverage 0.3x | fees $135 funding $4 | skipped <3R: 0 | median position 561
+   Oct23–Oct24: n=99 win=11% net=$-224 PF=0.59 BE=37
+   Oct24–Oct25: n=102 win=19% net=$13 PF=1.02 BE=32
+   Oct25–Oct26: n=78 win=21% net=$122 PF=1.35 BE=30

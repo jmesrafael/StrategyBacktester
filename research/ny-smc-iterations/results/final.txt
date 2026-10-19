@@ -1,0 +1,91 @@
+
+== v0: original formula
+  SOL Y1  n= 80 win= 51% PF= 0.73 R=  -9.2 net=  -9.0% DD= 14.1%
+  SOL Y2  n= 83 win= 58% PF= 0.96 R=  -1.0 net=  -1.3% DD=  8.6%
+  SOL Y3* n= 67 win= 75% PF= 1.95 R=  15.4 net=  16.3% DD=  3.3%
+  ETH Y1  n= 82 win= 48% PF= 0.64 R= -13.5 net= -12.9% DD= 13.5%
+  ETH Y2  n= 63 win= 57% PF= 0.95 R=  -1.2 net=  -1.5% DD=  7.3%
+  ETH Y3* n= 67 win= 67% PF= 1.39 R=   9.8 net=   9.9% DD=  5.9%
+  POOL train n=308 win= 53% PF= 0.79 R= -24.9 net= -23.0% DD= 25.7% avgR=-0.081
+  POOL Y3*   n=134 win= 71% PF= 1.61 R=  25.1 net=  27.8% DD=  3.9% avgR=0.188  90%CI 0.059..0.319
+  POOL 3yr   n=442 win= 59% PF= 0.99 R=   0.2 net=  -1.5% DD= 25.7% avgR=0.001  90%CI -0.072..0.070
+
+== v1: v0 + CHoCH 09:30-11:30 only
+  SOL Y1  n= 41 win= 56% PF= 1.09 R=   1.4 net=   1.3% DD=  3.1%
+  SOL Y2  n= 45 win= 53% PF= 0.88 R=  -2.2 net=  -2.3% DD=  5.9%
+  SOL Y3* n= 38 win= 76% PF= 2.16 R=  10.5 net=  11.0% DD=  2.2%
+  ETH Y1  n= 40 win= 48% PF= 0.75 R=  -4.1 net=  -4.2% DD=  5.2%
+  ETH Y2  n= 32 win= 66% PF= 1.60 R=   6.5 net=   6.6% DD=  3.3%
+  ETH Y3* n= 37 win= 65% PF= 1.54 R=   7.2 net=   7.3% DD=  3.2%
+  POOL train n=158 win= 55% PF= 1.02 R=   1.7 net=   1.1% DD=  7.4% avgR=0.011
+  POOL Y3*   n= 75 win= 71% PF= 1.79 R=  17.8 net=  19.0% DD=  3.4% avgR=0.237  90%CI 0.058..0.424
+  POOL 3yr   n=233 win= 60% PF= 1.24 R=  19.5 net=  20.3% DD=  7.4% avgR=0.084  90%CI -0.016..0.184
+
+== v2: session 08:30, CHoCH 08:30-11:30
+  SOL Y1  n= 65 win= 62% PF= 1.73 R=  14.4 net=  15.1% DD=  3.9%
+  SOL Y2  n= 63 win= 52% PF= 0.99 R=  -0.0 net=  -0.3% DD=  6.2%
+  SOL Y3* n= 57 win= 68% PF= 1.42 R=   7.9 net=   7.9% DD=  4.6%
+  ETH Y1  n= 55 win= 45% PF= 0.69 R=  -8.3 net=  -8.2% DD=  9.1%
+  ETH Y2  n= 55 win= 64% PF= 1.47 R=   8.9 net=   9.0% DD=  3.3%
+  ETH Y3* n= 53 win= 55% PF= 0.98 R=  -0.3 net=  -0.6% DD=  6.1%
+  POOL train n=238 win= 56% PF= 1.15 R=  14.9 net=  14.9% DD=  9.5% avgR=0.063
+  POOL Y3*   n=110 win= 62% PF= 1.16 R=   7.6 net=   7.3% DD=  5.7% avgR=0.069  90%CI -0.081..0.228
+  POOL 3yr   n=348 win= 58% PF= 1.15 R=  22.6 net=  23.3% DD=  9.5% avgR=0.065  90%CI -0.020..0.151
+
+== v3: v2 + fixed 3R target
+  SOL Y1  n= 85 win= 20% PF= 1.37 R=  14.8 net=  14.9% DD=  8.7%
+  SOL Y2  n= 84 win= 20% PF= 1.09 R=   5.2 net=   4.3% DD=  9.3%
+  SOL Y3* n= 73 win= 23% PF= 1.28 R=  12.0 net=  11.7% DD=  8.0%
+  ETH Y1  n= 68 win= 22% PF= 1.24 R=   9.3 net=   8.8% DD=  5.2%
+  ETH Y2  n= 79 win= 22% PF= 1.29 R=  11.6 net=  11.2% DD=  8.6%
+  ETH Y3* n= 68 win= 19% PF= 1.00 R=   0.8 net=   0.0% DD= 11.1%
+  POOL train n=316 win= 21% PF= 1.24 R=  40.8 net=  45.0% DD= 18.5% avgR=0.129
+  POOL Y3*   n=141 win= 21% PF= 1.14 R=  12.8 net=  11.7% DD= 16.3% avgR=0.091  90%CI -0.121..0.305
+  POOL 3yr   n=457 win= 21% PF= 1.20 R=  53.6 net=  62.0% DD= 18.5% avgR=0.117  90%CI 0.002..0.233
+
+== v4: v3 + CHoCH bar >= 1 ATR
+  SOL Y1  n= 78 win= 19% PF= 1.29 R=  11.0 net=  10.7% DD=  8.7%
+  SOL Y2  n= 76 win= 22% PF= 1.31 R=  12.9 net=  12.7% DD=  6.4%
+  SOL Y3* n= 71 win= 24% PF= 1.37 R=  14.5 net=  14.5% DD=  8.0%
+  ETH Y1  n= 66 win= 23% PF= 1.33 R=  11.4 net=  11.2% DD=  4.6%
+  ETH Y2  n= 74 win= 23% PF= 1.47 R=  16.1 net=  16.4% DD=  6.6%
+  ETH Y3* n= 67 win= 19% PF= 1.00 R=   0.9 net=   0.1% DD= 11.0%
+  POOL train n=294 win= 22% PF= 1.36 R=  51.4 net=  61.4% DD= 13.7% avgR=0.175
+  POOL Y3*   n=138 win= 22% PF= 1.18 R=  15.4 net=  14.7% DD= 14.1% avgR=0.111  90%CI -0.107..0.335
+  POOL 3yr   n=432 win= 22% PF= 1.28 R=  66.7 net=  85.1% DD= 14.1% avgR=0.155  90%CI 0.033..0.277
+
+== v5a: v4 + 4h EMA200 trend
+  SOL Y1  n= 37 win= 19% PF= 1.59 R=   8.0 net=   7.9% DD=  4.6%
+  SOL Y2  n= 38 win= 29% PF= 2.33 R=  18.9 net=  20.1% DD=  3.5%
+  SOL Y3* n= 40 win= 23% PF= 1.06 R=   1.9 net=   1.4% DD= 10.4%
+  ETH Y1  n= 29 win= 17% PF= 1.07 R=   1.2 net=   0.9% DD=  4.4%
+  ETH Y2  n= 44 win= 27% PF= 2.20 R=  19.0 net=  20.2% DD=  6.4%
+  ETH Y3* n= 31 win= 19% PF= 0.94 R=  -0.8 net=  -1.2% DD=  5.3%
+  POOL train n=148 win= 24% PF= 1.90 R=  47.1 net=  57.3% DD=  8.0% avgR=0.318
+  POOL Y3*   n= 71 win= 21% PF= 1.01 R=   1.1 net=   0.2% DD= 13.0% avgR=0.015  90%CI -0.287..0.341
+  POOL 3yr   n=219 win= 23% PF= 1.44 R=  48.2 net=  57.6% DD= 13.0% avgR=0.220  90%CI 0.041..0.391
+
+== v5b: v4 + FVG >= 0.2 ATR
+  SOL Y1  n= 52 win= 21% PF= 1.42 R=  10.2 net=  10.1% DD=  5.6%
+  SOL Y2  n= 57 win= 21% PF= 1.27 R=   8.1 net=   7.7% DD=  8.4%
+  SOL Y3* n= 57 win= 25% PF= 1.36 R=  11.9 net=  11.8% DD= 10.5%
+  ETH Y1  n= 50 win= 20% PF= 1.13 R=   3.9 net=   3.4% DD=  4.6%
+  ETH Y2  n= 53 win= 32% PF= 2.70 R=  30.9 net=  35.1% DD=  4.6%
+  ETH Y3* n= 53 win= 23% PF= 1.18 R=   6.0 net=   5.4% DD= 10.0%
+  POOL train n=212 win= 24% PF= 1.58 R=  53.2 net=  65.8% DD=  9.7% avgR=0.251
+  POOL Y3*   n=110 win= 24% PF= 1.27 R=  17.9 net=  17.9% DD=  9.8% avgR=0.162  90%CI -0.096..0.424
+  POOL 3yr   n=322 win= 24% PF= 1.43 R=  71.1 net=  95.4% DD=  9.8% avgR=0.221  90%CI 0.072..0.371
+
+== stress v4 (pooled SOL+ETH; train | Y3 | 3yr)
+  costs x2                         PF 1.21   32.9R | PF 1.04    3.7R | PF 1.15   36.6R
+  costs x3                         PF 1.08   14.3R | PF 0.92   -7.9R | PF 1.02    6.5R
+  fill must trade 0.02% through    PF 1.31   42.7R | PF 1.09    6.5R | PF 1.23   49.2R
+  fill must trade 0.05% through    PF 1.19   26.4R | PF 1.13    8.6R | PF 1.17   35.0R
+  costs x2 + 0.02% through         PF 1.16   24.5R | PF 0.94   -4.9R | PF 1.08   19.6R
+
+== stress v5a (pooled SOL+ETH; train | Y3 | 3yr)
+  costs x2                         PF 1.57   37.1R | PF 0.90   -4.8R | PF 1.28   32.3R
+  costs x3                         PF 1.36   27.2R | PF 0.80  -10.7R | PF 1.13   16.5R
+  fill must trade 0.02% through    PF 1.78   44.3R | PF 0.96   -1.8R | PF 1.43   42.5R
+  fill must trade 0.05% through    PF 1.56   30.8R | PF 1.05    1.9R | PF 1.34   32.7R
+  costs x2 + 0.02% through         PF 1.53   34.7R | PF 0.84   -7.7R | PF 1.24   27.0R

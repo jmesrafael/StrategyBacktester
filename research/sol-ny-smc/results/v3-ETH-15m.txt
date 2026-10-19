@@ -1,0 +1,24 @@
+ETH 15m | Original rules
+   3y: n=205 W/L/BE=115/80/10 win=56.1% net=$-104 PF=0.89 DD=$227 (2.27%) avgWin=$7.06 avgLoss=$-11.21 avgBE=$-1.84 reachedBE=20 streak=8 RR=0.98
+   sizing: planned loss avg $10.00 | stop-outs avg $-11.21 | worst trade $-20.40 | capped 0 | max leverage 0.8x | fees $115 funding $-4 | skipped <3R: 0 | median position 734
+   Oct23–Oct24: n=80 win=48% net=$-150 PF=0.63 BE=7
+   Oct24–Oct25: n=60 win=55% net=$-53 PF=0.82 BE=1
+   Oct25–Oct26: n=65 win=68% net=$99 PF=1.44 BE=2
+ETH 15m | Modified (swing target ≥ 3R)
+   3y: n=6 W/L/BE=1/2/3 win=16.7% net=$13 PF=1.41 DD=$20 (0.20%) avgWin=$46.16 avgLoss=$-16.28 avgBE=$-0.04 reachedBE=4 streak=1 RR=6.06
+   sizing: planned loss avg $10.00 | stop-outs avg $-16.28 | worst trade $-20.40 | capped 0 | max leverage 0.8x | fees $12 funding $0 | skipped <3R: 515 | median position 1724
+   Oct23–Oct24: n=2 win=0% net=$-0 PF=0.32 BE=2
+   Oct24–Oct25: n=1 win=0% net=$-12 PF=0.00 BE=0
+   Oct25–Oct26: n=3 win=33% net=$26 PF=2.26 BE=1
+ETH 15m | Modified alt A: nearest swing ≥ 3R
+   3y: n=220 W/L/BE=32/106/82 win=14.5% net=$-170 PF=0.86 DD=$449 (4.45%) avgWin=$31.85 avgLoss=$-11.21 avgBE=$-0.01 reachedBE=114 streak=9 RR=3.36
+   sizing: planned loss avg $10.00 | stop-outs avg $-11.21 | worst trade $-20.40 | capped 0 | max leverage 0.8x | fees $153 funding $-2 | skipped <3R: 0 | median position 750
+   Oct23–Oct24: n=84 win=12% net=$-166 PF=0.65 BE=31
+   Oct24–Oct25: n=69 win=14% net=$-67 PF=0.83 BE=24
+   Oct25–Oct26: n=67 win=18% net=$63 PF=1.19 BE=27
+ETH 15m | Modified alt B: fixed 3R target
+   3y: n=248 W/L/BE=39/125/84 win=15.7% net=$-237 PF=0.83 DD=$377 (3.76%) avgWin=$29.59 avgLoss=$-11.11 avgBE=$-0.02 reachedBE=123 streak=10 RR=3.00
+   sizing: planned loss avg $10.00 | stop-outs avg $-11.11 | worst trade $-20.40 | capped 0 | max leverage 0.9x | fees $160 funding $1 | skipped <3R: 0 | median position 698
+   Oct23–Oct24: n=93 win=13% net=$-201 PF=0.64 BE=31
+   Oct24–Oct25: n=81 win=17% net=$-34 PF=0.92 BE=26
+   Oct25–Oct26: n=74 win=18% net=$-1 PF=1.00 BE=27

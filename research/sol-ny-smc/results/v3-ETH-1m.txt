@@ -1,0 +1,24 @@
+ETH 1m | Original rules
+   3y: n=2779 W/L/BE=1466/1221/92 win=52.8% net=$-9990 PF=0.42 DD=$10020 (99.90%) avgWin=$4.98 avgLoss=$-13.72 avgBE=$-5.76 reachedBE=236 streak=10 RR=1.11
+   sizing: planned loss avg $9.29 | stop-outs avg $-13.85 | worst trade $-83.74 | capped 295 | max leverage 10.0x | fees $5389 funding $-3 | skipped <3R: 0 | median position 2595 | ACCOUNT DEPLETED 2026-03-04
+   Oct23–Oct24: n=1109 win=53% net=$-4657 PF=0.40 BE=38
+   Oct24–Oct25: n=1181 win=53% net=$-4454 PF=0.43 BE=40
+   Oct25–Oct26: n=489 win=52% net=$-880 PF=0.51 BE=14
+ETH 1m | Modified (swing target ≥ 3R)
+   3y: n=103 W/L/BE=9/63/31 win=8.7% net=$-1846 PF=0.16 DD=$1846 (18.46%) avgWin=$39.43 avgLoss=$-32.20 avgBE=$-5.55 reachedBE=40 streak=8 RR=13.68
+   sizing: planned loss avg $9.82 | stop-outs avg $-32.20 | worst trade $-119.08 | capped 4 | max leverage 10.0x | fees $1083 funding $0 | skipped <3R: 8516 | median position 7571
+   Oct23–Oct24: n=37 win=11% net=$-539 PF=0.25 BE=9
+   Oct24–Oct25: n=28 win=14% net=$-462 PF=0.24 BE=6
+   Oct25–Oct26: n=38 win=3% net=$-845 PF=0.03 BE=16
+ETH 1m | Modified alt A: nearest swing ≥ 3R
+   3y: n=2199 W/L/BE=226/1196/777 win=10.3% net=$-9991 PF=0.39 DD=$9991 (99.91%) avgWin=$28.04 avgLoss=$-13.47 avgBE=$-0.28 reachedBE=1000 streak=30 RR=3.65
+   sizing: planned loss avg $9.08 | stop-outs avg $-13.47 | worst trade $-57.49 | capped 293 | max leverage 10.0x | fees $5363 funding $-6 | skipped <3R: 0 | median position 2812 | ACCOUNT DEPLETED 2025-07-20
+   Oct23–Oct24: n=1257 win=9% net=$-7255 PF=0.34 BE=439
+   Oct24–Oct25: n=942 win=11% net=$-2735 PF=0.49 BE=338
+   Oct25–Oct26: n=0 win=0% net=$0 PF=0.00 BE=0
+ETH 1m | Modified alt B: fixed 3R target
+   3y: n=2311 W/L/BE=253/1241/817 win=10.9% net=$-9990 PF=0.41 DD=$9990 (99.90%) avgWin=$27.04 avgLoss=$-13.39 avgBE=$-0.26 reachedBE=1065 streak=26 RR=3.02
+   sizing: planned loss avg $9.30 | stop-outs avg $-13.39 | worst trade $-57.49 | capped 220 | max leverage 10.0x | fees $5303 funding $2 | skipped <3R: 0 | median position 2612 | ACCOUNT DEPLETED 2025-07-13
+   Oct23–Oct24: n=1318 win=11% net=$-6844 PF=0.37 BE=453
+   Oct24–Oct25: n=993 win=11% net=$-3146 PF=0.47 BE=364
+   Oct25–Oct26: n=0 win=0% net=$0 PF=0.00 BE=0

@@ -1,0 +1,45 @@
+{
+ "created": "2026-10-19",
+ "source": "Bybit v5 public API, category=linear, SOLUSDT perpetual",
+ "periods": {
+  "development": "2025-10-18T00:00Z -> 2026-10-18T00:00Z",
+  "outOfSample": "2023-10-18T00:00Z -> 2025-10-18T00:00Z"
+ },
+ "refetch1m": [
+  "node fetch.js 1 2025-10-18T00:00:00Z 2026-10-18T00:00:00Z data/sol1.json",
+  "node fetch.js 1 2023-10-18T00:00:00Z 2025-10-18T00:00:00Z data/sol1-oos.json"
+ ],
+ "frozenConfig": {
+  "swingLen": 5,
+  "fvgWindow": 10,
+  "sessionHours": 6.5,
+  "allHours": false,
+  "slBufferPct": 0.0002,
+  "makerFee": 0.0002,
+  "takerFee": 0.00055,
+  "stopSlip": 0.0002,
+  "fill": "touch",
+  "throughPct": 0.0002,
+  "funding": null,
+  "tpMode": "swing",
+  "sizing": "compound",
+  "riskPct": 0.01,
+  "maxLeverage": 10,
+  "startEquity": 10000,
+  "pdTol": 0.0015,
+  "pdSweep": 0.005,
+  "sdImpulseATR": 2,
+  "sdBars": 3,
+  "sdMaxAge": 2000,
+  "tpLookback": 3000
+ },
+ "sha256": {
+  "data/sol15.json": "558ed3bc07dfc467250fed85d7ba269a0287a2b4156b9ceecb4d639081230d67",
+  "data/sol15-oos.json": "bf0ad8d478616a6b2757edfb31964130dfc8d4e681c986f747ab42a4f56f162d",
+  "data/sol1.json": "3fb916929de12d74db7b5b1a5cf5a7dc6841426c647eb877c60550f63b1f6158",
+  "data/sol1-oos.json": "820d08b64d0c82f37e71b11e91f44ae6f9139658aa848b072f5117861c6d6ea6",
+  "data/funding.json": "3f833fe6d4b1479427d7b90687675b9762b876c0c665f2bc4c804374633e1fa0",
+  "engine.js": "1a3576fd0dfa33b98b82e8fc87d338434473d17ca065effe0fa55788c8618fc5",
+  "../../js/smc.js": "1c5b3cd43a13a477e6ebf3765f780cc022a673806462cba464d4bff9bbc554fe"
+ }
+}
