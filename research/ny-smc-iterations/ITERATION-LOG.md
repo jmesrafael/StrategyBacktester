@@ -580,3 +580,28 @@ the fill) is a separate rule and was left as is. `node monthly-be.js mexc|bybit`
   total difference comes from knock-on effects on the sequence of trades (one position at a time).
 - Result: the earlier breakeven cuts max drawdown only slightly (−$57 → −$48 over 3 years) for about 24% less profit.
   Matches the tuning round 1 observation that BE at 0.5R helps only when targets are close. +1R stays.
+
+### 2026-10-19 · Breakeven trigger / profit-lock sweep (target 1:3, v7 otherwise frozen) — in-sample, not a validation check
+
+`node be-sweep.js` → `results/be-sweep.md`. $10 per R, fees + slippage included. 'lock +X' = on the trigger the stop moves to entry +X·R instead of entry. Profit ÷ DD = 3-year profit / max drawdown (both coins). 'Coin-years ≥ v7' counts how many of the 6 SOL/ETH years (Bybit data) are at least as good as v7's +1R breakeven.
+
+| Breakeven | 3-yr profit (both) | PF | Max DD | Profit ÷ DD | Worst month | Coin-years ≥ v7 | SOL Y1/Y2/Y3 | ETH Y1/Y2/Y3 | MEXC yr profit | MEXC DD | Exits TP / BE / SL |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| no BE | +767 | 1.86 | −$78 | 9.9 | −54 | 2/6 | 165/149/53 | 111/163/126 | +203 | −$91 | 56 / 0 / 93 |
+| 0.5R | +665 | 2.66 | −$48 | 13.9 | −34 | 1/6 | 80/56/127 | 115/162/124 | +238 | −$51 | 36 / 82 / 38 |
+| 0.75R | +703 | 2.46 | −$57 | 12.4 | −44 | 1/6 | 103/91/127 | 105/137/140 | +253 | −$56 | 40 / 67 / 48 |
+| 1.0R (v7) | +876 | 2.69 | −$57 | 15.4 | −44 | 6/6 | 118/132/117 | 136/197/176 | +290 | −$61 | 47 / 55 / 52 |
+| 1.25R | +732 | 2.16 | −$67 | 11.0 | −44 | 0/6 | 83/123/68 | 116/177/166 | +221 | −$81 | 46 / 43 / 64 |
+| 1.5R | +744 | 2.00 | −$74 | 10.1 | −51 | 2/6 | 134/143/48 | 106/162/151 | +192 | −$81 | 50 / 25 / 76 |
+| 2.0R | +801 | 2.00 | −$74 | 10.8 | −51 | 2/6 | 144/169/38 | 126/173/151 | +203 | −$91 | 54 / 13 / 83 |
+| 2.5R | +781 | 1.92 | −$74 | 10.6 | −54 | 2/6 | 165/149/28 | 126/173/141 | +183 | −$91 | 55 / 7 / 88 |
+| 0.75R lock +0.1R | +680 | 2.53 | −$53 | 12.9 | −43 | 0/6 | 89/106/107 | 113/147/119 | +215 | −$55 | 37 / 70 / 48 |
+| 1.0R lock +0.1R | +870 | 2.79 | −$53 | 16.5 | −43 | 4/6 | 101/143/125 | 143/205/154 | +276 | −$58 | 45 / 57 / 52 |
+| 1.0R lock +0.2R | +898 | 2.86 | −$49 | 18.4 | −42 | 3/6 | 114/154/133 | 150/185/163 | +293 | −$55 | 44 / 59 / 52 |
+| 1.0R lock +0.3R | +816 | 2.69 | −$45 | 18.2 | −41 | 2/6 | 127/110/141 | 102/166/171 | +282 | −$55 | 39 / 64 / 52 |
+| 1.5R lock +0.3R | +653 | 1.90 | −$74 | 8.8 | −51 | 1/6 | 149/104/60 | 62/119/160 | +216 | −$78 | 44 / 31 / 76 |
+| 1.5R lock +0.5R | +536 | 1.74 | −$89 | 6.0 | −51 | 1/6 | 159/92/17 | 48/80/140 | +181 | −$76 | 37 / 38 / 76 |
+| 2.0R lock +0.5R | +661 | 1.83 | −$96 | 6.9 | −51 | 1/6 | 154/128/2 | 110/127/140 | +177 | −$98 | 46 / 21 / 83 |
+| 2.0R lock +1.0R | +600 | 1.76 | −$88 | 6.8 | −51 | 0/6 | 103/87/27 | 104/121/157 | +212 | −$93 | 38 / 29 / 83 |
+
+**Reading it:** +1R is a sharp local peak (+0.75R and +1.25R are both 15–20% worse); every later trigger lets too many winners turn into full stops (profit factor falls from 2.7 to ~2.0). A small lock on top of +1R is the only change that trades profit for lower drawdown without losing profit: +0.2R lock → +$898 vs +$876, max DD −$49 vs −$57, but only 3 of 6 coin-years beat plain +1R, so the gain is within noise. Recommendation: keep the +1R trigger; a +0.2R lock is optional and unproven.
