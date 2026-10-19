@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "scripts": {
     "setup-db": "node scripts/setup-supabase.mjs",
-    "serve": "node .serve.js"
+    "serve": "node .serve.js",
+    "parity": "node tools/parity-check.js"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.60.0"
   }
 }

@@ -13,8 +13,9 @@ const TradeSim = (() => {
   let startBalance = CFG.START_BALANCE;
   let balance = startBalance;
   let sizePct = CFG.DEFAULT_SIZE_PCT;
-  let commissionPct = CFG.DEFAULT_COMMISSION_PCT; // per side, on entry and exit
-  let slippagePct = CFG.DEFAULT_SLIPPAGE_PCT;     // worsens entry/exit fill
+  let commissionPct = CFG.DEFAULT_COMMISSION_PCT;
+  let slippagePct = CFG.DEFAULT_SLIPPAGE_PCT;
+  let customSizePcts = [...CFG.SIZE_PCTS]; // editable size preset buttons
   let totalFees = 0;     // accumulated commission across the session
   let sessionPnl = 0;   // running total of all closed-trade net P&L
   let position = null;   // {side, entryPrice, size, entryTime, entryCandleIndex}
@@ -24,7 +25,7 @@ const TradeSim = (() => {
   let mode = 'game';     // 'game' (manual buttons) | 'strategy' (read-only status)
 
   // DOM
-  let widget, elBalance, elPrice, elPnl, elSessionPnl, elLogList, elSizes, elLong, elShort, elClose;
+  let widget, elBalance, elPrice, elPnl, elSessionPnl, elTradesVal, elLogList, elSizes, elLong, elShort, elClose;
   let elComm, elSlip, elStatus, elActions;
   let pnlLabel, toast, summary;
   let entryLine = null;
@@ -46,10 +47,31 @@ const TradeSim = (() => {
     return { pct, usd: position.size * (pct / 100) };
   }
 
+  // ---- sim settings persistence -------------------------------------------
+  function loadSimSettings() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(CFG.STORE.tradeSim) || 'null');
+      if (!saved) return;
+      if (saved.startBalance > 0) { startBalance = saved.startBalance; balance = saved.startBalance; }
+      if (Array.isArray(saved.sizePcts) && saved.sizePcts.length) customSizePcts = saved.sizePcts;
+      if (typeof saved.sizePct === 'number') sizePct = saved.sizePct;
+      if (typeof saved.commissionPct === 'number' && saved.commissionPct >= 0) commissionPct = saved.commissionPct;
+      if (typeof saved.slippagePct === 'number' && saved.slippagePct >= 0) slippagePct = saved.slippagePct;
+    } catch {}
+  }
+  function saveSimSettings() {
+    try {
+      localStorage.setItem(CFG.STORE.tradeSim, JSON.stringify({
+        startBalance, sizePcts: customSizePcts.slice(), sizePct, commissionPct, slippagePct,
+      }));
+    } catch {}
+  }
+
   // ---- init (build DOM once) ----------------------------------------------
   function init(opts) {
     chart = opts.chart; series = opts.series; chartHost = opts.chartHost;
     onPlayAgain = opts.onPlayAgain; onExit = opts.onExit;
+    loadSimSettings();
     buildWidget();
     buildExtras();
     chart.timeScale().subscribeVisibleLogicalRangeChange(positionPnlLabel);
@@ -62,14 +84,20 @@ const TradeSim = (() => {
     widget.innerHTML =
       `<div class="tw-head"><span class="tw-grip">⠿</span> TRADE SIM</div>` +
       `<div class="tw-stats">` +
-        `<div class="tw-stat">Balance <span class="tw-bwrap">$<input class="tw-balance" type="number" min="1" step="100"></span></div>` +
+        `<div class="tw-stat">Capital $<input class="tw-balance" type="number" min="1" step="100"></div>` +
         `<div class="tw-stat">Price <b class="tw-price">—</b></div>` +
       `</div>` +
       `<div class="tw-simwrap">` +
         `<button class="tw-simtoggle" type="button">⚙ Sim Settings</button>` +
         `<div class="tw-sim" style="display:none">` +
-          `<label>Commission % <input class="tw-comm" type="number" min="0" step="0.001"></label>` +
-          `<label>Slippage % <input class="tw-slip" type="number" min="0" step="0.001"></label>` +
+          `<div class="tw-sim-grid">` +
+            `<label>Fee %<input class="tw-comm" type="number" min="0" step="0.001"></label>` +
+            `<label>Slippage %<input class="tw-slip" type="number" min="0" step="0.001"></label>` +
+          `</div>` +
+          `<div class="tw-sim-presets">` +
+            `<span class="tw-sim-label">Size presets (%)</span>` +
+            `<div class="tw-sz-row"></div>` +
+          `</div>` +
         `</div>` +
       `</div>` +
       `<div class="tw-sizes"></div>` +
@@ -83,13 +111,21 @@ const TradeSim = (() => {
       `<div class="tw-status" style="display:none">No position</div>` +
       `<div class="tw-pnl" style="display:none">P&amp;L <b class="tw-pnl-val">+$0.00 (+0.00%)</b></div>` +
       `<div class="tw-session-pnl">Session P&amp;L <b class="tw-session-pnl-val">$0.00</b></div>` +
-      `<div class="tw-log"><div class="tw-log-title">TRADE LOG</div><div class="tw-log-list"></div></div>`;
+      `<div class="tw-trades">Trades <b class="tw-trades-val">0</b></div>` +
+      `<div class="tw-log">` +
+        `<button class="tw-log-toggle" type="button">` +
+          `<span class="tw-log-title">TRADE LOG</span>` +
+          `<span class="tw-log-caret">▸</span>` +
+        `</button>` +
+        `<div class="tw-log-list" style="display:none"></div>` +
+      `</div>`;
     chartHost.appendChild(widget);
 
     elBalance    = widget.querySelector('.tw-balance');
     elPrice      = widget.querySelector('.tw-price');
     elPnl        = widget.querySelector('.tw-pnl');
     elSessionPnl = widget.querySelector('.tw-session-pnl-val');
+    elTradesVal = widget.querySelector('.tw-trades-val');
     elLogList = widget.querySelector('.tw-log-list');
     elSizes   = widget.querySelector('.tw-sizes');
     elLong    = widget.querySelector('.tw-long');
@@ -100,8 +136,10 @@ const TradeSim = (() => {
     elStatus  = widget.querySelector('.tw-status');
     elActions = widget.querySelector('.tw-actions-wrap');
 
+    elBalance.value = startBalance.toFixed(2);
     elComm.value = commissionPct;
     elSlip.value = slippagePct;
+
     widget.querySelector('.tw-simtoggle').onclick = () => {
       const s = widget.querySelector('.tw-sim');
       s.style.display = s.style.display === 'none' ? 'block' : 'none';
@@ -109,30 +147,49 @@ const TradeSim = (() => {
     elComm.addEventListener('change', () => {
       if (hasTraded) { elComm.value = commissionPct; return; }
       const v = parseFloat(elComm.value);
-      if (v >= 0) commissionPct = v; else elComm.value = commissionPct;
+      if (v >= 0) { commissionPct = v; saveSimSettings(); } else elComm.value = commissionPct;
     });
     elSlip.addEventListener('change', () => {
       if (hasTraded) { elSlip.value = slippagePct; return; }
       const v = parseFloat(elSlip.value);
-      if (v >= 0) slippagePct = v; else elSlip.value = slippagePct;
+      if (v >= 0) { slippagePct = v; saveSimSettings(); } else elSlip.value = slippagePct;
     });
 
-    CFG.SIZE_PCTS.forEach((p) => {
-      const b = document.createElement('button');
-      b.className = 'tw-size'; b.dataset.pct = p; b.textContent = p + '%';
-      if (p === sizePct) b.classList.add('active');
-      elSizes.appendChild(b);
+    // Size preset inputs in Sim Settings — editable values for each button
+    const szRow = widget.querySelector('.tw-sz-row');
+    customSizePcts.forEach((pct, i) => {
+      const lbl = document.createElement('label');
+      lbl.className = 'tw-sz-lbl';
+      const inp = document.createElement('input');
+      inp.className = 'tw-sz-inp'; inp.type = 'number'; inp.min = '1'; inp.max = '100'; inp.step = '1';
+      inp.value = pct;
+      inp.addEventListener('change', () => {
+        let v = parseInt(inp.value);
+        if (isNaN(v) || v < 1) v = 1;
+        if (v > 100) v = 100;
+        inp.value = v;
+        customSizePcts[i] = v;
+        rebuildSizeButtons();
+        saveSimSettings();
+      });
+      lbl.appendChild(inp);
+      lbl.appendChild(document.createTextNode('%'));
+      szRow.appendChild(lbl);
     });
+
+    // Size button click delegation (survives rebuildSizeButtons innerHTML clears)
     elSizes.addEventListener('click', (e) => {
       const b = e.target.closest('.tw-size'); if (!b) return;
       sizePct = parseInt(b.dataset.pct);
       elSizes.querySelectorAll('.tw-size').forEach((x) => x.classList.toggle('active', x === b));
+      saveSimSettings();
     });
+    rebuildSizeButtons();
 
     elBalance.addEventListener('change', () => {
       if (hasTraded) return;
       const v = parseFloat(elBalance.value);
-      if (v > 0) { startBalance = v; balance = v; }
+      if (v > 0) { startBalance = v; balance = v; saveSimSettings(); }
       elBalance.value = balance.toFixed(2);
     });
 
@@ -140,7 +197,31 @@ const TradeSim = (() => {
     elShort.onclick = () => open('short');
     elClose.onclick = () => close();
 
+    // Trade log is collapsed by default (not needed for most sessions). The toggle
+    // shows/hides the per-trade rows; the trade COUNT stays visible either way.
+    const logToggle = widget.querySelector('.tw-log-toggle');
+    const caret = widget.querySelector('.tw-log-caret');
+    logToggle.onclick = () => {
+      const hidden = elLogList.style.display === 'none';
+      elLogList.style.display = hidden ? 'flex' : 'none';
+      caret.textContent = hidden ? '▾' : '▸';
+    };
+
     makeDraggable(widget, widget.querySelector('.tw-head'));
+  }
+
+  function updateTradeCount() {
+    if (elTradesVal) elTradesVal.textContent = trades.length;
+  }
+
+  function rebuildSizeButtons() {
+    elSizes.innerHTML = '';
+    customSizePcts.forEach((p) => {
+      const b = document.createElement('button');
+      b.className = 'tw-size'; b.dataset.pct = p; b.textContent = p + '%';
+      if (p === sizePct) b.classList.add('active');
+      elSizes.appendChild(b);
+    });
   }
 
   function buildExtras() {
@@ -166,15 +247,18 @@ const TradeSim = (() => {
     handle.addEventListener('mousedown', (e) => {
       dragging = true;
       const r = box.getBoundingClientRect();
+      // Normalize to left/top so drag math always works regardless of initial anchor
+      box.style.left = r.left + 'px'; box.style.top = r.top + 'px';
+      box.style.right = 'auto'; box.style.bottom = 'auto';
       offX = e.clientX - r.left; offY = e.clientY - r.top;
-      e.preventDefault();
+      e.preventDefault(); e.stopPropagation();
     });
     window.addEventListener('mousemove', (e) => {
       if (!dragging) return;
       let nx = e.clientX - offX, ny = e.clientY - offY;
       nx = Math.max(0, Math.min(window.innerWidth - box.offsetWidth, nx));
       ny = Math.max(0, Math.min(window.innerHeight - box.offsetHeight, ny));
-      box.style.left = nx + 'px'; box.style.top = ny + 'px'; box.style.right = 'auto';
+      box.style.left = nx + 'px'; box.style.top = ny + 'px';
     });
     window.addEventListener('mouseup', () => { dragging = false; });
   }
@@ -191,6 +275,7 @@ const TradeSim = (() => {
     currentPrice = initialPrice || 0;
 
     elLogList.innerHTML = '';
+    updateTradeCount();
     elBalance.readOnly = false;
     elBalance.value = balance.toFixed(2);
     lockSimInputs(false);
@@ -205,11 +290,11 @@ const TradeSim = (() => {
     refreshButtons();
 
     widget.style.display = 'block';
-    // default position: bottom-left of the chart host
+    // default position: bottom-right of the chart host
     const r = chartHost.getBoundingClientRect();
-    widget.style.left = (r.left + 16) + 'px';
-    widget.style.top  = (r.bottom - widget.offsetHeight - 16) + 'px';
-    widget.style.right = 'auto';
+    widget.style.right  = (window.innerWidth - r.right + 16) + 'px';
+    widget.style.top    = (r.bottom - widget.offsetHeight - 16) + 'px';
+    widget.style.left   = 'auto';
   }
 
   // called on every replay tick with the latest price
@@ -239,10 +324,14 @@ const TradeSim = (() => {
     playOpenSound(side);
   }
 
-  function close() {
+  // exitPriceOverride: when an automated strategy closes on a stop/target, the fill price
+  // is the stop/target LEVEL — not the candle close. Passing it here makes replay P&L match
+  // the backtest engine (js/strategy.js simulate()). Manual/market closes omit it.
+  function close(exitPriceOverride) {
     if (!position) return;
     const slip = slippagePct / 100;
-    const exitFill = position.side === 'long' ? currentPrice * (1 - slip) : currentPrice * (1 + slip);
+    const px = (exitPriceOverride != null && isFinite(exitPriceOverride)) ? exitPriceOverride : currentPrice;
+    const exitFill = position.side === 'long' ? px * (1 - slip) : px * (1 + slip);
     const grossPct = position.side === 'long'
       ? ((exitFill - position.entryPrice) / position.entryPrice) * 100
       : ((position.entryPrice - exitFill) / position.entryPrice) * 100;
@@ -255,6 +344,7 @@ const TradeSim = (() => {
     trades.push({ side: position.side, entry: position.entryPrice, exit: exitFill,
       pct: grossPct, usd, fees });
     addLogRow(trades[trades.length - 1]);
+    updateTradeCount();
     updateSessionPnl();
     playCloseSound(usd >= 0);
     showToast(position.side, usd, grossPct);
@@ -464,6 +554,12 @@ const TradeSim = (() => {
     const winRate = trades.length ? Math.round((wins / trades.length) * 100) : 0;
     const best  = trades.length ? Math.max(...trades.map((t) => t.usd)) : 0;
     const worst = trades.length ? Math.min(...trades.map((t) => t.usd)) : 0;
+    // longest consecutive win / loss streaks over the session (chronological order)
+    let cw = 0, cl = 0, maxCW = 0, maxCL = 0;
+    trades.forEach((t) => {
+      if (t.usd > 0) { cw++; cl = 0; maxCW = Math.max(maxCW, cw); }
+      else if (t.usd < 0) { cl++; cw = 0; maxCL = Math.max(maxCL, cl); }
+    });
     const retCol = ret >= 0 ? UP : DOWN;
     const pnlCol = sessionPnl >= 0 ? UP : DOWN;
 
@@ -478,6 +574,8 @@ const TradeSim = (() => {
       `<div class="ts-row"><span>Total return</span><b style="color:${retCol}">${fmtPct(ret)}</b></div>` +
       `<div class="ts-row"><span>Total trades</span><b>${trades.length}</b></div>` +
       `<div class="ts-row"><span>Win rate</span><b>${winRate}%</b></div>` +
+      `<div class="ts-row"><span>Win streak</span><b style="color:${UP}">${maxCW}</b></div>` +
+      `<div class="ts-row"><span>Loss streak</span><b style="color:${DOWN}">${maxCL}</b></div>` +
       `<div class="ts-row"><span>Best trade</span><b style="color:${UP}">${fmtMoney(best)}</b></div>` +
       `<div class="ts-row"><span>Worst trade</span><b style="color:${DOWN}">${fmtMoney(worst)}</b></div>` +
       `<div class="ts-row"><span>Total fees paid</span><b>${fmtBal(totalFees)}</b></div>` +
@@ -493,7 +591,19 @@ const TradeSim = (() => {
       entryPrice: position ? position.entryPrice : null, balance };
   }
 
-  return { init, start, stop, onTick, open, close, setMode, getAccount,
+  function applySettings(cfg) {
+    if (hasTraded) return;
+    if (cfg.startBalance > 0) {
+      startBalance = cfg.startBalance; balance = cfg.startBalance;
+      if (elBalance) elBalance.value = cfg.startBalance.toFixed(2);
+    }
+    if (typeof cfg.sizePct === 'number' && cfg.sizePct > 0) { sizePct = cfg.sizePct; rebuildSizeButtons(); }
+    if (typeof cfg.commissionPct === 'number' && cfg.commissionPct >= 0) { commissionPct = cfg.commissionPct; if (elComm) elComm.value = cfg.commissionPct; }
+    if (typeof cfg.slippagePct === 'number' && cfg.slippagePct >= 0) { slippagePct = cfg.slippagePct; if (elSlip) elSlip.value = cfg.slippagePct; }
+    saveSimSettings();
+  }
+
+  return { init, start, stop, onTick, open, close, setMode, getAccount, applySettings,
     playReplayStartSound, playReplayExitSound,
     get active() { return active; }, get mode() { return mode; } };
 })();

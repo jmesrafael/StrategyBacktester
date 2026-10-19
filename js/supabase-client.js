@@ -42,7 +42,21 @@
   const SYNC_KEYS = new Set(Object.values(CFG.STORE));
   let pushTimer = null;
 
+  // ── save-status emitter (drives the top-bar cloud icon) ──────────────────────
+  // 'saved'  = everything mirrored to the cloud
+  // 'dirty'  = local change pending the debounced push
+  // 'saving' = push in flight
+  // 'error'  = last push failed / offline
+  let status = 'saved';
+  const statusListeners = [];
+  function setStatus(s) { status = s; statusListeners.forEach((fn) => fn(s)); }
+
   const SettingsSync = {
+    onStatus(fn) { statusListeners.push(fn); fn(status); },
+    getStatus() { return status; },
+    // Force an immediate push (cloud icon click) instead of waiting for the debounce.
+    saveNow() { clearTimeout(pushTimer); return SettingsSync._push(); },
+
     async pull() {
       try {
         const { data, error } = await sb
@@ -55,7 +69,7 @@
         let changed = false;
         for (const [k, v] of Object.entries(remote)) {
           if (typeof v === 'string' && localStorage.getItem(k) !== v) {
-            localStorage.setItem(k, v);
+            _origSet(k, v); // bypass the push-trigger — we're pulling, not dirtying
             changed = true;
           }
         }
@@ -64,15 +78,18 @@
           sessionStorage.setItem('supa_synced', '1');
           location.reload();
         }
-      } catch (e) { console.warn('SettingsSync.pull:', e.message); }
+        setStatus('saved');
+      } catch (e) { console.warn('SettingsSync.pull:', e.message); setStatus('error'); }
     },
 
     schedulePush() {
       clearTimeout(pushTimer);
+      setStatus('dirty');
       pushTimer = setTimeout(() => SettingsSync._push(), 1200);
     },
 
     async _push() {
+      setStatus('saving');
       const snapshot = {};
       for (const k of SYNC_KEYS) {
         const v = localStorage.getItem(k);
@@ -82,16 +99,20 @@
         const { error } = await sb.from('app_settings').upsert({
           id: 'global', data: snapshot, updated_at: new Date().toISOString(),
         });
-        if (error) console.warn('SettingsSync._push:', error.message);
-      } catch (e) { console.warn('SettingsSync._push:', e.message); }
+        if (error) { console.warn('SettingsSync._push:', error.message); setStatus('error'); return false; }
+        setStatus('saved');
+        return true;
+      } catch (e) { console.warn('SettingsSync._push:', e.message); setStatus('error'); return false; }
     },
   };
 
-  // Intercept localStorage.setItem for tracked keys.
+  // Intercept localStorage.setItem for tracked keys. Only schedule a push when the
+  // value actually changed, so no-op writes on load don't flip the cloud icon to dirty.
   const _origSet = localStorage.setItem.bind(localStorage);
   localStorage.setItem = function (key, value) {
+    const changed = SYNC_KEYS.has(key) && localStorage.getItem(key) !== value;
     _origSet(key, value);
-    if (SYNC_KEYS.has(key)) SettingsSync.schedulePush();
+    if (changed) SettingsSync.schedulePush();
   };
 
   window.SettingsSync = SettingsSync;

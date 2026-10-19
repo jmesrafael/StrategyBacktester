@@ -11,7 +11,14 @@
 window.__STRATEGIES = window.__STRATEGIES || {};
 
 window.STRATEGY_REGISTRY = [
+  { id: 'pivotcross', label: 'Pivot Cross V1 — Improved' },
+  { id: 'pivotcrossimproved', label: 'Pivot Cross — Improved (TV-style)' },
+  { id: 'pivotcrossv2', label: 'Pivot Cross V2 — Break & Trail' },
+  { id: 'pivotreject', label: 'Pivot Cross V3 — Rejection' },
+  { id: 'pivotcrossv4', label: 'Pivot Cross V4 — CPR Regime + Level Targets' },
+  { id: 'orb4h', label: '4H Opening Range Breakout-Reversal' },
   { id: 'emarsidiv', label: 'EMA + RSI Divergence' },
-  { id: 'emacross', label: 'EMA Crossover' },
-  { id: 'rsi', label: 'RSI Reversal' },
+  { id: 'macdmoneymap', label: 'MACD Money Map — Trend System' },
+  { id: 'dematematrend', label: 'DEMA/TEMA Trend Cross' },
+  { id: 'fixedmtfgc', label: 'Fixed-MTF Golden Cross + MACD + Pivots (SMC)' },
 ];

@@ -5,8 +5,8 @@ const Replay = (() => {
   let cutIndex = 0;       // last fully-revealed completed candle index
   let startCut = 0;       // remembered cut for rewind
   let playing = false;
-  let speed = 1;
-  let mode = 'candle'; // 'realistic' | 'candle'
+  let speed = parseFloat(localStorage.getItem('cr.replaySpeed')) || 1;
+  let mode  = localStorage.getItem('cr.replayMode') || 'candle';
   let timer = null;
 
   // realistic-mode forming state
@@ -51,18 +51,30 @@ const Replay = (() => {
   }
 
   // ---- playback loop -------------------------------------------------------
+  // Candle mode at high speed reveals MULTIPLE candles per timer frame instead of
+  // chasing an impossibly small setTimeout interval (which the per-frame work would
+  // overrun anyway, so the clock never actually sped up). We hold a steady ~60fps
+  // cadence and grow the per-frame batch with the speed — and recompute indicators
+  // only ONCE per frame rather than once per candle, so 100x is genuinely ~100x.
+  const FRAME_MS = 16;
+  function candleFrame() {
+    const idealMs = CFG.CANDLE_STEP_MS / speed;   // ms a single candle "should" take
+    if (idealMs >= FRAME_MS) return { ms: Math.round(idealMs), steps: 1 };
+    return { ms: FRAME_MS, steps: Math.max(1, Math.round(FRAME_MS / idealMs)) };
+  }
+
   function scheduleNext() {
     if (!playing) return;
     const ms = mode === 'realistic'
       ? Math.max(CFG.MIN_FRAME_MS, Math.round(CFG.REALISTIC_FRAME_MS / speed))
-      : Math.max(CFG.MIN_FRAME_MS, Math.round(CFG.CANDLE_STEP_MS / speed));
+      : candleFrame().ms;
     timer = setTimeout(loop, ms);
   }
 
   function loop() {
     if (!playing) return;
     if (mode === 'candle') {
-      advanceCandle();
+      advanceCandle(candleFrame().steps);
     } else {
       advanceFrame();
     }
@@ -74,12 +86,17 @@ const Replay = (() => {
     scheduleNext();
   }
 
-  // candle-by-candle: drop the next finished candle in whole
-  function advanceCandle() {
+  // candle-by-candle: drop the next `steps` finished candles in whole. Each bar is
+  // appended to the chart (so none are skipped visually), but indicators, the cursor
+  // and the 'tick' event fire just once for the batch — StrategyMode.onTick replays
+  // every intermediate index internally, so trades aren't missed.
+  function advanceCandle(steps) {
+    steps = Math.max(1, steps || 1);
     if (cutIndex >= full.length - 1) return;
-    cutIndex++;
+    const target = Math.min(full.length - 1, cutIndex + steps);
+    for (let i = cutIndex + 1; i <= target; i++) ChartView.updateForming(full[i]);
+    cutIndex = target;
     const c = full[cutIndex];
-    ChartView.updateForming(c);
     IndicatorManager.recompute(revealed());
     drawCursorAt(c.time);
     emit('tick', { index: cutIndex, candle: c, forming: false });

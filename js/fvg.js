@@ -192,6 +192,7 @@ const FVGIndicator = (() => {
 
   // ---- Render --------------------------------------------------------------
   function render() {
+    if (!ctx) return;   // init() hasn't run yet (e.g. restored before FVGIndicator.init) — skip safely
     // clear
     ctx.save();
     ctx.setTransform(1, 0, 0, 1, 0, 0);

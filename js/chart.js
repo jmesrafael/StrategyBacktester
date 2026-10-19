@@ -4,7 +4,10 @@ const ChartView = (() => {
   let chart, candle, volume, cursorSeries, closeLine;
   let container;
   let chartType = 'candlestick';
-  let lastHaState = null; // { open, close } of the last permanent HA candle, for updateForming
+  let lastHaState = null; // { open, close } of the last committed HA candle, for updateForming
+  let formingTime = null; // timestamp of the bar currently being drawn in updateForming
+  let formingHa = null;   // { open, close } of the HA candle currently being drawn (becomes
+                          // lastHaState once that bar is finalized, i.e. a new bar begins)
   let onCrosshair = null;
   let onPriceChange = null;   // fired after every manual price-range update
   let candleMarkers = null;   // v5 markers primitive on the candle series
@@ -16,7 +19,9 @@ const ChartView = (() => {
   // that the chart uses as-is (scaleMargins 0/0 so the range is pixel-exact).
   // This lets the user freely pan/zoom past the data's high/low.
   // Refreshing or exiting replay restores auto-fit mode.
-  const PRICE_MARGINS_BASE = { top: 0.06, bottom: 0.18 };
+  const PRICE_MARGINS_BASE = { top: 0.06, bottom: 0.04 }; // bottom grows to 0.18 when volume is on
+  let _volVisible = false;
+  function _volBottom() { return _volVisible ? 0.18 : 0.04; }
   let manualRange = null;    // { min, max } or null (auto-fit)
   let mainPaneSeries = [];   // overlay indicator series on the right price scale
 
@@ -49,6 +54,7 @@ const ChartView = (() => {
     });
     volume = chart.addSeries(LightweightCharts.HistogramSeries, {
       priceScaleId: 'vol', priceFormat: { type: 'volume' }, priceLineVisible: false,
+      visible: false, // IndicatorManager controls visibility; starts hidden until restore() shows it
     });
     // volume fills the bottom ~18%, flush against the price area (no gap)
     chart.priceScale('vol').applyOptions({ scaleMargins: { top: 0.82, bottom: 0 } });
@@ -182,7 +188,7 @@ const ChartView = (() => {
     candle.applyOptions({ autoscaleInfoProvider: null });
     if (closeLine) closeLine.applyOptions({ autoscaleInfoProvider: null });
     mainPaneSeries.forEach((s) => s.applyOptions({ autoscaleInfoProvider: null }));
-    chart.priceScale('right').applyOptions({ autoScale: true, scaleMargins: { ...PRICE_MARGINS_BASE } });
+    chart.priceScale('right').applyOptions({ autoScale: true, scaleMargins: { top: PRICE_MARGINS_BASE.top, bottom: _volBottom() } });
   }
 
   // ---- canvas customization (settings) -------------------------------------
@@ -231,6 +237,23 @@ const ChartView = (() => {
   // back-compat alias — MAs live on the main pane
   function addLineIndicator(opts) { return addPaneSeries(opts, 0); }
 
+  // Histogram series in a sub-pane (e.g. the MACD histogram). Per-bar color comes
+  // from each data point ({time, value, color}); add this BEFORE the pane's line
+  // series so the bars render behind the MACD/signal lines.
+  function addPaneHistogram(opts, paneIndex) {
+    const s = chart.addSeries(LightweightCharts.HistogramSeries, {
+      color: (opts && opts.color) || '#26a69a',
+      priceLineVisible: false, lastValueVisible: false,
+    }, paneIndex || 0);
+    return {
+      series: s,
+      setData: (d) => s.setData(d),
+      applyOptions: (o) => s.applyOptions(o),
+      setVisible: (v) => s.applyOptions({ visible: v }),
+      remove: () => chart.removeSeries(s),
+    };
+  }
+
   function setPaneHeight(paneIndex, px) {
     const panes = chart.panes();
     if (panes[paneIndex]) panes[paneIndex].setHeight(px);
@@ -244,7 +267,13 @@ const ChartView = (() => {
   }
   function clearCandleMarkers() { if (candleMarkers) candleMarkers.setMarkers([]); }
 
-  function toggleVolume(on) { volume.applyOptions({ visible: on }); }
+  function toggleVolume(on) {
+    _volVisible = on;
+    volume.applyOptions({ visible: on });
+    if (!manualRange) {
+      chart.priceScale('right').applyOptions({ scaleMargins: { top: PRICE_MARGINS_BASE.top, bottom: _volBottom() } });
+    }
+  }
 
   // Optional transform applied to candles before setData (e.g. volume highlight).
   let _sliceTransform = null;
@@ -260,9 +289,15 @@ const ChartView = (() => {
       const all = formingBar ? [...src, formingBar] : src;
       const ha  = toHeikenAshi(all);
       candle.setData(ha);
-      lastHaState = ha.length > (formingBar ? 1 : 0)
+      // Seed the forming-state machine from the last non-forming HA candle so the
+      // first played bar chains correctly (its commit becomes a no-op). setSlice is
+      // the only entry that resets HA state (cut / rewind / setCut), never per frame.
+      const lastHa = ha.length > (formingBar ? 1 : 0)
         ? ha[ha.length - (formingBar ? 2 : 1)]
         : null;
+      lastHaState = lastHa;
+      formingHa   = lastHa ? { open: lastHa.open, close: lastHa.close } : null;
+      formingTime = lastHa ? lastHa.time : null;
     } else {
       const data = src.map((c) => ({ ...c }));
       if (formingBar) data.push(formingBar);
@@ -282,11 +317,20 @@ const ChartView = (() => {
 
   // lighter update path while animating one forming candle
   function updateForming(bar) {
-    if (chartType === 'heiken_ashi' && lastHaState) {
+    if (chartType === 'heiken_ashi') {
+      // Heikin Ashi is recursive: each candle's open depends on the previous HA
+      // candle. A new bar (new timestamp) finalizes the one before it, so commit
+      // that candle's HA into lastHaState before deriving this bar's open. Within a
+      // single bar (realistic mode updates it repeatedly) the open stays constant.
+      if (formingHa && bar.time !== formingTime) lastHaState = formingHa;
       const haClose = (bar.open + bar.high + bar.low + bar.close) / 4;
-      const haOpen  = (lastHaState.open + lastHaState.close) / 2;
+      const haOpen  = lastHaState
+        ? (lastHaState.open + lastHaState.close) / 2
+        : (bar.open + bar.close) / 2;
       candle.update({ ...bar, open: haOpen, high: Math.max(bar.high, haOpen, haClose),
         low: Math.min(bar.low, haOpen, haClose), close: haClose });
+      formingTime = bar.time;
+      formingHa   = { open: haOpen, close: haClose };
     } else {
       candle.update(bar);
     }
@@ -312,7 +356,7 @@ const ChartView = (() => {
   function onPriceRangeChange(fn) { onPriceChange = fn; }
 
   return { create, setSlice, setSliceTransform, updateForming, setChartType, setCandleStyle, setCandleColors, setBackground,
-    setGridVisible, setGridColor, setCrosshairMode, addLineIndicator, addPaneSeries, setPaneHeight,
+    setGridVisible, setGridColor, setCrosshairMode, addLineIndicator, addPaneSeries, addPaneHistogram, setPaneHeight,
     setCandleMarkers, clearCandleMarkers, toggleVolume, setCursor,
     nudgePriceZoom, panPrice, resetPriceZoom,
     scrollToRealtime, getChart, getCandleSeries, getVolumeSeries,

@@ -248,6 +248,20 @@ const Drawings = (() => {
       if (near(mx, my, x2, y2)) return { item: it, handle: 'p2' };
       if (it.type === 'trend' && distToSeg(mx, my, x1, y1, x2, y2) <= HIT)
         return { item: it, handle: 'body' };
+      if (it.type === 'ray') {
+        const e = extend(x1, y1, x2, y2);
+        if (distToSeg(mx, my, x1, y1, e.x, e.y) <= HIT) return { item: it, handle: 'body' };
+      }
+      if (it.type === 'fib') {
+        const left = Math.min(x1, x2), right = Math.max(x1, x2);
+        if (mx >= left - HIT && mx <= right + HIT) {
+          const pHigh = it.p1.price, pLow = it.p2.price;
+          for (const lv of FIB_LEVELS) {
+            const yy = y(pLow + (pHigh - pLow) * lv);
+            if (yy != null && Math.abs(my - yy) <= HIT) return { item: it, handle: 'body' };
+          }
+        }
+      }
       if (it.type === 'rect') {
         const onEdge = pointNearRect(mx, my, x1, y1, x2, y2, HIT);
         if (onEdge) return { item: it, handle: 'body' };
@@ -341,10 +355,12 @@ const Drawings = (() => {
 
     if (it.type === 'hline' || it.type === 'hray') {
       const yy = y(it.p1.price); if (yy == null) { ctx.globalAlpha = 1; ctx.setLineDash([]); return; }
-      const xx = x(it.p1.time); const sx = xx == null ? 0 : xx;
+      const xx = x(it.p1.time);
+      // hline spans the full chart width; hray starts at its anchor and extends right
+      const sx = it.type === 'hray' ? (xx == null ? 0 : xx) : 0;
       ctx.beginPath(); ctx.moveTo(sx, yy); ctx.lineTo(container.clientWidth, yy); ctx.stroke();
       if (!isPreview && showLabels) label(container.clientWidth - 60, yy, it.p1.price);
-      if (sel) handle(sx, yy);
+      if (sel) handle(xx == null ? sx : xx, yy);
       ctx.globalAlpha = 1; ctx.setLineDash([]); return;
     }
     if (it.type === 'vline') {
@@ -358,6 +374,13 @@ const Drawings = (() => {
     if (it.type === 'trend') {
       ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
       if (isPreview) { handle(x1, y1); } // show locked p1 while placing p2
+    } else if (it.type === 'ray') {
+      // line through p1→p2, extended to the chart edge past p2
+      const e = extend(x1, y1, x2, y2);
+      ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(e.x, e.y); ctx.stroke();
+      if (isPreview) { handle(x1, y1); }
+    } else if (it.type === 'fib') {
+      drawFib(it, x1, y1, x2, y2, isPreview);
     } else if (it.type === 'rect') {
       ctx.fillStyle = hexA(it.color, isPreview ? 0.05 : 0.10);
       ctx.fillRect(x1, y1, x2 - x1, y2 - y1);
@@ -365,6 +388,53 @@ const Drawings = (() => {
     }
     if (sel) { handle(x1, y1); handle(x2, y2); }
     ctx.globalAlpha = 1; ctx.setLineDash([]);
+  }
+
+  // standard Fibonacci retracement levels (0 = p2 price end, 1 = p1 price end)
+  const FIB_LEVELS = [0, 0.236, 0.382, 0.5, 0.618, 0.786, 1];
+
+  // far endpoint of the ray (x1,y1)->(x2,y2) clamped to the canvas bounds
+  function extend(x1, y1, x2, y2) {
+    const dx = x2 - x1, dy = y2 - y1;
+    if (dx === 0 && dy === 0) return { x: x2, y: y2 };
+    const W = container.clientWidth, H = container.clientHeight;
+    let t = Infinity;
+    if (dx > 0) t = Math.min(t, (W - x1) / dx);
+    else if (dx < 0) t = Math.min(t, (0 - x1) / dx);
+    if (dy > 0) t = Math.min(t, (H - y1) / dy);
+    else if (dy < 0) t = Math.min(t, (0 - y1) / dy);
+    if (!isFinite(t)) t = 1;
+    return { x: x1 + dx * t, y: y1 + dy * t };
+  }
+
+  function drawFib(it, x1, y1, x2, y2, isPreview) {
+    const left = Math.min(x1, x2), right = Math.max(x1, x2);
+    const pHigh = it.p1.price, pLow = it.p2.price; // p1=1.0 anchor, p2=0.0 anchor
+    ctx.save();
+    FIB_LEVELS.forEach((lv) => {
+      const price = pLow + (pHigh - pLow) * lv;
+      const yy = y(price); if (yy == null) return;
+      ctx.strokeStyle = it.color;
+      ctx.globalAlpha = isPreview ? 0.4 : 0.85;
+      ctx.beginPath(); ctx.moveTo(left, yy); ctx.lineTo(right, yy); ctx.stroke();
+      if (!isPreview) {
+        ctx.globalAlpha = 0.9;
+        ctx.font = '10px Inter, sans-serif';
+        ctx.fillStyle = it.color;
+        ctx.textAlign = 'left';
+        ctx.fillText(`${lv.toFixed(3)} (${fmtPrice(price)})`, left + 4, yy - 2);
+      }
+    });
+    // faint fill between the 0 and 1 extents
+    ctx.globalAlpha = isPreview ? 0.04 : 0.07;
+    ctx.fillStyle = it.color;
+    ctx.fillRect(left, Math.min(y1, y2), right - left, Math.abs(y2 - y1));
+    ctx.restore();
+  }
+
+  function fmtPrice(price) {
+    const dec = price < 1 ? 5 : price < 100 ? 3 : 2;
+    return price.toFixed(dec);
   }
 
   function handle(px, py) {

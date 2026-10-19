@@ -52,6 +52,12 @@
       'EMA. Markers: 🟢 long entry, 🔴 short entry, 🔵 close.',
     warmUpBars: 60,
 
+    // Shows the per-trade picture during Watch Replay: entry/exit triangles + labels
+    // and an avg line spanning each trade. (No green/red risk boxes — this strategy
+    // exits on the opposite signal rather than a fixed stop/target bracket; the fast/
+    // slow EMA + RSI panes from chartIndicators show why each trade triggers.)
+    overlay: true,
+
     params: {
       fastEMA:            { label: 'Fast EMA',        type: 'number', default: 9,  min: 2,  max: 200 },
       slowEMA:            { label: 'Slow EMA',        type: 'number', default: 21, min: 3,  max: 400 },

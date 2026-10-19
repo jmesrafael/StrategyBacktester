@@ -74,6 +74,40 @@ function rsiLineData(candles, period) {
   return out;
 }
 
+// MACD — fast/slow EMA difference, signal = EMA of that line, histogram = line−signal.
+// Returns three {time,value} arrays aligned to the candle slice (leading bars omitted
+// where not yet computable). Histogram points also carry a green/red `color` by sign.
+// Same math as the MACD Money Map strategy so the pane and that strategy agree.
+function macdLineData(candles, fast, slow, signalP) {
+  const closes = candles.map((c) => c.close);
+  const fastE = ema(closes, fast);
+  const slowE = ema(closes, slow);
+  const macdArr = closes.map((_, i) =>
+    (fastE[i] != null && slowE[i] != null) ? fastE[i] - slowE[i] : null);
+
+  // signal = EMA of the macd line, computed over its non-null tail then realigned
+  const signalArr = new Array(closes.length).fill(null);
+  let firstValid = -1;
+  for (let i = 0; i < macdArr.length; i++) { if (macdArr[i] != null) { firstValid = i; break; } }
+  if (firstValid !== -1) {
+    const compact = macdArr.slice(firstValid);
+    const sigC = ema(compact, signalP);
+    for (let j = 0; j < sigC.length; j++) if (sigC[j] != null) signalArr[firstValid + j] = sigC[j];
+  }
+
+  const macd = [], signal = [], hist = [];
+  for (let i = 0; i < candles.length; i++) {
+    const t = candles[i].time;
+    if (macdArr[i] != null) macd.push({ time: t, value: macdArr[i] });
+    if (signalArr[i] != null) signal.push({ time: t, value: signalArr[i] });
+    if (macdArr[i] != null && signalArr[i] != null) {
+      const h = macdArr[i] - signalArr[i];
+      hist.push({ time: t, value: h, color: h >= 0 ? 'rgba(38,166,154,0.6)' : 'rgba(239,83,80,0.6)' });
+    }
+  }
+  return { macd, signal, hist };
+}
+
 // ---- Realistic candle formation -------------------------------------------
 // Given a completed candle, produce an array of `frames` synthetic close
 // prices that start at open, pass through both extremes, and end at close,

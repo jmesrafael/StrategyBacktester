@@ -51,8 +51,8 @@
         <label>Max candles</label>
         <select id="maxCandles"></select>
       </div>
-      <button class="iconbtn tb-icon" id="toolbarToggle" title="Toggle drawing toolbar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h10M4 12h16M4 18h7"/></svg>
+      <button class="iconbtn tb-icon cloud-status" id="cloudStatus" title="Cloud save">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 18a4 4 0 0 1 0-8 5.5 5.5 0 0 1 10.6-1.4A4 4 0 0 1 17 18H7z"/></svg>
       </button>
       <button class="iconbtn tb-icon" id="settingsBtn" title="Settings">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>
@@ -60,10 +60,19 @@
     </div>
   </div>
 
-  <!-- ===== STAGE: chart (floating toolbar lives inside chartHost) ===== -->
+  <!-- ===== STAGE: side dock + chart ===== -->
   <div class="stage">
+    <!-- vertical drawing toolbar — a full-height column docked to the side -->
+    <div class="side-toolbar" id="sideToolbar"></div>
+
     <div class="chart-host" id="chartHost">
       <div id="chart"></div>
+
+      <!-- loading overlay (shown while candles are being fetched) -->
+      <div class="chart-loader" id="chartLoader" hidden>
+        <div class="cl-spinner"></div>
+        <span class="cl-text" id="chartLoaderText">Loading…</span>
+      </div>
 
       <!-- permanent refresh button, centered top of the chart (all modes) -->
       <button class="chart-refresh" id="refreshBtn" title="Refresh chart">
@@ -76,7 +85,7 @@
       <!-- right-click context menu -->
       <div class="ctx-menu" id="ctxMenu"></div>
 
-      <!-- floating drawing toolbar (TradingView-style favorites bar) -->
+      <!-- floating drawing widget (mirrors the tools starred as favorites) -->
       <div class="float-toolbar" id="toolbar">
         <div class="ft-grip" id="ftGrip" title="Drag toolbar">
           <svg viewBox="0 0 8 16" fill="currentColor" width="8" height="16">
@@ -85,27 +94,21 @@
             <circle cx="2" cy="13" r="1.2"/><circle cx="6" cy="13" r="1.2"/>
           </svg>
         </div>
-        <button class="iconbtn active" data-tool="cursor" title="Cursor (Esc)">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 8-6 1.5L10 19 5 3z"/></svg>
-        </button>
-        <div class="ft-sep"></div>
-        <button class="iconbtn" data-tool="trend" title="Trend line">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 18L20 6"/><circle cx="4" cy="18" r="2" fill="currentColor"/><circle cx="20" cy="6" r="2" fill="currentColor"/></svg>
-        </button>
-        <button class="iconbtn" data-tool="hline" title="Horizontal ray">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h16"/><circle cx="5" cy="12" r="2" fill="currentColor"/></svg>
-        </button>
-        <button class="iconbtn" data-tool="vline" title="Vertical line">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v16"/><circle cx="12" cy="4" r="2" fill="currentColor"/></svg>
-        </button>
-        <button class="iconbtn" data-tool="rect" title="Rectangle">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="6" width="16" height="12" rx="1"/></svg>
-        </button>
+        <div class="ft-favs" id="ftFavs"></div>
         <div class="ft-sep"></div>
         <button class="iconbtn" id="clearBtn" title="Clear all drawings">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></svg>
         </button>
+        <div class="ft-sep"></div>
+        <button class="iconbtn ft-collapse-btn" id="toolbarCollapseBtn" title="Hide toolbar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
       </div>
+
+      <!-- shown only when toolbar is collapsed -->
+      <button class="ft-expand-btn" id="toolbarExpandBtn" title="Show toolbar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
     </div>
   </div>
 
@@ -113,7 +116,7 @@
   <div class="replaybar">
     <div class="rb-left">
       <button class="rb-exit-btn" id="exitReplayBtn" title="Exit replay"><i class="fas fa-xmark"></i> Exit</button>
-      <div class="seg mode-seg" id="modeTabs">
+      <div class="seg mode-seg" id="modeTabs" style="display:none">
         <button data-mode="game" class="active"><i class="fas fa-gamepad"></i> Game</button>
         <button data-mode="strategy"><i class="fas fa-bolt"></i> Strategy</button>
       </div>
@@ -160,7 +163,13 @@
   <section class="data-page" id="dataPage">
     <div class="data-page-header">
       <h2 class="data-page-title">Saved Backtests</h2>
+      <button class="tb-btn" id="dataCompareBtn"><i class="fas fa-scale-balanced"></i> Compare</button>
       <button class="tb-btn" id="dataBackBtn"><i class="fas fa-arrow-left"></i> Chart</button>
+    </div>
+    <div class="data-compare-bar" id="dataCompareBar" style="display:none">
+      <span class="dcmp-hint" id="dataCompareHint">Pick 2 saved runs to compare</span>
+      <button class="tb-btn dcmp-go" id="dataCompareGo" disabled><i class="fas fa-scale-balanced"></i> Compare selected</button>
+      <button class="tb-btn" id="dataCompareCancel">Cancel</button>
     </div>
     <div class="data-grid" id="dataGrid"></div>
   </section>
@@ -176,12 +185,22 @@
 <script src="js/indicators-ui.js"></script>
 <script src="js/replay.js"></script>
 <script src="js/drawings.js"></script>
+<script src="js/draw-toolbar.js"></script>
 <script src="js/fvg.js"></script>
+<script src="js/strategy-overlay.js"></script>
 <script src="js/trade-sim.js"></script>
 <script src="strategies/registry.js"></script>
+<script src="strategies/orb-4h-reversal-strategy.js"></script>
 <script src="strategies/ema-rsi-divergence-strategy.js"></script>
-<script src="strategies/emacross-strategy.js"></script>
-<script src="strategies/rsi-strategy.js"></script>
+<script src="strategies/pivot-cross-strategy.js"></script>
+<script src="strategies/pivot-cross-improved-strategy.js"></script>
+<script src="strategies/pivot-cross-v2-strategy.js"></script>
+<script src="strategies/pivot-rejection-strategy.js"></script>
+<script src="strategies/pivot-cross-v4-strategy.js"></script>
+<script src="strategies/macd-money-map-strategy.js"></script>
+<script src="strategies/dema-tema-trend-strategy.js"></script>
+<script src="strategies/fixed-mtf-golden-cross-strategy.js"></script>
+<script src="js/stats-report.js"></script>
 <script src="js/strategy.js"></script>
 <script src="js/data-page.js"></script>
 <script src="js/supabase-client.js"></script>

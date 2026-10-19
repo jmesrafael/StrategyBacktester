@@ -25,6 +25,12 @@ const IndicatorManager = (() => {
       defaults: () => ({ period: 14, color: '#7e57c2', lineWidth: 1,
         overbought: 70, oversold: 30 }),
     },
+    macd: {
+      name: 'MACD',
+      label: (p) => `MACD ${p.fast},${p.slow},${p.signal}`,
+      defaults: () => ({ fast: 12, slow: 26, signal: 9, lineWidth: 1,
+        macdColor: '#2196f3', signalColor: '#ff9800' }),
+    },
     volume: { name: 'Volume', label: () => 'Volume', defaults: () => ({}) },
     fvg: {
       name: '⚡ VolHi / FVG',
@@ -33,7 +39,17 @@ const IndicatorManager = (() => {
     },
   };
 
-  const RSI_PANE = 1;   // stacked sub-pane below the main price/volume pane
+  const SUB_PANE_H = 120;   // height of each stacked oscillator sub-pane (RSI / MACD)
+
+  // Oscillators (RSI, MACD) each get their own stacked sub-pane below the price
+  // pane. Allocate the lowest free index ≥ 1 so a lone oscillator sits in pane 1
+  // (no empty pane), and freed indices get reused after a removal.
+  function allocPane() {
+    const used = new Set(instances.filter((i) => i.pane != null).map((i) => i.pane));
+    let p = 1;
+    while (used.has(p)) p++;
+    return p;
+  }
 
   // ---- init ----------------------------------------------------------------
   function init(opts) {
@@ -54,6 +70,13 @@ const IndicatorManager = (() => {
       }
     });
     button.addEventListener('click', (e) => { e.stopPropagation(); togglePanel(); });
+    // When any OTHER toolbar dropdown opens, close this one + its config popup (no stacking).
+    document.addEventListener('cr:menu-open', (e) => {
+      if (e.detail !== 'indicators') {
+        panel.style.display = 'none';
+        if (cfgPopup) cfgPopup.style.display = 'none';
+      }
+    });
 
     restore();
   }
@@ -70,11 +93,12 @@ const IndicatorManager = (() => {
   function restore() {
     let saved = null;
     try { saved = JSON.parse(localStorage.getItem(CFG.STORE.indicators)); } catch {}
-    if (saved && saved.length) {
+    if (Array.isArray(saved)) {
+      // User had explicitly saved state — respect it even when empty (user removed all indicators)
       saved.forEach((s) => materialize(s.type, s.params, s.visible, s.id));
-      idSeq = Math.max(idSeq, ...saved.map((s) => s.id + 1));
+      if (saved.length) idSeq = Math.max(idSeq, ...saved.map((s) => s.id + 1));
     } else {
-      // default: Volume only (no SMA indicators)
+      // null / corrupt — first launch, apply default (Volume only)
       add('volume', {});
     }
     renderPanel(); refreshBadge();
@@ -89,11 +113,18 @@ const IndicatorManager = (() => {
       h.setVisible(inst.visible);
       handles.set(inst.id, h);
     } else if (type === 'rsi') {
-      const h = ChartView.addPaneSeries({ color: inst.params.color, lineWidth: inst.params.lineWidth }, RSI_PANE);
+      inst.pane = allocPane();
+      const h = ChartView.addPaneSeries({ color: inst.params.color, lineWidth: inst.params.lineWidth }, inst.pane);
       h.setVisible(inst.visible);
       addRsiLevelLines(h, inst.params);
       handles.set(inst.id, h);
-      ChartView.setPaneHeight(RSI_PANE, 120);
+      ChartView.setPaneHeight(inst.pane, SUB_PANE_H);
+    } else if (type === 'macd') {
+      inst.pane = allocPane();
+      const h = makeMacdHandle(inst.pane, inst.params);
+      h.setVisible(inst.visible);
+      handles.set(inst.id, h);
+      ChartView.setPaneHeight(inst.pane, SUB_PANE_H);
     } else if (type === 'volume') {
       ChartView.toggleVolume(inst.visible);
     } else if (type === 'fvg') {
@@ -116,6 +147,35 @@ const IndicatorManager = (() => {
     if (h.osLine) { h.series.removePriceLine(h.osLine); h.osLine = null; }
   }
 
+  // Composite MACD pane handle: histogram (drawn first → behind), then the MACD
+  // and signal lines, plus a dashed zero reference. Exposes the same handle API
+  // the manager uses for other indicators (setData/applyOptions/setVisible/remove).
+  // setData expects { macd, signal, hist } arrays from macdLineData().
+  function makeMacdHandle(pane, params) {
+    const hist = ChartView.addPaneHistogram({}, pane);
+    const macd = ChartView.addPaneSeries({ color: params.macdColor, lineWidth: params.lineWidth }, pane);
+    const signal = ChartView.addPaneSeries({ color: params.signalColor, lineWidth: params.lineWidth }, pane);
+    const zero = macd.series.createPriceLine({ price: 0, color: 'rgba(120,120,120,0.6)',
+      lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: false });
+    return {
+      series: macd.series,
+      setData: (d) => {
+        d = d || {};
+        hist.setData(d.hist || []);
+        macd.setData(d.macd || []);
+        signal.setData(d.signal || []);
+      },
+      applyOptions: (o) => {
+        if (o.macdColor != null || o.lineWidth != null)
+          macd.applyOptions({ color: o.macdColor, lineWidth: o.lineWidth });
+        if (o.signalColor != null || o.lineWidth != null)
+          signal.applyOptions({ color: o.signalColor, lineWidth: o.lineWidth });
+      },
+      setVisible: (v) => { hist.setVisible(v); macd.setVisible(v); signal.setVisible(v); },
+      remove: () => { macd.series.removePriceLine(zero); hist.remove(); macd.remove(); signal.remove(); },
+    };
+  }
+
   function add(type, params) {
     if (type === 'volume' && instances.some((i) => i.type === 'volume')) return;
     materialize(type, params || {});
@@ -128,6 +188,8 @@ const IndicatorManager = (() => {
     if (inst.type === 'ma') { handles.get(id).remove(); handles.delete(id); }
     else if (inst.type === 'rsi') {
       const h = handles.get(id); removeRsiLevelLines(h); h.remove(); handles.delete(id);
+    } else if (inst.type === 'macd') {
+      handles.get(id).remove(); handles.delete(id);
     } else if (inst.type === 'volume') {
       ChartView.toggleVolume(false);
     } else if (inst.type === 'fvg') {
@@ -163,7 +225,7 @@ const IndicatorManager = (() => {
   function setVisible(id, v) {
     const inst = instances.find((i) => i.id === id); if (!inst) return;
     inst.visible = v;
-    if (inst.type === 'ma' || inst.type === 'rsi') handles.get(id).setVisible(v);
+    if (inst.type === 'ma' || inst.type === 'rsi' || inst.type === 'macd') handles.get(id).setVisible(v);
     else if (inst.type === 'volume') ChartView.toggleVolume(v);
     else if (inst.type === 'fvg') FVGIndicator.setActive(v);
     recompute(lastCandles);
@@ -179,6 +241,9 @@ const IndicatorManager = (() => {
       const h = handles.get(id);
       h.applyOptions({ color: inst.params.color, lineWidth: inst.params.lineWidth });
       removeRsiLevelLines(h); addRsiLevelLines(h, inst.params);
+    } else if (inst.type === 'macd') {
+      handles.get(id).applyOptions({ macdColor: inst.params.macdColor,
+        signalColor: inst.params.signalColor, lineWidth: inst.params.lineWidth });
     } else if (inst.type === 'fvg') {
       FVGIndicator.updateParams(inst.params);
     }
@@ -196,6 +261,11 @@ const IndicatorManager = (() => {
       } else if (inst.type === 'rsi') {
         const h = handles.get(inst.id);
         h.setData(inst.visible ? rsiLineData(lastCandles, inst.params.period) : []);
+      } else if (inst.type === 'macd') {
+        const h = handles.get(inst.id);
+        h.setData(inst.visible
+          ? macdLineData(lastCandles, inst.params.fast, inst.params.slow, inst.params.signal)
+          : { macd: [], signal: [], hist: [] });
       } else if (inst.type === 'fvg' && inst.visible) {
         FVGIndicator.compute(lastCandles, ivSecs);
       }
@@ -223,56 +293,29 @@ const IndicatorManager = (() => {
       const inst = instances.find((i) => i.id === id); if (!inst) return;
       if (btn.dataset.act === 'eye') setVisible(id, !inst.visible);
       else if (btn.dataset.act === 'gear') openConfigPopup(inst, btn);
+      else if (btn.dataset.act === 'remove') remove(id);
     });
   }
 
-  function dec(v) { v = Math.abs(v); return v < 1 ? 5 : v < 100 ? 3 : 2; }
-
-  function updateLegend(param) {
+  // Legend rows show only the indicator NAME + controls — no live crosshair value.
+  // (Live values made the row width change on every mouse move, so the ✕/eye/gear
+  // buttons kept shifting and were hard to click. Names are static → buttons stay put.)
+  function updateLegend() {
     const rows = instances.map((inst) => {
-      let valTxt = '', name, color;
-      if (inst.type === 'ma') {
-        let val = null;
-        if (inst.visible && param && param.seriesData) {
-          const d = param.seriesData.get(handles.get(inst.id).series);
-          if (d) val = d.value;
-        }
-        if (val == null && inst.visible) {
-          const arr = maLineData(lastCandles, inst.params.period, inst.params.maType);
-          if (arr.length) val = arr[arr.length - 1].value;
-        }
-        if (val != null) valTxt = ' · ' + val.toFixed(dec(val));
-        name = REGISTRY.ma.label(inst.params);
-        color = inst.params.color;
-      } else if (inst.type === 'rsi') {
-        let val = null;
-        if (inst.visible && param && param.seriesData) {
-          const d = param.seriesData.get(handles.get(inst.id).series);
-          if (d) val = d.value;
-        }
-        if (val == null && inst.visible) {
-          const arr = rsiLineData(lastCandles, inst.params.period);
-          if (arr.length) val = arr[arr.length - 1].value;
-        }
-        if (val != null) valTxt = ' · ' + val.toFixed(1);
-        name = REGISTRY.rsi.label(inst.params);
-        color = inst.params.color;
-      } else {
-        let v = null;
-        if (inst.visible && param && param.seriesData) {
-          const d = param.seriesData.get(ChartView.getVolumeSeries());
-          if (d) v = d.value;
-        }
-        if (v != null) valTxt = ' · ' + ChartView.fmtVol(v);
-        name = 'Vol'; color = 'var(--text-dim)';
-      }
-      const gear = (inst.type === 'ma' || inst.type === 'rsi' || inst.type === 'fvg')
+      let name, color;
+      if (inst.type === 'ma') { name = REGISTRY.ma.label(inst.params); color = inst.params.color; }
+      else if (inst.type === 'rsi') { name = REGISTRY.rsi.label(inst.params); color = inst.params.color; }
+      else if (inst.type === 'macd') { name = REGISTRY.macd.label(inst.params); color = inst.params.macdColor; }
+      else if (inst.type === 'fvg') { name = REGISTRY.fvg.label(); color = 'var(--text-dim)'; }
+      else { name = 'Vol'; color = 'var(--text-dim)'; }
+      const gear = (inst.type === 'ma' || inst.type === 'rsi' || inst.type === 'macd' || inst.type === 'fvg')
         ? `<button class="lg-ic" data-act="gear" data-id="${inst.id}" title="Settings">⚙</button>` : '';
       return `<div class="lg-row${inst.visible ? '' : ' lg-off'}">` +
-        `<span class="lg-name" style="color:${color}">${name}${valTxt}</span>` +
+        `<span class="lg-name" style="color:${color}">${name}</span>` +
         `<span class="lg-ctrls">` +
         `<button class="lg-ic" data-act="eye" data-id="${inst.id}" title="Show/Hide">${inst.visible ? '👁' : '🚫'}</button>` +
         gear +
+        `<button class="lg-ic" data-act="remove" data-id="${inst.id}" title="Remove">✕</button>` +
         `</span></div>`;
     });
     legendEl.innerHTML = rows.join('');
@@ -295,6 +338,8 @@ const IndicatorManager = (() => {
 
   function togglePanel() {
     if (panel.style.display === 'block') { panel.style.display = 'none'; return; }
+    // Opening this dropdown closes every other toolbar dropdown so they never stack.
+    document.dispatchEvent(new CustomEvent('cr:menu-open', { detail: 'indicators' }));
     const r = button.getBoundingClientRect();
     panel.style.left = r.left + 'px';
     panel.style.top = (r.bottom + 4) + 'px';
@@ -313,8 +358,8 @@ const IndicatorManager = (() => {
       if (q && !def.name.toLowerCase().includes(q)) return;
       const row = document.createElement('div');
       row.className = 'ind-addrow';
-      row.innerHTML = `<span>${def.name}</span><button class="ind-plus">＋</button>`;
-      row.querySelector('.ind-plus').onclick = () => add(type, {});
+      row.innerHTML = `<span>${def.name}</span><span class="ind-plus">＋</span>`;
+      row.onclick = () => add(type, {});
       addEl.appendChild(row);
     });
 
@@ -325,10 +370,11 @@ const IndicatorManager = (() => {
       const def = REGISTRY[inst.type];
       const row = document.createElement('div');
       row.className = 'ind-row';
-      const hasColor = inst.type === 'ma' || inst.type === 'rsi';
-      const hasGear  = hasColor || inst.type === 'fvg';
+      const nameColor = (inst.type === 'ma' || inst.type === 'rsi') ? inst.params.color
+        : (inst.type === 'macd' ? inst.params.macdColor : '');
+      const hasGear  = nameColor || inst.type === 'fvg';
       row.innerHTML =
-        `<span class="ind-name" style="${hasColor ? 'color:' + inst.params.color : ''}">${def.label(inst.params)}</span>` +
+        `<span class="ind-name" style="${nameColor ? 'color:' + nameColor : ''}">${def.label(inst.params)}</span>` +
         `<span class="ind-actions">` +
         (hasGear ? `<button class="ind-ic ind-gear" title="Settings">⚙</button>` : '') +
         `<button class="ind-ic ind-eye" title="Toggle">${inst.visible ? '👁' : '🚫'}</button>` +
@@ -345,6 +391,7 @@ const IndicatorManager = (() => {
   // builds a wired settings panel for an indicator instance
   function buildConfigEl(inst) {
     if (inst.type === 'rsi') return buildRsiConfigEl(inst);
+    if (inst.type === 'macd') return buildMacdConfigEl(inst);
     if (inst.type === 'fvg') return buildFvgConfigEl(inst);
     const cfg = document.createElement('div');
     cfg.className = 'ind-config';
@@ -381,6 +428,28 @@ const IndicatorManager = (() => {
       updateParams(inst.id, { overbought: parseFloat(e.target.value) || inst.params.overbought });
     cfg.querySelector('.cf-os').onchange = (e) =>
       updateParams(inst.id, { oversold: parseFloat(e.target.value) || inst.params.oversold });
+    return cfg;
+  }
+
+  // settings panel for a MACD instance (fast / slow / signal periods + line colors)
+  function buildMacdConfigEl(inst) {
+    const p = inst.params;
+    const cfg = document.createElement('div');
+    cfg.className = 'ind-config';
+    cfg.innerHTML =
+      `<label>Fast <input type="number" class="cf-fast" min="2" max="200" value="${p.fast}"></label>` +
+      `<label>Slow <input type="number" class="cf-slow" min="3" max="400" value="${p.slow}"></label>` +
+      `<label>Signal <input type="number" class="cf-sig" min="2" max="100" value="${p.signal}"></label>` +
+      `<label>MACD <input type="color" class="cf-mc" value="${p.macdColor}"></label>` +
+      `<label>Signal Color <input type="color" class="cf-sc" value="${p.signalColor}"></label>`;
+    cfg.querySelector('.cf-fast').onchange = (e) =>
+      updateParams(inst.id, { fast: Math.max(2, parseInt(e.target.value) || p.fast) });
+    cfg.querySelector('.cf-slow').onchange = (e) =>
+      updateParams(inst.id, { slow: Math.max(3, parseInt(e.target.value) || p.slow) });
+    cfg.querySelector('.cf-sig').onchange = (e) =>
+      updateParams(inst.id, { signal: Math.max(2, parseInt(e.target.value) || p.signal) });
+    cfg.querySelector('.cf-mc').oninput = (e) => updateParams(inst.id, { macdColor: e.target.value });
+    cfg.querySelector('.cf-sc').oninput = (e) => updateParams(inst.id, { signalColor: e.target.value });
     return cfg;
   }
 

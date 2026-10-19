@@ -7,7 +7,7 @@ window.CFG = {
     ['60', '1h'], ['120', '2h'], ['240', '4h'], ['360', '6h'], ['720', '12h'],
     ['D', '1D'], ['W', '1W'],
   ],
-  SPEEDS: [1, 2, 3, 5, 10, 25, 50],
+  SPEEDS: [1, 2, 3, 5, 10, 25, 50, 100],
 
   // Master timeframe list — the Timeframes setting picks any subset of these.
   ALL_INTERVALS: [
@@ -35,7 +35,7 @@ window.CFG = {
   START_BALANCE: 10000,
   SIZE_PCTS: [10, 25, 50, 100],
   DEFAULT_SIZE_PCT: 25,
-  DEFAULT_COMMISSION_PCT: 0.055,  // charged on entry AND exit, per side
+  DEFAULT_COMMISSION_PCT: 0.05,   // charged on entry AND exit, per side
   DEFAULT_SLIPPAGE_PCT: 0.010,    // worsens the fill price on entry and exit
 
   // localStorage keys (choices persist across reloads and future sessions)
@@ -44,9 +44,10 @@ window.CFG = {
     candleUp: 'cr.candleUp', candleDown: 'cr.candleDown',
     timeframes: 'cr.timeframes', maxCandles: 'cr.maxCandles',
     defaults: 'cr.defaults', version: 'cr.schema',
-    drawLabels: 'cr.drawLabels', drawings: 'cr.drawings',
+    drawLabels: 'cr.drawLabels', drawings: 'cr.drawings', drawFavs: 'cr.drawFavs',
     stratInputs: 'cr.stratInputs', lastStrategy: 'cr.lastStrategy',
-    chartType: 'cr.chartType' },
+    chartType: 'cr.chartType', symbol: 'cr.symbol', interval: 'cr.interval',
+    tradeSim: 'cr.tradeSim', replaySpeed: 'cr.replaySpeed', replayMode: 'cr.replayMode' },
 
   // Bump when default settings change so persisted prefs are migrated once.
   SCHEMA_VERSION: 2,
