@@ -748,3 +748,5 @@ Tables in `results/monthly-B.md` and `results/monthly-C.md` (37 calendar months,
 - **C (exit ordering):** current +$876, pessimistic +$815, 1m replay +$872. Only 3–4 of 37 months differ (Nov 2023, Feb 2024, Nov 2024,
   Feb 2026, and rounding in Oct 2025 / Nov 2025); the largest gap is Feb 2024 (−$31) and Feb 2026 (−$31) under pessimistic. Best/worst
   month and the −$44 maximum monthly drawdown are the same in all three.
+- Correction to the line above: Oct 2025 differs by $1 in both modes; Nov 2025 is +$5 under 1m replay (not rounding). Pessimistic differs in
+  Feb 2024, Oct 2025, Feb 2026; 1m replay in Nov 2023 (−$5), Nov 2024 (−$5), Oct 2025 (+$1), Nov 2025 (+$5).
