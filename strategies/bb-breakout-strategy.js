@@ -39,7 +39,11 @@
         ['Held-out, 10 coins never tuned', '+0.09R / trade · 8 of 10 profit'],
         ['SOL + ETH at $5 risk, held-out', '≈ +$6 / month · max DD $129'],
         ['SOL + ZEC + DOGE, held-out (ZEC/DOGE untuned)', '+0.21R / trade · 620 trades · ≈ +$14 / month at $5'],
-        ['Costs ×3 (fees + slippage)', '+0.03R / trade (≈ break-even)'],
+        ['Costs ×3 (fees + slippage)', '+0.03R / trade on 13 coins (≈ break-even)'],
+        ['SOL + DOGE + ZEC with real funding, 2020–26', 'positive in 7 of 7 years · +$1,294 at $5 risk · funding cost only $58'],
+        ['…same, costs ×3 + funding', 'still 7 of 7 years positive (+$1,034); 2026 only +$11'],
+        ['Per coin years positive', 'SOL 7/7 · ZEC 7/7 · DOGE 5/7 (lost 2023, 2026)'],
+        ['243 nearby settings, funding in', 'all profitable · 62% positive every year · 92% in ≥6 of 7'],
       ],
       data: 'Binance USDT-M futures, 4h; BTC/ETH/SOL 2019–26 plus BNB XRP DOGE ADA AVAX LINK LTC DOT TRX BCH.',
       note: 'Decays: +0.26R/trade in 2021 → ~+0.10R in 2025–26. ETH was flat in 2023. Squeeze filter added nothing; mean reversion lost. ' +

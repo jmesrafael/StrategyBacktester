@@ -105,7 +105,7 @@ function run(B, sig, warm, cost = COST) {
   function closeAt(price, i, why) {
     const d = pos.dir, exit = price * (1 - d * cost.slip);
     const R = (d * (exit - pos.entry) / pos.entry - 2 * cost.comm) / pos.dist;
-    trades.push({ dir: d, i0: pos.i0, i1: i, t: B[pos.i0].time, R, why });
+    trades.push({ dir: d, i0: pos.i0, i1: i, t: B[pos.i0].time, R, why, dist: pos.dist });
     pos = null;
   }
 }
@@ -166,7 +166,7 @@ function runLO(B, sig, warm, cost = COST) {
   function closeAt(price, i, why) {
     const d = pos.dir, exit = price * (1 - d * cost.slip);
     const R = (d * (exit - pos.entry) / pos.entry - 2 * cost.comm) / pos.dist;
-    trades.push({ dir: d, i0: pos.i0, i1: i, t: B[pos.i0].time, R, why });
+    trades.push({ dir: d, i0: pos.i0, i1: i, t: B[pos.i0].time, R, why, dist: pos.dist });
     pos = null;
   }
 }

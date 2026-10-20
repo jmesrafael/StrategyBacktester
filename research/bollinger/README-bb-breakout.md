@@ -41,6 +41,16 @@ target 3R, exit after 48 bars.
 - The 13 coins move together, so the t-stats are overstated; treat them as an upper bound.
 - Funding costs are not included.
 
+## Focus check on SOL / DOGE / ZEC with real funding (`bb-focus.js` → `results-bb-focus.md`)
+
+Real Binance funding (`fetchfunding.js` → `datafund/`) charged for every funding event a trade was open through, $5 risk per trade, trades counted in the year they close:
+
+- Positive in **7 of 7 years** pooled (2020 partial → 2026 to Oct 20): +$154, +$356, +$174, +$90, +$222, +$244, +$53 = **+$1,294**. Funding cost only −$58 over the whole history (about 4% of profit).
+- Per coin: SOL 7 of 7 years positive (+$432), ZEC 7 of 7 (+$481), **DOGE 5 of 7** (+$381; lost −$50 in 2023 and −$10 in 2026).
+- Costs ×2 and ×3 on top of funding: still 7 of 7 years positive (+$1,163 / +$1,034), but 2026 shrinks to +$32 / +$11.
+- Robustness grid (243 nearby settings, funding in): all 243 profitable in total; **150 (62%) positive in every year**, 223 (92%) in at least 6 of 7. The fragile years are 2023 and 2026. Dropping the time exit makes it much less robust (only 34 of 81 variants positive every year with no time exit vs 65 of 81 with the 48-bar exit), which supports keeping it.
+- Caveats: SOL's 2020–22 were in the period used to pick the settings (ZEC and DOGE never were). 2026 is the weakest year (+$53 for 139 trades). Drawdowns on closed trades: worst year −$85 at $5 risk.
+
 ## Files
 
 - `lib.js` research engine (uses `js/indicators.js` verbatim) · `fam.js` the two families
