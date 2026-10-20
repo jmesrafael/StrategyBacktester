@@ -14,7 +14,10 @@ const IND = ctx.IND;
 const DATA = path.join(ROOT, 'research/ny-smc-iterations/data');
 const _raw = {};
 function loadRaw(sym) {
-  if (!_raw[sym]) _raw[sym] = JSON.parse(fs.readFileSync(path.join(DATA, `binance-${sym.toLowerCase()}15.json`), 'utf8'));
+  if (!_raw[sym]) {
+    const f = path.join(DATA, `binance-${sym.toLowerCase()}15.json`), g = path.join(__dirname, 'datatf', '15m', sym + '.json'); // fetchtf.js 15m
+    _raw[sym] = JSON.parse(fs.readFileSync(fs.existsSync(f) ? f : g, 'utf8'));
+  }
   return _raw[sym];
 }
 // 15m rows [time, o, h, l, c, v] -> bars aggregated to `min` minutes (whole buckets only)
