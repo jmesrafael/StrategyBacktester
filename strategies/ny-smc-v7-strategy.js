@@ -53,6 +53,23 @@
       'fewer trades and roughly half the drawdown in the 2019–26 backtest, at the cost of some winners in strong years.',
     warmUpBars: 20,
 
+    // Shown in the Strategy panel. Numbers: app engine on live Binance 15m, 0.04% commission + 0.02% slippage,
+    // SOL + ETH, Standard risk mode (research/ny-smc-iterations/results/app-binance-monthly.md). R = amount risked.
+    track: {
+      verdict: 'unproven',
+      headline: 'Profitable only in the 2023–26 window it was tuned on.',
+      rows: [
+        ['Oct 2023 → now (tuned here)', '+67.3R · 163 trades · +0.41R / trade'],
+        ['Before Oct 2023 (never tuned)', '−14.9R · 164 trades · every year ≤ 0'],
+        ['Since Oct 2023, SOL + ETH at $5 risk', '≈ +$9 / month'],
+        ['Last 3 months (Jul–Sep 2026)', 'all three months lost'],
+        ['"Less risk" (Bollinger) mode', 'DD 18.4R → 8.8R · +68.7R vs +60.5R (2019–26, no costs)'],
+      ],
+      data: 'Binance USDT-M futures 15m, SOL (Sep 2020 →) and ETH (Nov 2019 →).',
+      note: 'Picked from ~200 variants on 2023–26, so that window flatters it. Forward test: 40+ paper trades; if fewer than ~17% reach the 3R target, stop.',
+      asOf: '2026-10-20',
+    },
+
     params: {
       swingLen:    { label: 'Swing length (CHoCH)', type: 'number', default: 5, min: 1, max: 50 },
       minDispATR:  { label: 'CHoCH candle ≥ × ATR', type: 'number', default: 1, min: 0, max: 5 },

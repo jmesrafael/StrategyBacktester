@@ -10,7 +10,7 @@ const StrategyMode = (() => {
   let chart, chartHost, button, replay, tradeSim, getFullCandles, onWatchReplay;
 
   // panel DOM
-  let panel, elSelect, elDesc, elParams, elSize, elComm, elSlip, elFill,
+  let panel, elSelect, elDesc, elTrack, elParams, elSize, elComm, elSlip, elFill,
       elSizing, elRisk, elMaxSize, elSess, elSessFrom, elSessTo, elSessTz, elSessDays, elSessClose,
       elRun, elWatch, elResults, elLog, elLogToggle, elError, elMtfBtn, elMtf;
   let elDirtySave;   // appears when inputs change
@@ -79,6 +79,7 @@ const StrategyMode = (() => {
       `<div class="sg-title">Strategy</div>` +
       `<select class="sg-select"></select>` +
       `<div class="sg-desc"></div>` +
+      `<div class="sg-track"></div>` +
       `<div class="sg-params"></div>` +
       `<div class="sg-sep"></div>` +
       `<div class="sg-globals">` +
@@ -115,6 +116,7 @@ const StrategyMode = (() => {
 
     elSelect = panel.querySelector('.sg-select');
     elDesc = panel.querySelector('.sg-desc');
+    elTrack = panel.querySelector('.sg-track');
     elParams = panel.querySelector('.sg-params');
     elSize = panel.querySelector('.sg-size');
     elComm = panel.querySelector('.sg-comm');
@@ -289,6 +291,22 @@ const StrategyMode = (() => {
     panel.classList.toggle('sg-sess-on', elSess.checked);
   }
 
+  // Research track record shown under the description (strategy.track, set by the research-backed strategies):
+  //   { verdict: 'profitable' | 'unproven' | 'losing', headline, asOf, data, rows: [[label, value], ...], note }
+  // It is a note about the backtests behind the strategy, not something computed from the chart on screen.
+  function renderTrack(t) {
+    if (!t) { elTrack.style.display = 'none'; elTrack.innerHTML = ''; return; }
+    const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    elTrack.style.display = '';
+    elTrack.className = 'sg-track sg-track-' + (t.verdict || 'unproven');
+    elTrack.innerHTML =
+      `<div class="sg-track-head"><span class="sg-track-badge">${esc(t.verdict || 'unproven')}</span> ${esc(t.headline || '')}</div>` +
+      (t.rows || []).map(([k, v]) => `<div class="sg-track-row"><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('') +
+      (t.data ? `<div class="sg-track-note">Data: ${esc(t.data)}</div>` : '') +
+      (t.note ? `<div class="sg-track-note">${esc(t.note)}</div>` : '') +
+      (t.asOf ? `<div class="sg-track-note">Backtest as of ${esc(t.asOf)} — past results, not a promise.</div>` : '');
+  }
+
   function selectStrategy(id) {
     const strat = getStrategy(id);
     if (!strat) return;
@@ -296,6 +314,7 @@ const StrategyMode = (() => {
     elSelect.value = id;
     localStorage.setItem(CFG.STORE.lastStrategy, id);
     elDesc.textContent = strat.description || '';
+    renderTrack(strat.track);
     const special = !!((window.STRATEGY_REGISTRY || []).find((s) => s.id === id) || {}).special || !!strat.special;
     elSelect.classList.toggle('sg-special', special);
     elDesc.classList.toggle('sg-special-desc', special);

@@ -1,0 +1,56 @@
+pct=0.25 trend=0   tp=3 maxBars=0  stop=mid | n=331 sum= +72.84 avg=+0.22 t=2.16 PF=1.31 dd=17.3 | BTC +22.05 ETH +29.45 SOL +21.34
+pct=0.25 trend=0   tp=3 maxBars=0  stop=3   | n=193 sum= +31.75 avg=+0.16 t=1.25 PF=1.23 dd=14.7 | BTC +7.50 ETH +12.73 SOL +11.52
+pct=0.25 trend=0   tp=3 maxBars=48 stop=mid | n=487 sum= +86.66 avg=+0.18 t=2.32 PF=1.28 dd=15.1 | BTC +16.73 ETH +34.69 SOL +35.24
+pct=0.25 trend=0   tp=3 maxBars=48 stop=3   | n=359 sum= +36.32 avg=+0.10 t=1.38 PF=1.19 dd=16.4 | BTC +6.50 ETH +9.24 SOL +20.58
+pct=0.25 trend=0   tp=4 maxBars=0  stop=mid | n=223 sum= +49.68 avg=+0.22 t=1.54 PF=1.29 dd=17.1 | BTC +20.55 ETH +4.59 SOL +24.55
+pct=0.25 trend=0   tp=4 maxBars=0  stop=3   | n=166 sum= +61.01 avg=+0.37 t=2.12 PF=1.50 dd=15.6 | BTC +22.35 ETH +9.04 SOL +29.62
+pct=0.25 trend=0   tp=4 maxBars=48 stop=mid | n=454 sum=+101.11 avg=+0.22 t=2.47 PF=1.34 dd=16.7 | BTC +19.37 ETH +37.67 SOL +44.08
+pct=0.25 trend=0   tp=4 maxBars=48 stop=3   | n=355 sum= +29.63 avg=+0.08 t=1.07 PF=1.15 dd=14.4 | BTC +7.65 ETH −0.88 SOL +22.86
+pct=0.25 trend=200 tp=3 maxBars=0  stop=mid | n=243 sum= +80.97 avg=+0.33 t=2.75 PF=1.49 dd=13.0 | BTC +21.28 ETH +31.02 SOL +28.68
+pct=0.25 trend=200 tp=3 maxBars=0  stop=3   | n=152 sum= +53.16 avg=+0.35 t=2.27 PF=1.52 dd=15.3 | BTC +14.57 ETH +21.90 SOL +16.70
+pct=0.25 trend=200 tp=3 maxBars=48 stop=mid | n=354 sum=+101.71 avg=+0.29 t=3.18 PF=1.49 dd=11.1 | BTC +26.23 ETH +37.03 SOL +38.44
+pct=0.25 trend=200 tp=3 maxBars=48 stop=3   | n=276 sum= +66.71 avg=+0.24 t=2.75 PF=1.50 dd=16.7 | BTC +16.26 ETH +26.51 SOL +23.95
+pct=0.25 trend=200 tp=4 maxBars=0  stop=mid | n=188 sum= +86.06 avg=+0.46 t=2.75 PF=1.64 dd=11.2 | BTC +33.13 ETH +19.16 SOL +33.77
+pct=0.25 trend=200 tp=4 maxBars=0  stop=3   | n=135 sum= +57.43 avg=+0.43 t=2.18 PF=1.59 dd=18.5 | BTC +11.62 ETH +20.11 SOL +25.70
+pct=0.25 trend=200 tp=4 maxBars=48 stop=mid | n=330 sum=+133.61 avg=+0.40 t=3.70 PF=1.67 dd=14.2 | BTC +36.42 ETH +51.36 SOL +45.83
+pct=0.25 trend=200 tp=4 maxBars=48 stop=3   | n=273 sum= +60.20 avg=+0.22 t=2.34 PF=1.43 dd=15.1 | BTC +16.80 ETH +18.17 SOL +25.23
+pct=0.5  trend=0   tp=3 maxBars=0  stop=mid | n=335 sum=+102.68 avg=+0.31 t=2.98 PF=1.45 dd=18.3 | BTC +20.32 ETH +57.89 SOL +24.47
+pct=0.5  trend=0   tp=3 maxBars=0  stop=3   | n=191 sum= +77.86 avg=+0.41 t=2.94 PF=1.63 dd=8.1 | BTC +21.45 ETH +31.84 SOL +24.57
+pct=0.5  trend=0   tp=3 maxBars=48 stop=mid | n=558 sum=+113.99 avg=+0.20 t=2.89 PF=1.33 dd=16.1 | BTC +20.08 ETH +52.54 SOL +41.37
+pct=0.5  trend=0   tp=3 maxBars=48 stop=3   | n=417 sum= +63.81 avg=+0.15 t=2.20 PF=1.30 dd=8.5 | BTC +21.41 ETH +17.19 SOL +25.21
+pct=0.5  trend=0   tp=4 maxBars=0  stop=mid | n=216 sum= +72.60 avg=+0.34 t=2.22 PF=1.45 dd=18.5 | BTC +1.59 ETH +44.20 SOL +26.81
+pct=0.5  trend=0   tp=4 maxBars=0  stop=3   | n=154 sum= +88.50 avg=+0.57 t=3.06 PF=1.83 dd=9.4 | BTC +21.78 ETH +33.03 SOL +33.69
+pct=0.5  trend=0   tp=4 maxBars=48 stop=mid | n=517 sum=+117.01 avg=+0.23 t=2.72 PF=1.35 dd=17.2 | BTC +19.62 ETH +52.43 SOL +44.95
+pct=0.5  trend=0   tp=4 maxBars=48 stop=3   | n=402 sum= +52.47 avg=+0.13 t=1.78 PF=1.25 dd=14.1 | BTC +25.96 ETH −3.82 SOL +30.33
+pct=0.5  trend=200 tp=3 maxBars=0  stop=mid | n=272 sum=+111.83 avg=+0.41 t=3.54 PF=1.63 dd=14.0 | BTC +24.09 ETH +51.07 SOL +36.67
+pct=0.5  trend=200 tp=3 maxBars=0  stop=3   | n=170 sum= +82.99 avg=+0.49 t=3.28 PF=1.77 dd=6.1 | BTC +30.47 ETH +29.86 SOL +22.66
+pct=0.5  trend=200 tp=3 maxBars=48 stop=mid | n=418 sum=+108.56 avg=+0.26 t=3.20 PF=1.45 dd=11.6 | BTC +21.70 ETH +50.73 SOL +36.12
+pct=0.5  trend=200 tp=3 maxBars=48 stop=3   | n=335 sum= +88.33 avg=+0.26 t=3.28 PF=1.55 dd=10.3 | BTC +23.49 ETH +35.60 SOL +29.24
+pct=0.5  trend=200 tp=4 maxBars=0  stop=mid | n=206 sum= +93.35 avg=+0.45 t=2.85 PF=1.63 dd=13.4 | BTC +12.35 ETH +40.30 SOL +40.70
+pct=0.5  trend=200 tp=4 maxBars=0  stop=3   | n=133 sum= +84.62 avg=+0.64 t=3.12 PF=1.94 dd=8.1 | BTC +27.79 ETH +25.07 SOL +31.76
+pct=0.5  trend=200 tp=4 maxBars=48 stop=mid | n=391 sum=+130.48 avg=+0.33 t=3.43 PF=1.55 dd=12.1 | BTC +20.64 ETH +63.79 SOL +46.05
+pct=0.5  trend=200 tp=4 maxBars=48 stop=3   | n=324 sum= +76.73 avg=+0.24 t=2.77 PF=1.48 dd=10.2 | BTC +22.54 ETH +21.21 SOL +32.98
+pct=1    trend=0   tp=3 maxBars=0  stop=mid | n=234 sum= +88.60 avg=+0.38 t=3.04 PF=1.57 dd=10.6 | BTC +29.16 ETH +23.08 SOL +36.36
+pct=1    trend=0   tp=3 maxBars=0  stop=3   | n=201 sum= +59.71 avg=+0.30 t=2.24 PF=1.44 dd=10.2 | BTC +13.32 ETH +20.75 SOL +25.64
+pct=1    trend=0   tp=3 maxBars=48 stop=mid | n=597 sum=+124.09 avg=+0.21 t=3.09 PF=1.35 dd=13.4 | BTC +29.55 ETH +54.29 SOL +40.25
+pct=1    trend=0   tp=3 maxBars=48 stop=3   | n=467 sum= +64.94 avg=+0.14 t=2.13 PF=1.27 dd=8.7 | BTC +20.76 ETH +18.71 SOL +25.47
+pct=1    trend=0   tp=4 maxBars=0  stop=mid | n=198 sum= +67.21 avg=+0.34 t=2.15 PF=1.46 dd=15.4 | BTC −2.81 ETH +32.62 SOL +37.40
+pct=1    trend=0   tp=4 maxBars=0  stop=3   | n=173 sum= +74.05 avg=+0.43 t=2.48 PF=1.59 dd=10.2 | BTC +15.29 ETH +34.00 SOL +24.76
+pct=1    trend=0   tp=4 maxBars=48 stop=mid | n=563 sum=+127.24 avg=+0.23 t=2.88 PF=1.36 dd=11.5 | BTC +27.69 ETH +55.48 SOL +44.07
+pct=1    trend=0   tp=4 maxBars=48 stop=3   | n=449 sum= +71.04 avg=+0.16 t=2.19 PF=1.30 dd=10.3 | BTC +21.49 ETH +14.19 SOL +35.35
+pct=1    trend=200 tp=3 maxBars=0  stop=mid | n=184 sum=+104.02 avg=+0.57 t=3.92 PF=1.92 dd=7.2 | BTC +34.13 ETH +31.45 SOL +38.44
+pct=1    trend=200 tp=3 maxBars=0  stop=3   | n=163 sum= +78.37 avg=+0.48 t=3.17 PF=1.76 dd=6.1 | BTC +31.77 ETH +27.99 SOL +18.61
+pct=1    trend=200 tp=3 maxBars=48 stop=mid | n=459 sum=+133.48 avg=+0.29 t=3.81 PF=1.53 dd=10.8 | BTC +38.77 ETH +53.77 SOL +40.94
+pct=1    trend=200 tp=3 maxBars=48 stop=3   | n=379 sum= +99.13 avg=+0.26 t=3.49 PF=1.55 dd=9.3 | BTC +33.19 ETH +32.59 SOL +33.35
+pct=1    trend=200 tp=4 maxBars=0  stop=mid | n=168 sum= +93.24 avg=+0.56 t=3.10 PF=1.80 dd=10.6 | BTC +9.25 ETH +33.72 SOL +50.27
+pct=1    trend=200 tp=4 maxBars=0  stop=3   | n=150 sum= +67.60 avg=+0.45 t=2.42 PF=1.63 dd=10.1 | BTC +16.89 ETH +32.07 SOL +18.64
+pct=1    trend=200 tp=4 maxBars=48 stop=mid | n=434 sum=+139.56 avg=+0.32 t=3.57 PF=1.55 dd=11.8 | BTC +31.00 ETH +58.10 SOL +50.47
+pct=1    trend=200 tp=4 maxBars=48 stop=3   | n=361 sum=+104.68 avg=+0.29 t=3.48 PF=1.61 dd=10.4 | BTC +29.69 ETH +30.75 SOL +44.24
+
+mean avg-R per trade by squeeze requirement (all other settings pooled):
+  pct=0.25: +0.27  mean trades 282
+  pct=0.5: +0.34  mean trades 315
+  pct=1 (NO squeeze): +0.34  mean trades 324
+mean avg-R per trade by trend filter:
+  trendN=0: +0.25
+  trendN=200: +0.38

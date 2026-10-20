@@ -23,6 +23,10 @@ const BINANCE = (() => {
         if (Array.isArray(j)) return j;
         lastErr = new Error((j && j.msg) || 'Binance error');
         if (res.status === 400) break; // bad symbol / interval — retrying won't help
+        if (res.status === 429 || res.status === 418) { // rate limited: wait as long as Binance asks
+          const wait = Math.min(120, +res.headers.get('retry-after') || 30);
+          if (i < 2) { await new Promise((r) => setTimeout(r, wait * 1000)); continue; }
+        }
       } catch (e) { lastErr = e; }
       if (i < 2) await new Promise((r) => setTimeout(r, 400 * (i + 1)));
     }
