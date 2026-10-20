@@ -615,6 +615,27 @@
     }).catch(() => {});
   }
 
+  // Live updates: every 30 s (not replaying, live data) pull the newest bars and redraw, so the forming candle
+  // moves and indicators (e.g. 🎯 BB Breakout setups) see each candle the moment it closes. Keeps running in a
+  // background tab (browsers slow it to about once a minute) so setup alerts still arrive.
+  setInterval(() => {
+    if (replayMode || anchoredData || !candles.length || !loadedSymbol) return;
+    const symbol = loadedSymbol, iv = candlesInterval, max = parseInt($('maxCandles').value), seq = loadSeq;
+    if (symbol !== $('symbol').value || iv !== interval) return;
+    pollLatestCandles(symbol, iv, max).then((fresh) => {
+      if (!fresh || seq !== loadSeq || replayMode || anchoredData || !fresh.length) return;
+      const a = fresh[fresh.length - 1], b = candles[candles.length - 1];
+      if (b && a.time === b.time && a.close === b.close && a.high === b.high && a.low === b.low && fresh.length === candles.length) return;
+      const sec = intervalToSeconds(iv), v = captureView(candles, sec), grew = !b || a.time !== b.time;
+      candles = fresh;
+      if (grew) ChartView.setTimeline(candles, sec, CFG.FUTURE_BARS);
+      ChartView.setSlice(candles);
+      IndicatorManager.recompute(candles, sec);
+      restoreView(v);
+      Drawings.render();
+    }).catch(() => {});
+  }, 30000);
+
   // Quietly download the other enabled timeframes (nearest first) so the next
   // TF switch is served from memory.
   let prefetchTimer = null;

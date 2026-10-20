@@ -119,6 +119,22 @@ function refreshCandles(symbol, interval, target) {
   return p;
 }
 
+// Live polling: fetch only the newest few bars (the forming one + the last closed ones) and merge them onto the
+// cached series, regardless of how fresh the cache is. Resolves to the merged array, or null when there is no
+// live cache to merge onto (offline sample, history window) or the newest bars don't join up.
+async function pollLatestCandles(symbol, interval, target) {
+  const entry = _cacheEntry(symbol, interval, target);
+  if (!entry || !entry.live || !entry.data.length) return null;
+  const latest = await _fetchPages(symbol, interval, 3, null, null);
+  const old = entry.data, sec = intervalToSeconds(interval);
+  if (!latest.length || latest[0].time > old[old.length - 1].time + sec) return null;
+  const cutoff = latest[0].time;
+  const merged = old.filter((c) => c.time < cutoff).concat(latest);
+  const result = merged.length > target ? merged.slice(merged.length - target) : merged;
+  _cacheSet(symbol, interval, target, result, true);
+  return result;
+}
+
 // ---- background prefetch -----------------------------------------------------
 // Quietly downloads the other enabled timeframes for the current symbol, one at a
 // time, so a later TF switch is served straight from memory (no loading state).
