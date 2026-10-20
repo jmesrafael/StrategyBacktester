@@ -334,6 +334,8 @@
     `<label class="st-row"><span>Bearish</span><input type="color" id="stDown"></label>` +
     `<div class="st-title">Drawings</div>` +
     `<label class="st-row"><span>Show price labels</span><input type="checkbox" id="stDrawLabels"></label>` +
+    `<div class="st-title">Data</div>` +
+    `<label class="st-row"><span>Auto-update on open</span><input type="checkbox" id="stAutoUpdate"></label>` +
     `<div class="st-sep"></div>` +
     `<button class="st-save" id="stSave">Save current as defaults</button>`;
   document.body.appendChild(settingsPanel);
@@ -364,6 +366,8 @@
     ChartView.setGridVisible(e.target.checked);
     LS.setItem(STORE.grid, String(e.target.checked));
   };
+  $('stAutoUpdate').checked = isAutoUpdate();
+  $('stAutoUpdate').onchange = (e) => { setAutoUpdate(e.target.checked); };
   $('stDrawLabels').onchange = (e) => {
     Drawings.setShowLabels(e.target.checked);
     LS.setItem(STORE.drawLabels, String(e.target.checked));
@@ -493,6 +497,16 @@
   }
 
   // opts.fit — reset to the default view after loading (Refresh button)
+  // Centered loading spinner over the chart while candles are being fetched.
+  const busyEl = document.createElement('div');
+  busyEl.className = 'chart-busy';
+  busyEl.innerHTML = '<div class="chart-busy-ring"></div><div class="chart-busy-txt"></div>';
+  chartHost.appendChild(busyEl);
+  function setBusy(on, text) {
+    busyEl.classList.toggle('on', !!on);
+    if (text != null) busyEl.querySelector('.chart-busy-txt').textContent = text;
+  }
+
   async function load(opts = {}) {
     const seq = ++loadSeq;
     const symbol = $('symbol').value;
@@ -527,8 +541,11 @@
     const stale = !!data && !isCandleCacheFresh(symbol, iv, max);
     if (!data) {
       $('status').textContent = `Loading ${symbol} ${TF_LABEL.get(iv) || iv}…`;
+      setBusy(true, `Loading ${symbol} ${TF_LABEL.get(iv) || iv}…`);
       const onProgress = (page, pages) => {
-        if (seq === loadSeq) $('status').textContent = pages > 1 ? `Loading… page ${page} / ${pages}` : 'Loading…';
+        if (seq !== loadSeq) return;
+        $('status').textContent = pages > 1 ? `Loading… page ${page} / ${pages}` : 'Loading…';
+        setBusy(true, pages > 1 ? `Loading… page ${page} / ${pages}` : null);
       };
       try {
         data = await fetchCandles(symbol, iv, max, onProgress);
@@ -549,6 +566,7 @@
       let win = peekCandleCache(symbol, iv, max, endSec);
       if (!win) {
         $('status').textContent = `Loading ${TF_LABEL.get(iv) || iv} history at replay point…`;
+        setBusy(true, `Loading ${TF_LABEL.get(iv) || iv} history…`);
         try { win = await fetchCandles(symbol, iv, max, null, { endSec }); } catch {}
         if (seq !== loadSeq) return;
       }
@@ -556,11 +574,13 @@
     }
 
     // ---- commit (synchronous from here — one repaint, no blank frame) ----
+    setBusy(false);
     candles = data;
     candlesInterval = iv;
     loadedSymbol = symbol;
     anchoredData = anchored;
     $('status').textContent = `${candles.length} candles · ${source}`;
+    updateDataDate();
 
     ChartView.resetPriceZoom();             // new data → price auto-fit, never off-screen
     lwChart.priceScale('right').applyOptions({ autoScale: true });
@@ -606,6 +626,7 @@
       const sec = intervalToSeconds(iv);
       const v = captureView(candles, sec);
       candles = fresh;
+      updateDataDate();
       ChartView.setTimeline(candles, sec, CFG.FUTURE_BARS);
       ChartView.setSlice(candles);
       IndicatorManager.recompute(candles, sec);
@@ -619,7 +640,7 @@
   // moves and indicators (e.g. 🎯 BB Breakout setups) see each candle the moment it closes. Keeps running in a
   // background tab (browsers slow it to about once a minute) so setup alerts still arrive.
   setInterval(() => {
-    if (replayMode || anchoredData || !candles.length || !loadedSymbol) return;
+    if (!isAutoUpdate() || replayMode || anchoredData || !candles.length || !loadedSymbol) return;
     const symbol = loadedSymbol, iv = candlesInterval, max = parseInt($('maxCandles').value), seq = loadSeq;
     if (symbol !== $('symbol').value || iv !== interval) return;
     pollLatestCandles(symbol, iv, max).then((fresh) => {
@@ -628,6 +649,7 @@
       if (b && a.time === b.time && a.close === b.close && a.high === b.high && a.low === b.low && fresh.length === candles.length) return;
       const sec = intervalToSeconds(iv), v = captureView(candles, sec), grew = !b || a.time !== b.time;
       candles = fresh;
+      updateDataDate();
       if (grew) ChartView.setTimeline(candles, sec, CFG.FUTURE_BARS);
       ChartView.setSlice(candles);
       IndicatorManager.recompute(candles, sec);
@@ -650,6 +672,16 @@
     }, 800);
   }
 
+  // Date/time of the newest candle in the data, so it's obvious whether the chart is up to date.
+  function updateDataDate() {
+    const el = $('dataDate'); if (!el) return;
+    const last = candles[candles.length - 1];
+    if (!last) { el.textContent = ''; return; }
+    const d = new Date(last.time * 1000);
+    el.textContent = dataSourceName().replace(/ live$/, '') + ' · ' + d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
+    el.title = 'Latest candle: ' + d.toLocaleString();
+  }
+
   // ---- replay arming + mode ---------------------------------------------
   // 1) click Replay → scissors cursor, chart stays full + interactive
   // 2) double-click a candle → that candle becomes the replay start
@@ -664,13 +696,36 @@
   function cancelArming() {
     replayArming = false;
     chartHost.classList.remove('cutting');
+    $('recutBtn').classList.remove('active');
+    setCutHint(false);
+    if (replayMode) return;              // cancelling a re-cut keeps the replay running
     $('replayBtn').classList.remove('active');
     $('replayBtn').textContent = 'Replay';
   }
 
+  // Re-cut: pick a new start point while a replay is already running (the chart is
+  // already cut). Pauses playback; the next double-click / tap / 🎲 sets the new cut.
+  function armRecut() {
+    if (!replayMode || !candles.length) return;
+    if (replayArming) { cancelArming(); return; }
+    Replay.pause();
+    replayArming = true;
+    Drawings.setTool('cursor');
+    chartHost.classList.add('cutting');
+    $('recutBtn').classList.add('active');
+    setCutHint(true);
+  }
+  function setCutHint(recut) {
+    $('cutHintText').textContent = recut ? 'to re-cut the replay from there' : 'a candle to set the replay start point';
+  }
+
   function enterReplayMode(cutIdx) {
     if (!candles.length) return;
+    const recut = replayMode && replayArming;   // picked via Recut while a replay is running
+    if (recut && tradeMode === 'strategy') StrategyMode.onExitReplay();
     replayArming = false;
+    $('recutBtn').classList.remove('active');
+    setCutHint(false);
     chartHost.classList.remove('cutting');
     replayMode = true;
     document.body.classList.add('replay-mode');
@@ -682,12 +737,11 @@
     lastCut = idx;
     // Follow-the-edge view: auto-fit price to revealed candles and keep the newest
     // revealed candle pinned near the right edge so price extends past the cut line.
-    lwChart.priceScale('right').applyOptions({ autoScale: true });
+    // cutting must not touch the view: keep the user's current zoom, scroll and price scale
     Replay.load(candles, idx);
-    ChartView.followIndex(Replay.cutIndex);
     TradeSim.setMode(tradeMode);
     TradeSim.start(candles[Replay.cutIndex].close);
-    TradeSim.playReplayStartSound();
+    if (!recut) TradeSim.playReplayStartSound();
     if (tradeMode === 'strategy') StrategyMode.onEnterReplay();
   }
 
@@ -722,6 +776,7 @@
     else armReplay();
   };
   $('exitReplayBtn').onclick = () => exitReplayMode(true);
+  $('recutBtn').onclick = () => armRecut();
 
   // double-click on a candle commits the replay start point
   lwChart.subscribeDblClick((param) => {
@@ -769,16 +824,17 @@
   // re-project drawings + feed live price to the trade sim on every revealed tick
   Replay.on('tick', (p) => {
     Drawings.render();
-    if (p && p.candle) TradeSim.onTick(p.candle.close);
+    if (p && p.candle) TradeSim.onTick(p.candle.close, p.candle);
     StrategyMode.onTick(p);   // no-op unless strategy mode + watching replay
     // keep the newest revealed candle near the right edge (per-candle, no jitter)
-    if (replayMode && p && !p.forming) ChartView.followIndex(p.index);
+    if (replayMode && p && !p.forming) ChartView.followIfOffscreen(p.index);
   });
   Replay.on('end', () => exitReplayMode(true));
 
   // ---- transport controls ----------------------------------------------
   $('playBtn').onclick   = () => Replay.toggle();
   $('stepBtn').onclick   = () => Replay.step();
+  $('stepBackBtn').onclick = () => Replay.stepBack();
   $('rewindBtn').onclick = () => Replay.rewind();
   $('speed').onchange    = (e) => Replay.setSpeed(parseFloat(e.target.value));
 
@@ -807,8 +863,22 @@
   // Re-fits the time scale and re-enables price auto-scale so a squeezed /
   // over-stretched chart returns to normal (TradingView-style refresh).
   // In replay the position is kept (load() re-anchors to the replay clock).
-  function refreshChart() {
-    clearCandleCache($('symbol').value, interval, parseInt($('maxCandles').value));
+  // Pulls only the newest candles and merges them onto the saved copy (no full
+  // re-download), saves the result on the device, then repaints / re-fits.
+  let updating = false;
+  async function refreshChart() {
+    if (updating) return;
+    updating = true;
+    const btn = $('refreshBtn');
+    if (btn) btn.classList.add('spin');
+    const symbol = $('symbol').value, max = parseInt($('maxCandles').value);
+    try {
+      await refreshCandles(symbol, interval, max, true);
+    } catch {
+      $('status').textContent = 'Update failed — offline? showing saved data';
+    }
+    updating = false;
+    if (btn) btn.classList.remove('spin');
     load({ fit: !replayMode });
   }
   $('refreshBtn').onclick = refreshChart;
@@ -839,6 +909,14 @@
             CFG.DRAW_WIDTHS.map((w) =>
               `<button class="ctx-w${w === sel.width ? ' active' : ''}" data-w="${w}">${w}px</button>`).join('') +
           `</div>` +
+          `<div class="ctx-thick">` +
+            [['solid', '━━'], ['dashed', '╍╍'], ['dotted', '┈┈']].map(([k, g]) =>
+              `<button class="ctx-w ctx-st${k === sel.style ? ' active' : ''}" data-st="${k}" title="${k}">${g}</button>`).join('') +
+          `</div>` +
+          (sel.type === 'rect'
+            ? `<label class="ctx-color"><span>Border</span><input type="checkbox" id="ctxBorder"${sel.border ? ' checked' : ''}></label>` +
+              `<label class="ctx-color"><span>Fill</span><input type="checkbox" id="ctxFill"${sel.fill ? ' checked' : ''}></label>`
+            : '') +
         `</div>` +
         `<div class="ctx-sep"></div>` +
         `<button class="ctx-item" data-act="delSel">Delete Selected</button>` +
@@ -850,6 +928,10 @@
     ctxMenu.innerHTML = html;
     const colorInput = ctxMenu.querySelector('#ctxColor');
     if (colorInput) colorInput.oninput = (ev) => Drawings.setSelectedColor(ev.target.value);
+    // rectangles: border / fill toggles (at least one stays on so the box never vanishes)
+    const bi = ctxMenu.querySelector('#ctxBorder'), fi = ctxMenu.querySelector('#ctxFill');
+    if (bi) bi.onchange = () => { Drawings.setSelectedProp({ border: bi.checked }); if (!bi.checked && !fi.checked) { fi.checked = true; Drawings.setSelectedProp({ fill: true }); } };
+    if (fi) fi.onchange = () => { Drawings.setSelectedProp({ fill: fi.checked }); if (!fi.checked && !bi.checked) { bi.checked = true; Drawings.setSelectedProp({ border: true }); } };
   }
   chartHost.addEventListener('contextmenu', (e) => {
     e.preventDefault();
@@ -861,10 +943,16 @@
   });
   ctxMenu.addEventListener('click', (e) => {
     e.stopPropagation();                       // keep the menu open while editing
+    const st = e.target.closest('.ctx-st');
+    if (st) {
+      Drawings.setSelectedProp({ style: st.dataset.st });
+      ctxMenu.querySelectorAll('.ctx-st').forEach((x) => x.classList.toggle('active', x === st));
+      return;
+    }
     const w = e.target.closest('.ctx-w');
     if (w) {
       Drawings.setSelectedWidth(parseInt(w.dataset.w));
-      ctxMenu.querySelectorAll('.ctx-w').forEach((x) => x.classList.toggle('active', x === w));
+      ctxMenu.querySelectorAll('.ctx-w:not(.ctx-st)').forEach((x) => x.classList.toggle('active', x === w));
       return;
     }
     const b = e.target.closest('.ctx-item'); if (!b || b.disabled) return;
@@ -888,23 +976,48 @@
     const ft = $('toolbar');
     const grip = $('ftGrip');
     let dragging = false, offX = 0, offY = 0;
-    grip.addEventListener('mousedown', (e) => {
-      if (e.button !== 0) return;
+    const POS_KEY = 'sb.toolbarPos';
+    // keep the toolbar fully inside the chart area
+    const clampPos = (nx, ny) => {
+      const hr = chartHost.getBoundingClientRect();
+      return [Math.max(0, Math.min(hr.width - ft.offsetWidth, nx)), Math.max(0, Math.min(hr.height - ft.offsetHeight, ny))];
+    };
+    const applyPos = (nx, ny) => { [nx, ny] = clampPos(nx, ny); ft.style.left = nx + 'px'; ft.style.top = ny + 'px'; };
+    // restore where the user left it last time
+    try {
+      const sp = JSON.parse(localStorage.getItem(POS_KEY));
+      if (sp && Number.isFinite(sp.x) && Number.isFinite(sp.y)) { ft.classList.add('placed'); applyPos(sp.x, sp.y); }
+    } catch {}
+    window.addEventListener('resize', () => {
+      if (ft.style.left) applyPos(parseFloat(ft.style.left), parseFloat(ft.style.top));
+    });
+    // pointer events: works with mouse, touch and pen; the grip never pans the chart
+    grip.style.touchAction = 'none';
+    grip.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
       dragging = true;
       const r = ft.getBoundingClientRect();
       offX = e.clientX - r.left; offY = e.clientY - r.top;
+      // first drag: pin the toolbar where it is (drops the mobile bottom-centre default)
+      ft.classList.add('placed');
+      ft.style.left = (r.left - chartHost.getBoundingClientRect().left) + 'px';
+      ft.style.top  = (r.top  - chartHost.getBoundingClientRect().top) + 'px';
+      try { grip.setPointerCapture(e.pointerId); } catch {}
       e.preventDefault(); e.stopPropagation();
     });
-    window.addEventListener('mousemove', (e) => {
+    grip.addEventListener('pointermove', (e) => {
       if (!dragging) return;
       const hr = chartHost.getBoundingClientRect();
-      let nx = e.clientX - hr.left - offX;
-      let ny = e.clientY - hr.top  - offY;
-      nx = Math.max(0, Math.min(hr.width  - ft.offsetWidth,  nx));
-      ny = Math.max(0, Math.min(hr.height - ft.offsetHeight, ny));
-      ft.style.left = nx + 'px'; ft.style.top = ny + 'px';
+      applyPos(e.clientX - hr.left - offX, e.clientY - hr.top - offY);
+      e.preventDefault();
     });
-    window.addEventListener('mouseup', () => { dragging = false; });
+    const endDrag = () => {
+      if (!dragging) return;
+      dragging = false;
+      try { localStorage.setItem(POS_KEY, JSON.stringify({ x: parseFloat(ft.style.left), y: parseFloat(ft.style.top) })); } catch {}
+    };
+    grip.addEventListener('pointerup', endDrag);
+    grip.addEventListener('pointercancel', endDrag);
   })();
 
   // ---- drawing toolbar -------------------------------------------------
@@ -923,8 +1036,15 @@
   // ---- keyboard --------------------------------------------------------
   window.addEventListener('keydown', (e) => {
     if (['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
-    if (e.code === 'Space') { e.preventDefault(); if (replayMode) Replay.toggle(); }
+    if (e.code === 'Space') {
+      e.preventDefault();
+      // a focused button would also fire a click on Space — drop focus so it can't double-toggle
+      if (document.activeElement && document.activeElement.tagName === 'BUTTON') document.activeElement.blur();
+      if (replayMode && !replayArming) Replay.toggle();   // play / pause
+      else if (!replayMode && !replayArming) armReplay(); // start: pick the cut candle
+    }
     if (e.key === 'ArrowRight') { e.preventDefault(); if (replayMode) Replay.step(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); if (replayMode) Replay.stepBack(); }
     if (e.key === 'Escape') {
       if (replayArming) cancelArming();
       else if (replayMode) exitReplayMode(true);

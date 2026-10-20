@@ -56,15 +56,16 @@
 
     <div class="tb-right">
       <span class="status" id="status"></span>
+      <span class="data-date" id="dataDate" title="Latest candle in the data"></span>
       <div class="field-inline">
         <label>Max candles</label>
         <select id="maxCandles"></select>
       </div>
       <button class="iconbtn tb-icon" id="toolbarToggle" title="Toggle drawing toolbar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h10M4 12h16M4 18h7"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 9.5S5 3.5 10 3.5s8.5 6 8.5 6-3.5 6-8.5 6-8.5-6-8.5-6z"/><circle cx="10" cy="9.5" r="2.4"/><path d="M14.5 20.5l.6-3 5.6-5.6a1.4 1.4 0 0 1 2 2l-5.6 5.6z"/></svg>
       </button>
       <button class="iconbtn tb-icon" id="settingsBtn" title="Settings">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>
+        <i class="fas fa-gear"></i>
       </button>
       <!-- mobile only: overflow menu that collects the secondary top-bar controls -->
       <button class="iconbtn tb-icon m-only" id="moreBtn" title="More"><i class="fas fa-ellipsis-vertical"></i></button>
@@ -78,12 +79,12 @@
       <div id="chart"></div>
 
       <!-- permanent refresh button, centered top of the chart (all modes) -->
-      <button class="chart-refresh" id="refreshBtn" title="Refresh chart">
+      <button class="chart-refresh" id="refreshBtn" title="Update: pull the latest candles">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 11a8 8 0 1 0-.5 4"/><path d="M20 4v7h-7"/></svg>
       </button>
 
       <!-- replay arming hint (scissors mode, before the cut point is chosen) -->
-      <div class="cut-hint" id="cutHint"><i class="fas fa-scissors"></i> <span class="d-only">Double-click</span><span class="m-only">Tap</span> a candle to set the replay start point <button class="cut-random" id="randomStartBtn" title="Start from a random point"><i class="fas fa-dice"></i> Random</button></div>
+      <div class="cut-hint" id="cutHint"><i class="fas fa-scissors"></i> <span class="d-only">Double-click</span><span class="m-only">Tap</span> <span id="cutHintText">a candle to set the replay start point</span> <button class="cut-random" id="randomStartBtn" title="Start from a random point"><i class="fas fa-dice"></i> Random</button></div>
 
       <!-- right-click context menu -->
       <div class="ctx-menu" id="ctxMenu"></div>
@@ -136,8 +137,15 @@
 
     <div class="rb-center">
       <div class="transport">
-        <button class="iconbtn" id="rewindBtn" title="Rewind to start">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM20 6L11 12l9 6z"/></svg>
+        <button class="tp-btn" id="rewindBtn" title="Rewind to the replay start">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM20 6L11 12l9 6z"/></svg><span>Start</span>
+        </button>
+        <button class="tp-btn" id="recutBtn" title="Re-cut: pick a new replay point on the chart">
+          <i class="fas fa-scissors"></i><span>Recut</span>
+        </button>
+        <span class="tp-sep"></span>
+        <button class="iconbtn" id="stepBackBtn" title="Step back one candle (←)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 5l-9 7 9 7zM6 5h2v14H6z"/></svg>
         </button>
         <button class="iconbtn primary" id="playBtn" title="Play / Pause (Space)">
           <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>

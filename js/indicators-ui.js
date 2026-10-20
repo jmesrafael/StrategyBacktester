@@ -302,6 +302,7 @@ const IndicatorManager = (() => {
       const inst = instances.find((i) => i.id === id); if (!inst) return;
       if (btn.dataset.act === 'eye') setVisible(id, !inst.visible);
       else if (btn.dataset.act === 'gear') openConfigPopup(inst, btn);
+      else if (btn.dataset.act === 'del') remove(id);
     });
   }
 
@@ -370,6 +371,7 @@ const IndicatorManager = (() => {
         `<span class="lg-ctrls">` +
         `<button class="lg-ic" data-act="eye" data-id="${inst.id}" title="Show/Hide">${inst.visible ? '👁' : '🚫'}</button>` +
         gear +
+        `<button class="lg-ic" data-act="del" data-id="${inst.id}" title="Remove">✕</button>` +
         `</span></div>`;
     });
     legendEl.innerHTML = rows.join('');
@@ -410,8 +412,9 @@ const IndicatorManager = (() => {
       if (q && !def.name.toLowerCase().includes(q)) return;
       const row = document.createElement('div');
       row.className = 'ind-addrow';
-      row.innerHTML = `<span>${def.name}</span><button class="ind-plus">＋</button>`;
-      row.querySelector('.ind-plus').onclick = () => add(type, {});
+      row.innerHTML = `<span>${def.name}</span>`;
+      row.style.cursor = 'pointer';
+      row.onclick = () => add(type, {});
       addEl.appendChild(row);
     });
 

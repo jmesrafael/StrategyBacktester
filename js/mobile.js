@@ -49,8 +49,6 @@
       placeholders.forEach((ph, el) => { ph.parentNode.insertBefore(el, ph); });
       closeSheet();
     }
-    const widget = document.querySelector('.trade-widget');
-    if (widget) (toMobile ? dock : chartHost).appendChild(widget);
   }
 
   function apply() {
@@ -82,16 +80,6 @@
   document.addEventListener('click', (e) => {
     if (!sheet.contains(e.target) && e.target !== $('moreBtn')) closeSheet();
   });
-
-  // ---- trade log: collapsible on mobile ------------------------------------
-  function wireWidget() {
-    const widget = document.querySelector('.trade-widget');
-    if (!widget || widget.dataset.mWired) return;
-    widget.dataset.mWired = '1';
-    const title = widget.querySelector('.tw-log-title');
-    if (title) title.addEventListener('click', () => widget.querySelector('.tw-log').classList.toggle('open'));
-    if (mobile) dock.appendChild(widget);
-  }
 
   // ---- replay start: tap on mobile, 🎲 random everywhere --------------------
   function app() { return window.App || null; }
@@ -154,7 +142,6 @@
   if (standalone) body.classList.add('standalone');
 
   // ---- boot -----------------------------------------------------------------
-  wireWidget();
   apply();
   MQ.addEventListener('change', apply);
   // the Random button needs the app hook; hide it until it exists

@@ -22,13 +22,13 @@ const SMCIndicator = (() => {
   const DEFAULTS = {
     tz: 8,                       // your UTC offset (PH = +8); times below are in this zone
     // NY session open
-    showNY: true, nyTime: '21:30', nyAutoDST: true, nyColor: '#ffb74d',
+    showNY: true, nyTime: '21:30', nyAutoDST: true, nyColor: '#6b6b6b',
     // previous day high / low
     showPD: true, dayStart: '08:00', pdDays: 3, pdhColor: '#ef9a9a', pdlColor: '#80cbc4',
     // FVG layers (fixed TF)
     fvg1_on: true, fvg1_tf: '60', fvg1_bull: '#26a69a', fvg1_bear: '#ef5350', fvg1_max: 10,
     fvg2_on: true, fvg2_tf: '15', fvg2_bull: '#42a5f5', fvg2_bear: '#ffa726', fvg2_max: 10,
-    fvgRetain: true,             // keep filled FVGs on the chart (faded, stopped at the fill bar)
+    fvgRetain: false,            // chart shows unfilled FVGs only (analyze() forces true for backtests)
     fvgFill: 'wick',             // 'wick' = traded fully through · 'close' = closed beyond
     fvgOpacity: 0.18,
     // CHoCH layers (fixed TF)
@@ -180,21 +180,22 @@ const SMCIndicator = (() => {
       else if (c3.high < c1.low) list.push({ bull: false, top: c1.low, bottom: c3.high, t1: c1.time, i });
     }
     for (const g of list) {
-      g.filledAt = null; g.touched = false;
+      g.filledAt = null; g.touched = false; g.depth = null;   // depth = deepest wick reach into the gap
       for (let j = g.i + 1; j < bars.length; j++) {
         const b = bars[j];
         if (g.bull) {
-          if (b.low < g.top) g.touched = true;
+          if (b.low < g.top) { g.touched = true; g.depth = g.depth == null ? b.low : Math.min(g.depth, b.low); }
           const px = P.fvgFill === 'close' ? b.close : b.low;
           if (px <= g.bottom) { g.filledAt = b.time + sec; break; }
         } else {
-          if (b.high > g.bottom) g.touched = true;
+          if (b.high > g.bottom) { g.touched = true; g.depth = g.depth == null ? b.high : Math.max(g.depth, b.high); }
           const px = P.fvgFill === 'close' ? b.close : b.high;
           if (px >= g.top) { g.filledAt = b.time + sec; break; }
         }
       }
     }
     const shown = P.fvgRetain ? list : list.filter((g) => g.filledAt == null);
+    shown.forEach((g) => { g.sec = sec; });
     return shown.slice(-maxN);
   }
 
@@ -240,15 +241,18 @@ const SMCIndicator = (() => {
     for (const c of lastCandles) {
       const k = Math.floor((c.time + off) / 86400);
       const d = days.get(k);
-      if (!d) days.set(k, { hi: c.high, lo: c.low });
-      else { if (c.high > d.hi) d.hi = c.high; if (c.low < d.lo) d.lo = c.low; }
+      if (!d) days.set(k, { hi: c.high, lo: c.low, hiT: c.time, loT: c.time });
+      else {
+        if (c.high > d.hi) { d.hi = c.high; d.hiT = c.time; }
+        if (c.low < d.lo) { d.lo = c.low; d.loT = c.time; }
+      }
     }
     const keys = [...days.keys()];
     const res = [];
     for (let n = keys.length - 1; n >= 2 && res.length < P.pdDays; n--) {  // n-1 > first (partial) day
       const k = keys[n], prev = days.get(k - 1);
       if (!prev) continue;
-      res.push({ t1: k * 86400 - off, t2: (k + 1) * 86400 - off, pdh: prev.hi, pdl: prev.lo, current: n === keys.length - 1 });
+      res.push({ t1: k * 86400 - off, t2: (k + 1) * 86400 - off, pdh: prev.hi, pdl: prev.lo, pdhT: prev.hiT, pdlT: prev.loT, current: n === keys.length - 1 });
     }
     return res;
   }
@@ -289,7 +293,8 @@ const SMCIndicator = (() => {
       if (P.showNY) out.ny = computeNY();
       if (P.showPD) out.pd = computePD();
       [1, 2].forEach((n) => {
-        if (P[`fvg${n}_on`]) {
+        // FVGs from a timeframe below the chart's are hidden; higher ones stay
+        if (P[`fvg${n}_on`] && intervalToSeconds(P[`fvg${n}_tf`]) >= chartSec) {
           const { bars, sec } = barsFor(P[`fvg${n}_tf`]);
           out.fvg[n - 1] = detectFVG(bars, sec, Math.max(1, +P[`fvg${n}_max`] || 10));
         }
@@ -367,8 +372,10 @@ const SMCIndicator = (() => {
     drawPD(pw);
     drawFVG(out.fvg[0], P.fvg1_tf, P.fvg1_bull, P.fvg1_bear, pw);
     drawFVG(out.fvg[1], P.fvg2_tf, P.fvg2_bull, P.fvg2_bear, pw);
-    drawCHoCH(out.choch[0], P.ch1_tf, P.ch1_bull, P.ch1_bear, [], 1.5);
-    drawCHoCH(out.choch[1], P.ch2_tf, P.ch2_bull, P.ch2_bear, [4, 3], 1);
+    // one colour per TF: thin white for the lower TF, thin green for the higher
+    const s1 = intervalToSeconds(P.ch1_tf), s2 = intervalToSeconds(P.ch2_tf);
+    drawCHoCH(out.choch[0], P.ch1_tf, s1 > s2 ? CH_HIGH : CH_LOW);
+    drawCHoCH(out.choch[1], P.ch2_tf, s2 > s1 ? CH_HIGH : CH_LOW);
     drawNY(ph);
     flushLabels();
     ctx.restore();
@@ -378,6 +385,7 @@ const SMCIndicator = (() => {
     const a = P.fvgOpacity;
     for (const g of list) {
       let x1 = X(g.t1); if (x1 == null) continue;
+      // unfilled FVGs run to the right edge, past the latest candle
       let x2 = g.filledAt != null ? X(g.filledAt) : pw;
       if (x2 == null) x2 = pw;
       if (x2 < 0 || x1 > pw) continue;
@@ -388,48 +396,58 @@ const SMCIndicator = (() => {
       x1 = Math.round(x1); x2 = Math.round(x2);
       const col = g.bull ? bullC : bearC;
       const filled = g.filledAt != null;
-      ctx.fillStyle = hexA(col, filled ? a * 0.4 : (g.touched ? a * 0.75 : a));
-      ctx.fillRect(x1, top, x2 - x1, bot - top);
-      // crisp edges exactly at the two wick tips
-      ctx.strokeStyle = hexA(col, filled ? 0.35 : 0.7);
-      ctx.lineWidth = 1;
-      ctx.setLineDash(filled ? [3, 3] : []);
-      ctx.beginPath();
-      ctx.moveTo(x1, top + 0.5); ctx.lineTo(x2, top + 0.5);
-      ctx.moveTo(x1, bot - 0.5); ctx.lineTo(x2, bot - 0.5);
-      ctx.stroke();
-      ctx.setLineDash([]);
-      if (bot - top >= 11 && x2 - x1 > 40) {
-        label(`${tfLabel(tf)} FVG`, Math.max(x1, 0) + 4, top + 6.5, 'left', hexA(col, filled ? 0.5 : 0.95), 3);
+      if (!filled && g.touched && g.depth != null) {
+        // partly filled: the part price already traded into is very faint (4%), the rest keeps full opacity
+        const yd = Y(Math.max(g.bottom, Math.min(g.top, g.depth)));
+        if (yd != null) {
+          const split = Math.max(top, Math.min(bot, Math.round(yd)));
+          // bull gap is entered from the top (filled part = top..split); bear from the bottom (split..bot)
+          const fTop = g.bull ? top : split, fBot = g.bull ? split : bot;
+          const rTop = g.bull ? split : top, rBot = g.bull ? bot : split;
+          ctx.fillStyle = hexA(col, a);
+          if (rBot > rTop) ctx.fillRect(x1, rTop, x2 - x1, rBot - rTop);
+          ctx.fillStyle = hexA(col, Math.min(a, 0.04));
+          if (fBot > fTop) ctx.fillRect(x1, fTop, x2 - x1, fBot - fTop);
+        }
+      } else {
+        ctx.fillStyle = hexA(col, filled ? a * 0.4 : a);
+        ctx.fillRect(x1, top, x2 - x1, bot - top);
+      }
+      // label: vertically centred, placed after the 3 candles that form the gap
+      const xf = X(g.t1 + 3 * g.sec);
+      const lx = Math.max(xf != null ? xf : x1, 0) + 8;
+      if (bot - top >= 9 && x2 - lx > 36) {
+        label(`${tfLabel(tf)} FVG`, lx, (top + bot) / 2, 'left', hexA(col, filled ? 0.5 : 0.95), 3);
       }
     }
   }
 
-  function drawCHoCH(list, tf, bullC, bearC, dash, width) {
+  const CH_LOW = '#6fa8c9', CH_HIGH = '#26a69a';
+  function drawCHoCH(list, tf, col) {
     for (const e of list) {
       const x1 = X(e.t1), x2 = X(e.t2), y = Y(e.price);
       if (x1 == null || x2 == null || y == null) continue;
-      const col = e.bull ? bullC : bearC;
       const yy = Math.round(y) + 0.5;
-      ctx.strokeStyle = col; ctx.lineWidth = width; ctx.setLineDash(dash);
+      ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.setLineDash([]);
       ctx.beginPath(); ctx.moveTo(x1, yy); ctx.lineTo(x2, yy); ctx.stroke();
-      ctx.setLineDash([]);
       label(`${e.type} ${tfLabel(tf)}`, (x1 + x2) / 2, yy + (e.bull ? -7 : 8), 'center', col, 2);
     }
   }
 
+  const PD_COLOR = '#42a5f5', NY_COLOR = '#555555';
   function drawPD(pw) {
     if (!P.showPD) return;
     for (const d of out.pd) {
-      const x1 = X(d.t1); let x2 = d.current ? pw : X(d.t2);
-      if (x1 == null || x2 == null || x2 < 0 || x1 > pw) continue;
-      [[d.pdh, P.pdhColor, 'PDH'], [d.pdl, P.pdlColor, 'PDL']].forEach(([price, col, name]) => {
+      let x2 = d.current ? pw : X(d.t2);   // current day runs to the right edge
+      if (x2 == null || x2 < 0) continue;
+      // start at the wick of the candle that set the high / low
+      [[d.pdh, PD_COLOR, 'PDH', d.pdhT], [d.pdl, PD_COLOR, 'PDL', d.pdlT]].forEach(([price, col, name, t0]) => {
+        const x1 = X(t0); if (x1 == null || x1 > pw) return;
         const y = Y(price); if (y == null) return;
         const yy = Math.round(y) + 0.5;
         ctx.strokeStyle = hexA(col, d.current ? 0.9 : 0.45); ctx.lineWidth = 1;
-        ctx.setLineDash(d.current ? [6, 3] : [2, 3]);
-        ctx.beginPath(); ctx.moveTo(x1, yy); ctx.lineTo(x2, yy); ctx.stroke();
         ctx.setLineDash([]);
+        ctx.beginPath(); ctx.moveTo(x1, yy); ctx.lineTo(x2, yy); ctx.stroke();
         if (d.current) {
           label(`${name} ${price.toFixed(price < 1 ? 5 : price < 100 ? 3 : 2)}`, pw - 6, yy - 7, 'right', col, 1);
         }
@@ -439,20 +457,20 @@ const SMCIndicator = (() => {
 
   function drawNY(ph) {
     if (!P.showNY) return;
-    ctx.strokeStyle = hexA(P.nyColor, 0.75); ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
-    ctx.fillStyle = P.nyColor; ctx.textAlign = 'left';
+    ctx.strokeStyle = NY_COLOR; ctx.lineWidth = 1; ctx.setLineDash([]);
+    ctx.fillStyle = NY_COLOR; ctx.textAlign = 'left';
     for (const t of out.ny) {
       const x = X(t); if (x == null) continue;
       const xx = Math.round(x) + 0.5;
       ctx.beginPath(); ctx.moveTo(xx, 0); ctx.lineTo(xx, ph); ctx.stroke();
-      label('NY', xx + 3, 10, 'left', P.nyColor, 0);
+      label('NY', xx + 3, 10, 'left', NY_COLOR, 0);
     }
     ctx.setLineDash([]);
   }
 
   // ---- public ---------------------------------------------------------------
   function setActive(v) { ensureInit(); active = v; if (v) compute(lastCandles, chartSec); else render(); }
-  function updateParams(patch) { ensureInit(); Object.assign(P, patch); compute(lastCandles, chartSec); }
+  function updateParams(patch) { ensureInit(); Object.assign(P, patch, { fvgRetain: false }); compute(lastCandles, chartSec); }
   function getDefaults() { return { ...DEFAULTS }; }
 
   // settings form (used by IndicatorManager); onChange(patch) persists + recomputes
@@ -473,12 +491,11 @@ const SMCIndicator = (() => {
       head('Time zone') +
       num('tz', 'UTC offset (PH = 8)', -12, 14) + '<span></span>' +
       head('NY session open') +
-      chk('showNY', 'Show NY open line') + col('nyColor', 'Color') +
+      chk('showNY', 'Show NY open line') + '<span></span>' +
       txt('nyTime', 'Open (your time)') + chk('nyAutoDST', 'Follow US DST (+1h in winter)') +
       head('Previous day high / low') +
       chk('showPD', 'Show PDH / PDL') + num('pdDays', 'Days shown', 1, 30) +
       txt('dayStart', 'Day starts at') + '<span></span>' +
-      col('pdhColor', 'PDH color') + col('pdlColor', 'PDL color') +
       head('FVG layer 1 (fixed TF)') +
       chk('fvg1_on', 'Show') + sel('fvg1_tf', 'Timeframe', tfOpts(p.fvg1_tf)) +
       col('fvg1_bull', 'Bullish') + col('fvg1_bear', 'Bearish') + num('fvg1_max', 'Max shown', 1, 50) + '<span></span>' +
@@ -486,16 +503,13 @@ const SMCIndicator = (() => {
       chk('fvg2_on', 'Show') + sel('fvg2_tf', 'Timeframe', tfOpts(p.fvg2_tf)) +
       col('fvg2_bull', 'Bullish') + col('fvg2_bear', 'Bearish') + num('fvg2_max', 'Max shown', 1, 50) + '<span></span>' +
       head('FVG options') +
-      chk('fvgRetain', 'Keep filled FVGs (faded)') +
       sel('fvgFill', 'Filled when', choice('fvgFill', [['wick', 'wick trades through'], ['close', 'candle closes through']])) +
       head('CHoCH layer 1 (fixed TF)') +
       chk('ch1_on', 'Show') + sel('ch1_tf', 'Timeframe', tfOpts(p.ch1_tf)) +
       num('ch1_len', 'Swing length', 1, 50) + num('ch1_max', 'Max shown', 1, 50) +
-      col('ch1_bull', 'Bullish') + col('ch1_bear', 'Bearish') +
       head('CHoCH layer 2 (fixed TF)') +
       chk('ch2_on', 'Show') + sel('ch2_tf', 'Timeframe', tfOpts(p.ch2_tf)) +
       num('ch2_len', 'Swing length', 1, 50) + num('ch2_max', 'Max shown', 1, 50) +
-      col('ch2_bull', 'Bullish') + col('ch2_bear', 'Bearish') +
       head('Structure options') +
       chk('chBOS', 'Also show BOS') +
       sel('chBreak', 'Break on', choice('chBreak', [['close', 'candle close'], ['wick', 'wick']]));

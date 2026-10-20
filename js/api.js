@@ -10,6 +10,21 @@ const _candleCache = new Map();
 const _inflight = new Map();   // key -> Promise, so concurrent callers share one fetch
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
+// Manual updates (default): candles are downloaded once, kept on the device
+// (IndexedDB) and reused on every visit — nothing is fetched until the user taps
+// the refresh/update button. Turn auto-update on (Settings) for the old behaviour:
+// stale data revalidated on open, newest bars polled every 30 s.
+const AUTO_UPDATE_KEY = 'cr.autoUpdate';
+let _autoUpdate = false;
+try { _autoUpdate = localStorage.getItem(AUTO_UPDATE_KEY) === 'true'; } catch {}
+function isAutoUpdate() { return _autoUpdate; }
+function setAutoUpdate(v) {
+  _autoUpdate = !!v;
+  try { localStorage.setItem(AUTO_UPDATE_KEY, String(_autoUpdate)); } catch {}
+}
+// Ask the browser not to evict the saved candles when storage runs low (phones do).
+try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch {}
+
 // endSec (optional) anchors the window so it ENDS at that time instead of "now"
 // (used by replay when a lower timeframe's latest history doesn't reach back far enough).
 function _cacheKey(symbol, interval, target, endSec) {
@@ -21,7 +36,7 @@ function _cacheEntry(symbol, interval, target, endSec) {
 }
 
 function _isFresh(entry) {
-  return !!entry && (!entry.live || Date.now() - entry.ts <= CACHE_TTL_MS);
+  return !!entry && (!entry.live || !_autoUpdate || Date.now() - entry.ts <= CACHE_TTL_MS);
 }
 
 function _cacheSet(symbol, interval, target, data, live, endSec) {
@@ -95,10 +110,10 @@ function _fetchPages(symbol, interval, target, onProgress, endSec) {
 // Bring a cached (stale) series up to date cheaply: fetch only the newest page
 // and merge it onto the cached history. Falls back to a full fetch when there is
 // no cache yet, or when the newest page doesn't reach back to the cached end (gap).
-function refreshCandles(symbol, interval, target) {
+function refreshCandles(symbol, interval, target, force) {
   const entry = _cacheEntry(symbol, interval, target);
   if (!entry || !entry.live) return fetchCandles(symbol, interval, target);
-  if (_isFresh(entry)) return Promise.resolve(entry.data);
+  if (!force && _isFresh(entry)) return Promise.resolve(entry.data);
 
   const key = _cacheKey(symbol, interval, target) + '|refresh';
   if (_inflight.has(key)) return _inflight.get(key);
@@ -147,6 +162,7 @@ async function prefetchCandles(symbol, intervals, target) {
     if (gen !== _prefetchGen) return;
     await hydrateCandles(symbol, iv, target);
     if (gen !== _prefetchGen) return;
+    if (!_autoUpdate) continue;   // manual mode: only load what is already saved, never download
     if (isCandleCacheFresh(symbol, iv, target)) continue;
     try { await refreshCandles(symbol, iv, target); }
     catch { return; } // offline / blocked — no point hammering the remaining TFs

@@ -156,6 +156,16 @@ const Replay = (() => {
     if (cutIndex >= full.length - 1 && !forming) emit('end', stateObj());
   }
 
+  // one candle backwards (drops the newest revealed candle); discards any half-formed one
+  function stepBack() {
+    if (playing) pause();
+    forming = false; path = []; pathPos = 0; partial = null;
+    if (cutIndex <= 1) { renderRevealed(); return; }
+    cutIndex--;
+    renderRevealed();
+    emit('state', stateObj());
+  }
+
   function rewind() { setCut(startCut); }
 
   function setSpeed(s) {
@@ -195,7 +205,7 @@ const Replay = (() => {
   // repaint the current revealed slice without changing the cut (Refresh button)
   function rerender() { if (full.length) renderRevealed(); }
 
-  return { load, setCut, jumpCutTo, play, pause, toggle, step, rewind,
+  return { load, setCut, jumpCutTo, play, pause, toggle, step, stepBack, rewind,
     setSpeed, setMode, reload, rerender, on, state: stateObj,
     get full() { return full; }, get cutIndex() { return cutIndex; },
     get partial() { return partial; } };

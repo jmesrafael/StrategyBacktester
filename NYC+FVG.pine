@@ -1,0 +1,331 @@
+//@version=5
+// ⚡SMC+FVG — NY open · PDH/PDL · Dual-layer FVG · Volume Highlight
+//
+// Pine port of the StrategyBacktester "SMC · FVG" indicator (CHoCH removed to keep
+// it light):
+//   • NY open     : solid dark-gray vertical line + "NY" label
+//   • PDH / PDL   : blue, solid, never extended to the right — each line ends at the
+//                   last bar (today) or at the end of its own day (earlier days)
+//   • FVG         : two fixed-TF layers (1h / 15m). A gap grows to the right only
+//                   until the next NY open line, then stays fixed. The part price already traded
+//                   into is almost transparent (4%), the open part keeps 18%.
+//                   Filled gaps are removed. Teal/red (1h), blue/orange (15m).
+
+indicator("⚡SMC+FVG", "⚡SMC+FVG", overlay = true,
+     max_lines_count = 500, max_labels_count = 500, max_boxes_count = 500, max_bars_back = 5000)
+
+//══════════════════════════════════════════════════════════════════════════════
+// CONSTANTS
+//══════════════════════════════════════════════════════════════════════════════
+
+BULLISH    = +1
+BEARISH    = -1
+
+NONE       = 0
+
+G_VOL      = "1 ⚡ Volume Highlight"
+G_NY       = "2 🗽 NY Session Open"
+G_PD       = "3 Previous Day H/L"
+G_FVG1     = "4 FVG — Layer 1"
+G_FVG2     = "5 FVG — Layer 2"
+G_FVGO     = "6 FVG — Options"
+
+//══════════════════════════════════════════════════════════════════════════════
+// INPUTS
+//══════════════════════════════════════════════════════════════════════════════
+
+// ── 1. Volume Highlight ──────────────────────────────────────────────────────
+volOn      = input.bool(true,  "Enable",            group = G_VOL)
+volPeriod  = input.int(20,     "Volume Period",     group = G_VOL, minval = 1)
+volFactor  = input.float(1.25, "Volume Multiplier", group = G_VOL, minval = 0.0, step = 0.05)
+volColor   = input.color(color.rgb(255, 255, 255), "Highlight Color", group = G_VOL)
+
+// ── 2. NY session open ───────────────────────────────────────────────────────
+nyOn       = input.bool(true, "Show NY open line", group = G_NY)
+nyHour     = input.int(9,  "Open hour (New York)",   group = G_NY, minval = 0, maxval = 23,
+     tooltip = "America/New_York clock, so it follows US daylight saving by itself.\n" +
+               "09:30 NY = 21:30 PHT in US summer, 22:30 PHT in US winter.")
+nyMin      = input.int(30, "Open minute (New York)", group = G_NY, minval = 0, maxval = 59)
+nyColor    = input.color(#555555, "Color", group = G_NY)
+
+// ── 3. Previous day H/L ──────────────────────────────────────────────────────
+pdOn       = input.bool(true, "Show PDH / PDL", group = G_PD)
+pdDays     = input.int(3, "Days shown", group = G_PD, minval = 1, maxval = 30)
+pdTz       = input.float(8, "Your UTC offset", group = G_PD,
+     tooltip = "Philippines = 8. Only used together with 'Day starts at'.")
+pdDayStart = input.float(8, "Day starts at (hour, your time)", group = G_PD, minval = 0, maxval = 23.99,
+     tooltip = "08:00 at UTC+8 = 00:00 UTC (the exchange day).")
+pdColor    = input.color(#42a5f5, "PDH / PDL color", group = G_PD)
+
+// ── 4. FVG layer 1 ───────────────────────────────────────────────────────────
+f1On       = input.bool(true, "Show", group = G_FVG1)
+f1Tf       = input.timeframe("60", "Timeframe", group = G_FVG1)
+f1Bull     = input.color(#26a69a, "Bullish", group = G_FVG1)
+f1Bear     = input.color(#ef5350, "Bearish", group = G_FVG1)
+f1Max      = input.int(10, "Max shown", group = G_FVG1, minval = 1, maxval = 50)
+
+// ── 5. FVG layer 2 ───────────────────────────────────────────────────────────
+f2On       = input.bool(true, "Show", group = G_FVG2)
+f2Tf       = input.timeframe("15", "Timeframe", group = G_FVG2)
+f2Bull     = input.color(#42a5f5, "Bullish", group = G_FVG2)
+f2Bear     = input.color(#ffa726, "Bearish", group = G_FVG2)
+f2Max      = input.int(10, "Max shown", group = G_FVG2, minval = 1, maxval = 50)
+
+// ── 6. FVG options ───────────────────────────────────────────────────────────
+fvgOpacity = input.float(0.18, "Opacity (open part)", group = G_FVGO, minval = 0.02, maxval = 1.0, step = 0.02)
+fvgFaded   = input.float(0.04, "Opacity (already filled part)", group = G_FVGO, minval = 0.0, maxval = 1.0, step = 0.01,
+     tooltip = "The slice of a gap price has already traded into. The untouched remainder keeps the open-part opacity.")
+fvgLabels  = input.bool(true, "Show labels (e.g. 1h FVG)", group = G_FVGO)
+fvgSessLim = input.bool(true, "Stop gaps at the next NY open", group = G_FVGO,
+     tooltip = "A gap grows to the right only until the next NY open line (the vertical NY border), then stays fixed. Off = gaps run to the right edge until filled.")
+
+//══════════════════════════════════════════════════════════════════════════════
+// HELPERS
+//══════════════════════════════════════════════════════════════════════════════
+
+// A layer on a timeframe below the chart's own cannot be rendered meaningfully.
+f1Live = f1On and timeframe.in_seconds(f1Tf) >= timeframe.in_seconds()
+f2Live = f2On and timeframe.in_seconds(f2Tf) >= timeframe.in_seconds()
+
+barDur = math.max(nz(time - time[1]), 1)
+
+// "60" -> "1h", "15" -> "15m", "D" -> "1D"
+tfText(string tf) =>
+    s = timeframe.in_seconds(tf)
+    s < 3600 ? str.tostring(math.floor(s / 60)) + "m" :
+     s < 86400 ? str.tostring(math.floor(s / 3600)) + "h" :
+     s < 604800 ? str.tostring(math.floor(s / 86400)) + "D" : str.tostring(math.floor(s / 604800)) + "W"
+
+//══════════════════════════════════════════════════════════════════════════════
+// 1. VOLUME HIGHLIGHT
+//══════════════════════════════════════════════════════════════════════════════
+
+volAvg = ta.ema(volume, volPeriod)
+heavy  = volOn and volume > volAvg * volFactor
+
+barcolor(heavy ? volColor : na, title = "Volume Highlight")
+
+//══════════════════════════════════════════════════════════════════════════════
+// 2. NY SESSION OPEN — solid dark-gray vertical line + "NY"
+//══════════════════════════════════════════════════════════════════════════════
+// The open time is computed from the New York calendar date (not a session test),
+// so the line lands exactly on 09:30 NY even when that is inside a chart bar.
+
+nyTz   = "America/New_York"
+nyOpenT = timestamp(nyTz, year(time, nyTz), month(time, nyTz), dayofmonth(time, nyTz), nyHour, nyMin, 0)
+// first NY open strictly after this bar: today's if it hasn't happened yet, else tomorrow's
+nyNextT = time < nyOpenT ? nyOpenT : timestamp(nyTz, year(time, nyTz), month(time, nyTz), dayofmonth(time, nyTz) + 1, nyHour, nyMin, 0)
+nyCross = nyOn and bar_index > 0 and timeframe.in_seconds() < 86400 and time >= nyOpenT and nz(time[1]) < nyOpenT
+
+if nyCross
+    line.new(nyOpenT, low, nyOpenT, high, xloc = xloc.bar_time, extend = extend.both,
+         color = nyColor, width = 1, style = line.style_solid)
+    label.new(nyOpenT, high, "NY", xloc = xloc.bar_time, yloc = yloc.abovebar,
+         color = color(na), textcolor = nyColor, style = label.style_label_left, size = size.small)
+
+//══════════════════════════════════════════════════════════════════════════════
+// 3. PREVIOUS DAY HIGH / LOW — blue, solid
+//══════════════════════════════════════════════════════════════════════════════
+// Each line starts at the candle that printed the extreme. Nothing is extended to
+// the right: the current day's lines end at the last bar (with a price label),
+// earlier days stop at the end of their own day. Only the last `Days shown` days are drawn.
+
+type dayRec
+    int   key
+    int   no
+    float hi
+    int   hiT
+    float lo
+    int   loT
+
+pdOffMs = (pdTz - pdDayStart) * 3600000
+dKey    = math.floor((time + pdOffMs) / 86400000)
+
+var array<dayRec> days  = array.new<dayRec>()
+var int           dayNo = 0
+
+var int lastDKey = na
+newDayRec = na(lastDKey) or lastDKey != dKey
+lastDKey := dKey
+
+if newDayRec
+    days.push(dayRec.new(key = dKey, no = dayNo, hi = high, hiT = time, lo = low, loT = time))
+    dayNo += 1
+    if days.size() > pdDays + 3
+        days.shift()
+else
+    dCur = days.last()
+    if high > dCur.hi
+        dCur.hi  := high
+        dCur.hiT := time
+    if low < dCur.lo
+        dCur.lo  := low
+        dCur.loT := time
+
+var array<line>  pdLines  = array.new<line>()
+var array<label> pdLabels = array.new<label>()
+
+if barstate.islast
+    for l in pdLines
+        line.delete(l)
+    pdLines.clear()
+    for lb in pdLabels
+        label.delete(lb)
+    pdLabels.clear()
+
+    nD = days.size()
+    if pdOn and nD >= 2 and timeframe.in_seconds() < 604800
+        shown = 0
+        for idx = nD - 1 to 1
+            prev = days.get(idx - 1)
+            cur  = days.get(idx)
+            // prev.no >= 1 skips the (partial) first day of the data
+            if shown < pdDays and prev.no >= 1 and prev.key == cur.key - 1
+                isCur = idx == nD - 1
+                t2    = isCur ? time : math.round((cur.key + 1) * 86400000 - pdOffMs)   // never extended right
+                col   = color.new(pdColor, isCur ? 10 : 55)
+                pdLines.push(line.new(prev.hiT, prev.hi, t2, prev.hi, xloc = xloc.bar_time,
+                     color = col, width = 1, style = line.style_solid))
+                pdLines.push(line.new(prev.loT, prev.lo, t2, prev.lo, xloc = xloc.bar_time,
+                     color = col, width = 1, style = line.style_solid))
+                if isCur
+                    pdLabels.push(label.new(time + barDur, prev.hi, "PDH " + str.tostring(prev.hi, format.mintick),
+                         xloc = xloc.bar_time, color = color(na), textcolor = pdColor,
+                         style = label.style_label_lower_left, size = size.small))
+                    pdLabels.push(label.new(time + barDur, prev.lo, "PDL " + str.tostring(prev.lo, format.mintick),
+                         xloc = xloc.bar_time, color = color(na), textcolor = pdColor,
+                         style = label.style_label_lower_left, size = size.small))
+                shown += 1
+
+//══════════════════════════════════════════════════════════════════════════════
+// 4. + 5.  FAIR VALUE GAPS — two fixed-TF layers
+//══════════════════════════════════════════════════════════════════════════════
+// Gap = candle 3's low above candle 1's high (bull) / candle 3's high below
+// candle 1's low (bear), measured wick tip to wick tip on the layer's own
+// timeframe. Mitigation walks `fillLvl` into the gap:
+//   bull : starts at the top, walks DOWN      bear : starts at the bottom, walks UP
+//   boxFill = the part price already traded into (almost transparent)
+//   boxLive = the part still open (full opacity)
+// A gap is removed as soon as a wick trades fully through it. Unfilled gaps run to
+// the next NY open line (see option), or the right edge when that is off.
+
+type fvg
+    float hi
+    float lo
+    int   bias
+    float fillLvl
+    int   leftT
+    int   endT
+    int   sec3
+    string txt
+    box   boxFill
+    box   boxLive
+    label lbl
+
+var array<fvg> fvg1 = array.new<fvg>()
+var array<fvg> fvg2 = array.new<fvg>()
+
+fvgKill(fvg f) =>
+    if not na(f.boxFill)
+        f.boxFill.delete()
+        f.boxFill := na
+    if not na(f.boxLive)
+        f.boxLive.delete()
+        f.boxLive := na
+    if not na(f.lbl)
+        f.lbl.delete()
+        f.lbl := na
+
+fvgSync(fvg f, bool show, color col) =>
+    isBull  = f.bias == BULLISH
+    liveTop = isBull ? f.fillLvl : f.hi
+    liveBot = isBull ? f.lo      : f.fillLvl
+    fadeTop = isBull ? f.hi      : f.fillLvl
+    fadeBot = isBull ? f.fillLvl : f.lo
+    if show
+        rightT = math.min(time, f.endT)
+        liveC = color.new(col, 100 - fvgOpacity * 100)
+        fadeC = color.new(col, 100 - math.min(fvgOpacity, fvgFaded) * 100)
+        if na(f.boxLive)
+            f.boxLive := box.new(chart.point.new(f.leftT, na, liveTop), chart.point.new(rightT, na, liveBot),
+                 xloc = xloc.bar_time, border_color = na, bgcolor = liveC)
+        else
+            f.boxLive.set_top(liveTop)
+            f.boxLive.set_bottom(liveBot)
+            if time <= f.endT
+                f.boxLive.set_right(rightT)
+        if fadeTop > fadeBot
+            if na(f.boxFill)
+                f.boxFill := box.new(chart.point.new(f.leftT, na, fadeTop), chart.point.new(rightT, na, fadeBot),
+                     xloc = xloc.bar_time, border_color = na, bgcolor = fadeC)
+            else
+                f.boxFill.set_top(fadeTop)
+                f.boxFill.set_bottom(fadeBot)
+                if time <= f.endT
+                    f.boxFill.set_right(rightT)
+        if fvgLabels and na(f.lbl)
+            f.lbl := label.new(chart.point.new(f.leftT + f.sec3, na, (f.hi + f.lo) / 2), f.txt,
+                 xloc = xloc.bar_time, color = color(na), textcolor = color.new(col, 5),
+                 style = label.style_label_left, size = size.small)
+    else
+        fvgKill(f)
+
+// One layer, one bar: register a new gap (if the layer's TF just completed one),
+// advance mitigation for every tracked gap, then redraw. Returns the new gap's bias.
+fvgLayer(array<fvg> arr, bool live, bool newGap, float c3H, float c3L, float c1H, float c1L, int c1T,
+     string tf, color bullC, color bearC, int maxN) =>
+    int bias = NONE
+    if live
+        if newGap
+            bull = c3L > c1H
+            bear = c3H < c1L
+            if bull or bear
+                gHi = bull ? c3L : c1L
+                gLo = bull ? c1H : c3H
+                arr.unshift(fvg.new(hi = gHi, lo = gLo, bias = bull ? BULLISH : BEARISH,
+                     fillLvl = bull ? gHi : gLo, leftT = c1T,
+                     endT = fvgSessLim ? nyNextT : time + 4000000000,
+                     sec3 = timeframe.in_seconds(tf) * 3000, txt = tfText(tf) + " FVG",
+                     boxFill = na, boxLive = na, lbl = na))
+                bias := bull ? BULLISH : BEARISH
+                while arr.size() > 60
+                    fvgKill(arr.pop())
+        if arr.size() > 0
+            for i = arr.size() - 1 to 0
+                f    = arr.get(i)
+                isB  = f.bias == BULLISH
+                done = false
+                if isB
+                    f.fillLvl := math.min(f.fillLvl, math.max(low, f.lo))
+                    done := low <= f.lo
+                else
+                    f.fillLvl := math.max(f.fillLvl, math.min(high, f.hi))
+                    done := high >= f.hi
+                if done
+                    fvgKill(f)
+                    arr.remove(i)
+                else
+                    fvgSync(f, i < maxN, isB ? bullC : bearC)
+    bias
+
+// Completed bars of each layer's timeframe: c3 = last closed bar, c1 = two bars before it.
+[f1C3H, f1C3L, f1C3T, f1C1H, f1C1L, f1C1T] = request.security(syminfo.tickerid, f1Tf,
+     [high[1], low[1], time[1], high[3], low[3], time[3]], lookahead = barmerge.lookahead_on)
+[f2C3H, f2C3L, f2C3T, f2C1H, f2C1L, f2C1T] = request.security(syminfo.tickerid, f2Tf,
+     [high[1], low[1], time[1], high[3], low[3], time[3]], lookahead = barmerge.lookahead_on)
+
+f1New = bar_index > 0 and not na(f1C3T) and f1C3T != nz(f1C3T[1])
+f2New = bar_index > 0 and not na(f2C3T) and f2C3T != nz(f2C3T[1])
+
+f1Bias = fvgLayer(fvg1, f1Live, f1New, f1C3H, f1C3L, f1C1H, f1C1L, f1C1T, f1Tf, f1Bull, f1Bear, f1Max)
+f2Bias = fvgLayer(fvg2, f2Live, f2New, f2C3H, f2C3L, f2C1H, f2C1L, f2C1T, f2Tf, f2Bull, f2Bear, f2Max)
+
+//══════════════════════════════════════════════════════════════════════════════
+// ALERTS
+//══════════════════════════════════════════════════════════════════════════════
+
+alertcondition(nyCross,           "NY Open",          "New York open")
+alertcondition(f1Bias == BULLISH, "FVG L1 Bullish",   "Layer 1 bullish FVG formed")
+alertcondition(f1Bias == BEARISH, "FVG L1 Bearish",   "Layer 1 bearish FVG formed")
+alertcondition(f2Bias == BULLISH, "FVG L2 Bullish",   "Layer 2 bullish FVG formed")
+alertcondition(f2Bias == BEARISH, "FVG L2 Bearish",   "Layer 2 bearish FVG formed")

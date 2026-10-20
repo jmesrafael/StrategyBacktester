@@ -267,7 +267,7 @@ const ChartView = (() => {
   function toggleVolume(on) { volume.applyOptions({ visible: on }); }
 
   // Optional transform applied to candles before setData (e.g. volume highlight).
-  let _sliceTransform = null;
+  let _sliceTransform = null, _sliceLen = 0;
   function setSliceTransform(fn) { _sliceTransform = fn; }
 
   // Render a slice of candles (used on cut + each replay frame).
@@ -275,6 +275,11 @@ const ChartView = (() => {
   function setSlice(candles, formingBar) {
     const T = CFG.THEME;
     const src = _sliceTransform ? _sliceTransform(candles) : candles;
+    // Shrinking the data (replay cut / step back / rewind) makes LWC slide the view to keep
+    // its right-edge offset from the last bar — pin the user's visible range instead.
+    const shrinking = candles.length < _sliceLen;
+    const keepRange = shrinking ? chart.timeScale().getVisibleLogicalRange() : null;
+    _sliceLen = candles.length;
 
     if (chartType === 'heiken_ashi') {
       const all = formingBar ? [...src, formingBar] : src;
@@ -294,10 +299,13 @@ const ChartView = (() => {
       closeLine.setData(all.map((c) => ({ time: c.time, value: c.close })));
     }
 
-    volume.setData(candles.concat(formingBar ? [formingBar] : []).map((c) => ({
+    // high-volume bars (recolored by the slice transform) get a white volume bar too
+    volume.setData(candles.concat(formingBar ? [formingBar] : []).map((c, i) => ({
       time: c.time, value: c.volume || 0,
-      color: c.close >= c.open ? T.volUp : T.volDown,
+      color: src[i] && src[i] !== c && src[i].color ? src[i].color : (c.close >= c.open ? T.volUp : T.volDown),
     })));
+
+    if (keepRange) chart.timeScale().setVisibleLogicalRange(keepRange);
   }
 
   // lighter update path while animating one forming candle
@@ -378,6 +386,14 @@ const ChartView = (() => {
     setLogicalRange(idx + pad - width, idx + pad);
   }
 
+  // Replay follow that respects the user's view: leave zoom/position alone while bar
+  // `idx` is on screen; only scroll (same zoom) once it runs off the right edge.
+  function followIfOffscreen(idx) {
+    const lr = chart.timeScale().getVisibleLogicalRange();
+    if (!lr) return;
+    if (idx > lr.to - 1) followIndex(idx, lr.to - lr.from);
+  }
+
   function scrollToRealtime() { chart.timeScale().scrollToRealTime(); }
   function getChart() { return chart; }
   function getCandleSeries() { return candle; }
@@ -389,7 +405,7 @@ const ChartView = (() => {
     setGridVisible, setGridColor, setCrosshairMode, addLineIndicator, addPaneSeries, setPaneHeight,
     setCandleMarkers, clearCandleMarkers, toggleVolume, setCursor,
     nudgePriceZoom, panPrice, resetPriceZoom,
-    setTimeline, visibleBars, setLogicalRange, fitData, resetView, followIndex,
+    setTimeline, visibleBars, setLogicalRange, fitData, resetView, followIndex, followIfOffscreen,
     scrollToRealtime, getChart, getCandleSeries, getVolumeSeries,
     onCrosshairMove, onPriceRangeChange, fmtVol };
 })();
