@@ -14,6 +14,7 @@ window.__STRATEGIES = window.__STRATEGIES || {};
 window.STRATEGY_REGISTRY = [
   { id: 'nysmcv7', label: '★ NY SMC v7 · CHoCH → FVG', special: true },
   { id: 'bbbreakout', label: '★ BB Breakout · 4h trend', special: true },
+  { id: 'fvgpullback', label: '★ FVG Pullback · 4h', special: true },
   { id: 'emarsidiv', label: 'EMA + RSI Divergence' },
   { id: 'htftrend', label: 'HTF Trend + ATR Risk' },
   { id: 'emacross', label: 'EMA Crossover' },

@@ -12,7 +12,7 @@ const SHELL = [
   'js/api.js', 'js/indicators.js', 'js/chart.js',
   'js/indicators-ui.js', 'js/replay.js', 'js/drawings.js', 'js/fvg.js', 'js/smc.js', 'js/trade-sim.js',
   'js/strategy.js', 'js/data-page.js', 'js/supabase-client.js', 'js/app.js', 'js/mobile.js',
-  'strategies/registry.js', 'strategies/ema-rsi-divergence-strategy.js', 'strategies/ny-smc-v7-strategy.js', 'strategies/bb-breakout-strategy.js',
+  'strategies/registry.js', 'strategies/ema-rsi-divergence-strategy.js', 'strategies/ny-smc-v7-strategy.js', 'strategies/bb-breakout-strategy.js', 'strategies/fvg-pullback-strategy.js',
   'strategies/emacross-strategy.js', 'strategies/rsi-strategy.js', 'strategies/htf-trend-atr-strategy.js',
   'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png',
 ];

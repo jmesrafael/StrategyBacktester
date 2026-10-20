@@ -38,6 +38,7 @@
         ['Held-out 2023–26 (same 3 coins)', '+0.13R / trade · 616 trades'],
         ['Held-out, 10 coins never tuned', '+0.09R / trade · 8 of 10 profit'],
         ['SOL + ETH at $5 risk, held-out', '≈ +$6 / month · max DD $129'],
+        ['SOL + ZEC + DOGE, held-out (ZEC/DOGE untuned)', '+0.21R / trade · 620 trades · ≈ +$14 / month at $5'],
         ['Costs ×3 (fees + slippage)', '+0.03R / trade (≈ break-even)'],
       ],
       data: 'Binance USDT-M futures, 4h; BTC/ETH/SOL 2019–26 plus BNB XRP DOGE ADA AVAX LINK LTC DOT TRX BCH.',

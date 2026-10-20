@@ -22,6 +22,10 @@ const _bars = {};
 function bars(sym, min) {
   const key = sym + min;
   if (_bars[key]) return _bars[key];
+  const TFN = { 5: '5m', 15: '15m', 60: '1h', 240: '4h' }[min];
+  const ftf = TFN && path.join(__dirname, 'datatf', TFN, sym + '.json'); // native klines from fetchtf.js
+  if (ftf && fs.existsSync(ftf))
+    return (_bars[key] = JSON.parse(fs.readFileSync(ftf, 'utf8')).map((r) => ({ time: r[0], open: r[1], high: r[2], low: r[3], close: r[4], volume: r[5] })));
   const f4 = path.join(__dirname, 'data4h', sym + '.json'); // coins with only native 4h data (fetch4h.js)
   if (min === 240 && fs.existsSync(f4))
     return (_bars[key] = JSON.parse(fs.readFileSync(f4, 'utf8')).map((r) => ({ time: r[0], open: r[1], high: r[2], low: r[3], close: r[4], volume: r[5] })));
@@ -106,6 +110,83 @@ function run(B, sig, warm, cost = COST) {
   }
 }
 
+// ---- limit-order engine (pullback entries). Mirrors the app's simulate(): a limit order decided on bar i's close is placed at bar
+// i+1's open and rests until a bar trades through it (fill at the limit, or at the open if the bar gapped past it, NO slippage). On a
+// bar where the fill happened mid-bar only the stop counts (the bar's best price may have come first) and no trail / break-even is
+// armed. Stops / targets are absolute prices; exits pay slippage; commission both sides.
+// sig(i) -> null | { dir, limit, stop, tp?, expire (bars the order may rest, 0 = forever), maxBars? } | { cancel: true }
+function runLO(B, sig, warm, cost = COST) {
+  const n = B.length, trades = [];
+  let pos = null, pending = null, resting = null;
+  for (let i = 0; i < n; i++) {
+    const c = B[i];
+    if (pending) {
+      if (pending.kind === 'limit') { if (!pos) resting = { ...pending.o, sigBar: pending.sigBar }; }
+      else if (pending.kind === 'cancel') resting = null;
+      else if (pending.kind === 'close' && pos) closeAt(c.open, i, 'time');
+      pending = null;
+    }
+    let limitBar = false;
+    if (resting && !pos) {
+      const d = resting.dir, lim = resting.limit;
+      const buf = resting.buf || 0; // stress: price must trade THROUGH the limit by `buf` before it counts as filled (touch is not a fill)
+      const fill = d === 1 ? (c.low <= lim - buf ? Math.min(c.open, lim) : null) : (c.high >= lim + buf ? Math.max(c.open, lim) : null);
+      if (fill != null) {
+        const o = resting; resting = null;
+        const dist = Math.abs(fill - o.stop) / fill;
+        if (dist > 0 && (d === 1 ? o.stop < fill : o.stop > fill)) {
+          pos = { dir: d, entry: fill, i0: i, sl: o.stop, tp: o.tp == null ? null : o.tp, maxBars: o.maxBars || 0, dist, beR: o.be == null ? null : o.be, beDone: false };
+          limitBar = fill !== c.open;
+        }
+      }
+    }
+    if (pos) {
+      const d = pos.dir;
+      const hitSL = d === 1 ? c.low <= pos.sl : c.high >= pos.sl;
+      const hitTP = !limitBar && pos.tp != null && (d === 1 ? c.high >= pos.tp : c.low <= pos.tp);
+      if (hitSL) closeAt(d === 1 ? Math.min(pos.sl, c.open) : Math.max(pos.sl, c.open), i, 'sl');
+      else if (hitTP) closeAt(d === 1 ? Math.max(pos.tp, c.open) : Math.min(pos.tp, c.open), i, 'tp');
+      if (pos && !limitBar) {
+        if (pos.beR != null && !pos.beDone && (d === 1 ? c.high >= pos.beR : c.low <= pos.beR)) {
+          pos.beDone = true; if (d === 1 ? pos.entry > pos.sl : pos.entry < pos.sl) pos.sl = pos.entry;
+        }
+      }
+      if (pos && pos.maxBars && i - pos.i0 >= pos.maxBars) pending = { kind: 'close' };
+    }
+    if (!pos && i >= warm && i < n - 1) {
+      const o = sig(i);
+      if (o && o.cancel) pending = { kind: 'cancel' };
+      else if (o) pending = { kind: 'limit', o, sigBar: i };
+      else if (resting && resting.expire && i - resting.sigBar >= resting.expire) pending = { kind: 'cancel' };
+    }
+  }
+  if (pos) closeAt(B[n - 1].close, n - 1, 'end');
+  return trades;
+
+  function closeAt(price, i, why) {
+    const d = pos.dir, exit = price * (1 - d * cost.slip);
+    const R = (d * (exit - pos.entry) / pos.entry - 2 * cost.comm) / pos.dist;
+    trades.push({ dir: d, i0: pos.i0, i1: i, t: B[pos.i0].time, R, why });
+    pos = null;
+  }
+}
+
+// SMA(n) of a higher timeframe's closes, read at each base bar's close using only HTF bars that have CLOSED by then.
+const _htf = {};
+function htfSma(sym, min, htfMin, n) {
+  const key = [sym, min, htfMin, n].join();
+  if (_htf[key]) return _htf[key];
+  const B = bars(sym, min), H = bars(sym, htfMin), hs = htfMin * 60, bs = min * 60;
+  const sm = IND.sma(H.map((h) => h.close), n), out = new Array(B.length).fill(null);
+  let j = -1;
+  for (let i = 0; i < B.length; i++) {
+    const ct = B[i].time + bs;
+    while (j + 1 < H.length && H[j + 1].time + hs <= ct) j++;
+    out[i] = j >= 0 ? sm[j] : null;
+  }
+  return (_htf[key] = out);
+}
+
 const sum = (a) => a.reduce((x, y) => x + y, 0);
 function stats(tr) {
   const n = tr.length;
@@ -121,4 +202,4 @@ const ts = (y, m = 1) => Date.UTC(y, m - 1, 1) / 1000;
 const slice = (tr, a, b) => tr.filter((t) => t.t >= a && t.t < b);
 const f2 = (v) => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(2);
 
-module.exports = { IND, bars, ind, run, stats, slice, ts, sum, f2, COST };
+module.exports = { IND, bars, ind, run, runLO, htfSma, stats, slice, ts, sum, f2, COST };
