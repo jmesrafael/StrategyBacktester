@@ -1,0 +1,8 @@
+{
+  "coins": ["SOL", "ZEC"],
+  "riskPct": 0.05,
+  "startBalance": 100,
+  "riskUsd": 1,
+  "haltAtR": -39,
+  "maxEntryDelaySec": 900
+}

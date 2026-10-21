@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BB Core Checker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lightweight-charts@5.0.0/dist/lightweight-charts.standalone.production.js"></script>
+<script src="bb-breakout.js"></script>
+<style>
+  :root { --bg:#0b0b0d; --panel:#141418; --line:#26262d; --text:#e5e7eb; --dim:#8b8f98; --long:#22c55e; --short:#ef5350; --band:#42a5f5; --sma:#ffb74d; --warn:#f59e0b; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:13px/1.4 'Space Grotesk', 'Segoe UI', system-ui, sans-serif; }
+  header { display:flex; flex-wrap:wrap; gap:10px; align-items:center; padding:10px 16px; border-bottom:1px solid var(--line); background:var(--panel); }
+  header h1 { font-size:15px; margin:0 12px 0 0; }
+  label { color:var(--dim); font-size:12px; display:flex; gap:6px; align-items:center; }
+  select, input, button { background:#1c1c22; color:var(--text); border:1px solid var(--line); border-radius:4px; padding:4px 6px; font:inherit; }
+  button { cursor:pointer; } button:hover { border-color:var(--band); }
+  #stats { display:flex; flex-wrap:wrap; gap:6px 18px; padding:8px 16px; border-bottom:1px solid var(--line); font-variant-numeric:tabular-nums; }
+  #stats b { color:var(--text); } #stats span { color:var(--dim); }
+  main { display:grid; grid-template-columns: 1fr 400px; height: calc(100vh - 92px); min-height:500px; }
+  #chart { position:relative; min-width:0; }
+  aside { border-left:1px solid var(--line); overflow:auto; background:var(--panel); }
+  section { padding:10px 12px; border-bottom:1px solid var(--line); }
+  h2 { font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); margin:0 0 6px; }
+  table { border-collapse:collapse; width:100%; font-variant-numeric:tabular-nums; }
+  td, th { padding:2px 4px; text-align:right; white-space:nowrap; } th { color:var(--dim); font-weight:500; }
+  td:first-child, th:first-child { text-align:left; }
+  #trades tr { cursor:pointer; } #trades tr:hover td { background:#1d1d24; } #trades tr.sel td { background:#22304a; }
+  .pos { color:var(--long); } .neg { color:var(--short); } .dim { color:var(--dim); } .ok { color:var(--long); } .bad { color:var(--short); font-weight:600; } .warn { color:var(--warn); }
+  .check td:first-child { white-space:normal; }
+  #tradesWrap { max-height: 320px; overflow:auto; }
+  #audit { font-weight:600; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; height:auto; } #chart { height:60vh; } aside { border-left:0; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>🎯 BB Core — trigger checker</h1>
+  <label>Data <select id="src">
+    <option value="SOL">SOL · Binance file</option><option value="ZEC">ZEC · Binance file</option>
+    <option value="MEXC_SOL">SOL · MEXC file</option><option value="MEXC_ZEC">ZEC · MEXC file</option>
+    <option value="live:SOL" selected>SOL · MEXC LIVE</option><option value="live:ZEC">ZEC · MEXC LIVE</option>
+    <option value="BTC">BTC · Binance</option><option value="NEAR">NEAR · Binance</option><option value="ADA">ADA · Binance</option>
+  </select></label>
+  <label>Costs <select id="cost">
+    <option value="base">Base: 0.05% taker / 0.02% maker TP, 0.02% slip</option>
+    <option value="f8s5" selected>0.08% fee every fill, 0.05% slip</option>
+    <option value="f8s10">0.08% fee, 0.10% slip</option>
+    <option value="free">Frictionless</option>
+  </select></label>
+  <label>Target R <input id="tr" type="number" value="4" step="0.5" min="1" style="width:56px"></label>
+  <label>Risk $ <input id="risk" type="number" value="5" step="1" min="1" style="width:56px"></label>
+  <button id="prev">◀ prev</button><button id="next">next ▶</button>
+  <span id="msg" class="dim"></span>
+</header>
+<div id="stats"></div>
+<main>
+  <div id="chart"></div>
+  <aside>
+    <section><h2>Independent audit</h2><div id="audit">—</div><div id="auditDetail" class="dim"></div></section>
+    <section><h2>Selected trade — why it triggered</h2><div id="check" class="dim">Click a trade (table or chart marker) to see every rule checked.</div></section>
+    <section><h2>Clicked candle</h2><div id="candle" class="dim">Click any candle on the chart.</div></section>
+    <section><h2>Now (last closed candle)</h2><div id="now" class="dim">—</div></section>
+    <section><h2>By year</h2><div id="years"></div></section>
+    <section><h2>Trades</h2><div id="tradesWrap"><table id="trades"></table></div></section>
+  </aside>
+</main>
+<script>
+'use strict';
+// The trades come from BBCore.backtest() — the exact file the bot and backtest.js use.
+// Everything in the "audit" / "why it triggered" panels is recomputed HERE with separate code (own Bollinger, SMA, ATR, own exit walk),
+// so if the engine ever triggered wrongly — or missed a trigger — the two would disagree and it shows in red.
+const LW = LightweightCharts, $ = (id) => document.getElementById(id), IV = 14400;
+const COSTS = {
+  base: BBCore.DEFAULTS.cost,
+  f8s5: { entryFee: 0.0008, stopFee: 0.0008, timeFee: 0.0008, tpFee: 0.0008, slip: 0.0005, tpSlip: 0.0005, tpBuf: 0.0005 },
+  f8s10: { entryFee: 0.0008, stopFee: 0.0008, timeFee: 0.0008, tpFee: 0.0008, slip: 0.001, tpSlip: 0.001, tpBuf: 0.0005 },
+  free: BBCore.FREE,
+};
+let B = [], forming = null, res = null, ind = null, sel = -1, priceLines = [], stateLines = [], funding = null, label = '', liveTimer = null;
+
+// ---------- chart: same look as the app (js/chart.js + js/config.js THEME, mono candles) ----------
+const T = { bg: '#0b0b0d', text: '#ffffff', border: '#2a2d35', up: '#d1d4dc', down: '#5d6069', volUp: 'rgba(209,212,220,0.32)', volDown: 'rgba(120,123,134,0.32)' };
+const chart = LW.createChart($('chart'), {
+  layout: { background: { color: T.bg }, textColor: T.text, fontSize: 10, fontFamily: "'Space Grotesk','Segoe UI',system-ui,sans-serif" },
+  grid: { vertLines: { visible: false }, horzLines: { visible: false } },
+  rightPriceScale: { borderColor: T.border, scaleMargins: { top: 0.06, bottom: 0.18 } },
+  timeScale: { borderColor: T.border, timeVisible: true, secondsVisible: false, rightOffset: 6, minBarSpacing: 0.5 },
+  crosshair: { mode: LW.CrosshairMode.Normal,
+    vertLine: { color: 'rgba(178,181,190,0.35)', width: 1, style: 3, labelBackgroundColor: T.border },
+    horzLine: { color: 'rgba(178,181,190,0.35)', width: 1, style: 3, labelBackgroundColor: T.border } },
+  autoSize: true,
+});
+const candles = chart.addSeries(LW.CandlestickSeries, { upColor: T.up, borderUpColor: T.up, wickUpColor: T.up, downColor: T.down, borderDownColor: T.down, wickDownColor: T.down, priceLineVisible: false });
+const volume = chart.addSeries(LW.HistogramSeries, { priceScaleId: 'vol', priceFormat: { type: 'volume' }, priceLineVisible: false, lastValueVisible: false });
+chart.priceScale('vol').applyOptions({ scaleMargins: { top: 0.82, bottom: 0 } });
+// whitespace-only series with future slots, so boxes / setups can be drawn to the right of the last candle (like the app's timeline)
+const timeline = chart.addSeries(LW.LineSeries, { lineVisible: false, pointMarkersVisible: false, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false, autoscaleInfoProvider: () => null });
+const mkLine = (color, style) => chart.addSeries(LW.LineSeries, { color, lineWidth: 1, lineStyle: style || 0, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false });
+const L = { up: mkLine('#42a5f5'), mid: mkLine('#42a5f5', LW.LineStyle.Dotted), lo: mkLine('#42a5f5'), sma: mkLine('#ffb74d') };
+chart.subscribeClick((p) => {
+  if (!p.time) return;
+  const i = B.findIndex((b) => b.time === p.time); if (i < 0) return;
+  const k = res.trades.findIndex((t) => i >= t.i0 - 1 && i <= t.i1);
+  showCandle(i);
+  if (k >= 0) select(k, false);
+});
+
+// ---------- canvas overlay: the BB Breakout drawing from js/bbx.js (boxes, arrows, R labels, open trade, new setup) ----------
+const host = $('chart'), canvas = document.createElement('canvas');
+canvas.style.cssText = 'position:absolute;inset:0;z-index:2;pointer-events:none;';
+host.appendChild(canvas);
+const ctx = canvas.getContext('2d');
+const C = { long: '#22c55e', short: '#ef5350', tp: 'rgba(34,197,94,', sl: 'rgba(239,83,80,' };
+function resize() {
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = host.clientWidth * dpr; canvas.height = host.clientHeight * dpr;
+  canvas.style.width = host.clientWidth + 'px'; canvas.style.height = host.clientHeight + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+resize();
+new ResizeObserver(() => { resize(); render(); }).observe(host);
+chart.timeScale().subscribeVisibleLogicalRangeChange(render);
+chart.subscribeCrosshairMove(render);
+host.addEventListener('wheel', render, { passive: true, capture: true });
+window.addEventListener('pointermove', (e) => { if (e.buttons) render(); }, { passive: true });
+const tx = (t) => chart.timeScale().timeToCoordinate(t), ty = (p) => candles.priceToCoordinate(p);
+function render() {
+  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.restore();
+  if (!res || !B.length) return;
+  const W = host.clientWidth, n = B.length;
+  const xc = (i) => { const t = i < n ? B[i].time : B[n - 1].time + (i - n + 1) * IV; const x = tx(t); return x == null ? (i >= n ? W : null) : x; };
+  const bw = n > 1 && xc(n - 1) != null && xc(n - 2) != null ? Math.max(1, xc(n - 1) - xc(n - 2)) : 6;
+  // boxes span whole candles: from the left edge of the entry candle to the right edge of the exit candle
+  const xAt = (i, right) => { const x = xc(i); return x == null ? null : x + (right ? bw / 2 : -bw / 2); };
+  res.trades.forEach((t, k) => {
+    const x0 = xAt(t.i0), x1 = xAt(t.i1, true);
+    if (x0 == null || x1 == null || x1 < 0 || x0 > W) return;
+    const on = k === sel;
+    box(x0, x1, t.entry, t.tp, t.stop, on ? 0.26 : 0.10, on);
+    const y = ty(t.why === 'target' ? t.tp : t.why === 'stop' ? t.stop : t.exit);
+    if (y != null) drawLabel(x1 + 3, y, `${t.R >= 0 ? '+' : ''}${t.R.toFixed(1)}R${t.why === 'time' ? ' ⏱' : ''}`, t.R > 0 ? C.long : C.short, on);
+    arrow(x0 + bw / 2, ty(t.entry), t.dir);
+  });
+  const last = B[n - 1], tr = +$('tr').value || 4;
+  if (res.open) {
+    const o = res.open, x0 = xAt(o.i0), x1 = xAt(n - 1 + 6, true), R = o.dir * (last.close - o.entry) / Math.abs(o.entry - o.stop);
+    if (x0 != null && x1 != null) {
+      box(x0, x1, o.entry, o.tp, o.stop, 0.22, true); arrow(x0 + bw / 2, ty(o.entry), o.dir);
+      drawLabel(x1 + 3, ty(o.entry), `${o.dir === 1 ? 'LONG' : 'SHORT'} open · ${R >= 0 ? '+' : ''}${R.toFixed(2)}R · candle ${o.bars}/48${o.exitNext ? ' · exits next open' : ''}`, o.dir === 1 ? C.long : C.short, true);
+      drawLabel(x1 + 3, ty(o.tp), `TP ${fmt(o.tp)}`, C.long, false); drawLabel(x1 + 3, ty(o.stop), `SL ${fmt(o.stop)}`, C.short, false);
+    }
+  } else if (res.setup) {
+    const s = res.setup, x0 = xAt(n), x1 = xAt(n + 8, true);
+    if (x0 != null && x1 != null) {
+      box(x0, x1, s.sigClose, s.tp, s.stop, 0.22, true, true);
+      drawLabel(x1 + 3, ty(s.sigClose), `NEW SETUP ${s.dir === 1 ? 'LONG' : 'SHORT'} · enter next open ≈ ${fmt(s.sigClose)}`, s.dir === 1 ? C.long : C.short, true);
+      drawLabel(x1 + 3, ty(s.tp), `TP ${fmt(s.tp)} (${tr}R)`, C.long, false); drawLabel(x1 + 3, ty(s.stop), `SL ${fmt(s.stop)}`, C.short, false);
+    }
+  }
+}
+function box(x0, x1, entry, tp, stop, alpha, strong, dashed) {
+  const ye = ty(entry), yt = ty(tp), ys = ty(stop);
+  if (ye == null || yt == null || ys == null) return;
+  const w = Math.max(2, x1 - x0);
+  ctx.fillStyle = C.tp + alpha + ')'; ctx.fillRect(x0, Math.min(ye, yt), w, Math.abs(yt - ye));
+  ctx.fillStyle = C.sl + alpha + ')'; ctx.fillRect(x0, Math.min(ye, ys), w, Math.abs(ys - ye));
+  ctx.save();
+  ctx.strokeStyle = strong ? 'rgba(229,231,235,0.85)' : 'rgba(229,231,235,0.35)'; ctx.lineWidth = 1;
+  if (dashed) ctx.setLineDash([4, 3]);
+  ctx.beginPath(); ctx.moveTo(x0, ye); ctx.lineTo(x0 + w, ye); ctx.stroke();
+  ctx.restore();
+}
+function arrow(x, y, dir) {
+  if (y == null) return;
+  ctx.save(); ctx.fillStyle = dir === 1 ? C.long : C.short; ctx.beginPath();
+  if (dir === 1) { ctx.moveTo(x, y + 2); ctx.lineTo(x - 4, y + 9); ctx.lineTo(x + 4, y + 9); } else { ctx.moveTo(x, y - 2); ctx.lineTo(x - 4, y - 9); ctx.lineTo(x + 4, y - 9); }
+  ctx.closePath(); ctx.fill(); ctx.restore();
+}
+function drawLabel(x, y, text, color, bold) {
+  if (y == null) return;
+  ctx.save(); ctx.font = `${bold ? '600 ' : ''}10px 'Space Grotesk','Segoe UI',sans-serif`;
+  const w = ctx.measureText(text).width, X = Math.min(x, host.clientWidth - w - 62);
+  ctx.fillStyle = 'rgba(11,11,13,0.75)'; ctx.fillRect(X - 2, y - 7, w + 4, 13);
+  ctx.fillStyle = color; ctx.textBaseline = 'middle'; ctx.fillText(text, X, y); ctx.restore();
+}
+
+// ---------- independent indicator math (deliberately NOT the engine's code) ----------
+function indicators(B) {
+  const n = B.length, up = Array(n).fill(null), mid = Array(n).fill(null), lo = Array(n).fill(null), sma = Array(n).fill(null), atr = Array(n).fill(null);
+  let s20 = 0, s200 = 0;
+  for (let i = 0; i < n; i++) {
+    s20 += B[i].close; if (i >= 20) s20 -= B[i - 20].close;
+    s200 += B[i].close; if (i >= 200) s200 -= B[i - 200].close;
+    if (i >= 19) { const m = s20 / 20; let v = 0; for (let j = i - 19; j <= i; j++) v += (B[j].close - m) ** 2; const sd = Math.sqrt(v / 20); mid[i] = m; up[i] = m + 2 * sd; lo[i] = m - 2 * sd; }
+    if (i >= 199) sma[i] = s200 / 200;
+  }
+  const tr = B.map((b, i) => (i ? Math.max(b.high - b.low, Math.abs(b.high - B[i - 1].close), Math.abs(b.low - B[i - 1].close)) : b.high - b.low));
+  for (let i = 13; i < n; i++) atr[i] = i === 13 ? tr.slice(0, 14).reduce((a, b) => a + b, 0) / 14 : (atr[i - 1] * 13 + tr[i]) / 14;
+  return { up, mid, lo, sma, atr };
+}
+// what the rules say about candle i, from the independent indicators
+function rulesAt(i, targetR) {
+  const c = B[i], r = { i, close: c.close, up: ind.up[i], mid: ind.mid[i], lo: ind.lo[i], sma: ind.sma[i], atr: ind.atr[i] };
+  r.warm = i >= 202 && r.sma != null;
+  r.aboveUp = c.close > r.up; r.belowLo = c.close < r.lo;
+  r.dir = r.aboveUp ? 1 : r.belowLo ? -1 : 0;
+  r.trendOk = r.dir === 1 ? c.close >= r.sma : r.dir === -1 ? c.close <= r.sma : false;
+  r.dist = Math.abs(c.close - r.mid); r.distAtr = r.dist / r.atr; r.stopOk = r.dist > 0 && r.distAtr >= 0.3;
+  r.signal = r.warm && r.dir !== 0 && r.trendOk && r.stopOk;
+  r.stop = r.mid; r.tp = c.close + r.dir * targetR * r.dist;
+  return r;
+}
+// independent exit walk for a position entered at candle i0
+function walkExit(i0, dir, stop, tp, cost) {
+  for (let i = i0; i < B.length; i++) {
+    const c = B[i];
+    if (dir === 1 ? c.low <= stop : c.high >= stop) return { i1: i, why: 'stop' };
+    if (dir === 1 ? c.high >= tp * (1 + cost.tpBuf) : c.low <= tp * (1 - cost.tpBuf)) return { i1: i, why: 'target' };
+    if (i - i0 >= 48 && i + 1 < B.length) return { i1: i + 1, why: 'time' };
+  }
+  return { i1: B.length - 1, why: 'end' };
+}
+
+// ---------- audit: every trade re-derived + every flat candle checked for a missed signal ----------
+function audit(targetR, cost) {
+  const bad = [], blocked = new Uint8Array(B.length);
+  res.trades.forEach((t, k) => {
+    for (let i = t.i0; i < t.i1; i++) blocked[i] = 1;
+    const r = rulesAt(t.i0 - 1, targetR), x = walkExit(t.i0, t.dir, t.stop, t.tp, cost);
+    const fill = B[t.i0].open * (1 + t.dir * cost.slip), eq = (a, b) => Math.abs(a - b) <= 1e-9 * Math.max(1, Math.abs(b));
+    const fails = [];
+    if (!r.signal || r.dir !== t.dir) fails.push('signal');
+    if (!eq(t.stop, r.stop)) fails.push('stop');
+    if (!eq(t.tp, r.tp)) fails.push('target');
+    if (!eq(t.entry, fill)) fails.push('entry fill');
+    if (x.i1 !== t.i1 || x.why !== t.why) fails.push(`exit (engine ${t.why}@${t.i1}, independent ${x.why}@${x.i1})`);
+    t.audit = fails; if (fails.length) bad.push(k);
+  });
+  // flat candles: the rules must NOT have fired there (or the fill gapped past the stop, which the rule skips)
+  const sigIdx = new Set(res.trades.map((t) => t.i0 - 1));
+  let missed = [], gapSkips = 0;
+  for (let i = 202; i < B.length - 1; i++) {
+    if (blocked[i] || sigIdx.has(i)) continue;
+    const r = rulesAt(i, targetR);
+    if (!r.signal) continue;
+    const fill = B[i + 1].open * (1 + r.dir * cost.slip);
+    if (r.dir === 1 ? r.stop >= fill : r.stop <= fill) { gapSkips++; continue; }
+    missed.push(i);
+  }
+  return { bad, missed, gapSkips };
+}
+
+// ---------- load + run ----------
+async function loadData(src) {
+  if (src.startsWith('live:')) {
+    const coin = src.slice(5), end = Math.floor(Date.now() / 1000), start = end - 1999 * IV;
+    const r = await fetch(`/mexc/api/v1/contract/kline/${coin}_USDT?interval=Hour4&start=${start}&end=${end}`);
+    const j = await r.json(); if (!j.success) throw new Error('MEXC proxy: ' + (j.message || 'failed') + ' — start the server with  npm run serve');
+    let rows = j.data.time.map((t, i) => ({ time: t, open: +j.data.open[i], high: +j.data.high[i], low: +j.data.low[i], close: +j.data.close[i], volume: +j.data.vol[i] }));
+    forming = rows.length && rows[rows.length - 1].time + IV > Date.now() / 1000 ? rows.pop() : null; // drawn on the chart, never used for signals
+    funding = null; label = `${coin} · MEXC LIVE · ${rows.length} closed candles${forming ? ' + forming' : ''} · updated ${new Date().toLocaleTimeString()}`;
+    return rows;
+  }
+  forming = null;
+  const rows = await (await fetch(`data/${src}.json`)).json();
+  const fj = async (f) => { try { const r = await fetch(`data/funding/${f}.json`); return r.ok ? r.json() : null; } catch { return null; } };
+  funding = await fj(src);
+  if (src.startsWith('MEXC_')) { const bin = (await fj(src.slice(5))) || [], own = funding || []; funding = [...bin.filter((r) => !own.length || r[0] < own[0][0]), ...own]; }
+  label = `${src} file`;
+  return rows.map((r) => ({ time: r[0], open: r[1], high: r[2], low: r[3], close: r[4], volume: r[5] || 0 }));
+}
+
+async function run(refresh) {
+  const live = $('src').value.startsWith('live:');
+  if (!refresh) $('msg').textContent = 'loading…';
+  try { B = await loadData($('src').value); } catch (e) { $('msg').innerHTML = `<span class="bad">${e.message}</span>`; return; }
+  const keep = refresh ? { range: chart.timeScale().getVisibleLogicalRange(), sel } : null;
+  recompute(!refresh);
+  if (keep) { if (keep.range) chart.timeScale().setVisibleLogicalRange(keep.range); if (keep.sel >= 0) select(keep.sel, false); }
+  clearInterval(liveTimer); liveTimer = live ? setInterval(() => run(true), 30000) : null; // live: refresh every 30s (forming candle moves, new closes trigger)
+}
+function recompute(fit) {
+  const targetR = +$('tr').value || 4, cost = COSTS[$('cost').value], risk = +$('risk').value || 5;
+  res = BBCore.backtest(B, { targetR, cost }, funding);
+  ind = indicators(B);
+  const T = res.trades.slice().sort((a, b) => a.tExit - b.tExit), s = BBCore.stats(T, risk);
+  // chart
+  const shown = forming ? [...B, forming] : B;     // the forming candle is drawn (bands include it, like the app) but never traded on
+  candles.setData(shown.map(({ time, open, high, low, close }) => ({ time, open, high, low, close })));
+  volume.setData(shown.map((c) => ({ time: c.time, value: c.volume || 0, color: c.close >= c.open ? T.volUp : T.volDown })));
+  const lastT = shown[shown.length - 1].time;
+  timeline.setData([...shown.map((c) => ({ time: c.time })), ...Array.from({ length: 30 }, (_, k) => ({ time: lastT + (k + 1) * IV }))]);
+  const lineInd = forming ? indicators(shown) : ind;
+  const pts = (a) => a.map((v, i) => (v == null ? null : { time: shown[i].time, value: v })).filter(Boolean);
+  L.up.setData(pts(lineInd.up)); L.mid.setData(pts(lineInd.mid)); L.lo.setData(pts(lineInd.lo)); L.sma.setData(pts(lineInd.sma));
+  // axis labels for what matters now (same titles as the app's indicator)
+  stateLines.forEach((p) => candles.removePriceLine(p)); stateLines = [];
+  const sl = (price, color, title, style) => stateLines.push(candles.createPriceLine({ price, color, lineWidth: 1, lineStyle: style, axisLabelVisible: true, title }));
+  if (res.open) { const o = res.open; sl(o.entry, o.dir === 1 ? '#22c55e' : '#ef5350', 'BB entry', 0); sl(o.stop, '#ef5350', 'BB SL', 2); sl(o.tp, '#22c55e', 'BB TP', 2); }
+  else if (res.setup) { const s = res.setup; sl(s.sigClose, s.dir === 1 ? '#22c55e' : '#ef5350', 'SETUP ~entry', 2); sl(s.stop, '#ef5350', 'SETUP SL', 2); sl(s.tp, '#22c55e', 'SETUP TP', 2); }
+  // stats
+  const ys = Object.keys(s.years).sort(), py = ys.filter((y) => s.years[y].net > 0.5).length;
+  const usd = (v) => `<b class="${v >= 0 ? 'pos' : 'neg'}">${v < 0 ? '−' : '+'}$${Math.abs(v).toFixed(0)}</b>`;
+  $('stats').innerHTML = `<span>${label}</span><span>${B.length} candles · ${iso(B[0].time).slice(0, 10)} → ${iso(B[B.length - 1].time).slice(0, 10)}</span>` +
+    `<span>Trades <b>${s.n}</b></span><span>Net ${usd(s.net)} at $${risk}</span><span>Avg <b>${s.avgR >= 0 ? '+' : ''}${s.avgR.toFixed(2)}R</b></span>` +
+    `<span>Win <b>${(s.winRate * 100).toFixed(0)}%</b></span><span>PF <b>${s.pf.toFixed(2)}</b></span><span>Max DD ${usd(-s.maxDD)}</span>` +
+    `<span>Years + <b>${py}/${ys.length}</b></span><span>${funding ? 'funding included' : 'no funding data'}</span>`;
+  $('years').innerHTML = `<table><tr><th>Year</th><th>Trades</th><th>Net</th></tr>${ys.map((y) => `<tr><td>${y}</td><td>${s.years[y].n}</td><td>${usd(s.years[y].net)}</td></tr>`).join('')}</table>`;
+  // trades table
+  $('trades').innerHTML = '<tr><th>Entry</th><th>Dir</th><th>Exit</th><th>R</th><th>Bars</th><th>✓</th></tr>' +
+    res.trades.map((t, k) => `<tr data-k="${k}"><td>${iso(B[t.i0].time)}</td><td class="${t.dir === 1 ? 'pos' : 'neg'}">${t.dir === 1 ? 'LONG' : 'SHORT'}</td><td>${t.why}</td>` +
+      `<td class="${t.R > 0 ? 'pos' : 'neg'}">${t.R >= 0 ? '+' : ''}${t.R.toFixed(2)}</td><td>${t.bars}</td><td id="a${k}"></td></tr>`).join('');
+  $('trades').querySelectorAll('tr[data-k]').forEach((tr) => (tr.onclick = () => select(+tr.dataset.k, true)));
+  // audit
+  const a = audit(targetR, cost);
+  res.trades.forEach((t, k) => { $('a' + k).innerHTML = t.audit.length ? '<span class="bad">✗</span>' : '<span class="ok">✓</span>'; });
+  const ok = !a.bad.length && !a.missed.length;
+  $('audit').innerHTML = ok ? `<span class="ok">✓ All ${res.trades.length} trades re-derived independently — entry, stop, target, fill and exit match. No missed signals.</span>`
+    : `<span class="bad">✗ ${a.bad.length} trades disagree, ${a.missed.length} missed signals</span>`;
+  $('auditDetail').innerHTML = `Flat candles scanned for signals the engine did not take: ${a.missed.length}` +
+    (a.missed.length ? ` (first: ${a.missed.slice(0, 3).map((i) => iso(B[i].time)).join(', ')})` : '') +
+    `. ${a.gapSkips} signals were correctly skipped because the next open gapped past the stop.` +
+    (a.bad.length ? `<br>First disagreement: trade ${a.bad[0] + 1}: ${res.trades[a.bad[0]].audit.join(', ')}` : '');
+  // now
+  const last = B.length - 1, rl = rulesAt(last, targetR);
+  $('now').innerHTML = res.open ? `<b class="${res.open.dir === 1 ? 'pos' : 'neg'}">${res.open.dir === 1 ? 'LONG' : 'SHORT'} open</b> since ${iso(B[res.open.i0].time)} · entry ${fmt(res.open.entry)} · SL ${fmt(res.open.stop)} · TP ${fmt(res.open.tp)} · candle ${res.open.bars}/48${res.open.exitNext ? ' · <span class="warn">time exit at next open</span>' : ''}`
+    : res.setup ? `<b class="${res.setup.dir === 1 ? 'pos' : 'neg'}">NEW ${res.setup.dir === 1 ? 'LONG' : 'SHORT'} SETUP</b> on ${iso(B[last].time)} → enter at next open · SL ${fmt(res.setup.stop)} · TP ${fmt(res.setup.tp)}`
+    : `Flat, no signal on ${iso(B[last].time)} (close ${fmt(rl.close)}, upper ${fmt(rl.up)}, lower ${fmt(rl.lo)}, SMA200 ${fmt(rl.sma)}).`;
+  $('msg').textContent = '';
+  sel = -1; clearLines(); $('check').innerHTML = '<span class="dim">Click a trade (table or chart marker) to see every rule checked.</span>';
+  if (fit) chart.timeScale().setVisibleLogicalRange({ from: B.length - 160, to: B.length + 14 });
+  render();
+}
+
+// ---------- selection ----------
+function clearLines() { priceLines.forEach((p) => candles.removePriceLine(p)); priceLines = []; }
+function select(k, scroll) {
+  if (k < 0 || k >= res.trades.length) return;
+  sel = k; const t = res.trades[k], targetR = +$('tr').value || 4, cost = COSTS[$('cost').value];
+  $('trades').querySelectorAll('tr.sel').forEach((r) => r.classList.remove('sel'));
+  const row = $('trades').querySelector(`tr[data-k="${k}"]`); if (row) { row.classList.add('sel'); if (scroll) row.scrollIntoView({ block: 'nearest' }); }
+  clearLines();
+  const pl = (price, color, title, style) => priceLines.push(candles.createPriceLine({ price, color, lineWidth: 1, lineStyle: style, axisLabelVisible: true, title }));
+  pl(t.entry, '#e5e7eb', 'entry', 0); pl(t.stop, '#ef5350', 'SL', 2); pl(t.tp, '#22c55e', 'TP', 2);
+  if (scroll) chart.timeScale().setVisibleLogicalRange({ from: t.i0 - 60, to: t.i1 + 25 });
+  render();
+  const s = t.i0 - 1, r = rulesAt(s, targetR), x = walkExit(t.i0, t.dir, t.stop, t.tp, cost), fill = B[t.i0].open * (1 + t.dir * cost.slip);
+  const row2 = (name, val, ok) => `<tr><td>${name}</td><td>${val}</td><td>${ok ? '<span class="ok">✓</span>' : '<span class="bad">✗</span>'}</td></tr>`;
+  const D = t.dir === 1;
+  $('check').innerHTML = `<div style="margin-bottom:6px"><b class="${D ? 'pos' : 'neg'}">${D ? 'LONG' : 'SHORT'}</b> · trade ${k + 1}/${res.trades.length} · ` +
+    `<b class="${t.R > 0 ? 'pos' : 'neg'}">${t.R >= 0 ? '+' : ''}${t.R.toFixed(2)}R</b> (${t.why}, ${t.bars} candles)</div><table class="check">` +
+    `<tr><th>Signal candle ${iso(B[s].time)}</th><th></th><th></th></tr>` +
+    row2(`Close ${D ? '>' : '<'} ${D ? 'upper' : 'lower'} band`, `${fmt(r.close)} ${D ? '>' : '<'} ${fmt(D ? r.up : r.lo)}`, D ? r.aboveUp : r.belowLo) +
+    row2(`Close ${D ? '>' : '<'} SMA200 (trend)`, `${fmt(r.close)} vs ${fmt(r.sma)}`, r.trendOk) +
+    row2('Stop distance ≥ 0.3 × ATR14', `${fmt(r.dist)} = ${r.distAtr.toFixed(2)} ATR`, r.stopOk) +
+    row2('Stop = middle band', `${fmt(t.stop)} vs ${fmt(r.mid)}`, Math.abs(t.stop - r.mid) < 1e-9 * r.mid) +
+    row2(`Target = close ± ${targetR} × dist`, `${fmt(t.tp)} vs ${fmt(r.tp)}`, Math.abs(t.tp - r.tp) < 1e-9 * Math.abs(r.tp)) +
+    `<tr><th>Entry candle ${iso(B[t.i0].time)}</th><th></th><th></th></tr>` +
+    row2(`Fill = next open ${D ? '+' : '−'} slippage`, `${fmt(B[t.i0].open)} → ${fmt(t.entry)}`, Math.abs(t.entry - fill) < 1e-9 * fill) +
+    `<tr><th>Exit candle ${iso(B[t.i1].time)}</th><th></th><th></th></tr>` +
+    row2('Exit reason / candle (independent walk)', `${t.why} @ ${iso(B[t.i1].time)}`, x.why === t.why && x.i1 === t.i1) +
+    row2('Exit price', fmt(t.exit), true) +
+    `</table><div class="dim" style="margin-top:6px">ATR14 ${fmt(r.atr)} · funding ${t.fundR >= 0 ? '+' : ''}${t.fundR.toFixed(3)}R · fees + slippage in R. Engine checks stop before target inside a candle.</div>`;
+}
+function showCandle(i) {
+  const r = rulesAt(i, +$('tr').value || 4), c = B[i], yes = (b) => (b ? '<span class="ok">yes</span>' : '<span class="dim">no</span>');
+  $('candle').innerHTML = `<table class="check"><tr><td>${iso(c.time)}</td><td>O ${fmt(c.open)} H ${fmt(c.high)} L ${fmt(c.low)} C ${fmt(c.close)}</td></tr>` +
+    `<tr><td>Upper / mid / lower</td><td>${fmt(r.up)} / ${fmt(r.mid)} / ${fmt(r.lo)}</td></tr><tr><td>SMA200 · ATR14</td><td>${fmt(r.sma)} · ${fmt(r.atr)}</td></tr>` +
+    `<tr><td>Close beyond a band</td><td>${r.dir === 1 ? 'above upper' : r.dir === -1 ? 'below lower' : 'no'}</td></tr>` +
+    `<tr><td>With the trend</td><td>${r.dir ? yes(r.trendOk) : '—'}</td></tr><tr><td>Stop ≥ 0.3 ATR</td><td>${r.dir ? yes(r.stopOk) + ` (${r.distAtr.toFixed(2)})` : '—'}</td></tr>` +
+    `<tr><td><b>Rules say signal?</b></td><td>${yes(r.signal)}${r.signal && res.trades.some((t) => t.i0 >= i + 1 && t.i0 - 1 < i + 1 && t.i0 - 1 === i) ? ' → trade taken' : r.signal ? ' <span class="dim">(a trade was already open, or the open gapped past the stop)</span>' : ''}</td></tr></table>`;
+}
+const iso = (t) => new Date(t * 1000).toISOString().replace('T', ' ').slice(0, 16);
+const fmt = (v) => (v == null || !isFinite(v) ? '—' : Math.abs(v) < 1 ? v.toFixed(5) : Math.abs(v) < 100 ? v.toFixed(3) : v.toFixed(2));
+
+$('src').onchange = run; $('cost').onchange = () => recompute(false); $('tr').onchange = () => recompute(false); $('risk').onchange = () => recompute(false);
+$('prev').onclick = () => select(sel <= 0 ? res.trades.length - 1 : sel - 1, true);
+$('next').onclick = () => select(sel + 1 >= res.trades.length ? 0 : sel + 1, true);
+document.addEventListener('keydown', (e) => { if (e.target.tagName === 'INPUT') return; if (e.key === 'ArrowRight' || e.key === 'n') $('next').onclick(); if (e.key === 'ArrowLeft' || e.key === 'p') $('prev').onclick(); });
+run();
+</script>
+</body>
+</html>
