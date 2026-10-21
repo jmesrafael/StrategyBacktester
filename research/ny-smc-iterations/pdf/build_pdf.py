@@ -24,7 +24,7 @@ TRADES, OUT = sys.argv[1], sys.argv[2]
 os.makedirs(OUT, exist_ok=True)
 IMG = os.path.join(OUT, 'img')
 os.makedirs(IMG, exist_ok=True)
-PDF_PATH = os.path.join(OUT, 'NY-SMC-v7-Trading-System-DRAFT.pdf')
+PDF_PATH = os.path.join(OUT, '..', '..', '..', 'PDF', 'NY SMC v7 - Trading System Steps (Draft).pdf')
 
 # ---- fonts (DejaVu ships with matplotlib: has check marks, arrows, >=, x ...) ----
 fdir = os.path.join(os.path.dirname(matplotlib.__file__), 'mpl-data', 'fonts', 'ttf')

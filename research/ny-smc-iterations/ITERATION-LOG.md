@@ -753,7 +753,7 @@ Tables in `results/monthly-B.md` and `results/monthly-C.md` (37 calendar months,
 
 ### 2026-10-19 · Trading-system steps PDF (draft 1)
 
-`pdf/NY-SMC-v7-Trading-System-DRAFT.pdf` (15 landscape pages): cover, system at a glance (steps + NY/PH time windows), one page per step
+`PDF/NY SMC v7 - Trading System Steps (Draft).pdf` (moved from `pdf/NY-SMC-v7-Trading-System-DRAFT.pdf`) (15 landscape pages): cover, system at a glance (steps + NY/PH time windows), one page per step
 (1 swing, 2 CHoCH, 3 FVG, 4 entry, 5 stop, 6 target + size, 7 cancel rules, 8 manage, 9 review), the short-trade mirror, must do / must
 not do, a printable checklist and a status page. Each step page has the same real ETH trade (Fri 26 Sep 2025, +3R) annotated with circles, lines
 and labels, plus a vector diagram from `pdf/svg/*.svg` and the rules in plain words. Built by `pdf/build_pdf.py` (charts: `pdf/charts.py`, diagrams:
