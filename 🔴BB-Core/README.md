@@ -18,12 +18,12 @@ node fetch-data.js SOL,ZEC,BTC        # download 4h candles + funding from Binan
 
 | File | What it is |
 |---|---|
-| [bb-breakout.js](bb-breakout.js) | **The algorithm.** `backtest(candles, cfg, funding)` — the whole strategy + `stats()`. ~100 lines, no dependencies. |
+| [lucidyo-core.js](lucidyo-core.js) | **The algorithm.** `backtest(candles, cfg, funding)` — the whole strategy + `stats()`. ~100 lines, no dependencies. |
 | [backtest.js](backtest.js) | Command-line runner: loads `data/<COIN>.json`, prints trades, per-year profit, drawdown, portfolio. |
 | [fetch-data.js](fetch-data.js) | Downloads Binance USDT-M 4h candles + real funding rates (`--mexc` for MEXC perpetuals). |
 | [stress.js](stress.js) | SOL + ZEC under heavier fees / slippage, every year, Binance and MEXC → `docs/results-stress.md`. |
 | [viewer.html](viewer.html) | Trigger checker screen: chart + independent audit of every trade. |
-| [bbot.js](bbot.js) | Paper auto-trader for SOL + ZEC on MEXC candles. |
+| [lucidyo.js](lucidyo.js) | Auto-trader for SOL + ZEC on MEXC: paper by default, live with [live.js](live.js) + [mexc.js](mexc.js). `deploy/` = VPS setup, `test/` = self-test. |
 | `data/` | 4h candles `[time, o, h, l, c, v]` and `data/funding/` `[time, rate]`. |
 | [TOP-COINS.md](TOP-COINS.md) | **Our best coins**, ranked, with the ones to avoid. |
 | [docs/REPORT-bb-deep.md](docs/REPORT-bb-deep.md) | The full 6-year analysis (which years/regimes work, drawdown risk, ideas tested and rejected). |
@@ -106,7 +106,7 @@ npm run serve        (from the repo root)   →   http://localhost:8137/🔴BB-C
 
 - Chart with the Bollinger bands, SMA200 and every trade (arrows = entries, circles = exits with R). Pick SOL/ZEC on Binance, MEXC files,
   or **MEXC LIVE** (latest closed candles through the server's MEXC proxy). Switch the cost model (default: 0.08% fee + 0.05% slip).
-- The trades come from the same `bb-breakout.js` the bot runs. The page then **re-derives every trade with separate code** (its own
+- The trades come from the same `lucidyo-core.js` the bot runs. The page then **re-derives every trade with separate code** (its own
   Bollinger/SMA/ATR and its own exit walk), and scans every flat candle for a signal the engine might have missed. The audit box shows ✓/✗.
 - Click a trade → it lists each rule for that signal candle with the numbers (close vs band, vs SMA200, stop ≥ 0.3 ATR, stop = middle band,
   target = 4×, fill = next open + slippage, exit reason). Click any candle → what the rules say about it. ←/→ step through trades.
@@ -125,37 +125,70 @@ npm run serve        (from the repo root)   →   http://localhost:8137/🔴BB-C
 - It was checked for look-ahead (truncation test: 103,000 orders, 0 mismatches) and the live-bot loop matched the app trade-for-trade.
   Paper-trade before real money.
 
-## BBOT — the auto-trader (SOL + ZEC) — [bbot.js](bbot.js)
+## Lucidyo — the auto-trader (SOL + ZEC) — [lucidyo.js](lucidyo.js)
 
-**Status: PAPER trading only.** It reads real MEXC 4h candles and trades a simulated account; it never sends an order.
+**Status: PAPER by default, LIVE-ready.** `"mode": "paper"` in [bot-config.json](bot-config.json) trades a simulated account on real MEXC
+candles; `"mode": "live"` sends real orders through [live.js](live.js) + [mexc.js](mexc.js) (MEXC futures API, `https://api.mexc.com`).
 
 ```
-start-bbot.cmd                 # double-click: runs forever, wakes 30s after every 4h close (00,04,08,12,16,20 UTC)
-node bbot.js once              # one check now (use this from Windows Task Scheduler instead of loop if you prefer)
-node bbot.js status            # balance, next trade's risk, open positions + realized R so far
-node bbot.js replay SOL,ZEC    # self-test: whole history through the bot == backtest, trade for trade
+node lucidyo.js check             # read-only pre-flight: clock vs MEXC, contracts, candles, sizing preview, API key, hedge mode, positions
+node lucidyo.js test-trade SOL --yes   # REAL order: 1 min contract + stop/target, verified on MEXC, closed again (cents) — run before live
+start-lucidyo.cmd                 # Windows: runs forever. VPS: the systemd service in deploy/ (runs `node lucidyo.js loop`)
+node lucidyo.js once              # one check now
+node lucidyo.js status            # balance, next trade's risk, drawdown vs halt, open positions + realized R so far
+node lucidyo.js replay SOL,ZEC    # self-test: whole history through the bot == backtest, trade for trade
+node test/selftest.js          # live executor vs a simulated MEXC: same trades as paper + 13 crash/failure scenarios
 ```
 
-- Sizing: `riskPct` (set to 0.05) = risk 5% of the **account balance** on every trade, recalculated after every closed trade (compounding).
-  SOL and ZEC share one balance, which starts at `startBalance` ($100). Set `riskPct` to 0 to go back to a fixed `riskUsd` per trade.
-  At 5% the backtest's typical worst drop is about −66% (random-order test, 3,000 runs); expect a −50% drawdown at some point.
-- Settings in [bot-config.json](bot-config.json): coins, `riskPct` / `startBalance` / `riskUsd`, `haltAtR` (stop opening trades after −39R,
-  the report's 99th-percentile drawdown), `maxEntryDelaySec` (skip a signal if the bot wakes more than 15 min after the candle closed —
-  it would no longer get the "next open" price the backtest assumed).
+- **Timing:** `loop` wakes **2 s after every 4h close on MEXC's clock** (offset measured every run), polls until MEXC shows the new
+  candle, decides on the closed candle and fills at the price of that moment. Late-entry research
+  ([results-late-entry.md](../research/bollinger/results-late-entry.md)): the first 1–2 min cost ~0.02R/trade, 5–60 min late is noise.
+- Sizing: `riskPct` (0.05) = risk 5% of the **balance** per trade (compounding; LIVE = the real MEXC futures equity, re-read every run),
+  capped at `maxRiskUsd`. `riskPct: 0` → fixed `riskUsd`. At 5% expect a −50% drawdown at some point (random-order test: typical worst −66%).
+  LIVE rounds to whole contracts (SOL 0.1, ZEC 0.01 coin) and never risks more than `maxRiskMult` (1.5) × the target, else it skips.
+- **Halt:** no new entries once the account is `haltAtR` (39R) **below its best point** (the report's 99th-percentile drawdown).
+- `maxEntryDelaySec` (900): skip a signal if the bot wakes more than 15 min after the candle closed.
 - **Kill switch:** create an empty file named `STOP` in this folder → no new entries (open trades still managed).
-- State, trade history and a log are written to `state/` (`state.json`, `bot.log`). It survives restarts: on start it re-reads state and
-  processes every candle it missed, in order.
-- The entry rule is the same `signalFrom()` the backtest uses, and `replay` checks the full loop: SOL, ZEC, BTC, NEAR, ADA all
-  **identical trade-for-trade** with `backtest()`.
-- Paper results exclude funding (small: ~4% of profit historically).
+- State, trades and logs in `state/` (`state.json`, `bot.log`, `runs.jsonl`, `events.jsonl`). It survives restarts: it re-reads state and
+  processes every candle it missed. `state/` remembers its mode — rename it (e.g. `state-paper`) before switching paper → live.
+- The entry rule is the same `signalFrom()` the backtest uses; `replay`: SOL, ZEC, BTC, NEAR, ADA **identical trade-for-trade**.
+- Paper results exclude funding (small: ~4% of profit historically). Live trades record MEXC's real fees and funding.
 
-### Path to real money
-1. **Paper for 4–8 weeks** (≈ 15–30 trades on SOL+ZEC). Compare each trade with what the chart/backtest says for the same candles.
-2. Create a MEXC **futures API key** — trade permission only, **no withdrawal**, IP-restricted.
-3. Add a live executor (same 3 methods as the paper one: `enter`, `checkExit`, `timeExit`): market entry, stop + take-profit placed on the
-   exchange as trigger orders right after the fill, reconcile against MEXC's real positions on every run, unique client order IDs.
-4. Start at **$1 risk**. Note MEXC's contract steps (SOL 0.1, ZEC 0.01 coins ≈ $11–13 a step), so at $1 risk the real risk per trade
-   swings between ~$0.50 and $1.70 — see `PDF/BB Breakout - Risks and How We Prevent Them - Live Bot on MEXC.pdf`.
+### LIVE: what the bot does on MEXC — [live.js](live.js)
+- **Entry:** market order, **isolated** margin, with the backtest's stop (middle band) and target (4R) **attached** as MEXC TP/SL (trigger
+  on last price). Then it reads MEXC back; a missing stop/target is placed again; if that fails the position is **closed at once**.
+- **Leverage** per trade so liquidation sits ~2× farther than the stop (margin ≈ 2 × risk); skips if free margin is short.
+- **Stop / target are executed by MEXC**, so they work while the VPS is down. The bot only does the 48-candle time exit itself (retried
+  every run if MEXC refuses).
+- **No double orders:** every order has an id built from its signal candle (`bbSOL1792612800L`). After any error it looks the order up by
+  that id instead of re-sending; the order is written to `state/` *before* it is sent, so a crash mid-order is recovered on the next run.
+- **Reconcile every run:** a position on MEXC the bot did not open (manual trade on the phone, another bot) blocks new entries on that coin;
+  a missing stop/target on the bot's own position is re-placed. **Use a separate MEXC sub-account for the bot.**
+- Phone alerts (enter / exit / errors): `telegramToken` + `telegramChatId` in `mexc-keys.json`. Missed-run alerts: put a free
+  healthchecks.io URL in `heartbeatUrl` (pinged after every run, `/fail` on errors).
+
+### Dashboard (monitor) — [dashboard.js](dashboard.js)
+
+Double-click **`open-dashboard.cmd`** on the VPS → opens `http://127.0.0.1:8787` (local only). It reads `state/` and MEXC; it never trades.
+Shows capital (real MEXC futures equity + the paper balance), open positions with live P&L, recent trades, a log terminal (filters: all /
+trades / problems), execution times per run, and health checks: bot process alive, missed 4h run, errors / retries / skipped signals,
+reaction time after candle close, candle gaps, VPS clock vs MEXC, kill switch, drawdown vs halt, stuck positions, MEXC vs bot positions,
+risk setting. Closing the dashboard window does not stop the bot.
+
+- Real balance needs a MEXC API key: copy `mexc-keys.example.json` to `mexc-keys.json` (gitignored). **Read permission only** is enough.
+- Every run the bot now records `state/runs.jsonl` (run time, MEXC latency, retries, candle lag/gaps, clock drift, errors, MEXC equity
+  snapshot) and `state/events.jsonl` (enter / exit / skip / warn / error). Candle fetches retry 3× before giving up; a crashing run is logged
+  and the loop keeps going.
+
+### Path to real money (VPS: Lightsail Nano, Tokyo/Singapore, Ubuntu)
+1. **MEXC account:** KYC done (order placing needs it), futures in **hedge mode**, a **sub-account** just for the bot with the trading money.
+2. **API key** (sub-account): permissions *View Account* + *View Order* + *Order Placing* — **never Withdraw**. **Bind the VPS static
+   IP** (keys without an IP binding expire after 90 days). Put it in `mexc-keys.json` (gitignored, `chmod 600`).
+3. Copy this folder to the VPS → `sudo bash deploy/setup-vps.sh` (swap, chrony clock, Node 20, `lucidyo` user, systemd service, firewall).
+4. `node lucidyo.js check` → no BAD lines. `node test/selftest.js` → all pass.
+5. Set `"mode": "live"` (rename `state/` if paper ran in this folder) → `node lucidyo.js test-trade SOL --yes` → must print **PASS**.
+   This is the real proof that MEXC lets this account place futures orders + TP/SL by API (the docs had it "under maintenance" 2022–Mar 2026).
+6. `sudo systemctl start lucidyo`. Start small (`riskPct` 0.01–0.02 or `riskPct: 0` + `riskUsd: 1`); check the first trades in the MEXC app.
 
 ## Using the core in your own code
 
@@ -164,7 +197,7 @@ node bbot.js replay SOL,ZEC    # self-test: whole history through the bot == bac
 - `res.open` is non-null → a position from the signal is open; `bars` counts candles in the trade (exit at the next open after 48).
 
 ```js
-const { backtest } = require('./bb-breakout');
+const { backtest } = require('./lucidyo-core');
 const res = backtest(closedCandles /* [{time,open,high,low,close}, ...] */, { targetR: 4 });
 if (res.setup) console.log(res.setup.dir === 1 ? 'LONG' : 'SHORT', 'stop', res.setup.stop, 'tp', res.setup.tp);
 ```
