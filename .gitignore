@@ -20,5 +20,9 @@ lwc5_tmp.js
 # credentials — never commit
 SupabaseCredentials.txt
 
+# MEXC API keys — never commit
+.env
+*.env
+
 # 1m candle cache for research/bollinger/late-entry.js
 research/bollinger/cache-1m/
