@@ -257,6 +257,12 @@ async function runOnce() {
 // Pushes the real MEXC equity to the Ledger (only when bot-config.json has "ledgerSync": true). A ledger problem never touches trading.
 async function syncLedger(run, state) {
   try {
+    // snapshot first: open positions as the bot tracks them (in LIVE they were just reconciled with MEXC), open orders = unfinished entries
+    const coins = Object.values(state.coins || {});
+    const snap = await ledgerSync.postSnapshot({ enabled: CFG.ledgerSync, equity: run.account && run.account.equity, unrealized: run.account ? run.account.unrealized : null,
+      openPositions: run.account ? coins.filter((c) => c.pos).length : undefined, openOrders: run.account ? coins.filter((c) => c.pending).length : undefined });
+    run.ledgerSnapshot = snap;
+    if (snap.status === 'error') event('error', 'LEDGER', `snapshot not sent: ${snap.detail}`);
     const r = await ledgerSync.postEquity({ enabled: CFG.ledgerSync, equity: run.account && run.account.equity, last: state.ledgerPost || null });
     run.ledger = r;
     if (r.status === 'posted') { state.ledgerPost = { ts: Date.now(), equity: r.equity }; event('info', 'LEDGER', `MEXC balance ${r.equity} USDT sent to the ledger (unit price ${(+r.unitPrice).toFixed(4)})`); }
