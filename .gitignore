@@ -19,3 +19,7 @@ lwc5_tmp.js
 
 # credentials — never commit
 SupabaseCredentials.txt
+
+# MEXC API keys — never commit
+.env
+*.env
