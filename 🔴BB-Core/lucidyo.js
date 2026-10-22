@@ -17,6 +17,7 @@ const fs = require('fs'), path = require('path');
 const { signalFrom, DEFAULTS } = require('./lucidyo-core.js');
 const mexc = require('./mexc.js');
 const { createLiveExecutor } = require('./live.js');
+const ledgerSync = require('./ledger-sync.js');
 
 const DIR = __dirname;
 const STATE_DIR = process.env.LUCIDYO_STATE_DIR || path.join(DIR, 'state'), STATE_FILE = path.join(STATE_DIR, 'state.json');
@@ -249,7 +250,19 @@ async function runOnce() {
     try { const { data, ms } = await mexc.account(); run.account = { ...data, ms }; }
     catch (e) { run.errors.push('MEXC account: ' + e.message); event('error', 'MEXC', 'account read failed: ' + e.message); }
   }
+  await syncLedger(run, state);
   finishRun();
+}
+
+// Pushes the real MEXC equity to the Ledger (only when bot-config.json has "ledgerSync": true). A ledger problem never touches trading.
+async function syncLedger(run, state) {
+  try {
+    const r = await ledgerSync.postEquity({ enabled: CFG.ledgerSync, equity: run.account && run.account.equity, last: state.ledgerPost || null });
+    run.ledger = r;
+    if (r.status === 'posted') { state.ledgerPost = { ts: Date.now(), equity: r.equity }; event('info', 'LEDGER', `MEXC balance ${r.equity} USDT sent to the ledger (unit price ${(+r.unitPrice).toFixed(4)})`); }
+    else if (r.status === 'skipped' || r.status === 'error') event(r.status === 'error' ? 'error' : 'warn', 'LEDGER', `balance ${r.equity} not posted: ${r.detail}`);
+    else if (r.status === 'noequity') event('warn', 'LEDGER', r.detail);
+  } catch (e) { run.ledger = { status: 'error', detail: e.message }; event('error', 'LEDGER', e.message); }
 }
 
 function status() {
@@ -370,12 +383,22 @@ async function replay(coins) {
 }
 
 module.exports = { processCoin, paper, CFG, riskFor, reloadConfig };
+// one sync right now: reads the MEXC futures equity and posts it. --dry shows what would be sent and sends nothing.
+async function ledgerNow(dry) {
+  await mexc.client.syncTime();
+  const eq = (await mexc.account()).data.equity;
+  const r = await ledgerSync.postEquity({ enabled: true, equity: eq, dry });
+  console.log(`MEXC futures equity ${eq} USDT -> ledger: ${r.status}${r.detail ? ' — ' + r.detail : ''}`);
+  if (r.status === 'posted') { const st = loadState(); st.ledgerPost = { ts: Date.now(), equity: r.equity }; saveState(st); console.log('unit price now ' + (+r.unitPrice).toFixed(4)); }
+}
+
 const cmd = require.main === module ? process.argv[2] : 'lib';
 if (cmd === 'lib') {}
 else if (cmd === 'once') runOnce();
 else if (cmd === 'loop') loop();
 else if (cmd === 'status') status();
 else if (cmd === 'check') check();
+else if (cmd === 'ledger-sync') ledgerNow(process.argv.includes('--dry')).catch((e) => { console.log('ledger-sync failed: ' + e.message); process.exitCode = 1; });
 else if (cmd === 'test-trade') testTrade((process.argv[3] || 'SOL').toUpperCase());
 else if (cmd === 'replay') replay((process.argv[3] || CFG.coins.join(',')).split(','));
-else console.log('usage: node lucidyo.js check | test-trade SOL --yes | once | loop | status | replay SOL,ZEC');
+else console.log('usage: node lucidyo.js check | ledger-sync [--dry] | test-trade SOL --yes | once | loop | status | replay SOL,ZEC');

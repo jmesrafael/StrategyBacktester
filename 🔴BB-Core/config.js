@@ -9,6 +9,7 @@ const COINS = ['SOL', 'ZEC'];   // the bot trades SOL and ZEC only; adding a coi
 const DEFAULTS = {
   mode: 'paper', coins: ['SOL', 'ZEC'], riskUsd: 1, riskPct: 0, maxRiskUsd: 10, maxRiskMult: 1.5, maxLeverage: 20, startBalance: 100,
   haltAtR: -39, maxEntryDelaySec: 900, wakeDelaySec: 2, heartbeatUrl: '',
+  ledgerSync: false,   // true = post the real MEXC equity to the Lucidyo Ledger after every run (see ledger-sync.js); set by hand in this file
 };
 
 // type, limits, and what the Settings panel shows. "live: true" = takes effect for real money.
