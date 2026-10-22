@@ -1,0 +1,23 @@
+# systemd unit for Lucidyo on the VPS (Ubuntu). Installed by deploy/setup-vps.sh.
+#   sudo systemctl status lucidyo      sudo journalctl -u lucidyo -f      sudo systemctl restart lucidyo
+[Unit]
+Description=Lucidyo bot (MEXC futures)
+After=network-online.target time-sync.target
+Wants=network-online.target
+
+[Service]
+User=lucidyo
+WorkingDirectory=/opt/lucidyo
+ExecStart=/usr/bin/node lucidyo.js loop
+Restart=always
+RestartSec=10
+# a stopped bot leaves positions protected by their stop/target on MEXC; it re-checks everything on start
+KillSignal=SIGTERM
+TimeoutStopSec=30
+MemoryMax=300M
+NoNewPrivileges=true
+ProtectSystem=full
+ReadWritePaths=/opt/lucidyo
+
+[Install]
+WantedBy=multi-user.target

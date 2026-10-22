@@ -1,0 +1,6 @@
+{
+  "apiKey": "your MEXC API key (READ permission is enough for the dashboard; LIVE trading needs Order Placing too — never Withdraw)",
+  "apiSecret": "your MEXC API secret",
+  "telegramToken": "",
+  "telegramChatId": ""
+}
