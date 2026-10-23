@@ -3,7 +3,7 @@
 # Read-only except: kill switch, restart, Telegram test and "Update the bot code" (each asks first).
 #   lucidio                       status first, then the menu          (installed as /usr/local/bin/lucidio)
 #   lucidio --action trades       run one action and exit (status balance check trades equity log server update tg)
-# Uses `whiptail` (standard on Ubuntu); without it a numbered list is shown instead.
+# The menu is drawn by this script itself (arrow keys, no dialog tool needed); on a dumb terminal a numbered list is shown instead.
 # Everything is inside functions and the last line is "main; exit": bash has read the whole file before anything runs, so an update that
 # replaces this very file (setup-vps.sh installs the new menu) cannot confuse the copy that is running.
 APP="${APP:-/opt/lucidio}"
@@ -24,7 +24,7 @@ head_line() { clear; echo "== $1 =="; echo; }
 # Times are shown as 'Oct 23, 2026' and '4:40pm' (12-hour, no seconds, no space before am/pm). UTC is what the bot and the candles use; "your time" is your PC's clock.
 MY_UTC_OFFSET="${LUCIDIO_MY_UTC_OFFSET:-8}"     # hours your PC is ahead of UTC (+8). Only used to show your own clock time; change it here if you move.
 c12() { date -u -d "@$1" '+%-I:%M%P'; }          # epoch seconds -> 4:40pm
-now_str() { local e=${1:-$(date +%s)}; printf '%s UTC  ·  %s your time (UTC%+d)' "$(c12 "$e")" "$(c12 $((e + MY_UTC_OFFSET * 3600)))" "$MY_UTC_OFFSET"; }
+now_str() { local e=${1:-$(date +%s)}; printf '%s UTC | %s your time (UTC%+d)' "$(c12 "$e")" "$(c12 $((e + MY_UTC_OFFSET * 3600)))" "$MY_UTC_OFFSET"; }
 dt_str() { printf '%s %s UTC' "$(date -u -d "@$1" '+%b %-d, %Y')" "$(c12 "$1")"; }   # Oct 23, 2026 4:40pm UTC
 candle_times() {   # the six daily 4-hour candle closes, in UTC and in your time
   local h u="" l=""
@@ -192,30 +192,81 @@ run_action() {
   esac
 }
 
-# one line for the top of the menu: service state, mode, risk, last known equity. Never prompts for a password (sudo -n): without it the line just has less in it.
-HDR_JS='const fs=require("fs"),d=process.argv[1];let c={},s=null;
+# ---- the menu itself: a small arrow-key selector (no dialog tools needed): black screen, green frame, a green ">" arrow on the selected line.
+# Header lines (shown inside the frame): service state / mode / risk / equity, then per-coin state. Never prompts for a password (sudo -n): without it the lines just have less in it.
+HDR_JS='const fs=require("fs"),d=process.argv[1];let c={},s=null,st=null;
 try{c=JSON.parse(fs.readFileSync(d+"/bot-config.json","utf8"))}catch(e){}
 try{const L=fs.readFileSync(d+"/journal/snapshots.jsonl","utf8").trim().split("\n");s=JSON.parse(L[L.length-1])}catch(e){}
-console.log(String(c.mode||"?").toUpperCase()+" "+(+c.riskPct*100).toFixed(1)+"% risk"+(s&&s.equity!=null?" | equity $"+(+s.equity).toFixed(2):""))'
-header_info() {
+try{st=JSON.parse(fs.readFileSync(d+"/state/state.json","utf8"))}catch(e){}
+console.log(String(c.mode||"?").toUpperCase()+" "+(+c.riskPct*100).toFixed(1)+"% risk"+(s&&s.equity!=null?" | equity $"+(+s.equity).toFixed(2):""));
+const co=st&&st.coins?Object.entries(st.coins):[];
+console.log(co.length?co.map(([k,x])=>k+" "+(x.pos?(x.pos.dir===1?"LONG":"SHORT"):"flat")).join(" | ")+" | "+co.reduce((a,[,x])=>a+(x.n||0),0)+" trades | "+(+st.totalR||0).toFixed(2)+"R":"no state yet")'
+HDR1=""; HDR2=""
+refresh_header() {
   local st info
   st=$(systemctl is-active lucidio 2>/dev/null || true); [ -z "$st" ] && st=unknown
   if [ -n "${LUCIDIO_MENU_NOSUDO:-}" ] || [ "$(id -un)" = "$LUCIDIO_USER" ]; then info=$(node -e "$HDR_JS" "$APP" 2>/dev/null)
   else info=$(sudo -n -u "$LUCIDIO_USER" node -e "$HDR_JS" "$APP" 2>/dev/null); fi
-  printf 'Bot: %s | %s' "$st" "${info:-no data yet}"
+  HDR1="Bot: $st | $(printf '%s' "$info" | sed -n 1p)"; HDR2="$(printf '%s' "$info" | sed -n 2p)"
+  [ "$HDR1" = "Bot: $st | " ] && HDR1="Bot: $st"
 }
-# black screen, white text, green (the dashboard's lime) for borders, titles and the selected line
-MENU_COLORS='root=,black shadow=,black window=white,black border=brightgreen,black title=brightgreen,black roottext=white,black label=white,black
- textbox=white,black acttextbox=black,brightgreen button=white,black actbutton=black,brightgreen compactbutton=white,black listbox=white,black
- actlistbox=black,brightgreen sellistbox=brightgreen,black actsellistbox=black,brightgreen helpline=gray,black entry=white,black checkbox=white,black actcheckbox=black,brightgreen'
+# one frame row: plain text (ASCII only, used to measure the padding) and the same text with colour codes
+rule() { local k s=""; for ((k = 0; k < BOX_W - 2; k++)); do s+="─"; done; printf '%s%s%s%s%s\n' "$G" "$1" "$s" "$2" "$R"; }
+frow() { local plain="$1" styled="${2:-$1}" pad; pad=$(( BOX_W - 4 - ${#plain} )); [ "$pad" -lt 0 ] && { plain="${plain:0:$((BOX_W - 4))}"; styled="$plain"; pad=0; }
+  printf '%s│%s %s%*s %s│%s\e[K\n' "$G" "$R" "$styled" "$pad" "" "$G" "$R"; }
+draw_menu() {
+  local i idx
+  printf '\e[H'
+  rule "╭" "╮"
+  frow "Lucid'io VPS" "$B$G""Lucid'io VPS$R"
+  frow "$HDR1"; [ -n "$HDR2" ] && frow "$HDR2"; frow "$(now_str)"
+  rule "├" "┤"
+  for ((i = 0; i < VIS; i++)); do
+    idx=$(( TOP + i ))
+    if [ "$idx" -ge "$N" ]; then frow ""; continue; fi
+    if [ "$idx" -eq "$SEL" ]; then frow "  ${ITEMS[idx*2+1]}" "$B$G▶ ${ITEMS[idx*2+1]}$R"; else frow "  ${ITEMS[idx*2+1]}"; fi
+  done
+  rule "├" "┤"
+  if [ $(( TOP + VIS )) -lt "$N" ]; then frow "Up/Down: move    Ok (Enter)    Exit (Esc)    more below"; else frow "Up/Down: move    Ok (Enter)    Exit (Esc)"; fi
+  rule "╰" "╯"
+  printf '\e[J'
+}
+# in: ITEMS (tag, label pairs), HDR1/HDR2.  out: CHOICE.  Returns 1 when Esc / q is pressed (or the input ends).
+menu_select() {
+  local key rest rows cols
+  G=$'\e[92m'; B=$'\e[1m'; R=$'\e[0m'; N=$(( ${#ITEMS[@]} / 2 )); SEL=0; TOP=0
+  printf '\e[?25l\e[2J'
+  while true; do
+    rows=$(tput lines 2>/dev/null || echo 24); cols=$(tput cols 2>/dev/null || echo 80)
+    BOX_W=$(( cols - 2 )); [ "$BOX_W" -gt 66 ] && BOX_W=66; [ "$BOX_W" -lt 46 ] && BOX_W=46
+    VIS=$(( rows - 11 )); [ "$VIS" -gt "$N" ] && VIS=$N; [ "$VIS" -lt 4 ] && VIS=4
+    [ "$SEL" -lt "$TOP" ] && TOP=$SEL; [ "$SEL" -ge $(( TOP + VIS )) ] && TOP=$(( SEL - VIS + 1 ))
+    draw_menu
+    IFS= read -rsn1 key || { printf '\e[?25h\e[2J\e[H'; return 1; }
+    case "$key" in
+      $'\e') rest=""; IFS= read -rsn2 -t 0.1 rest || true
+             case "$rest" in
+               '[A'|'OA') SEL=$(( (SEL + N - 1) % N ));;
+               '[B'|'OB') SEL=$(( (SEL + 1) % N ));;
+               '[H'|'[1') SEL=0;;
+               '[F'|'[4') SEL=$(( N - 1 ));;
+               '') printf '\e[?25h\e[2J\e[H'; return 1;;
+             esac;;
+      k|K) SEL=$(( (SEL + N - 1) % N ));;
+      j|J) SEL=$(( (SEL + 1) % N ));;
+      q|Q) printf '\e[?25h\e[2J\e[H'; return 1;;
+      '')  CHOICE="${ITEMS[SEL*2]}"; printf '\e[?25h\e[2J\e[H'; return 0;;
+    esac
+  done
+}
 
 main() {
   if [ "${1:-}" = "--action" ]; then run_action "${2:-}"; return $?; fi
   trap : INT       # Ctrl+C stops a running action, not the menu
-  head_line "Lucid'io VPS - $(date -u '+%b %-d, %Y') · $(now_str)"
-  act_status 2>&1 || true
-  pause "open the menu"
-  local ITEMS=(
+  trap 'printf "\e[?25h"' EXIT
+  # one password prompt per session, so the header can read the bot's status (those files are private to the bot user); Ctrl+C skips it
+  if [ -n "$SUDO" ] && ! sudo -n true 2>/dev/null; then echo "Enter your admin password once, so the menu can show the bot status:"; sudo -v || true; fi
+  ITEMS=(
     shell   "Open a normal command line"
     status  "Bot status"
     balance "MEXC account balance"
@@ -231,26 +282,23 @@ main() {
     restart "Restart the bot"
     exit    "Disconnect"
   )
-  local choice n i rows cols H W LH
+  local n i
   while true; do
-    if command -v whiptail >/dev/null 2>&1; then
-      rows=$(tput lines 2>/dev/null || echo 24); cols=$(tput cols 2>/dev/null || echo 80)
-      H=$(( rows - 2 )); [ "$H" -gt 24 ] && H=24
-      W=$(( cols - 4 )); [ "$W" -gt 70 ] && W=70; [ "$W" -lt 50 ] && W=50
-      LH=$(( H - 9 )); [ "$LH" -lt 4 ] && LH=4; [ "$LH" -gt $(( ${#ITEMS[@]} / 2 )) ] && LH=$(( ${#ITEMS[@]} / 2 ))
-      choice=$(NEWT_COLORS="$MENU_COLORS" whiptail --title " Lucid'io VPS " --notags --ok-button "OK (Enter)" --cancel-button "Exit (Esc)" \
-        --menu "$(header_info)\n$(now_str)\n\nUp/Down: move     Enter: OK     Esc: exit the menu" "$H" "$W" "$LH" "${ITEMS[@]}" 3>&1 1>&2 2>&3) || break
-    else
-      echo; for ((i=0;i<${#ITEMS[@]};i+=2)); do printf '  %2d) %s\n' $((i/2+1)) "${ITEMS[i+1]}"; done
+    refresh_header
+    if [ -n "${TERM:-}" ] && [ "$TERM" != dumb ]; then
+      menu_select || break
+    else   # no usable terminal: a numbered list
+      echo; echo "$HDR1"; [ -n "$HDR2" ] && echo "$HDR2"; echo "$(now_str)"; echo
+      for ((i=0;i<${#ITEMS[@]};i+=2)); do printf '  %2d) %s\n' $((i/2+1)) "${ITEMS[i+1]}"; done
       read -rp "Number (empty = leave): " n; [ -z "$n" ] && break
-      choice="${ITEMS[$(( (n-1)*2 ))]:-}"; [ -z "$choice" ] && continue
+      CHOICE="${ITEMS[$(( (n-1)*2 ))]:-}"; [ -z "$CHOICE" ] && continue
     fi
-    case "$choice" in
+    case "$CHOICE" in
       exit) break;;
-      shell) clear; echo "Normal command line. Type 'exit' to disconnect."; exec bash -l;;
-      *) run_action "$choice"; pause;;
+      shell) clear; echo "Normal command line. Type 'exit' to disconnect, or 'lucidio' for this menu."; exec bash -l;;
+      *) run_action "$CHOICE"; pause;;
     esac
   done
   clear; echo "Menu closed. Disconnecting."
 }
-main "$@"; exit $?
+if [ -z "${LUCIDIO_MENU_NOMAIN:-}" ]; then main "$@"; exit $?; fi
