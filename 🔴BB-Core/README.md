@@ -181,6 +181,11 @@ risk setting. Closing the dashboard window does not stop the bot.
   snapshot) and `state/events.jsonl` (enter / exit / skip / warn / error). Candle fetches retry 3× before giving up; a crashing run is logged
   and the loop keeps going.
 
+### Alerts, journal and dashboard (added 2026-10-23)
+- **Telegram:** entry / exit / error / skipped-signal messages (`node lucidio.js telegram-setup`, steps in [DEPLOY.md](DEPLOY.md) section 10). **Only SOL_USDT and ZEC_USDT** can ever be traded: config load, `paper.enter`, `live.enter` and `mexc.createOrder` each refuse anything else.
+- **Journal:** `journal/trades.jsonl`, append-only, one event per entry / exit / skipped signal with the candle, indicators, fills, costs and provenance. `node compare-live-vs-backtest.js` replays the same window with the backtester on freshly downloaded candles ([DEPLOY.md](DEPLOY.md) section 11).
+- **Dashboard:** optional signed push to a hosted page, see [dashboard/README.md](dashboard/README.md). Tests: `selftest`, `journal-test`, `telegram-test`, `compare-test`, `dashboard-test`, `dashboard-api-test`.
+
 ### Path to real money (VPS: Lightsail Nano, Tokyo/Singapore, Ubuntu)
 1. **MEXC account:** KYC done (order placing needs it), futures in **hedge mode**, a **sub-account** just for the bot with the trading money.
 2. **API key** (sub-account): permissions *View Account* + *View Order* + *Order Placing* — **never Withdraw**. **Bind the VPS static

@@ -7,7 +7,7 @@ const fs = require('fs'), os = require('os'), path = require('path');
 const ROOT = path.join(__dirname, '..');
 const FAKE_TOKEN = '123456789' + ':' + 'FAKE_TOKEN_' + 'FOR_TEST_ONLY_0123456789';   // built in pieces so deploy/package.sh's secret scan has nothing to match
 const BOX = fs.mkdtempSync(path.join(os.tmpdir(), 'lucidio-ops-')), STATE = path.join(BOX, 'state');
-for (const f of ['lucidio.js', 'lucidio-core.js', 'live.js', 'mexc.js', 'config.js', 'ledger-sync.js']) fs.copyFileSync(path.join(ROOT, f), path.join(BOX, f));
+for (const f of ['lucidio.js', 'lucidio-core.js', 'live.js', 'mexc.js', 'config.js', 'ledger-sync.js', 'telegram.js', 'journal.js', 'dashboard-push.js', 'envfile.js']) fs.copyFileSync(path.join(ROOT, f), path.join(BOX, f));
 fs.mkdirSync(path.join(BOX, 'deploy'));
 fs.copyFileSync(path.join(ROOT, 'deploy', 'watchdog.js'), path.join(BOX, 'deploy', 'watchdog.js'));
 fs.writeFileSync(path.join(BOX, 'mexc-keys.json'), JSON.stringify({ telegramToken: FAKE_TOKEN, telegramChatId: '42' }));
@@ -15,6 +15,7 @@ const writeCfg = (o) => fs.writeFileSync(path.join(BOX, 'bot-config.json'), JSON
 writeCfg({});
 process.env.LUCIDIO_STATE_DIR = STATE; process.env.LUCIDIO_KEYS = path.join(BOX, 'mexc-keys.json');
 delete process.env.LUCIDIO_ALLOW_LIVE; delete process.env.LUCIDIO_NO_NOTIFY;
+for (const k of ['TELEGRAM_BOT_TOKEN', 'TELEGRAM_CHAT_ID', 'DASHBOARD_URL', 'DASHBOARD_PUSH_SECRET']) delete process.env[k];   // a real env file must never leak into a test
 
 const calls = [];                                                    // every fetch() the bot or watchdog makes
 global.fetch = async (url, opts) => { calls.push({ url: String(url), body: opts && opts.body ? String(opts.body) : '' }); return { ok: true, status: 200, text: async () => '{}' }; };

@@ -137,28 +137,32 @@ install -d -m 700 "$BACKUPS"; mkdir -p "$APP"
 WAS_ACTIVE=0; if systemctl is-active --quiet lucidio; then WAS_ACTIVE=1; fi
 if [ "$SRC" != "$APP" ]; then
   if [ -f "$APP/lucidio.js" ]; then   # update: keep the old code for rollback, never the state or secrets
-    if tar -czf "$BACKUPS/code-$(date -u +%Y%m%d-%H%M%S).tar.gz" -C "$APP" --exclude=./state --exclude=./mexc-keys.json --exclude=./bot-config.json --exclude=./STOP .; then
+    if tar -czf "$BACKUPS/code-$(date -u +%Y%m%d-%H%M%S).tar.gz" -C "$APP" --exclude=./state --exclude=./journal --exclude=./audit --exclude=./.env --exclude=./mexc-keys.json --exclude=./bot-config.json --exclude=./STOP .; then
       ok "old code saved in $BACKUPS (rollback: sudo bash $APP/deploy/rollback.sh)"
     else warn "could not save the old code"; fi
     ls -1t "$BACKUPS"/code-*.tar.gz 2>/dev/null | tail -n +6 | xargs -r rm -f
   fi
   if [ "$WAS_ACTIVE" = 1 ]; then systemctl stop lucidio; fi
-  (cd "$SRC" && tar -cf - --exclude=./state --exclude=./mexc-keys.json --exclude=./bot-config.json --exclude=./STOP .) | tar -xf - -C "$APP" || die "copying the bundle to $APP failed"
+  (cd "$SRC" && tar -cf - --exclude=./state --exclude=./journal --exclude=./audit --exclude=./.env --exclude=./mexc-keys.json --exclude=./bot-config.json --exclude=./STOP .) | tar -xf - -C "$APP" || die "copying the bundle to $APP failed"
   if [ ! -f "$APP/bot-config.json" ]; then cp "$SRC/bot-config.json" "$APP/bot-config.json" && ok "bot-config.json created (mode paper)"; fi
   ok "code copied to $APP (existing bot-config.json, state/ and mexc-keys.json untouched)"
 fi
-chown -R "$SVC:$SVC" "$APP"; chmod 750 "$APP"; mkdir -p "$APP/state"; chown "$SVC:$SVC" "$APP/state"; chmod 700 "$APP/state"
+chown -R "$SVC:$SVC" "$APP"; chmod 750 "$APP"; mkdir -p "$APP/state" "$APP/journal" "$APP/audit/out"; chown -R "$SVC:$SVC" "$APP/state" "$APP/journal" "$APP/audit"; chmod 700 "$APP/state" "$APP/journal"
+# the server env file (Telegram, dashboard): created empty from the template once, then never overwritten; owner lucidio, mode 600
+if [ ! -f "$APP/.env" ]; then
+  install -m 600 -o "$SVC" -g "$SVC" "$APP/deploy/lucidio.env.example" "$APP/.env" && ok ".env created from the template (fill in TELEGRAM_* / DASHBOARD_*: see DEPLOY.md)"
+else chown "$SVC:$SVC" "$APP/.env"; chmod 600 "$APP/.env"; ok ".env: owner $SVC, mode 600 (kept as it is)"; fi
 if [ -f "$APP/mexc-keys.json" ]; then chown "$SVC:$SVC" "$APP/mexc-keys.json"; chmod 600 "$APP/mexc-keys.json"; ok "mexc-keys.json: owner $SVC, mode 600"; fi
 chmod 755 "$APP"/deploy/*.sh 2>/dev/null
 if grep -q '"mode"[[:space:]]*:[[:space:]]*"live"' "$APP/bot-config.json"; then warn "bot-config.json says mode LIVE. The bot still refuses to trade without LUCIDIO_ALLOW_LIVE=1"; fi
 
 step "11. systemd: bot service, watchdog (no run in 4h20m), failure alert, daily state backup"
-for u in lucidio.service lucidio-failed.service lucidio-watchdog.service lucidio-watchdog.timer lucidio-backup.service lucidio-backup.timer; do
+for u in lucidio.service lucidio-failed.service lucidio-watchdog.service lucidio-watchdog.timer lucidio-backup.service lucidio-backup.timer lucidio-compare.service lucidio-compare.timer; do
   install -m 644 "$APP/deploy/$u" "/etc/systemd/system/$u" || warn "could not install $u"
 done
 systemctl daemon-reload
 if systemctl enable lucidio.service >/dev/null 2>&1; then ok "lucidio.service enabled (starts on boot)"; fi
-if systemctl enable --now lucidio-watchdog.timer lucidio-backup.timer >/dev/null 2>&1; then ok "watchdog timer (10 min) and daily backup timer (03:30 UTC) enabled"; else warn "timers could not be enabled"; fi
+if systemctl enable --now lucidio-watchdog.timer lucidio-backup.timer lucidio-compare.timer >/dev/null 2>&1; then ok "watchdog (10 min), daily state+journal backup (03:30 UTC) and daily live-vs-backtest compare (00:40 UTC) timers enabled"; else warn "timers could not be enabled"; fi
 if [ "$WAS_ACTIVE" = 1 ]; then systemctl start lucidio && ok "service restarted with the new code"; fi
 
 step "summary"
@@ -166,6 +170,7 @@ echo "   node $(node -v) - service: $(systemctl is-active lucidio || true) - ena
 if [ ${#WARNINGS[@]} -gt 0 ]; then echo; echo "${#WARNINGS[@]} warning(s):"; printf '  - %s\n' "${WARNINGS[@]}"; fi
 echo
 echo "Next (first install):"
+echo "  0) sudo -u $SVC nano $APP/.env                               # TELEGRAM_BOT_TOKEN, then: sudo -u $SVC node $APP/lucidio.js telegram-setup (see DEPLOY.md)"
 echo "  1) sudo bash $APP/deploy/make-keys.sh                       # MEXC key (+ Telegram), hidden prompts"
 echo "  2) sudo -u $SVC node $APP/lucidio.js check                  # no BAD lines"
 echo "  3) sudo systemctl start lucidio && sudo journalctl -u lucidio -f"

@@ -11,6 +11,7 @@
 // No double orders: every order carries an externalOid built from the signal candle (bbSOL1792612800L). After any error the bot looks the
 // order up by that id instead of sending it again.
 'use strict';
+const { assertAllowedSymbol } = require('./config.js');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const decimals = (u) => { const s = String(u); return s.includes('e-') ? +s.split('e-')[1] : (s.split('.')[1] || '').length; };
 const roundTo = (v, unit) => +(Math.round(v / unit) * unit).toFixed(decimals(unit));
@@ -86,6 +87,7 @@ function createLiveExecutor({ api, cfg = {}, log = () => {} }) {
   // market-close the whole position (time exit, or emergency). Returns the exit result, or null if MEXC still shows it open.
   async function close(pos, why) {
     const symbol = sym(pos.coin);
+    assertAllowedSymbol(symbol, 'live close');
     if (!(await myPositions(pos.coin)).some((p) => String(p.positionId) === String(pos.positionId))) {   // already closed by MEXC
       const h = await findClosed(pos);
       return result(pos, h ? +h.closeAvgPrice : pos.entry, h ? classify(pos, +h.closeAvgPrice) : why, h);
@@ -112,7 +114,7 @@ function createLiveExecutor({ api, cfg = {}, log = () => {} }) {
 
   return {
     sizeOrder, leverageFor, ensureProtection, close,
-    async beginRun(coins) { for (const c of coins) specs[c] = await api.contract(sym(c)); },
+    async beginRun(coins) { for (const c of coins) { assertAllowedSymbol(sym(c), 'live setup'); specs[c] = await api.contract(sym(c)); } },
     spec: (coin) => specs[coin],
 
     async reconcile(coin, st) {
@@ -132,6 +134,7 @@ function createLiveExecutor({ api, cfg = {}, log = () => {} }) {
     },
 
     async enter(coin, o) {
+      assertAllowedSymbol(sym(coin), 'live entry');           // layer 2: before ANY state change or network call
       const spec = specs[coin], symbol = sym(coin), d = o.dir;
       if (!spec || +spec.state !== 0 || spec.apiAllowed === false) return { skip: `${symbol} is not tradable via API right now` };
       if ((await myPositions(coin)).length) return { skip: `MEXC already has a ${coin} position` };

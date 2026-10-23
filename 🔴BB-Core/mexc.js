@@ -13,6 +13,7 @@
 //   - POST order/create is NEVER retried blindly — callers look the order up by its externalOid instead (no double orders).
 'use strict';
 const crypto = require('crypto');
+const { assertAllowedSymbol } = require('./config.js');
 
 const BASE = 'https://api.mexc.com';
 const RETRY_CODES = new Set([500, 501, 510, 9999]);
@@ -106,7 +107,8 @@ function createClient({ apiKey = '', apiSecret = '', base = BASE, timeoutMs = 10
     openTpSl: (symbol) => get('/api/v1/private/stoporder/open_orders', { symbol }, true),
 
     // ---- private: write (never auto-retried) ----
-    createOrder: (o) => post('/api/v1/private/order/create', o),
+    // layer 2 of the allowlist: throws BEFORE any request is built, for anything but SOL_USDT / ZEC_USDT
+    createOrder: (o) => { assertAllowedSymbol(o && o.symbol, 'live order'); return post('/api/v1/private/order/create', o); },
     placeTpSl: (o) => post('/api/v1/private/stoporder/place', o),
     cancelTpSl: (ids) => post('/api/v1/private/stoporder/cancel', ids.map((id) => ({ stopPlanOrderId: id }))),
   };

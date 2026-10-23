@@ -12,15 +12,16 @@ OUT="${OUT:-$PWD/lucidio-deploy.tar.gz}"
 WITH_TESTS=0; [ "${1:-}" = "--with-tests" ] && WITH_TESTS=1
 
 # a bundle that failed verification must not be left lying around to be uploaded by mistake
-trap 'rc=$?; rm -rf "${CHK:-}"; if [ "$rc" -ne 0 ]; then rm -f "$OUT" "$OUT.sha256"; echo "bundle removed: verification failed (exit $rc)"; fi' EXIT
+trap 'rc=$?; rm -rf "${CHK:-}" "${BI:-}"; if [ "$rc" -ne 0 ]; then rm -f "$OUT" "$OUT.sha256"; echo "bundle removed: verification failed (exit $rc)"; fi' EXIT
 
 # ---- 1. what goes in (explicit list, nothing else) ----
 shopt -s nullglob
 FILES=()
-for f in lucidio*.js live.js mexc.js config.js ledger-sync.js dashboard.* bot-config.json package.json; do [ -f "$f" ] && FILES+=("$f"); done
+for f in lucidio*.js live.js mexc.js config.js ledger-sync.js telegram.js journal.js dashboard-push.js envfile.js compare-live-vs-backtest.js dashboard.* bot-config.json package.json; do [ -f "$f" ] && FILES+=("$f"); done
 FILES+=(deploy)
-if [ "$WITH_TESTS" = 1 ]; then FILES+=(test data/SOL.json data/ZEC.json data/MEXC_ZEC.json); fi
-for need in lucidio.js lucidio-core.js live.js mexc.js config.js ledger-sync.js dashboard.js dashboard.html bot-config.json deploy/setup-vps.sh deploy/lucidio.service; do
+# --with-tests: the tests, their 3 data files, the Vercel-side code the dashboard tests exercise (dashboard/, never deployed to the VPS) and export-trades.js (needs data/)
+if [ "$WITH_TESTS" = 1 ]; then FILES+=(test dashboard export-trades.js data/SOL.json data/ZEC.json data/MEXC_ZEC.json); fi
+for need in lucidio.js lucidio-core.js live.js mexc.js config.js ledger-sync.js telegram.js journal.js dashboard-push.js envfile.js compare-live-vs-backtest.js dashboard.js dashboard.html bot-config.json deploy/setup-vps.sh deploy/lucidio.service deploy/lucidio.env.example deploy/lucidio-compare.timer; do
   printf '%s\n' "${FILES[@]}" | grep -qx "$need" || [ -e "$need" ] || { echo "FAIL: required runtime file missing: $need"; exit 1; }
 done
 
@@ -37,9 +38,13 @@ if grep -lq $'\r' deploy/*.sh deploy/*.service deploy/*.timer 2>/dev/null; then 
 
 # ---- 3. build ----
 rm -f "$OUT" "$OUT.sha256"
+# BUILD_INFO.json: which commit this bundle was built from (the VPS has no .git); journal events carry it as provenance. dirty = uncommitted changes were included.
+BI="$(mktemp -d)"
+COMMIT="$(git rev-parse HEAD 2>/dev/null || echo unknown)"; DIRTY=false; [ -n "$(git status --porcelain -- . 2>/dev/null)" ] && DIRTY=true
+printf '{"commit":"%s","dirty":%s,"built_at":"%s"}\n' "$COMMIT" "$DIRTY" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$BI/BUILD_INFO.json"
 tar --sort=name --owner=0 --group=0 --numeric-owner --transform 's,^,lucidio/,' \
     --exclude='*.tar.gz' --exclude='*.sha256' --exclude='*.log' --exclude='*.jsonl' --exclude='node_modules' --exclude='.git' \
-    -czf "$OUT" "${FILES[@]}"
+    -czf "$OUT" "${FILES[@]}" -C "$BI" BUILD_INFO.json
 ( cd "$(dirname "$OUT")" && sha256sum "$(basename "$OUT")" > "$(basename "$OUT").sha256" )
 
 # ---- 4. report ----
@@ -66,8 +71,10 @@ PATTERNS=(
 HITS=0
 # test/ and data/ are fixtures, not config: data/*.json is numbers only, so only scan code, config and deploy files
 for p in "${PATTERNS[@]}"; do
-  if grep -rInE --exclude-dir=data -e "$p" "$CHK/lucidio"; then HITS=$((HITS + 1)); fi
+  if grep -rInE --exclude-dir=data --exclude=BUILD_INFO.json -e "$p" "$CHK/lucidio"; then HITS=$((HITS + 1)); fi
 done
+# BUILD_INFO.json is generated above (a commit hash is 40 hex characters, which the hex pattern would flag): check its exact shape instead
+grep -qE '^\{"commit":"([0-9a-f]{40}|unknown)","dirty":(true|false),"built_at":"[0-9TZ:-]+"\}$' "$CHK/lucidio/BUILD_INFO.json" || { echo "FAIL: BUILD_INFO.json has an unexpected shape"; HITS=$((HITS + 1)); }
 if [ "$HITS" -gt 0 ]; then echo "FAIL: $HITS secret pattern(s) matched (lines above)"; exit 1; fi
 echo "  content: scanned $(find "$CHK/lucidio" -type f ! -path '*/data/*' | wc -l) files for ${#PATTERNS[@]} secret patterns (Telegram/JWT/Supabase/healthchecks URLs, secret JSON values, 32+ hex): 0 matches"
 echo "  bot-config.json inside the bundle: $(tr -d '\n ' < "$CHK/lucidio/bot-config.json")"

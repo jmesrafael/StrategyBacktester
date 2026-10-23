@@ -18,6 +18,10 @@ const { signalFrom, gapInWindow, DEFAULTS } = require('./lucidio-core.js');
 const mexc = require('./mexc.js');
 const { createLiveExecutor } = require('./live.js');
 const ledgerSync = require('./ledger-sync.js');
+require('./envfile.js').load();                        // the server env file (<app>/.env): TELEGRAM_*, DASHBOARD_*; names only, values are never printed
+const tg = require('./telegram.js');
+const journalMod = require('./journal.js');
+const push = require('./dashboard-push.js');
 
 const DIR = __dirname;
 const STATE_DIR = process.env.LUCIDIO_STATE_DIR || path.join(DIR, 'state'), STATE_FILE = path.join(STATE_DIR, 'state.json');
@@ -26,7 +30,12 @@ const STATE_DIR = process.env.LUCIDIO_STATE_DIR || path.join(DIR, 'state'), STAT
 // haltAtR: no new entries once the account is this many R below its best point (the report's 99th-percentile drawdown is 39R).
 // bot-config.json is re-read at the start of every run (the dashboard Settings panel writes it), so changes apply at the next 4h close.
 const config = require('./config.js');
-const CFG = config.load();
+let CFG;
+try { CFG = config.load(); }
+catch (e) {                                                  // layer 1 of the allowlist (and any other bad config): refuse to start, clearly
+  if (require.main === module) { console.error(`REFUSING TO START: ${e.message}`); process.exit(1); }
+  throw e;
+}
 function reloadConfig() {
   const next = config.load(), changed = Object.keys(next).filter((k) => JSON.stringify(next[k]) !== JSON.stringify(CFG[k]));
   Object.assign(CFG, next);
@@ -47,6 +56,7 @@ const log = (...a) => { const line = `[${new Date().toISOString()}] ${a.join(' '
 // ---------------- paper executor (same fill/exit/fee rules as lucidio-core.js, minus funding) ----------------
 const paper = {
   enter(coin, o) {
+    config.assertAllowedSymbol(config.coinToSymbol(coin), 'paper entry');   // layer 2: throws before anything is computed or stored
     const d = o.dir, fill = o.refOpen * (1 + d * COST.slip), dist = Math.abs(fill - o.stop) / fill;
     if (!(dist > 0) || !(o.riskUsd > 0) || !(d === 1 ? o.stop < fill : o.stop > fill)) return null;
     return { coin, dir: d, entry: fill, stop: o.stop, tp: o.tp, dist, riskUsd: o.riskUsd, qty: o.riskUsd / Math.abs(fill - o.stop), t0: o.t0 };
@@ -61,6 +71,16 @@ const paper = {
   _close(pos, px, fee, why) { return { px, why, R: (pos.dir * (px - pos.entry) / pos.entry - COST.entryFee - fee) / pos.dist }; },
 };
 
+// cost fields for the journal. Paper numbers are ESTIMATES from the cost model (paper mode has no funding); live numbers are what MEXC reported.
+const entryCosts = (p) => (p.live ? { kind: 'actual', note: 'real fees, slippage and funding come from MEXC at the exit' }
+  : { kind: 'estimate (paper)', entry_fee_pct: COST.entryFee * 100, entry_slippage_pct: COST.slip * 100, funding: 'not modelled in paper mode' });
+function exitCosts(p, x) {
+  if (p.live) return { kind: 'actual', fees_usd: x.fees ?? null, funding_usd: x.funding ?? null, slippage_r: p.slipR ?? null };
+  const exitFee = x.why === 'stop' ? COST.stopFee : x.why === 'target' ? COST.tpFee : COST.timeFee, exitSlip = x.why === 'target' ? COST.tpSlip : COST.slip;
+  return { kind: 'estimate (paper)', fees_pct: (COST.entryFee + exitFee) * 100, slippage_pct: (COST.slip + exitSlip) * 100, fees_r: (COST.entryFee + exitFee) / p.dist, funding_r: 0, funding_note: 'paper mode does not model funding' };
+}
+const skipReasonOf = (msg) => (/more than .*× the/.test(msg) ? 'risk_cap' : /not enough free margin/.test(msg) ? 'insufficient_margin' : /not tradable/.test(msg) ? 'not_tradable' : /already past the stop/.test(msg) ? 'price_past_stop' : /already has a .* position/.test(msg) ? 'position_exists' : 'entry_refused');
+
 // ---------------- the decision logic (one state machine for replay, paper and live) ----------------
 // B = candles oldest→newest; B[n-1] is the still-forming one. st = per-coin state { lastTime, pos, realizedR, n, trades, pending }.
 // opt: acct (shared { balance, totalR, peakR }), replay, now (sec), nowPx (price right now), blocked (reason no new entries), save().
@@ -69,6 +89,10 @@ async function processCoin(coin, B, st, exec, opt = {}) {
   const acct = opt.acct || { balance: CFG.startBalance };
   const now = opt.now ?? Date.now() / 1000;
   const n = B.length, ev = [];
+  const H = opt.hooks || null, SYM = config.coinToSymbol(coin);
+  // hooks (journal, Telegram, dashboard) OBSERVE decisions, they never change them. A hook that throws becomes an ERROR event; the trade is still managed.
+  const emit = (name, info) => { if (!H || !H[name]) return; try { const r = H[name](info); if (r && typeof r.catch === 'function') r.catch(() => {}); } catch (e) { ev.push(`ERROR ${coin}: ${name} hook failed (${e.message}) — the trade is still managed normally`); } };
+  const indAt = (i) => (H ? journalMod.indicators(closes.slice(Math.max(0, i - 399), i + 1), atr[i]) : null);
   const closes = B.map((b) => b.close), atr = new Array(n).fill(null);
   let a = null;
   for (let i = 0; i < n; i++) {
@@ -84,11 +108,11 @@ async function processCoin(coin, B, st, exec, opt = {}) {
     const fillPx = opt.replay ? next.open : (opt.nowPx ?? next.open);
     if (st.pos) {
       const x = await exec.checkExit(st.pos, c);
-      if (x) finish(x, c.time + IV);                        // stop / target: flat again, a new signal on this same candle is allowed
+      if (x) finish(x, c.time + IV, c.time);                        // stop / target: flat again, a new signal on this same candle is allowed
       else {
         if (S.maxBars > 0 && (c.time - st.pos.t0) / IV >= S.maxBars) {
           const t = await exec.timeExit(st.pos, fillPx);
-          if (t) finish(t, opt.replay ? next.time : Math.round(now));
+          if (t) finish(t, opt.replay ? next.time : Math.round(now), next.time);
           else ev.push(`ERROR ${coin}: time exit failed — position still open on MEXC (its stop/target still protect it); retrying next run`);
         }
         st.lastTime = c.time; continue;                     // still in the trade (or a time exit, which uses up this candle)
@@ -96,25 +120,29 @@ async function processCoin(coin, B, st, exec, opt = {}) {
     }
     // C3: a missing candle among the last 200 means the indicators span a hole: no new signal (same rule as backtest(): gapSkip)
     const gap = !st.pos && i >= S.warmup && S.gapSkip && gapInWindow(B, i, Math.max(S.bbLen, S.trendLen), IV);
-    if (gap && signalFrom(closes.slice(Math.max(0, i - 399), i + 1), atr[i], S)) ev.push(`WARNING ${coin}: signal on candle ${iso(c.time)} SKIPPED: gap in the last ${Math.max(S.bbLen, S.trendLen)} candles (MEXC history has a hole, indicators unreliable)`);
+    if (gap) { const gs = signalFrom(closes.slice(Math.max(0, i - 399), i + 1), atr[i], S); if (gs) { ev.push(`WARNING ${coin}: signal on candle ${iso(c.time)} SKIPPED: gap in the last ${Math.max(S.bbLen, S.trendLen)} candles (MEXC history has a hole, indicators unreliable)`); emit('skip', { symbol: SYM, coin, dir: gs.dir, sigTime: c.time, sigCandle: c, indicators: indAt(i), reason: 'gap', detail: `hole in the last ${Math.max(S.bbLen, S.trendLen)} candles` }); } }
     if (!st.pos && i >= S.warmup && !gap) {
       const sig = signalFrom(closes.slice(Math.max(0, i - 399), i + 1), atr[i], S);
       if (sig) {
         const tag = `SIGNAL ${coin} ${sig.dir === 1 ? 'LONG' : 'SHORT'} on candle ${iso(c.time)}`, dd = (acct.peakR || 0) - (acct.totalR || 0);
-        if (!opt.replay && now - next.time > CFG.maxEntryDelaySec) ev.push(`${tag} SKIPPED: next candle opened ${Math.round((now - next.time) / 60)} min ago (too late to enter at its open)`);
-        else if (dd >= -CFG.haltAtR) ev.push(`${tag} skipped: HALTED (account ${dd.toFixed(1)}R below its best point, limit ${-CFG.haltAtR}R)`);
-        else if (!opt.replay && fs.existsSync(path.join(DIR, 'STOP'))) ev.push(`${tag} skipped: STOP file present`);
-        else if (opt.blocked) ev.push(`${tag} skipped: ${opt.blocked}`);
+        const skip = (reason, detail) => emit('skip', { symbol: SYM, coin, dir: sig.dir, sigTime: c.time, sigCandle: c, indicators: indAt(i), reason, detail });
+        if (!opt.replay && now - next.time > CFG.maxEntryDelaySec) { ev.push(`${tag} SKIPPED: next candle opened ${Math.round((now - next.time) / 60)} min ago (too late to enter at its open)`); skip('late_entry', `${Math.round((now - next.time) / 60)} min after the open`); }
+        else if (dd >= -CFG.haltAtR) { ev.push(`${tag} skipped: HALTED (account ${dd.toFixed(1)}R below its best point, limit ${-CFG.haltAtR}R)`); skip('drawdown_halt', `${dd.toFixed(1)}R below the best point, limit ${-CFG.haltAtR}R`); }
+        else if (!opt.replay && fs.existsSync(path.join(DIR, 'STOP'))) { ev.push(`${tag} skipped: STOP file present`); skip('kill_switch', 'STOP file present'); }
+        else if (opt.blocked) { ev.push(`${tag} skipped: ${opt.blocked}`); skip('blocked', opt.blocked); }
         else {
           const r = await exec.enter(coin, { ...sig, refOpen: fillPx, t0: next.time, sigTime: c.time, riskUsd: riskFor(acct), st, save: opt.save || (() => {}) });
           const p = r && (r.pos || (r.skip ? null : r));
-          if (r && r.skip && !r.aborted) ev.push(`${r.error ? 'ERROR ' : ''}${tag} skipped: ${r.skip}`);
+          if (r && r.skip && !r.aborted) { ev.push(`${r.error ? 'ERROR ' : ''}${tag} skipped: ${r.skip}`); skip(skipReasonOf(r.skip), r.skip); }
+          if (!r) skip('entry_invalid', 'the paper fill was invalid (stop on the wrong side of the price, or zero distance)');
           if (p) {
-            st.pos = p;
+            st.pos = p; p.sigTime = p.sigTime ?? c.time;       // the signal candle: with the side it forms the journal's match key
             if (!opt.replay) { p.entryDelaySec = Math.round(now - next.time); p.slipR = +(p.dir * (p.entry - next.open) / Math.abs(next.open - p.stop)).toFixed(4); }
             ev.push(`ENTER ${coin} ${p.dir === 1 ? 'LONG' : 'SHORT'} @ ${p.entry.toPrecision(6)}  stop ${p.stop.toPrecision(6)}  tp ${p.tp.toPrecision(6)}  qty ${p.qty.toPrecision(4)}${p.vol ? ` (${p.vol} contracts, ${p.lev}x isolated)` : ''} (risk ${usd(p.riskUsd)} of balance ${usd(acct.balance)})${p.slipR != null ? ` · ${p.entryDelaySec}s after the open, price ${p.slipR >= 0 ? '+' : ''}${p.slipR.toFixed(3)}R from it` : ''}`);
+            emit('entry', { symbol: SYM, coin, dir: p.dir, sigTime: c.time, sigCandle: c, indicators: indAt(i), decisionSec: now, intended: fillPx, fill: p.entry, nextOpenSec: next.time, nextOpen: next.open, delaySec: p.entryDelaySec, slipR: p.slipR,
+              stop: p.stop, tp: p.tp, qty: p.qty, vol: p.vol, lev: p.lev, positionId: p.positionId, oid: p.oid, riskUsd: p.riskUsd, balance: acct.balance, oneR: Math.abs(p.entry - p.stop), live: !!p.live, costs: entryCosts(p) });
             if (r.warn) ev.push(`ERROR ${coin}: ${r.warn}`);
-            if (r.aborted) { ev.push(`ERROR ${tag}: ${r.skip}`); finish(r.aborted, Math.round(now)); }
+            if (r.aborted) { ev.push(`ERROR ${tag}: ${r.skip}`); finish(r.aborted, Math.round(now), next.time); }
           }
         }
       }
@@ -123,7 +151,7 @@ async function processCoin(coin, B, st, exec, opt = {}) {
   }
   return ev;
 
-  function finish(x, tExit) {
+  function finish(x, tExit, exitCandleOpen) {
     const p = st.pos; st.pos = null; st.realizedR += x.R; st.n++;
     const pnl = x.usd ?? x.R * (p.riskUsd ?? CFG.riskUsd);
     acct.balance += pnl;
@@ -132,6 +160,8 @@ async function processCoin(coin, B, st, exec, opt = {}) {
     if (p.live) Object.assign(rec, { live: true, vol: p.vol, riskUsd: p.riskUsd, slipR: p.slipR, fees: x.fees, funding: x.funding, positionId: p.positionId });
     (st.trades = st.trades || []).push(rec);
     ev.push(`EXIT  ${p.coin} ${p.dir === 1 ? 'LONG' : 'SHORT'} ${x.why}  ${x.R >= 0 ? '+' : ''}${x.R.toFixed(2)}R  (${usd(pnl)})  total ${st.realizedR.toFixed(2)}R  balance ${usd(acct.balance)}`);
+    emit('exit', { symbol: config.coinToSymbol(p.coin), coin: p.coin, dir: p.dir, sigTime: p.sigTime ?? (p.t0 - IV), why: x.why, exit: x.px, entry: p.entry, stop: p.stop, tp: p.tp, t0: p.t0, R: x.R, usd: pnl,
+      balanceAfter: acct.balance, exitSec: tExit, exitCandleOpenSec: exitCandleOpen, holdSec: tExit - p.t0, costs: exitCosts(p, x) });
   }
 }
 
@@ -169,17 +199,47 @@ const appendJsonl = (name, obj) => { try { fs.mkdirSync(STATE_DIR, { recursive: 
 function event(type, coin, msg) {
   log(type === 'error' && !msg.startsWith('ERROR') ? `${coin} ERROR ${msg}` : type === 'warn' && !msg.startsWith('WARNING') ? `${coin} WARNING ${msg}` : msg);
   appendJsonl('events.jsonl', { ts: new Date().toISOString(), type, coin, msg });
-  if (type === 'enter' || type === 'exit' || type === 'error' || type === 'skip' || /SIGNAL .*SKIPPED/i.test(msg)) notify(msg);   // a skipped signal is a missed trade: tell the phone
+  // entries and exits are announced by the formatted messages from the hooks (telegram.js fmtEntry / fmtExit); errors and skipped signals (= missed trades) come from here
+  if (type === 'error' || type === 'skip' || /SIGNAL .*SKIPPED/i.test(msg)) notify(msg);
 }
 const typeOf = (msg) => (msg.startsWith('ENTER') ? 'enter' : msg.startsWith('EXIT') ? 'exit' : msg.startsWith('ERROR') ? 'error' : msg.startsWith('WARNING') ? 'warn' : /skip/i.test(msg) ? 'skip' : 'info');
 
-// optional phone alerts: add "telegramToken" + "telegramChatId" to mexc-keys.json
-function notify(text) {
-  let k = {}; try { k = JSON.parse(fs.readFileSync(path.join(DIR, 'mexc-keys.json'), 'utf8')); } catch {}
-  if (!k.telegramToken || !k.telegramChatId || process.env.LUCIDIO_NO_NOTIFY) return;
-  fetch(`https://api.telegram.org/bot${k.telegramToken}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-    signal: AbortSignal.timeout(10000), body: JSON.stringify({ chat_id: k.telegramChatId, text: `Lucid'io ${CFG.mode.toUpperCase()}: ${text}` }) }).catch(() => {});
+// Telegram (telegram.js): token + chat id from the env file (TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID) or the older mexc-keys.json fields.
+// Fire-and-forget: never awaited, 8 s timeout, never throws; a failure is one throttled warning in the log, nothing else.
+let tgWarnAt = 0;
+function notify(text, raw = false) {
+  try {
+    tg.send(raw ? text : `Lucid'io ${CFG.mode.toUpperCase()}: ${text}`).then((r) => {
+      if (r && !r.ok && !r.skipped && Date.now() - tgWarnAt > 600000) { tgWarnAt = Date.now(); log(`WARNING Telegram message not delivered: ${r.error}`); }
+    }).catch(() => {});
+  } catch {}
 }
+
+// the three sinks behind processCoin's hooks: journal (append-only file), Telegram (trade messages), dashboard (outbox). One failing never stops another.
+function makeHooks() {
+  const jw = journalMod.makeWriter({ mode: () => CFG.mode, cfgFn: () => CFG });
+  const journalAndPush = (kind, i) => {
+    let rec, err = null;
+    try { rec = jw[kind](i); } catch (e) { rec = e.rec; err = e; }
+    if (rec) push.pushJournal(rec);                                   // the dashboard gets the event even if the local journal write failed
+    if (err) throw new Error(`journal write failed: ${err.message}`);  // processCoin turns this into an ERROR alert and carries on
+  };
+  return {
+    entry(i) { notify(tg.fmtEntry({ symbol: i.symbol, dir: i.dir, mode: CFG.mode, entry: i.fill, stop: i.stop, tp: i.tp, riskPct: i.balance > 0 ? i.riskUsd / i.balance : 0, oneR: i.oneR, sigTime: i.sigTime }), true); journalAndPush('entry', i); },
+    exit(i) { notify(tg.fmtExit({ symbol: i.symbol, dir: i.dir, mode: CFG.mode, why: i.why, exit: i.exit, entry: i.entry, R: i.R, holdSec: i.holdSec }), true); journalAndPush('exit', i); },
+    skip(i) { journalAndPush('skip', i); },
+    session(i) { const rec = jw.session(i); return rec; },
+  };
+}
+// what the dashboard banner needs (no secrets, no paths)
+function pushStatus(state) {
+  const lastCandleMs = {};
+  for (const c of CFG.coins) { const t = state.coins && state.coins[c] && state.coins[c].lastTime; if (t) lastCandleMs[config.coinToSymbol(c)] = t * 1000; }
+  return { mode: CFG.mode, status: 'running', lastCandleMs, kill: fs.existsSync(path.join(DIR, 'STOP')), drawdownR: (state.peakR || 0) - (state.totalR || 0), haltR: -CFG.haltAtR,
+    commit: String(journalMod.provenance(CFG, CFG.mode).git_commit || 'unknown').slice(0, 12), version: journalMod.BOT_VERSION, uptimeSec: Math.round(process.uptime()),
+    nextWakeMs: state.nextWakeAt ? Date.parse(state.nextWakeAt) : null, coins: CFG.coins.map(config.coinToSymbol) };
+}
+push.setLogger((m) => log(m));
 
 // healthchecks.io style ping after EVERY run: plain URL = the run succeeded, URL/fail = errors or a candle that never showed up.
 // With the check set to period 4h + grace 20 min, healthchecks.io alerts when no run has pinged for 4h20m (deploy/watchdog.js does the same on the box).
@@ -203,14 +263,18 @@ function noteBlocked(run, state, e, where) {
 }
 
 async function runOnce(opt = {}) {
-  const changed = reloadConfig();
+  let changed = [];
+  try { changed = reloadConfig(); }
+  catch (e) { event('error', 'BOT', `ERROR config refused: ${e.message} — no trading this run (fix bot-config.json)`); heartbeat(false); return; }
   if (changed.length) event('info', 'BOT', `settings reloaded: ${changed.join(', ')}`);
   const live = CFG.mode === 'live';
   if (CFG.riskPctClamped) event('warn', 'BOT', `WARNING bot-config.json riskPct ${CFG.riskPctClamped} is above the ${config.MAX_RISK_PCT} cap: using ${config.MAX_RISK_PCT}`);
   const t0 = Date.now(), run = { ts: new Date().toISOString(), mode: live ? 'live' : 'paper', coins: {}, warnings: [], errors: [], stale: [] };
   const state = loadState();
   // coins removed in Settings while a trade is still open keep being managed (exits only) until that trade is closed
-  const managedOnly = Object.keys(state.coins || {}).filter((c) => !CFG.coins.includes(c) && (state.coins[c].pos || state.coins[c].pending));
+  const foreign = Object.keys(state.coins || {}).filter((c) => !config.COINS.includes(c));   // layer 1 again: a coin in state/ that is not SOL/ZEC is never touched
+  if (foreign.length) event('warn', 'BOT', `WARNING state/ holds ${foreign.join(', ')}: not in the allowlist, ignored`);
+  const managedOnly = Object.keys(state.coins || {}).filter((c) => config.COINS.includes(c) && !CFG.coins.includes(c) && (state.coins[c].pos || state.coins[c].pending));
   const runCoins = [...CFG.coins, ...managedOnly];
   const finishRun = () => {
     run.balance = state.balance;
@@ -235,6 +299,7 @@ async function runOnce(opt = {}) {
     if (Math.abs(run.clockDriftMs) > 5000) { run.warnings.push(`VPS clock is ${(run.clockDriftMs / 1000).toFixed(1)}s off MEXC time`); event('warn', 'BOT', run.warnings[run.warnings.length - 1]); }
   } catch (e) { if (noteBlocked(run, state, e, 'clock check')) return finishRun(); run.warnings.push('clock check failed: ' + e.message); }
 
+  const hooks = makeHooks();
   let exec = paper;
   if (live) {
     if (!mexc.hasKeys()) return fail('LIVE mode needs mexc-keys.json (trade permission) — no trading this run');
@@ -255,9 +320,11 @@ async function runOnce(opt = {}) {
       if (f.stale) { // C4: the new candle never appeared: no decision is possible this run. Alert (first time = error -> Telegram, retries = warning) and let loop() retry.
         const msg = `${coin}: MEXC has not published the new 4h candle ${iso(f.expected)} ${f.waitedSec}s after the close (newest candle ${iso(f.B[f.B.length - 1].time)}) — no decision made, retrying`;
         c.stale = true; run.stale.push(coin); run.warnings.push(msg); if (!opt.retry) run.errors.push(msg); event(opt.retry ? 'warn' : 'error', coin, (opt.retry ? 'WARNING ' : 'ERROR ') + msg);
+        if (!opt.retry) { try { hooks.skip({ symbol: config.coinToSymbol(coin), coin, dir: null, sigTime: f.expected, reason: 'missing_candle', detail: `no 4h candle ${iso(f.expected)} ${f.waitedSec}s after the close` }); } catch (e) { event('error', coin, `ERROR journal write failed: ${e.message}`); } }
         continue;
       }
       const B = f.B, n = B.length, now = nowSec();
+      push.notePrice(config.coinToSymbol(coin), B[n - 1].close, B[n - 1].time * 1000);
       Object.assign(c, { fetchMs: f.ms, attempts: f.attempts, polls: f.polls, candles: n });
       if (f.attempts > 1) run.warnings.push(`${coin}: candles needed ${f.attempts} attempts`);
       let gaps = 0; for (let i = 1; i < n; i++) if (B[i].time - B[i - 1].time !== IV) gaps++;
@@ -275,7 +342,7 @@ async function runOnce(opt = {}) {
         saveState(state);
       }
       const p0 = Date.now();
-      const ev = await processCoin(coin, B, st, exec, { acct: state, now: nowSec(), nowPx: B[n - 1].close, blocked, save: () => saveState(state) });
+      const ev = await processCoin(coin, B, st, exec, { acct: state, now: nowSec(), nowPx: B[n - 1].close, blocked, save: () => saveState(state), hooks });
       c.processMs = Date.now() - p0;
       c.events = ev.length;
       ev.forEach((e) => { const ty = typeOf(e); if (ty === 'error') run.errors.push(e); event(ty, coin, e); });
@@ -288,6 +355,11 @@ async function runOnce(opt = {}) {
     catch (e) { run.errors.push('MEXC account: ' + e.message); event('error', 'MEXC', 'account read failed: ' + e.message); }
   }
   await syncLedger(run, state);
+  try {   // dashboard: a heartbeat and an equity point per run (= per candle close). Queued, never awaited, never throws.
+    push.pushHeartbeat(pushStatus(state));
+    const lastT = Math.max(0, ...Object.values(state.coins || {}).map((c) => c.lastTime || 0));
+    push.pushEquity({ mode: CFG.mode, totalR: state.totalR, peakR: state.peakR, drawdownR: (state.peakR || 0) - (state.totalR || 0), trades: Object.values(state.coins || {}).reduce((s, c) => s + (c.n || 0), 0), candleMs: lastT * 1000, balance: state.balance });
+  } catch {}
   finishRun();
 }
 
@@ -306,6 +378,28 @@ async function syncLedger(run, state) {
     else if (r.status === 'skipped' || r.status === 'error') event(r.status === 'error' ? 'error' : 'warn', 'LEDGER', `balance ${r.equity} not posted: ${r.detail}`);
     else if (r.status === 'noequity') event('warn', 'LEDGER', r.detail);
   } catch (e) { run.ledger = { status: 'error', detail: e.message }; event('error', 'LEDGER', e.message); }
+}
+
+// node lucidio.js balance: how much capital is in the account. Read-only (View Account permission is enough); nothing is ever sent.
+//   paper account = the simulated balance in state/ · MEXC futures account = what MEXC itself reports (needs mexc-keys.json)
+async function balance() {
+  const s = loadState(), paper = s.balance ?? CFG.startBalance, p = (v) => (v == null || !Number.isFinite(+v) ? '—' : usd(+v));
+  console.log(`Lucid'io ${CFG.mode.toUpperCase()} mode`);
+  console.log(`  paper/bot balance : ${usd(paper)}  (start ${usd(CFG.startBalance)}, ${paper >= CFG.startBalance ? '+' : ''}${((paper / CFG.startBalance - 1) * 100).toFixed(1)}%) · ${((s.peakR || 0) - (s.totalR || 0)).toFixed(1)}R below best point`);
+  if (!mexc.hasKeys()) {
+    console.log('  MEXC account      : no API key in mexc-keys.json — add one (View Account permission is enough) to see the real balance');
+    console.log(`  next trade risk   : ${usd(riskFor({ balance: paper }))} (on the bot balance)`);
+    return;
+  }
+  try {
+    await mexc.client.syncTime();
+    const { data: a, ms } = await mexc.account();
+    console.log(`  MEXC futures USDT : equity ${p(a.equity)} · available ${p(a.available)} · unrealized P&L ${p(a.unrealized)}${a.positionMargin != null ? ` · in positions ${p(a.positionMargin)}` : ''}${a.frozenBalance ? ` · frozen ${p(a.frozenBalance)}` : ''}  (${ms} ms)`);
+    console.log(`  next trade risk   : ${CFG.mode === 'live' ? usd(riskFor({ balance: a.equity })) + ' (on the real MEXC equity)' : usd(riskFor({ balance: paper })) + ' (paper mode sizes on the bot balance, not the MEXC account)'}`);
+  } catch (e) {
+    console.log(`  MEXC account      : could not read it: ${e.message}${mexc.isBlocked(e) ? ' — access blocked, see deploy/mexc-reachability.sh' : e.code === 406 ? ' — add this server IP to the key' : e.code === 402 ? ' — key expired' : ''}`);
+    process.exitCode = 1;
+  }
 }
 
 function status() {
@@ -339,6 +433,7 @@ async function loop() {
   process.on('exit', cleanup);
   process.on('SIGINT', () => { event('info', 'BOT', 'stopped (Ctrl+C)'); process.exit(0); });
   process.on('SIGTERM', () => { event('info', 'BOT', 'stopped (service stop)'); process.exit(0); });
+  try { makeHooks().session({ coins: CFG.coins, note: 'loop started' }); } catch (e) { event('error', 'BOT', `ERROR journal write failed: ${e.message}`); }
   event('start', 'BOT', `started loop · ${CFG.mode.toUpperCase()} · pid ${process.pid} · coins ${CFG.coins.join(', ')} · ${CFG.riskPct > 0 ? `risk ${CFG.riskPct * 100}% of balance (max $${CFG.maxRiskUsd})` : `risk $${CFG.riskUsd}`}`);
   for (;;) {
     lastRun = null;
@@ -347,7 +442,7 @@ async function loop() {
     const wake = (Math.floor(nowSec() / IV) + 1) * IV + CFG.wakeDelaySec;
     try { const s = loadState(); s.nextWakeAt = new Date(wake * 1000).toISOString(); saveState(s); } catch {}
     log(`sleeping until ${iso(wake)} (candle close + ${CFG.wakeDelaySec}s, MEXC time)`);
-    while (nowSec() < wake) await sleep(Math.min(60000, (wake - nowSec()) * 1000)); // short naps: robust to clock fixes / VM pauses
+    while (nowSec() < wake) { await sleep(Math.min(60000, (wake - nowSec()) * 1000)); if (push.heartbeatDue()) { try { push.pushHeartbeat(pushStatus(loadState())); } catch {} } } // short naps: robust to clock fixes / VM pauses
   }
 }
 
@@ -387,6 +482,11 @@ async function check() {
       row(sz ? 'OK' : 'WARN', `${coin} sizing`, `if a signal fired now: stop ${(Math.abs(px - mid) / px * 100).toFixed(2)}% away · target risk ${usd(risk)} -> ${sz ? `${sz.vol} contracts, real risk ${usd(sz.riskUsd)}, ${lev}x isolated, margin ≈ ${usd(sz.vol * spec.contractSize * px / lev)}` : 'NOT tradable (1 contract risks too much)'}`);
     } catch (e) { row('BAD', mexc.isBlocked(e) ? 'MEXC BLOCKED' : coin, e.message + hint(e)); }
   }
+  row('OK', 'allowlist', `only ${config.ALLOWED_SYMBOLS.join(' and ')} can be traded (config load, paper.enter, live.enter, mexc.createOrder)`);
+  { let w = true; try { fs.mkdirSync(journalMod.dir(), { recursive: true }); fs.accessSync(journalMod.dir(), fs.constants.W_OK); } catch { w = false; }
+    const j = journalMod.readAll(); row(w ? 'OK' : 'BAD', 'journal', `${w ? 'writable' : 'NOT WRITABLE'} · ${j.events.length} event(s)${j.bad ? ` · ${j.bad} unreadable line(s)` : ''}`); }
+  { const t = await tg.reachable(); row(!t.configured ? 'WARN' : t.ok ? 'OK' : 'BAD', 'telegram', t.detail); }
+  { const d = await push.reachable(); row(d.configured && !d.ok ? 'WARN' : 'OK', 'dashboard', d.detail); }
   row(fs.existsSync(path.join(DIR, 'STOP')) ? 'WARN' : 'OK', 'kill switch', fs.existsSync(path.join(DIR, 'STOP')) ? 'STOP file present: no new entries' : 'off');
   if (st.mode && st.mode !== CFG.mode) row('BAD', 'state', `state/ was written in ${st.mode} mode; rename it before running ${CFG.mode}`);
   row(CFG.riskPctClamped ? 'WARN' : 'OK', 'risk', CFG.riskPct > 0 ? `${CFG.riskPct * 100}% of balance per trade (hard cap ${config.MAX_RISK_PCT * 100}%), max $${CFG.maxRiskUsd}${CFG.riskPctClamped ? ` — bot-config.json asks for ${CFG.riskPctClamped}, clamped` : ''}` : `$${CFG.riskUsd} per trade`);
@@ -440,7 +540,7 @@ async function replay(coins) {
   }
 }
 
-module.exports = { processCoin, paper, CFG, riskFor, reloadConfig, fetchCandles, runOnce, liveAllowed, heartbeat, event };
+module.exports = { processCoin, paper, CFG, riskFor, reloadConfig, fetchCandles, runOnce, liveAllowed, heartbeat, event, balance, makeHooks, pushStatus, notify };
 // one sync right now: reads the MEXC futures equity and posts it. --dry shows what would be sent and sends nothing.
 async function ledgerNow(dry) {
   await mexc.client.syncTime();
@@ -450,13 +550,24 @@ async function ledgerNow(dry) {
   if (r.status === 'posted') { const st = loadState(); st.ledgerPost = { ts: Date.now(), equity: r.equity }; saveState(st); console.log('unit price now ' + (+r.unitPrice).toFixed(4)); }
 }
 
+// node lucidio.js dashboard-backfill: send every event already in journal/trades.jsonl to the dashboard (same event ids: safe to run twice)
+async function dashboardBackfill() {
+  const { events, bad } = journalMod.readAll();
+  const r = await push.backfill(events);
+  console.log(r.ok ? `journal: ${r.journalEvents} event(s)${bad ? ` (${bad} unreadable line(s) skipped)` : ''} -> ${r.queued} dashboard event(s) queued, ${r.sent} sent, ${r.pending} still queued${r.pending ? ' (will retry; run again or let the bot catch up)' : ''}` : `not sent: ${r.detail}`);
+  process.exitCode = r.ok && !r.pending ? 0 : 1;
+}
+
 const cmd = require.main === module ? process.argv[2] : 'lib';
 if (cmd === 'lib') {}
 else if (cmd === 'once') runOnce();
 else if (cmd === 'loop') loop();
 else if (cmd === 'status') status();
+else if (cmd === 'balance') balance();
+else if (cmd === 'telegram-setup') tg.setup().then((r) => { process.exitCode = r.ok ? 0 : 1; });
+else if (cmd === 'dashboard-backfill') dashboardBackfill();
 else if (cmd === 'check') check();
 else if (cmd === 'ledger-sync') ledgerNow(process.argv.includes('--dry')).catch((e) => { console.log('ledger-sync failed: ' + e.message); process.exitCode = 1; });
 else if (cmd === 'test-trade') testTrade((process.argv[3] || 'SOL').toUpperCase());
 else if (cmd === 'replay') replay((process.argv[3] || CFG.coins.join(',')).split(','));
-else console.log('usage: node lucidio.js check | ledger-sync [--dry] | test-trade SOL --yes --allow-live | once | loop | status | replay SOL,ZEC   (live trading also needs --allow-live or LUCIDIO_ALLOW_LIVE=1)');
+else console.log('usage: node lucidio.js check | balance | telegram-setup | dashboard-backfill | ledger-sync [--dry] | test-trade SOL --yes --allow-live | once | loop | status | replay SOL,ZEC   (live trading also needs --allow-live or LUCIDIO_ALLOW_LIVE=1)');

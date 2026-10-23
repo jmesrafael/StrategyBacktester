@@ -7,3 +7,8 @@ shadow/
 # deployment bundle (built by deploy/package.sh)
 lucidio-deploy*.tar.gz
 lucidio-deploy*.tar.gz.sha256
+
+# server env file (Telegram, dashboard secrets), the append-only trade journal, daily compare reports
+.env
+journal/
+audit/out/compare-*

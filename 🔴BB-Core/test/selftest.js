@@ -210,7 +210,7 @@ async function scenario(name, knobs, fn) {
   // Runs in a throw-away copy of the bot (fake Telegram token, stubbed fetch), so nothing real is read, sent or written.
   {
     const os = require('os'), BOX = fs.mkdtempSync(path.join(os.tmpdir(), 'lucidio-blocked-')), SD = path.join(BOX, 'state');
-    for (const f of ['lucidio.js', 'lucidio-core.js', 'live.js', 'mexc.js', 'config.js', 'ledger-sync.js']) fs.copyFileSync(path.join(__dirname, '..', f), path.join(BOX, f));
+    for (const f of ['lucidio.js', 'lucidio-core.js', 'live.js', 'mexc.js', 'config.js', 'ledger-sync.js', 'telegram.js', 'journal.js', 'dashboard-push.js', 'envfile.js']) fs.copyFileSync(path.join(__dirname, '..', f), path.join(BOX, f));
     fs.writeFileSync(path.join(BOX, 'mexc-keys.json'), JSON.stringify({ telegramToken: '123456789' + ':' + 'FAKE_TOKEN_' + 'FOR_TEST_ONLY_0123456789', telegramChatId: '42' }));
     fs.writeFileSync(path.join(BOX, 'bot-config.json'), JSON.stringify({ mode: 'paper', coins: ['SOL'], heartbeatUrl: '' }));
     fs.mkdirSync(SD);
@@ -219,6 +219,7 @@ async function scenario(name, knobs, fn) {
     fs.writeFileSync(path.join(SD, 'state.json'), JSON.stringify({ coins: { SOL: coin0 }, startedAt: 'x', mode: 'paper', balance: 100, totalR: 0, peakR: 0 }));
     const saved = { fetch: global.fetch, dir: process.env.LUCIDIO_STATE_DIR };
     process.env.LUCIDIO_STATE_DIR = SD; delete process.env.LUCIDIO_NO_NOTIFY;
+    for (const k of ['TELEGRAM_BOT_TOKEN', 'TELEGRAM_CHAT_ID', 'DASHBOARD_URL', 'DASHBOARD_PUSH_SECRET']) delete process.env[k];
     const calls = []; let reply = { status: 403, text: '<html><body><h1>403 Forbidden</h1></body></html>' };
     global.fetch = async (url) => { calls.push(String(url)); return { ok: false, status: reply.status, text: async () => reply.text }; };
     const mx = require(path.join(BOX, 'mexc.js')), bot = require(path.join(BOX, 'lucidio.js')), cl = mx.createClient();
@@ -237,6 +238,54 @@ async function scenario(name, knobs, fn) {
     ok(tgCalls() === 1, `two blocked runs sent exactly one Telegram alert (${tgCalls()})`);
     ok(JSON.stringify(st.coins.SOL) === JSON.stringify(coin0) && st.coins.SOL.pos && st.accessLost, 'open position in state left unchanged (accessLost flag recorded, nothing else touched)');
     global.fetch = saved.fetch; process.env.LUCIDIO_STATE_DIR = saved.dir; fs.rmSync(BOX, { recursive: true, force: true });
+  }
+
+  // ---------------- SOL and ZEC only: the allowlist, enforced in three layers ----------------
+  // layer 1 config load (refuses to start) · layer 2 every order-placement function (paper.enter, live.enter / close / beginRun, mexc createOrder) throws
+  // BEFORE any state change or network call · layer 3 this test. fetch and the exchange API are mocks that COUNT their calls.
+  {
+    const os = require('os'), cp = require('child_process'), cfgMod = require('../config.js');
+    const BOX = fs.mkdtempSync(path.join(os.tmpdir(), 'lucidio-allow-'));
+    for (const f of ['lucidio.js', 'lucidio-core.js', 'live.js', 'mexc.js', 'config.js', 'ledger-sync.js', 'telegram.js', 'journal.js', 'dashboard-push.js', 'envfile.js']) fs.copyFileSync(path.join(__dirname, '..', f), path.join(BOX, f));
+    const cfgFile = (coins) => fs.writeFileSync(path.join(BOX, 'bot-config.json'), JSON.stringify({ mode: 'paper', coins }));
+    // layer 1: config load
+    cfgFile(['SOL', 'BTC']);
+    let err1 = null; try { require(path.join(BOX, 'config.js')).load(); } catch (e) { err1 = e; }
+    ok(err1 && err1.name === 'ConfigError' && /BTC/.test(err1.message) && /SOL_USDT and ZEC_USDT/.test(err1.message), `config load rejects a coin outside the allowlist: ${err1 && err1.message.slice(0, 90)}`);
+    cfgFile(['XYZ_USDT']); let err1b = null; try { require(path.join(BOX, 'config.js')).load(); } catch (e) { err1b = e; }
+    cfgFile('SOL'); let err1c = null; try { require(path.join(BOX, 'config.js')).load(); } catch (e) { err1c = e; }
+    ok(err1b && err1b.name === 'ConfigError' && err1c && err1c.name === 'ConfigError', 'a junk symbol and a non-list "coins" are rejected too');
+    cfgFile(['SOL_USDT', 'ZEC']); ok(require(path.join(BOX, 'config.js')).load().coins.join() === 'SOL,ZEC', '"SOL_USDT" and "ZEC" are accepted and normalised');
+    cfgFile(['SOL', 'BTC']);
+    const run = cp.spawnSync(process.execPath, [path.join(BOX, 'lucidio.js'), 'status'], { env: { ...process.env, LUCIDIO_STATE_DIR: path.join(BOX, 'state') }, encoding: 'utf8', timeout: 20000 });
+    ok(run.status === 1 && /REFUSING TO START/.test(run.stderr) && /BTC/.test(run.stderr), 'the bot refuses to start with a clear error when bot-config.json lists BTC');
+    ok(cfgMod.ALLOWED_SYMBOLS.join() === 'SOL_USDT,ZEC_USDT' && Object.isFrozen(cfgMod.ALLOWED_SYMBOLS), 'the allowlist is one frozen constant: SOL_USDT, ZEC_USDT');
+
+    // layer 2
+    const netCalls = []; const realFetch = global.fetch;
+    global.fetch = async (url) => { netCalls.push(String(url)); return { ok: true, status: 200, text: async () => JSON.stringify({ success: true, code: 0, data: {} }) }; };
+    const thrown = async (fn) => { try { await fn(); return null; } catch (e) { return e; } };
+    const o = (st) => ({ dir: 1, stop: 90, tp: 140, refOpen: 100, riskUsd: 1, t0: 1, sigTime: 1, st, save: () => { st.saved = true; } });
+    for (const coin of ['BTC', 'XYZ', 'SOL_USDT']) {                                   // BTC, junk, and a symbol passed where a coin name belongs
+      const st = {}, e = await thrown(() => paper.enter(coin, o(st)));
+      ok(e && e.code === 'SYMBOL_NOT_ALLOWED' && Object.keys(st).length === 0 && netCalls.length === 0, `PAPER enter(${coin}) throws SYMBOL_NOT_ALLOWED; no state change; no network call`);
+    }
+    const apiCalls = []; const spy = new Proxy({}, { get: (_, name) => (...a) => { apiCalls.push(String(name)); return Promise.resolve({}); } });   // any method of the exchange API counts as a call
+    const liveX = createLiveExecutor({ api: spy, cfg: {}, log: () => {} });
+    for (const coin of ['BTC', 'XYZ']) {
+      const st = {}, e1 = await thrown(() => liveX.enter(coin, o(st))), e2 = await thrown(() => liveX.beginRun([coin])), e3 = await thrown(() => liveX.close({ coin, dir: 1, positionId: 1, vol: 1, entry: 1 }, 'x'));
+      ok([e1, e2, e3].every((e) => e && e.code === 'SYMBOL_NOT_ALLOWED') && apiCalls.length === 0 && Object.keys(st).length === 0, `LIVE enter / beginRun / close for ${coin} all throw SYMBOL_NOT_ALLOWED; 0 exchange API calls; no pending order written`);
+    }
+    const mx = require('../mexc.js'), client = mx.createClient({ apiKey: 'test-key', apiSecret: 'test-secret' });
+    for (const symbol of ['BTC_USDT', 'ETH_USDT', 'JUNK', '', undefined, 'sol_usdt']) {
+      const e = await thrown(() => client.createOrder({ symbol, vol: 1, side: 1, type: 5, openType: 1 }));
+      if (!(e && e.code === 'SYMBOL_NOT_ALLOWED') || netCalls.length) ok(false, `mexc createOrder(${JSON.stringify(symbol)}) must throw before any request (got ${e && e.code}, ${netCalls.length} request(s))`);
+    }
+    ok(netCalls.length === 0, 'mexc createOrder for BTC_USDT, ETH_USDT, a junk string, an empty and an undefined symbol, and lower-case sol_usdt: all throw; fetch was never called');
+    await client.createOrder({ symbol: 'SOL_USDT', vol: 1, side: 1, type: 5, openType: 1 });
+    ok(netCalls.length === 1 && /order\/create/.test(netCalls[0]), 'control: an order for SOL_USDT is NOT blocked (the guard does not break valid orders)');
+    global.fetch = realFetch;
+    fs.rmSync(BOX, { recursive: true, force: true });
   }
 
   console.log(`\n${pass} passed, ${failN} failed`);

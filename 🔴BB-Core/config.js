@@ -4,7 +4,17 @@
 const fs = require('fs'), path = require('path');
 
 const FILE = path.join(__dirname, 'bot-config.json');
-const COINS = ['SOL', 'ZEC'];   // the bot trades SOL and ZEC only; adding a coin is a code + research decision, not a setting
+// THE allowlist: the only contracts this bot may ever trade. Defined once, enforced in three layers (config load, every order-placement
+// function in paper.enter / live.enter / mexc.createOrder, and the tests in test/selftest.js). Adding a coin is a code + research decision.
+const ALLOWED_SYMBOLS = Object.freeze(['SOL_USDT', 'ZEC_USDT']);
+const COINS = ALLOWED_SYMBOLS.map((s) => s.replace(/_USDT$/, ''));   // ['SOL', 'ZEC']: the short names used in the config and state
+class SymbolNotAllowedError extends Error { constructor(msg) { super(msg); this.name = 'SymbolNotAllowedError'; this.code = 'SYMBOL_NOT_ALLOWED'; } }
+// throws unless `symbol` is exactly one of ALLOWED_SYMBOLS (a coin name like 'SOL' is NOT a symbol: pass `${coin}_USDT`)
+function assertAllowedSymbol(symbol, what = 'order') {
+  if (typeof symbol !== 'string' || !ALLOWED_SYMBOLS.includes(symbol)) throw new SymbolNotAllowedError(`${what} refused: ${JSON.stringify(symbol)} is not in the allowlist ${ALLOWED_SYMBOLS.join(', ')}`);
+  return symbol;
+}
+const coinToSymbol = (coin) => `${coin}_USDT`;
 const MAX_RISK_PCT = 0.01;      // hard cap: 1% of balance per trade (audit §11 item 7: 0.25-0.5% for a first live phase; 5% = 94% chance of a >50% drawdown)
 
 const DEFAULTS = {
@@ -30,10 +40,18 @@ const FIELDS = {
 };
 
 function read() { try { return JSON.parse(fs.readFileSync(FILE, 'utf8')); } catch { return {}; } }
-// coins outside COINS are dropped even if typed into the file by hand: the bot never trades them
+class ConfigError extends Error { constructor(msg) { super(msg); this.name = 'ConfigError'; } }
+// Layer 1 of the allowlist: a coin / symbol outside ALLOWED_SYMBOLS in the file is an ERROR, not something to drop quietly. The bot refuses to start
+// (and a running bot refuses to trade that run) until the file is fixed. "SOL" and "SOL_USDT" are both accepted and normalised to "SOL".
 function load() {
-  const cfg = { ...DEFAULTS, ...read() };
-  cfg.coins = (Array.isArray(cfg.coins) ? cfg.coins : []).filter((x) => COINS.includes(x));
+  const raw = read();
+  const cfg = { ...DEFAULTS, ...raw };
+  if (raw.coins !== undefined) {
+    if (!Array.isArray(raw.coins)) throw new ConfigError(`bot-config.json: "coins" must be a list like ["SOL","ZEC"], not ${JSON.stringify(raw.coins)}`);
+    const bad = raw.coins.filter((c) => typeof c !== 'string' || !ALLOWED_SYMBOLS.includes(c.endsWith('_USDT') ? c : coinToSymbol(c)));
+    if (bad.length) throw new ConfigError(`bot-config.json: coin(s) ${JSON.stringify(bad)} are not allowed. This bot trades only ${ALLOWED_SYMBOLS.join(' and ')}. Fix bot-config.json "coins".`);
+    cfg.coins = [...new Set(raw.coins.map((c) => c.replace(/_USDT$/, '')))];
+  }
   if (!cfg.coins.length) cfg.coins = [...DEFAULTS.coins];
   // a hand-edited file may not exceed the cap: clamp (and say so, see lucidio.js runOnce) instead of trading bigger than allowed
   const rp = Number(cfg.riskPct);
@@ -76,4 +94,4 @@ function save(next) {
   return Object.keys(FIELDS).filter((k) => JSON.stringify(before[k]) !== JSON.stringify(out[k])).map((k) => ({ k, from: before[k], to: out[k] }));
 }
 
-module.exports = { FILE, COINS, MAX_RISK_PCT, DEFAULTS, FIELDS, load, validate, save };
+module.exports = { FILE, COINS, ALLOWED_SYMBOLS, assertAllowedSymbol, coinToSymbol, SymbolNotAllowedError, ConfigError, MAX_RISK_PCT, DEFAULTS, FIELDS, load, validate, save };

@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily Lucid'io live-vs-backtest comparison (00:40 UTC, after the 00:00 candle close)
+
+[Timer]
+OnCalendar=*-*-* 00:40:00 UTC
+RandomizedDelaySec=120
+Persistent=true
+
+[Install]
+WantedBy=timers.target

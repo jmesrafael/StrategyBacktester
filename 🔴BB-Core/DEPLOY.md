@@ -82,10 +82,15 @@ First checks (all read-only, nothing is traded; `check` makes public MEXC reques
 ```bash
 sudo -u lucidio node /opt/lucidio/lucidio.js check               # want: no BAD lines; clock under ~500 ms; "live gate ... mode is paper"
 sudo -u lucidio node /opt/lucidio/deploy/watchdog.js --notify "test from the VPS"   # a Telegram message must arrive (if configured)
-cd /opt/lucidio && sudo -u lucidio node test/selftest.js         # 23 passed   (these three need the --with-tests bundle)
-sudo -u lucidio node test/fixes-test.js                          # 9 passed
-sudo -u lucidio node test/ops-test.js                            # 26 passed
-sudo -u lucidio node lucidio.js replay SOL,ZEC                   # IDENTICAL trade-for-trade, both coins
+sudo -u lucidio node /opt/lucidio/test/selftest.js         # 40 passed   (the tests need the --with-tests bundle)
+sudo -u lucidio node /opt/lucidio/test/fixes-test.js                          # 9 passed
+sudo -u lucidio node /opt/lucidio/test/ops-test.js                            # 26 passed
+sudo -u lucidio node /opt/lucidio/test/journal-test.js                        # 21 passed
+sudo -u lucidio node /opt/lucidio/test/telegram-test.js                       # 23 passed
+sudo -u lucidio node /opt/lucidio/test/compare-test.js                        # 18 passed
+sudo -u lucidio node /opt/lucidio/test/dashboard-test.js                      # 52 passed
+sudo -u lucidio node /opt/lucidio/test/dashboard-api-test.js                  # 15 passed
+sudo -u lucidio node /opt/lucidio/lucidio.js replay SOL,ZEC                   # IDENTICAL trade-for-trade, both coins
 ```
 
 ## 4. Start, status, logs
@@ -173,6 +178,10 @@ Run for **at least 14 days** (>= 80 runs) before you spend a second on live. Row
 | M11 | SSH | `sudo sshd -T \| grep -E "^(passwordauthentication\|permitrootlogin)"`; `sudo fail2ban-client status sshd` | `no` / `prohibit-password`; jail active | add your key, re-run `setup-vps.sh` |
 | M12 | Secrets | `ls -l /opt/lucidio/mexc-keys.json` | `-rw------- lucidio lucidio` | `sudo chmod 600 ... && sudo chown lucidio:lucidio ...` |
 | M13 | Live gate | `systemctl cat lucidio \| grep -i ALLOW_LIVE`; `grep '"mode"' /opt/lucidio/bot-config.json` | no ALLOW_LIVE line; mode `paper` | remove the drop-in: `sudo systemctl revert lucidio` |
+| M15 | Telegram trade messages | the first paper trade | an ENTRY message (symbol, side, mode, entry, SL, TP, risk %, 1R, signal candle) and later an EXIT message (reason, price, R, hold time) | section 10; `check` telegram row |
+| M16 | Journal | after the first trade: `sudo tail -n 3 /opt/lucidio/journal/trades.jsonl` | one `entry` and one `exit` line per trade, skipped signals as `skip` lines, a `session` line per bot start | `check` journal row (writable?) |
+| M17 | Live vs backtest | after 1-2 days: `ls /opt/lucidio/audit/out/` and read the newest `compare-*.txt` | a file per day; `RESULT: MATCH`, or every INVESTIGATE item explained (section 11) | `systemctl status lucidio-compare.timer` |
+| M18 | Dashboard (if configured) | open the dashboard page | banner ALIVE, last heartbeat under 6 minutes, `PAPER` badge, trades match `status` | section 12; `check` dashboard row |
 | M14 | Strategy evidence | `AUDIT-REPORT.md` section 8 | **not decidable in 14 days.** The audit wants >= 120 days and >= 25 closed trades, plus the shadow recorder, before live | keep paper running |
 
 Upgrade to 2 GB or more RAM if: `MemoryPeak` stays above ~300 MB, `free -m` shows < 150 MB available or constant swap use, `NRestarts` rises from OOM kills
@@ -194,4 +203,50 @@ Without the flag, a `live` config makes every run end with an error ("live tradi
 
 - **Still works without the bot:** the stop and target sit on MEXC and trigger on last price. They are not guaranteed (slippage, gaps, MEXC trouble), and liquidation is ~2x the stop distance away.
 - **Stops working:** reading positions, re-placing a cancelled stop/target, the time exit (49 candles), new entries, recording exits. The bot alerts on Telegram **once**, does not retry within the run, tries again at the next 4h run, and stays up.
-- **Manual steps:** (1) `bash /opt/lucidio/deploy/mexc-reachability.sh` on the server. (2) From your phone/PC open MEXC: does every open position still have BOTH a stop and a target? If not, set them or close it. (3) `sudo -u lucidio touch /opt/lucidio/STOP` (no new entries). (4) Fix: IP binding changed -> update the key's IP; key expired/permission -> new key via `make-keys.sh`; region/IP block -> new VPS region or IP, then rebind the key. (5) `sudo -u lucidio node /opt/lucidio/lucidio.js check`, remove `STOP`; the bot adopts its open position by id, but the time exit may then come late.
+- **Manual steps:** (1) `sudo -u lucidio bash /opt/lucidio/deploy/mexc-reachability.sh` on the server. (2) From your phone/PC open MEXC: does every open position still have BOTH a stop and a target? If not, set them or close it. (3) `sudo -u lucidio touch /opt/lucidio/STOP` (no new entries). (4) Fix: IP binding changed -> update the key's IP; key expired/permission -> new key via `make-keys.sh`; region/IP block -> new VPS region or IP, then rebind the key. (5) `sudo -u lucidio node /opt/lucidio/lucidio.js check`, remove `STOP`; the bot adopts its open position by id, but the time exit may then come late.
+
+## 10. Telegram alerts
+
+Messages sent: **ENTRY** and **EXIT** for every trade, **errors**, **skipped signals** (a skipped signal is a missed trade), MEXC-blocked and dead-bot alerts. Telegram being down or slow never blocks, delays or crashes a trade (8 s timeout, everything caught).
+It uses the Telegram Bot API with a bot token and a chat id: no phone number is stored anywhere.
+
+1. In Telegram open **@BotFather**, send `/newbot`, pick a name, copy the **token** it gives you.
+2. Open your new bot (the link BotFather shows) from your own account (**@jamesrfael**) and press **Start**.
+3. On the server, put the token in the env file and run the setup helper (it checks the token with getMe, finds your chat id with getUpdates, sends a test message; it never prints the token):
+```bash
+sudo -u lucidio nano /opt/lucidio/.env                           # TELEGRAM_BOT_TOKEN=<paste>   (save: Ctrl+O, Enter, Ctrl+X)
+sudo -u lucidio node /opt/lucidio/lucidio.js telegram-setup      # prints "chat id found: ..." and sends a test message
+sudo -u lucidio nano /opt/lucidio/.env                           # TELEGRAM_CHAT_ID=<the number it printed>
+sudo systemctl restart lucidio
+sudo -u lucidio node /opt/lucidio/lucidio.js check               # telegram row: OK, bot @... reachable, chat id set
+```
+No editor needed: `sudo bash /opt/lucidio/deploy/set-env.sh TELEGRAM_BOT_TOKEN` (hidden prompt: paste the token, Enter) and `sudo bash /opt/lucidio/deploy/set-env.sh TELEGRAM_CHAT_ID <number> --restart` set the values for you. It never prints them and refuses names it does not know.
+If it says "No update found yet", open the bot, press Start (or send it any message) and rerun `telegram-setup`. The older `telegramToken` / `telegramChatId` fields in `mexc-keys.json` still work when the env variables are not set.
+
+## 11. The trade journal and the live-vs-backtest check
+
+`/opt/lucidio/journal/trades.jsonl` is append-only (never edited or rewritten; each record is fsync'ed; a torn last line after a crash is sealed, not rewritten). Event types: `entry`, `exit`, `skip` (with the reason), `session` (a bot start).
+Every event carries mode (paper/live), git commit, code hash, config hash and bot version. Entries carry the signal candle, the indicator values the decision used, intended and real fill, SL, TP, size, risk % and costs (labelled **estimate** in paper mode).
+Trades are matched on **symbol + side + signal candle open time (UTC ms)**. The journal is part of the daily backup in `/var/backups/lucidio`, together with the state and the compare reports.
+
+```bash
+sudo tail -n 3 /opt/lucidio/journal/trades.jsonl                                     # newest events
+sudo -u lucidio node /opt/lucidio/compare-live-vs-backtest.js                        # journal window vs freshly downloaded MEXC candles; exit 0 = match, 1 = not a match
+sudo -u lucidio node /opt/lucidio/compare-live-vs-backtest.js --tolerance 0.1 --from 2026-10-24 --push    # options: --journal --from --to --mode --shadow-dir --out-dir
+ls /opt/lucidio/audit/out/ && systemctl list-timers 'lucidio-compare*'               # a report per day (00:40 UTC), JSON and text
+```
+It only reads public MEXC candles (the still-forming candle is dropped), never needs a key and never sends an order. **MATCH** = same trade set, same exit reasons, R and entry price within the tolerance (default 0.05R).
+Everything else is an **INVESTIGATE** item with its evidence: skipped signals that explain a backtest-only trade, candles that differ from the final download, and the distance of the signal close to its nearest threshold (the earlier audit found every venue mismatch within about 0.06% of one).
+Paper fills use the price at wake-up and no funding, so a small R gap against the backtest is normal. A candle difference, or a close within 0.06% of a threshold, is the usual cause of a missing or extra trade. It compares from the first journal event, so run it after the bot has been up for a few candles. With no trades on either side it reports a match "by absence".
+
+## 12. Hosted dashboard (Vercel)
+
+Optional. The bot pushes signed events from the VPS to your Vercel project; Vercel never connects to the server and no port is opened. Off unless both variables are set.
+Everything to deploy (SQL, API routes, pages, Vercel variables) is in **`dashboard/README.md`**. On the VPS only two variables are needed in `/opt/lucidio/.env`:
+```bash
+sudo -u lucidio nano /opt/lucidio/.env          # DASHBOARD_URL=https://<your-domain>   DASHBOARD_PUSH_SECRET=<same value as in Vercel>
+sudo systemctl restart lucidio
+sudo -u lucidio node /opt/lucidio/lucidio.js check                    # dashboard row: reachable, N event(s) queued
+sudo -u lucidio node /opt/lucidio/lucidio.js dashboard-backfill       # send the journal history once (safe to repeat: same event ids)
+```
+Heartbeats go out at every candle close and every 5 minutes. If the dashboard is down, events queue on disk (`state/outbox.jsonl`) and catch up in order, without duplicates, when it is back. Real MEXC equity and dollar P&L are never sent in live mode unless you set `DASHBOARD_SHARE_LIVE_EQUITY=true`.

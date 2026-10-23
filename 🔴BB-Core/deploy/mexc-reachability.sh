@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Can THIS server reach MEXC's public API? Run it from the VPS:  bash deploy/mexc-reachability.sh
+# Can THIS server reach MEXC public API? Run it from the VPS:  sudo -u lucidio bash /opt/lucidio/deploy/mexc-reachability.sh
 # PASS = HTTP 200 + JSON | BLOCKED = 403/451, an HTML page or region/access text | UNKNOWN = timeout / anything else. Public endpoints only, no keys.
 # Exit code: 0 all PASS, 1 any BLOCKED, 2 otherwise.
 BASE=https://api.mexc.com; NOW=$(date +%s); BODY=$(mktemp); trap 'rm -f "$BODY"' EXIT; RC=0
