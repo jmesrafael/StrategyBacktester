@@ -18,7 +18,7 @@ as_bot() {   # run a command as the bot's user (needs the admin sudo password on
   if [ -n "${LUCIDIO_MENU_NOSUDO:-}" ] || [ "$(id -un)" = "$LUCIDIO_USER" ]; then "$@"; else sudo -u "$LUCIDIO_USER" "$@"; fi
 }
 bot() { as_bot node "$APP/lucidio.js" "$@"; }
-pause() { echo; read -rp "Press Enter to return to the menu... " _; }
+pause() { echo; read -rp "Press Enter to ${1:-return to the menu}... " _; }
 head_line() { clear; echo "== $1 =="; echo; }
 
 act_status()  { head_line "Bot status"; bot status; }
@@ -182,8 +182,9 @@ main() {
   trap : INT       # Ctrl+C stops a running action, not the menu
   head_line "Lucid'io VPS - $(date -u '+%Y-%m-%d %H:%M UTC')"
   act_status 2>&1 || true
-  pause
+  pause "open the menu"
   local ITEMS=(
+    shell   "Open a normal command line"
     status  "Bot status (mode, positions, results)"
     balance "Account balance on MEXC"
     check   "Health check (clock, API key, contracts, gates)"
@@ -196,13 +197,13 @@ main() {
     tg      "Send a Telegram test message"
     kill    "Kill switch (show / on / off)"
     restart "Restart the bot"
-    shell   "Open a normal command line"
     exit    "Disconnect"
   )
   local choice n i
   while true; do
     if command -v whiptail >/dev/null 2>&1; then
-      choice=$(whiptail --title "Lucid'io VPS" --menu "Up/Down arrows to move, Enter to select, Esc to leave" 24 72 14 "${ITEMS[@]}" 3>&1 1>&2 2>&3) || break
+      choice=$(whiptail --title "Lucid'io VPS" --ok-button "OK (Enter)" --cancel-button "Exit (Esc)" \
+        --menu "Up/Down arrows: move   |   Enter: OK   |   Esc: exit the menu" 24 72 14 "${ITEMS[@]}" 3>&1 1>&2 2>&3) || break
     else
       echo; for ((i=0;i<${#ITEMS[@]};i+=2)); do printf '  %2d) %s\n' $((i/2+1)) "${ITEMS[i+1]}"; done
       read -rp "Number (empty = leave): " n; [ -z "$n" ] && break
