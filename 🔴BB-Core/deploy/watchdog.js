@@ -10,6 +10,7 @@
 // Test hooks: LUCIDIO_STATE_DIR, LUCIDIO_KEYS (path of mexc-keys.json), WATCHDOG_NOW (ms), WATCHDOG_DRY=1 (print instead of send).
 'use strict';
 const fs = require('fs'), path = require('path');
+const { load: loadEnv } = require('../envfile.js');
 
 const MAX_SILENCE_MS = (4 * 60 + 20) * 60 * 1000;   // 4h20m
 const REPEAT_MS = 60 * 60 * 1000;                   // re-alert hourly while the bot stays silent
@@ -33,11 +34,14 @@ function lastRunMs() {
 async function send(text, fetchImpl = fetch) {
   const msg = `Lucid'io WATCHDOG: ${text}`;
   if (process.env.WATCHDOG_DRY === '1') { console.log('[dry] would send: ' + msg); return true; }
+  loadEnv();
   const k = readJson(KEYS) || {};
-  if (!k.telegramToken || !k.telegramChatId) { console.error('ALERT (no Telegram configured): ' + msg); return false; }
+  const token = String(process.env.TELEGRAM_BOT_TOKEN || k.telegramToken || '').trim();
+  const chatId = String(process.env.TELEGRAM_CHAT_ID || k.telegramChatId || '').trim();
+  if (!token || !chatId) { console.error('ALERT (no Telegram configured): ' + msg); return false; }
   try {
-    const res = await fetchImpl(`https://api.telegram.org/bot${k.telegramToken}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-      signal: AbortSignal.timeout(10000), body: JSON.stringify({ chat_id: k.telegramChatId, text: msg }) });
+    const res = await fetchImpl(`https://api.telegram.org/bot${token}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      signal: AbortSignal.timeout(10000), body: JSON.stringify({ chat_id: chatId, text: msg }) });
     if (!res.ok) { console.error(`Telegram answered HTTP ${res.status}`); return false; }
     return true;
   } catch (e) { console.error('Telegram send failed: ' + (e.name || 'error')); return false; }   // never print e.message / URL: it can contain the token

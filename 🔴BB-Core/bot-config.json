@@ -1,7 +1,7 @@
 {
   "mode": "paper",
   "coins": ["SOL", "ZEC"],
-  "riskPct": 0.01,
+  "riskPct": 0.005,
   "startBalance": 100,
   "riskUsd": 1,
   "maxRiskUsd": 10,
