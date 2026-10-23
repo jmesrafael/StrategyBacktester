@@ -154,6 +154,8 @@ if [ ! -f "$APP/.env" ]; then
 else chown "$SVC:$SVC" "$APP/.env"; chmod 600 "$APP/.env"; ok ".env: owner $SVC, mode 600 (kept as it is)"; fi
 if [ -f "$APP/mexc-keys.json" ]; then chown "$SVC:$SVC" "$APP/mexc-keys.json"; chmod 600 "$APP/mexc-keys.json"; ok "mexc-keys.json: owner $SVC, mode 600"; fi
 chmod 755 "$APP"/deploy/*.sh 2>/dev/null
+# the arrow-key menu as a command anyone can type: "lucidio" (or "menu"). $APP is private to the bot user, so it is copied to /usr/local/bin.
+if [ -f "$APP/deploy/lucidio-menu.sh" ]; then install -m 755 "$APP/deploy/lucidio-menu.sh" /usr/local/bin/lucidio && ln -sf /usr/local/bin/lucidio /usr/local/bin/menu && ok "command 'lucidio' (arrow-key menu) installed"; fi
 if grep -q '"mode"[[:space:]]*:[[:space:]]*"live"' "$APP/bot-config.json"; then warn "bot-config.json says mode LIVE. The bot still refuses to trade without LUCIDIO_ALLOW_LIVE=1"; fi
 
 step "11. systemd: bot service, watchdog (no run in 4h20m), failure alert, daily state backup"

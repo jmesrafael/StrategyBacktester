@@ -92,6 +92,16 @@ mexc.serverTime = async () => { timeCalls++; return { data: Date.now(), ms: 10 }
   ok(sent.length === 0, 'the snapshot is read-only: no order and no TP/SL call was made (a foreign position on MEXC also blocks entries)');
   delete process.env.LUCIDIO_ALLOW_LIVE; writeCfg({}); reset();
 
+  // ---------- 3c. "(start $X, +Y%)" in status / balance ----------
+  bot.CFG.mode = 'paper';
+  ok(bot.vsStart(52.31) === 'start $100.00, -47.7%', `paper mode compares with the bot-config start balance (${bot.vsStart(52.31)})`);
+  bot.CFG.mode = 'live';
+  ok(bot.vsStart(52.31) === 'start unknown: no live snapshot yet', 'live mode with no snapshot yet: no percentage against the paper default of $100 (it would show a fake -47.7%)');
+  fs.mkdirSync(path.join(STATE, 'journal'), { recursive: true });
+  fs.writeFileSync(path.join(STATE, 'journal', 'snapshots.jsonl'), JSON.stringify({ mode: 'paper', equity: 100 }) + '\n' + JSON.stringify({ mode: 'live', equity: 52.3 }) + '\n');
+  ok(bot.vsStart(53.3) === 'start $52.30 at the first live snapshot, +1.9%', `live mode compares with the first LIVE snapshot, ignoring paper ones (${bot.vsStart(53.3)})`);
+  bot.CFG.mode = 'paper'; reset();
+
   // ---------- 4. alerts: skipped signals ----------
   reset(); writeCfg({}); bot.reloadConfig();
   bot.event('skip', 'SOL', 'SIGNAL SOL LONG on candle 2026-10-23 08:00Z SKIPPED: next candle opened 35 min ago (too late to enter at its open)');

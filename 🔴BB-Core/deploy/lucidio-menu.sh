@@ -56,7 +56,7 @@ act_server() {
        "| memory $(systemctl show lucidio -p MemoryCurrent --value | awk '{printf "%.0f MB", $1/1048576}')"
   echo "Watchdog timer: $(systemctl is-active lucidio-watchdog.timer 2>/dev/null) | daily backup timer: $(systemctl is-active lucidio-backup.timer 2>/dev/null)"
   echo "Firewall      : $(sudo ufw status 2>/dev/null | head -1)"
-  echo "Kill switch   : $([ -e "$APP/STOP" ] && echo 'ON (no new entries)' || echo off)"
+  echo "Kill switch   : $(as_bot test -e "$APP/STOP" && echo 'ON (no new entries)' || echo off)"
 }
 act_tg() {
   head_line "Telegram test"
@@ -64,7 +64,7 @@ act_tg() {
 }
 act_kill() {
   head_line "Kill switch"
-  if [ -e "$APP/STOP" ]; then
+  if as_bot test -e "$APP/STOP"; then     # as the bot user: $APP is private to it, admin could not even see the file
     echo "The kill switch is ON: the bot opens no new trades (open trades keep their stop/target on MEXC)."
     read -rp "Switch it OFF and resume trading? [y/N] " a; [ "$a" = y ] && as_bot rm -f "$APP/STOP" && echo "Kill switch OFF."
   else

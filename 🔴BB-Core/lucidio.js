@@ -48,6 +48,17 @@ const liveAllowed = () => process.argv.includes('--allow-live') || process.env.L
 const S = { ...DEFAULTS }, COST = DEFAULTS.cost, IV = 14400;
 const riskFor = (acct) => Math.min(CFG.maxRiskUsd, CFG.riskPct > 0 ? acct.balance * CFG.riskPct : CFG.riskUsd);
 const usd = (v) => (v < 0 ? '-$' : '$') + Math.abs(v).toFixed(2);
+// "(start $X, +Y%)" for status / balance. Paper: bot-config startBalance. Live: the config number is a paper default and says nothing about the real account,
+// so the reference is the first live account snapshot (journal/snapshots.jsonl); without one, no percentage is shown.
+function vsStart(bal) {
+  let ref = CFG.startBalance, note = '';
+  if (CFG.mode === 'live') {
+    let first = null; try { first = journalMod.readAll(journalMod.snapshotFile()).events.find((e) => e.mode === 'live' && e.equity != null); } catch {}
+    if (!first) return 'start unknown: no live snapshot yet';
+    ref = +first.equity; note = ' at the first live snapshot';
+  }
+  return `start ${usd(ref)}${note}, ${bal >= ref ? '+' : ''}${((bal / ref - 1) * 100).toFixed(1)}%`;
+}
 const iso = (t) => new Date(t * 1000).toISOString().replace('T', ' ').slice(0, 16) + 'Z';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const nowSec = () => mexc.client.now() / 1000;         // MEXC-corrected clock (offset measured every run, like a TOTP code)
@@ -410,7 +421,7 @@ async function syncLedger(run, state) {
 async function balance() {
   const s = loadState(), paper = s.balance ?? CFG.startBalance, p = (v) => (v == null || !Number.isFinite(+v) ? '—' : usd(+v));
   console.log(`Lucid'io ${CFG.mode.toUpperCase()} mode`);
-  console.log(`  paper/bot balance : ${usd(paper)}  (start ${usd(CFG.startBalance)}, ${paper >= CFG.startBalance ? '+' : ''}${((paper / CFG.startBalance - 1) * 100).toFixed(1)}%) · ${((s.peakR || 0) - (s.totalR || 0)).toFixed(1)}R below best point`);
+  console.log(`  paper/bot balance : ${usd(paper)}  (${vsStart(paper)}) · ${((s.peakR || 0) - (s.totalR || 0)).toFixed(1)}R below best point`);
   if (!mexc.hasKeys()) {
     console.log('  MEXC account      : no API key in mexc-keys.json — add one (View Account permission is enough) to see the real balance');
     console.log(`  next trade risk   : ${usd(riskFor({ balance: paper }))} (on the bot balance)`);
@@ -431,7 +442,7 @@ function status() {
   const s = loadState();
   const bal = s.balance ?? CFG.startBalance;
   console.log(`Lucid'io ${CFG.mode.toUpperCase()} bot · coins ${CFG.coins.join(', ')} · ${CFG.riskPct > 0 ? `risk ${CFG.riskPct * 100}% of balance/trade (next trade ${usd(riskFor({ balance: bal }))})` : `risk $${CFG.riskUsd}/trade`} · started ${s.startedAt}`);
-  console.log(`balance ${usd(bal)} (start ${usd(CFG.startBalance)}, ${bal >= CFG.startBalance ? '+' : ''}${((bal / CFG.startBalance - 1) * 100).toFixed(1)}%) · ${((s.peakR || 0) - (s.totalR || 0)).toFixed(1)}R below best point (halt at ${-CFG.haltAtR}R)`);
+  console.log(`balance ${usd(bal)} (${vsStart(bal)}) · ${((s.peakR || 0) - (s.totalR || 0)).toFixed(1)}R below best point (halt at ${-CFG.haltAtR}R)`);
   for (const [coin, st] of Object.entries(s.coins)) {
     console.log(`\n${coin}: realized ${st.realizedR.toFixed(2)}R (${usd((st.trades || []).reduce((a, t) => a + t.usd, 0))}) in ${st.n} trades · last candle ${st.lastTime ? iso(st.lastTime) : '—'}`);
     if (st.pending) console.log(`  UNFINISHED ORDER ${st.pending.oid} (resolved on the next run)`);
@@ -565,7 +576,7 @@ async function replay(coins) {
   }
 }
 
-module.exports = { processCoin, paper, CFG, riskFor, reloadConfig, fetchCandles, runOnce, liveAllowed, heartbeat, event, balance, makeHooks, pushStatus, notify };
+module.exports = { vsStart, processCoin, paper, CFG, riskFor, reloadConfig, fetchCandles, runOnce, liveAllowed, heartbeat, event, balance, makeHooks, pushStatus, notify };
 // one sync right now: reads the MEXC futures equity and posts it. --dry shows what would be sent and sends nothing.
 async function ledgerNow(dry) {
   await mexc.client.syncTime();
