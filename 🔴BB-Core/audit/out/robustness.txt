@@ -1,0 +1,43 @@
+(1) frozen rules on 131 coins (no funding): 115 positive avgR, 16 not. median avgR=0.125  coins positive in EVERY year (>=6 yrs): 6
+    NEAR: avgR 0.275 rank 9/131 yrs+ 7/7
+    ADA: avgR 0.339 rank 5/131 yrs+ 7/7
+    GALA: avgR 0.361 rank 3/131 yrs+ 6/6
+    top 8: LUNA 0.44, FTM 0.36, GALA 0.36, GRT 0.35, ADA 0.34, ONE 0.31, MATIC 0.31, SAND 0.30
+
+(2) one-at-a-time sensitivity, SOL+ZEC, base costs + funding
+    FROZEN (20,2,200,4R,48) n=641 netR= 224 avgR=0.35 yrs+ 7/7
+    bbMult 1.5             n=823 netR= 209 avgR=0.25 yrs+ 7/7
+    bbMult 1.8             n=722 netR= 215 avgR=0.30 yrs+ 7/7
+    bbMult 2.2             n=549 netR= 207 avgR=0.38 yrs+ 7/7
+    bbMult 2.5             n=399 netR= 133 avgR=0.33 yrs+ 6/7
+    bbLen 15               n=714 netR= 223 avgR=0.31 yrs+ 7/7
+    bbLen 25               n=577 netR= 188 avgR=0.33 yrs+ 7/7
+    bbLen 30               n=537 netR= 178 avgR=0.33 yrs+ 7/7
+    trendLen 100           n=724 netR= 212 avgR=0.29 yrs+ 7/7
+    trendLen 150           n=673 netR= 221 avgR=0.33 yrs+ 7/7
+    trendLen 250           n=614 netR= 193 avgR=0.31 yrs+ 7/7
+    trendLen 300           n=591 netR= 175 avgR=0.30 yrs+ 7/7
+    targetR 2              n=762 netR= 162 avgR=0.21 yrs+ 7/7
+    targetR 3              n=682 netR= 177 avgR=0.26 yrs+ 7/7
+    targetR 5              n=619 netR= 219 avgR=0.35 yrs+ 7/7
+    targetR 6              n=596 netR= 243 avgR=0.41 yrs+ 7/7
+    maxBars 24             n=788 netR= 177 avgR=0.22 yrs+ 7/7
+    maxBars 36             n=690 netR= 203 avgR=0.29 yrs+ 7/7
+    maxBars 72             n=559 netR= 231 avgR=0.41 yrs+ 7/7
+    maxBars 96             n=526 netR= 241 avgR=0.46 yrs+ 7/7
+    minStopAtr 0           n=641 netR= 224 avgR=0.35 yrs+ 7/7
+    minStopAtr 0.15        n=641 netR= 224 avgR=0.35 yrs+ 7/7
+    minStopAtr 0.5         n=641 netR= 224 avgR=0.35 yrs+ 7/7
+    minStopAtr 0.8         n=640 netR= 222 avgR=0.35 yrs+ 7/7
+    no trend filter        n=815 netR= 218 avgR=0.27 yrs+ 7/7
+
+(3) walk-forward over 72 parameter sets (expanding window; pick best total R on years < Y, report year Y):
+    2022: picked bb2/sma200/4R/48bars (train 87R) -> OOS 16.4R   [frozen params that year: 16.4R]
+    2023: picked bb2/sma200/4R/96bars (train 106R) -> OOS 29.4R   [frozen params that year: 33.8R]
+    2024: picked bb2/sma200/4R/48bars (train 137R) -> OOS 34.0R   [frozen params that year: 34.0R]
+    2025: picked bb2/sma200/4R/96bars (train 181R) -> OOS 38.9R   [frozen params that year: 33.5R]
+    2026: picked bb2/sma200/4R/96bars (train 220R) -> OOS 21.2R   [frozen params that year: 19.2R]
+    walk-forward OOS total 2022-26 = 139.9R ; frozen = 137.0R
+    grid landscape: 72/72 sets have positive total R; 62/72 are positive in EVERY year
+
+(4) zero-edge null (same trade count/R-distribution per year, mean set to 0): P(all 7 years > 0) = 0.62% ; P(>=6 of 7) = 5.41%

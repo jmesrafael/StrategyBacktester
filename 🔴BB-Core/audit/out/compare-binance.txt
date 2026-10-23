@@ -1,0 +1,6 @@
+SOL stored (A) vs fresh Binance (B): 13369 common candles | only-A 0 | only-B 12 | OHLC differing 0 (0.00%)
+   only in B (first 5): 2026-10-21T08:00, 2026-10-21T12:00, 2026-10-21T16:00, 2026-10-21T20:00, 2026-10-22T00:00  | B newest 2026-10-23T04:00, A newest 2026-10-21T04:00
+   |close diff| median 0.000%  p99 0.000%  max 0.000%
+ZEC stored (A) vs fresh Binance (B): 14700 common candles | only-A 0 | only-B 12 | OHLC differing 0 (0.00%)
+   only in B (first 5): 2026-10-21T08:00, 2026-10-21T12:00, 2026-10-21T16:00, 2026-10-21T20:00, 2026-10-22T00:00  | B newest 2026-10-23T04:00, A newest 2026-10-21T04:00
+   |close diff| median 0.000%  p99 0.000%  max 0.000%

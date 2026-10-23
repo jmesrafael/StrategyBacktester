@@ -1,0 +1,66 @@
+
+===== MEXC candles · scenario base (0.05% taker, 0.02% maker TP, 0.02% slip) · R units, 1R = risk per trade =====
+
+SOL
+  2020     n=  9 netR=   0.1 avgR= 0.01 win= 22% PF= 1.02 maxDD=  4.6R expo= 39% fees+slip=  -0.1R funding= -0.2R t= 0.0 CI95netR[-8,11]
+  2021     n= 54 netR=  27.7 avgR= 0.51 win= 41% PF= 1.90 maxDD=  7.8R expo= 60% fees+slip=  -0.8R funding= -1.6R t= 1.8 CI95netR[-1,58]
+  2022     n= 57 netR=  16.0 avgR= 0.28 win= 39% PF= 1.47 maxDD= 10.8R expo= 65% fees+slip=  -1.3R funding= -1.1R t= 1.1 CI95netR[-10,43]
+  2023     n= 47 netR=  32.9 avgR= 0.70 win= 43% PF= 2.47 maxDD=  7.7R expo= 60% fees+slip=  -1.3R funding= -0.3R t= 2.4 CI95netR[7,60]
+  2024     n= 47 netR=   8.5 avgR= 0.18 win= 38% PF= 1.33 maxDD=  7.0R expo= 60% fees+slip=  -1.3R funding= -0.7R t= 0.8 CI95netR[-11,30]
+  2025     n= 52 netR=   8.1 avgR= 0.16 win= 37% PF= 1.27 maxDD=  8.2R expo= 63% fees+slip=  -1.5R funding= -0.3R t= 0.7 CI95netR[-15,32]
+  2026     n= 42 netR=  11.2 avgR= 0.27 win= 38% PF= 1.42 maxDD=  6.5R expo= 54% fees+slip=  -1.9R funding= -0.4R t= 0.9 CI95netR[-12,35]
+  ALL      n=308 netR= 104.5 avgR= 0.34 win= 39% PF= 1.60 maxDD= 10.8R expo= 60% fees+slip=  -8.2R funding= -4.6R t= 3.2 CI95netR[43,171]
+
+ZEC
+  2020     n= 12 netR=   1.5 avgR= 0.13 win= 33% PF= 1.16 maxDD=  3.4R expo= 36% fees+slip=  -0.3R funding= -1.5R t= 0.2 CI95netR[-11,16]
+  2021     n= 46 netR=  34.1 avgR= 0.74 win= 48% PF= 2.42 maxDD=  3.0R expo= 59% fees+slip=  -0.9R funding= -2.7R t= 2.4 CI95netR[6,63]
+  2022     n= 50 netR=   0.4 avgR= 0.01 win= 38% PF= 1.01 maxDD=  9.2R expo= 61% fees+slip=  -1.2R funding= -0.0R t= 0.0 CI95netR[-19,21]
+  2023     n= 52 netR=  -3.8 avgR=-0.07 win= 31% PF= 0.90 maxDD=  8.6R expo= 52% fees+slip=  -2.1R funding= -0.1R t=-0.3 CI95netR[-26,21]
+  2024     n= 52 netR=  24.6 avgR= 0.47 win= 38% PF= 1.82 maxDD=  5.8R expo= 61% fees+slip=  -1.4R funding= -0.2R t= 1.7 CI95netR[-3,53]
+  2025     n= 49 netR=  20.8 avgR= 0.42 win= 39% PF= 1.70 maxDD=  6.1R expo= 56% fees+slip=  -1.0R funding=  0.6R t= 1.5 CI95netR[-5,48]
+  2026     n= 43 netR=   9.2 avgR= 0.21 win= 40% PF= 1.35 maxDD=  8.0R expo= 67% fees+slip=  -0.9R funding=  0.2R t= 0.8 CI95netR[-13,34]
+  ALL      n=304 netR=  86.8 avgR= 0.29 win= 38% PF= 1.46 maxDD= 17.2R expo= 58% fees+slip=  -7.8R funding= -3.8R t= 2.7 CI95netR[23,153]
+
+SOL+ZEC combined (each coin 1R risk, simple sum, no compounding)
+  2020 n=21 netR=1.6 maxDD=5.3R
+  2021 n=100 netR=61.9 maxDD=7.5R
+  2022 n=107 netR=16.4 maxDD=13.9R
+  2023 n=99 netR=29.1 maxDD=10.7R
+  2024 n=99 netR=33.1 maxDD=8.0R
+  2025 n=101 netR=28.9 maxDD=11.2R
+  2026 n=85 netR=20.4 maxDD=10.9R
+  ALL n=612 netR=191.4 avgR=0.313 t=4.2 maxDD=13.9R
+  concentration: best 10 trades = 40.3R of 191.4R; net without best 10 = 151.1R; without best 20 = 111.2R
+
+===== MEXC candles · scenario harsh (0.08% every fill, 0.05% slip) · R units, 1R = risk per trade =====
+
+SOL
+  2020     n=  9 netR=  -0.0 avgR=-0.00 win= 22% PF= 1.00 maxDD=  4.6R expo= 39% fees+slip=  -0.2R funding= -0.2R t=-0.0 CI95netR[-8,11]
+  2021     n= 54 netR=  26.9 avgR= 0.50 win= 41% PF= 1.86 maxDD=  7.9R expo= 60% fees+slip=  -1.6R funding= -1.6R t= 1.8 CI95netR[-0,57]
+  2022     n= 57 netR=  14.6 avgR= 0.26 win= 39% PF= 1.43 maxDD= 11.2R expo= 65% fees+slip=  -2.7R funding= -1.0R t= 1.1 CI95netR[-11,42]
+  2023     n= 47 netR=  31.5 avgR= 0.67 win= 43% PF= 2.37 maxDD=  8.1R expo= 60% fees+slip=  -2.8R funding= -0.3R t= 2.3 CI95netR[6,58]
+  2024     n= 47 netR=   7.3 avgR= 0.16 win= 38% PF= 1.28 maxDD=  7.2R expo= 60% fees+slip=  -2.5R funding= -0.7R t= 0.7 CI95netR[-13,29]
+  2025     n= 52 netR=   6.7 avgR= 0.13 win= 35% PF= 1.21 maxDD=  8.4R expo= 63% fees+slip=  -2.9R funding= -0.3R t= 0.5 CI95netR[-16,31]
+  2026     n= 42 netR=   9.4 avgR= 0.22 win= 38% PF= 1.34 maxDD=  6.9R expo= 54% fees+slip=  -3.7R funding= -0.4R t= 0.8 CI95netR[-13,32]
+  ALL      n=308 netR=  96.4 avgR= 0.31 win= 38% PF= 1.54 maxDD= 11.2R expo= 60% fees+slip= -16.4R funding= -4.6R t= 3.0 CI95netR[34,161]
+
+ZEC
+  2020     n= 12 netR=   1.2 avgR= 0.10 win= 33% PF= 1.13 maxDD=  3.4R expo= 36% fees+slip=  -0.6R funding= -1.5R t= 0.2 CI95netR[-12,16]
+  2021     n= 46 netR=  33.1 avgR= 0.72 win= 48% PF= 2.36 maxDD=  3.1R expo= 59% fees+slip=  -2.0R funding= -2.7R t= 2.3 CI95netR[6,60]
+  2022     n= 50 netR=  -0.7 avgR=-0.01 win= 38% PF= 0.98 maxDD=  9.5R expo= 61% fees+slip=  -2.3R funding= -0.0R t=-0.1 CI95netR[-20,21]
+  2023     n= 52 netR=  -5.8 avgR=-0.11 win= 31% PF= 0.85 maxDD=  8.8R expo= 52% fees+slip=  -4.1R funding= -0.1R t=-0.5 CI95netR[-28,19]
+  2024     n= 52 netR=  23.1 avgR= 0.45 win= 38% PF= 1.76 maxDD=  5.9R expo= 61% fees+slip=  -2.9R funding= -0.2R t= 1.6 CI95netR[-4,53]
+  2025     n= 49 netR=  19.7 avgR= 0.40 win= 39% PF= 1.65 maxDD=  6.4R expo= 56% fees+slip=  -2.0R funding=  0.6R t= 1.4 CI95netR[-6,48]
+  2026     n= 43 netR=   8.3 avgR= 0.19 win= 40% PF= 1.31 maxDD=  8.2R expo= 67% fees+slip=  -1.7R funding=  0.2R t= 0.7 CI95netR[-14,32]
+  ALL      n=304 netR=  79.0 avgR= 0.26 win= 38% PF= 1.41 maxDD= 17.7R expo= 58% fees+slip= -15.6R funding= -3.7R t= 2.5 CI95netR[19,141]
+
+SOL+ZEC combined (each coin 1R risk, simple sum, no compounding)
+  2020 n=21 netR=1.2 maxDD=5.4R
+  2021 n=100 netR=60.0 maxDD=7.7R
+  2022 n=107 netR=13.9 maxDD=15.2R
+  2023 n=99 netR=25.6 maxDD=11.2R
+  2024 n=99 netR=30.5 maxDD=8.1R
+  2025 n=101 netR=26.5 maxDD=11.5R
+  2026 n=85 netR=17.7 maxDD=11.6R
+  ALL n=612 netR=175.4 avgR=0.287 t=3.9 maxDD=16.2R
+  concentration: best 10 trades = 39.9R of 175.4R; net without best 10 = 135.5R; without best 20 = 96.1R

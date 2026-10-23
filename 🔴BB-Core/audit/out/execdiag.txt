@@ -1,0 +1,25 @@
+SOL       n=309 entry-candle exits=9 stop-gaps(open beyond stop)=0 both-touched candles=0 target touched-but-not-through-buffer=1 worst R=-1.22 avg stop R=-1.03 stops<-1.2R=1 best R=4.08
+ZEC       n=332 entry-candle exits=6 stop-gaps(open beyond stop)=0 both-touched candles=0 target touched-but-not-through-buffer=0 worst R=-1.29 avg stop R=-1.03 stops<-1.2R=2 best R=4.11
+MEXC_SOL  n=308 entry-candle exits=9 stop-gaps(open beyond stop)=0 both-touched candles=0 target touched-but-not-through-buffer=0 worst R=-1.18 avg stop R=-1.03 stops<-1.2R=0 best R=4.02
+MEXC_ZEC  n=304 entry-candle exits=7 stop-gaps(open beyond stop)=0 both-touched candles=0 target touched-but-not-through-buffer=0 worst R=-2.36 avg stop R=-1.04 stops<-1.2R=1 best R=4.11
+
+Binance-vs-MEXC candle parity of the TRADE SET (same signal bar & direction):
+  SOL: Binance 309 trades, MEXC 308; matched signal 295 (95%); R on matched: Binance 96.6 vs MEXC 96.3; mean |dR| 0.00; unmatched Binance R 8.8, unmatched MEXC R 8.2
+     yearly netR  2020: Bin 6 / MEXC 0 | 2021: Bin 27 / MEXC 28 | 2022: Bin 13 / MEXC 16 | 2023: Bin 33 / MEXC 33 | 2024: Bin 8 / MEXC 9 | 2025: Bin 8 / MEXC 8 | 2026: Bin 10 / MEXC 11
+  ZEC: Binance 332 trades, MEXC 304; matched signal 277 (83%); R on matched: Binance 90.1 vs MEXC 77.0; mean |dR| 0.07; unmatched Binance R 28.2, unmatched MEXC R 9.8
+     yearly netR  2020: Bin 16 / MEXC 2 | 2021: Bin 38 / MEXC 34 | 2022: Bin 3 / MEXC 0 | 2023: Bin 1 / MEXC -4 | 2024: Bin 26 / MEXC 25 | 2025: Bin 25 / MEXC 21 | 2026: Bin 9 / MEXC 9
+
+MEXC vs Binance volume by year, is pre-2025 MEXC history real?
+  SOL  2020: MEXC/Binance=0.910  2021: MEXC/Binance=0.464  2022: MEXC/Binance=0.477  2023: MEXC/Binance=1.960  2024: MEXC/Binance=2.573  2025: MEXC/Binance=7.774  2026: MEXC/Binance=7.668
+  ZEC  2020: MEXC/Binance=8.952  2021: MEXC/Binance=13.784  2022: MEXC/Binance=1.930  2023: MEXC/Binance=5.829  2024: MEXC/Binance=8.649  2025: MEXC/Binance=25.735  2026: MEXC/Binance=33.126
+  first MEXC_ZEC rows: [["2020-06-29T08:00",52.45,4733803],["2020-06-29T12:00",52.59,5139323],["2020-06-29T16:00",52.26,582000]]
+  MEXC_ZEC gap at index 258 (2020-08-11 to 2020-10-13); trades with signal within 200 bars after the gap (indicators span it): 3
+
+Funding on the overlap window, Binance vs MEXC:
+  SOL: Binance sum 0.17% vs MEXC 0.16% over 1620 events; mean |rate| B 0.71bp M 0.71bp
+  ZEC: Binance sum -7.24% vs MEXC -15.43% over 1620 events; mean |rate| B 1.50bp M 1.99bp
+
+MC (5000 reshuffles of 641 combined SOL+ZEC trades, i.i.d.): max DD median 17.0R, 95% 27.8R, 99% 34.5R; longest losing streak median 11, 99% 20. Historical max DD (chronological) = 16.0R.
+   => at 1% risk/trade the 99% DD is ~29% of equity (compounded); at 5% risk it is ~83%.
+monthly-R correlation SOL vs ZEC: 0.03 over 73 months
+lag-1 autocorrelation of SOL trade R: -0.033
