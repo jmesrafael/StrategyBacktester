@@ -60,6 +60,8 @@ function vsStart(bal) {
   return `start ${usd(ref)}${note}, ${bal >= ref ? '+' : ''}${((bal / ref - 1) * 100).toFixed(1)}%`;
 }
 const iso = (t) => new Date(t * 1000).toISOString().replace('T', ' ').slice(0, 16) + 'Z';
+// "Oct 23, 2026 4:40pm UTC" for screens a person reads (status). Logs, the journal and alerts keep plain ISO times.
+const isoAp = (t) => { const d = new Date(t * 1000), h = d.getUTCHours(); return `${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()} ${h % 12 || 12}:${String(d.getUTCMinutes()).padStart(2, '0')}${h < 12 ? 'am' : 'pm'} UTC`; };
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const nowSec = () => mexc.client.now() / 1000;         // MEXC-corrected clock (offset measured every run, like a TOTP code)
 const log = (...a) => { const line = `[${new Date().toISOString()}] ${a.join(' ')}`; console.log(line); try { fs.mkdirSync(STATE_DIR, { recursive: true }); fs.appendFileSync(path.join(STATE_DIR, 'bot.log'), line + '\n'); } catch {} };
@@ -441,12 +443,12 @@ async function balance() {
 function status() {
   const s = loadState();
   const bal = s.balance ?? CFG.startBalance;
-  console.log(`Lucid'io ${CFG.mode.toUpperCase()} bot · coins ${CFG.coins.join(', ')} · ${CFG.riskPct > 0 ? `risk ${CFG.riskPct * 100}% of balance/trade (next trade ${usd(riskFor({ balance: bal }))})` : `risk $${CFG.riskUsd}/trade`} · started ${s.startedAt}`);
+  console.log(`Lucid'io ${CFG.mode.toUpperCase()} bot · coins ${CFG.coins.join(', ')} · ${CFG.riskPct > 0 ? `risk ${CFG.riskPct * 100}% of balance/trade (next trade ${usd(riskFor({ balance: bal }))})` : `risk $${CFG.riskUsd}/trade`} · started ${s.startedAt ? isoAp(Date.parse(s.startedAt) / 1000) : '—'}`);
   console.log(`balance ${usd(bal)} (${vsStart(bal)}) · ${((s.peakR || 0) - (s.totalR || 0)).toFixed(1)}R below best point (halt at ${-CFG.haltAtR}R)`);
   for (const [coin, st] of Object.entries(s.coins)) {
-    console.log(`\n${coin}: realized ${st.realizedR.toFixed(2)}R (${usd((st.trades || []).reduce((a, t) => a + t.usd, 0))}) in ${st.n} trades · last candle ${st.lastTime ? iso(st.lastTime) : '—'}`);
+    console.log(`\n${coin}: realized ${st.realizedR.toFixed(2)}R (${usd((st.trades || []).reduce((a, t) => a + t.usd, 0))}) in ${st.n} trades · last candle ${st.lastTime ? isoAp(st.lastTime) : '—'}`);
     if (st.pending) console.log(`  UNFINISHED ORDER ${st.pending.oid} (resolved on the next run)`);
-    if (st.pos) console.log(`  OPEN ${st.pos.dir === 1 ? 'LONG' : 'SHORT'} entry ${st.pos.entry.toPrecision(6)} stop ${st.pos.stop.toPrecision(6)} tp ${st.pos.tp.toPrecision(6)} since ${iso(st.pos.t0)}${st.pos.vol ? ` · ${st.pos.vol} contracts · MEXC position ${st.pos.positionId}` : ''}`);
+    if (st.pos) console.log(`  OPEN ${st.pos.dir === 1 ? 'LONG' : 'SHORT'} entry ${st.pos.entry.toPrecision(6)} stop ${st.pos.stop.toPrecision(6)} tp ${st.pos.tp.toPrecision(6)} since ${isoAp(st.pos.t0)}${st.pos.vol ? ` · ${st.pos.vol} contracts · MEXC position ${st.pos.positionId}` : ''}`);
     for (const t of (st.trades || []).slice(-5)) console.log(`  ${iso(t.t)} ${t.dir === 1 ? 'L' : 'S'} ${t.why.padEnd(6)} ${t.R >= 0 ? '+' : ''}${t.R.toFixed(2)}R`);
   }
 }

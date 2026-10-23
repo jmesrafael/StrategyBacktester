@@ -21,6 +21,18 @@ bot() { as_bot node "$APP/lucidio.js" "$@"; }
 pause() { echo; read -rp "Press Enter to ${1:-return to the menu}... " _; }
 head_line() { clear; echo "== $1 =="; echo; }
 
+# Times are shown as 'Oct 23, 2026' and '4:40pm' (12-hour, no seconds, no space before am/pm). UTC is what the bot and the candles use; "your time" is your PC's clock.
+MY_UTC_OFFSET="${LUCIDIO_MY_UTC_OFFSET:-8}"     # hours your PC is ahead of UTC (+8). Only used to show your own clock time; change it here if you move.
+c12() { date -u -d "@$1" '+%-I:%M%P'; }          # epoch seconds -> 4:40pm
+now_str() { local e=${1:-$(date +%s)}; printf '%s UTC  ·  %s your time (UTC%+d)' "$(c12 "$e")" "$(c12 $((e + MY_UTC_OFFSET * 3600)))" "$MY_UTC_OFFSET"; }
+dt_str() { printf '%s %s UTC' "$(date -u -d "@$1" '+%b %-d, %Y')" "$(c12 "$1")"; }   # Oct 23, 2026 4:40pm UTC
+candle_times() {   # the six daily 4-hour candle closes, in UTC and in your time
+  local h u="" l=""
+  for h in 0 4 8 12 16 20; do u+="$(c12 $((h * 3600))), "; l+="$(c12 $((h * 3600 + MY_UTC_OFFSET * 3600))), "; done
+  printf '%s UTC  =  %s your time' "${u%, }" "${l%, }"
+}
+H12_JS='const M=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];const h12=(ts)=>{const d=new Date(ts);let h=d.getUTCHours();const m=String(d.getUTCMinutes()).padStart(2,"0"),ap=h>=12?"pm":"am";h=h%12||12;return M[d.getUTCMonth()]+" "+d.getUTCDate()+", "+d.getUTCFullYear()+" "+h+":"+m+ap+" UTC"};'
+
 act_status()  { head_line "Bot status"; bot status; }
 act_balance() { head_line "Account balance (MEXC futures)"; bot balance; }
 act_check() {   # the CLI needs the same live flag the service has, or the live-gate row would complain
@@ -32,12 +44,12 @@ act_follow()  { head_line "Live log (Ctrl+C to stop and come back)"; ( trap - IN
 
 act_trades() {
   head_line "Trades and skipped signals (last 12 events)"
-  as_bot env APP="$APP" node -e '
+  as_bot env APP="$APP" node -e "$H12_JS"'
 const fs=require("fs");let L=[];
 try{L=fs.readFileSync(process.env.APP+"/journal/trades.jsonl","utf8").trim().split("\n").filter(Boolean).map(x=>JSON.parse(x))}catch(e){console.log("No journal yet.");process.exit()}
 const ev=L.filter(e=>e.type!=="session").slice(-12);
 if(!ev.length)console.log("No trades or skipped signals yet (only bot starts).");
-for(const e of ev){const t=e.ts.slice(0,16).replace("T"," ");
+for(const e of ev){const t=h12(e.ts);
  if(e.type==="entry")console.log(t,"ENTRY",e.symbol,e.side,"@",e.entry.fill_price,"stop",e.sl,"tp",e.tp,"risk $"+(+e.risk.risk_usd).toFixed(2));
  else if(e.type==="exit")console.log(t,"EXIT ",e.symbol,e.side,e.exit_reason,(e.r_result>=0?"+":"")+(+e.r_result).toFixed(2)+"R","$"+(+e.usd_pnl).toFixed(2));
  else console.log(t,"SKIP ",e.symbol||"",e.side||"",e.reason,e.detail?("- "+e.detail):"")}
@@ -46,21 +58,21 @@ console.log("\nbot starts:",n("session"),"| entries:",n("entry"),"| exits:",n("e
 }
 act_equity() {
   head_line "Equity over time (account snapshots)"
-  as_bot env APP="$APP" node -e '
+  as_bot env APP="$APP" node -e "$H12_JS"'
 const fs=require("fs");let L=[];
 try{L=fs.readFileSync(process.env.APP+"/journal/snapshots.jsonl","utf8").trim().split("\n").filter(Boolean).map(x=>JSON.parse(x))}catch(e){}
 if(!L.length){console.log("No snapshots yet.");process.exit()}
 const a=L[0],b=L[L.length-1],m=(v)=>"$"+(+v).toFixed(2);
-console.log("First :",a.ts.slice(0,16).replace("T"," "),"UTC  equity",m(a.equity),"("+a.mode+")");
-console.log("Latest:",b.ts.slice(0,16).replace("T"," "),"UTC  equity",m(b.equity),"available",m(b.available));
+console.log("First :",h12(a.ts)," equity",m(a.equity),"("+a.mode+")");
+console.log("Latest:",h12(b.ts)," equity",m(b.equity),"available",m(b.available));
 console.log("Change:",(((b.equity/a.equity)-1)*100).toFixed(2)+"%","|",L.length,"snapshots");
 console.log("Positions on MEXC:",(b.mexc_positions||[]).length,"| the bot believes:",(b.bot_positions||[]).length);
-console.log("\nLast 8 snapshots:");for(const s of L.slice(-8))console.log(" ",s.ts.slice(0,16).replace("T"," "),m(s.equity))'
+console.log("\nLast 8 snapshots:");for(const s of L.slice(-8))console.log(" ",h12(s.ts),m(s.equity))'
 }
 act_server() {
   head_line "Server health"
   echo "Uptime / load : $(uptime -p) | load $(cut -d' ' -f1-3 /proc/loadavg)"
-  echo "Time (UTC)    : $(date -u '+%Y-%m-%d %H:%M:%S')"
+  echo "Time          : $(date -u '+%b %-d, %Y') · $(now_str)"
   free -h | awk 'NR==1{print "Memory        : "$0} NR==2{print "                "$0}'
   df -h / | awk 'NR==2{print "Disk (/)      : "$3" used of "$2" ("$5")"}'
   echo "Bot service   : $(systemctl is-active lucidio) | restarts since boot: $(systemctl show lucidio -p NRestarts --value)" \
@@ -89,14 +101,15 @@ act_kill() {
 near_candle_close() { local m=$(( ${LUCIDIO_NOW:-$(date +%s)} % 14400 )); [ "$m" -lt 720 ] || [ "$m" -ge $((14400 - 300)) ]; }
 act_restart() {
   head_line "Restart the bot"
-  echo "Time now: $(date -u +%H:%M) UTC. Candles close at 00, 04, 08, 12, 16 and 20 UTC."
+  echo "Time now      : $(now_str)"
+  echo "Candles close : $(candle_times)"
   echo "Do NOT restart within ~10 minutes of a candle close: a signal check could be missed."
   read -rp "Restart now? [y/N] " a
   if [ "$a" = y ]; then sudo systemctl restart lucidio; sleep 4; sudo journalctl -u lucidio -n 6 --no-pager; fi
 }
 
 # ---- update: GitHub -> mirror in $SRC -> tests -> bundle (same package.sh + setup-vps.sh as a manual update) -> automatic rollback if the bot does not come back
-git_run() { as_root env GIT_TERMINAL_PROMPT=0 GIT_SSH_COMMAND="ssh -i $DEPLOY_KEY -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new" git "$@"; }
+git_run() { as_root env GIT_TERMINAL_PROMPT=0 TZ=UTC GIT_SSH_COMMAND="ssh -i $DEPLOY_KEY -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new" git "$@"; }
 git_src() { git_run -C "$SRC" "$@"; }
 act_update() {
   head_line "Update the bot code from GitHub"
@@ -124,13 +137,15 @@ act_update() {
   deployed=$(as_root cat "$SRC/.deployed-commit" 2>/dev/null || true)
   if [ "$deployed" = "$after" ]; then echo "Already up to date: $(git_src log -1 --format='%h %s' "$after")"; return 0; fi
   echo "What is new on GitHub ($BRANCH):"; echo
-  git_src log -n 8 --date=format:'%Y-%m-%d %H:%M' --format='  %h  %ad  %s' "$after"
+  git_src log -n 8 --format='%h|%at|%s' "$after" | while IFS='|' read -r h t m; do printf '  %s  %s  %s
+' "$h" "$(dt_str "$t")" "$m"; done
   if [ -n "$deployed" ] && git_src cat-file -e "$deployed^{commit}" 2>/dev/null; then echo; git_src diff --stat "$deployed" "$after" | tail -n 15
   else echo; echo "(the installed version is not known to this copy: showing the latest commits only)"; fi
   echo; read -rp "Install this update? [y/N] " a; [ "$a" = y ] || { echo "Cancelled. Nothing was changed."; return 0; }
   if near_candle_close; then
     echo; echo "A 4-hour candle closes within a few minutes (or just closed). The bot is about to make, or just made, its trade decision;"
-    echo "the update restarts it, which could cost a signal. Better: try again 15 minutes after the hour (00/04/08/12/16/20 UTC)."
+    echo "the update restarts it, which could cost a signal. Better: try again 15 minutes after a candle close."
+    echo "Time now      : $(now_str)"; echo "Candles close : $(candle_times)"
     read -rp "Type force to continue anyway, or press Enter to cancel: " a; [ "$a" = force ] || { echo "Cancelled. Nothing was changed."; return 0; }
   fi
   git_src checkout --quiet --force --detach "$after" || return 1
@@ -177,33 +192,54 @@ run_action() {
   esac
 }
 
+# one line for the top of the menu: service state, mode, risk, last known equity. Never prompts for a password (sudo -n): without it the line just has less in it.
+HDR_JS='const fs=require("fs"),d=process.argv[1];let c={},s=null;
+try{c=JSON.parse(fs.readFileSync(d+"/bot-config.json","utf8"))}catch(e){}
+try{const L=fs.readFileSync(d+"/journal/snapshots.jsonl","utf8").trim().split("\n");s=JSON.parse(L[L.length-1])}catch(e){}
+console.log(String(c.mode||"?").toUpperCase()+" "+(+c.riskPct*100).toFixed(1)+"% risk"+(s&&s.equity!=null?" | equity $"+(+s.equity).toFixed(2):""))'
+header_info() {
+  local st info
+  st=$(systemctl is-active lucidio 2>/dev/null || true); [ -z "$st" ] && st=unknown
+  if [ -n "${LUCIDIO_MENU_NOSUDO:-}" ] || [ "$(id -un)" = "$LUCIDIO_USER" ]; then info=$(node -e "$HDR_JS" "$APP" 2>/dev/null)
+  else info=$(sudo -n -u "$LUCIDIO_USER" node -e "$HDR_JS" "$APP" 2>/dev/null); fi
+  printf 'Bot: %s | %s' "$st" "${info:-no data yet}"
+}
+# black screen, white text, green (the dashboard's lime) for borders, titles and the selected line
+MENU_COLORS='root=,black shadow=,black window=white,black border=brightgreen,black title=brightgreen,black roottext=white,black label=white,black
+ textbox=white,black acttextbox=black,brightgreen button=white,black actbutton=black,brightgreen compactbutton=white,black listbox=white,black
+ actlistbox=black,brightgreen sellistbox=brightgreen,black actsellistbox=black,brightgreen helpline=gray,black entry=white,black checkbox=white,black actcheckbox=black,brightgreen'
+
 main() {
   if [ "${1:-}" = "--action" ]; then run_action "${2:-}"; return $?; fi
   trap : INT       # Ctrl+C stops a running action, not the menu
-  head_line "Lucid'io VPS - $(date -u '+%Y-%m-%d %H:%M UTC')"
+  head_line "Lucid'io VPS - $(date -u '+%b %-d, %Y') · $(now_str)"
   act_status 2>&1 || true
   pause "open the menu"
   local ITEMS=(
     shell   "Open a normal command line"
-    status  "Bot status (mode, positions, results)"
-    balance "Account balance on MEXC"
-    check   "Health check (clock, API key, contracts, gates)"
+    status  "Bot status"
+    balance "MEXC account balance"
     trades  "Trades and skipped signals"
-    equity  "Equity over time (snapshots)"
-    log     "Recent log (last 40 lines)"
-    follow  "Live log (Ctrl+C to stop)"
-    server  "Server health (load, memory, disk, installed code)"
+    equity  "Equity over time"
+    check   "Health check"
+    log     "Recent log"
+    follow  "Live log  (Ctrl+C to stop)"
+    server  "Server health and installed code"
     update  "Update the bot code from GitHub"
     tg      "Send a Telegram test message"
-    kill    "Kill switch (show / on / off)"
+    kill    "Kill switch  (on / off)"
     restart "Restart the bot"
     exit    "Disconnect"
   )
-  local choice n i
+  local choice n i rows cols H W LH
   while true; do
     if command -v whiptail >/dev/null 2>&1; then
-      choice=$(whiptail --title "Lucid'io VPS" --ok-button "OK (Enter)" --cancel-button "Exit (Esc)" \
-        --menu "Up/Down arrows: move   |   Enter: OK   |   Esc: exit the menu" 24 72 14 "${ITEMS[@]}" 3>&1 1>&2 2>&3) || break
+      rows=$(tput lines 2>/dev/null || echo 24); cols=$(tput cols 2>/dev/null || echo 80)
+      H=$(( rows - 2 )); [ "$H" -gt 24 ] && H=24
+      W=$(( cols - 4 )); [ "$W" -gt 70 ] && W=70; [ "$W" -lt 50 ] && W=50
+      LH=$(( H - 9 )); [ "$LH" -lt 4 ] && LH=4; [ "$LH" -gt $(( ${#ITEMS[@]} / 2 )) ] && LH=$(( ${#ITEMS[@]} / 2 ))
+      choice=$(NEWT_COLORS="$MENU_COLORS" whiptail --title " Lucid'io VPS " --notags --ok-button "OK (Enter)" --cancel-button "Exit (Esc)" \
+        --menu "$(header_info)\n$(now_str)\n\nUp/Down: move     Enter: OK     Esc: exit the menu" "$H" "$W" "$LH" "${ITEMS[@]}" 3>&1 1>&2 2>&3) || break
     else
       echo; for ((i=0;i<${#ITEMS[@]};i+=2)); do printf '  %2d) %s\n' $((i/2+1)) "${ITEMS[i+1]}"; done
       read -rp "Number (empty = leave): " n; [ -z "$n" ] && break
