@@ -6,8 +6,8 @@
 // Series: trade R summed per calendar day (0 on days without a closed trade), screen = base costs, NO funding (funding exists only for a few coins).
 'use strict';
 const fs = require('fs'), path = require('path');
-const { backtest, DEFAULTS } = require('../lucidio-core.js');
-const RB = path.join(__dirname, '..', '..', 'research', 'bollinger'), D = path.join(__dirname, '..', 'data'), DAY = 86400;
+const { backtest, DEFAULTS } = require('../../../🔴BB-Core/lucidio-core.js');
+const RB = path.join(__dirname, '..', '..', 'bollinger'), D = path.join(__dirname, '..', '..', '..', '🔴BB-Core', 'data'), DAY = 86400;
 const toB = (rows) => rows.map((r) => ({ time: r[0], open: r[1], high: r[2], low: r[3], close: r[4] }));
 const mean = (a) => a.reduce((x, y) => x + y, 0) / (a.length || 1);
 const sd = (a) => { const m = mean(a); return Math.sqrt(a.reduce((x, y) => x + (y - m) ** 2, 0) / Math.max(1, a.length - 1)); };

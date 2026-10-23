@@ -211,12 +211,12 @@ refresh_header() {
   [ "$HDR1" = "Bot: $st | " ] && HDR1="Bot: $st"
 }
 # one frame row: plain text (ASCII only, used to measure the padding) and the same text with colour codes
-rule() { local k s=""; for ((k = 0; k < BOX_W - 2; k++)); do s+="─"; done; printf '%s%s%s%s%s\n' "$G" "$1" "$s" "$2" "$R"; }
+rule() { local k s=""; for ((k = 0; k < BOX_W - 2; k++)); do s+="─"; done; printf '%s%s%s%s%s%s\n' "$PAD" "$G" "$1" "$s" "$2" "$R"; }
 frow() { local plain="$1" styled="${2:-$1}" pad; pad=$(( BOX_W - 4 - ${#plain} )); [ "$pad" -lt 0 ] && { plain="${plain:0:$((BOX_W - 4))}"; styled="$plain"; pad=0; }
-  printf '%s│%s %s%*s %s│%s\e[K\n' "$G" "$R" "$styled" "$pad" "" "$G" "$R"; }
+  printf '%s%s│%s %s%*s %s│%s\e[K\n' "$PAD" "$G" "$R" "$styled" "$pad" "" "$G" "$R"; }
 draw_menu() {
   local i idx
-  printf '\e[H'
+  printf '\e[%d;1H' "$TOPROW"
   rule "╭" "╮"
   frow "Lucid'io VPS" "$B$G""Lucid'io VPS$R"
   frow "$HDR1"; [ -n "$HDR2" ] && frow "$HDR2"; frow "$(now_str)"
@@ -233,14 +233,18 @@ draw_menu() {
 }
 # in: ITEMS (tag, label pairs), HDR1/HDR2.  out: CHOICE.  Returns 1 when Esc / q is pressed (or the input ends).
 menu_select() {
-  local key rest rows cols
+  local key rest rows cols fh last=""
   G=$'\e[92m'; B=$'\e[1m'; R=$'\e[0m'; N=$(( ${#ITEMS[@]} / 2 )); SEL=0; TOP=0
   printf '\e[?25l\e[2J'
   while true; do
-    rows=$(tput lines 2>/dev/null || echo 24); cols=$(tput cols 2>/dev/null || echo 80)
+    rows=${LUCIDIO_MENU_ROWS:-$(tput lines 2>/dev/null || echo 24)}; cols=${LUCIDIO_MENU_COLS:-$(tput cols 2>/dev/null || echo 80)}
     BOX_W=$(( cols - 2 )); [ "$BOX_W" -gt 66 ] && BOX_W=66; [ "$BOX_W" -lt 46 ] && BOX_W=46
     VIS=$(( rows - 11 )); [ "$VIS" -gt "$N" ] && VIS=$N; [ "$VIS" -lt 4 ] && VIS=4
     [ "$SEL" -lt "$TOP" ] && TOP=$SEL; [ "$SEL" -ge $(( TOP + VIS )) ] && TOP=$(( SEL - VIS + 1 ))
+    # centred in the window, both ways (the frame is BOX_W wide and fh lines tall)
+    PAD=$(printf '%*s' $(( (cols - BOX_W) / 2 > 0 ? (cols - BOX_W) / 2 : 0 )) '')
+    fh=$(( 8 + VIS + (${#HDR2} > 0 ? 1 : 0) )); TOPROW=$(( (rows - fh) / 2 + 1 )); [ "$TOPROW" -lt 1 ] && TOPROW=1
+    [ "$last" != "$rows x $cols" ] && { printf '\e[2J'; last="$rows x $cols"; }      # window resized: wipe the old frame
     draw_menu
     IFS= read -rsn1 key || { printf '\e[?25h\e[2J\e[H'; return 1; }
     case "$key" in

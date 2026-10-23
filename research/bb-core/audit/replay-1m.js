@@ -8,8 +8,8 @@
 // (funding is a calendar term, reported separately in the table of the 4h engine).
 'use strict';
 const fs = require('fs'), path = require('path');
-const { backtest, DEFAULTS } = require('../lucidio-core.js');
-const D = path.join(__dirname, '..', 'data'), IV = 14400, C = DEFAULTS.cost;
+const { backtest, DEFAULTS } = require('../../../🔴BB-Core/lucidio-core.js');
+const D = path.join(__dirname, '..', '..', '..', '🔴BB-Core', 'data'), IV = 14400, C = DEFAULTS.cost;
 const venue = process.argv[2] === 'mexc' ? 'mexc' : 'binance';
 const rd = (f) => JSON.parse(fs.readFileSync(path.join(D, f), 'utf8'));
 const yr = (t) => new Date(t * 1000).getUTCFullYear(), iso = (t) => new Date(t * 1000).toISOString().slice(0, 16).replace('T', ' ');

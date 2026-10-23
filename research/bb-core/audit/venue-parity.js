@@ -9,8 +9,8 @@
 // 'both' = neither substitution alone fixes it, but swapping everything does.
 'use strict';
 const fs = require('fs'), path = require('path');
-const { signalFrom, DEFAULTS } = require('../lucidio-core.js');
-const D = path.join(__dirname, '..', 'data'), IV = 14400;
+const { signalFrom, DEFAULTS } = require('../../../🔴BB-Core/lucidio-core.js');
+const D = path.join(__dirname, '..', '..', '..', '🔴BB-Core', 'data'), IV = 14400;
 const rd = (c) => JSON.parse(fs.readFileSync(path.join(D, c + '.json'), 'utf8')).map((r) => ({ time: r[0], open: r[1], high: r[2], low: r[3], close: r[4] }));
 const iso = (t) => new Date(t * 1000).toISOString().slice(0, 16).replace('T', ' ');
 const yr = (t) => new Date(t * 1000).getUTCFullYear();

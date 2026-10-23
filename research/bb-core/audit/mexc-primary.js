@@ -6,8 +6,8 @@
 // Year = year of EXIT. R = multiples of the amount risked; 1R = stop distance; no compounding.
 'use strict';
 const fs = require('fs'), path = require('path');
-const { backtest, DEFAULTS } = require('../lucidio-core.js');
-const D = path.join(__dirname, '..', 'data'), rd = (f) => JSON.parse(fs.readFileSync(path.join(D, f), 'utf8'));
+const { backtest, DEFAULTS } = require('../../../🔴BB-Core/lucidio-core.js');
+const D = path.join(__dirname, '..', '..', '..', '🔴BB-Core', 'data'), rd = (f) => JSON.parse(fs.readFileSync(path.join(D, f), 'utf8'));
 const NOGAP = process.argv.includes('--nogap');
 const harsh = { entryFee: 0.0008, stopFee: 0.0008, timeFee: 0.0008, tpFee: 0.0008, slip: 0.0005, tpSlip: 0.0005, tpBuf: 0.0005 };
 const yr = (t) => new Date(t * 1000).getUTCFullYear();

@@ -6,7 +6,7 @@
 'use strict';
 const fs = require('fs'), path = require('path');
 const args = process.argv.slice(2), COINS = (args[0] || 'SOL,ZEC').split(','), MEXC = args.includes('--mexc'), CROSS = args.includes('--cross');
-const D = path.join(__dirname, '..', 'data'), SEC = 14400, TOL = 1e-9;
+const D = path.join(__dirname, '..', '..', '..', '🔴BB-Core', 'data'), SEC = 14400, TOL = 1e-9;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 async function binance(c, startMs) {
   const rows = []; let s = startMs;

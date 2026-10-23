@@ -8,8 +8,8 @@
 // Test D  data timing   : timestamps strictly +14400, aligned to 00/04/08/12/16/20 UTC, last candle closed.
 'use strict';
 const fs = require('fs'), path = require('path');
-const { backtest, signalFrom, DEFAULTS } = require(process.env.CORE || '../lucidio-core.js');
-const D = path.join(__dirname, '..', 'data'), rd = (f) => JSON.parse(fs.readFileSync(path.join(D, f), 'utf8'));
+const { backtest, signalFrom, DEFAULTS } = require(process.env.CORE || '../../../🔴BB-Core/lucidio-core.js');
+const D = path.join(__dirname, '..', '..', '..', '🔴BB-Core', 'data'), rd = (f) => JSON.parse(fs.readFileSync(path.join(D, f), 'utf8'));
 let fails = 0; const fail = (m) => { fails++; console.log('  FAIL', m); };
 let seed = 12345; const rnd = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 2 ** 32);
 const key = (t) => [t.dir, t.i0, t.i1, t.why, t.entry, t.exit, t.R, t.stop, t.tp].join('|');

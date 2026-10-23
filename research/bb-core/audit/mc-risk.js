@@ -10,8 +10,8 @@
 // coins are open, so the month scheme is the realistic one). Fixed-R curves (no compounding) are in execdiag.js.
 'use strict';
 const fs = require('fs'), path = require('path');
-const { backtest, DEFAULTS } = require('../lucidio-core.js');
-const D = path.join(__dirname, '..', 'data'), rd = (f) => JSON.parse(fs.readFileSync(path.join(D, f), 'utf8'));
+const { backtest, DEFAULTS } = require('../../../🔴BB-Core/lucidio-core.js');
+const D = path.join(__dirname, '..', '..', '..', '🔴BB-Core', 'data'), rd = (f) => JSON.parse(fs.readFileSync(path.join(D, f), 'utf8'));
 const harsh = { entryFee: 0.0008, stopFee: 0.0008, timeFee: 0.0008, tpFee: 0.0008, slip: 0.0005, tpSlip: 0.0005, tpBuf: 0.0005 };
 function pair(venue, cost) {
   const out = [];

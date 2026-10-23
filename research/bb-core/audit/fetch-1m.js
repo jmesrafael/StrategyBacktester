@@ -6,8 +6,8 @@
 // Row format [time_sec, open, high, low, close].
 'use strict';
 const fs = require('fs'), path = require('path');
-const { backtest } = require('../lucidio-core.js');
-const D = path.join(__dirname, '..', 'data'), CACHE = path.join(__dirname, 'cache-1m'), OUT = path.join(__dirname, 'out', 'v2');
+const { backtest } = require('../../../🔴BB-Core/lucidio-core.js');
+const D = path.join(__dirname, '..', '..', '..', '🔴BB-Core', 'data'), CACHE = path.join(__dirname, 'cache-1m'), OUT = path.join(__dirname, 'out', 'v2');
 const venue = process.argv[2], COINS = (process.argv[3] || 'SOL,ZEC').split(',');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const rd = (f) => JSON.parse(fs.readFileSync(path.join(D, f), 'utf8'));

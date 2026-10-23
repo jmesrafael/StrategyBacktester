@@ -16,10 +16,10 @@
 // and m1/<COIN>-<periodStart>.json holds the 1-minute candles (both venues) of the finished 4h period, so stop/target touches can be replayed exactly.
 'use strict';
 const fs = require('fs'), path = require('path');
-const { signalFrom, gapInWindow, DEFAULTS } = require('../lucidio-core.js');
+const { signalFrom, gapInWindow, DEFAULTS } = require('../../../🔴BB-Core/lucidio-core.js');
 
 const IV = 14400, S = DEFAULTS, SLIP = DEFAULTS.cost.slip, COINS = (process.env.SHADOW_COINS || 'SOL,ZEC').split(',');
-let OUT = process.env.SHADOW_DIR || path.join(__dirname, '..', 'shadow');
+let OUT = process.env.SHADOW_DIR || path.join(__dirname, '..', '..', '..', '🔴BB-Core', 'shadow');
 const MEXC = 'https://contract.mexc.com', BIN = 'https://fapi.binance.com';
 const HOSTS = new Set(['contract.mexc.com', 'fapi.binance.com']);
 const NOTIONALS = (process.env.SHADOW_NOTIONALS || '100,1000,10000,50000').split(',').map(Number);
@@ -256,7 +256,7 @@ async function selfcheck() {
   ok(w1.filled && Math.abs(w1.avg - 101) < 1e-9 && Math.abs(w1.slipBp - 100) < 1e-6, 'book: $1000 market buy fills at the best ask 101 -> 100 bp vs mid');
   ok(w2.filled && w2.avg > 101 && w2.avg < 102 && !bk.market[1].buy.filled, 'book: $7000 walks into the second level; $100000 reports "too thin"');
   // 3) decide() == engine on real history: every backtest trade's signal candle gives the same direction, stop and target; and indicators match an independent formula
-  const { backtest } = require('../lucidio-core.js'), rd = (f) => JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', f + '.json'), 'utf8'));
+  const { backtest } = require('../../../🔴BB-Core/lucidio-core.js'), rd = (f) => JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', '..', '🔴BB-Core', 'data', f + '.json'), 'utf8'));
   for (const name of ['SOL', 'MEXC_ZEC']) {
     const B = rd(name).map((r) => ({ time: r[0], open: r[1], high: r[2], low: r[3], close: r[4] })), trades = backtest(B).trades.slice(-60);
     let same = 0; for (const t of trades) { const d = decide(B.slice(0, t.i0)); if (d.dir === t.dir && Math.abs(d.stop / t.stop - 1) < 1e-12 && Math.abs(d.target / t.tp - 1) < 1e-12) same++; }

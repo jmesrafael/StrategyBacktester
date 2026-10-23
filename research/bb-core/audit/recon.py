@@ -6,7 +6,7 @@ time exit after 48 candles -> next open (i.e. held 49 candles, audit C2);
 no signal if a 4h candle is missing among the 200 candles ending at the signal candle (audit C3, added 2026-10-23); funding every 8h event strictly after entry open and <= exit_candle_open+2h.
 """
 import json, os, sys, math
-HERE = os.path.dirname(os.path.abspath(__file__)); D = os.path.join(HERE, '..', 'data'); OUT = os.path.join(HERE, 'out')
+HERE = os.path.dirname(os.path.abspath(__file__)); D = os.path.join(HERE, '..', '..', '..', '🔴BB-Core', 'data'); OUT = os.path.join(HERE, 'out')
 COSTS = {
   'free':  dict(ef=0, sf=0, tf=0, pf=0, slip=0, pslip=0, buf=0),
   'base':  dict(ef=.0005, sf=.0005, tf=.0005, pf=.0002, slip=.0002, pslip=0, buf=.0005),

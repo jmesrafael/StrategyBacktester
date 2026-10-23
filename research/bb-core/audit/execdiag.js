@@ -2,8 +2,8 @@
 // early MEXC volume sanity, funding comparison, Monte-Carlo drawdown.   node audit/execdiag.js
 'use strict';
 const fs = require('fs'), path = require('path');
-const { backtest, DEFAULTS } = require('../lucidio-core.js');
-const D = path.join(__dirname, '..', 'data'), rd = (f) => JSON.parse(fs.readFileSync(path.join(D, f), 'utf8'));
+const { backtest, DEFAULTS } = require('../../../🔴BB-Core/lucidio-core.js');
+const D = path.join(__dirname, '..', '..', '..', '🔴BB-Core', 'data'), rd = (f) => JSON.parse(fs.readFileSync(path.join(D, f), 'utf8'));
 const yr = (t) => new Date(t * 1000).getUTCFullYear();
 const mean = (a) => a.reduce((x, y) => x + y, 0) / (a.length || 1);
 function load(c) {

@@ -1,8 +1,8 @@
 // dump-core-trades.js — writes the engine's trade ledger to audit/out/core-<COIN>-<scenario>.json so recon.py can compare it.
 'use strict';
 const fs = require('fs'), path = require('path');
-const { backtest, DEFAULTS, FREE } = require('../lucidio-core.js');
-const D = path.join(__dirname, '..', 'data'), OUT = path.join(__dirname, 'out'); fs.mkdirSync(OUT, { recursive: true });
+const { backtest, DEFAULTS, FREE } = require('../../../🔴BB-Core/lucidio-core.js');
+const D = path.join(__dirname, '..', '..', '..', '🔴BB-Core', 'data'), OUT = path.join(__dirname, 'out'); fs.mkdirSync(OUT, { recursive: true });
 const rd = (f) => JSON.parse(fs.readFileSync(path.join(D, f), 'utf8'));
 const harsh = { entryFee: 0.0008, stopFee: 0.0008, timeFee: 0.0008, tpFee: 0.0008, slip: 0.0005, tpSlip: 0.0005, tpBuf: 0.0005 };
 const SCEN = { free: FREE, base: DEFAULTS.cost, harsh };

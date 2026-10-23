@@ -1,8 +1,8 @@
 // c2-decision.js — evidence for C2 (49 vs 48 candles held): same engine, maxBars 48 (= 49 candles in the trade, current) vs 47 (= exactly 48 candles).
 'use strict';
 const fs = require('fs'), path = require('path');
-const { backtest } = require('../lucidio-core.js');
-const D = path.join(__dirname, '..', 'data'), rd = (f) => JSON.parse(fs.readFileSync(path.join(D, f), 'utf8'));
+const { backtest } = require('../../../🔴BB-Core/lucidio-core.js');
+const D = path.join(__dirname, '..', '..', '..', '🔴BB-Core', 'data'), rd = (f) => JSON.parse(fs.readFileSync(path.join(D, f), 'utf8'));
 for (const c of ['SOL', 'ZEC', 'MEXC_SOL', 'MEXC_ZEC']) {
   const B = rd(c + '.json').map((r) => ({ time: r[0], open: r[1], high: r[2], low: r[3], close: r[4] }));
   let F = fs.existsSync(path.join(D, 'funding', c + '.json')) ? rd('funding/' + c + '.json') : null;
