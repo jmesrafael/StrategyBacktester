@@ -1,0 +1,17 @@
+PASS  source (code lines, comments excluded) contains none of the 11 trading / auth / write tokens listed in this check: API key header, signature, HMAC, mexc.js import, keys file, order creation, TP/SL placement, POST/PUT/DELETE 
+PASS  all 10 endpoint paths used are public market-data paths: /api/v1/contract/ping /api/v1/contract/kline/${coin}_USDT /api/v1/contract/ticker /api/v1/contract/depth/${coin}_USDT /api/v1/contract/detail /api/v1/contract/funding_rate/${coin}_USDT /api/v1/contract/funding_rate/history /fapi/v1/time /fapi/v1/klines /fapi/v1/depth
+PASS  httpGet refuses private paths, other hosts and plain http (5/5 refused)
+PASS  book: mid and spread
+PASS  book: $1000 market buy fills at the best ask 101 -> 100 bp vs mid
+PASS  book: $7000 walks into the second level; $100000 reports "too thin"
+PASS  SOL: decide() reproduces direction, stop and target of the last 60 backtest trades (60/60)
+PASS  SOL: BB upper/mid/lower, SMA200, ATR14 equal an independent recomputation (max relative error 0.0e+0)
+PASS  MEXC_ZEC: decide() reproduces direction, stop and target of the last 60 backtest trades (60/60)
+PASS  MEXC_ZEC: BB upper/mid/lower, SMA200, ATR14 equal an independent recomputation (max relative error 0.0e+0)
+PASS  one snapshot with a live signal wrote records: book,candle,decision,fees,fill
+PASS  decision record shows the backtest's last trade signal (SHORT, stop 104.36749999999999)
+PASS  candle record: wake lag 2.3s, new candle present, closed candle 2026-10-18 16:00:00Z
+PASS  fill record has bot paper fill 100.7699, backtest fill 100.7598, book-walk fill 100.7699, notional $28.17
+PASS  snapshot made exactly 7 requests (MEXC candles, Binance candles, MEXC detail/ticker/depth/funding, Binance depth), all HTTPS GET to the two public hosts
+
+15 passed, 0 failed

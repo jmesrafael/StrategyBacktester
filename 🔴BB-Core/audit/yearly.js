@@ -2,7 +2,7 @@
 //   node audit/yearly.js [binance|mexc]   (default binance).  Scenarios: free | base | harsh (0.08% fee every fill + 0.05% slip)
 'use strict';
 const fs = require('fs'), path = require('path');
-const { backtest, DEFAULTS, FREE } = require('../lucidyo-core.js');
+const { backtest, DEFAULTS, FREE } = require('../lucidio-core.js');
 const D = path.join(__dirname, '..', 'data'), rd = (f) => JSON.parse(fs.readFileSync(path.join(D, f), 'utf8'));
 const harsh = { entryFee: 0.0008, stopFee: 0.0008, timeFee: 0.0008, tpFee: 0.0008, slip: 0.0005, tpSlip: 0.0005, tpBuf: 0.0005 };
 const venue = process.argv[2] === 'mexc' ? 'MEXC_' : '';

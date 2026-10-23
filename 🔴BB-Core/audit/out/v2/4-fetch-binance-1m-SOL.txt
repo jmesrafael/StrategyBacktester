@@ -1,0 +1,8 @@
+SOL: 20/158 windows, 1057200 rows, 104 requests
+SOL: 40/158 windows, 1208400 rows, 211 requests
+SOL: 60/158 windows, 1345740 rows, 308 requests
+SOL: 80/158 windows, 1505040 rows, 419 requests
+SOL: 100/158 windows, 1628700 rows, 507 requests
+SOL: 120/158 windows, 1738020 rows, 586 requests
+SOL: 140/158 windows, 1869240 rows, 683 requests
+Binance SOL: 1939200 one-minute rows for 309 trade windows (735 requests this run)

@@ -6,7 +6,7 @@
 // Candle files: [[time_sec, open, high, low, close, volume], ...]   Funding files (optional): [[time_sec, rate], ...]
 'use strict';
 const fs = require('fs'), path = require('path');
-const { backtest, stats, scaleCost, DEFAULTS, FREE } = require('./lucidyo-core.js');
+const { backtest, stats, scaleCost, DEFAULTS, FREE } = require('./lucidio-core.js');
 
 const args = process.argv.slice(2);
 const opt = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? +args[i + 1] : d; };

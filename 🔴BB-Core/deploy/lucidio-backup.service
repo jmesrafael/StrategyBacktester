@@ -1,0 +1,9 @@
+# Daily backup of state/ and bot-config.json (NOT mexc-keys.json) to /var/backups/lucidio, 14 kept. Runs as root so it can read the bot's files.
+[Unit]
+Description=Lucid'io daily state backup
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /opt/lucidio/deploy/backup-state.sh
+UMask=0077
+Nice=10

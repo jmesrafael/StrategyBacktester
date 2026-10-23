@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lucidyo Monitor</title>
+<title>Lucid'io Monitor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -202,7 +202,7 @@ button:disabled { opacity: .45; cursor: default; }
 <div class="wrap">
   <header>
     <div class="hello">MEXC futures · auto-trader</div>
-    <h1><span id="hdot" class="dot bg-warn"></span>Lucidyo</h1>
+    <h1><span id="hdot" class="dot bg-warn"></span>Lucid'io</h1>
     <span class="chip mode" id="mode">PAPER</span>
     <span class="chip" id="coins">—</span>
     <span class="chip" id="risk">—</span>
@@ -273,7 +273,7 @@ button:disabled { opacity: .45; cursor: default; }
       <div class="tools"><button data-f="all" class="on">all</button><button data-f="trades">trades</button><button data-f="problems">problems</button><label class="mut" style="margin-left:auto"><input type="checkbox" id="follow" checked> follow</label></div>
       <div class="term" id="term"></div></div>
   </div>
-  <p class="foot">Local only (127.0.0.1). Refreshes every 15 s. Paper results exclude funding; live trades show MEXC's real fees and funding. Data: state/ written by lucidyo.js · prices and balance from MEXC.</p>
+  <p class="foot">Local only (127.0.0.1). Refreshes every 15 s. Paper results exclude funding; live trades show MEXC's real fees and funding. Data: state/ written by lucidio.js · prices and balance from MEXC.</p>
 </div>
 <script>
 const $ = (id) => document.getElementById(id);
@@ -326,7 +326,7 @@ function render(s) {
     <tr><td class="mut">MEXC candle fetch avg / max</td><td class="r" colspan="1">${ms(tm.avgFetchMs)} / ${ms(tm.maxFetchMs)}</td><td class="mut">entry delay avg / max</td><td class="r">${tm.avgEntryDelaySec == null ? '—' : tm.avgEntryDelaySec + 's / ' + tm.maxEntryDelaySec + 's'}</td></tr></table>`;
   $('runs').innerHTML = s.runs.length ? `<table><tr><th>Run</th><th class="r">Total</th>${s.coins.map((c) => `<th class="r">${esc(c)} fetch</th><th class="r">${esc(c)} lag</th>`).join('')}<th class="r">Clock</th><th>Problems</th></tr>${
     s.runs.map((r) => `<tr><td>${t(r.ts)}</td><td class="r">${r.durationMs} ms</td>${s.coins.map((c) => { const x = (r.coins || {})[c] || {}; return x.error ? '<td class="r bad" colspan="2">error</td>' : `<td class="r">${x.fetchMs ?? '—'}${x.attempts > 1 ? ' <span class="warn">×' + x.attempts + '</span>' : ''}</td><td class="r ${x.lagSec > s.config.maxEntryDelaySec ? 'warn' : ''}">${x.lagSec ?? '—'}s</td>`; }).join('')}<td class="r">${r.clockDriftMs == null ? '—' : r.clockDriftMs + ' ms'}</td><td>${
-      r.errors.length ? `<span class="bad">${r.errors.length} err</span> ` : ''}${r.warnings.length ? `<span class="warn">${r.warnings.length} warn</span>` : r.errors.length ? '' : '<span class="ok">none</span>'}</td></tr>`).join('')}</table>` : '<div class="empty">No runs recorded yet. Start start-lucidyo.cmd.</div>';
+      r.errors.length ? `<span class="bad">${r.errors.length} err</span> ` : ''}${r.warnings.length ? `<span class="warn">${r.warnings.length} warn</span>` : r.errors.length ? '' : '<span class="ok">none</span>'}</td></tr>`).join('')}</table>` : '<div class="empty">No runs recorded yet. Start start-lucidio.cmd.</div>';
 
   renderTerm();
 }
@@ -350,7 +350,7 @@ document.querySelectorAll('[data-f]').forEach((b) => b.onclick = () => { filter 
 $('refresh').onclick = load;
 // ---------------- settings (writes bot-config.json through the dashboard server; the bot reads it at every 4h run) ----------------
 let S0 = null, form = null, lastPct = 0.01;
-const post = (url, body) => fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Lucidyo': '1' }, body: JSON.stringify(body) }).then((r) => r.json());
+const post = (url, body) => fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Lucidio': '1' }, body: JSON.stringify(body) }).then((r) => r.json());
 const NUM = { riskUsd: 'f-riskUsd', maxRiskUsd: 'f-maxRiskUsd', startBalance: 'f-startBalance', maxLeverage: 'f-maxLeverage', maxRiskMult: 'f-maxRiskMult', wakeDelaySec: 'f-wakeDelaySec' };
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const fmtV = (k, v) => k === 'riskPct' ? `${+(v * 100).toFixed(2)}%` : k === 'haltAtR' ? `${Math.abs(v)}R` : k === 'maxEntryDelaySec' ? `${v / 60} min` : Array.isArray(v) ? v.join(' + ') : v === '' ? 'off' : String(v);

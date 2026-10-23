@@ -1,0 +1,16 @@
+# "No bot run in 4h20m" alert. Triggered every 10 minutes by lucidio-watchdog.timer. Exit code 2 = an alert could not be delivered.
+[Unit]
+Description=Lucid'io watchdog (alerts when no run was recorded for 4h20m)
+
+[Service]
+Type=oneshot
+User=lucidio
+Group=lucidio
+WorkingDirectory=/opt/lucidio
+ExecStart=/usr/bin/node /opt/lucidio/deploy/watchdog.js
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=full
+ReadWritePaths=/opt/lucidio

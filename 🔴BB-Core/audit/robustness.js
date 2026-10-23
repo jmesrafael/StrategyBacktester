@@ -3,7 +3,7 @@
 //   node audit/robustness.js
 'use strict';
 const fs = require('fs'), path = require('path');
-const { backtest, DEFAULTS } = require('../lucidyo-core.js');
+const { backtest, DEFAULTS } = require('../lucidio-core.js');
 const RB = path.join(__dirname, '..', '..', 'research', 'bollinger', 'data4h'), D = path.join(__dirname, '..', 'data');
 const yr = (t) => new Date(t * 1000).getUTCFullYear();
 const toB = (rows) => rows.map((r) => ({ time: r[0], open: r[1], high: r[2], low: r[3], close: r[4] }));

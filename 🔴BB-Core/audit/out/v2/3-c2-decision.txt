@@ -1,0 +1,4 @@
+SOL       maxBars=48 (49 candles held): n=309 net=105.41R time-exits=96 (86.7R) | maxBars=47 (48 held): n=309 net=107.84R time-exits=97 (88.1R) | difference 2.44R, 0 trades
+ZEC       maxBars=48 (49 candles held): n=332 net=118.35R time-exits=87 (84.3R) | maxBars=47 (48 held): n=333 net=114.04R time-exits=89 (83.9R) | difference -4.31R, 1 trades
+MEXC_SOL  maxBars=48 (49 candles held): n=308 net=104.55R time-exits=97 (83.7R) | maxBars=47 (48 held): n=308 net=105.95R time-exits=98 (84.0R) | difference 1.40R, 0 trades
+MEXC_ZEC  maxBars=48 (49 candles held): n=304 net=86.84R time-exits=79 (86.6R) | maxBars=47 (48 held): n=305 net=82.30R time-exits=81 (86.0R) | difference -4.55R, 1 trades

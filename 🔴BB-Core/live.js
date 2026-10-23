@@ -1,4 +1,4 @@
-// live.js — Lucidyo's MEXC executor: the same 3 methods as the paper executor (enter / checkExit / timeExit) + reconcile, but real orders.
+// live.js — Lucid'io's MEXC executor: the same 3 methods as the paper executor (enter / checkExit / timeExit) + reconcile, but real orders.
 //
 //   enter      market order (isolated margin) with the backtest's stop + target ATTACHED, then verified on MEXC; if MEXC does not show
 //              both, they are placed again; if that still fails the position is closed at once (never left unprotected).

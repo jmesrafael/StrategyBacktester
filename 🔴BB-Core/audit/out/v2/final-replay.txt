@@ -1,0 +1,2 @@
+SOL: bot 309 trades 109.80R · backtest 309 trades 109.80R · IDENTICAL trade-for-trade · balance $100.00 -> $283.92 on this coin alone
+ZEC: bot 332 trades 122.56R · backtest 332 trades 122.56R · IDENTICAL trade-for-trade · balance $100.00 -> $320.26 on this coin alone

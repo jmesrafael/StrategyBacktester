@@ -1,4 +1,4 @@
-// lucidyo-core.js — the Lucidyo algorithm, standalone (no dependencies, no browser).
+// lucidio-core.js — the Lucid'io algorithm, standalone (no dependencies, no browser).
 //
 // One function, `backtest(candles, cfg)`, is the whole strategy. It walks the candles one at a time and only ever looks at
 // candles that have already CLOSED, so the same loop is safe to use for a live bot (feed it closed candles, act on `setup`).

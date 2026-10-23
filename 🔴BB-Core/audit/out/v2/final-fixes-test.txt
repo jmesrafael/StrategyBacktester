@@ -1,0 +1,15 @@
+PASS  C3 MEXC_ZEC: signals within 200 candles after the 63-day hole: 3 before the fix, 0 after
+PASS  C3 Binance SOL (no gaps): trade list identical with and without the rule
+PASS  C3 gapInWindow: hole is inside the 200-candle window for 200 candles (g..g+199), outside from g+200
+PASS  C3 bot (processCoin) vs fixed backtest on MEXC_ZEC: 301 vs 301 trades (bot has no funding, so R differs slightly)
+PASS  C3 bot raises "signal SKIPPED: gap" warnings (20 of them)
+PASS  C4 candle appears late: polled 4x until the new candle was there, stale=false
+PASS  C4 candle never appears: kept polling 20x for 602s (> 10 min), then returned stale=true (old code gave up after 120 s and went on as if nothing was wrong)
+[2026-10-23T09:44:36.615Z] BOT WARNING VPS clock is 179074.6s off MEXC time
+[2026-10-23T09:44:36.829Z] ERROR SOL: MEXC has not published the new 4h candle 2026-10-21 08:00Z 602s after the close (newest candle 2026-10-21 04:00Z) — no decision made, retrying
+[2026-10-23T09:44:36.833Z] ERROR ZEC: MEXC has not published the new 4h candle 2026-10-21 08:00Z 642s after the close (newest candle 2026-10-21 04:00Z) — no decision made, retrying
+[2026-10-23T09:44:36.841Z] run finished in 222 ms · 2 error(s) · 3 warning(s)
+PASS  C4 runOnce: stale coins [SOL,ZEC] -> 2 error alerts (error events go to Telegram), run record has stale list
+PASS  C4 runOnce: no coin state was advanced (no decision on a half-fetched feed)
+
+9 passed, 0 failed

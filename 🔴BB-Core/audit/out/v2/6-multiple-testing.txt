@@ -1,0 +1,110 @@
+=== PART A: WHAT WAS TRIED (research/bollinger/ + this audit) ===
+id  settings x coins   source                         what
+A1     768 x 3        explore1.js                    explore1: mean-reversion + squeeze grids, 15m/1h/4h
+      derived: rows in results-explore1.json (exact)
+A2      96 x 3        explore2.js                    explore2: one-factor sweeps of the squeeze breakout, 60/120/240m
+      derived: 3 timeframes x (base + every non-base sweep value), computed from the SWEEP table
+A3      48 x 3        explore3.js                    explore3: squeeze vs no squeeze control, 4h
+      derived: loop product 3x2x2x2x2
+A4     243 x 3        bb-focus.js:45                 bb-focus robustness grid (n x k x trend x target x time exit) SOL/DOGE/ZEC
+      derived: loop product 3^5 (reported "243 nearby settings")
+A5       3 x 4        rr4.js                         rr4: target 3R/4R/5R (BB) after seeing all years
+      derived: SYS table; 4R chosen
+A6      36 x 3        tf-sweep.js                    tf-sweep: frozen rules on 9 timeframes (5m..1D); 4h kept
+      derived: 9 TFs x (2 cost cases + same-hold + by-year runs)
+A7    3072 x 3        tune2h.js:12                   tune2h: 2h-chart grid (n,k,trend,target,time-exit,stop)
+      derived: loop product 4x4x4x4x4x3 (different timeframe; searched on SOL/DOGE/ZEC)
+A8       8 x 3        bb-deep.js:350                 bb-deep: candidate improvements (skip filters, break-even, throttle)
+      derived: HYP table + throttle
+A9      33 x 3        bb-deep.js                     bb-deep: conditions-at-entry views (5 features x 3 terciles) + month-regime buckets (5 x ~4)
+      derived: descriptive tables, none adopted
+B1    1728 x 3        explore-fvg.js                 explore-fvg: FVG pullback grids, 15/60/240m (BTC/ETH/SOL) + SOL 5m + SOL/ZEC/DOGE 60 & 240m
+      derived: 6 result files x 288 (exact)
+B2     128 x 3        explore-fvg2.js                explore-fvg2: FVG one-factor sweeps, 240m and 60m, two coin sets
+      derived: 2 TFs x 2 coin sets x sweep points
+B3     432 x 3        explore-confirm.js             explore-confirm: FVG confirmation entries, 240/60/15m (as documented in its usage line)
+      derived: loop product 144 x 3 TFs (upper bound: no result file kept)
+B4      12 x 3        test-fvg.js                    test-fvg: frozen FVG, 3 entry modes x 4 timeframes
+      derived: MODES x TFS
+C1       1 x 13       test-frozen.js                 test-frozen: frozen BB rules on 13 coins (3 tuned + 10 fresh)
+      derived: 1 setting, 13 coins
+C2       1 x 133      data4h/, COIN-REGISTRY-bb-breakout.md coin screen: frozen 4h rules on every coin file in data4h (COIN-REGISTRY)
+      derived: 133 coin files in data4h (robustness.js analysed 131 with >=1500 candles and >=40 trades)
+D1      94 x 2        audit/robustness.js            this audit: one-at-a-time + 72-set grid + walk-forward
+      derived: counted from the script
+
+SETTINGS evaluated (strategy parameter sets, excluding the coin screens): 6701  (by family: BB 1235, BB-2h 3072, FVG 2300, audit 94)
+setting x coin evaluations: 20012 (+ 133 coin screens of one frozen setting + 13 in test-frozen)
+Strategy FAMILIES compared before choosing: mean reversion (MR), squeeze breakout, no-squeeze breakout (chosen), FVG pullback/confirm/direct = 5.
+Timeframes compared: 5m,15m,30m,1h,2h,4h,6h,12h,1D. Coins: 133 data files screened, ~25 examined in detail (COIN-REGISTRY), 2 chosen.
+NOT counted (cannot be, not recorded): parameter ideas tried interactively and discarded, earlier "v7" variants (REPORT notes ~200), 35 scripts edited and re-run.
+
+=== PART B: CORRECTIONS (133 coins = 131 from research data4h with >=1500 candles and >=40 trades, plus SOL and ZEC; base costs, no funding) ===
+SOL: avgR 0.355 t=3.35 n=309 rank 5/133 daily SR 0.0704 (annualised 1.35)
+ZEC: avgR 0.369 t=3.52 n=332 rank 2/133 daily SR 0.0704 (annualised 1.34)
+
+(1) effective independent trials
+  COINS : 66 coins with data from 2021-01 -> weekly R correlation matrix: average pairwise correlation 0.20, participation-ratio N_eff = 16.3 (raw count 133)
+  PARAMS: 243 variants (the 243-set grid of bb-focus.js) on SOL+ZEC -> average pairwise correlation 0.52, N_eff = 3.4; SR spread across variants: min 0.032 max 0.093 (daily)
+  combined N_eff (coins x parameters, treated as independent dimensions) = 56
+
+(3) Deflated Sharpe Ratio. Sharpe = daily mean R / daily sd of R (per-day, not annualised). Trial-variance V: empirical across the 133 coins = 4.60e-4 (sd of SR 0.0215), sampling-only null 1/T = 5.93e-4.
+
+  SELECTED: SOL+ZEC pooled, Binance, no funding (same basis as the screen): 641 trades, T=2451 days, daily SR 0.0934 (annualised 1.78), skew 3.15, kurtosis 18.2
+    N (trials assumed)         SR0 (expected best SR under no skill)   DSR = P(true SR > 0 | selection)     [V = empirical | V = sampling-only]
+    1 (no correction)              N=     1   SR0 0.0000 | 0.0000                 DSR 100.0% | 100.0%
+    N_eff params                   N=     3   SR0 0.0204 | 0.0231                 DSR 100.0% | 100.0%
+    N_eff coins                    N=    16   SR0 0.0388 | 0.0440                 DSR  99.9% |  99.8%
+    N_eff coins x params           N=    56   SR0 0.0497 | 0.0565                 DSR  99.4% |  98.3%
+    133 coins (raw)                N=   133   SR0 0.0564 | 0.0640                 DSR  98.3% |  95.4%
+    243 settings (raw)             N=   243   SR0 0.0607 | 0.0689                 DSR  97.0% |  92.0%
+    912 BB settings (raw)          N=   912   SR0 0.0693 | 0.0786                 DSR  91.7% |  80.1%
+    133 x 243 (raw, upper bound)   N= 32319   SR0 0.0888 | 0.1008                 DSR  60.4% |  33.5%
+
+  SELECTED: SOL+ZEC pooled, Binance, with funding: 641 trades, T=2451 days, daily SR 0.0903 (annualised 1.72), skew 3.14, kurtosis 18.4
+    N (trials assumed)         SR0 (expected best SR under no skill)   DSR = P(true SR > 0 | selection)     [V = empirical | V = sampling-only]
+    1 (no correction)              N=     1   SR0 0.0000 | 0.0000                 DSR 100.0% | 100.0%
+    N_eff params                   N=     3   SR0 0.0204 | 0.0231                 DSR 100.0% | 100.0%
+    N_eff coins                    N=    16   SR0 0.0388 | 0.0440                 DSR  99.8% |  99.6%
+    N_eff coins x params           N=    56   SR0 0.0497 | 0.0565                 DSR  99.0% |  97.3%
+    133 coins (raw)                N=   133   SR0 0.0564 | 0.0640                 DSR  97.3% |  93.3%
+    243 settings (raw)             N=   243   SR0 0.0607 | 0.0689                 DSR  95.4% |  88.9%
+    912 BB settings (raw)          N=   912   SR0 0.0693 | 0.0786                 DSR  88.5% |  74.6%
+    133 x 243 (raw, upper bound)   N= 32319   SR0 0.0888 | 0.1008                 DSR  53.4% |  27.4%
+
+  SELECTED: SOL+ZEC pooled, MEXC candles, with funding (traded venue): 609 trades, T=2451 days, daily SR 0.0800 (annualised 1.53), skew 3.18, kurtosis 19.5
+    N (trials assumed)         SR0 (expected best SR under no skill)   DSR = P(true SR > 0 | selection)     [V = empirical | V = sampling-only]
+    1 (no correction)              N=     1   SR0 0.0000 | 0.0000                 DSR 100.0% | 100.0%
+    N_eff params                   N=     3   SR0 0.0204 | 0.0231                 DSR 100.0% |  99.9%
+    N_eff coins                    N=    16   SR0 0.0388 | 0.0440                 DSR  99.0% |  97.8%
+    N_eff coins x params           N=    56   SR0 0.0497 | 0.0565                 DSR  95.6% |  90.7%
+    133 coins (raw)                N=   133   SR0 0.0564 | 0.0640                 DSR  90.8% |  81.5%
+    243 settings (raw)             N=   243   SR0 0.0607 | 0.0689                 DSR  86.1% |  73.4%
+    912 BB settings (raw)          N=   912   SR0 0.0693 | 0.0786                 DSR  72.7% |  53.0%
+    133 x 243 (raw, upper bound)   N= 32319   SR0 0.0888 | 0.1008                 DSR  31.1% |  12.1%
+
+(3b) Deflated Sharpe Ratio PER COIN (no funding, same basis as the screen). SR0 uses the empirical trial variance.
+  coin  daily SR   N_eff coins(16)   N_eff coins x params(56)   133 coins (raw)   133 x 3.4 (coins x N_eff params)
+  SOL   0.070422            95.7%                    86.9%            77.7%                61.8%
+  ZEC   0.070367            96.4%                    88.0%            78.7%                62.2%
+
+(2) Sidak-adjusted p-values for the best result among N independent looks: p_adj = 1-(1-p)^N, one-sided p from the t-statistic of mean R per trade
+  SOL t=3.35, ZEC t=3.52, pair t=4.86
+  N=N_eff coins            (    16):  SOL p_adj   0.0065   ZEC p_adj   0.0036   pair p_adj   9.5e-6
+  N=133 coins              (   133):  SOL p_adj   0.0522   ZEC p_adj   0.0286   pair p_adj   7.8e-5
+  N=N_eff coins x params   (    56):  SOL p_adj   0.0223   ZEC p_adj   0.0121   pair p_adj   3.3e-5
+  N=133 x 243              ( 32319):  SOL p_adj   1.0000   ZEC p_adj   0.9991   pair p_adj   0.0187
+  Harvey-Liu-Zhu rule of thumb: after ~300 tested factors a new one needs t > 3.0 (~3.4 for 1000); the pair has t = 4.86, single coins 3.4 / 3.5.
+
+(4) Empirical-Bayes shrinkage of the per-trade edge (random-effects, DerSimonian-Laird). 133 coins, precision-weighted mean 0.117R (unweighted 0.126R).
+  Heterogeneity: Q = 125.5 on 132 df (p = 0.642), estimated true between-coin sd tau = 0.000R.
+  => the spread between coins is NOT larger than sampling noise alone would produce: the data cannot show that SOL/ZEC have a better edge than the average coin.
+  SOL observed 0.355R (se 0.106), ZEC observed 0.369R (se 0.105); the pair's excess over the all-coin mean is 0.245R per trade (about 3.3 standard errors)
+  posterior (shrunk) per-trade edge for the pair under different assumed true between-coin sd tau (tau 0 = every coin has the same edge):
+    tau 0.000R (DL estimate): SOL 0.117R, ZEC 0.117R, pair 0.117R
+    tau 0.050R: SOL 0.160R, ZEC 0.164R, pair 0.162R
+    tau 0.100R: SOL 0.229R, ZEC 0.237R, pair 0.233R
+    tau 0.150R: SOL 0.276R, ZEC 0.286R, pair 0.281R
+    tau 0.200R: SOL 0.303R, ZEC 0.315R, pair 0.309R
+    tau 0.000R (DL estimate): SOL 0.117R, ZEC 0.117R, pair 0.117R
+  CAVEAT: coins share the same market regimes, so their errors are correlated; independent-error shrinkage UNDER-corrects. The selection effect is real but this is a floor on it, not a ceiling.

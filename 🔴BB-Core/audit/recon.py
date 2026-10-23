@@ -1,8 +1,9 @@
 """recon.py - INDEPENDENT reconstruction of the SOL/ZEC trade ledger from raw candles + the README rules.
-Written without reading lucidyo-core.js internals: pure Python, no numpy. Usage: python -I recon.py
+Written without reading lucidio-core.js internals: pure Python, no numpy. Usage: python -I recon.py
 Rules (README): BB(20,2) population-sd on close; SMA200 trend filter; stop = BB middle at signal close; target = signal close +/- 4*|close-mid|;
 skip if |close-mid| < 0.3*ATR14(Wilder, SMA seed); entry = next candle open +/- slippage; stop-first on a touch of both; gaps fill at open;
-time exit after 48 candles -> next open; funding every 8h event strictly after entry open and <= exit_candle_open+2h.
+time exit after 48 candles -> next open (i.e. held 49 candles, audit C2);
+no signal if a 4h candle is missing among the 200 candles ending at the signal candle (audit C3, added 2026-10-23); funding every 8h event strictly after entry open and <= exit_candle_open+2h.
 """
 import json, os, sys, math
 HERE = os.path.dirname(os.path.abspath(__file__)); D = os.path.join(HERE, '..', 'data'); OUT = os.path.join(HERE, 'out')
@@ -26,6 +27,7 @@ def indicators(rows):
     return mid, up, lo, sma, atr
 def run(rows, cost, funding):
     n = len(rows); mid, up, lo, sma, atr = indicators(rows); k = COSTS[cost]; trades = []
+    holes = [x for x in range(1, n) if rows[x][0] - rows[x-1][0] != 14400]   # index x = first candle after a missing stretch
     i = 202   # first signal candle index (README: warm-up 202 candles)
     # signals may be evaluated on candle i only when flat at its close. Walk with explicit "flat from" pointer.
     flat_from = 202
@@ -37,6 +39,7 @@ def run(rows, cost, funding):
             if c > up[j] and c > sma[j]: d = 1
             elif c < lo[j] and c < sma[j]: d = -1
             else: continue
+            if any(j - 199 <= h <= j for h in holes): continue        # C3: hole inside the 200-candle window -> no signal
             dist = abs(c - mid[j])
             if dist <= 0 or dist < 0.3*atr[j]: continue
             s = (j, d, mid[j], c + d*4*dist); break

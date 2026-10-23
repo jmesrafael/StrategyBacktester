@@ -6,11 +6,11 @@
 // 2) failure scenarios: network error after the order was sent, crash before the state was saved, stop/target refused, foreign position,
 //    late wake-up, price already past the stop, drawdown halt, order rejected, time-exit close failing, exits while the bot was down.
 'use strict';
-process.env.LUCIDYO_STATE_DIR = require('path').join(require('os').tmpdir(), 'lucidyo-selftest-state');
+process.env.LUCIDIO_STATE_DIR = require('path').join(require('os').tmpdir(), 'lucidio-selftest-state');
 const fs = require('fs'), path = require('path');
-const { processCoin, paper } = require('../lucidyo.js');
+const { processCoin, paper } = require('../lucidio.js');
 const { createLiveExecutor } = require('../live.js');
-const { backtest, DEFAULTS } = require('../lucidyo-core.js');
+const { backtest, DEFAULTS } = require('../lucidio-core.js');
 const C = DEFAULTS.cost, IV = 14400;
 
 let pass = 0, failN = 0;
@@ -205,6 +205,39 @@ async function scenario(name, knobs, fn) {
     const next = backtest(all).trades.find((x) => x.t === all[k].time);
     ok((st.pos ? !!next && st.pos.t0 === next.t : !next) && st.trades.length === 1 && st.trades[0].why === 'target' && Math.abs(st.trades[0].R - trade.R) < 0.05, `bot off for ${Math.round((m.t - trade.t) / 3600)}h: MEXC's target exit is picked up afterwards (R ${st.trades[0] && st.trades[0].R.toFixed(2)} vs backtest ${trade.R.toFixed(2)}); next trade ${st.pos ? 'opened on the same candle as the backtest' : 'none, as in the backtest'}`);
   });
+
+  // MEXC blocks this server: HTTP 403, then 451 with region text. BLOCKED error type, no retry, exactly ONE Telegram alert, open position untouched.
+  // Runs in a throw-away copy of the bot (fake Telegram token, stubbed fetch), so nothing real is read, sent or written.
+  {
+    const os = require('os'), BOX = fs.mkdtempSync(path.join(os.tmpdir(), 'lucidio-blocked-')), SD = path.join(BOX, 'state');
+    for (const f of ['lucidio.js', 'lucidio-core.js', 'live.js', 'mexc.js', 'config.js', 'ledger-sync.js']) fs.copyFileSync(path.join(__dirname, '..', f), path.join(BOX, f));
+    fs.writeFileSync(path.join(BOX, 'mexc-keys.json'), JSON.stringify({ telegramToken: '123456789' + ':' + 'FAKE_TOKEN_' + 'FOR_TEST_ONLY_0123456789', telegramChatId: '42' }));
+    fs.writeFileSync(path.join(BOX, 'bot-config.json'), JSON.stringify({ mode: 'paper', coins: ['SOL'], heartbeatUrl: '' }));
+    fs.mkdirSync(SD);
+    const pos = { coin: 'SOL', dir: 1, entry: 100, stop: 95, tp: 120, dist: 0.05, riskUsd: 1, qty: 0.2, t0: 1792684800 };
+    const coin0 = { lastTime: 1792684800, pos, realizedR: 0, n: 0, trades: [] };
+    fs.writeFileSync(path.join(SD, 'state.json'), JSON.stringify({ coins: { SOL: coin0 }, startedAt: 'x', mode: 'paper', balance: 100, totalR: 0, peakR: 0 }));
+    const saved = { fetch: global.fetch, dir: process.env.LUCIDIO_STATE_DIR };
+    process.env.LUCIDIO_STATE_DIR = SD; delete process.env.LUCIDIO_NO_NOTIFY;
+    const calls = []; let reply = { status: 403, text: '<html><body><h1>403 Forbidden</h1></body></html>' };
+    global.fetch = async (url) => { calls.push(String(url)); return { ok: false, status: reply.status, text: async () => reply.text }; };
+    const mx = require(path.join(BOX, 'mexc.js')), bot = require(path.join(BOX, 'lucidio.js')), cl = mx.createClient();
+    const mexcCalls = () => calls.filter((u) => u.includes('mexc.com')).length, tgCalls = () => calls.filter((u) => u.includes('api.telegram.org')).length;
+    let e403, e451;
+    try { await cl.contract('SOL_USDT'); } catch (e) { e403 = e; }
+    const after403 = mexcCalls();
+    reply = { status: 451, text: 'Service unavailable: MEXC is not available in your region (HTTP 451)' };
+    try { await cl.contract('SOL_USDT'); } catch (e) { e451 = e; }
+    ok(e403 && e403.code === 'BLOCKED' && mx.isBlocked(e403) && e451 && e451.code === 'BLOCKED' && mx.isBlocked(e451) && /region/.test(e451.message), 'MEXC blocked: HTTP 403 and HTTP 451 (region text) both raise the BLOCKED error type');
+    ok(after403 === 1 && mexcCalls() === 2, `blocked: no retry (${after403} request for the 403, ${mexcCalls() - after403} for the 451; transient errors would be retried 3x)`);
+    await bot.runOnce(); await new Promise((r) => setTimeout(r, 50));
+    const afterRun1 = mexcCalls(); await bot.runOnce(); await new Promise((r) => setTimeout(r, 50));
+    const st = JSON.parse(fs.readFileSync(path.join(SD, 'state.json'), 'utf8'));
+    ok(mexcCalls() - afterRun1 === 1, 'blocked run: a single MEXC request, no retry loop (451 now, region text)');
+    ok(tgCalls() === 1, `two blocked runs sent exactly one Telegram alert (${tgCalls()})`);
+    ok(JSON.stringify(st.coins.SOL) === JSON.stringify(coin0) && st.coins.SOL.pos && st.accessLost, 'open position in state left unchanged (accessLost flag recorded, nothing else touched)');
+    global.fetch = saved.fetch; process.env.LUCIDIO_STATE_DIR = saved.dir; fs.rmSync(BOX, { recursive: true, force: true });
+  }
 
   console.log(`\n${pass} passed, ${failN} failed`);
   process.exitCode = failN ? 1 : 0;

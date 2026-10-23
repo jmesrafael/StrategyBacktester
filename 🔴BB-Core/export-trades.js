@@ -5,7 +5,7 @@
 //   closes = every 4h close from the start, so a reader can value open trades at any moment.
 'use strict';
 const fs = require('fs'), path = require('path');
-const { backtest } = require('./lucidyo-core.js');
+const { backtest } = require('./lucidio-core.js');
 
 const [coinArg = 'SOL,ZEC', startArg = '2025-01-01T00:00:00Z', out = 'trades.json'] = process.argv.slice(2);
 const START = Date.parse(startArg) / 1000, IV = 14400, DATA = path.join(__dirname, 'data');

@@ -1,0 +1,9 @@
+candle 2026-10-23 04:00:00Z closed 5839 s ago -> snapshot labelled "late"
+1m candles stored [{"mexc":240,"binance":240},{"mexc":240,"binance":240}]
+records.jsonl: {"candle":2,"decision":2,"book":2,"fees":2}
+  decision ZEC candle 2026-10-23 04:00:00Z [late] MEXC none (close inside the bands (8.057% from the nearest band)) | Binance none | agree true | ATR 43.711
+  decision SOL candle 2026-10-23 04:00:00Z [late] MEXC none (close inside the bands (1.552% from the nearest band)) | Binance none | agree true | ATR 1.6462
+  book ZEC [late] MEXC bid 1220.69 ask 1220.71 spread 0.16 bp, depth +/-0.1% $1525120 ask / $866008 bid; market buy slippage $100: 0.08bp, $1000: 0.08bp, $10000: 0.08bp, $50000: 0.14bp
+  book SOL [late] MEXC bid 104.01 ask 104.02 spread 0.96 bp, depth +/-0.1% $6642410 ask / $6134311 bid; market buy slippage $100: 0.48bp, $1000: 0.48bp, $10000: 0.48bp, $50000: 0.48bp
+  fees ZEC taker 0 maker 0 funding 0.000022 next 2026-10-23 16:00:00Z
+  fees SOL taker 0.0001 maker 0 funding 0.000068 next 2026-10-23 16:00:00Z

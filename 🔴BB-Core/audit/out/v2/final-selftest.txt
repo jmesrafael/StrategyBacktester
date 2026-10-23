@@ -1,0 +1,28 @@
+--- parity: live executor on a simulated MEXC vs paper ---
+PASS  SOL parity over 1500 candles: paper 37 trades 2.40R · live-on-fake-MEXC 37 trades 2.40R · same entries+exit reasons: true · worst R gap 0.0016
+PASS  SOL every entry order is market, isolated, with stop + target attached
+PASS  SOL no order id was ever sent twice
+PASS  SOL same number of trades as backtest() on the same stretch (37 vs 37; ±2 allowed for the 500-candle window edge)
+PASS  ZEC parity over 1500 candles: paper 37 trades 5.59R · live-on-fake-MEXC 37 trades 5.58R · same entries+exit reasons: true · worst R gap 0.0015
+PASS  ZEC every entry order is market, isolated, with stop + target attached
+PASS  ZEC no order id was ever sent twice
+PASS  ZEC same number of trades as backtest() on the same stretch (37 vs 37; ±2 allowed for the 500-candle window edge)
+
+--- failure scenarios ---
+PASS  normal entry: 1 position, stop+target on MEXC, nothing pending (ENTER SOL LONG @ 77.1854  stop 75.6335  tp 83.3160  qty 6.508 (65083 contracts, 20x isolated) (risk $10.10 of balance $1000.00) · 3s after the open, price +0.010R from it)
+PASS  network error right after sending: order found by its id, NOT sent again, position adopted
+PASS  crash between "order sent" and "state saved": next run adopts the filled position
+PASS  order filled but MEXC lookups fail: pending kept (not forgotten), error raised
+PASS  next run with MEXC back: position adopted
+PASS  stop/target not attached by MEXC: bot places them itself and verifies
+PASS  stop/target cannot be placed at all: position closed at once, recorded, alert raised
+PASS  manual / unknown SOL position on MEXC: no new SOL entry
+PASS  woke 20 min late (> 15 min limit): signal skipped, no order
+PASS  price already beyond the stop at entry time: skipped
+PASS  account 40R below its best point: no new entries
+PASS  MEXC rejects the order: nothing pending, error raised
+PASS  48-candle exit while MEXC refuses the close: position kept, error raised
+PASS  next run: time exit retried and done
+PASS  bot off for 32h: MEXC's target exit is picked up afterwards (R 3.91 vs backtest 3.92); next trade opened on the same candle as the backtest
+
+23 passed, 0 failed

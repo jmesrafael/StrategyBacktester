@@ -1,0 +1,23 @@
+
+SOL (binance 4h trades with entry >= first 1m row 2020-10-19 04:00): 309 trades; 1m rows 1939200
+
+ZEC (binance 4h trades with entry >= first 1m row 2020-03-12 04:00): 332 trades; 1m rows 2024640
+
+================ BINANCE 1-minute replay vs 4h backtest ================
+trades replayed: 641 of 641 (0 with incomplete 1m data)
+exit REASON differs   : 0  (0.00%)
+exit 4h CANDLE differs: 0  (0.00%)
+reason OR candle differs (= mismatch): 0  (0.00%)   |  trades with |dR|>0.01 (price-only): 0
+R: sum dR (1m - 4h, price-only) = 0.0007R, mean |dR| = 0.00002R
+4h candles inside trades where stop AND target were both touched (the only case where the 4h order is an assumption): 0; trades whose exit minute touched both: 0
+1m->4h aggregation check: 16516 fully covered 4h candles compared, 6 differ in O/H/L/C (max rel 0.4633%)
+   SOL 2023-11-10 12:00 rel 0.4633%
+   ZEC 2020-05-23 20:00 rel 0.0211%
+   ZEC 2020-05-25 04:00 rel 0.0659%
+   ZEC 2020-06-05 20:00 rel 0.0377%
+   ZEC 2020-06-23 12:00 rel 0.0569%
+   ZEC 2020-06-28 04:00 rel 0.0388%
+by exit year (replayed / mismatches): 2020: 54/0  2021: 100/0  2022: 103/0  2023: 99/0  2024: 98/0  2025: 101/0  2026: 86/0
+
+No mismatches.
+exit reason 4h->1m counts: {"target->target":106,"time->time":183,"stop->stop":352}

@@ -1,0 +1,5 @@
+RECONCILE 2 recorded candle(s) older than 0 h against final data
+  feed revision  : MEXC recorded vs final differing snapshots 0, Binance 0; t+2s vs t+5min differing 0  (max rel MEXC 0.00000%, Binance 0.00000%)
+  new candle absent at snapshot: 0;  late (non-t+2s) snapshots: 2;  wake lag at t+2s: median n/a s, p99 n/a s, max n/a s (n=0)
+  indicator parity: 0 values with relative error > 1e-6 (max 0.00e+0);  signal parity vs reference: 0 difference(s);  Binance-vs-MEXC signal disagreement at the time: 0
+  1m aggregate == final 4h: 2/2

@@ -1,4 +1,4 @@
-// lucidyo-core.js — the Lucidyo algorithm, standalone (no dependencies, no browser).
+// lucidio-core.js — the Lucid'io algorithm, standalone (no dependencies, no browser).
 //
 // One function, `backtest(candles, cfg)`, is the whole strategy. It walks the candles one at a time and only ever looks at
 // candles that have already CLOSED, so the same loop is safe to use for a live bot (feed it closed candles, act on `setup`).
@@ -8,21 +8,31 @@
 //          SHORT : close < lower Bollinger(20, 2σ)  AND  close < SMA(200)
 //   Stop   : the Bollinger middle band (the 20-SMA) at the signal close
 //   Target : entry ± 4 × (distance from signal close to the stop)        -> 1:4 risk/reward
-//   Time   : still open after 48 candles (8 days) -> close at the next open
+//   Time   : maxBars = 48 counts candles AFTER the entry candle: once the trade has seen 48 closes beyond its entry candle (i - i0 >= 48) it is closed
+//            at the NEXT open, so it is held for 49 candles (entry candle + 48, about 8 days 4 h). Documented, not changed (audit C2): 47 would give
+//            exactly 48 candles but moves net R by only -4.5R..+2.4R per coin with mixed sign (audit/out/v2/3-c2-decision.txt) and would void every validated number.
 //   Filter : skip the signal if the stop is closer than 0.3 × ATR(14) (too tight, the stop would be noise)
+//   Gaps   : skip the signal if the candle series has a hole (a missing 4h candle) anywhere in the last max(bbLen, trendLen) = 200 candles (audit C3)
 //   Size   : risk a fixed amount (R) per trade — e.g. $5. One position at a time per coin.
 //
 // Candle format: { time (unix sec), open, high, low, close }.  Funding: [[time_sec, rate], ...] (optional).
 'use strict';
 
 const DEFAULTS = {
-  bbLen: 20, bbMult: 2, trendLen: 200, targetR: 4, maxBars: 48, minStopAtr: 0.3, atrLen: 14, warmup: 202,
+  bbLen: 20, bbMult: 2, trendLen: 200, targetR: 4, maxBars: 48, minStopAtr: 0.3, atrLen: 14, warmup: 202, interval: 14400, gapSkip: true,
   // execution costs as fractions of price. Defaults = the "REAL" live-bot assumptions used in the research
   // (taker entry/stop/time exits, maker target that must be traded THROUGH by tpBuf, plus real funding if provided).
   cost: { entryFee: 0.0005, stopFee: 0.0005, timeFee: 0.0005, tpFee: 0.0002, slip: 0.0002, tpSlip: 0, tpBuf: 0.0005 },
 };
 const FREE = { entryFee: 0, stopFee: 0, timeFee: 0, tpFee: 0, slip: 0, tpSlip: 0, tpBuf: 0 }; // frictionless, for sanity checks
 const scaleCost = (c, k) => ({ ...c, entryFee: c.entryFee * k, stopFee: c.stopFee * k, timeFee: c.timeFee * k, tpFee: c.tpFee * k, slip: c.slip * k });
+
+// true if a candle is missing (time step != iv) anywhere among the `lookback` candles ending at index i (a hole between B[j-1] and B[j] for j in the window).
+// One definition for the backtest and the live bot (audit C3): indicators that span a hole are not trustworthy, so no new signal is taken.
+function gapInWindow(B, i, lookback, iv = DEFAULTS.interval) {
+  for (let j = Math.max(1, i - lookback + 1); j <= i; j++) if (B[j].time - B[j - 1].time !== iv) return true;
+  return false;
+}
 
 // Returns { trades, open, setup }
 //   trades : closed trades { dir, i0, i1, t, tExit, entry, exit, stop, tp, R, why: 'stop'|'target'|'time'|'end', bars, fundR }
@@ -33,10 +43,12 @@ function backtest(B, userCfg = {}, funding = null) {
   const cfg = { ...DEFAULTS, ...userCfg, cost: { ...DEFAULTS.cost, ...(userCfg.cost || {}) } };
   const cost = cfg.cost, n = B.length, trades = [];
   const closes = [], trs = [];
-  let atr = null, pos = null, pend = null, pendClose = false;
+  let atr = null, pos = null, pend = null, pendClose = false, lastGap = -Infinity;
+  const lookback = Math.max(cfg.bbLen, cfg.trendLen);
 
   for (let i = 0; i < n; i++) {
     const c = B[i];
+    if (i > 0 && c.time - B[i - 1].time !== cfg.interval) lastGap = i;
 
     // 1) fills decided at the previous close happen at THIS candle's open
     if (pend) {
@@ -66,6 +78,7 @@ function backtest(B, userCfg = {}, funding = null) {
     if (i < cfg.warmup) continue;
 
     // 4) look for a signal (only while flat)
+    if (cfg.gapSkip && i - lastGap < lookback) continue;                 // a hole in the last 200 candles: indicators span it, skip (C3)
     const s = signalFrom(closes, atr, cfg);
     if (s) pend = { ...s, sig: i };
   }
@@ -118,6 +131,6 @@ function stats(trades, risk = 5) {
     byWhy: ['target', 'stop', 'time', 'end'].map((w) => [w, trades.filter((t) => t.why === w).length]), years };
 }
 
-const API = { backtest, signalFrom, stats, DEFAULTS, FREE, scaleCost };
+const API = { backtest, signalFrom, gapInWindow, stats, DEFAULTS, FREE, scaleCost };
 if (typeof module !== 'undefined' && module.exports) module.exports = API; // Node (backtest.js, bot.js)
 else globalThis.BBCore = API;                                               // browser (viewer.html loads this same file)

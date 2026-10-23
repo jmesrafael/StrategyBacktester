@@ -3,7 +3,7 @@
   "apiSecret": "your MEXC API secret",
   "telegramToken": "",
   "telegramChatId": "",
-  "ledgerUrl": "Lucidyo Ledger: Supabase project URL (LEDGER/js/config.js SUPABASE_URL). Only used when bot-config.json has ledgerSync: true",
+  "ledgerUrl": "Lucid'io Ledger: Supabase project URL (LEDGER/js/config.js SUPABASE_URL). Only used when bot-config.json has ledgerSync: true",
   "ledgerKey": "Ledger publishable key (LEDGER/js/config.js SUPABASE_KEY)",
   "ledgerBotKey": "secret printed by LEDGER/scripts/new-bot-key.mjs"
 }

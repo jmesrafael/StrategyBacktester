@@ -1,0 +1,8 @@
+SOL: 200 cuts, 28649 trade comparisons (append+poison), 300 indicator checks, 309 signal-bar cuts, 309 trades, timing irregularities 0
+ZEC: 200 cuts, 32304 trade comparisons (append+poison), 300 indicator checks, 332 signal-bar cuts, 332 trades, timing irregularities 0
+MEXC_SOL: 200 cuts, 32447 trade comparisons (append+poison), 300 indicator checks, 308 signal-bar cuts, 308 trades, timing irregularities 0
+  NOTE MEXC_ZEC D: 1 timestamp irregularities (gaps/misaligned) — see data-quality list
+MEXC_ZEC: 200 cuts, 29322 trade comparisons (append+poison), 300 indicator checks, 301 signal-bar cuts, 301 trades, timing irregularities 1
+
+ALL LOOK-AHEAD TESTS PASSED
+exit=0

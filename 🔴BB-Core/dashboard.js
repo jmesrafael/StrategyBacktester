@@ -1,14 +1,14 @@
-// dashboard.js — Lucidyo monitor. Lightweight local web page: capital (MEXC + paper), open trades, recent trades, health checks,
-// run timings and a live log terminal. Reads what lucidyo.js writes to state/; talks to MEXC read-only.
+// dashboard.js — Lucid'io monitor. Lightweight local web page: capital (MEXC + paper), open trades, recent trades, health checks,
+// run timings and a live log terminal. Reads what lucidio.js writes to state/; talks to MEXC read-only.
 //   node dashboard.js            (or double-click open-dashboard.cmd)  -> http://127.0.0.1:8787 opens in the browser
 // Binds to 127.0.0.1 only: open it on the VPS itself (RDP). API keys never leave this process; the page only sees numbers.
 'use strict';
 const http = require('http'), fs = require('fs'), path = require('path'), { exec } = require('child_process');
 const mexc = require('./mexc.js');
-const { CFG, riskFor } = require('./lucidyo.js');
+const { CFG, riskFor, liveAllowed } = require('./lucidio.js');
 const config = require('./config.js');
 
-const DIR = __dirname, ST = path.join(DIR, 'state'), PORT = +(process.env.LUCIDYO_DASH_PORT || 8787), IV = 14400;
+const DIR = __dirname, ST = path.join(DIR, 'state'), PORT = +(process.env.LUCIDIO_DASH_PORT || 8787), IV = 14400;
 const URL = `http://127.0.0.1:${PORT}`;
 
 const readJson = (f, d = null) => { try { return JSON.parse(fs.readFileSync(path.join(ST, f), 'utf8')); } catch { return d; } };
@@ -77,9 +77,9 @@ async function status() {
   else add(live ? 'warn' : 'ok', 'Mode', live ? 'LIVE: real orders on MEXC' : 'PAPER: no orders are sent');
   for (const p of pending) add('warn', `${p.coin} unfinished order`, `order ${p.oid} sent but not confirmed yet; the bot resolves it on the next run`);
   if (procAlive) add('ok', 'Bot process', `running (pid ${pidf.pid}) since ${pidf.startedAt}`);
-  else if (pidf) add('bad', 'Bot process', `not running: pid ${pidf.pid} from ${pidf.startedAt} is gone (crashed, closed, or VPS restarted). Start start-lucidyo.cmd`);
+  else if (pidf) add('bad', 'Bot process', `not running: pid ${pidf.pid} from ${pidf.startedAt} is gone (crashed, closed, or VPS restarted). Start start-lucidio.cmd`);
   else if (lastRunAt && now < dueAt + 600000) add('warn', 'Bot process', 'no loop process found, but runs are on time (Task Scheduler with `once`?)');
-  else add('bad', 'Bot process', lastRun ? 'not running. Start start-lucidyo.cmd' : 'the bot has never run on this machine. Start start-lucidyo.cmd');
+  else add('bad', 'Bot process', lastRun ? 'not running. Start start-lucidio.cmd' : 'the bot has never run on this machine. Start start-lucidio.cmd');
   if (lastRun) {
     const late = now - dueAt;
     add(late > 600000 ? 'bad' : 'ok', 'Schedule', late > 600000 ? `MISSED a run: one was due ${Math.round(late / 60000)} min ago (last run ${lastRun.ts})` : `last run ${Math.round((now - lastRunAt) / 60000)} min ago · next at ${state.nextWakeAt || new Date(dueAt).toISOString()}`);
@@ -144,7 +144,7 @@ async function status() {
 // another site cannot send it without a CORS preflight, which we never answer) and, if present, our own Origin.
 const HOSTS = new Set([`127.0.0.1:${PORT}`, `localhost:${PORT}`]);
 const sameSite = (req) => HOSTS.has(req.headers.host) && (!req.headers.origin || HOSTS.has(req.headers.origin.replace(/^http:\/\//, '')));
-const writeAllowed = (req) => sameSite(req) && req.headers['x-lucidyo'] === '1' && /^application\/json/.test(req.headers['content-type'] || '');
+const writeAllowed = (req) => sameSite(req) && req.headers['x-lucidio'] === '1' && /^application\/json/.test(req.headers['content-type'] || '');
 function readBody(req) {
   return new Promise((ok, bad) => { let b = ''; req.on('data', (d) => { b += d; if (b.length > 10000) { bad(new Error('too large')); req.destroy(); } }); req.on('end', () => { try { ok(JSON.parse(b || '{}')); } catch { bad(new Error('bad JSON')); } }); });
 }
@@ -173,6 +173,7 @@ async function postConfig(req) {
   if (v.next.mode === 'live' && cur.mode !== 'live') {
     if (body.confirm !== 'LIVE') return [400, { ok: false, errors: { mode: 'type LIVE to confirm real-money trading' } }];
     if (!mexc.hasKeys()) return [400, { ok: false, errors: { mode: 'add mexc-keys.json (with Order Placing permission) first' } }];
+    if (!liveAllowed()) return [400, { ok: false, errors: { mode: 'live is not enabled on this machine: edit bot-config.json by hand AND start the bot with --allow-live / LUCIDIO_ALLOW_LIVE=1' } }];
   }
   const changes = config.save(v.next);
   Object.assign(CFG, config.load());
@@ -201,9 +202,9 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(404); res.end('not found');
   } catch (e) { res.writeHead(500, { 'Content-Type': 'text/plain' }); res.end('dashboard error: ' + e.message); }
 });
-const openBrowser = () => { if (process.env.LUCIDYO_DASH_NO_OPEN) return; const cmd = process.platform === 'win32' ? `start "" "${URL}"` : process.platform === 'darwin' ? `open ${URL}` : `xdg-open ${URL}`; exec(cmd); };
+const openBrowser = () => { if (process.env.LUCIDIO_DASH_NO_OPEN) return; const cmd = process.platform === 'win32' ? `start "" "${URL}"` : process.platform === 'darwin' ? `open ${URL}` : `xdg-open ${URL}`; exec(cmd); };
 server.on('error', (e) => {
   if (e.code === 'EADDRINUSE') { console.log(`Dashboard already running at ${URL}, opening it.`); openBrowser(); setTimeout(() => process.exit(0), 500); }
   else { console.error(e); process.exit(1); }
 });
-server.listen(PORT, '127.0.0.1', () => { console.log(`Lucidyo dashboard: ${URL}\nClose this window to stop the dashboard (the bot keeps running).`); openBrowser(); });
+server.listen(PORT, '127.0.0.1', () => { console.log(`Lucid'io dashboard: ${URL}\nClose this window to stop the dashboard (the bot keeps running).`); openBrowser(); });

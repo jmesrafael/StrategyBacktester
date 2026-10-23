@@ -1,6 +1,6 @@
 // late-entry.js — what does it cost the BB Breakout (4h, 1:4) if the bot enters LATE?
 //
-// For every SOL / ZEC trade of the frozen engine (🔴BB-Core/lucidyo-core.js, Binance 4h data) we download the 1-minute candles
+// For every SOL / ZEC trade of the frozen engine (🔴BB-Core/lucidio-core.js, Binance 4h data) we download the 1-minute candles
 // of the entry candle and re-run the trade with the fill at  open of minute d  (d = 0, 1, 2, 5, 10, 15, 30, 60, 120).
 // Stop (middle band) and target (signal close ± 4 × dist) are the same prices as the backtest; only the fill moves.
 // Sizing is fixed-$ risk on the ACTUAL fill (what the live bot does), so R = result / risk on that fill.
@@ -13,7 +13,7 @@
 'use strict';
 const fs = require('fs'), path = require('path');
 const CORE = path.join(__dirname, '..', '..', '\u{1F534}BB-Core');
-const { backtest, DEFAULTS } = require(path.join(CORE, 'lucidyo-core.js'));
+const { backtest, DEFAULTS } = require(path.join(CORE, 'lucidio-core.js'));
 
 const coins = (process.argv[2] || 'SOL,ZEC').split(',');
 const DELAYS = [0, 1, 2, 5, 10, 15, 30, 60, 120];
@@ -76,7 +76,7 @@ const f3 = (v) => (v >= 0 ? '+' : '') + v.toFixed(3);
   const log = (s = '') => { console.log(s); out.push(s); };
   log('# BB Breakout — what a LATE entry costs (SOL, ZEC)');
   log('');
-  log(`Engine: 🔴BB-Core/lucidyo-core.js defaults (4h, BB 20/2, SMA200, 1:4, 48-bar time exit), Binance USDT-M data, real fees + 0.02% slippage, funding left out. Run ${new Date().toISOString().slice(0, 10)}.`);
+  log(`Engine: 🔴BB-Core/lucidio-core.js defaults (4h, BB 20/2, SMA200, 1:4, 48-bar time exit), Binance USDT-M data, real fees + 0.02% slippage, funding left out. Run ${new Date().toISOString().slice(0, 10)}.`);
   log('Each trade is replayed on 1-minute candles of its entry candle with the fill moved to minute d. Stop and target prices are unchanged; size is fixed-$ risk on the actual fill.');
   log('**SKIP** = do not enter if stop or target was already touched before the fill.  **CHASE** = enter anyway if the price is still between stop and target.');
   const pooled = {};

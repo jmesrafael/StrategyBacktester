@@ -5,18 +5,19 @@ const fs = require('fs'), path = require('path');
 
 const FILE = path.join(__dirname, 'bot-config.json');
 const COINS = ['SOL', 'ZEC'];   // the bot trades SOL and ZEC only; adding a coin is a code + research decision, not a setting
+const MAX_RISK_PCT = 0.01;      // hard cap: 1% of balance per trade (audit §11 item 7: 0.25-0.5% for a first live phase; 5% = 94% chance of a >50% drawdown)
 
 const DEFAULTS = {
   mode: 'paper', coins: ['SOL', 'ZEC'], riskUsd: 1, riskPct: 0, maxRiskUsd: 10, maxRiskMult: 1.5, maxLeverage: 20, startBalance: 100,
   haltAtR: -39, maxEntryDelaySec: 900, wakeDelaySec: 2, heartbeatUrl: '',
-  ledgerSync: false,   // true = post the real MEXC equity to the Lucidyo Ledger after every run (see ledger-sync.js); set by hand in this file
+  ledgerSync: false,   // true = post the real MEXC equity to the Lucid'io Ledger after every run (see ledger-sync.js); set by hand in this file
 };
 
 // type, limits, and what the Settings panel shows. "live: true" = takes effect for real money.
 const FIELDS = {
   mode:             { type: 'enum', values: ['paper', 'live'], label: 'Mode', help: 'paper = simulated account; live = real orders on MEXC' },
   coins:            { type: 'coins', values: COINS, min: 1, label: 'Coins', help: 'the bot trades SOL and ZEC only; untick one to pause it' },
-  riskPct:          { type: 'number', min: 0, max: 0.05, label: 'Risk per trade (% of balance)', help: '0 = use the fixed $ amount instead. Risk report: 1–2%' },
+  riskPct:          { type: 'number', min: 0, max: MAX_RISK_PCT, label: 'Risk per trade (% of balance)', help: '0 = use the fixed $ amount instead. Hard cap 1%; the audit suggests 0.25–0.5% for a first live phase' },
   riskUsd:          { type: 'number', min: 0.1, max: 100, label: 'Fixed risk per trade ($)', help: 'used when % risk is 0' },
   maxRiskUsd:       { type: 'number', min: 0.5, max: 500, label: 'Max risk per trade ($)', help: 'hard cap on any trade, also when % risk grows the amount' },
   maxRiskMult:      { type: 'number', min: 1, max: 3, label: 'Max over-size from contract rounding (×)', help: 'skip a trade if whole contracts would risk more than this × the target' },
@@ -34,6 +35,11 @@ function load() {
   const cfg = { ...DEFAULTS, ...read() };
   cfg.coins = (Array.isArray(cfg.coins) ? cfg.coins : []).filter((x) => COINS.includes(x));
   if (!cfg.coins.length) cfg.coins = [...DEFAULTS.coins];
+  // a hand-edited file may not exceed the cap: clamp (and say so, see lucidio.js runOnce) instead of trading bigger than allowed
+  const rp = Number(cfg.riskPct);
+  if (!Number.isFinite(rp) || rp < 0) cfg.riskPct = DEFAULTS.riskPct;
+  else if (rp > MAX_RISK_PCT) { cfg.riskPctClamped = rp; cfg.riskPct = MAX_RISK_PCT; }
+  else delete cfg.riskPctClamped;
   return cfg;
 }
 
@@ -70,4 +76,4 @@ function save(next) {
   return Object.keys(FIELDS).filter((k) => JSON.stringify(before[k]) !== JSON.stringify(out[k])).map((k) => ({ k, from: before[k], to: out[k] }));
 }
 
-module.exports = { FILE, COINS, DEFAULTS, FIELDS, load, validate, save };
+module.exports = { FILE, COINS, MAX_RISK_PCT, DEFAULTS, FIELDS, load, validate, save };

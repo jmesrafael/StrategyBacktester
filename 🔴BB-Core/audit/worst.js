@@ -1,4 +1,4 @@
-const {backtest}=require('../lucidyo-core.js');const fs=require('fs');
+const {backtest}=require('../lucidio-core.js');const fs=require('fs');
 const rd=f=>JSON.parse(fs.readFileSync(__dirname+'/../data/'+f));
 const B=rd('MEXC_ZEC.json').map(r=>({time:r[0],open:r[1],high:r[2],low:r[3],close:r[4]}));
 const own=rd('funding/MEXC_ZEC.json'),bin=rd('funding/ZEC.json');const F=[...bin.filter(r=>r[0]<own[0][0]),...own];

@@ -1,6 +1,6 @@
 # BB Breakout — what a LATE entry costs (SOL, ZEC)
 
-Engine: 🔴BB-Core/lucidyo-core.js defaults (4h, BB 20/2, SMA200, 1:4, 48-bar time exit), Binance USDT-M data, real fees + 0.02% slippage, funding left out. Run 2026-10-21.
+Engine: 🔴BB-Core/lucidio-core.js defaults (4h, BB 20/2, SMA200, 1:4, 48-bar time exit), Binance USDT-M data, real fees + 0.02% slippage, funding left out. Run 2026-10-21.
 Each trade is replayed on 1-minute candles of its entry candle with the fill moved to minute d. Stop and target prices are unchanged; size is fixed-$ risk on the actual fill.
 **SKIP** = do not enter if stop or target was already touched before the fill.  **CHASE** = enter anyway if the price is still between stop and target.
 

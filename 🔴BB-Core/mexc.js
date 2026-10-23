@@ -1,4 +1,4 @@
-// mexc.js — minimal MEXC USDT-M futures client for Lucidyo (no npm packages, Node 18+).
+// mexc.js — minimal MEXC USDT-M futures client for Lucid'io (no npm packages, Node 18+).
 //
 // Docs: https://www.mexc.com/api-docs/futures/integration-guide  (checked 2026-10-22)
 //   base https://api.mexc.com (since 2026-01-19) · trading API reopened 2026-03-31 · order placing needs KYC + an API key with
@@ -6,7 +6,7 @@
 //   Signature: HMAC-SHA256(secret, apiKey + Request-Time(ms) + paramString), hex. GET: business params sorted a→z joined with &;
 //   POST: the raw JSON body. Request-Time must be within 10 s of MEXC's clock -> we sign with the server-corrected time.
 // Rate limits used here (per the docs): kline/ticker/ping/positions/orders queries 20 per 2 s · order create 4 per 2 s ·
-//   TP/SL place 5 per 2 s · close_all 4 per 2 s · change_leverage 10 per 10 s. Lucidyo makes ~5–15 calls per coin every 4 h.
+//   TP/SL place 5 per 2 s · close_all 4 per 2 s · change_leverage 10 per 10 s. Lucid'io makes ~5–15 calls per coin every 4 h.
 //
 // Safety rules baked in:
 //   - GET requests retry on network errors / 500 / 501 / 510 / 9999 (back-off 1 s, 2 s, 4 s).
@@ -16,6 +16,7 @@ const crypto = require('crypto');
 
 const BASE = 'https://api.mexc.com';
 const RETRY_CODES = new Set([500, 501, 510, 9999]);
+const BLOCK_TEXT = /region|country|jurisdiction|restricted|not available in|access denied|forbidden|unauthori[sz]ed|no permission|permission denied|insufficient permission/i;   // 402 (key expired) and 406 (IP not bound) keep their own hints
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 class MexcError extends Error {
@@ -58,8 +59,11 @@ function createClient({ apiKey = '', apiSecret = '', base = BASE, timeoutMs = 10
     } catch (e) {
       throw new MexcError(`network: ${e.name === 'AbortError' ? 'timeout' : e.message}`, 9999);
     } finally { clearTimeout(timer); }
+    // 403 / 451 = blocked (region, IP, WAF): its own error type, never retried
+    if (res.status === 403 || res.status === 451) throw new MexcError(`BLOCKED: HTTP ${res.status} ${text.replace(/\s+/g, ' ').slice(0, 200)}`, 'BLOCKED');
     let j;
     try { j = JSON.parse(text); } catch { throw new MexcError(`HTTP ${res.status}: ${text.slice(0, 200)}`, res.status === 429 ? 510 : 500); }
+    if (!j.success && ![402, 406].includes(+j.code) && BLOCK_TEXT.test(j.message || '')) throw new MexcError(`BLOCKED: MEXC ${path} code ${j.code}: ${String(j.message).slice(0, 200)}`, 'BLOCKED', j);
     if (!j.success) throw new MexcError(`MEXC ${path} code ${j.code}: ${j.message || JSON.stringify(j).slice(0, 200)}`, j.code, j);
     return j.data;
   }
@@ -119,7 +123,7 @@ const timed = async (fn) => { const t = Date.now(); try { return { data: await f
 const IV4H = 14400;
 
 module.exports = {
-  createClient, MexcError, BASE, client,
+  createClient, MexcError, BASE, client, isBlocked: (e) => !!e && e.code === 'BLOCKED',
   hasKeys: () => { const k = loadKeys(); return !!(k.apiKey && k.apiSecret); },
   // ms = round trip; data = MEXC's raw server time in ms (drift = Date.now() - ms/2 - data). Also refreshes the client's clock offset.
   serverTime: () => timed(() => client.syncTime().then((r) => r.serverMs)),

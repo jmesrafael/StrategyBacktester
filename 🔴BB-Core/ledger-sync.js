@@ -1,4 +1,4 @@
-// ledger-sync.js — sends what MEXC says to the Lucidyo Ledger after a run: a snapshot (balance, open positions, open orders) and the
+// ledger-sync.js — sends what MEXC says to the Lucid'io Ledger after a run: a snapshot (balance, open positions, open orders) and the
 // equity reading, so the ledger's unit price follows the account.
 //
 //   bot-config.json    "ledgerSync": true            (default false: nothing is ever sent)

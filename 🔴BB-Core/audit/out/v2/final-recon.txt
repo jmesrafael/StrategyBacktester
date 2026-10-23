@@ -1,0 +1,13 @@
+SOL       free  recon= 309 core= 309 sumR recon= 121.079 core= 121.079  MATCH
+SOL       base  recon= 309 core= 309 sumR recon= 105.408 core= 105.408  MATCH
+SOL       harsh recon= 309 core= 309 sumR recon=  97.173 core=  97.173  MATCH
+ZEC       free  recon= 332 core= 332 sumR recon= 131.232 core= 131.232  MATCH
+ZEC       base  recon= 332 core= 332 sumR recon= 118.349 core= 118.349  MATCH
+ZEC       harsh recon= 332 core= 332 sumR recon= 109.301 core= 109.301  MATCH
+MEXC_SOL  free  recon= 308 core= 308 sumR recon= 117.401 core= 117.401  MATCH
+MEXC_SOL  base  recon= 308 core= 308 sumR recon= 104.547 core= 104.547  MATCH
+MEXC_SOL  harsh recon= 308 core= 308 sumR recon=  96.366 core=  96.366  MATCH
+MEXC_ZEC  free  recon= 301 core= 301 sumR recon=  97.353 core=  97.353  MATCH
+MEXC_ZEC  base  recon= 301 core= 301 sumR recon=  84.582 core=  84.582  MATCH
+MEXC_ZEC  harsh recon= 301 core= 301 sumR recon=  76.798 core=  76.798  MATCH
+ALL MATCH

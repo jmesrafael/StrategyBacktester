@@ -1,4 +1,4 @@
 @echo off
-REM Starts the Lucidyo bot and keeps it running (wakes 30s after every 4h candle close).
+REM Starts the Lucid'io bot and keeps it running (wakes 30s after every 4h candle close).
 cd /d "%~dp0"
-node lucidyo.js loop
+node lucidio.js loop

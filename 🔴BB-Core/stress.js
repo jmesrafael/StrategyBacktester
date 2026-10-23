@@ -3,7 +3,7 @@
 // Every scenario includes real funding and a target that must trade 0.05% THROUGH the level before it counts as filled.
 'use strict';
 const fs = require('fs'), path = require('path');
-const { backtest, stats, DEFAULTS } = require('./lucidyo-core.js');
+const { backtest, stats, DEFAULTS } = require('./lucidio-core.js');
 const DATA = path.join(__dirname, 'data'), RISK = 5;
 const read = (f) => JSON.parse(fs.readFileSync(path.join(DATA, f), 'utf8'));
 const candles = (c) => read(c + '.json').map((r) => ({ time: r[0], open: r[1], high: r[2], low: r[3], close: r[4] }));

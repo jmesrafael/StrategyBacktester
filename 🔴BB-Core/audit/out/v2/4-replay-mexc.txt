@@ -1,0 +1,17 @@
+
+SOL (mexc 4h trades with entry >= first 1m row 2026-09-22 18:01): 3 trades; 1m rows 44120
+
+ZEC (mexc 4h trades with entry >= first 1m row 2026-09-22 18:01): 7 trades; 1m rows 44121
+
+================ MEXC 1-minute replay vs 4h backtest ================
+trades replayed: 10 of 10 (0 with incomplete 1m data)
+exit REASON differs   : 0  (0.00%)
+exit 4h CANDLE differs: 0  (0.00%)
+reason OR candle differs (= mismatch): 0  (0.00%)   |  trades with |dR|>0.01 (price-only): 0
+R: sum dR (1m - 4h, price-only) = -0.0000R, mean |dR| = 0.00000R
+4h candles inside trades where stop AND target were both touched (the only case where the 4h order is an assumption): 0; trades whose exit minute touched both: 0
+1m->4h aggregation check: 342 fully covered 4h candles compared, 0 differ in O/H/L/C (max rel 0.0000%)
+by exit year (replayed / mismatches): 2026: 10/0
+
+No mismatches.
+exit reason 4h->1m counts: {"stop->stop":9,"time->time":1}

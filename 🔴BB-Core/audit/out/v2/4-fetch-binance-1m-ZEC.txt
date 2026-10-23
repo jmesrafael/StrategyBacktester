@@ -1,0 +1,17 @@
+ZEC: 20/332 windows, 145200 rows, 104 requests
+ZEC: 40/332 windows, 250380 rows, 180 requests
+ZEC: 60/332 windows, 388620 rows, 280 requests
+ZEC: 80/332 windows, 504480 rows, 364 requests
+ZEC: 100/332 windows, 636060 rows, 460 requests
+ZEC: 120/332 windows, 777480 rows, 560 requests
+ZEC: 140/332 windows, 888480 rows, 641 requests
+ZEC: 160/332 windows, 1009500 rows, 731 requests
+ZEC: 180/332 windows, 1105740 rows, 801 requests
+ZEC: 200/332 windows, 1226280 rows, 889 requests
+ZEC: 220/332 windows, 1335060 rows, 967 requests
+ZEC: 240/332 windows, 1455060 rows, 1055 requests
+ZEC: 260/332 windows, 1591860 rows, 1155 requests
+ZEC: 280/332 windows, 1681920 rows, 1222 requests
+ZEC: 300/332 windows, 1836360 rows, 1330 requests
+ZEC: 320/332 windows, 1983120 rows, 1433 requests
+Binance ZEC: 2024640 one-minute rows for 332 trade windows (1466 requests this run)
