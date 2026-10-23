@@ -139,6 +139,14 @@ function sessionEvent(i, cfg, mode, nowMs = Date.now()) {
   return { ...base('session', { symbol: null }, cfg, mode, nowMs), coins: i.coins || [], note: i.note || null };
 }
 
+// account snapshots (research): journal/snapshots.jsonl, same append-only rules as trades.jsonl, one line per bot run
+const snapshotFile = () => path.join(dir(), 'snapshots.jsonl');
+const pick = (o, keys) => Object.fromEntries(keys.filter((k) => o && o[k] !== undefined).map((k) => [k, o[k]]));
+function appendSnapshot(i, cfg, nowMs = Date.now()) {
+  const { mode, ...rest } = i;
+  return appendRecord({ v: SCHEMA, type: 'snapshot', event_id: crypto.randomUUID(), ts: isoOf(nowMs), ts_ms: nowMs, mode, ...rest, provenance: provenance(cfg, mode) }, snapshotFile());
+}
+
 // a writer bound to one mode/config source. cfgFn() returns the current config.
 function makeWriter({ mode, cfgFn, f = null }) {
   const target = () => f || file();
@@ -147,4 +155,4 @@ function makeWriter({ mode, cfgFn, f = null }) {
   return { entry: write(entryEvent), exit: write(exitEvent), skip: write(skipEvent), session: write(sessionEvent) };
 }
 
-module.exports = { BOT_VERSION, dir, file, appendRecord, readAll, indicators, provenance, configHash, codeHash, tradeId, sideName, entryEvent, exitEvent, skipEvent, sessionEvent, makeWriter };
+module.exports = { BOT_VERSION, dir, file, snapshotFile, pick, appendSnapshot, appendRecord, readAll, indicators, provenance, configHash, codeHash, tradeId, sideName, entryEvent, exitEvent, skipEvent, sessionEvent, makeWriter };

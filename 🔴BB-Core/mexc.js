@@ -93,6 +93,7 @@ function createClient({ apiKey = '', apiSecret = '', base = BASE, timeoutMs = 10
     },
     contract: (symbol) => get('/api/v1/contract/detail', { symbol }),
     ticker: (symbol) => get('/api/v1/contract/ticker', { symbol }),
+    depth: (symbol, limit = 200) => get(`/api/v1/contract/depth/${symbol}`, { limit }),   // { asks: [[price, contracts, orders]...], bids: [...] }; 200 levels reach ~2% on SOL
     async klines(symbol, interval, startSec, endSec) {   // max 2000 per request (docs); includes the still-forming candle
       const d = await get(`/api/v1/contract/kline/${symbol}`, { interval, start: startSec, end: endSec });
       return d.time.map((t, i) => ({ time: t, open: +d.open[i], high: +d.high[i], low: +d.low[i], close: +d.close[i] }));

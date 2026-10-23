@@ -72,10 +72,11 @@ const paper = {
 };
 
 // cost fields for the journal. Paper numbers are ESTIMATES from the cost model (paper mode has no funding); live numbers are what MEXC reported.
-const entryCosts = (p) => (p.live ? { kind: 'actual', note: 'real fees, slippage and funding come from MEXC at the exit' }
+const entryCosts = (p) => (p.live ? { kind: 'actual', note: 'real fees, slippage and funding come from MEXC at the exit', order_book: p.entryBook ?? null }
   : { kind: 'estimate (paper)', entry_fee_pct: COST.entryFee * 100, entry_slippage_pct: COST.slip * 100, funding: 'not modelled in paper mode' });
 function exitCosts(p, x) {
-  if (p.live) return { kind: 'actual', fees_usd: x.fees ?? null, funding_usd: x.funding ?? null, slippage_r: p.slipR ?? null };
+  if (p.live) return { kind: 'actual', fees_usd: x.fees ?? null, funding_usd: x.funding ?? null, slippage_r: p.slipR ?? null,
+    exit: { closed_by: x.closed_by ?? null, trigger_price: x.trigger_price ?? null, fill_price: x.fill_price ?? null, slippage_r: x.exit_slip_r ?? null, mexc_history: x.mexc_history ?? null } };
   const exitFee = x.why === 'stop' ? COST.stopFee : x.why === 'target' ? COST.tpFee : COST.timeFee, exitSlip = x.why === 'target' ? COST.tpSlip : COST.slip;
   return { kind: 'estimate (paper)', fees_pct: (COST.entryFee + exitFee) * 100, slippage_pct: (COST.slip + exitSlip) * 100, fees_r: (COST.entryFee + exitFee) / p.dist, funding_r: 0, funding_note: 'paper mode does not model funding' };
 }
@@ -355,12 +356,36 @@ async function runOnce(opt = {}) {
     catch (e) { run.errors.push('MEXC account: ' + e.message); event('error', 'MEXC', 'account read failed: ' + e.message); }
   }
   await syncLedger(run, state);
+  await recordSnapshot(run, state, live, runCoins);
   try {   // dashboard: a heartbeat and an equity point per run (= per candle close). Queued, never awaited, never throws.
     push.pushHeartbeat(pushStatus(state));
     const lastT = Math.max(0, ...Object.values(state.coins || {}).map((c) => c.lastTime || 0));
     push.pushEquity({ mode: CFG.mode, totalR: state.totalR, peakR: state.peakR, drawdownR: (state.peakR || 0) - (state.totalR || 0), trades: Object.values(state.coins || {}).reduce((s, c) => s + (c.n || 0), 0), candleMs: lastT * 1000, balance: state.balance });
   } catch {}
   finishRun();
+}
+
+// Research record, once per run: account equity + the positions MEXC itself reports, next to what the bot believes. Written to journal/snapshots.jsonl
+// (append-only like the trade journal). It lets a later review reconcile the journal against the exchange. Read-only calls; a failure here is
+// logged and never touches trading.
+async function recordSnapshot(run, state, live, coins) {
+  try {
+    const mexcPositions = [];
+    let positionsError = null;
+    if (live && mexc.hasKeys()) {
+      for (const coin of coins) {
+        try { for (const p of (await mexc.client.openPositions(config.coinToSymbol(coin))) || []) if (+p.holdVol > 0) mexcPositions.push(journalMod.pick(p, ['positionId', 'symbol', 'positionType', 'holdVol', 'holdAvgPrice', 'openAvgPrice', 'leverage', 'liquidatePrice', 'im', 'realised'])); }
+        catch (e) { positionsError = `${coin}: ${e.message}`; }
+      }
+    }
+    const botPositions = Object.entries(state.coins || {}).filter(([, c]) => c.pos).map(([coin, c]) => ({ symbol: config.coinToSymbol(coin), side: c.pos.dir === 1 ? 'LONG' : 'SHORT', entry: c.pos.entry, stop: c.pos.stop, tp: c.pos.tp, contracts: c.pos.vol ?? null, risk_usd: c.pos.riskUsd ?? null }));
+    const a = run.account || null;
+    journalMod.appendSnapshot({ mode: run.mode, source: live ? 'mexc futures account' : 'paper (bot balance); mexc account shown when a key is present',
+      equity: live && a ? +a.equity : state.balance, available: a ? +(a.available ?? a.availableBalance) : null, unrealized: a ? +a.unrealized : null, position_margin: a && a.positionMargin != null ? +a.positionMargin : null,
+      mexc_positions: live ? mexcPositions : null, mexc_positions_error: positionsError, bot_positions: botPositions,
+      bot: { balance: state.balance, total_r: state.totalR, peak_r: state.peakR, closed_trades: Object.values(state.coins || {}).reduce((s, c) => s + (c.n || 0), 0) },
+      risk_pct: CFG.riskPct, clock_drift_ms: run.clockDriftMs ?? null }, CFG);
+  } catch (e) { event('warn', 'BOT', `snapshot not written: ${e.message}`); }
 }
 
 // Pushes the real MEXC equity to the Ledger (only when bot-config.json has "ledgerSync": true). A ledger problem never touches trading.

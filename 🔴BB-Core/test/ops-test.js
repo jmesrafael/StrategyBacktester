@@ -69,6 +69,29 @@ mexc.serverTime = async () => { timeCalls++; return { data: Date.now(), ms: 10 }
   ok(hb().join(' ') === 'https://hc.example/x https://hc.example/x/fail', 'heartbeat strips a trailing slash: ok -> URL, failure -> URL/fail');
   bot.CFG.heartbeatUrl = ''; calls.length = 0; bot.heartbeat(true); ok(calls.length === 0, 'no heartbeatUrl -> no request');
 
+  // ---------- 3b. research snapshots: journal/snapshots.jsonl, one line per run ----------
+  const snapsOf = () => { try { return fs.readFileSync(path.join(STATE, 'journal', 'snapshots.jsonl'), 'utf8').trim().split('\n').map((l) => JSON.parse(l)); } catch { return []; } };
+  reset(); writeCfg({}); clock = last.time + IV + 2; mexc.klines = async () => ({ data: B.concat([forming]), ms: 5 });
+  await bot.runOnce();
+  let sn = snapsOf();
+  ok(sn.length === 1 && sn[0].type === 'snapshot' && sn[0].mode === 'paper' && Number.isFinite(sn[0].equity) && Array.isArray(sn[0].bot_positions) && sn[0].mexc_positions === null && sn[0].provenance, `a paper run writes one snapshot (equity ${sn[0] && sn[0].equity}, bot positions listed, no MEXC positions in paper mode)`);
+  await bot.runOnce(); ok(snapsOf().length === 2, 'every run appends another snapshot (append-only: 2 lines after 2 runs)');
+  reset(); writeCfg({ mode: 'live' }); process.env.LUCIDIO_ALLOW_LIVE = '1'; clock = last.time + IV + 2;
+  const sent = []; mexc.hasKeys = () => true;
+  Object.assign(mexc.client, {
+    contract: async (s) => ({ symbol: s, state: 0, apiAllowed: true, contractSize: 0.1, minVol: 1, volUnit: 1, maxVol: 1e9, priceUnit: 0.01, maxLeverage: 300, maintenanceMarginRate: 0.005 }),
+    asset: async () => ({ equity: '52.3', availableBalance: '50.1', unrealized: '0.2', positionMargin: '2.2' }),
+    openPositions: async (s) => (s === 'SOL_USDT' ? [{ positionId: 7, symbol: s, positionType: 1, holdVol: 3, holdAvgPrice: 100, openAvgPrice: 100, leverage: 20, liquidatePrice: 95, im: 1.5, realised: 0, apiKey: 'MUST-NOT-BE-RECORDED' }] : []),
+    openTpSl: async () => [], historyPositions: async () => [], orderByExternalOid: async () => { throw new Error('none'); }, ticker: async () => ({ lastPrice: last.close }),
+    createOrder: async (o) => { sent.push(o); throw new Error('no orders in this test'); }, placeTpSl: async () => { sent.push('tpsl'); },
+  });
+  await bot.runOnce();
+  sn = snapsOf();
+  ok(sn.length === 1 && sn[0].mode === 'live' && sn[0].equity === 52.3 && sn[0].available === 50.1 && sn[0].unrealized === 0.2 && sn[0].position_margin === 2.2, `a live run records the MEXC account (equity ${sn[0] && sn[0].equity}, available ${sn[0] && sn[0].available})`);
+  ok(sn[0] && sn[0].mexc_positions.length === 1 && sn[0].mexc_positions[0].positionId === 7 && sn[0].mexc_positions[0].holdVol === 3 && !JSON.stringify(sn[0]).includes('MUST-NOT-BE-RECORDED'), 'MEXC positions are recorded from a whitelist of fields (an extra field is not copied)');
+  ok(sent.length === 0, 'the snapshot is read-only: no order and no TP/SL call was made (a foreign position on MEXC also blocks entries)');
+  delete process.env.LUCIDIO_ALLOW_LIVE; writeCfg({}); reset();
+
   // ---------- 4. alerts: skipped signals ----------
   reset(); writeCfg({}); bot.reloadConfig();
   bot.event('skip', 'SOL', 'SIGNAL SOL LONG on candle 2026-10-23 08:00Z SKIPPED: next candle opened 35 min ago (too late to enter at its open)');

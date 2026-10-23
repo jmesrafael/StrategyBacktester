@@ -288,6 +288,36 @@ async function scenario(name, knobs, fn) {
     fs.rmSync(BOX, { recursive: true, force: true });
   }
 
+  console.log('\n--- research recording: order book at entry, exit trigger vs fill (observe only, never change a trade) ---');
+  const book = (px) => ({ asks: [[px * 1.0005, 100, 3], [px * 1.004, 200, 2], [px * 1.02, 900, 1]], bids: [[px * 0.9995, 100, 3], [px * 0.996, 200, 2]] });   // [price, contracts, orders]
+  await scenario('book recorded', {}, async ({ m, st, run }) => {
+    m.depth = async () => book(m.px);
+    await run();
+    const b = st.pos && st.pos.entryBook;
+    ok(b && b.consumed === 'asks' && b.notional_usd_0_5pct > b.notional_usd_0_1pct && b.notional_usd_1pct >= b.notional_usd_0_5pct && b.spread_pct > 0, `order book recorded with the entry (long consumes the asks): 0.1% $${b && b.notional_usd_0_1pct}, 0.5% $${b && b.notional_usd_0_5pct}, spread ${b && b.spread_pct}%`);
+  });
+  await scenario('book errors', {}, async ({ m, st, run }) => {
+    m.depth = async () => { throw new Error('MEXC depth down'); };
+    await run();
+    ok(st.pos && st.pos.live && st.pos.entryBook === null, 'order-book request failing: the entry still happens, entryBook is null');
+  });
+  await scenario('book hangs', {}, async ({ m, st, run }) => {
+    m.depth = () => new Promise(() => {});
+    const t0 = Date.now(); await run();
+    ok(st.pos && st.pos.live && st.pos.entryBook === null && Date.now() - t0 < 4000, `order-book request that never answers: entry still happens after ${Date.now() - t0} ms (limit 1.5 s)`);
+  });
+  await scenario('exit by the bot (time)', {}, async ({ m, live, st, run }) => {
+    await run(); const pos = st.pos; m.px = pos.entry * 1.001;
+    const x = await live.timeExit(pos);
+    ok(x.closed_by === 'bot_time_exit' && x.trigger_price === null && Number.isFinite(x.exit_slip_r) && x.mexc_history && x.mexc_history.realised !== undefined && Number.isFinite(x.fees), `time exit: closed_by ${x.closed_by}, no trigger price, slippage ${x.exit_slip_r}R vs the price the bot saw, MEXC history attached`);
+  });
+  await scenario('exit by MEXC (stop)', {}, async ({ m, live, st, run }) => {
+    await run(); const pos = st.pos, mp = m.positions.find((p) => p.state === 1);
+    m.closePos(mp, pos.stop * (1 - pos.dir * 0.0004), C.stopFee);                        // MEXC fires the stop and fills slightly worse than the trigger
+    const x = await live.checkExit(pos, { low: pos.stop * 0.99, high: pos.stop * 1.01, open: pos.entry });
+    ok(x.closed_by === 'mexc_trigger' && x.why === 'stop' && x.trigger_price === pos.stop && x.exit_slip_r > 0, `stop fired by MEXC: closed_by ${x.closed_by}, trigger ${x.trigger_price}, fill ${x.fill_price}, slippage ${x.exit_slip_r}R (positive = worse than the stop)`);
+  });
+
   console.log(`\n${pass} passed, ${failN} failed`);
   process.exitCode = failN ? 1 : 0;
 })();

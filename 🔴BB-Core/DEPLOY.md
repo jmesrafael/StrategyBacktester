@@ -250,3 +250,32 @@ sudo -u lucidio node /opt/lucidio/lucidio.js check                    # dashboar
 sudo -u lucidio node /opt/lucidio/lucidio.js dashboard-backfill       # send the journal history once (safe to repeat: same event ids)
 ```
 Heartbeats go out at every candle close and every 5 minutes. If the dashboard is down, events queue on disk (`state/outbox.jsonl`) and catch up in order, without duplicates, when it is back. Real MEXC equity and dollar P&L are never sent in live mode unless you set `DASHBOARD_SHARE_LIVE_EQUITY=true`.
+
+## 13. Pulling the data for the live-vs-backtest review (research)
+
+While the bot trades live at 0.5%, three things are recorded so a later review can compare it with the backtester, trade by trade. None of them changes a trade:
+
+| File / field | What it holds |
+|---|---|
+| `journal/trades.jsonl` (entry) | intended vs real fill, entry delay, slippage in R, contracts, leverage, risk $ and %, balance used, and **`costs.order_book`**: how deep the book was within 0.1% / 0.5% / 1% when the order went in |
+| `journal/trades.jsonl` (exit) | MEXC's own realised P&L, fees and funding, and **`costs.exit`**: who closed the trade (`mexc_trigger`, `bot_time_exit`, `bot_abort`), the stop/target trigger price, the real fill, exit slippage in R, and MEXC's position-history fields |
+| `journal/snapshots.jsonl` (new, one line per run, about every 4 h) | MEXC equity, available balance, unrealized P&L, margin, the positions MEXC reports, the positions the bot believes it holds, bot balance and total R |
+
+**1. On the VPS**, pack the journal (read-only, no keys inside):
+```bash
+sudo bash /opt/lucidio/deploy/export-journal.sh
+```
+**2. On your PC (PowerShell)**, copy and unpack it (folder `live-data/` is gitignored):
+```powershell
+cd "C:\Users\james\Desktop\StrategyBacktester\🔴BB-Core"
+scp admin@YOUR_SERVER_IP:/tmp/lucidio-journal-YYYYMMDD.tgz .
+mkdir live-data -Force; tar xzf lucidio-journal-YYYYMMDD.tgz -C live-data
+```
+**3. On your PC**, build the report (reads only; public candle downloads, no key):
+```powershell
+node live-review.js --journal live-data/journal --history
+```
+It writes `review/live-review-<date>.html` (open it in a browser), `.txt` and `.json`. Options: `--risk 0.005,0.01,0.02,0.05` (what-if levels), `--start-balance 52`, `--mode paper`, `--tolerance 0.05`.
+
+What the report contains: live trades paired with the backtest trade on the same candles (matched / live-only / backtest-only / skipped, with reasons); for every pair the R gap split into entry slippage, exit slippage, fees, funding and "the rest"; the journal reconciled against the MEXC account snapshots (USD that is in the account but not in the journal); live vs backtest equity as % of capital; and the **risk what-if**: the same trades re-sized at 0.5 / 1 / 2 / 5 % with the bot's own sizing (whole contracts, 20x cap, margin, 39R halt, compounding, **no $10 cap**). `--history` also runs the what-if over the full stored MEXC history, because ~24 live trades in 3 months cannot show profitability (the audit counts ~98 trades a year for SOL+ZEC).
+The bot itself stays capped at 1%: other risk levels exist only inside this simulation. Test: `node test/review-test.js`.

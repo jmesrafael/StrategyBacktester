@@ -12,3 +12,7 @@ lucidio-deploy*.tar.gz.sha256
 .env
 journal/
 audit/out/compare-*
+
+# live-review.js reports and the journal copies pulled from the VPS (real trade data: stays on your PC)
+review/
+live-data/

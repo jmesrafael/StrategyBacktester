@@ -34,6 +34,21 @@ function leverageFor(px, stop, spec, maxLev = 20) {
   return Math.max(1, Math.min(maxLev, +spec.maxLeverage || maxLev, Math.floor(0.5 / (dist + mmr))));
 }
 
+// How deep was the book when the order went in? Recorded only (research: lets a later review judge market impact at a bigger size).
+// A BUY consumes the asks, a SELL the bids. Notional = contracts × contractSize × price, summed within 0.1% / 0.5% / 1% of the price.
+// MEXC levels are [price, contracts, number of orders] (checked against the live endpoint 2026-10-23: the 2nd number is in the tens of thousands).
+function summarizeBook(book, px, dir, spec, nowMs = Date.now()) {
+  if (!book || !Array.isArray(book.asks) || !Array.isArray(book.bids) || !(px > 0)) return null;
+  const cs = +spec.contractSize || 1, side = dir === 1 ? book.asks : book.bids;
+  const within = (pct) => side.reduce((s, [p, v]) => ((dir === 1 ? +p <= px * (1 + pct) : +p >= px * (1 - pct)) ? s + (+v) * cs * (+p) : s), 0);
+  const bestAsk = book.asks.length ? +book.asks[0][0] : null, bestBid = book.bids.length ? +book.bids[0][0] : null;
+  return { ts_ms: nowMs, consumed: dir === 1 ? 'asks' : 'bids', best_bid: bestBid, best_ask: bestAsk,
+    spread_pct: bestAsk && bestBid ? +(((bestAsk - bestBid) / px) * 100).toFixed(5) : null, levels: side.length,
+    notional_usd_0_1pct: +within(0.001).toFixed(2), notional_usd_0_5pct: +within(0.005).toFixed(2), notional_usd_1pct: +within(0.01).toFixed(2) };
+}
+const BOOK_WAIT_MS = 1500;                // the book is research data: never hold an entry back for it
+const MEXC_FIELDS = ['positionId', 'openAvgPrice', 'holdAvgPrice', 'closeAvgPrice', 'realised', 'fee', 'holdFee', 'closeVol', 'holdVol', 'leverage', 'createTime', 'updateTime', 'profitRatio'];
+
 function createLiveExecutor({ api, cfg = {}, log = () => {} }) {
   const specs = {};
   const sym = (coin) => `${coin}_USDT`;
@@ -59,9 +74,15 @@ function createLiveExecutor({ api, cfg = {}, log = () => {} }) {
     }
     return null;
   }
-  function result(pos, px, why, h) {
+  // extra (research only, never read by the trading logic): closedBy = who closed it; decidedPx = the price the bot saw when it sent a market close
+  function result(pos, px, why, h, extra = {}) {
     const pnl = h && h.realised != null ? +h.realised : pos.dir * (px - pos.entry) * pos.qty;
-    return { px, why, R: pnl / pos.riskUsd, usd: pnl, funding: h ? +h.holdFee || 0 : null, fees: h ? +h.fee || 0 : null };
+    const trigger = why === 'stop' ? pos.stop : why === 'target' ? pos.tp : null, ref = trigger ?? extra.decidedPx ?? null, oneR = Math.abs(pos.entry - pos.stop);
+    const mexc = h ? Object.fromEntries(MEXC_FIELDS.filter((k) => h[k] !== undefined).map((k) => [k, h[k]])) : null;
+    return { px, why, R: pnl / pos.riskUsd, usd: pnl, funding: h ? +h.holdFee || 0 : null, fees: h ? +h.fee || 0 : null,
+      trigger_price: trigger, fill_price: px, closed_by: extra.closedBy || 'mexc_trigger',
+      exit_slip_r: ref != null && oneR > 0 ? +((pos.dir * (ref - px)) / oneR).toFixed(4) : null,      // positive = the fill was worse than the trigger / the price the bot saw
+      mexc_history: mexc };
   }
   const classify = (pos, px) => (Math.abs(px - pos.stop) <= Math.abs(px - pos.tp) ? 'stop' : 'target');
 
@@ -103,13 +124,13 @@ function createLiveExecutor({ api, cfg = {}, log = () => {} }) {
       if (left.length) await api.cancelTpSl(left.map((s) => s.id));
     } catch (e) { log(`${pos.coin} TP/SL cleanup: ${e.message}`); }
     const h = await findClosed(pos);
-    return result(pos, f ? +f.dealAvgPrice : h ? +h.closeAvgPrice : px, why, h);
+    return result(pos, f ? +f.dealAvgPrice : h ? +h.closeAvgPrice : px, why, h, { closedBy: `bot_${why === 'time' ? 'time_exit' : why}`, decidedPx: px });
   }
 
   function buildPos(p, fill) {
     const spec = specs[p.coin], entry = +fill.dealAvgPrice, vol = +fill.dealVol, qty = vol * +spec.contractSize;
     return { coin: p.coin, dir: p.dir, entry, stop: p.stop, tp: p.tp, vol, qty, positionId: fill.positionId, lev: p.lev, oid: p.oid,
-      riskUsd: qty * Math.abs(entry - p.stop), dist: Math.abs(entry - p.stop) / entry, t0: p.t0, sigTime: p.sigTime, openedAt: p.at, live: true };
+      riskUsd: qty * Math.abs(entry - p.stop), dist: Math.abs(entry - p.stop) / entry, t0: p.t0, sigTime: p.sigTime, openedAt: p.at, live: true, entryBook: p.book || null };
   }
 
   return {
@@ -144,11 +165,14 @@ function createLiveExecutor({ api, cfg = {}, log = () => {} }) {
       const sz = sizeOrder({ riskUsd: o.riskUsd, px, stop, spec, maxRiskMult });
       if (!sz) return { skip: `1 contract would risk $${(Math.abs(px - stop) * spec.contractSize).toFixed(2)}, more than ${maxRiskMult}× the $${o.riskUsd.toFixed(2)} target` };
       const lev = leverageFor(px, stop, spec, maxLev), margin = (sz.vol * +spec.contractSize * px) / lev;
+      const bookReq = typeof api.depth === 'function' ? api.depth(symbol).catch(() => null) : Promise.resolve(null);   // research: runs while the margin is checked
       const avail = +(await api.asset('USDT')).availableBalance;
       if (!(avail >= margin * 1.1)) return { skip: `not enough free margin: need ~$${(margin * 1.1).toFixed(2)}, have $${avail.toFixed(2)}` };
+      let book = null;
+      try { book = summarizeBook(await Promise.race([bookReq, sleep(BOOK_WAIT_MS).then(() => null)]), px, d, spec); } catch { book = null; }
 
       const oid = `bb${coin}${o.sigTime}${d === 1 ? 'L' : 'S'}`.slice(0, 32);
-      o.st.pending = { oid, coin, dir: d, stop, tp, lev, t0: o.t0, sigTime: o.sigTime, at: api.now ? Math.round(api.now()) : Date.now() };
+      o.st.pending = { oid, coin, dir: d, stop, tp, lev, t0: o.t0, sigTime: o.sigTime, at: api.now ? Math.round(api.now()) : Date.now(), book };
       o.save();                                                 // written BEFORE sending: a crash now is recovered by reconcile()
       let sendErr = null;
       try { await api.createOrder({ symbol, price: px, vol: sz.vol, leverage: lev, side: d === 1 ? 1 : 3, type: 5, openType: 1, externalOid: oid, stopLossPrice: stop, takeProfitPrice: tp, lossTrend: 1, profitTrend: 1 }); }
@@ -180,4 +204,4 @@ function createLiveExecutor({ api, cfg = {}, log = () => {} }) {
   };
 }
 
-module.exports = { createLiveExecutor, sizeOrder, leverageFor, roundTo };
+module.exports = { createLiveExecutor, sizeOrder, leverageFor, roundTo, summarizeBook };
