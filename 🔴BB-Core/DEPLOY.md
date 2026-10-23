@@ -279,3 +279,19 @@ It writes `review/live-review-<date>.html` (open it in a browser), `.txt` and `.
 
 What the report contains: live trades paired with the backtest trade on the same candles (matched / live-only / backtest-only / skipped, with reasons); for every pair the R gap split into entry slippage, exit slippage, fees, funding and "the rest"; the journal reconciled against the MEXC account snapshots (USD that is in the account but not in the journal); live vs backtest equity as % of capital; and the **risk what-if**: the same trades re-sized at 0.5 / 1 / 2 / 5 % with the bot's own sizing (whole contracts, 20x cap, margin, 39R halt, compounding, **no $10 cap**). `--history` also runs the what-if over the full stored MEXC history, because ~24 live trades in 3 months cannot show profitability (the audit counts ~98 trades a year for SOL+ZEC).
 The bot itself stays capped at 1%: other risk levels exist only inside this simulation. Test: `node test/review-test.js`.
+
+## 14. Updating the bot from GitHub (the "Update the bot code" menu entry)
+
+The bot code has its own private repo, `jmesrafael/bb-core` (only this folder, not the whole StrategyBacktester). Workflow: **edit and commit here on the PC -> `bash deploy/publish.sh` -> on the VPS, `lucidio` -> "Update the bot code from GitHub"**.
+
+What the menu entry does, step by step (nothing is installed unless every step passes):
+1. fetches the repo into a read-only mirror at `/opt/lucidio-src` (root-owned, never edited) and shows what is new, with a diff summary against the installed version;
+2. asks "Install this update? [y/N]"; refuses near a 4-hour candle close (5 min before to 12 min after) unless you type `force`;
+3. runs `selftest`, `ops-test`, `journal-test` and `fixes-test` on the new code. **Any failure stops the update; the bot keeps the old code**;
+4. builds the bundle with the same `deploy/package.sh` (secrets scan included) and installs it with the same `deploy/setup-vps.sh` as a manual update. Your `bot-config.json`, `state/`, `journal/`, `.env` and `mexc-keys.json` are never touched, and `LUCIDIO_ALLOW_LIVE` stays as it is;
+5. waits 8 s; if the bot is not running again it **rolls back to the previous code automatically** (`deploy/rollback.sh`); otherwise it records the installed commit and sends "code updated to <commit>" to Telegram.
+`Server health` in the menu shows which commit is installed.
+
+**One-time setup on the VPS** (the menu walks you through it): choose the update entry, paste `git@github.com:jmesrafael/bb-core.git`; it creates a key for this server and prints it. On GitHub: repo `bb-core` -> Settings -> Deploy keys -> Add deploy key -> paste it, leave "Allow write access" **unchecked** (the server can only read). Press Enter in the menu to continue.
+
+Safety notes: pushing to `main` does not touch the bot; only clicking Update does. Turn on two-factor authentication on the GitHub account, because whoever can push to `bb-core` can change the code that trades. To make that harder, set `LUCIDIO_UPDATE_BRANCH=release` and only move the `release` branch when you mean to ship. Test it without installing: `LUCIDIO_UPDATE_DRYRUN=1 lucidio --action update`.
