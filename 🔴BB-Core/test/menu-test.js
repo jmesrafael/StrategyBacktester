@@ -71,12 +71,14 @@ ok(hdr('active').endsWith('Account (Paper): n/a (1.0% Risk)'), 'no equity snapsh
 
 // ---------------- the window sizes: logo, then text title, then a scrolling list
 const frame = (rows, cols = 80, env = {}) => boxLines(drawAt({ LUCIDIO_MENU_ROWS: String(rows), LUCIDIO_MENU_COLS: String(cols), ...env }));
-const f37 = frame(37), f36 = frame(36), f30 = frame(30), f22 = frame(22), f18 = frame(18);
-ok(f37.some((l) => l.includes('by: Bugimann')) && !f36.some((l) => l.includes('by: Bugimann')) && f36.some((l) => l.includes("Lucid'io Bot")), 'the logo needs 37 rows; with 36 or fewer the text title "Lucid\'io Bot" is shown instead');
-ok(f30.filter((l) => l.trim().startsWith('├')).length === 5 && f30.some((l) => l.includes('Disconnect')) && !f30.some((l) => l.includes('more below')), 'a default 30-row window: title, all 15 items, the three groups, no scrolling');
+const f37 = frame(37), f36 = frame(36), f30 = frame(30), f27 = frame(27), f26 = frame(26), f22 = frame(22), f18 = frame(18);
+ok(f37.some((l) => l.includes('by: Bugimann')) && !f37.some((l) => l.includes('more below')) && f37.filter((l) => l.trim().startsWith('├')).length === 5, 'a 37-row window: the logo and all 15 items in their three groups');
+ok(f36.some((l) => l.includes('by: Bugimann')) && f30.some((l) => l.includes('by: Bugimann')) && f27.some((l) => l.includes('by: Bugimann')) && !f26.some((l) => l.includes('by: Bugimann')) && f26.some((l) => l.includes("Lucid'io Bot")), 'windows of 27 to 36 rows keep the logo; 26 or fewer rows show the text title');
+ok(f30.some((l) => l.includes('more below')) && f30.some((l) => l.includes('▶')) && f30.filter((l) => l.includes('█')).length >= 5, 'a default 30-row window: the logo, a scrolling list with the selection visible, the footer says more below');
+ok(f26.filter((l) => l.trim().startsWith('├')).length === 3 && f26.some((l) => l.includes('▶')), 'a 26-row window: text title and a flat scrolling list');
 ok(f22.some((l) => l.includes('more below')) && f22.filter((l) => l.trim().startsWith('├')).length === 3 && f22.some((l) => l.includes('▶')), 'a 22-row window: a flat scrolling list, the footer says "more below", the selection is visible');
 ok([f37, f36, f30, f22, f18].every((f) => new Set(f.map(w)).size === 1), 'every frame row has one width in every window size');
-ok([[40, 37], [37, 37], [36, 36], [30, 30], [24, 24], [22, 22], [18, 18]].every(([r]) => { const f = frame(r); return f.length <= r - 1; }), 'the frame is never taller than the window (rows - 1) for 40, 37, 36, 30, 24, 22 and 18 rows');
+ok([[40, 37], [37, 37], [36, 36], [30, 30], [27, 27], [26, 26], [24, 24], [22, 22], [18, 18]].every(([r]) => { const f = frame(r); return f.length <= r - 1; }), 'the frame is never taller than the window (rows - 1) for 40, 37, 36, 30, 24, 22 and 18 rows');
 ok(frame(40, 60).some((l) => l.includes('by: Bugimann')) && !frame(40, 56).some((l) => l.includes('by: Bugimann')) && frame(40, 56).some((l) => l.includes("Lucid'io Bot")), 'the logo needs a frame 56 wide (a 58-column window); narrower: text title');
 ok(!frame(40, 80, { LUCIDIO_MENU_LOGO: 'off' }).some((l) => l.includes('by: Bugimann')), 'LUCIDIO_MENU_LOGO=off never shows the logo');
 const ascii = drawAt({ LUCIDIO_MENU_ASCII: '1' }); const al = plain(ascii).split(/\r?\n/).filter((l) => /^\s*[|+]/.test(l));

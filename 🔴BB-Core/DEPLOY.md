@@ -380,7 +380,7 @@ Type `lucidio` (or `menu`) after you sign in. It shows the logo, then the bot st
 
 - **Trading details** (Monitor group) is where the per-coin numbers live: for each coin the trades, wins and losses, result in R and dollars, what is open, the last five trades; and the totals. The main screen shows no coin names.
 - **Account balance** replaces the old "MEXC account balance" item.
-- **Window size:** the logo needs a window of at least **37 rows** and 58 columns (maximise the window). A default 30-row window shows the text title "Lucid'io Bot" with every item, and a smaller one a scrolling list. Nothing breaks either way.
+- **Window size:** the logo and the three item groups need **37 rows** and 58 columns. With **27 to 36 rows** the logo stays and the item list scrolls (arrow keys; the footer says "more below"). With 26 rows or fewer you get the text title "Lucid'io Bot" and a scrolling list. Narrower than 58 columns also shows the text title. A terminal that is not UTF-8 gets the plain-ASCII version. Nothing breaks either way: maximise the window to see everything.
 - **Colours:** 24-bit colour is used (Windows Terminal and most terminals show it). On a terminal without it run `LUCIDIO_MENU_COLOR=16 lucidio`; `LUCIDIO_MENU_LOGO=off` hides the logo; `LUCIDIO_MENU_ASCII=1` draws plain characters.
 - **Your offset:** `PH` is UTC+8. Set `LUCIDIO_MY_UTC_OFFSET` (hours ahead of UTC) to show another zone, labelled `UTC+n`.
 - The design sheet is `design/menu-design.html` (open it in a browser). The menu is installed with the normal update, through **Pull changes from GitHub**.

@@ -394,10 +394,11 @@ menu_select() {
     ROWS=${LUCIDIO_MENU_ROWS:-$(tput lines 2>/dev/null || echo 24)}; cols=${LUCIDIO_MENU_COLS:-$(tput cols 2>/dev/null || echo 80)}
     BOX_W=$(( cols - 2 )); [ "$BOX_W" -gt 66 ] && BOX_W=66; [ "$BOX_W" -lt 46 ] && BOX_W=46; inner=$(( BOX_W - 4 ))
     printf -v HL '%*s' $(( BOX_W - 2 )) ''; HL=${HL// /$F_H}
-    # what fits: the logo needs 9 rows for itself; the frame is (header rows + items + group rules + 9) tall. Short window: text title, then a scrolling flat list.
+    # what fits: the logo needs 9 rows for itself; the frame is (header rows + items + group rules + 9) tall. A tall window (37 rows) shows the logo and every item;
+    # a window of 27 to 36 rows keeps the logo and scrolls the list; shorter than that: text title, then a scrolling flat list.
     avail=$(( ROWS - 1 ))
     LOGO_ON=0; GROUPED=1; VIS=$N
-    if [ "${LUCIDIO_MENU_LOGO:-auto}" != off ] && [ "$ASCII" = 0 ] && [ "$inner" -ge "$LOGO_W" ] && [ $(( 9 + N + ng + 9 )) -le "$avail" ]; then LOGO_ON=1; hdr=9; else hdr=1; fi
+    if [ "${LUCIDIO_MENU_LOGO:-auto}" != off ] && [ "$ASCII" = 0 ] && [ "$inner" -ge "$LOGO_W" ] && { [ $(( 9 + N + ng + 9 )) -le "$avail" ] || [ "$avail" -ge 26 ]; }; then LOGO_ON=1; hdr=9; else hdr=1; fi
     if [ $(( hdr + N + ng + 9 )) -gt "$avail" ]; then GROUPED=0; VIS=$(( avail - hdr - 9 - 1 )); [ "$VIS" -gt "$N" ] && VIS=$N; [ "$VIS" -lt 3 ] && VIS=3; fi
     [ "$SEL" -lt "$TOP" ] && TOP=$SEL; [ "$SEL" -ge $(( TOP + VIS )) ] && TOP=$(( SEL - VIS + 1 ))
     PAD="${SPACES:0:$(( (cols - BOX_W) / 2 > 0 ? (cols - BOX_W) / 2 : 0 ))}"        # centred in the window
