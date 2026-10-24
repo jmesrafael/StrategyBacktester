@@ -159,7 +159,7 @@ const reset = () => { push._reset(); fs.rmSync(path.join(STATE, 'outbox.jsonl'),
   const jr2 = journal.readAll().events, bf = await push.backfill(jr2, { force: true });
   const n1 = store._rows.size; const bf2 = await push.backfill(jr2, { force: true });
   ok(bf.ok && bf.queued > 0 && n1 > 0 && store._rows.size === n1, `dashboard-backfill sends the journal history (${n1} events) and a second run adds nothing (${store._rows.size})`);
-  ok(push.heartbeatDue(now0 + 400000) === true && (push.pushHeartbeat({ mode: 'paper', coins: [] }, now0), push.heartbeatDue(now0 + 100000) === false && push.heartbeatDue(now0 + 301000) === true), 'heartbeats are due every 5 minutes');
+  ok(push.heartbeatDue(now0 + 25 * 3600000) === true && (push.pushHeartbeat({ mode: 'paper', coins: [] }, now0), push.heartbeatDue(now0 + 301000) === false && push.heartbeatDue(now0 + 23 * 3600000) === false && push.heartbeatDue(now0 + 24 * 3600000 + 1000) === true), 'the extra heartbeat is a once-a-day safety net (the run-end heartbeat at each candle close is separate; Ask bot now answers on demand)');
   const rc = await push.reachable({ fetchImpl: bridge(store) }); ok(rc.configured && rc.ok, 'check: dashboard configured and reachable (GET /api/health)');
   const rcDown = await push.reachable({ fetchImpl: bridge(store, { down: true }) }); ok(rcDown.configured && !rcDown.ok && /unreachable/.test(rcDown.detail), 'check: configured but unreachable is reported');
 

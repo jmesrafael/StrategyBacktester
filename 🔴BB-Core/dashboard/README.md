@@ -51,7 +51,7 @@ Unset = pushing is off and the bot behaves exactly as before.
 
 ## What the bot sends
 
-`heartbeat` (every candle close and every 5 min), `signal` (entered and skipped, with reasons), `entry`, `exit` (fees/slippage/funding labelled estimate in paper mode), `equity` (once per candle: R, paper balance), `compare` (summary of `compare-live-vs-backtest.js --push`).
+`heartbeat` (at every 4h candle close, once a day as a safety net, and whenever you press **Ask bot now**), `signal` (entered and skipped, with reasons), `entry`, `exit` (fees/slippage/funding labelled estimate in paper mode), `equity` (once per candle: R, paper balance), `compare` (summary of `compare-live-vs-backtest.js --push`).
 Only SOL_USDT / ZEC_USDT events. Never API keys, tokens, the chat id, IP addresses or file paths (whitelisted fields, plus a final scan that drops any event containing one).
 
 ## Request format
@@ -71,3 +71,10 @@ the ledger migration `20261112000000_pool_update.sql` is applied; before that th
 labeled steps on the Capital chart and in the log, never appears on the Performance tab (balance with capital taken out, plus a time-weighted return) and never enters the trade statistics.
 Flows are applied to live data only; the paper balance has none. Tests: `node test/capital-flows-test.js`. The page also shows when the bot last reported ("Updated ... ago", the newest heartbeat or event).
 Live dollar figures need `DASHBOARD_SHARE_LIVE_EQUITY=true` on the VPS; see `DEPLOY.md` section 15.
+
+## Tabs
+
+The page has five tabs: **Overview** (headline numbers, the curve, open positions), **Status** (a plain-words "bot / right now" summary with nine tiles, system health with the 7-day uptime bar, and the server specs),
+**Trades** (open positions, trade history with filters, per-coin stats), **Log** (the activity log: entries, exits, skips, candle checks, capital movements, and the skipped signals) and **Verify** (live vs backtest).
+Keys `1` to `5` switch tab, the address bar follows (`/bot-dashboard/#status`), and the tab you used last is remembered. Everything on the Status tab comes from the bot's heartbeat (every 4h candle close, or right away after **Ask bot now**) and the stored events:
+the numbers can be a few minutes behind the bot. Test: `node test/dashboard-ui-test.js` (headless Chrome, a local fake `/api/data`).

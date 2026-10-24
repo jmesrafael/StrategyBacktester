@@ -11,9 +11,13 @@
 // Safety rules baked in:
 //   - GET requests retry on network errors / 500 / 501 / 510 / 9999 (back-off 1 s, 2 s, 4 s).
 //   - POST order/create is NEVER retried blindly — callers look the order up by its externalOid instead (no double orders).
+//   - RESERVE KEY: mexc-keys.json may hold a reserve key (keyinfo.js). When MEXC REJECTS the key in use as expired / invalid (code 402 or the message says so: the request was
+//     refused before anything was processed) the same call is repeated ONCE with the next key, and that key stays in use. A network error, a timeout, a 406 (IP not bound),
+//     a signature or any other error never switches key and a POST is never repeated for them. With one key configured nothing changes.
 'use strict';
 const crypto = require('crypto');
 const { assertAllowedSymbol } = require('./config.js');
+const keyinfo = require('./keyinfo.js');
 
 const BASE = 'https://api.mexc.com';
 const RETRY_CODES = new Set([500, 501, 510, 9999]);
@@ -24,13 +28,33 @@ class MexcError extends Error {
   constructor(msg, code, body) { super(msg); this.code = code; this.body = body; }
 }
 
-function createClient({ apiKey = '', apiSecret = '', base = BASE, timeoutMs = 10000, log = () => {} } = {}) {
+// MEXC says the KEY itself is the problem (expired / invalid), as opposed to the request: only then may another key be tried. -> 'expired' | 'invalid' | null
+const keyFailure = (j) => {
+  const msg = String((j && j.message) || '');
+  if (+(j && j.code) === 402 || /expired/i.test(msg)) return 'expired';
+  if (/invalid api[- ]?key|api[- ]?key (is |was )?(invalid|not exist|does not exist|not found|has been (deleted|disabled))/i.test(msg)) return 'invalid';
+  return null;
+};
+
+// keys: [{ label, apiKey, apiSecret, expiresMs }] or a function returning that list (re-read whenever the keys file changes); without it the single apiKey / apiSecret is used.
+// onKeyEvent({ event, from, to, reason }) is called when the client moves to another key (labels only: never a secret).
+function createClient({ apiKey = '', apiSecret = '', keys = null, base = BASE, timeoutMs = 10000, log = () => {}, clock = Date.now, onKeyEvent = () => {} } = {}) {
   let offsetMs = 0;          // MEXC server time − local time
   let lastPrivate = 0;       // simple spacing between private calls (well under every limit)
 
   const now = () => Date.now() + offsetMs;
+  const badUntil = new Map();   // key id -> time until which MEXC's rejection is remembered (expired: a day, invalid: an hour)
+  const idOf = (k) => crypto.createHash('sha256').update(k.apiKey).digest('hex').slice(0, 12);
+  const keyList = () => { const l = typeof keys === 'function' ? keys() : keys; return l && l.length ? l : (apiKey && apiSecret ? [{ label: 'primary', apiKey, apiSecret }] : []); };
+  // the key to sign with: the first one that is not past its expiry day, not recently rejected by MEXC and not already tried for THIS call; if every one looks bad the first
+  // untried one is still used (the exchange has the last word: a wrong date in the file must never stop trading)
+  function pickKey(tried) {
+    const t = clock(), list = keyList().filter((k) => !tried.includes(idOf(k)));
+    return list.find((k) => !(k.expiresMs != null && t >= k.expiresMs) && !((badUntil.get(idOf(k)) || 0) > t)) || list[0] || null;
+  }
 
-  async function http(method, path, { query = null, body = null, auth = false } = {}) {
+  const pickKeyAfter = (tried) => (keyList().some((k) => !tried.includes(idOf(k))) ? pickKey(tried) : null);
+  async function http(method, path, { query = null, body = null, auth = false } = {}, tried = []) {
     let qs = '';
     if (query) {
       const keys = Object.keys(query).filter((k) => query[k] != null && query[k] !== '').sort();
@@ -39,17 +63,19 @@ function createClient({ apiKey = '', apiSecret = '', base = BASE, timeoutMs = 10
     const url = base + path + (qs ? '?' + qs : '');
     const headers = { 'Content-Type': 'application/json', Language: 'English' };
     const raw = body != null ? JSON.stringify(body) : '';
+    let key = null;
     if (auth) {
-      if (!apiKey || !apiSecret) throw new MexcError('no API key / secret configured', 'NOKEY');
+      key = pickKey(tried);
+      if (!key) throw new MexcError('no API key / secret configured', 'NOKEY');
       const wait = lastPrivate + 120 - Date.now();
       if (wait > 0) await sleep(wait);
       lastPrivate = Date.now();
       const ts = String(Math.round(now()));
       const signed = method === 'GET' ? qs.split('&').map(decodeURIComponent).join('&') : raw;
-      headers.ApiKey = apiKey;
+      headers.ApiKey = key.apiKey;
       headers['Request-Time'] = ts;
       headers['Recv-Window'] = '15';
-      headers.Signature = crypto.createHmac('sha256', apiSecret).update(apiKey + ts + (method === 'GET' ? (qs ? signed : '') : raw)).digest('hex');
+      headers.Signature = crypto.createHmac('sha256', key.apiSecret).update(key.apiKey + ts + (method === 'GET' ? (qs ? signed : '') : raw)).digest('hex');
     }
     const ctl = new AbortController();
     const timer = setTimeout(() => ctl.abort(), timeoutMs);
@@ -64,6 +90,14 @@ function createClient({ apiKey = '', apiSecret = '', base = BASE, timeoutMs = 10
     if (res.status === 403 || res.status === 451) throw new MexcError(`BLOCKED: HTTP ${res.status} ${text.replace(/\s+/g, ' ').slice(0, 200)}`, 'BLOCKED');
     let j;
     try { j = JSON.parse(text); } catch { throw new MexcError(`HTTP ${res.status}: ${text.slice(0, 200)}`, res.status === 429 ? 510 : 500); }
+    if (!j.success && auth && keyFailure(j)) {     // MEXC refused the KEY (nothing was processed): remember it, and repeat this one call with the next key if there is one
+      const why = keyFailure(j), id = idOf(key), next = (badUntil.set(id, clock() + (why === 'expired' ? 24 : 1) * 3600000), pickKeyAfter([...tried, id]));
+      if (next) {
+        log(`API key '${key.label}' was rejected by MEXC (${why}): using '${next.label}'`);
+        try { onKeyEvent({ event: 'switched', from: key.label, to: next.label, reason: `${why} (code ${j.code})` }); } catch {}
+        return http(method, path, { query, body, auth }, [...tried, id]);
+      }
+    }
     if (!j.success && ![402, 406].includes(+j.code) && BLOCK_TEXT.test(j.message || '')) throw new MexcError(`BLOCKED: MEXC ${path} code ${j.code}: ${String(j.message).slice(0, 200)}`, 'BLOCKED', j);
     if (!j.success) throw new MexcError(`MEXC ${path} code ${j.code}: ${j.message || JSON.stringify(j).slice(0, 200)}`, j.code, j);
     return j.data;
@@ -117,17 +151,31 @@ function createClient({ apiKey = '', apiSecret = '', base = BASE, timeoutMs = 10
 
 // ---- default client: keys from mexc-keys.json (gitignored) or env MEXC_API_KEY / MEXC_API_SECRET ----
 // The helpers below return { data, ms } (ms = request time) — the shape dashboard.js and the run records use.
-function loadKeys() {
-  try { const k = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, 'mexc-keys.json'), 'utf8')); if (k.apiKey && k.apiSecret && !/your MEXC/i.test(k.apiKey)) return k; } catch {}
-  return { apiKey: process.env.MEXC_API_KEY || '', apiSecret: process.env.MEXC_API_SECRET || '' };
+const KEYS_FILE = () => process.env.LUCIDIO_KEYS || require('path').join(__dirname, 'mexc-keys.json');
+let keyCache = { mtime: -1, list: [] };
+function currentKeys() {   // [{ label, apiKey, apiSecret, expiresMs }]: primary first; re-read only when the file's modification time changes
+  try {
+    const fs = require('fs'), st = fs.statSync(KEYS_FILE());
+    if (st.mtimeMs !== keyCache.mtime) keyCache = { mtime: st.mtimeMs, list: keyinfo.candidates(JSON.parse(fs.readFileSync(KEYS_FILE(), 'utf8'))) };
+  } catch { keyCache = { mtime: -2, list: [] }; }
+  if (keyCache.list.length) return keyCache.list;
+  return process.env.MEXC_API_KEY && process.env.MEXC_API_SECRET ? [{ label: 'primary', apiKey: process.env.MEXC_API_KEY, apiSecret: process.env.MEXC_API_SECRET }] : [];
 }
-const client = createClient(loadKeys());
+// a key switch is written where the watchdog (a separate process with Telegram) finds it: state/api-key-event.json. It holds labels and a reason, never a secret, and never throws.
+function writeKeyEvent(e) {
+  try {
+    const fs = require('fs'), path = require('path'), dir = process.env.LUCIDIO_STATE_DIR || path.join(__dirname, 'state'), f = path.join(dir, 'api-key-event.json'), tmp = f + '.tmp';
+    fs.mkdirSync(dir, { recursive: true }); fs.writeFileSync(tmp, JSON.stringify({ ...e, at: new Date().toISOString() })); fs.renameSync(tmp, f);
+  } catch {}
+}
+const client = createClient({ keys: currentKeys, onKeyEvent: writeKeyEvent });
 const timed = async (fn) => { const t = Date.now(); try { return { data: await fn(), ms: Date.now() - t }; } catch (e) { e.ms = Date.now() - t; throw e; } };
 const IV4H = 14400;
 
 module.exports = {
   createClient, MexcError, BASE, client, isBlocked: (e) => !!e && e.code === 'BLOCKED',
-  hasKeys: () => { const k = loadKeys(); return !!(k.apiKey && k.apiSecret); },
+  hasKeys: () => currentKeys().length > 0,
+  currentKeys,
   // ms = round trip; data = MEXC's raw server time in ms (drift = Date.now() - ms/2 - data). Also refreshes the client's clock offset.
   serverTime: () => timed(() => client.syncTime().then((r) => r.serverMs)),
   klines: (coin, bars = 500) => timed(() => { const end = Math.floor(client.now() / 1000); return client.klines(`${coin}_USDT`, 'Hour4', end - bars * IV4H, end); }),

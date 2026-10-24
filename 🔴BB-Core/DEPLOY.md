@@ -181,7 +181,7 @@ Run for **at least 14 days** (>= 80 runs) before you spend a second on live. Row
 | M15 | Telegram trade messages | the first paper trade | an ENTRY message (symbol, side, mode, entry, SL, TP, risk %, 1R, signal candle) and later an EXIT message (reason, price, R, hold time) | section 10; `check` telegram row |
 | M16 | Journal | after the first trade: `sudo tail -n 3 /opt/lucidio/journal/trades.jsonl` | one `entry` and one `exit` line per trade, skipped signals as `skip` lines, a `session` line per bot start | `check` journal row (writable?) |
 | M17 | Live vs backtest | after 1-2 days: `ls /opt/lucidio/audit/out/` and read the newest `compare-*.txt` | a file per day; `RESULT: MATCH`, or every INVESTIGATE item explained (section 11) | `systemctl status lucidio-compare.timer` |
-| M18 | Dashboard (if configured) | open the dashboard page | banner ALIVE, last heartbeat under 6 minutes, `PAPER` badge, trades match `status` | section 12; `check` dashboard row |
+| M18 | Dashboard (if configured) | open the dashboard page | banner ALIVE, last heartbeat under 4h20m (press Ask bot now for a fresh one), `PAPER` badge, trades match `status` | section 12; `check` dashboard row |
 | M14 | Strategy evidence | the strategy audit (`audit/AUDIT-REPORT.md` section 8, in the StrategyBacktester repo under `research/bb-core/`) | **not decidable in 14 days.** The audit wants >= 120 days and >= 25 closed trades, plus the shadow recorder, before live | keep paper running |
 
 Upgrade to 2 GB or more RAM if: `MemoryPeak` stays above ~300 MB, `free -m` shows < 150 MB available or constant swap use, `NRestarts` rises from OOM kills
@@ -249,7 +249,7 @@ sudo systemctl restart lucidio
 sudo -u lucidio node /opt/lucidio/lucidio.js check                    # dashboard row: reachable, N event(s) queued
 sudo -u lucidio node /opt/lucidio/lucidio.js dashboard-backfill       # send the journal history once (safe to repeat: same event ids)
 ```
-Heartbeats go out at every candle close and every 5 minutes. If the dashboard is down, events queue on disk (`state/outbox.jsonl`) and catch up in order, without duplicates, when it is back. Real MEXC equity and dollar P&L are never sent in live mode unless you set `DASHBOARD_SHARE_LIVE_EQUITY=true`.
+Heartbeats go out at every candle close (6 a day), once a day as a safety net (`DASHBOARD_HEARTBEAT_SEC`, default 86400) and at once when you press **Ask bot now** on the dashboard (the bot asks `/api/poll` outbound every `DASHBOARD_ASK_POLL_SEC` seconds, default 60, 0 = never; it stays quiet while a run is in progress). If the dashboard is down, events queue on disk (`state/outbox.jsonl`) and catch up in order, without duplicates, when it is back. Real MEXC equity and dollar P&L are never sent in live mode unless you set `DASHBOARD_SHARE_LIVE_EQUITY=true`.
 
 ## 13. Pulling the data for the live-vs-backtest review (research)
 
@@ -384,3 +384,14 @@ Type `lucidio` (or `menu`) after you sign in. It shows the logo, then the bot st
 - **Colours:** 24-bit colour is used (Windows Terminal and most terminals show it). On a terminal without it run `LUCIDIO_MENU_COLOR=16 lucidio`; `LUCIDIO_MENU_LOGO=off` hides the logo; `LUCIDIO_MENU_ASCII=1` draws plain characters.
 - **Your offset:** `PH` is UTC+8. Set `LUCIDIO_MY_UTC_OFFSET` (hours ahead of UTC) to show another zone, labelled `UTC+n`.
 - The design sheet is `design/menu-design.html` (open it in a browser). The menu is installed with the normal update, through **Pull changes from GitHub**.
+
+## 18. MEXC API key expiry and the reserve key
+
+A MEXC key that is **not linked to an IP** expires after 90 days (MEXC: "Link IP Address (optional): keys that are not linked to an IP address are valid for 90 days only"). **A key linked to the VPS IPv4 does not expire**: link it (step-by-step in `VPS-UPDATE-GUIDE.md` section 6) and answer `y` to "LINKED to this server's IP" in `make-keys.sh` / `add-reserve-key.sh`; the bot then shows "does not expire" and sends no expiry warnings for that key (`apiKeyIpBound: true` in `mexc-keys.json`). `mexc-keys.json` can hold a **primary** and a **reserve** key.
+
+- **Tell the bot when the key was created:** `sudo bash /opt/lucidio/deploy/make-keys.sh` now asks for the creation day (like `2026-10-23`). Expiry = creation day + 90 days; if MEXC shows an expiry day you can put it in as `apiKeyExpires`.
+- **Add the reserve key (a day or more before expiry):** create a second key on MEXC (View Account + View Order + Order Placing, never Withdraw, bound to the VPS IPv4), then `sudo bash /opt/lucidio/deploy/add-reserve-key.sh`. The secret is typed at a hidden prompt. No restart: the bot re-reads the file when it changes.
+- **What the bot does:** signs with the primary. When MEXC rejects it as expired/invalid (code 402), or its recorded expiry day starts, that call is repeated **once** with the reserve and the reserve stays in use. Network errors, timeouts, 406 (IP not bound), signature and other errors never switch key, and an order is never repeated for them. The rejection is remembered 24 hours (invalid: 1 hour), then the primary is tried again.
+- **After the switch:** create the next key and run `add-reserve-key.sh` again. If the primary has expired, the old reserve is promoted to primary and the new key becomes the reserve.
+- **Telegram warnings** (from the watchdog, every 10 minutes, each sent once): 14, 7, 3 and 1 days before expiry (it says whether a reserve will take over), on the expiry day, every day while no valid key is left, when a key has no date recorded, and when the bot really switched keys. Nothing secret is ever sent, logged or written to `state/`.
+- **See it:** the menu's *Health check* (and `node /opt/lucidio/keyinfo.js --status`) lists each key's expiry day and which one is in use. Tests: `node test/keys-test.js`.

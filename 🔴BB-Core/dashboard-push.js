@@ -182,9 +182,47 @@ const kick = () => { if (enabled() && !flushing) flush().catch(() => {}); };
 const safe = (fn) => { try { return fn(); } catch (e) { warn(e.message); return 0; } };
 const pushJournal = (rec) => safe(() => enqueue(fromJournal(rec)));
 const pushHeartbeat = (info, nowMs = Date.now()) => safe(() => { hbAt = nowMs; return enqueue([heartbeatEvent(info, nowMs)]); });
-const heartbeatDue = (nowMs = Date.now(), everyMs = 300000) => enabled() && nowMs - hbAt >= everyMs;
+// the bot already reports at EVERY 4h candle close (lucidio.js, after each run); this is only the safety net for a long quiet spell: once a day by default (was 5 minutes).
+// Anything faster is the "Ask bot now" button's job. DASHBOARD_HEARTBEAT_SEC changes it (minimum 60).
+const heartbeatSec = () => { const n = Number(process.env.DASHBOARD_HEARTBEAT_SEC); return Number.isFinite(n) && n >= 60 ? n : 86400; };
+const heartbeatDue = (nowMs = Date.now(), everyMs = heartbeatSec() * 1000) => enabled() && nowMs - hbAt >= everyMs;
 const pushEquity = (info) => safe(() => enqueue([equityEvent(info)]));
 const pushCompare = (summary) => safe(() => enqueue([compareEvent(summary)]));
+
+// ---------------- "Ask bot now" ----------------
+// The dashboard button leaves a request; the bot ASKS for it (outbound GET /api/poll, signed, no body) and answers with an immediate heartbeat. Nothing connects to the VPS.
+// Safety: this is its own timer, never awaited by the main loop or by a trade; it does nothing while a run is in progress (busy()); one request at a time with a 5 s hard
+// timeout; every failure is swallowed and slows the polling down (up to 10x) instead of retrying fast; the answer only reads the state file (atomic writes) and queues a normal heartbeat.
+//   DASHBOARD_ASK_POLL_SEC   seconds between asks, default 60, minimum 20; 0 = never ask (the button then cannot reach the bot)
+const askPollSec = () => { const v = process.env.DASHBOARD_ASK_POLL_SEC; if (v === undefined || v === '') return 60; const n = Number(v); return !Number.isFinite(n) ? 60 : n <= 0 ? 0 : Math.max(20, n); };
+let askTimer = null, askFails = 0, askBusy = false;
+async function pollOnce({ fetchImpl = fetch, now = Date.now() } = {}) {   // -> true (someone asked) | false; throws on network / HTTP errors (the caller counts them)
+  const secret = process.env.DASHBOARD_PUSH_SECRET;
+  const res = await withTimeout(fetchImpl(`${baseUrl()}/api/poll`, { method: 'GET', signal: AbortSignal.timeout(TIMEOUT_MS), headers: { 'X-Lucidio-Timestamp': String(now), 'X-Lucidio-Signature': sign(secret, now, '') } }), TIMEOUT_MS);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const j = await withTimeout(res.json(), TIMEOUT_MS);
+  return !!(j && j.ask === true);
+}
+// provider() -> the same status object the run-end heartbeat uses; busy() -> true while a run is in progress
+function startAskPoll({ provider, busy = () => false, fetchImpl = fetch } = {}) {
+  const base = askPollSec();
+  if (!enabled() || !base || askTimer) return false;
+  const tick = async () => {
+    let next = base * 1000;
+    try {
+      if (!askBusy && !busy()) {
+        askBusy = true;
+        try { if (await pollOnce({ fetchImpl })) safe(() => pushHeartbeat(provider())); askFails = 0; }
+        catch (e) { askFails++; next = base * 1000 * Math.min(10, 2 ** Math.min(askFails, 4)); if (askFails === 3) warn(`ask-poll failing (${(e && e.message) || 'error'}); slowing down`); }
+        finally { askBusy = false; }
+      }
+    } catch {}
+    askTimer = setTimeout(tick, next); if (askTimer.unref) askTimer.unref();
+  };
+  askTimer = setTimeout(tick, Math.min(15000, base * 1000)); if (askTimer.unref) askTimer.unref();
+  return true;
+}
+const stopAskPoll = () => { if (askTimer) clearTimeout(askTimer); askTimer = null; askFails = 0; askBusy = false; };
 
 // `check`: configured? reachable? (GET /api/health, no auth, returns {ok:true} and nothing else)
 async function reachable({ fetchImpl = fetch } = {}) {
@@ -205,6 +243,6 @@ async function backfill(journalEvents, opt = {}) {
   return { ok: true, queued: n, journalEvents: journalEvents.length, sent: r.sent, pending: r.pending };
 }
 
-const _reset = () => { flushing = false; failures = 0; nextAttemptAt = 0; lastOkAt = 0; lastError = null; hbAt = 0; warnAt = 0; for (const k of Object.keys(lastPrice)) delete lastPrice[k]; };
+const _reset = () => { flushing = false; failures = 0; nextAttemptAt = 0; lastOkAt = 0; lastError = null; hbAt = 0; warnAt = 0; stopAskPoll(); for (const k of Object.keys(lastPrice)) delete lastPrice[k]; };
 
-module.exports = { enabled, setLogger, sign, leakCheck, fromJournal, heartbeatEvent, equityEvent, compareEvent, enqueue, flush, kick, pending, pushJournal, pushHeartbeat, heartbeatDue, pushEquity, pushCompare, notePrice, reachable, status, backfill, shareLiveEquity, _reset };
+module.exports = { enabled, setLogger, sign, leakCheck, fromJournal, heartbeatEvent, equityEvent, compareEvent, enqueue, flush, kick, pending, pushJournal, pushHeartbeat, heartbeatDue, heartbeatSec, pollOnce, startAskPoll, stopAskPoll, askPollSec, pushEquity, pushCompare, notePrice, reachable, status, backfill, shareLiveEquity, _reset };

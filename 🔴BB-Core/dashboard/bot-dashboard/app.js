@@ -12,6 +12,8 @@
     return n;
   };
   const clear = (n) => { while (n.firstChild) n.removeChild(n.firstChild); return n; };
+  // append text and elements, flattening nested lists (the native append would print an array as "[object HTMLElement]")
+  const add = (parent, ...kids) => { for (const k of kids.flat(Infinity)) if (k != null && k !== false) parent.append(k.nodeType ? k : document.createTextNode(String(k))); return parent; };
   const SVG = 'http://www.w3.org/2000/svg';
   const sv = (tag, attrs) => { const n = document.createElementNS(SVG, tag); for (const [k, v] of Object.entries(attrs || {})) n.setAttribute(k, v); return n; };
 
@@ -29,7 +31,7 @@
   const fmtDay = (ms) => { const p = parts(ms); return `${MON[p.mo - 1]} ${p.d}, ${p.y}`; };
   function fmtTime(ms) { if (ms == null) return '—'; const p = parts(ms); return `${fmtDay(ms)} ${clock12(p)}${tzTag()}`; }
   function fmtShort(ms) { if (ms == null) return '—'; const p = parts(ms); return `${fmtDay(ms)} ${clock12(p)}`; }
-  function fmtHm(ms) { if (ms == null) return '—'; const p = parts(ms); return `${pad(p.h)}:${pad(p.mi)}`; }
+  function fmtHm(ms) { if (ms == null) return '—'; return clock12(parts(ms)); }   // 12-hour, e.g. 3:56am (callers add the UTC tag)
   const fmtPx = (v) => (v == null ? '—' : String(Number(Number(v).toPrecision(6))));
   const fmtR = (v) => (v == null ? '—' : `${v >= 0 ? '+' : ''}${Number(v).toFixed(2)}R`);
   const fmtUsd = (v, signed) => (v == null ? '—' : `${signed ? (v >= 0 ? '+' : '−') : v < 0 ? '−' : ''}$${Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
@@ -162,7 +164,63 @@
     }
     const upd = $('#updated'); upd.hidden = d.last_update_ms == null; upd.dataset.ts = d.last_update_ms ?? '';
     $('#footer').textContent = `data generated ${fmtTime(d.generated_at)} · auto-refresh every 60s · times in ${tz === 'utc' ? 'UTC' : 'your local time'} · ${mode} mode`;
+    renderBotNow(d); renderBadges(d); applyTab();
     tick();
+  }
+
+  // ---------------- sections (tabs): Overview · Status · Trades · Log · Verify. Every panel in the page says which tab it belongs to (data-tabs).
+  const TABS = ['overview', 'status', 'trades', 'log', 'verify'];
+  let tab = (() => { const h = location.hash.slice(1), t = TABS.includes(h) ? h : store.get('bot.tab'); const r = TABS.includes(t) ? t : 'overview'; store.set('bot.tab', r); return r; })();   // a tab opened by link (#status) is remembered too
+  function applyTab() {
+    $('#app').dataset.tab = tab;
+    for (const e of $$('[data-tabs]')) e.hidden = !e.dataset.tabs.split(' ').includes(tab);
+    for (const c of $$('.col')) c.hidden = ![...c.children].some((x) => !x.hidden);
+    for (const b of $$('#mainTabs button')) { const on = b.dataset.tab === tab; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; }
+    if (tab === 'status') loadVpsInline();
+  }
+  function setTab(t) { if (!TABS.includes(t)) return; tab = t; store.set('bot.tab', t); try { history.replaceState(null, '', '#' + t); } catch {} applyTab(); }
+  let vpsInlineDone = false;
+  async function loadVpsInline() {   // the server specs, read once when the Status tab is first opened
+    if (vpsInlineDone) return; const host = $('#vpsInline');
+    try {
+      const res = await fetch('/api/vps', { credentials: 'same-origin', cache: 'no-store' });
+      if (res.status === 401) return;
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      renderVps(await res.json(), host); vpsInlineDone = true;
+    } catch (e) { clear(host).append(el('div', { class: 'empty' }, `Could not load the specs: ${e.message}`)); }
+  }
+  function renderBadges(d) {
+    const s = d.status, waiting = s.last_heartbeat_ms == null, n = d.overall.trades + d.open.length;
+    $('#tbDot').className = `tb-dot ${waiting ? '' : s.alive ? 'ok' : 'bad'}`;
+    $('#tbTrades').textContent = n ? String(n) : ''; $('#tbLog').textContent = (d.activity || []).length ? String((d.activity || []).length) : '';
+  }
+
+  // ---------------- Status tab: "bot / right now": a plain-words summary and a few tiles, from the newest heartbeat and the stored events
+  function renderBotNow(d) {
+    const s = d.status, o = d.overall, waiting = s.last_heartbeat_ms == null, mode = d.mode.toUpperCase(), span = (c, t) => el('span', { class: c }, t);
+    const last = d.trades.length ? d.trades[d.trades.length - 1] : null, skip = d.skipped.length ? d.skipped[0] : null;
+    const dd = s.drawdown_r, halt = s.halt_r != null ? Math.abs(s.halt_r) : null, ddPct = dd != null && halt ? (dd / halt) * 100 : 0;
+    const candles = Object.entries(s.last_candle_ms || {}), coinsOpen = d.open.map((p) => `${sym(p.symbol)} ${p.side}`).join(', ');
+    const text = clear($('#nowText'));
+    if (waiting) add(text, 'The dashboard has not heard from the bot yet. The bot reports at every 4-hour candle close; press Ask bot now to get a report right away.');
+    else if (!s.alive) add(text, span('bad', 'The bot is not reporting. '), `Its last heartbeat was ${fmtDur(s.age_ms / 1000)} ago (the limit is ${fmtDur(s.stale_after_ms / 1000)}). Check the VPS.`);
+    else add(text, 'The bot is ', el('b', { class: 'good' }, 'online'), ` in ${mode} mode. It last reported `, ago(s.last_heartbeat_ms),
+      s.next_wake_ms ? [' and will look at the market again at ', el('b', {}, fmtShort(s.next_wake_ms) + tzTag()), ' (', until(s.next_wake_ms), ').'] : '.',
+      d.open.length ? [' ', el('b', {}, `${d.open.length} position${d.open.length === 1 ? ' is' : 's are'} open`), ` (${coinsOpen}).`] : ' It is flat: no position open.',
+      o.trades ? ` ${o.trades} closed trade${o.trades === 1 ? '' : 's'}, ${fmtR(o.total_r)} in total.` : ' No trade has been taken yet.',
+      s.kill_switch ? span('warn', ' The kill switch is ON: no new entries.') : '');
+    const tile = (k, v, sub, c) => el('div', { class: 'tile' }, el('div', { class: 'k' }, k), el('div', { class: `v ${c || ''}` }, v), sub != null ? el('div', { class: 's' }, sub) : null);
+    clear($('#nowTiles')).append(
+      tile('State', waiting ? 'WAITING' : s.alive ? 'ONLINE' : 'STALE', waiting ? 'no heartbeat yet' : ['last heartbeat ', ago(s.last_heartbeat_ms)], waiting ? '' : s.alive ? 'good' : 'bad'),
+      tile('Mode', mode, waiting ? '' : `build ${s.commit || '?'} · v${s.version || '?'}`),
+      tile('Next check', s.next_wake_ms ? fmtHm(s.next_wake_ms) + tzTag() : '—', s.next_wake_ms ? until(s.next_wake_ms) : null),
+      tile('Last candle checked', candles.length ? candles.map(([k, v]) => `${sym(k)} ${fmtHm(v)}`).join(' · ') : '—', candles.length ? ago(Math.max(...candles.map(([, v]) => v))) : null),
+      tile('Open now', d.open.length ? `${d.open.length} open` : 'Flat', d.open.length ? coinsOpen : 'waiting for a signal', d.open.length ? 'warn' : ''),
+      tile('Closed trades', String(o.trades), last ? [`last: ${sym(last.symbol)} ${last.side} ${fmtR(last.r)} `, ago(last.exit_ts)] : 'none yet'),
+      tile('Drawdown vs halt', dd == null ? '—' : `${Number(dd).toFixed(1)}R / ${halt ?? '—'}R`, dd == null ? 'no heartbeat yet' : `${ddPct.toFixed(0)}% of the halt`, ddPct >= 60 ? 'warn' : ''),
+      tile('Kill switch', s.kill_switch ? 'ON' : 'off', s.kill_switch ? 'no new entries' : 'trading normally', s.kill_switch ? 'warn' : ''),
+      tile('Last skipped signal', skip ? `${sym(skip.symbol)} ${skip.side || ''}` : 'none', skip ? [`${skip.reason} `, ago(skip.signal_candle_open_ms)] : 'no signal has been skipped'));
+    $('#nowNote').textContent = 'The bot reports at every 4-hour candle close, so these numbers can be hours old. Press Ask bot now for a fresh report: the bot checks for a request about once a minute and answers straight away (never in the middle of a run).';
   }
 
   const kv = (k, v, sub) => el('div', {}, el('dt', {}, k), el('span', { class: 'fill', 'aria-hidden': 'true' }), el('dd', {}, v, sub || null));
@@ -207,7 +265,7 @@
         kv('Build', `${s.commit || '?'} · v${s.version || '?'}`));
     }
 
-    // uptime timeline (red = no heartbeat for over 15 min)
+    // uptime timeline (red = no heartbeat for over 4h20m: a missed candle-close report)
     const bar = clear($('#upBar')), axis = clear($('#upAxis')), now = d.generated_at;
     bar.classList.toggle('none', !u);
     if (u) {
@@ -315,6 +373,13 @@
     if (b.dataset.mode) { modeSel = b.dataset.mode; store.set('bot.mode', modeSel); load(); }
     syncMenu();
   });
+  $('#mainTabs').addEventListener('click', (e) => { const b = e.target.closest('button[data-tab]'); if (b) setTab(b.dataset.tab); });
+  $('#mainTabs').addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    const n = (TABS.indexOf(tab) + (e.key === 'ArrowRight' ? 1 : TABS.length - 1)) % TABS.length; setTab(TABS[n]); $(`#mainTabs [data-tab="${TABS[n]}"]`).focus(); e.preventDefault();
+  });
+  document.addEventListener('keydown', (e) => { if (/^[1-5]$/.test(e.key) && !e.ctrlKey && !e.metaKey && !e.altKey && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName) && !$('#app').hidden) setTab(TABS[+e.key - 1]); });
+  window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (TABS.includes(h) && h !== tab) setTab(h); });
   $('#chartTabs').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; chartKind = b.dataset.chart; store.set('bot.chart', chartKind); renderChart(); });
 
   // ---------------- VPS specs panel ----------------
@@ -350,9 +415,9 @@
     el('div', { class: 'spec-top' }, el('span', { class: 'spec-ico' }, icon(label === 'Memory' ? ICON.ram : ICON.disk)), el('span', { class: 'k' }, label)),
     el('div', { class: 'spec-big' }, big), el('div', { class: 'spec-sub' }, sub)), ring(pct, label));
 
-  function renderVps(v) {
+  function renderVps(v, host = $('#vpsBody')) {
     const ramPct = (v.ram.used_gb / v.ram.total_gb) * 100, up = v.booted ? Date.parse(v.booted) : null;
-    clear($('#vpsBody')).append(
+    clear(host).append(
       el('div', { class: 'vpshero' }, serverArt(), el('div', {}, el('div', { class: 'spec-big' }, `${v.provider} VPS`), el('div', { class: 'spec-sub' }, `${v.os} · ${v.arch}`),
         el('div', { class: 'chips' }, el('span', { class: 'chip' }, v.location), el('span', { class: 'chip' }, `${v.cpu.vcpu} vCPU`), el('span', { class: 'chip' }, `${v.ram.total_gb} GB RAM`), el('span', { class: 'chip' }, `${v.disk.total_gb} GB disk`)))),
       el('div', { class: 'specgrid' },
@@ -408,6 +473,28 @@
   });
   $('#logoutBtn').addEventListener('click', async () => { setMenu(false); try { await fetch('/api/login', { method: 'DELETE', credentials: 'same-origin' }); } catch {} showLogin(''); });
   $('#refreshBtn').addEventListener('click', () => { setMenu(false); load(); });
+
+  // "Ask bot now": leaves a request; the bot (which asks outbound about once a minute) answers with a heartbeat; we re-read every 5 s until it arrives (or give up after 3 minutes)
+  let askWatch = null;
+  async function askBot() {
+    const btn = $('#askBtn'), msg = $('#askMsg'); btn.disabled = true; msg.textContent = 'Asking…';
+    try {
+      const res = await fetch('/api/ask', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mode: data && data.mode }) });
+      if (res.status === 401) return showLogin('');
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(res.status === 429 ? 'too many clicks, wait a minute' : j.error || `HTTP ${res.status}`);
+      const since = j.requested_ms, stop = Date.now() + 180000;
+      msg.textContent = j.already_pending ? 'A request is already waiting for the bot…' : 'Asked. Waiting for the bot to answer (about a minute at most)…';
+      clearInterval(askWatch);
+      askWatch = setInterval(async () => {
+        await load();
+        const hb = data && data.status && data.status.last_heartbeat_ms;
+        if (hb != null && hb >= since) { clearInterval(askWatch); btn.disabled = false; msg.textContent = `The bot answered at ${fmtHm(hb)}${tzTag()}.`; }
+        else if (Date.now() > stop) { clearInterval(askWatch); btn.disabled = false; msg.textContent = 'No answer yet. The bot may be busy, offline, or still on the old version (it needs the update that adds this). It answers when it next reports.'; }
+      }, 5000);
+    } catch (e) { btn.disabled = false; msg.textContent = `Could not ask: ${e.message}`; }
+  }
+  $('#askBtn').addEventListener('click', askBot);
   for (const [id, k] of [['fCoin', 'coin'], ['fSide', 'side'], ['fReason', 'reason'], ['fFrom', 'from'], ['fTo', 'to']]) $(`#${id}`).addEventListener('change', (e) => { filters[k] = e.target.value; renderTrades(); });
 
   tick();

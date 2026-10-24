@@ -5,19 +5,23 @@
 //   node deploy/watchdog.js --notify "text"  send one Telegram message now (used by lucidio-failed.service)
 //   node deploy/watchdog.js --status         print the decision, send nothing
 //
+// MEXC API KEY EXPIRY (keyinfo.js): on every run it also warns by Telegram when a key is near its expiry day (14, 7, 3 and 1 days before, on the day, and every day while NO valid
+// key is left), each warning once (state/key-alerts.json), and reports a key switch that really happened (state/api-key-event.json, written by mexc.js). It sends no secret.
+//
 // "A run" = state/state.json lastRun.ts (written at the end of every run, paper or live). The bot runs once per 4h candle close,
 // so 4h + 20 min grace = the same rule as a healthchecks.io check with period 4h / grace 20 min on heartbeatUrl.
 // Test hooks: LUCIDIO_STATE_DIR, LUCIDIO_KEYS (path of mexc-keys.json), WATCHDOG_NOW (ms), WATCHDOG_DRY=1 (print instead of send).
 'use strict';
 const fs = require('fs'), path = require('path');
 const { load: loadEnv } = require('../envfile.js');
+const keyinfo = require('../keyinfo.js');
 
 const MAX_SILENCE_MS = (4 * 60 + 20) * 60 * 1000;   // 4h20m
 const REPEAT_MS = 60 * 60 * 1000;                   // re-alert hourly while the bot stays silent
 const APP = path.join(__dirname, '..');
 const STATE_DIR = process.env.LUCIDIO_STATE_DIR || path.join(APP, 'state');
 const KEYS = process.env.LUCIDIO_KEYS || path.join(APP, 'mexc-keys.json');
-const MARK = path.join(STATE_DIR, 'watchdog.json');
+const MARK = path.join(STATE_DIR, 'watchdog.json'), KEY_ALERTS = path.join(STATE_DIR, 'key-alerts.json'), KEY_EVENT = path.join(STATE_DIR, 'api-key-event.json');
 
 const readJson = (f) => { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch { return null; } };
 
@@ -68,10 +72,29 @@ async function check({ now = Number(process.env.WATCHDOG_NOW) || Date.now(), fet
   return { ...decision, action };
 }
 
-module.exports = { check, send, lastRunMs, MAX_SILENCE_MS };
+// API key expiry warnings + a real key switch. Never throws; a warning that could not be delivered is tried again on the next run (10 minutes later).
+async function keyAlerts({ now = Number(process.env.WATCHDOG_NOW) || Date.now(), fetchImpl = fetch, statusOnly = false } = {}) {
+  try {
+    const keys = readJson(KEYS) || {}, mark = readJson(KEY_ALERTS) || {}, sent = mark.sent || {}, ev = readJson(KEY_EVENT);
+    const due = keyinfo.alerts(keys, now, sent), switched = ev && ev.at && mark.event !== ev.at ? ev : null;
+    if (statusOnly) return { due: due.map((d) => d.id), switched: !!switched, lines: keyinfo.describe(keys, now) };
+    const done = [];
+    for (const a of due) if (await send(a.text, fetchImpl)) { sent[a.id] = now; done.push(a.id); }
+    let eventAt = mark.event;
+    if (switched && await send(`MEXC rejected the ${switched.from} API key (${switched.reason}). The bot switched to the ${switched.to} key and keeps going. Add the next key as the new reserve: ${keyinfo.ADD_CMD}`, fetchImpl)) { eventAt = switched.at; done.push('switched:' + switched.at); }
+    if (done.length) { fs.mkdirSync(STATE_DIR, { recursive: true }); fs.writeFileSync(KEY_ALERTS, JSON.stringify({ sent: Object.fromEntries(Object.entries(sent).sort((x, y) => y[1] - x[1]).slice(0, 60)), event: eventAt })); }
+    return { due: due.map((d) => d.id), sent: done, switched: !!switched };
+  } catch (e) { return { error: e.message }; }
+}
+
+module.exports = { check, keyAlerts, send, lastRunMs, MAX_SILENCE_MS };
 
 if (require.main === module) {
   const i = process.argv.indexOf('--notify');
   if (i > 0) send(process.argv[i + 1] || 'notification').then((ok) => { process.exitCode = ok ? 0 : 2; });
-  else check({ statusOnly: process.argv.includes('--status') }).then((r) => console.log(`[${new Date().toISOString()}] watchdog: last run ${r.lastRun || 'never'} (${r.age} ago) · ${r.silent ? 'SILENT' : 'ok'} · ${r.action}`));
+  else check({ statusOnly: process.argv.includes('--status') }).then(async (r) => {
+    console.log(`[${new Date().toISOString()}] watchdog: last run ${r.lastRun || 'never'} (${r.age} ago) · ${r.silent ? 'SILENT' : 'ok'} · ${r.action}`);
+    const k = await keyAlerts({ statusOnly: process.argv.includes('--status') });
+    if (k.error) console.log(`  API key check failed: ${k.error}`); else if (k.lines && k.lines.length) k.lines.forEach((l) => console.log('  ' + l)); else if (k.sent && k.sent.length) console.log(`  API key warnings sent: ${k.sent.join(', ')}`);
+  });
 }

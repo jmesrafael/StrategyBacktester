@@ -38,6 +38,7 @@ act_balance() { head_line "Account balance"; bot balance; }
 act_check() {   # the CLI needs the same live flag the service has, or the live-gate row would complain
   head_line "Health check"
   if [ -f /etc/systemd/system/lucidio.service.d/live.conf ]; then as_bot env LUCIDIO_ALLOW_LIVE=1 node "$APP/lucidio.js" check; else bot check; fi
+  echo; as_bot node "$APP/keyinfo.js" --status 2>/dev/null || true
 }
 act_log()     { head_line "Recent log (last 40 lines)"; sudo journalctl -u lucidio -n 40 --no-pager; }
 act_follow()  { head_line "Live log (Ctrl+C to stop and come back)"; ( trap - INT; sudo journalctl -u lucidio -f -n 15 ); }

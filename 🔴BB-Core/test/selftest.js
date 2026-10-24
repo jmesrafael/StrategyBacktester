@@ -210,7 +210,7 @@ async function scenario(name, knobs, fn) {
   // Runs in a throw-away copy of the bot (fake Telegram token, stubbed fetch), so nothing real is read, sent or written.
   {
     const os = require('os'), BOX = fs.mkdtempSync(path.join(os.tmpdir(), 'lucidio-blocked-')), SD = path.join(BOX, 'state');
-    for (const f of ['lucidio.js', 'lucidio-core.js', 'live.js', 'mexc.js', 'config.js', 'ledger-sync.js', 'telegram.js', 'journal.js', 'dashboard-push.js', 'envfile.js']) fs.copyFileSync(path.join(__dirname, '..', f), path.join(BOX, f));
+    for (const f of ['lucidio.js', 'lucidio-core.js', 'live.js', 'mexc.js', 'config.js', 'ledger-sync.js', 'telegram.js', 'journal.js', 'dashboard-push.js', 'envfile.js', 'keyinfo.js']) fs.copyFileSync(path.join(__dirname, '..', f), path.join(BOX, f));
     fs.writeFileSync(path.join(BOX, 'mexc-keys.json'), JSON.stringify({ telegramToken: '123456789' + ':' + 'FAKE_TOKEN_' + 'FOR_TEST_ONLY_0123456789', telegramChatId: '42' }));
     fs.writeFileSync(path.join(BOX, 'bot-config.json'), JSON.stringify({ mode: 'paper', coins: ['SOL'], heartbeatUrl: '' }));
     fs.mkdirSync(SD);
@@ -246,7 +246,7 @@ async function scenario(name, knobs, fn) {
   {
     const os = require('os'), cp = require('child_process'), cfgMod = require('../config.js');
     const BOX = fs.mkdtempSync(path.join(os.tmpdir(), 'lucidio-allow-'));
-    for (const f of ['lucidio.js', 'lucidio-core.js', 'live.js', 'mexc.js', 'config.js', 'ledger-sync.js', 'telegram.js', 'journal.js', 'dashboard-push.js', 'envfile.js']) fs.copyFileSync(path.join(__dirname, '..', f), path.join(BOX, f));
+    for (const f of ['lucidio.js', 'lucidio-core.js', 'live.js', 'mexc.js', 'config.js', 'ledger-sync.js', 'telegram.js', 'journal.js', 'dashboard-push.js', 'envfile.js', 'keyinfo.js']) fs.copyFileSync(path.join(__dirname, '..', f), path.join(BOX, f));
     const cfgFile = (coins) => fs.writeFileSync(path.join(BOX, 'bot-config.json'), JSON.stringify({ mode: 'paper', coins }));
     // layer 1: config load
     cfgFile(['SOL', 'BTC']);

@@ -8,12 +8,17 @@ APP=/opt/lucidio; FILE="$APP/mexc-keys.json"
 command -v node >/dev/null || { echo "node not installed: run deploy/setup-vps.sh first"; exit 1; }
 echo "MEXC API key: View Account + View Order + Order Placing ONLY (never Withdraw), bound to this server's IPv4: $(curl -4 -s --max-time 8 https://checkip.amazonaws.com || echo '?')"
 read -rp  "MEXC apiKey (Enter = keep existing): " K; read -rsp "MEXC apiSecret (hidden, Enter = keep existing): " S; echo
+read -rp  "Is this key LINKED to this server's IP on MEXC (then it never expires)? y/N (Enter = no / keep): " IB
+read -rp  "Day this MEXC key was created, like 2026-10-23 (Enter = keep/skip; only for keys NOT linked to the IP: 90-day expiry warnings): " KC
 read -rsp "Telegram bot token (hidden, Enter = keep/skip): " TT; echo
 read -rp  "Telegram chat id (Enter = keep/skip): " TC
-K="$K" S="$S" TT="$TT" TC="$TC" FILE="$FILE" node -e '
+K="$K" S="$S" IB="$IB" KC="$KC" TT="$TT" TC="$TC" FILE="$FILE" node -e '
 const fs = require("fs"), e = process.env; let k = {};
 try { k = JSON.parse(fs.readFileSync(e.FILE, "utf8")); } catch {}
 if (e.K) k.apiKey = e.K.trim(); if (e.S) k.apiSecret = e.S.trim();
+if (e.K) { delete k.apiKeyCreated; delete k.apiKeyExpires; delete k.apiKeyIpBound; }   // a NEW key: the old key dates and flags no longer apply
+if (/^y/i.test(e.IB || "")) { k.apiKeyIpBound = true; e.KC = ""; }
+if (e.KC) { if (!/^\d{4}-\d{2}-\d{2}$/.test(e.KC.trim())) { console.error("the creation day must look like 2026-10-23 (nothing written)"); process.exit(1); } k.apiKeyCreated = e.KC.trim(); }
 if (e.TT) k.telegramToken = e.TT.trim(); if (e.TC) k.telegramChatId = e.TC.trim();
 if (!k.apiKey !== !k.apiSecret) { console.error("give apiKey AND apiSecret, or neither (nothing written)"); process.exit(1); }
 if (!Object.keys(k).length) { console.error("nothing entered (nothing written)"); process.exit(1); }

@@ -463,6 +463,7 @@ async function retryStale() {
   if (lastRun && lastRun.stale.length) event('error', 'BOT', `ERROR gave up: MEXC candle still missing for ${lastRun.stale.join(', ')} ${Math.round(nowSec() - closeT)}s after the close — signals on that candle are lost (entry window over)`);
 }
 
+let inRun = false;   // true only while runOnce() is executing: the dashboard poll stays quiet then
 async function loop() {
   const PID = path.join(STATE_DIR, 'bot.pid');
   fs.mkdirSync(STATE_DIR, { recursive: true });
@@ -473,10 +474,12 @@ async function loop() {
   process.on('SIGTERM', () => { event('info', 'BOT', 'stopped (service stop)'); process.exit(0); });
   try { makeHooks().session({ coins: CFG.coins, note: 'loop started' }); } catch (e) { event('error', 'BOT', `ERROR journal write failed: ${e.message}`); }
   event('start', 'BOT', `started loop · ${CFG.mode.toUpperCase()} · pid ${process.pid} · coins ${CFG.coins.join(', ')} · ${CFG.riskPct > 0 ? `risk ${CFG.riskPct * 100}% of balance (max $${CFG.maxRiskUsd})` : `risk $${CFG.riskUsd}`}`);
+  push.startAskPoll({ provider: () => pushStatus(loadState()), busy: () => inRun });   // the dashboard's "Ask bot now": asks outbound, answers with a heartbeat, never during a run
   for (;;) {
     lastRun = null;
+    inRun = true;
     try { await runOnce(); } catch (e) { event('error', 'BOT', 'run crashed: ' + (e.stack || e.message)); } // never let one bad run kill the loop
-    await retryStale();
+    try { await retryStale(); } finally { inRun = false; }
     const wake = (Math.floor(nowSec() / IV) + 1) * IV + CFG.wakeDelaySec;
     try { const s = loadState(); s.nextWakeAt = new Date(wake * 1000).toISOString(); saveState(s); } catch {}
     log(`sleeping until ${iso(wake)} (candle close + ${CFG.wakeDelaySec}s, MEXC time)`);
@@ -506,6 +509,9 @@ async function check() {
       row('OK', 'open TP/SL', `${(s || []).length} order(s)`);
     } catch (e) { row('BAD', 'positions', e.message); }
   } else row(CFG.mode === 'live' ? 'BAD' : 'WARN', 'API key', 'none (mexc-keys.json) — fine for paper, required for live');
+  if (mexc.hasKeys()) {   // expiry of each key (primary / reserve), from the dates in mexc-keys.json: no secret is printed
+    try { const ki = require('./keyinfo.js'); for (const r of ki.status(ki.loadFile(process.env.LUCIDIO_KEYS || path.join(DIR, 'mexc-keys.json')))) row(r.state === 'expired' || r.noDate || (r.daysLeft != null && r.daysLeft <= 14 && !r.ipBound) ? 'WARN' : 'OK', 'API key expiry', r.text); } catch {}
+  }
   for (const coin of CFG.coins) {
     try {
       const spec = await mexc.client.contract(`${coin}_USDT`);
