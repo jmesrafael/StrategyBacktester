@@ -2,7 +2,7 @@
 # lucidio-menu.sh - arrow-key menu for the Lucid'io VPS (arrow keys + Enter; Esc leaves). The header clock is live (redrawn every second).
 # Read-only except: kill switch, restart, Telegram test and "Pull changes from GitHub" (each asks first).
 #   lucidio                       status first, then the menu          (installed as /usr/local/bin/lucidio)
-#   lucidio --action trades       run one action and exit (status balance check trades equity log server update tg)
+#   lucidio --action trades       run one action and exit (status balance check trades details equity log server update tg)
 # The menu is drawn by this script itself (arrow keys, no dialog tool needed); on a dumb terminal a numbered list is shown instead.
 # Everything is inside functions and the last line is "main; exit": bash has read the whole file before anything runs, so an update that
 # replaces this very file (setup-vps.sh installs the new menu) cannot confuse the copy that is running.
@@ -34,7 +34,7 @@ candle_times() {   # the six daily 4-hour candle closes, in UTC and in your time
 H12_JS='const M=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];const h12=(ts)=>{const d=new Date(ts);let h=d.getUTCHours();const m=String(d.getUTCMinutes()).padStart(2,"0"),ap=h>=12?"pm":"am";h=h%12||12;return M[d.getUTCMonth()]+" "+d.getUTCDate()+", "+d.getUTCFullYear()+" "+h+":"+m+ap+" UTC"};'
 
 act_status()  { head_line "Bot status"; bot status; }
-act_balance() { head_line "Account balance (MEXC futures)"; bot balance; }
+act_balance() { head_line "Account balance"; bot balance; }
 act_check() {   # the CLI needs the same live flag the service has, or the live-gate row would complain
   head_line "Health check"
   if [ -f /etc/systemd/system/lucidio.service.d/live.conf ]; then as_bot env LUCIDIO_ALLOW_LIVE=1 node "$APP/lucidio.js" check; else bot check; fi
@@ -55,6 +55,24 @@ for(const e of ev){const t=h12(e.ts);
  else console.log(t,"SKIP ",e.symbol||"",e.side||"",e.reason,e.detail?("- "+e.detail):"")}
 const n=(k)=>L.filter(e=>e.type===k).length;
 console.log("\nbot starts:",n("session"),"| entries:",n("entry"),"| exits:",n("exit"),"| skipped signals:",n("skip"));'
+}
+act_details() {   # per-coin trading numbers from the bot's state file: how many trades, wins and losses, result, what is open, the last few
+  head_line "Trading details"
+  as_bot env APP="$APP" node -e "$H12_JS"'
+const fs=require("fs");let st;
+try{st=JSON.parse(fs.readFileSync(process.env.APP+"/state/state.json","utf8"))}catch(e){console.log("No trading state yet.");process.exit()}
+const money=(v)=>(v<0?"-":"")+"$"+Math.abs(v).toFixed(2),R=(v)=>(v>=0?"+":"")+v.toFixed(2)+"R";
+const coins=Object.entries(st.coins||{});let tn=0,tr=0,tu=0,tw=0;
+console.log("Mode",String(st.mode||"?").toUpperCase(),"| balance",money(+st.balance||0),"| total",R(+st.totalR||0),"| below best point",((+st.peakR||0)-(+st.totalR||0)).toFixed(1)+"R");
+for(const [coin,x] of coins){
+  const T=x.trades||[],w=T.filter(t=>t.R>0).length,l=T.filter(t=>t.R<0).length,sr=T.reduce((a,t)=>a+t.R,0),su=T.reduce((a,t)=>a+(t.usd||0),0);
+  tn+=T.length;tr+=sr;tu+=su;tw+=w;
+  console.log("\n"+coin+": "+T.length+" trade"+(T.length===1?"":"s")+" | "+w+" win"+(w===1?"":"s")+" / "+l+" loss"+(l===1?"":"es")+(T.length?" ("+Math.round(100*w/T.length)+"%)":"")+" | "+R(sr)+" | "+money(su)+(T.length?" | average "+R(sr/T.length):""));
+  console.log(x.pos?"  OPEN "+(x.pos.dir===1?"LONG":"SHORT")+" entry "+(+x.pos.entry).toPrecision(6)+" stop "+(+x.pos.stop).toPrecision(6)+" target "+(+x.pos.tp).toPrecision(6)+" since "+h12(x.pos.t0*1000):"  flat (no open trade)");
+  console.log("  last candle checked: "+(x.lastTime?h12(x.lastTime*1000):"none yet"));
+  for(const t of T.slice(-5))console.log("  "+h12(t.tExit*1000)+"  "+(t.dir===1?"LONG ":"SHORT")+"  "+String(t.why).padEnd(7)+" "+R(t.R).padStart(7)+"  "+money(t.usd||0));
+}
+console.log("\nAll coins: "+tn+" trade"+(tn===1?"":"s")+" | "+tw+" win"+(tw===1?"":"s")+(tn?" ("+Math.round(100*tw/tn)+"%)":"")+" | "+R(tr)+" | "+money(tu));'
 }
 act_equity() {
   head_line "Equity over time (account snapshots)"
@@ -186,78 +204,163 @@ act_update() {
 
 run_action() {
   case "$1" in
-    status) act_status;; balance) act_balance;; check) act_check;; trades) act_trades;; equity) act_equity;;
+    status) act_status;; balance) act_balance;; check) act_check;; trades) act_trades;; details) act_details;; equity) act_equity;;
     log) act_log;; follow) act_follow;; server) act_server;; update) act_update;; tg) act_tg;; kill) act_kill;; restart) act_restart;;
     *) echo "unknown action: $1"; return 2;;
   esac
 }
 
-# ---- the menu itself: a small arrow-key selector (no dialog tools needed): black screen, green frame, a green ">" arrow on the selected line.
-# Header lines (shown inside the frame): service state / mode / risk / equity, then per-coin state. Never prompts for a password (sudo -n): without it the lines just have less in it.
+# ---- the menu itself: a small arrow-key selector (no dialog tools needed). Design: design/menu-design.html
+#   gradient logo (when the window is tall enough, else a text title) · status row · account row · clock row · next-candle-close row with a countdown bar ·
+#   items in three groups (Tools / Monitor / Control) · a full-width selection bar (red for the dangerous ones) · key hints.
+# The header never prompts for a password (sudo -n): without it the status row simply has less in it. The whole frame is redrawn every second, so the clock is live.
+# Colours are 24-bit (Windows Terminal and most terminals show them); LUCIDIO_MENU_COLOR=16 uses plain 16-colour codes, LUCIDIO_MENU_LOGO=off never shows the logo,
+# LUCIDIO_MENU_ASCII=1 draws everything in plain ASCII (also chosen automatically when the terminal is not UTF-8).
+LOGO=(
+  "██╗     ██╗   ██╗ ██████╗██╗██████╗  ██╗            "
+  "██║     ██║   ██║██╔════╝██║██╔══██╗ ╚█║ ██╗        "
+  "██║     ██║   ██║██║     ██║██║  ██║  ╚╝ ╚═╝ █████╗ "
+  "██║     ██║   ██║██║     ██║██║  ██║     ██╗██╔══██╗"
+  "███████╗╚██████╔╝╚██████╗██║██████╔╝     ██║╚█████╔╝"
+  "╚══════╝ ╚═════╝  ╚═════╝╚═╝╚═════╝      ╚═╝ ╚════╝ "
+)
+LOGO_W=52
+SPACES="$(printf '%*s' 200 '')"
 HDR_JS='const fs=require("fs"),d=process.argv[1];let c={},s=null,st=null;
 try{c=JSON.parse(fs.readFileSync(d+"/bot-config.json","utf8"))}catch(e){}
 try{const L=fs.readFileSync(d+"/journal/snapshots.jsonl","utf8").trim().split("\n");s=JSON.parse(L[L.length-1])}catch(e){}
 try{st=JSON.parse(fs.readFileSync(d+"/state/state.json","utf8"))}catch(e){}
-console.log(String(c.mode||"?").toUpperCase()+" "+(+c.riskPct*100).toFixed(1)+"% risk"+(s&&s.equity!=null?" | equity $"+(+s.equity).toFixed(2):""));
-const co=st&&st.coins?Object.entries(st.coins):[];
-console.log(co.length?co.map(([k,x])=>k+" "+(x.pos?(x.pos.dir===1?"LONG":"SHORT"):"flat")).join(" | ")+" | "+co.reduce((a,[,x])=>a+(x.n||0),0)+" trades | "+(+st.totalR||0).toFixed(2)+"R":"no state yet")'
-HDR1=""; HDR2=""
-# the clock row: "PH: 11:56am | UTC: 3:56am | Close 4:00am UTC (12:00pm PH)". The Close part (the next 4-hour candle close) is drawn in yellow. Recomputed on every redraw, so it is live.
-# CLK_A = the two clocks, CLK_B = the next close. "PH" is your own clock (LUCIDIO_MY_UTC_OFFSET, +8 = Philippines); any other offset is labelled UTC+n.
-clock_line() {
-  local e=${LUCIDIO_NOW:-$(date +%s)} nx lbl=PH
-  [ "$MY_UTC_OFFSET" != 8 ] && lbl="UTC$(printf '%+d' "$MY_UTC_OFFSET")"
-  nx=$(( (e / 14400 + 1) * 14400 ))
-  CLK_A="$lbl: $(c12 $((e + MY_UTC_OFFSET * 3600))) | UTC: $(c12 "$e") | "
-  CLK_B="Close $(c12 "$nx") UTC ($(c12 $((nx + MY_UTC_OFFSET * 3600))) $lbl)"
-}
-refresh_header() {
-  local st info
-  st=$(systemctl is-active lucidio 2>/dev/null || true); [ -z "$st" ] && st=unknown
+const co=st&&st.coins?Object.values(st.coins):[],rk=+c.riskPct*100;
+const o={MODE:c.mode||"",RISK:isNaN(rk)?"":rk.toFixed(1),EQUITY:s&&s.equity!=null?(+s.equity).toFixed(2):"",TRADES:st?co.reduce((a,x)=>a+(x.n||0),0):"",R:st?(+st.totalR||0).toFixed(2):"",KILL:fs.existsSync(d+"/STOP")?1:0};
+for(const k in o)console.log(k+"="+o[k])'
+ST_WORD="Bot state unknown"; ST_CLS=yellow; STATS=(); ACC="Account: not available"
+refresh_header() {   # fills ST_WORD / ST_CLS / STATS / ACC for the status and account rows
+  local st info k v M="" RK="" EQ="" TR="" RR="" KL=0
+  st=${LUCIDIO_MENU_BOT_STATE:-$(systemctl is-active lucidio 2>/dev/null || true)}; [ -z "$st" ] && st=unknown
   if [ -n "${LUCIDIO_MENU_NOSUDO:-}" ] || [ "$(id -un)" = "$LUCIDIO_USER" ]; then info=$(node -e "$HDR_JS" "$APP" 2>/dev/null)
   else info=$(sudo -n -u "$LUCIDIO_USER" node -e "$HDR_JS" "$APP" 2>/dev/null); fi
-  HDR1="Bot: $st | $(printf '%s' "$info" | sed -n 1p)"; HDR2="$(printf '%s' "$info" | sed -n 2p)"
-  [ "$HDR1" = "Bot: $st | " ] && HDR1="Bot: $st"
+  while IFS='=' read -r k v; do case "$k" in MODE) M=$v;; RISK) RK=$v;; EQUITY) EQ=$v;; TRADES) TR=$v;; R) RR=$v;; KILL) KL=$v;; esac; done <<< "$info"
+  if [ "$st" = unknown ]; then ST_WORD="Bot state unknown"; ST_CLS=yellow
+  elif [ "$st" != active ]; then ST_WORD="Bot is stopped"; ST_CLS=red
+  elif [ "$KL" = 1 ]; then ST_WORD="Kill switch is on"; ST_CLS=yellow
+  else ST_WORD="Bot is active"; ST_CLS=green; fi
+  STATS=(); [ -n "$TR" ] && STATS=("$TR trade$([ "$TR" = 1 ] || echo s)" "${RR}R")
+  if [ -n "$M" ]; then ACC="Account (${M^}): $([ -n "$EQ" ] && echo "\$$EQ" || echo "n/a")$([ -n "$RK" ] && echo " ($RK% Risk)")"; else ACC="Account: not available"; fi
 }
-# one frame row: plain text (ASCII only, used to measure the padding) and the same text with colour codes
-rule() { local k s=""; for ((k = 0; k < BOX_W - 2; k++)); do s+="─"; done; printf '%s%s%s%s%s%s\n' "$PAD" "$G" "$1" "$s" "$2" "$R"; }
-frow() { local plain="$1" styled="${2:-$1}" pad; pad=$(( BOX_W - 4 - ${#plain} )); [ "$pad" -lt 0 ] && { plain="${plain:0:$((BOX_W - 4))}"; styled="$plain"; pad=0; }
-  printf '%s%s│%s %s%*s %s│%s\e[K\n' "$PAD" "$G" "$R" "$styled" "$pad" "" "$G" "$R"; }
-draw_menu() {
-  local i idx
-  printf '\e[%d;1H' "$TOPROW"
-  rule "╭" "╮"
-  frow "Lucid'io VPS" "$B$G""Lucid'io VPS$R"
-  clock_line
-  frow "$HDR1"; [ -n "$HDR2" ] && frow "$HDR2"; frow "$CLK_A$CLK_B" "$CLK_A$B$Y$CLK_B$R"
-  rule "├" "┤"
-  for ((i = 0; i < VIS; i++)); do
-    idx=$(( TOP + i ))
-    if [ "$idx" -ge "$N" ]; then frow ""; continue; fi
-    if [ "$idx" -eq "$SEL" ]; then frow "  ${ITEMS[idx*2+1]}" "$B$G▶ ${ITEMS[idx*2+1]}$R"; else frow "  ${ITEMS[idx*2+1]}"; fi
+# the clock rows: "PH 11:56am | UTC 3:56am" and "Candle Close 4:00am UTC (12:00pm PH)" + a bar of how much of the 4-hour candle has passed + the time left
+clock_rows() {
+  local e=${LUCIDIO_NOW:-$(date +%s)} nx secs
+  CLK_LBL=PH; [ "$MY_UTC_OFFSET" != 8 ] && CLK_LBL="UTC$(printf '%+d' "$MY_UTC_OFFSET")"
+  nx=$(( (e / 14400 + 1) * 14400 )); secs=$(( nx - e ))
+  CLK_LOC=$(c12 $((e + MY_UTC_OFFSET * 3600))); CLK_UTC=$(c12 "$e")
+  CLOSE_TXT="Candle Close $(c12 "$nx") UTC ($(c12 $((nx + MY_UTC_OFFSET * 3600))) $CLK_LBL)"
+  printf -v CLOSE_CD '%dh %02dm' $((secs / 3600)) $(( (secs % 3600) / 60 ))
+  BAR_FILLED=$(( ((14400 - secs) * 12 + 7200) / 14400 )); [ "$BAR_FILLED" -lt 0 ] && BAR_FILLED=0; [ "$BAR_FILLED" -gt 12 ] && BAR_FILLED=12
+}
+setup_glyphs() {
+  export LC_ALL=C.UTF-8 2>/dev/null; local t='█'
+  if [ "${#t}" -eq 1 ] && [ -z "${LUCIDIO_MENU_ASCII:-}" ]; then
+    F_TL='╭'; F_TR='╮'; F_BL='╰'; F_BR='╯'; F_H='─'; F_V='│'; F_ML='├'; F_MR='┤'; MARK='▶'; DIV='│'; BAR_CH='━'; KEYS_UD='↑↓'; ASCII=0
+  else
+    F_TL='+'; F_TR='+'; F_BL='+'; F_BR='+'; F_H='-'; F_V='|'; F_ML='+'; F_MR='+'; MARK='>'; DIV='|'; BAR_CH='='; KEYS_UD='Up/Down'; ASCII=1
+  fi
+}
+setup_colors() {
+  R=$'\e[0m'
+  if [ "${LUCIDIO_MENU_COLOR:-}" = 16 ]; then
+    G=$'\e[92m'; TT=$'\e[1;92m'; Y=$'\e[1;93m'; D=$'\e[90m'; LG=$'\e[37m'; K=$'\e[1;97m'; RD=$'\e[91m'; BAR=$'\e[1;30;102m'; BARD=$'\e[1;30;101m'
+    LMAIN=("$TT" "$TT" "$TT" "$TT" "$TT" "$TT"); LSHADOW=$'\e[32m'
+  else
+    G=$'\e[38;2;22;198;12m'; TT=$'\e[1m\e[38;2;22;198;12m'; Y=$'\e[1m\e[38;2;253;228;8m'; D=$'\e[38;2;118;118;118m'; LG=$'\e[38;2;180;180;180m'; K=$'\e[1m\e[38;2;255;255;255m'
+    RD=$'\e[38;2;231;72;86m'; BAR=$'\e[1m\e[48;2;22;198;12m\e[38;2;6;36;10m'; BARD=$'\e[1m\e[48;2;231;72;86m\e[38;2;26;3;6m'
+    LMAIN=($'\e[38;2;155;255;138m' $'\e[38;2;100;244;83m' $'\e[38;2;47;220;34m' $'\e[38;2;22;198;12m' $'\e[38;2;16;165;8m' $'\e[38;2;11;132;6m'); LSHADOW=$'\e[38;2;11;92;7m'
+  fi
+  LOGO_S=(); [ "${ASCII:-0}" = 1 ] && return 0; local r i ch col cur out
+  for r in 0 1 2 3 4 5; do   # coloured once: solid blocks in the row's colour, the shadow strokes darker
+    out=""; cur=""
+    for ((i = 0; i < ${#LOGO[r]}; i++)); do ch=${LOGO[r]:i:1}; if [ "$ch" = "█" ]; then col=${LMAIN[r]}; else col=$LSHADOW; fi; [ "$col" != "$cur" ] && { out+="$col"; cur=$col; }; out+="$ch"; done
+    LOGO_S[r]="$out$R"
   done
-  rule "├" "┤"
-  if [ $(( TOP + VIS )) -lt "$N" ]; then frow "Ok (Enter)    Exit (Esc)    Move (Arrow Keys)    more below"; else frow "Ok (Enter)    Exit (Esc)    Move (Arrow Keys)"; fi
-  rule "╰" "╯"
-  printf '\e[J'
 }
-# in: ITEMS (tag, label pairs), HDR1/HDR2.  out: CHOICE.  Returns 1 when Esc / q is pressed (or the input ends).
+grp_of() { case "$1" in shell|update) echo 0;; kill|restart|exit) echo 2;; *) echo 1;; esac; }
+danger_of() { case "$1" in kill|restart|exit) return 0;; *) return 1;; esac; }
+OUT=()
+ln() { OUT+=("$PAD$1"); }
+hrule() { ln "$G$1$HL$2$R"; }
+# one frame row. plain = the text without colours (its length sets the padding), styled = the same text with colour codes, align c = centred
+frow() {
+  local plain="$1" styled="${2:-}" align="${3:-}" inner=$(( BOX_W - 4 )) w left right
+  w=${#plain}; if [ "$w" -gt "$inner" ]; then plain=${plain:0:$inner}; styled=""; w=$inner; fi
+  [ -z "$styled" ] && styled=$plain
+  left=0; [ "$align" = c ] && left=$(( (inner - w) / 2 )); right=$(( inner - w - left ))
+  ln "$G$F_V$R ${SPACES:0:$left}$styled${SPACES:0:$right} $G$F_V$R"
+}
+build_frame() {
+  local i idx inner=$(( BOX_W - 4 )) plain styled s cd gap right_plain bars empty tag label prevg g c st_style keys
+  OUT=(); clock_rows
+  hrule "$F_TL" "$F_TR"
+  if [ "$LOGO_ON" = 1 ]; then frow ""; for ((i = 0; i < 6; i++)); do frow "${LOGO[i]}" "${LOGO_S[i]}" c; done; frow "by: Bugimann" "${LG}by: Bugimann$R" c; frow ""
+  else frow "Lucid'io Bot" "${TT}Lucid'io Bot$R" c; fi
+  hrule "$F_ML" "$F_MR"
+  case "$ST_CLS" in red) st_style=$RD;; yellow) st_style=$Y;; *) st_style=$TT;; esac
+  plain=$ST_WORD; styled="$st_style$ST_WORD$R"
+  for s in "${STATS[@]}"; do plain+=" $DIV $s"; styled+=" $G$DIV$R $LG$s$R"; done
+  frow "$plain" "$styled"
+  frow "$ACC" "$K$ACC$R"
+  frow "$CLK_LBL $CLK_LOC $DIV UTC $CLK_UTC" "$LG$CLK_LBL$R $K$CLK_LOC$R $G$DIV$R ${LG}UTC$R $K$CLK_UTC$R"
+  right_plain="${SPACES:0:12} $CLOSE_CD"; gap=$(( inner - ${#CLOSE_TXT} - ${#right_plain} ))
+  if [ "$gap" -ge 2 ]; then
+    printf -v bars '%*s' "$BAR_FILLED" ''; bars=${bars// /$BAR_CH}; printf -v empty '%*s' $((12 - BAR_FILLED)) ''; empty=${empty// /$BAR_CH}
+    frow "$CLOSE_TXT${SPACES:0:$gap}$right_plain" "$Y$CLOSE_TXT$R${SPACES:0:$gap}$Y$bars$R$D$empty$R $LG$CLOSE_CD$R"
+  else frow "$CLOSE_TXT" "$Y$CLOSE_TXT$R"; fi
+  prevg=-1
+  for ((i = 0; i < VIS; i++)); do
+    idx=$(( TOP + i )); [ "$idx" -ge "$N" ] && break
+    tag=${ITEMS[idx*2]}; label=${ITEMS[idx*2+1]}; g=${GRP[idx]}
+    if [ "$i" -eq 0 ] || { [ "$GROUPED" = 1 ] && [ "$g" != "$prevg" ]; }; then hrule "$F_ML" "$F_MR"; fi
+    prevg=$g
+    if [ "$idx" -eq "$SEL" ]; then
+      plain="$MARK $label"; plain+="${SPACES:0:$((inner - ${#plain}))}"; c=$BAR; danger_of "$tag" && c=$BARD
+      frow "$plain" "$c$plain$R"
+    else
+      plain="  $label"; if danger_of "$tag"; then frow "$plain" "  $RD$label$R"; else frow "$plain"; fi
+    fi
+  done
+  hrule "$F_ML" "$F_MR"
+  if [ $(( TOP + VIS )) -lt "$N" ]; then plain="$KEYS_UD Move    Enter Ok    Esc Exit    more below"; styled="$K$KEYS_UD$R ${D}Move$R    ${K}Enter$R ${D}Ok$R    ${K}Esc$R ${D}Exit$R    ${D}more below$R"
+  else plain="$KEYS_UD Move    Enter Ok    Esc Exit"; styled="$K$KEYS_UD$R ${D}Move$R    ${K}Enter$R ${D}Ok$R    ${K}Esc$R ${D}Exit$R"; fi
+  frow "$plain" "$styled" c
+  hrule "$F_BL" "$F_BR"
+}
+draw_menu() {
+  local buf
+  build_frame
+  TOPROW=$(( (ROWS - ${#OUT[@]}) / 2 + 1 )); [ "$TOPROW" -lt 1 ] && TOPROW=1
+  printf -v buf '%s\e[K\n' "${OUT[@]}"
+  printf '\e[%d;1H%s\e[J' "$TOPROW" "$buf"
+}
+# in: ITEMS (tag, label pairs), the header variables.  out: CHOICE.  Returns 1 when Esc / q is pressed (or the input ends).
 menu_select() {
-  local key rest rows cols fh last="" rc tick=0
-  G=$'\e[92m'; Y=$'\e[93m'; B=$'\e[1m'; R=$'\e[0m'; N=$(( ${#ITEMS[@]} / 2 )); SEL=0; TOP=0
+  local key rest cols rc tick=0 last="" i inner avail hdr ng prev g
+  setup_glyphs; setup_colors
+  N=$(( ${#ITEMS[@]} / 2 )); SEL=0; TOP=0; GRP=(); prev=-1; ng=0
+  for ((i = 0; i < N; i++)); do g=$(grp_of "${ITEMS[i*2]}"); GRP[i]=$g; [ "$g" != "$prev" ] && { ng=$((ng + 1)); prev=$g; }; done
   printf '\e[?25l\e[2J'
   while true; do
-    rows=${LUCIDIO_MENU_ROWS:-$(tput lines 2>/dev/null || echo 24)}; cols=${LUCIDIO_MENU_COLS:-$(tput cols 2>/dev/null || echo 80)}
-    BOX_W=$(( cols - 2 )); [ "$BOX_W" -gt 66 ] && BOX_W=66; [ "$BOX_W" -lt 46 ] && BOX_W=46
-    VIS=$(( rows - 11 )); [ "$VIS" -gt "$N" ] && VIS=$N; [ "$VIS" -lt 4 ] && VIS=4
+    ROWS=${LUCIDIO_MENU_ROWS:-$(tput lines 2>/dev/null || echo 24)}; cols=${LUCIDIO_MENU_COLS:-$(tput cols 2>/dev/null || echo 80)}
+    BOX_W=$(( cols - 2 )); [ "$BOX_W" -gt 66 ] && BOX_W=66; [ "$BOX_W" -lt 46 ] && BOX_W=46; inner=$(( BOX_W - 4 ))
+    printf -v HL '%*s' $(( BOX_W - 2 )) ''; HL=${HL// /$F_H}
+    # what fits: the logo needs 9 rows for itself; the frame is (header rows + items + group rules + 9) tall. Short window: text title, then a scrolling flat list.
+    avail=$(( ROWS - 1 ))
+    LOGO_ON=0; GROUPED=1; VIS=$N
+    if [ "${LUCIDIO_MENU_LOGO:-auto}" != off ] && [ "$ASCII" = 0 ] && [ "$inner" -ge "$LOGO_W" ] && [ $(( 9 + N + ng + 9 )) -le "$avail" ]; then LOGO_ON=1; hdr=9; else hdr=1; fi
+    if [ $(( hdr + N + ng + 9 )) -gt "$avail" ]; then GROUPED=0; VIS=$(( avail - hdr - 9 - 1 )); [ "$VIS" -gt "$N" ] && VIS=$N; [ "$VIS" -lt 3 ] && VIS=3; fi
     [ "$SEL" -lt "$TOP" ] && TOP=$SEL; [ "$SEL" -ge $(( TOP + VIS )) ] && TOP=$(( SEL - VIS + 1 ))
-    # centred in the window, both ways (the frame is BOX_W wide and fh lines tall)
-    PAD=$(printf '%*s' $(( (cols - BOX_W) / 2 > 0 ? (cols - BOX_W) / 2 : 0 )) '')
-    fh=$(( 8 + VIS + (${#HDR2} > 0 ? 1 : 0) )); TOPROW=$(( (rows - fh) / 2 + 1 )); [ "$TOPROW" -lt 1 ] && TOPROW=1
-    [ "$last" != "$rows x $cols" ] && { printf '\e[2J'; last="$rows x $cols"; }      # window resized: wipe the old frame
+    PAD="${SPACES:0:$(( (cols - BOX_W) / 2 > 0 ? (cols - BOX_W) / 2 : 0 ))}"        # centred in the window
+    [ "$last" != "$ROWS x $cols" ] && { printf '\e[2J'; last="$ROWS x $cols"; }       # window resized: wipe the old frame
     draw_menu
     IFS= read -rsn1 -t 1 key; rc=$?
-    if [ "$rc" -gt 128 ]; then        # a second passed with no key: draw again, so the clock is live; the bot lines are re-read every 30 seconds
+    if [ "$rc" -gt 128 ]; then        # a second passed with no key: draw again, so the clock is live; the bot rows are re-read every 30 seconds
       tick=$(( tick + 1 )); [ $(( tick % 30 )) -eq 0 ] && refresh_header
       continue
     elif [ "$rc" -ne 0 ]; then printf '\e[?25h\e[2J\e[H'; return 1; fi   # the input ended
@@ -288,8 +391,9 @@ main() {
     shell   "Open a normal command line"
     update  "Pull changes from GitHub"
     status  "Bot status"
-    balance "MEXC account balance"
+    balance "Account balance"
     trades  "Trades and skipped signals"
+    details "Trading details"
     equity  "Equity over time"
     check   "Health check"
     log     "Recent log"
@@ -306,7 +410,7 @@ main() {
     if [ -n "${TERM:-}" ] && [ "$TERM" != dumb ]; then
       menu_select || break
     else   # no usable terminal: a numbered list
-      echo; echo "$HDR1"; [ -n "$HDR2" ] && echo "$HDR2"; echo "$(now_str)"; echo
+      clock_rows; echo; echo "$ST_WORD$(for x in "${STATS[@]}"; do printf ' | %s' "$x"; done)"; echo "$ACC"; echo "$CLK_LBL $CLK_LOC | UTC $CLK_UTC"; echo "$CLOSE_TXT ($CLOSE_CD left)"; echo
       for ((i=0;i<${#ITEMS[@]};i+=2)); do printf '  %2d) %s\n' $((i/2+1)) "${ITEMS[i+1]}"; done
       read -rp "Number (empty = leave): " n; [ -z "$n" ] && break
       CHOICE="${ITEMS[$(( (n-1)*2 ))]:-}"; [ -z "$CHOICE" ] && continue

@@ -371,3 +371,16 @@ node compare-live-vs-backtest.js --no-journal --state state.json --shadow-dir sh
  Remove it any time: `sudo bash /tmp/lucidio/deploy/install-shadow.sh --uninstall` (the data stays; add `--purge` to delete it).
 
 Moving a bot that is already running to the journal version: `UPGRADE-LIVE.md`.
+
+## 17. The VPS menu (`lucidio`)
+
+Type `lucidio` (or `menu`) after you sign in. It shows the logo, then the bot state (active / stopped / kill switch on) with the trade count and R, the account (mode, equity, risk), the clock
+(`PH` = your time, UTC) and the next 4-hour candle close with a countdown bar. The clock redraws every second, and the bot rows are re-read every 30 seconds. Items are in three groups: Tools, Monitor, Control
+(the red ones change something: kill switch, restart, disconnect).
+
+- **Trading details** (Monitor group) is where the per-coin numbers live: for each coin the trades, wins and losses, result in R and dollars, what is open, the last five trades; and the totals. The main screen shows no coin names.
+- **Account balance** replaces the old "MEXC account balance" item.
+- **Window size:** the logo needs a window of at least **37 rows** and 58 columns (maximise the window). A default 30-row window shows the text title "Lucid'io Bot" with every item, and a smaller one a scrolling list. Nothing breaks either way.
+- **Colours:** 24-bit colour is used (Windows Terminal and most terminals show it). On a terminal without it run `LUCIDIO_MENU_COLOR=16 lucidio`; `LUCIDIO_MENU_LOGO=off` hides the logo; `LUCIDIO_MENU_ASCII=1` draws plain characters.
+- **Your offset:** `PH` is UTC+8. Set `LUCIDIO_MY_UTC_OFFSET` (hours ahead of UTC) to show another zone, labelled `UTC+n`.
+- The design sheet is `design/menu-design.html` (open it in a browser). The menu is installed with the normal update, through **Pull changes from GitHub**.
