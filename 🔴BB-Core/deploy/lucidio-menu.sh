@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# lucidio-menu.sh - arrow-key menu for the Lucid'io VPS (Up/Down + Enter; Esc leaves).
+# lucidio-menu.sh - arrow-key menu for the Lucid'io VPS (arrow keys + Enter; Esc leaves). The header clock is live (redrawn every second).
 # Read-only except: kill switch, restart, Telegram test and "Pull changes from GitHub" (each asks first).
 #   lucidio                       status first, then the menu          (installed as /usr/local/bin/lucidio)
 #   lucidio --action trades       run one action and exit (status balance check trades equity log server update tg)
@@ -202,6 +202,15 @@ console.log(String(c.mode||"?").toUpperCase()+" "+(+c.riskPct*100).toFixed(1)+"%
 const co=st&&st.coins?Object.entries(st.coins):[];
 console.log(co.length?co.map(([k,x])=>k+" "+(x.pos?(x.pos.dir===1?"LONG":"SHORT"):"flat")).join(" | ")+" | "+co.reduce((a,[,x])=>a+(x.n||0),0)+" trades | "+(+st.totalR||0).toFixed(2)+"R":"no state yet")'
 HDR1=""; HDR2=""
+# the clock row: "PH: 11:56am | UTC: 3:56am | Close 4:00am UTC (12:00pm PH)". The Close part (the next 4-hour candle close) is drawn in yellow. Recomputed on every redraw, so it is live.
+# CLK_A = the two clocks, CLK_B = the next close. "PH" is your own clock (LUCIDIO_MY_UTC_OFFSET, +8 = Philippines); any other offset is labelled UTC+n.
+clock_line() {
+  local e=${LUCIDIO_NOW:-$(date +%s)} nx lbl=PH
+  [ "$MY_UTC_OFFSET" != 8 ] && lbl="UTC$(printf '%+d' "$MY_UTC_OFFSET")"
+  nx=$(( (e / 14400 + 1) * 14400 ))
+  CLK_A="$lbl: $(c12 $((e + MY_UTC_OFFSET * 3600))) | UTC: $(c12 "$e") | "
+  CLK_B="Close $(c12 "$nx") UTC ($(c12 $((nx + MY_UTC_OFFSET * 3600))) $lbl)"
+}
 refresh_header() {
   local st info
   st=$(systemctl is-active lucidio 2>/dev/null || true); [ -z "$st" ] && st=unknown
@@ -219,7 +228,8 @@ draw_menu() {
   printf '\e[%d;1H' "$TOPROW"
   rule "╭" "╮"
   frow "Lucid'io VPS" "$B$G""Lucid'io VPS$R"
-  frow "$HDR1"; [ -n "$HDR2" ] && frow "$HDR2"; frow "$(now_str)"
+  clock_line
+  frow "$HDR1"; [ -n "$HDR2" ] && frow "$HDR2"; frow "$CLK_A$CLK_B" "$CLK_A$B$Y$CLK_B$R"
   rule "├" "┤"
   for ((i = 0; i < VIS; i++)); do
     idx=$(( TOP + i ))
@@ -227,14 +237,14 @@ draw_menu() {
     if [ "$idx" -eq "$SEL" ]; then frow "  ${ITEMS[idx*2+1]}" "$B$G▶ ${ITEMS[idx*2+1]}$R"; else frow "  ${ITEMS[idx*2+1]}"; fi
   done
   rule "├" "┤"
-  if [ $(( TOP + VIS )) -lt "$N" ]; then frow "Up/Down: move    Ok (Enter)    Exit (Esc)    more below"; else frow "Up/Down: move    Ok (Enter)    Exit (Esc)"; fi
+  if [ $(( TOP + VIS )) -lt "$N" ]; then frow "Ok (Enter)    Exit (Esc)    Move (Arrow Keys)    more below"; else frow "Ok (Enter)    Exit (Esc)    Move (Arrow Keys)"; fi
   rule "╰" "╯"
   printf '\e[J'
 }
 # in: ITEMS (tag, label pairs), HDR1/HDR2.  out: CHOICE.  Returns 1 when Esc / q is pressed (or the input ends).
 menu_select() {
-  local key rest rows cols fh last=""
-  G=$'\e[92m'; B=$'\e[1m'; R=$'\e[0m'; N=$(( ${#ITEMS[@]} / 2 )); SEL=0; TOP=0
+  local key rest rows cols fh last="" rc tick=0
+  G=$'\e[92m'; Y=$'\e[93m'; B=$'\e[1m'; R=$'\e[0m'; N=$(( ${#ITEMS[@]} / 2 )); SEL=0; TOP=0
   printf '\e[?25l\e[2J'
   while true; do
     rows=${LUCIDIO_MENU_ROWS:-$(tput lines 2>/dev/null || echo 24)}; cols=${LUCIDIO_MENU_COLS:-$(tput cols 2>/dev/null || echo 80)}
@@ -246,7 +256,11 @@ menu_select() {
     fh=$(( 8 + VIS + (${#HDR2} > 0 ? 1 : 0) )); TOPROW=$(( (rows - fh) / 2 + 1 )); [ "$TOPROW" -lt 1 ] && TOPROW=1
     [ "$last" != "$rows x $cols" ] && { printf '\e[2J'; last="$rows x $cols"; }      # window resized: wipe the old frame
     draw_menu
-    IFS= read -rsn1 key || { printf '\e[?25h\e[2J\e[H'; return 1; }
+    IFS= read -rsn1 -t 1 key; rc=$?
+    if [ "$rc" -gt 128 ]; then        # a second passed with no key: draw again, so the clock is live; the bot lines are re-read every 30 seconds
+      tick=$(( tick + 1 )); [ $(( tick % 30 )) -eq 0 ] && refresh_header
+      continue
+    elif [ "$rc" -ne 0 ]; then printf '\e[?25h\e[2J\e[H'; return 1; fi   # the input ended
     case "$key" in
       $'\e') rest=""; IFS= read -rsn2 -t 0.1 rest || true
              case "$rest" in
