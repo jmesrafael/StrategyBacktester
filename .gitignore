@@ -26,3 +26,6 @@ SupabaseCredentials.txt
 
 # 1m candle cache for research/bollinger/late-entry.js
 research/bollinger/cache-1m/
+
+# BB-Core is now its own standalone repo (origin: bb-core.git)
+🔴BB-Core/

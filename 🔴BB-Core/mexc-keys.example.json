@@ -1,9 +1,0 @@
-{
-  "apiKey": "your MEXC API key (READ permission is enough for the dashboard; LIVE trading needs Order Placing too — never Withdraw)",
-  "apiSecret": "your MEXC API secret",
-  "telegramToken": "",
-  "telegramChatId": "",
-  "ledgerUrl": "Lucid'io Ledger: Supabase project URL (LEDGER/js/config.js SUPABASE_URL). Only used when bot-config.json has ledgerSync: true",
-  "ledgerKey": "Ledger publishable key (LEDGER/js/config.js SUPABASE_KEY)",
-  "ledgerBotKey": "secret printed by LEDGER/scripts/new-bot-key.mjs"
-}
