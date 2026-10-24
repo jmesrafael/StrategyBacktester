@@ -119,7 +119,7 @@ sudo -u lucidio env LUCIDIO_DASH_NO_OPEN=1 node /opt/lucidio/dashboard.js    # r
 ```
 
 Kill switch (no new entries; open trades keep their stop/target on MEXC): `sudo -u lucidio touch /opt/lucidio/STOP` - remove the file to resume.
-Settings (risk, coins, heartbeat) are re-read at every run; `riskPct` is capped at **1%**.
+Settings (risk, coins, heartbeat) are re-read at every run; `riskPct` is capped at **5%** (raised from 1% on Oct 24, 2026 at the owner's request; a hand-edited higher value is clamped to the cap with a warning). `maxRiskUsd` ($10) still caps any single trade.
 
 ## 5. Update later
 
@@ -278,7 +278,7 @@ node live-review.js --journal live-data/journal --history
 It writes `review/live-review-<date>.html` (open it in a browser), `.txt` and `.json`. Options: `--risk 0.005,0.01,0.02,0.05` (what-if levels), `--start-balance 52`, `--mode paper`, `--tolerance 0.05`.
 
 What the report contains: live trades paired with the backtest trade on the same candles (matched / live-only / backtest-only / skipped, with reasons); for every pair the R gap split into entry slippage, exit slippage, fees, funding and "the rest"; the journal reconciled against the MEXC account snapshots (USD that is in the account but not in the journal); live vs backtest equity as % of capital; and the **risk what-if**: the same trades re-sized at 0.5 / 1 / 2 / 5 % with the bot's own sizing (whole contracts, 20x cap, margin, 39R halt, compounding, **no $10 cap**). `--history` also runs the what-if over the full stored MEXC history, because ~24 live trades in 3 months cannot show profitability (the audit counts ~98 trades a year for SOL+ZEC).
-The bot itself stays capped at 1%: other risk levels exist only inside this simulation. Test: `node test/review-test.js`.
+The bot itself is capped at 5%: other risk levels exist only inside this simulation. Test: `node test/review-test.js`.
 
 ## 14. Updating the bot from GitHub (the "Pull changes from GitHub" menu entry)
 

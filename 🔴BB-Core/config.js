@@ -15,7 +15,7 @@ function assertAllowedSymbol(symbol, what = 'order') {
   return symbol;
 }
 const coinToSymbol = (coin) => `${coin}_USDT`;
-const MAX_RISK_PCT = 0.01;      // hard cap: 1% of balance per trade (audit §11 item 7: 0.25-0.5% for a first live phase; 5% = 94% chance of a >50% drawdown)
+const MAX_RISK_PCT = 0.05;      // hard cap: 5% of balance per trade. Raised from 1% on Oct 24, 2026 at the owner's explicit request (the audit, §11 item 7, advised 0.25-0.5% for a first live phase: 5% = 94% chance of a >50% drawdown)
 
 const DEFAULTS = {
   mode: 'paper', coins: ['SOL', 'ZEC'], riskUsd: 1, riskPct: 0, maxRiskUsd: 10, maxRiskMult: 1.5, maxLeverage: 20, startBalance: 100,
@@ -27,7 +27,7 @@ const DEFAULTS = {
 const FIELDS = {
   mode:             { type: 'enum', values: ['paper', 'live'], label: 'Mode', help: 'paper = simulated account; live = real orders on MEXC' },
   coins:            { type: 'coins', values: COINS, min: 1, label: 'Coins', help: 'the bot trades SOL and ZEC only; untick one to pause it' },
-  riskPct:          { type: 'number', min: 0, max: MAX_RISK_PCT, label: 'Risk per trade (% of balance)', help: '0 = use the fixed $ amount instead. Hard cap 1%; the audit suggests 0.25–0.5% for a first live phase' },
+  riskPct:          { type: 'number', min: 0, max: MAX_RISK_PCT, label: 'Risk per trade (% of balance)', help: '0 = use the fixed $ amount instead. Hard cap 5% (raised from 1% on Oct 24, 2026); the audit suggests 0.25–0.5% for a first live phase' },
   riskUsd:          { type: 'number', min: 0.1, max: 100, label: 'Fixed risk per trade ($)', help: 'used when % risk is 0' },
   maxRiskUsd:       { type: 'number', min: 0.5, max: 500, label: 'Max risk per trade ($)', help: 'hard cap on any trade, also when % risk grows the amount' },
   maxRiskMult:      { type: 'number', min: 1, max: 3, label: 'Max over-size from contract rounding (×)', help: 'skip a trade if whole contracts would risk more than this × the target' },

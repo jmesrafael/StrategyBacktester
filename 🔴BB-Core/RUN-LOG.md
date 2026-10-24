@@ -41,5 +41,10 @@ Result: **no signal on any candle that closed from Oct 23, 12:00am PH to now, fo
 - The only recent backtest trade near this window is a ZEC LONG entered Oct 21, 8:00pm UTC and closed Oct 24, 12:00am UTC. It was entered **before** the bot started, so the bot does not hold it and the bot's own results do not include it.
 - Last completed backtest trades: SOL Oct 18 (8:00pm UTC) to Oct 19; ZEC Oct 18 to Oct 19, then the Oct 21 LONG above.
 
+### Oct 24, 2026 · risk per trade raised to 5% (decision by the owner)
+- Code updated to `2378252` and the menu to the version with the progress bar; the bot restarted at 2:35pm UTC, LIVE at 0.5%, strategy file unchanged. At $52.31 and 0.5% the sizing check said "NOT tradable" for both coins (one contract risks more than 1.5x the $0.26 target).
+- The owner asked for **5%** and confirmed lifting the old 1% hard cap. `MAX_RISK_PCT` is now 5% (config.js). Note for later: the 39R halt is meant for 1% risk; at 5% it is far beyond the whole account, so it no longer limits losses. `maxRiskUsd` ($10) still caps one trade (it starts to bind above about a $200 balance).
+- The cap change reaches the VPS with the next pull; the live value is set on the server with the config command in VPS-UPDATE-GUIDE.md (section 8). Proof it took effect: `lucidio.js check` risk row says 5%.
+
 ### How to add an entry
 Date it ("Oct 25, 2026"), say what happened (first trade, a restart, an update, mode change, a problem) and where the proof is (journal line, log, Telegram message). Keep it short.

@@ -31,7 +31,7 @@ const c = JSON.parse(require("fs").readFileSync("bot-config.json", "utf8")), bad
 if (c.mode !== "paper") bad.push("mode is " + c.mode + " (must be paper in a bundle)");
 if (c.heartbeatUrl) bad.push("heartbeatUrl is set (it is a secret ping URL: set it on the server, not in the bundle)");
 if (c.ledgerSync) bad.push("ledgerSync is true");
-if (!(c.riskPct <= 0.01)) bad.push("riskPct " + c.riskPct + " is above the 1% cap");
+if (!(c.riskPct <= 0.01)) bad.push("riskPct " + c.riskPct + " in the shipped template is above 1% (the template stays conservative; the live value is set on the server)");
 if (bad.length) { console.error("FAIL bot-config.json: " + bad.join("; ")); process.exit(1); }
 console.log("bot-config.json: mode paper, riskPct " + c.riskPct + ", heartbeatUrl empty, ledgerSync off - ok");'
 if grep -lq $'\r' deploy/*.sh deploy/*.service deploy/*.timer 2>/dev/null; then echo "FAIL: CRLF line endings in deploy/ (bash and systemd need LF)"; exit 1; fi

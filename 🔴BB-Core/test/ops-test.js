@@ -37,11 +37,11 @@ mexc.serverTime = async () => { timeCalls++; return { data: Date.now(), ms: 10 }
 
 (async () => {
   // ---------- 1. risk cap ----------
-  ok(config.MAX_RISK_PCT === 0.01 && config.FIELDS.riskPct.max === 0.01, 'riskPct cap is 1% in config.js (MAX_RISK_PCT and the Settings field limit)');
-  const v = config.validate({ riskPct: 0.02 }); ok(!v.ok && v.errors.riskPct, `dashboard/settings write of riskPct 2% is refused (${v.errors.riskPct})`);
-  ok(config.validate({ riskPct: 0.01 }).ok && config.validate({ riskPct: 0.005 }).ok, 'riskPct 1% and 0.5% are accepted');
-  writeCfg({ riskPct: 0.05 });
-  const c5 = config.load(); ok(c5.riskPct === 0.01 && c5.riskPctClamped === 0.05, 'a hand-edited riskPct of 5% is clamped to 1% on load (and remembered for the warning)');
+  ok(config.MAX_RISK_PCT === 0.05 && config.FIELDS.riskPct.max === 0.05, 'riskPct cap is 5% in config.js (MAX_RISK_PCT and the Settings field limit; raised from 1% on Oct 24, 2026 by the owner)');
+  const v = config.validate({ riskPct: 0.06 }); ok(!v.ok && v.errors.riskPct, `dashboard/settings write of riskPct 6% is refused (${v.errors.riskPct})`);
+  ok(config.validate({ riskPct: 0.05 }).ok && config.validate({ riskPct: 0.01 }).ok && config.validate({ riskPct: 0.005 }).ok, 'riskPct 5%, 1% and 0.5% are accepted');
+  writeCfg({ riskPct: 0.10 });
+  const c5 = config.load(); ok(c5.riskPct === 0.05 && c5.riskPctClamped === 0.10, 'a hand-edited riskPct of 10% is clamped to the 5% cap on load (and remembered for the warning)');
 
   // ---------- 2. live gate ----------
   ok(bot.liveAllowed() === false, 'live is NOT allowed by default (no --allow-live, no LUCIDIO_ALLOW_LIVE)');

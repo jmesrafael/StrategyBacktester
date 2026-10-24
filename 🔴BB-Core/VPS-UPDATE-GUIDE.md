@@ -240,6 +240,29 @@ On the MEXC API page the field is **Link IP Address (optional)**: "keys that are
 
 ---
 
+## 8. Risk per trade 5% (decided Oct 24, 2026)
+
+The old code caps the risk at 1% and silently clamps anything higher, so the order matters: **first** get the new code on the VPS (the cap is now 5%), **then** set the value.
+
+1. Do steps 3a to 3e (publish to bb-core, pull from the menu). 
+2. **VPS**: set the live value (the bot re-reads settings at every run, no restart needed; the file is never overwritten by updates):
+
+   ```bash
+   sudo -u lucidio node -e 'const c=require("/opt/lucidio/config.js");const v=c.validate({riskPct:0.05});if(!v.ok){console.error(v.errors);process.exit(1)}c.save(v.next);console.log("riskPct saved:",v.next.riskPct)'
+   ```
+
+   It must print `riskPct saved: 0.05`. An error means the VPS still has the old code (cap 1%): do step 1 first.
+3. **VPS**: confirm:
+
+   ```bash
+   sudo -u lucidio env LUCIDIO_ALLOW_LIVE=1 node /opt/lucidio/lucidio.js check | grep -E "risk|sizing"
+   ```
+
+   The `risk` row says `5% of balance per trade`, with no WARN about a clamp. The `sizing` rows should now read `N contracts, real risk $...` instead of "NOT tradable".
+4. Take it back any time with the same command and `riskPct:0.005`.
+
+What 5% means on $52.31: target risk about $2.62 per trade (a single trade is also capped at `maxRiskUsd`, $10, which starts to bind above about a $200 balance). Each stop-out loses about 5% of the balance, so 8 stop-outs in a row is roughly a 34% drop. The 39R halt is designed for 1% risk: at 5% it is far beyond the whole account, so it no longer limits losses; the kill switch (menu: Kill switch) is the tool you have.
+
 ## 7. The whole thing as one checklist
 
 - [ ] 1. Supabase: `20261113000000_bot_ask.sql` ran, the check query says `true`
