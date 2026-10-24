@@ -12,7 +12,7 @@ Every command says where it runs: **PC** (Git Bash or PowerShell, in the `🔴BB
 |---|---|---|---|
 | 1 | Supabase: the "Ask bot now" request type (`20261113000000_bot_ask.sql`) | Supabase (SQL editor) | nothing else |
 | 2 | Dashboard: Ask bot now button, `/api/ask`, `/api/poll`, 4-hour status logic | Vercel (LEDGER repo) | step 1 first |
-| 3 | Bot code: journal, compare tools, shadow recorder files, dashboard poll, reserve API key, watchdog key alerts, new menu | VPS (`/opt/lucidio`) | pushed to GitHub, then the menu's "Pull changes from GitHub" |
+| 3 | Bot code: journal, compare tools, shadow recorder files, dashboard poll, reserve API key, watchdog key alerts, new menu | VPS (`/opt/lucidio`) | published to the **bb-core** repo (3a), then the menu's "Pull changes from GitHub" |
 | 4 | Shadow recorder (separate service, own user, optional) | VPS (`/opt/lucidio-shadow`) | does not touch the bot, can be done any time |
 | 5 | MEXC key linked to the VPS IP (never expires) + optional reserve key | MEXC website, VPS | step 3 done |
 
@@ -63,9 +63,18 @@ Check: open the bot dashboard page → log in → **Status** tab. You now see an
 
 This is all you do on the PC for the bot: **commit and push**. You never run `package.sh` or `scp` for it; the menu pull in 3d builds and installs everything on the VPS.
 
-The VPS pulls from the GitHub repo `jmesrafael/bb-core` (DEPLOY.md section 14). Commit and push the **BB-Core** changes the way you normally do (VS Code Source Control → the BB-Core repository → Commit → Sync Changes).
+**Important:** the VPS pulls from the GitHub repo `jmesrafael/bb-core`, which is a **different repository** from the StrategyBacktester one your normal VS Code commits go to (it has its own history). Committing here does **not** change what the VPS sees; if the VPS menu shows an old commit, this is why.
 
-Make sure the right repository got it: on GitHub open `jmesrafael/bb-core` and look for the file `keyinfo.js` in the main folder. **If it is not there**, the push went to a different repository: stop and tell me which repositories VS Code shows, I will work out the correct push with you.
+1. Commit the BB-Core changes in your normal repository (VS Code, as always).
+2. **PC** (Git Bash, in the `🔴BB-Core` folder): copy the committed files into a local clone of bb-core and review them:
+
+   ```bash
+   bash deploy/publish-to-bbcore.sh
+   ```
+
+   It stops after listing the changed files (it never commits or pushes by itself) and checks that `lucidio-core.js` is still `7cc03e24e38143b9303eb260cf1830a0e38b2e34`. `keyinfo.js` must be in the list.
+3. Publish with the two commands it prints (commit and `push origin main` inside `~/bb-core-publish`).
+4. Check on GitHub: `jmesrafael/bb-core` shows a new commit and `keyinfo.js` in the main folder.
 
 Optional (the VPS runs its own safety tests during the pull): run the full safety tests on your PC (**PC**, Git Bash, in `🔴BB-Core`):
 
