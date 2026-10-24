@@ -18,13 +18,15 @@ else
 fi
 STAGE="$(mktemp -d)"; trap 'rm -rf "$STAGE"' EXIT
 git archive --format=tar HEAD "$FOLDER" | tar -x -C "$STAGE" --strip-components=1 --exclude='.git-nested-backup'
+OLD_CORE="$(git -C "$WORK" hash-object "$WORK/lucidio-core.js" 2>/dev/null || echo none)"   # the strategy file as bb-core has it now
 find "$WORK" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
 cp -a "$STAGE/." "$WORK/"
 git -C "$WORK" add -A
 echo; echo "== what will change in bb-core"; git -C "$WORK" status --short | head -60; echo "   ($(git -C "$WORK" status --short | wc -l) files)"
 [ -n "$(git -C "$WORK" status --porcelain)" ] || { echo "bb-core is already identical to this commit: nothing to publish."; exit 0; }
 for f in keyinfo.js lucidio-core.js; do [ -f "$WORK/$f" ] || { echo "WARNING: $f is missing from the copy: do not push."; exit 1; }; done
-echo; echo "lucidio-core.js in the copy: $(git hash-object "$WORK/lucidio-core.js")   (must be 7cc03e24e38143b9303eb260cf1830a0e38b2e34)"
+NEW_CORE="$(git -C "$WORK" hash-object "$WORK/lucidio-core.js")"
+echo; if [ "$OLD_CORE" = "$NEW_CORE" ]; then echo "lucidio-core.js (the strategy): UNCHANGED compared with bb-core."; else echo "WARNING: lucidio-core.js DIFFERS from bb-core ($OLD_CORE -> $NEW_CORE). That changes how the bot decides: do not push unless you meant it."; fi
 echo; echo "Review it, then publish with:"
 echo "  git -C \"$WORK\" commit -m \"update bot: ask-now poll, reserve API key, progress menu\""
 echo "  git -C \"$WORK\" push origin main"
