@@ -182,7 +182,7 @@ Run for **at least 14 days** (>= 80 runs) before you spend a second on live. Row
 | M16 | Journal | after the first trade: `sudo tail -n 3 /opt/lucidio/journal/trades.jsonl` | one `entry` and one `exit` line per trade, skipped signals as `skip` lines, a `session` line per bot start | `check` journal row (writable?) |
 | M17 | Live vs backtest | after 1-2 days: `ls /opt/lucidio/audit/out/` and read the newest `compare-*.txt` | a file per day; `RESULT: MATCH`, or every INVESTIGATE item explained (section 11) | `systemctl status lucidio-compare.timer` |
 | M18 | Dashboard (if configured) | open the dashboard page | banner ALIVE, last heartbeat under 6 minutes, `PAPER` badge, trades match `status` | section 12; `check` dashboard row |
-| M14 | Strategy evidence | `AUDIT-REPORT.md` section 8 | **not decidable in 14 days.** The audit wants >= 120 days and >= 25 closed trades, plus the shadow recorder, before live | keep paper running |
+| M14 | Strategy evidence | the strategy audit (`audit/AUDIT-REPORT.md` section 8, in the StrategyBacktester repo under `research/bb-core/`) | **not decidable in 14 days.** The audit wants >= 120 days and >= 25 closed trades, plus the shadow recorder, before live | keep paper running |
 
 Upgrade to 2 GB or more RAM if: `MemoryPeak` stays above ~300 MB, `free -m` shows < 150 MB available or constant swap use, `NRestarts` rises from OOM kills
 (`journalctl -k \| grep -i "out of memory"`), or you add the shadow recorder / more coins. More RAM would add headroom only; it does not make execution faster.
@@ -280,13 +280,13 @@ It writes `review/live-review-<date>.html` (open it in a browser), `.txt` and `.
 What the report contains: live trades paired with the backtest trade on the same candles (matched / live-only / backtest-only / skipped, with reasons); for every pair the R gap split into entry slippage, exit slippage, fees, funding and "the rest"; the journal reconciled against the MEXC account snapshots (USD that is in the account but not in the journal); live vs backtest equity as % of capital; and the **risk what-if**: the same trades re-sized at 0.5 / 1 / 2 / 5 % with the bot's own sizing (whole contracts, 20x cap, margin, 39R halt, compounding, **no $10 cap**). `--history` also runs the what-if over the full stored MEXC history, because ~24 live trades in 3 months cannot show profitability (the audit counts ~98 trades a year for SOL+ZEC).
 The bot itself stays capped at 1%: other risk levels exist only inside this simulation. Test: `node test/review-test.js`.
 
-## 14. Updating the bot from GitHub (the "Update the bot code" menu entry)
+## 14. Updating the bot from GitHub (the "Pull changes from GitHub" menu entry)
 
-The bot code has its own private repo, `jmesrafael/bb-core` (only this folder, not the whole StrategyBacktester). Workflow: **edit and commit here on the PC -> `bash deploy/publish.sh` -> on the VPS, `lucidio` -> "Update the bot code from GitHub"**.
+The bot code has its own private repo, `jmesrafael/bb-core` (only this folder, not the whole StrategyBacktester). Workflow: **edit here on the PC, commit and push (VS Code: the BB-Core repository -> Commit -> Sync Changes, or `git push`) -> on the VPS, `lucidio` -> "Pull changes from GitHub"**.
 
 What the menu entry does, step by step (nothing is installed unless every step passes):
 1. fetches the repo into a read-only mirror at `/opt/lucidio-src` (root-owned, never edited) and shows what is new, with a diff summary against the installed version;
-2. asks "Install this update? [y/N]"; refuses near a 4-hour candle close (5 min before to 12 min after) unless you type `force`;
+2. asks "Pull these changes? [y/N]"; refuses near a 4-hour candle close (5 min before to 12 min after) unless you type `force`;
 3. runs `selftest`, `ops-test`, `journal-test` and `fixes-test` on the new code. **Any failure stops the update; the bot keeps the old code**;
 4. builds the bundle with the same `deploy/package.sh` (secrets scan included) and installs it with the same `deploy/setup-vps.sh` as a manual update. Your `bot-config.json`, `state/`, `journal/`, `.env` and `mexc-keys.json` are never touched, and `LUCIDIO_ALLOW_LIVE` stays as it is;
 5. waits 8 s; if the bot is not running again it **rolls back to the previous code automatically** (`deploy/rollback.sh`); otherwise it records the installed commit and sends "code updated to <commit>" to Telegram.
@@ -295,3 +295,79 @@ What the menu entry does, step by step (nothing is installed unless every step p
 **One-time setup on the VPS** (the menu walks you through it): choose the update entry, paste `git@github.com:jmesrafael/bb-core.git`; it creates a key for this server and prints it. On GitHub: repo `bb-core` -> Settings -> Deploy keys -> Add deploy key -> paste it, leave "Allow write access" **unchecked** (the server can only read). Press Enter in the menu to continue.
 
 Safety notes: pushing to `main` does not touch the bot; only clicking Update does. Turn on two-factor authentication on the GitHub account, because whoever can push to `bb-core` can change the code that trades. To make that harder, set `LUCIDIO_UPDATE_BRANCH=release` and only move the `release` branch when you mean to ship. Test it without installing: `LUCIDIO_UPDATE_DRYRUN=1 lucidio --action update`.
+
+## 15. Money in and out: queued money stays in Spot, Update Pool, and what the dashboard shows
+
+The bot's results never move the pool by themselves. Full design, numbers and settings: `🔴LEDGER/docs/pool-update.md`. What changes on this server and in your routine:
+
+- **Queued money stays in MEXC Spot.** A joiner's USDT arrives in **Spot**, never straight into Futures. The bot sizes on Futures equity, so money in Spot is not traded and
+  cannot change the position size or take part in a trade before the person is in the pool.
+- **Acceptance includes the Spot -> Futures transfer.** In the ledger: Record -> Balance -> **Update Pool** (or **Update Pool and accept ticked**). Right after you click, in MEXC
+  transfer the accepted amount from **Spot to Futures**. The bot's next run (within 4 hours) sees the larger Futures equity and sizes the next trade on it. That increase is capital, not profit.
+- **Withdrawals:** Update Pool first, then Redeem; then Futures -> Spot, withdraw, and click **Sent from MEXC** in the same sitting.
+- **Only a flat account can move money** (no open position, both coins). From the backtest the account is flat only about 19% of the time and a random moment waits about 5 days (median).
+  Collect joins and payouts, set a cut-off, pause new entries with the kill switch, and act at the first flat window. `node flat-time-report.js` prints the numbers.
+- **To see dollar P&L on the dashboard in live mode** set `DASHBOARD_SHARE_LIVE_EQUITY=true` in `/opt/lucidio/.env` (privacy trade-off: the password-protected dashboard then shows real dollar
+  amounts). Without it live exits arrive without a dollar figure and Update Pool cannot add up the pending result.
+- **Bot config:** leave `"ledgerSync"` as it is. Even when on, the bot can no longer move the unit price: the ledger setting `bot_equity_sync` is `off`; only snapshots (balance, open positions, unrealized)
+  are accepted, and they feed the reconciliation.
+- **Dashboard:** capital added or paid out appears as labeled steps on the Capital chart and in the log, is taken out of "change since start", and never shows on the Performance curve or in the trade statistics.
+  It reads the ledger's `capital_flows` view with the Vercel service-role key (nothing new to configure; before the ledger migration exists the dashboard simply shows no flows).
+
+### Order of the Supabase files (staging first, never production first)
+
+`20261106000000_capital_workflow.sql`, `20261109000000_settlement_controls_backup.sql`, `20261110000000_contact_details.sql`, `20261111000000_bot_events.sql`, then
+`20261112000000_pool_update.sql` (each only if it is not already applied; apply in filename order). Rollback for the last one: `supabase/rollback/20261112000000_rollback_pool_update.sql`.
+Then deploy the dashboard files (`dashboard/lib`, `dashboard/api`, `dashboard/bot-dashboard`, already copied into the ledger project) and the ledger page (`js/poolupdate.js`, `js/app.js`, `index.html`).
+
+## 16. Shadow recorder (optional sidecar for live-vs-backtest data; install it WITHOUT restarting the bot)
+
+A separate, read-only process that records every finished 4-hour candle next to the live bot, so `compare-live-vs-backtest.js` can show what the engine decided on the same candles, and when they were fetched.
+Per finished candle and per coin it saves: the last 200 closed candles plus the new (forming) candle exactly as fetched, the indicator values (BB upper/mid/lower, SMA200, ATR14, distance to the nearest threshold),
+the decision the engine makes on them (LONG / SHORT / none, stop, target, the reasons), the order book and fees, and the **fetch time** (when the response arrived, how long the request took, how many seconds after the close,
+a `late` flag). Every line carries the bot journal's own match key: **symbol + side + signal candle open (UTC ms)** (`matchkey.js`).
+
+What isolates it from the bot (all enforced, none of it is a promise):
+- **Own user, own folders:** user `lucidio-shadow`; code in `/opt/lucidio-shadow` (owned by root, so it cannot change its own code); data in `/var/lib/lucidio-shadow`.
+- **No keys, no bot files:** the systemd unit hides `/opt/lucidio`, `/var/backups` and `/etc/lucidio` from it (`InaccessiblePaths`), so `mexc-keys.json`, `.env`, `state/` and `journal/` do not exist for it; `ProtectSystem=strict` makes everything else read-only except its data folder; the code never imports `mexc.js` and every write is path-checked inside its data folder.
+- **Public GETs only:** its single network function refuses anything that is not an https GET to `contract.mexc.com` / `fapi.binance.com` or whose path contains private, order, account, position, stoporder, asset or trade.
+- **Nothing shared with the bot:** no file, socket or lock. Stopping, killing or crashing it cannot change what the bot does. It restarts itself (`Restart=always`) and logs to the journal (capped by the journald limit above).
+- **Disk limits:** files are rotated per UTC day, gzipped after a day, the oldest are deleted while the folder is over 300 MB (`SHADOW_MAX_MB` in the unit), and it stops writing when less than 500 MB of disk is free.
+
+**Install without touching the bot** (the bot service is never stopped, started or restarted; the installer prints the bot's start time before and after as proof):
+
+**PC** (Git Bash, in the `🔴BB-Core` folder):
+```bash
+bash deploy/package-shadow.sh
+```
+**PC** (PowerShell; replace `YOUR_IP` and `admin`):
+```powershell
+scp lucidio-shadow.tar.gz lucidio-shadow.tar.gz.sha256 admin@YOUR_IP:/tmp/
+```
+**VPS**:
+```bash
+cd /tmp && sha256sum -c lucidio-shadow.tar.gz.sha256 && tar -xzf lucidio-shadow.tar.gz
+sudo bash /tmp/lucidio/deploy/install-shadow.sh
+```
+(With a full bundle already extracted you can instead run `sudo bash deploy/setup-vps.sh --shadow-only`, which does only this. `setup-vps.sh --with-shadow` installs it after a normal update, which restarts the bot as every update does.)
+
+Check it:
+```bash
+sudo systemctl status lucidio-shadow --no-pager | head -6
+sudo cat /var/lib/lucidio-shadow/status.json                        # last cycle, bytes, errors
+sudo ls -lh /var/lib/lucidio-shadow | head                          # records-<day>.jsonl and windows-<day>.jsonl appear after the next candle close + 2 s
+sudo -u lucidio-shadow cat /opt/lucidio/.env                        # must fail: Permission denied / No such file (it cannot see the bot's folder)
+```
+The first records appear at the next 4-hour close. Once the bot runs the journal version, its daily compare job (`lucidio-compare`) picks the folder up by itself (`/var/lib/lucidio-shadow`) and joins the recorder to the journal on the match key.
+**Before that upgrade** the bot on the VPS has the old compare script, so compare on your PC against copies (the report lists what the no-journal mode cannot check):
+
+**VPS**: `sudo cp /opt/lucidio/state/state.json /tmp/state.json && sudo chmod 644 /tmp/state.json`
+**PC** (PowerShell, in the `🔴BB-Core` folder):
+```powershell
+scp admin@YOUR_IP:/tmp/state.json .
+scp -r admin@YOUR_IP:/var/lib/lucidio-shadow ./shadow-copy
+node compare-live-vs-backtest.js --no-journal --state state.json --shadow-dir shadow-copy --out-dir compare-out
+```
+ Remove it any time: `sudo bash /tmp/lucidio/deploy/install-shadow.sh --uninstall` (the data stays; add `--purge` to delete it).
+
+Moving a bot that is already running to the journal version: `UPGRADE-LIVE.md`.

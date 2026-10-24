@@ -63,3 +63,11 @@ Only SOL_USDT / ZEC_USDT events. Never API keys, tokens, the chat id, IP address
 
 A real deploy and real delivery need your Vercel and Supabase access. Tested locally (`node test/dashboard-test.js`): signature, replay, schema, outbox catch-up, aggregation, auth cookie.
 Not tested: the Vercel runtime itself (reading the raw body from the stream, Supabase REST calls, the page in a browser, the in-memory rate limiter across instances).
+
+## Capital added or paid out (from the ledger)
+
+`GET /api/data` also reads the ledger's `capital_flows` view (deposits when they join the pool, payouts when marked sent; signed, no names) with the same service-role key. It exists only after
+the ledger migration `20261112000000_pool_update.sql` is applied; before that the dashboard simply shows no flows. Capital is **not** profit or loss: it is taken out of "change since start", shows as
+labeled steps on the Capital chart and in the log, never appears on the Performance tab (balance with capital taken out, plus a time-weighted return) and never enters the trade statistics.
+Flows are applied to live data only; the paper balance has none. Tests: `node test/capital-flows-test.js`. The page also shows when the bot last reported ("Updated ... ago", the newest heartbeat or event).
+Live dollar figures need `DASHBOARD_SHARE_LIVE_EQUITY=true` on the VPS; see `DEPLOY.md` section 15.

@@ -4,7 +4,7 @@ The profitable version of the Bollinger-band strategy, pulled out of the app and
 self-contained folder. No browser, no npm packages — just Node 18+.
 
 ```
-node backtest.js                      # every coin in data/ (NEAR, ADA, + whatever you fetched)
+node backtest.js                      # every coin in data/ (SOL and ZEC; fetch others with fetch-data.js)
 node backtest.js SOL,ZEC,BTC          # chosen coins + a combined portfolio line
 node backtest.js SOL --trades         # print every trade
 node backtest.js SOL --costs 3        # stress test: fees + slippage x3   (--costs 0 = frictionless)
@@ -12,7 +12,7 @@ node backtest.js SOL --risk 10 --target 3 --bars 48
 node fetch-data.js SOL,ZEC,BTC        # download 4h candles + funding from Binance (public API, no key)
 ```
 
-`data/` ships with NEAR and ADA (candles + funding). SOL / ZEC / BTC were fetched with `fetch-data.js` and are in `data/` as well.
+`data/` ships with SOL and ZEC (Binance and MEXC candles + funding): the two coins the bot trades. The candles of the other coins that were screened (BTC, NEAR, ADA) are in the StrategyBacktester repo under `research/bb-core/data-other-coins/`.
 
 ## What's in here
 
@@ -21,15 +21,9 @@ node fetch-data.js SOL,ZEC,BTC        # download 4h candles + funding from Binan
 | [lucidio-core.js](lucidio-core.js) | **The algorithm.** `backtest(candles, cfg, funding)` — the whole strategy + `stats()`. ~100 lines, no dependencies. |
 | [backtest.js](backtest.js) | Command-line runner: loads `data/<COIN>.json`, prints trades, per-year profit, drawdown, portfolio. |
 | [fetch-data.js](fetch-data.js) | Downloads Binance USDT-M 4h candles + real funding rates (`--mexc` for MEXC perpetuals). |
-| [stress.js](stress.js) | SOL + ZEC under heavier fees / slippage, every year, Binance and MEXC → `docs/results-stress.md`. |
-| [viewer.html](viewer.html) | Trigger checker screen: chart + independent audit of every trade. |
 | [lucidio.js](lucidio.js) | Auto-trader for SOL + ZEC on MEXC: paper by default, live with [live.js](live.js) + [mexc.js](mexc.js). `deploy/` = VPS setup, `test/` = self-test. |
 | `data/` | 4h candles `[time, o, h, l, c, v]` and `data/funding/` `[time, rate]`. |
-| [TOP-COINS.md](TOP-COINS.md) | **Our best coins**, ranked, with the ones to avoid. |
-| [docs/REPORT-bb-deep.md](docs/REPORT-bb-deep.md) | The full 6-year analysis (which years/regimes work, drawdown risk, ideas tested and rejected). |
-| [docs/COIN-REGISTRY-bb-breakout.md](docs/COIN-REGISTRY-bb-breakout.md) | Every coin already screened — which ones work, which are too illiquid. |
-| [docs/results-rr4-allyears.md](docs/results-rr4-allyears.md) | Year-by-year and month-by-month P&L per coin at 1:3 / 1:4 / 1:5. |
-| `app-reference/` | The same rules as they live in the browser app (`bb-breakout-strategy.js` = backtest strategy, `bbx.js` = chart indicator with setup alerts). Note the app files default to a 3R target; this folder uses the final 4R. |
+| `research/bb-core/` (StrategyBacktester repo) | Not needed to run the bot: the strategy audit and reports, the top-coins list, the stress test, the trigger-checker page (`viewer.html`), the browser-app reference rules and the other coins' candles. |
 
 ## How it works
 
@@ -84,7 +78,7 @@ Portfolio by year: 2020 +$329 · 2021 +$525 · 2022 +$278 · 2023 +$367 · 2024 
 **Cost stress (5 coins):** frictionless +$2,635 → real +$2,348 → fees×2 +$2,089 → fees×3 +$1,834. Still positive every year at ×3.
 (BTC is the most cost-sensitive: its stops are about half as wide, so fees are a bigger share of each trade.)
 
-### SOL + ZEC at 0.08% fees + slippage, every year — [docs/results-stress.md](docs/results-stress.md) (`node stress.js`)
+### SOL + ZEC at 0.08% fees + slippage, every year (script and report: `stress.js` and `docs/results-stress.md` under `research/bb-core/` in the StrategyBacktester repo)
 
 0.08% fee on **every** fill (entry and exit, no maker discount on targets) + 0.05% slippage on every fill, real funding, $5 risk:
 
@@ -98,20 +92,9 @@ Portfolio by year: 2020 +$329 · 2021 +$525 · 2022 +$278 · 2023 +$367 · 2024 
 \*2020 partial, 2026 to 21 Oct. The pair is positive **every year** in every scenario, up to 0.10% fees + 0.15% slippage (+$726 on MEXC).
 ZEC alone has losing years on MEXC (2022, 2023), and ZEC on MEXC is weaker than on Binance (+$395 vs +$547). Run the two coins together.
 
-## Trigger checker screen — [viewer.html](viewer.html)
+## Trigger checker screen
 
-```
-npm run serve        (from the repo root)   →   http://localhost:8137/🔴BB-Core/viewer.html
-```
-
-- Chart with the Bollinger bands, SMA200 and every trade (arrows = entries, circles = exits with R). Pick SOL/ZEC on Binance, MEXC files,
-  or **MEXC LIVE** (latest closed candles through the server's MEXC proxy). Switch the cost model (default: 0.08% fee + 0.05% slip).
-- The trades come from the same `lucidio-core.js` the bot runs. The page then **re-derives every trade with separate code** (its own
-  Bollinger/SMA/ATR and its own exit walk), and scans every flat candle for a signal the engine might have missed. The audit box shows ✓/✗.
-- Click a trade → it lists each rule for that signal candle with the numbers (close vs band, vs SMA200, stop ≥ 0.3 ATR, stop = middle band,
-  target = 4×, fill = next open + slippage, exit reason). Click any candle → what the rules say about it. ←/→ step through trades.
-- Checked: SOL, ZEC, MEXC SOL, MEXC ZEC, BTC — all trades ✓, 0 missed signals. Planting a bug in the engine (band 1.9σ, or a 47-candle
-  exit) makes the audit fail (44 / 97 trades ✗), so the check is real.
+The chart page that re-derives every trade with separate code moved out of this folder, because the bot does not use it: `research/bb-core/viewer.html` in the StrategyBacktester repo (`npm run serve` from that repo's root, then http://localhost:8137/research/bb-core/viewer.html). It still loads this folder's `lucidio-core.js` and `data/`.
 
 ## Read this before trusting it
 
@@ -152,7 +135,7 @@ node test/selftest.js          # live executor vs a simulated MEXC: same trades 
 - **Kill switch:** create an empty file named `STOP` in this folder → no new entries (open trades still managed).
 - State, trades and logs in `state/` (`state.json`, `bot.log`, `runs.jsonl`, `events.jsonl`). It survives restarts: it re-reads state and
   processes every candle it missed. `state/` remembers its mode — rename it (e.g. `state-paper`) before switching paper → live.
-- The entry rule is the same `signalFrom()` the backtest uses; `replay`: SOL, ZEC, BTC, NEAR, ADA **identical trade-for-trade**.
+- The entry rule is the same `signalFrom()` the backtest uses; `replay`: SOL and ZEC **identical trade-for-trade** (BTC, NEAR and ADA were identical too when their candles were here).
 - Paper results exclude funding (small: ~4% of profit historically). Live trades record MEXC's real fees and funding.
 
 ### LIVE: what the bot does on MEXC — [live.js](live.js)

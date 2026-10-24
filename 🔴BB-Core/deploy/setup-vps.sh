@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Lucid'io - VPS setup AND update in one script. Ubuntu 22.04 / 24.04. RE-RUNNABLE: every step checks before it acts.
-#   sudo bash deploy/setup-vps.sh [--admin-user NAME] [--skip-ssh-hardening] [--ssh-port N]
+#   sudo bash deploy/setup-vps.sh [--admin-user NAME] [--skip-ssh-hardening] [--ssh-port N] [--with-shadow]
+#   sudo bash deploy/setup-vps.sh --shadow-only     install ONLY the optional shadow recorder: the bot, its service, keys and state are not touched, nothing restarts
 # Run it from the folder you extracted the bundle into (e.g. /tmp/lucidio-new). It installs/refreshes:
 #   swap (never fatal) - chrony clock - Node.js LTS (NODE_MAJOR, default 22) - ufw - fail2ban - key-only SSH - unattended-upgrades -
 #   journald cap - the app in /opt/lucidio (state, mexc-keys.json and bot-config.json are NEVER overwritten) - systemd service + watchdog +
@@ -11,7 +12,7 @@ set -uo pipefail
 APP=/opt/lucidio; SVC=lucidio; BACKUPS=/var/backups/lucidio
 NODE_MAJOR="${NODE_MAJOR:-22}"             # 22 = LTS (maintenance until 2027-04); override: NODE_MAJOR=24 sudo -E bash deploy/setup-vps.sh
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-ADMIN_USER="${SUDO_USER:-}"; SKIP_SSH=0; SSH_PORT=""
+ADMIN_USER="${SUDO_USER:-}"; SKIP_SSH=0; SSH_PORT=""; WITH_SHADOW=0; SHADOW_ONLY=0
 WARNINGS=()
 
 while [ $# -gt 0 ]; do
@@ -19,6 +20,8 @@ while [ $# -gt 0 ]; do
     --admin-user) ADMIN_USER="${2:-}"; shift 2;;
     --skip-ssh-hardening) SKIP_SSH=1; shift;;
     --ssh-port) SSH_PORT="${2:-}"; shift 2;;
+    --with-shadow) WITH_SHADOW=1; shift;;        # also install the shadow recorder after a normal update (the bot is restarted by the update itself)
+    --shadow-only) SHADOW_ONLY=1; shift;;        # ONLY the recorder: see deploy/install-shadow.sh
     *) echo "unknown option: $1"; exit 1;;
   esac
 done
@@ -29,6 +32,7 @@ warn() { echo "   WARN: $*" >&2; WARNINGS+=("$*"); }
 die()  { echo "FATAL: $*" >&2; exit 1; }
 
 [ "$(id -u)" -eq 0 ] || die "run as root: sudo bash deploy/setup-vps.sh"
+if [ "$SHADOW_ONLY" = 1 ]; then echo "Shadow recorder only: the bot (service, keys, state, code) is NOT touched and NOT restarted."; exec bash "$SRC/deploy/install-shadow.sh"; fi
 [ -f "$SRC/lucidio.js" ] || die "lucidio.js not found in $SRC: run this from the extracted bundle (deploy/setup-vps.sh)"
 export DEBIAN_FRONTEND=noninteractive
 
@@ -137,13 +141,13 @@ install -d -m 700 "$BACKUPS"; mkdir -p "$APP"
 WAS_ACTIVE=0; if systemctl is-active --quiet lucidio; then WAS_ACTIVE=1; fi
 if [ "$SRC" != "$APP" ]; then
   if [ -f "$APP/lucidio.js" ]; then   # update: keep the old code for rollback, never the state or secrets
-    if tar -czf "$BACKUPS/code-$(date -u +%Y%m%d-%H%M%S).tar.gz" -C "$APP" --exclude=./state --exclude=./journal --exclude=./audit --exclude=./.env --exclude=./mexc-keys.json --exclude=./bot-config.json --exclude=./STOP .; then
+    if tar -czf "$BACKUPS/code-$(date -u +%Y%m%d-%H%M%S).tar.gz" -C "$APP" --exclude=./state --exclude=./journal --exclude=./audit --exclude=./sidecar --exclude=./.env --exclude=./mexc-keys.json --exclude=./bot-config.json --exclude=./STOP .; then
       ok "old code saved in $BACKUPS (rollback: sudo bash $APP/deploy/rollback.sh)"
     else warn "could not save the old code"; fi
     ls -1t "$BACKUPS"/code-*.tar.gz 2>/dev/null | tail -n +6 | xargs -r rm -f
   fi
   if [ "$WAS_ACTIVE" = 1 ]; then systemctl stop lucidio; fi
-  (cd "$SRC" && tar -cf - --exclude=./state --exclude=./journal --exclude=./audit --exclude=./.env --exclude=./mexc-keys.json --exclude=./bot-config.json --exclude=./STOP .) | tar -xf - -C "$APP" || die "copying the bundle to $APP failed"
+  (cd "$SRC" && tar -cf - --exclude=./state --exclude=./journal --exclude=./audit --exclude=./sidecar --exclude=./.env --exclude=./mexc-keys.json --exclude=./bot-config.json --exclude=./STOP .) | tar -xf - -C "$APP" || die "copying the bundle to $APP failed"
   if [ ! -f "$APP/bot-config.json" ]; then cp "$SRC/bot-config.json" "$APP/bot-config.json" && ok "bot-config.json created (mode paper)"; fi
   ok "code copied to $APP (existing bot-config.json, state/ and mexc-keys.json untouched)"
 fi
@@ -166,6 +170,11 @@ systemctl daemon-reload
 if systemctl enable lucidio.service >/dev/null 2>&1; then ok "lucidio.service enabled (starts on boot)"; fi
 if systemctl enable --now lucidio-watchdog.timer lucidio-backup.timer lucidio-compare.timer >/dev/null 2>&1; then ok "watchdog (10 min), daily state+journal backup (03:30 UTC) and daily live-vs-backtest compare (00:40 UTC) timers enabled"; else warn "timers could not be enabled"; fi
 if [ "$WAS_ACTIVE" = 1 ]; then systemctl start lucidio && ok "service restarted with the new code"; fi
+
+if [ "$WITH_SHADOW" = 1 ]; then
+  step "12. shadow recorder (optional sidecar, its own user and service)"
+  bash "$SRC/deploy/install-shadow.sh" || warn "the shadow recorder install reported a problem (the bot is unaffected): run it again by hand, see DEPLOY.md section 16"
+fi
 
 step "summary"
 echo "   node $(node -v) - service: $(systemctl is-active lucidio || true) - enabled: $(systemctl is-enabled lucidio 2>/dev/null) - ufw: $(ufw status 2>/dev/null | head -1) - lucidio timers: $(systemctl list-timers 'lucidio-*' --no-legend 2>/dev/null | wc -l)"

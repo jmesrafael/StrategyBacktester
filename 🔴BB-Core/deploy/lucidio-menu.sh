@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # lucidio-menu.sh - arrow-key menu for the Lucid'io VPS (Up/Down + Enter; Esc leaves).
-# Read-only except: kill switch, restart, Telegram test and "Update the bot code" (each asks first).
+# Read-only except: kill switch, restart, Telegram test and "Pull changes from GitHub" (each asks first).
 #   lucidio                       status first, then the menu          (installed as /usr/local/bin/lucidio)
 #   lucidio --action trades       run one action and exit (status balance check trades equity log server update tg)
 # The menu is drawn by this script itself (arrow keys, no dialog tool needed); on a dumb terminal a numbered list is shown instead.
@@ -112,7 +112,7 @@ act_restart() {
 git_run() { as_root env GIT_TERMINAL_PROMPT=0 TZ=UTC GIT_SSH_COMMAND="ssh -i $DEPLOY_KEY -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new" git "$@"; }
 git_src() { git_run -C "$SRC" "$@"; }
 act_update() {
-  head_line "Update the bot code from GitHub"
+  head_line "Pull changes from GitHub"
   command -v git >/dev/null 2>&1 || { echo "git is not installed on this server. Run:  sudo apt-get install -y git   then try again."; return 1; }
   if ! as_root test -d "$SRC/.git"; then
     echo "First time: there is no copy of the code at $SRC yet."
@@ -141,7 +141,7 @@ act_update() {
 ' "$h" "$(dt_str "$t")" "$m"; done
   if [ -n "$deployed" ] && git_src cat-file -e "$deployed^{commit}" 2>/dev/null; then echo; git_src diff --stat "$deployed" "$after" | tail -n 15
   else echo; echo "(the installed version is not known to this copy: showing the latest commits only)"; fi
-  echo; read -rp "Install this update? [y/N] " a; [ "$a" = y ] || { echo "Cancelled. Nothing was changed."; return 0; }
+  echo; read -rp "Pull these changes? [y/N] " a; [ "$a" = y ] || { echo "Cancelled. Nothing was changed."; return 0; }
   if near_candle_close; then
     echo; echo "A 4-hour candle closes within a few minutes (or just closed). The bot is about to make, or just made, its trade decision;"
     echo "the update restarts it, which could cost a signal. Better: try again 15 minutes after a candle close."
@@ -272,6 +272,7 @@ main() {
   if [ -n "$SUDO" ] && ! sudo -n true 2>/dev/null; then echo "Enter your admin password once, so the menu can show the bot status:"; sudo -v || true; fi
   ITEMS=(
     shell   "Open a normal command line"
+    update  "Pull changes from GitHub"
     status  "Bot status"
     balance "MEXC account balance"
     trades  "Trades and skipped signals"
@@ -280,7 +281,6 @@ main() {
     log     "Recent log"
     follow  "Live log  (Ctrl+C to stop)"
     server  "Server health and installed code"
-    update  "Update the bot code from GitHub"
     tg      "Send a Telegram test message"
     kill    "Kill switch  (on / off)"
     restart "Restart the bot"

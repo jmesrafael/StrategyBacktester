@@ -17,11 +17,11 @@ trap 'rc=$?; rm -rf "${CHK:-}" "${BI:-}"; if [ "$rc" -ne 0 ]; then rm -f "$OUT" 
 # ---- 1. what goes in (explicit list, nothing else) ----
 shopt -s nullglob
 FILES=()
-for f in lucidio*.js live.js mexc.js config.js ledger-sync.js telegram.js journal.js dashboard-push.js envfile.js compare-live-vs-backtest.js dashboard.* bot-config.json package.json; do [ -f "$f" ] && FILES+=("$f"); done
-FILES+=(deploy)
+for f in lucidio*.js live.js mexc.js config.js ledger-sync.js telegram.js journal.js dashboard-push.js envfile.js matchkey.js shadow-reader.js compare-live-vs-backtest.js dashboard.* bot-config.json package.json; do [ -f "$f" ] && FILES+=("$f"); done
+FILES+=(deploy sidecar)
 # --with-tests: the tests, their 3 data files, the Vercel-side code the dashboard tests exercise (dashboard/, never deployed to the VPS) and export-trades.js (needs data/)
 if [ "$WITH_TESTS" = 1 ]; then FILES+=(test dashboard export-trades.js data/SOL.json data/ZEC.json data/MEXC_ZEC.json); fi
-for need in lucidio.js lucidio-core.js live.js mexc.js config.js ledger-sync.js telegram.js journal.js dashboard-push.js envfile.js compare-live-vs-backtest.js dashboard.js dashboard.html bot-config.json deploy/setup-vps.sh deploy/lucidio.service deploy/lucidio.env.example deploy/lucidio-compare.timer; do
+for need in matchkey.js shadow-reader.js sidecar/shadow-recorder.js lucidio.js lucidio-core.js live.js mexc.js config.js ledger-sync.js telegram.js journal.js dashboard-push.js envfile.js compare-live-vs-backtest.js dashboard.js dashboard.html bot-config.json deploy/setup-vps.sh deploy/lucidio.service deploy/lucidio.env.example deploy/lucidio-compare.timer; do
   printf '%s\n' "${FILES[@]}" | grep -qx "$need" || [ -e "$need" ] || { echo "FAIL: required runtime file missing: $need"; exit 1; }
 done
 

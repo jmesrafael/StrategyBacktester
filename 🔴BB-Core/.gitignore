@@ -1,7 +1,6 @@
 state/
 mexc-keys.json
 STOP
-audit/cache-1m/
 shadow/
 
 # deployment bundle (built by deploy/package.sh)
