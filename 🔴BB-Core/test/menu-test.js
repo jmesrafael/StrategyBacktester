@@ -114,5 +114,18 @@ const src = fs.readFileSync(MENU.replace(/\//g, path.sep), 'utf8');
 ok(/balance "Account balance"/.test(src) && /details "Trading details"/.test(src) && !/MEXC account balance/.test(src) && !/head_line "Account balance \(MEXC/.test(src), 'main menu list: "Account balance" (no MEXC in its name or its heading) and "Trading details"');
 ok(run(`bash -n "${MENU}"`).status === 0 && /read -rsn1 -t 1 key/.test(src), 'the script parses and reads keys with a one-second timeout (the live redraw)');
 
+// ---------- the update progress display ----------
+const pgr = run(`source "${MENU}"; pg_init; PG_N=0; PG_TOTAL=3; pg_step "Switching to the new code" sleep 0.2; pg_step "Building" bash -c 'echo oops; exit 3'; echo "rc=$?"; pg_step "Last" true; pg_done`).stdout;
+ok(/\[1\/3\] Switching to the new code \.\.\.\n\s+ok \(\d+s\)/.test(pgr) && /\[2\/3\] Building \.\.\.\n\s+FAILED/.test(pgr) && /rc=3/.test(pgr) && /\[3\/3\] Last/.test(pgr), 'update progress without a terminal: plain numbered lines, the failing step is FAILED and its exit code survives');
+const pgt = plain(run(`source "${MENU}"; pg_init; PG_TTY=1; PG_N=0; PG_TOTAL=2; pg_step "Safety test: selftest" sleep 0.5; pg_step "Building the bundle" bash -c 'exit 1'; pg_done`).stdout);
+ok(/✔ Safety test: selftest\s+\d+s/.test(pgt) && /✘ Building the bundle FAILED/.test(pgt), 'update progress on a terminal: a tick for a finished step, a cross for a failed one');
+ok(/█/.test(pgt) && /100%/.test(pgt), 'the progress bar is drawn and ends at 100%');
+const pgc = run(`source "${MENU}"; pg_init; PG_TTY=1; PG_N=0; PG_TOTAL=2; pg_step "x" sleep 0.4`).stdout;
+ok(/\x1b\[38;2;22;198;12m/.test(pgc) && /\x1b\[1m\x1b\[38;2;253;228;8m/.test(pgc) && /\x1b\[\?25l/.test(pgc) && /\x1b\[\?25h/.test(pgc), 'the bar uses the menu colours (green done, yellow sweep) and the cursor is hidden while it runs and shown again');
+const pga = plain(run(`source "${MENU}"; pg_init; PG_TTY=1; PG_N=0; PG_TOTAL=1; pg_step "Plain step" true; pg_done`, { LUCIDIO_MENU_ASCII: '1' }).stdout);
+ok(/OK Plain step/.test(pga) && /#{30} 100%/.test(pga) && !/[█✔]/.test(pga), 'ASCII terminals get OK and # instead of the tick and the block characters');
+const upd = fs.readFileSync(path.join(__dirname, '..', 'deploy', 'lucidio-menu.sh'), 'utf8');
+ok(/pg_step "Safety test: \$t"/.test(upd) && /pg_step "Installing/.test(upd) && /pg_step "Building the bundle/.test(upd) && /setup-vps\.sh/.test(upd) && /rollback\.sh/.test(upd), 'the update still tests, builds, installs and can roll back (the progress display only wraps those steps)');
+
 console.log(`\n${pass} passed, ${failN} failed`);
 process.exit(failN ? 1 : 0);

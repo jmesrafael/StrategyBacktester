@@ -61,11 +61,13 @@ Check: open the bot dashboard page → log in → **Status** tab. You now see an
 
 ### 3a. Push the bot code to GitHub (PC)
 
+This is all you do on the PC for the bot: **commit and push**. You never run `package.sh` or `scp` for it; the menu pull in 3d builds and installs everything on the VPS.
+
 The VPS pulls from the GitHub repo `jmesrafael/bb-core` (DEPLOY.md section 14). Commit and push the **BB-Core** changes the way you normally do (VS Code Source Control → the BB-Core repository → Commit → Sync Changes).
 
 Make sure the right repository got it: on GitHub open `jmesrafael/bb-core` and look for the file `keyinfo.js` in the main folder. **If it is not there**, the push went to a different repository: stop and tell me which repositories VS Code shows, I will work out the correct push with you.
 
-Before you continue, run the full safety tests on your PC (**PC**, Git Bash, in `🔴BB-Core`):
+Optional (the VPS runs its own safety tests during the pull): run the full safety tests on your PC (**PC**, Git Bash, in `🔴BB-Core`):
 
 ```bash
 for t in selftest ops-test fixes-test journal-test telegram-test compare-test review-test menu-test shadow-test capital-flows-test dashboard-test dashboard-api-test dashboard-ui-test keys-test ask-test; do printf "%s: " $t; node test/$t.js 2>&1 | grep -E "passed" | tail -1; done
@@ -105,6 +107,7 @@ Expected: two fresh, non-empty files. (The installer also saves the old code by 
 1. Check the time. It must be inside the safe window from section 0 (for example 4:15am to 7:50am UTC). The VPS menu shows the UTC time and the next candle close.
 2. **VPS**: type `lucidio` to open the menu → **Pull changes from GitHub**.
 3. It shows what is new and a list of changed files. Read it: you should see `keyinfo.js`, `dashboard-push.js`, `mexc.js`, `deploy/watchdog.js`, `deploy/add-reserve-key.sh` and `deploy/lucidio-menu.sh`, and **not** `lucidio-core.js`. Then answer `y`.
+Each step now shows a coloured progress bar with a spinner, the step count (for example 4/9) and the time it has taken, then a green tick or a red cross. (Your old menu does not have this yet; it appears from the next pull on. Set `LUCIDIO_MENU_PLAIN=1` for plain lines.)
 4. It runs the safety tests on the VPS (a minute or two). **Any FAIL stops the update and the bot keeps the old code.**
 5. It builds the bundle (with a secrets scan) and installs it. The bot restarts for a few seconds. If the bot does not come back it **rolls back by itself**.
 6. Last line: `Updated to: <commit>`, and a Telegram message "code updated to ...".
@@ -156,24 +159,15 @@ Changes apply at the next restart; do not restart in the candle window.
 
 It records what the engine would decide on every finished candle, next to the live bot. It runs as its own user and cannot see your keys, `.env`, `state/` or `journal/`. It **never stops, starts or restarts the bot**; it prints the bot's start time before and after as proof.
 
-**PC** (Git Bash, in `🔴BB-Core`):
-
-```bash
-bash deploy/package-shadow.sh
-```
-
-**PC** (PowerShell, in `🔴BB-Core`; replace `YOUR_IP` and `admin`):
-
-```powershell
-scp lucidio-shadow.tar.gz lucidio-shadow.tar.gz.sha256 admin@YOUR_IP:/tmp/
-```
+**Do this after step 3d.** The pull already put the full code on the VPS in `/opt/lucidio-src`, so there is nothing to package or copy from the PC.
 
 **VPS**:
 
 ```bash
-cd /tmp && sha256sum -c lucidio-shadow.tar.gz.sha256 && tar -xzf lucidio-shadow.tar.gz
-sudo bash /tmp/lucidio/deploy/install-shadow.sh
+sudo bash /opt/lucidio-src/deploy/install-shadow.sh
 ```
+
+(The manual route with `package-shadow.sh` and `scp` is in DEPLOY.md section 16; you do not need it.)
 
 Check it:
 

@@ -130,6 +130,53 @@ act_restart() {
 # ---- update: GitHub -> mirror in $SRC -> tests -> bundle (same package.sh + setup-vps.sh as a manual update) -> automatic rollback if the bot does not come back
 git_run() { as_root env GIT_TERMINAL_PROMPT=0 TZ=UTC GIT_SSH_COMMAND="ssh -i $DEPLOY_KEY -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new" git "$@"; }
 git_src() { git_run -C "$SRC" "$@"; }
+# ---- progress display for "Pull changes from GitHub": one coloured line per step (spinner, overall bar with the running step sweeping, step count, time), a green tick or a red cross when it ends.
+# Without a terminal (a pipe, a test) it prints plain "[3/9] label ... ok" lines instead. Colours / glyphs are the menu's own (ASCII fallback included). It only SHOWS the work: every command is the same one as before.
+PG_N=0; PG_TOTAL=1; PG_TTY=0; PG_LOG=/tmp/lucidio-update-step.log
+pg_init() {
+  [ -n "${R:-}" ] || { setup_glyphs; setup_colors; }
+  PG_TTY=0; [ -t 1 ] && [ -z "${LUCIDIO_MENU_PLAIN:-}" ] && PG_TTY=1
+  if [ "${ASCII:-0}" = 1 ]; then PG_SPIN=('|' '/' '-' '\'); PG_FULL='#'; PG_EMPTY='-'; PG_OK='OK'; PG_BAD='XX'
+  else PG_SPIN=('⠋' '⠙' '⠹' '⠸' '⠼' '⠴' '⠦' '⠧' '⠇' '⠏'); PG_FULL='█'; PG_EMPTY='░'; PG_OK='✔'; PG_BAD='✘'; fi
+}
+pg_bar() {   # $1 steps finished, $2 steps in all, $3 animation tick -> the bar (30 cells); the running step's share is dim with one bright cell sweeping through it
+  local fin=$1 total=$2 tick=$3 w=30 i seg0 seg1 span pos out=""
+  seg0=$(( fin * w / total )); seg1=$(( (fin + 1) * w / total )); [ "$seg1" -le "$seg0" ] && seg1=$(( seg0 + 1 ))
+  span=$(( seg1 - seg0 )); pos=$(( seg0 + tick % span ))
+  for ((i = 0; i < w; i++)); do
+    if [ "$i" -lt "$seg0" ] || [ "$fin" -ge "$total" ]; then out+="$G$PG_FULL"
+    elif [ "$i" -lt "$seg1" ] && [ "$i" -eq "$pos" ]; then out+="$Y$PG_FULL"
+    else out+="$D$PG_EMPTY"; fi
+  done
+  printf '%s%s' "$out" "$R"
+}
+pg_step() {   # pg_step "label" command args...   (output goes to /tmp/lucidio-update-stepN.log; the return code is the command's)
+  local label=$1; shift
+  PG_N=$(( PG_N + 1 )); PG_LOG="/tmp/lucidio-update-step$PG_N.log"
+  local t0=$SECONDS tick=0 pid rc el pct
+  if [ "$PG_TTY" != 1 ]; then
+    printf '[%d/%d] %s ...\n' "$PG_N" "$PG_TOTAL" "$label"
+    "$@" > "$PG_LOG" 2>&1; rc=$?
+    printf '      %s (%ds)\n' "$([ "$rc" = 0 ] && echo ok || echo FAILED)" $(( SECONDS - t0 )); return "$rc"
+  fi
+  "$@" > "$PG_LOG" 2>&1 & pid=$!
+  printf '\e[?25l'
+  while kill -0 "$pid" 2>/dev/null; do
+    el=$(( SECONDS - t0 )); pct=$(( (PG_N - 1) * 100 / PG_TOTAL ))
+    printf '\r\e[2K %s%s%s %s %s%3d%%%s  %s%d/%d%s  %s%d:%02d%s' "$Y" "${PG_SPIN[tick % ${#PG_SPIN[@]}]}" "$R" "$(pg_bar $(( PG_N - 1 )) "$PG_TOTAL" "$tick")" "$K" "$pct" "$R" "$D" "$PG_N" "$PG_TOTAL" "$R" "$D" $(( el / 60 )) $(( el % 60 )) "$R"
+    printf '\n\e[2K   %s%s%s\e[1A' "$LG" "$label" "$R"
+    tick=$(( tick + 1 )); sleep 0.12
+  done
+  wait "$pid"; rc=$?
+  el=$(( SECONDS - t0 ))
+  printf '\r\e[2K\n\e[2K\e[1A\r'   # clear the animated pair of lines, then leave one result line
+  if [ "$rc" = 0 ]; then printf ' %s%s%s %s  %s%ds%s\n' "$G" "$PG_OK" "$R" "$label" "$D" "$el" "$R"
+  else printf ' %s%s%s %s%s FAILED%s  %s%ds%s\n' "$RD" "$PG_BAD" "$R" "$RD" "$label" "$R" "$D" "$el" "$R"; fi
+  printf '\e[?25h'
+  return "$rc"
+}
+pg_done() { [ "$PG_TTY" = 1 ] && printf ' %s%s%s %s 100%%%s\n' "$G" "$PG_OK" "$R" "$(pg_bar "$PG_TOTAL" "$PG_TOTAL" 0)" "$R"; return 0; }
+
 act_update() {
   head_line "Pull changes from GitHub"
   command -v git >/dev/null 2>&1 || { echo "git is not installed on this server. Run:  sudo apt-get install -y git   then try again."; return 1; }
@@ -150,7 +197,8 @@ act_update() {
     as_root mkdir -p "$(dirname "$SRC")"
     git_run clone --quiet --depth 20 --branch "$BRANCH" "$url" "$SRC" || { echo "Could not clone $url (branch $BRANCH). Check the address, the deploy key, and the branch name."; return 1; }
   fi
-  git_src fetch --quiet --depth 20 origin "$BRANCH" || { echo "Could not reach GitHub (network, or the deploy key was removed)."; return 1; }
+  pg_init; PG_N=0; PG_TOTAL=1
+  pg_step "Checking GitHub for changes" git_src fetch --quiet --depth 20 origin "$BRANCH" || { echo "Could not reach GitHub (network, or the deploy key was removed)."; return 1; }
   local after deployed was now_state installed
   after=$(git_src rev-parse FETCH_HEAD) || return 1
   deployed=$(as_root cat "$SRC/.deployed-commit" 2>/dev/null || true)
@@ -167,28 +215,23 @@ act_update() {
     echo "Time now      : $(now_str)"; echo "Candles close : $(candle_times)"
     read -rp "Type force to continue anyway, or press Enter to cancel: " a; [ "$a" = force ] || { echo "Cancelled. Nothing was changed."; return 0; }
   fi
-  git_src checkout --quiet --force --detach "$after" || return 1
-  if [ -z "${LUCIDIO_UPDATE_SKIP_TESTS:-}" ]; then
-    echo; echo "Running the safety tests on the new code (a minute or two)..."
-    local t t0
-    for t in selftest ops-test journal-test fixes-test; do
-      [ -f "$SRC/test/$t.js" ] || continue
-      t0=$SECONDS
-      if as_root bash -c "cd '$SRC' && timeout 900 node test/$t.js > /tmp/lucidio-update-$t.log 2>&1"; then printf '  PASS  %-13s %s s\n' "$t" "$((SECONDS - t0))"
-      else printf '  FAIL  %-13s\n' "$t"; tail -n 15 "/tmp/lucidio-update-$t.log"; echo; echo "NOT installed: the bot keeps running the old code."; return 1; fi
-    done
-  fi
-  local W=/tmp/lucidio-update
+  local tests=() t W=/tmp/lucidio-update
+  if [ -z "${LUCIDIO_UPDATE_SKIP_TESTS:-}" ]; then for t in selftest ops-test journal-test fixes-test; do [ -f "$SRC/test/$t.js" ] && tests+=("$t"); done; fi
+  echo; PG_N=0; PG_TOTAL=$(( ${#tests[@]} + 5 ))
+  pg_step "Switching to the new code" git_src checkout --quiet --force --detach "$after" || return 1
+  for t in "${tests[@]}"; do   # the safety tests on the new code: any failure stops here and the bot keeps the old code
+    pg_step "Safety test: $t" as_root bash -c "cd '$SRC' && timeout 900 node test/$t.js" || { tail -n 15 "$PG_LOG"; echo; echo "NOT installed: the bot keeps running the old code."; return 1; }
+  done
   as_root rm -rf "$W"; as_root mkdir -p "$W"
-  echo; echo "Building the bundle (also scans it for secrets)..."
-  as_root bash -c "cd '$SRC' && OUT='$W/lucidio-deploy.tar.gz' bash deploy/package.sh" > /tmp/lucidio-update-package.log 2>&1 \
-    || { tail -n 15 /tmp/lucidio-update-package.log; echo; echo "NOT installed: the bundle could not be built."; return 1; }
+  pg_step "Building the bundle and scanning it for secrets" as_root bash -c "cd '$SRC' && OUT='$W/lucidio-deploy.tar.gz' bash deploy/package.sh" \
+    || { tail -n 15 "$PG_LOG"; echo; echo "NOT installed: the bundle could not be built."; return 1; }
   if [ -n "${LUCIDIO_UPDATE_DRYRUN:-}" ]; then echo "(dry run: stopping before the install)"; return 0; fi
-  as_root bash -c "cd '$W' && sha256sum -c lucidio-deploy.tar.gz.sha256 >/dev/null && tar -xzf lucidio-deploy.tar.gz" || { echo "NOT installed: the bundle check failed."; return 1; }
+  pg_step "Checking the bundle" as_root bash -c "cd '$W' && sha256sum -c lucidio-deploy.tar.gz.sha256 >/dev/null && tar -xzf lucidio-deploy.tar.gz" || { echo "NOT installed: the bundle check failed."; return 1; }
   was=$(systemctl is-active lucidio 2>/dev/null || true)
-  echo; echo "Installing (the bot restarts for a few seconds)..."
-  as_root bash -c "cd '$W/lucidio' && bash deploy/setup-vps.sh" 2>&1 | tail -n 14
-  sleep 8
+  pg_step "Installing (the bot restarts for a few seconds)" as_root bash -c "cd '$W/lucidio' && bash deploy/setup-vps.sh"
+  tail -n 14 "$PG_LOG"
+  pg_step "Waiting for the bot to come back" sleep 8
+  pg_done
   now_state=$(systemctl is-active lucidio 2>/dev/null || true)
   installed=$(as_root node -e 'try{console.log(require(process.argv[1]).commit)}catch(e){}' "$APP/BUILD_INFO.json")
   if [ "$was" = active ] && [ "$now_state" != active ]; then
