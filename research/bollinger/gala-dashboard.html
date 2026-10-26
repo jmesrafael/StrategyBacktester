@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4-Coin vs 5-Coin — Risk Comparison</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --page: #F4F4F0; --ink: #0f172a; --ink-2: #334155; --muted: #64748b;
+    --line: #cbd5e1; --line-soft: #e2e8f0; --head-bg: #f1f5f9; --stripe: #f8fafc;
+    --accent: #15803d; --pos: #15803d; --neg: #dc2626;
+    --fixed: #94a3b8; --fixed-ink: #475569;
+    --comp: #16a34a; --comp-ink: #15803d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--page); color: var(--ink); margin: 0; padding: 28px 16px 60px;
+    font-family: Manrope, 'Segoe UI', system-ui, sans-serif; font-size: 13px;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; }
+  h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.4px; margin: 0 0 6px; }
+  .sub { color: var(--ink-2); font-size: 13.5px; margin: 0 0 20px; max-width: 72ch; line-height: 1.55; }
+  .warn {
+    font-size: 12px; color: #7c2d12; background: #fff7ed; border: 1px solid #fed7aa;
+    border-left: 3px solid #ea580c; padding: 10px 14px; border-radius: 8px; margin-bottom: 28px; line-height: 1.55;
+  }
+
+  .system-block { margin-bottom: 44px; }
+  .system-block > h1.sys-title {
+    font-size: 19px; font-weight: 800; margin: 0 0 2px; padding-top: 10px; border-top: 2px solid var(--line);
+  }
+  .system-block .sys-meta { color: var(--muted); font-size: 12px; margin: 0 0 20px; }
+
+  .risk-section { margin-bottom: 30px; }
+  .risk-section h2 { font-size: 16px; font-weight: 800; margin: 0 0 2px; letter-spacing: -0.1px; }
+  .risk-section .meta { color: var(--muted); font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; margin: 0 0 14px; }
+
+  .card {
+    background: #fff; border: 1px solid var(--line-soft); border-radius: 14px;
+    padding: 18px 20px; margin-bottom: 14px; box-shadow: 0 1px 2px rgba(15,23,42,.04);
+  }
+  .legend { display: flex; gap: 18px; font-size: 11.5px; color: var(--muted); font-weight: 600; margin-bottom: 18px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+
+  /* vertical bar chart (sqrt-scaled so a 5% compounding outlier doesn't flatten the rest) */
+  .chart { display: flex; align-items: flex-end; gap: 14px; height: 170px; padding-top: 26px; }
+  .year-group { display: flex; flex-direction: column; align-items: center; height: 100%; flex: 1; min-width: 0; }
+  .bars-wrap { display: flex; align-items: flex-end; justify-content: center; gap: 5px; flex: 1; width: 100%; }
+  .vbar { width: 22px; border-radius: 5px 5px 0 0; position: relative; min-height: 2px; }
+  .vbar .val { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 10px; font-weight: 700; white-space: nowrap; }
+  .ylabel { font-size: 11.5px; color: var(--ink); font-weight: 700; margin-top: 8px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12px; border: 1.5px solid var(--line); border-radius: 8px; overflow: hidden; font-variant-numeric: tabular-nums; }
+  th, td { padding: 7px 10px; text-align: right; border: 1px solid var(--line-soft); white-space: nowrap; }
+  th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) { text-align: left; }
+  thead th {
+    font-weight: 700; color: var(--ink-2); font-size: 10px; text-transform: uppercase; letter-spacing: .3px;
+    background: var(--head-bg); border-bottom: 1.5px solid var(--line);
+  }
+  thead tr.grp th.fixed-col { color: var(--fixed-ink); }
+  thead tr.grp th.comp-col { color: var(--comp-ink); }
+  tbody tr:nth-child(even) td { background: var(--stripe); }
+  td.fixed-col { background: #fff; }
+  td.comp-col { background: rgba(22,163,74,.05); }
+  tbody tr:nth-child(even) td.comp-col { background: rgba(22,163,74,.09); }
+  td.pos { color: var(--pos); font-weight: 700; }
+  .table-box { overflow-x: auto; }
+  .note {
+    font-size: 11.5px; color: var(--ink-2); margin-top: 12px; line-height: 1.55;
+    background: var(--stripe); border-left: 3px solid var(--accent); padding: 9px 12px; border-radius: 6px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>4-Coin vs 5-Coin System — fresh &#8369;10,000 every year</h1>
+  <p class="sub">BB Breakout backtest, 1:4 target, Binance USDT-M futures 4h. Each calendar year starts a brand-new &#8369;10,000 account, no carryover. All trades from every coin in the system are merged in time order and sized off one shared account. Fixed risks a flat % of that year's starting balance on every trade; Compounding risks that % of whatever the balance has grown to.</p>
+  <p class="warn">With 4-5 coins live at once, 150-250+ trades fire per year. At 5% compounding risk that many trades compounds into the extreme year-end numbers below &mdash; they are what the math produces, not a realistic outcome: real slippage, fills, and correlated losing streaks would never let an account actually reach them. Read these as "which setting grows fastest in theory," not as a plan.</p>
+
+  <div id="root"></div>
+</div>
+
+<script src="portfolio-data.js"></script>
+<script>
+(function () {
+  function fmtMoney(v) { return '₱' + Math.round(v).toLocaleString('en-US'); }
+  function fmtPct(v) { return (v >= 0 ? '+' : '') + v.toFixed(1) + '%'; }
+
+  function riskSection(title, riskPct, rows) {
+    var years = Array.from(new Set(rows.map(function (r) { return r.year; }))).sort();
+    var byYear = {};
+    years.forEach(function (yr) {
+      byYear[yr] = {
+        fx: rows.find(function (r) { return r.year === yr && r.mode === 'Fixed'; }),
+        cp: rows.find(function (r) { return r.year === yr && r.mode === 'Compounding'; })
+      };
+    });
+    var maxAbs = Math.max.apply(null, rows.map(function (r) { return Math.abs(r.returnPct); })) || 1;
+    var scale = function (v) { return Math.max(2, Math.round(Math.sqrt(Math.abs(v) / maxAbs) * 100)); };
+
+    var html = '<div class="risk-section">';
+    html += '<h2>' + title + '</h2>';
+    html += '<p class="meta">Risking ' + riskPct + '% per trade &middot; 1:4 target</p>';
+
+    html += '<div class="card">';
+    html += '<div class="legend"><span><i style="background:var(--fixed)"></i>Fixed</span><span><i style="background:var(--comp)"></i>Compounding</span></div>';
+    html += '<div class="chart">';
+    years.forEach(function (yr) {
+      var fx = byYear[yr].fx, cp = byYear[yr].cp;
+      html += '<div class="year-group"><div class="bars-wrap">' +
+        '<div class="vbar" style="height:' + scale(fx.returnPct) + '%;background:var(--fixed)"><span class="val" style="color:var(--fixed-ink)">' + fmtPct(fx.returnPct) + '</span></div>' +
+        '<div class="vbar" style="height:' + scale(cp.returnPct) + '%;background:var(--comp)"><span class="val" style="color:var(--comp-ink)">' + fmtPct(cp.returnPct) + '</span></div>' +
+        '</div><div class="ylabel">' + yr + '</div></div>';
+    });
+    html += '</div></div>';
+
+    html += '<div class="card table-box"><table><thead>' +
+      '<tr class="grp"><th rowspan="2">Year</th><th rowspan="2">Trades</th>' +
+        '<th colspan="3" class="fixed-col">Fixed</th><th colspan="3" class="comp-col">Compounding</th></tr>' +
+      '<tr><th class="fixed-col">End equity</th><th class="fixed-col">Return</th><th class="fixed-col">Max DD</th>' +
+        '<th class="comp-col">End equity</th><th class="comp-col">Return</th><th class="comp-col">Max DD</th></tr>' +
+      '</thead><tbody>';
+    years.forEach(function (yr) {
+      var fx = byYear[yr].fx, cp = byYear[yr].cp;
+      html += '<tr><td>' + yr + '</td><td>' + fx.trades + '</td>' +
+        '<td class="fixed-col">' + fmtMoney(fx.endEquity) + '</td>' +
+        '<td class="fixed-col pos">' + fmtPct(fx.returnPct) + '</td>' +
+        '<td class="fixed-col">' + fx.maxDDPct.toFixed(1) + '%</td>' +
+        '<td class="comp-col">' + fmtMoney(cp.endEquity) + '</td>' +
+        '<td class="comp-col pos">' + fmtPct(cp.returnPct) + '</td>' +
+        '<td class="comp-col">' + cp.maxDDPct.toFixed(1) + '%</td></tr>';
+    });
+    html += '</tbody></table>';
+    html += '<p class="note">Max DD is the deepest peak-to-trough dip within that single year, in %. Bar heights are square-root scaled so a huge compounding outlier doesn’t flatten the other bars &mdash; read the printed % for the real number.</p>';
+    html += '</div>';
+    html += '</div>';
+    return html;
+  }
+
+  function systemBlock(title, meta, r25, r50) {
+    var html = '<div class="system-block">';
+    html += '<h1 class="sys-title">' + title + '</h1>';
+    html += '<p class="sys-meta">' + meta + '</p>';
+    html += riskSection('2.5% risk per trade', 2.5, r25);
+    html += riskSection('5% risk per trade', 5, r50);
+    html += '</div>';
+    return html;
+  }
+
+  document.getElementById('root').innerHTML =
+    systemBlock('4-Coin System', 'SOL + ZEC + ADA + NEAR, no GALA', window.P4_25, window.P4_50) +
+    systemBlock('5-Coin System', 'SOL + ZEC + ADA + NEAR + GALA', window.P5_25, window.P5_50);
+})();
+</script>
+</body>
+</html>

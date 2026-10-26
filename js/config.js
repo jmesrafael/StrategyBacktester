@@ -1,7 +1,7 @@
 // config.js — shared constants and theme tokens
 window.CFG = {
   // Symbols — Binance USDT-M perpetuals ("XXXUSDT.P"), loaded directly (see js/binance.js)
-  SYMBOLS: ['SOLUSDT.P', 'BTCUSDT.P', 'ETHUSDT.P', 'XRPUSDT.P', 'DOGEUSDT.P', 'ZECUSDT.P', 'NEARUSDT.P', 'ADAUSDT.P', 'GALAUSDT.P'],
+  SYMBOLS: ['SOLUSDT.P', 'ZECUSDT.P', 'ADAUSDT.P', 'NEARUSDT.P', 'BTCUSDT.P', 'ETHUSDT.P', 'XRPUSDT.P', 'DOGEUSDT.P', 'GALAUSDT.P'],
   INTERVALS: [
     ['1', '1m'], ['3', '3m'], ['5', '5m'], ['15', '15m'], ['30', '30m'],
     ['60', '1h'], ['120', '2h'], ['240', '4h'], ['360', '6h'], ['720', '12h'],
