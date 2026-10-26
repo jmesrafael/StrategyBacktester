@@ -302,6 +302,7 @@ const IndicatorManager = (() => {
       const inst = instances.find((i) => i.id === id); if (!inst) return;
       if (btn.dataset.act === 'eye') setVisible(id, !inst.visible);
       else if (btn.dataset.act === 'gear') openConfigPopup(inst, btn);
+      else if (btn.dataset.act === 'cal') BBXIndicator.openCalendar();
       else if (btn.dataset.act === 'del') remove(id);
     });
   }
@@ -366,11 +367,13 @@ const IndicatorManager = (() => {
       }
       const gear = (inst.type === 'ma' || inst.type === 'rsi' || inst.type === 'bb' || inst.type === 'fvg' || inst.type === 'smc' || inst.type === 'bbx')
         ? `<button class="lg-ic" data-act="gear" data-id="${inst.id}" title="Settings">⚙</button>` : '';
+      const cal = inst.type === 'bbx'
+        ? `<button class="lg-ic" data-act="cal" data-id="${inst.id}" title="Performance calendar">📅</button>` : '';
       return `<div class="lg-row${inst.visible ? '' : ' lg-off'}">` +
         `<span class="lg-name" style="color:${color}">${name}${valTxt}</span>` +
         `<span class="lg-ctrls">` +
         `<button class="lg-ic" data-act="eye" data-id="${inst.id}" title="Show/Hide">${inst.visible ? '👁' : '🚫'}</button>` +
-        gear +
+        gear + cal +
         `<button class="lg-ic" data-act="del" data-id="${inst.id}" title="Remove">✕</button>` +
         `</span></div>`;
     });
@@ -427,15 +430,19 @@ const IndicatorManager = (() => {
       row.className = 'ind-row';
       const hasColor = inst.type === 'ma' || inst.type === 'rsi' || inst.type === 'bb';
       const hasGear  = hasColor || inst.type === 'fvg' || inst.type === 'smc' || inst.type === 'bbx';
+      const hasCal   = inst.type === 'bbx';
       row.innerHTML =
         `<span class="ind-name" style="${hasColor ? 'color:' + inst.params.color : ''}">${def.label(inst.params)}</span>` +
         `<span class="ind-actions">` +
         (hasGear ? `<button class="ind-ic ind-gear" title="Settings">⚙</button>` : '') +
+        (hasCal ? `<button class="ind-ic ind-cal" title="Performance calendar">📅</button>` : '') +
         `<button class="ind-ic ind-eye" title="Toggle">${inst.visible ? '👁' : '🚫'}</button>` +
         `<button class="ind-ic ind-x" title="Remove">✕</button>` +
         `</span>`;
       const gear = row.querySelector('.ind-gear');
       if (gear) gear.onclick = () => toggleConfig(inst, row);
+      const cal = row.querySelector('.ind-cal');
+      if (cal) cal.onclick = () => BBXIndicator.openCalendar();
       row.querySelector('.ind-eye').onclick = () => setVisible(inst.id, !inst.visible);
       row.querySelector('.ind-x').onclick = () => remove(inst.id);
       actEl.appendChild(row);

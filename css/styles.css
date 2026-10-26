@@ -360,6 +360,72 @@ body.no-toolbar .float-toolbar { display: none; }
   border-radius: 3px; padding: 3px 5px; font-size: 10px; font-family: inherit;
 }
 .ind-config input[type="color"] { padding: 0; height: 22px; }
+.bx-rpresets { display: flex; gap: 4px; margin-top: -3px; }
+.bx-rp {
+  flex: 1; background: var(--chart-bg); color: var(--text-dim);
+  border: 1px solid var(--border); border-radius: 3px; padding: 3px 0;
+  font-size: 10px; cursor: pointer; font-family: inherit;
+}
+.bx-rp:hover { color: var(--text); }
+.bx-rp.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* ===== BB Breakout performance calendar modal ===== */
+.bbx-cal-backdrop {
+  position: fixed; inset: 0; z-index: 95; display: none;
+  align-items: center; justify-content: center;
+  background: rgba(0,0,0,.6);
+}
+.bbx-cal-modal {
+  width: 520px; max-width: 94vw; max-height: 88vh; overflow-y: auto;
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.7);
+}
+.bbx-cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.bbx-cal-title { font-size: 12px; font-weight: 600; }
+.bbx-cal-close {
+  background: transparent; border: none; color: var(--text-dim);
+  cursor: pointer; font-size: 12px; padding: 2px 6px; border-radius: 3px;
+}
+.bbx-cal-close:hover { background: var(--hover); color: var(--text); }
+.bbx-cal-seclbl { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 4px; }
+.bbx-cal-yearlbl { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+.bbx-cal-year {
+  background: var(--chart-bg); color: var(--text); border: 1px solid var(--border);
+  border-radius: 3px; padding: 2px 6px; font-size: 10px; font-family: inherit; cursor: pointer;
+  text-transform: none; letter-spacing: normal;
+}
+.bbx-cal-totals {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px;
+}
+.bbx-cal-monthtotals { margin-top: 8px; margin-bottom: 8px; }
+.bbx-cal-stat {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  background: var(--chart-bg); border: 1px solid var(--border); border-radius: 3px; padding: 7px 4px;
+}
+.bbx-cal-statval { font-size: 13px; font-weight: 700; }
+.bbx-cal-statlbl { font-size: 9px; color: var(--text-dim); }
+.bbx-cal-nav { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 8px; }
+.bbx-cal-nav button {
+  background: transparent; border: 1px solid var(--border); color: var(--text);
+  cursor: pointer; border-radius: 3px; padding: 2px 9px; font-size: 12px;
+}
+.bbx-cal-nav button:hover { background: var(--hover); }
+.bbx-cal-mlabel { font-size: 11px; font-weight: 600; min-width: 110px; text-align: center; }
+.bbx-cal-dow, .bbx-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.bbx-cal-dow span { text-align: center; font-size: 9px; color: var(--text-dim); padding-bottom: 2px; }
+.bbx-cal-cell {
+  min-height: 56px; border: 1px solid var(--border); border-radius: 3px;
+  padding: 4px; display: flex; flex-direction: column; gap: 2px; background: var(--chart-bg);
+}
+.bbx-cal-cell.bbx-cal-blank { border: none; background: transparent; }
+.bbx-cal-cell.bbx-cal-win { background: rgba(34,197,94,0.10); border-color: rgba(34,197,94,0.35); }
+.bbx-cal-cell.bbx-cal-lose { background: rgba(239,83,80,0.10); border-color: rgba(239,83,80,0.35); }
+.bbx-cal-daynum { font-size: 9px; color: var(--text-dim); }
+.bbx-cal-dayr { font-size: 11px; font-weight: 700; }
+.bbx-cal-daycount { font-size: 8px; color: var(--text-dim); }
+.bbx-cal-rfootlbl { margin-top: 12px; }
+.bbx-cal-rfoot { display: flex; flex-wrap: wrap; gap: 4px; }
+.bbx-cal-rfoot .bx-rp { flex: 1 0 calc(100%/9 - 4px); }
 
 /* ===== replay bar — 3-col grid centers the transport (Play) ===== */
 .replaybar {
