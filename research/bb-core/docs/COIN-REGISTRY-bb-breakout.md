@@ -68,3 +68,38 @@ Result: no liquid coin (>$30M/day) with 7/7 years and edge above BTC exists in t
 ## Round 3b — ZIL vs GALA vs BTC over the SAME window (20 Sep 2021 → Oct 2026), `cmp5y.js`
 GALA +0.36R, +$435, DD $54 (10.9R), 6/6 years, 3x costs +$375 (6/6), monthly corr with 4-coin set 0.20 · ZIL +0.21R, +$286, DD $88 (17.7R), 5/6 years (2021 Sep–Dec −$20), 3x costs +$202 (5/6), corr 0.35 · BTC +0.17R, +$220, DD $85, 4/6 at 3x costs, corr 0.36.
 Added to SOL+ZEC+NEAR+ADA: +ZIL +$1,627 DD $130 · +GALA +$1,776 DD $128 · +BTC +$1,561 DD $119 · 4 coins only +$1,341 DD $91 · +ZIL+GALA +$2,062 DD $185. ZIL's "7/7" relies on 2020–21 (before this window). GALA is the better candidate on the common window.
+
+---
+# Round 4 (2026-10-26) — hunt for an old (6–7 yr) alt that behaves like SOL/ZEC/NEAR/ADA
+
+Screen only (frozen rules, 0.04% + 0.02% slip, no funding), Binance USDT-M 4h to 26 Oct 2026. Candidates = Binance 2020–21 listings not in any list above. Reference: SOL/ZEC/ADA/NEAR screen at +0.26 to +0.36R.
+Only 5 of them have ≥ 6 years of data: IOST (Feb 2020), DEFI (Aug 2020), BAL (Sep 2020), FLM (Sep 2020), BEL (Nov 2020).
+
+| Coin | Start | avgR | 2023→ | Years+ | DD | $M/d | Verdict |
+|---|---|---|---|---|---|---|---|
+| IOST | 2020-02 | +0.13 | +0.07 | 6/7 | 26R, streak 19 | 46 | Only true 7-yr coin; edge too thin, 2023→ fading |
+| DEFI | 2020-08 | +0.16 | +0.14 | 6/6 | 8.2R | ~0 | Clean curve but no volume — not tradable |
+| BAL | 2020-09 | +0.11 | +0.10 | 5/6 | 23R | ~0 | 2023 −16R, no volume |
+| FLM / BEL | 2020 | +0.03 / +0.06 | −0.03 / 0.00 | 3/6, 4/7 | 26R / 28R | ~0 / 2 | Reject |
+| GTC | 2021-06 | +0.19 | +0.20 | 5/6 | 15.7R | 36 | Best of the batch but only 5 yrs; below GALA |
+| CELO | 2021-09 | +0.16 | +0.15 | 4/6 | 11.6R | 3 | Illiquid |
+| DGB, FXS, ARPA, TLM, DUSK, XEM, STMX, TRU, CHR, LINA, ATA, CTSI, BNT, ACH, NMR, COTI | 2021–23 | +0.00 to +0.15 | — | mostly ≤ 4/6 | — | — | Thin / inconsistent |
+| RVN, UNFI, IOTX, ALICE, SFP | 2021 | +0.02 to −0.10 | — | 1–3/6 | up to 64R | — | Rejected (SFP worst, DD 64R) |
+| RAY | 2021-08 | +0.32 | — | 1/2 | — | 0 | Delisted-ish, 51 trades |
+
+Result: nothing here is a 5th coin. None reaches the four's edge (+0.26 to +0.36R); the 7-year ones (IOST) are weak and the clean ones (DEFI, GTC) are illiquid or short. Data in `data4h/`.
+
+## Round 4b (2026-10-26) — realistic run (fees + funding) on the liquid Tier 3 coins, `cand.js`, $5 risk
+| Coin | avgR | 2023→ | Years+ | DD | 2x costs | 3x costs | $M/d | Verdict |
+|---|---|---|---|---|---|---|---|---|
+| ADA (ref) | +0.32 | +0.23 | 7/7 | 12.7R | 6/7 | 6/7 | 186 | already in set |
+| **XLM** | +0.16 | +0.18 | **7/7** | 11.0R | +$219, 6/7 | +$167, 5/7 | 66 | Only new 7/7; edge half of the four |
+| DOT | +0.23 | +0.18 | 6/7 | 13.0R | +$299, 6/7 | +$256, 6/7 | 57 | Loses 2020 only (−$40, listed Aug 2020); best edge of the new ones |
+| AVAX | +0.23 | +0.18 | 5/7 | 11.8R | 5/7 | 4/7 | 132 | 2020 and 2026 negative |
+| LINK | +0.15 | +0.12 | 6/7 | 14.8R | 6/7 | 4/7 | 159 | Loses 2021; weak |
+Funding is a small drag on all (−$21 to −$34). No new coin matches the four on both edge and 7/7.
+
+## Round 4c (2026-10-26) — GALA vs DOT vs XLM, same window (20 Sep 2021 → Oct 2026), `cmp-gala-dot-xlm.js`
+Alone: GALA +0.36R, +$435, DD 10.9R, 6/6 yrs, 3x costs 6/6, corr 0.20 · DOT +0.27R, +$342, DD 11.6R, 6/6, 3x 6/6, corr 0.42 · XLM +0.13R, +$167, 4/6 at 2x/3x costs, corr 0.44.
+Added to SOL+ZEC+NEAR+ADA (+$1,341, DD $91): +GALA +$1,776 DD $128 · +DOT +$1,684 DD $135 · +XLM +$1,509 DD $114 · +GALA+DOT +$2,118 DD $159.
+Note: GALA is not yet in the traded set (still the runner-up, ~$13M/day). DOT's only losing year is 2020 (partial, listed Aug 2020) and is outside this window.
