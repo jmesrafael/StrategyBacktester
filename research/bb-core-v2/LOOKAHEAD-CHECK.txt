@@ -1,0 +1,12 @@
+bb-core (48)   SOL   309 trades   1827 cut points  identical
+bb-core (48)   ZEC   332 trades   1990 cut points  identical
+bb-core (48)   NEAR  298 trades   1838 cut points  identical
+bb-core (48)   ADA   328 trades   1962 cut points  identical
+bb-core (48)   GALA  243 trades   1525 cut points  identical
+v2-A (96)      SOL   245 trades   1457 cut points  identical
+v2-A (96)      ZEC   281 trades   1696 cut points  identical
+v2-A (96)      NEAR  241 trades   1444 cut points  identical
+v2-A (96)      ADA   274 trades   1629 cut points  identical
+v2-A (96)      GALA  194 trades   1242 cut points  identical
+
+PASS: 16610 cut points, 0 mismatches — decisions at every moment used only data available at that moment
