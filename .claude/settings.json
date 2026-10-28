@@ -1,0 +1,59 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "D:/Python312/Scripts/graphify.EXE hook-guard search",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "D:/Python312/Scripts/graphify.EXE hook-guard read",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "D:/Python312/python.exe \"$CLAUDE_PROJECT_DIR/report-index/hook_guard.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "D:/Python312/python.exe \"$CLAUDE_PROJECT_DIR/report-index/rq.py\" update --quiet",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|Bash|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "D:/Python312/python.exe \"$CLAUDE_PROJECT_DIR/report-index/rq.py\" update --quiet",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
