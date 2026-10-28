@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "setup-db": "node scripts/setup-supabase.mjs",
-    "serve": "node .serve.js"
+    "serve": "node .serve.js",
+    "icore:sync": "node scripts/sync-icore-core.mjs",
+    "icore:parity": "node scripts/icx-parity.mjs"
   }
 }

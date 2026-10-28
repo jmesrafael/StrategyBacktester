@@ -46,7 +46,14 @@ const IndicatorManager = (() => {
       label: (p) => BBXIndicator.label(p),
       defaults: () => ({ ...BBXIndicator.getDefaults() }),
     },
+    icx: {
+      name: '🧭 I-Core setups (entry · SL · trailing stop)',
+      label: (p) => ICXIndicator.label(p),
+      defaults: () => ({ ...ICXIndicator.getDefaults() }),
+    },
   };
+  // the setup indicators (one shared overlay each, a performance calendar each)
+  const SETUPS = { bbx: () => BBXIndicator, icx: () => ICXIndicator };
 
   const RSI_PANE = 1;   // stacked sub-pane below the main price/volume pane
 
@@ -120,9 +127,9 @@ const IndicatorManager = (() => {
     } else if (type === 'smc') {
       SMCIndicator.updateParams(inst.params);
       SMCIndicator.setActive(inst.visible);
-    } else if (type === 'bbx') {
-      BBXIndicator.updateParams(inst.params);
-      BBXIndicator.setActive(inst.visible);
+    } else if (SETUPS[type]) {
+      SETUPS[type]().updateParams(inst.params);
+      SETUPS[type]().setActive(inst.visible);
     }
     instances.push(inst);
     return inst;
@@ -165,7 +172,7 @@ const IndicatorManager = (() => {
 
   function add(type, params) {
     // single-instance types (they own one shared overlay)
-    if (['volume', 'fvg', 'smc', 'bbx'].includes(type) && instances.some((i) => i.type === type)) return;
+    if (['volume', 'fvg', 'smc', 'bbx', 'icx'].includes(type) && instances.some((i) => i.type === type)) return;
     materialize(type, params || {});
     recompute(lastCandles);
     renderPanel(); refreshBadge(); persist();
@@ -182,8 +189,8 @@ const IndicatorManager = (() => {
       FVGIndicator.setActive(false);
     } else if (inst.type === 'smc') {
       SMCIndicator.setActive(false);
-    } else if (inst.type === 'bbx') {
-      BBXIndicator.setActive(false);
+    } else if (SETUPS[inst.type]) {
+      SETUPS[inst.type]().setActive(false);
     }
     instances = instances.filter((i) => i.id !== id);
     renderPanel(); refreshBadge(); updateLegend(null); persist();
@@ -219,7 +226,7 @@ const IndicatorManager = (() => {
     else if (inst.type === 'volume') ChartView.toggleVolume(v);
     else if (inst.type === 'fvg') FVGIndicator.setActive(v);
     else if (inst.type === 'smc') SMCIndicator.setActive(v);
-    else if (inst.type === 'bbx') BBXIndicator.setActive(v);
+    else if (SETUPS[inst.type]) SETUPS[inst.type]().setActive(v);
     recompute(lastCandles);
     renderPanel(); refreshBadge(); updateLegend(null); persist();
   }
@@ -237,11 +244,11 @@ const IndicatorManager = (() => {
       FVGIndicator.updateParams(inst.params);
     } else if (inst.type === 'smc') {
       SMCIndicator.updateParams(inst.params);
-    } else if (inst.type === 'bbx') {
-      BBXIndicator.updateParams(inst.params);
+    } else if (SETUPS[inst.type]) {
+      SETUPS[inst.type]().updateParams(inst.params);
     }
     recompute(lastCandles);
-    if (inst.type !== 'smc' && inst.type !== 'bbx') renderPanel();   // keep the SMC form (and its focus) open while editing
+    if (inst.type !== 'smc' && !SETUPS[inst.type]) renderPanel();   // keep the SMC form (and its focus) open while editing
     persist();
   }
 
@@ -275,8 +282,8 @@ const IndicatorManager = (() => {
         FVGIndicator.compute(lastCandles, ivSecs);
       } else if (inst.type === 'smc' && inst.visible) {
         SMCIndicator.compute(lastCandles, ivSecs);
-      } else if (inst.type === 'bbx' && inst.visible) {
-        BBXIndicator.compute(lastCandles, ivSecs);
+      } else if (SETUPS[inst.type] && inst.visible) {
+        SETUPS[inst.type]().compute(lastCandles, ivSecs);
       }
     });
     updateLegend(null);
@@ -302,7 +309,7 @@ const IndicatorManager = (() => {
       const inst = instances.find((i) => i.id === id); if (!inst) return;
       if (btn.dataset.act === 'eye') setVisible(id, !inst.visible);
       else if (btn.dataset.act === 'gear') openConfigPopup(inst, btn);
-      else if (btn.dataset.act === 'cal') BBXIndicator.openCalendar();
+      else if (btn.dataset.act === 'cal' && SETUPS[inst.type]) SETUPS[inst.type]().openCalendar();
       else if (btn.dataset.act === 'del') remove(id);
     });
   }
@@ -353,9 +360,10 @@ const IndicatorManager = (() => {
         color = inst.params.color;
       } else if (inst.type === 'fvg' || inst.type === 'smc') {
         name = REGISTRY[inst.type].label(inst.params); color = 'var(--text-dim)';
-      } else if (inst.type === 'bbx') {
-        name = REGISTRY.bbx.label(inst.params) + (inst.visible ? BBXIndicator.status() : '');
-        color = inst.visible ? BBXIndicator.statusColor() : 'var(--text-dim)';
+      } else if (SETUPS[inst.type]) {
+        const X = SETUPS[inst.type]();
+        name = REGISTRY[inst.type].label(inst.params) + (inst.visible ? X.status() : '');
+        color = inst.visible ? X.statusColor() : 'var(--text-dim)';
       } else {
         let v = null;
         if (inst.visible && param && param.seriesData) {
@@ -365,9 +373,9 @@ const IndicatorManager = (() => {
         if (v != null) valTxt = ' · ' + ChartView.fmtVol(v);
         name = 'Vol'; color = 'var(--text-dim)';
       }
-      const gear = (inst.type === 'ma' || inst.type === 'rsi' || inst.type === 'bb' || inst.type === 'fvg' || inst.type === 'smc' || inst.type === 'bbx')
+      const gear = (inst.type === 'ma' || inst.type === 'rsi' || inst.type === 'bb' || inst.type === 'fvg' || inst.type === 'smc' || SETUPS[inst.type])
         ? `<button class="lg-ic" data-act="gear" data-id="${inst.id}" title="Settings">⚙</button>` : '';
-      const cal = inst.type === 'bbx'
+      const cal = SETUPS[inst.type]
         ? `<button class="lg-ic" data-act="cal" data-id="${inst.id}" title="Performance calendar">📅</button>` : '';
       return `<div class="lg-row${inst.visible ? '' : ' lg-off'}">` +
         `<span class="lg-name" style="color:${color}">${name}${valTxt}</span>` +
@@ -429,8 +437,8 @@ const IndicatorManager = (() => {
       const row = document.createElement('div');
       row.className = 'ind-row';
       const hasColor = inst.type === 'ma' || inst.type === 'rsi' || inst.type === 'bb';
-      const hasGear  = hasColor || inst.type === 'fvg' || inst.type === 'smc' || inst.type === 'bbx';
-      const hasCal   = inst.type === 'bbx';
+      const hasGear  = hasColor || inst.type === 'fvg' || inst.type === 'smc' || !!SETUPS[inst.type];
+      const hasCal   = !!SETUPS[inst.type];
       row.innerHTML =
         `<span class="ind-name" style="${hasColor ? 'color:' + inst.params.color : ''}">${def.label(inst.params)}</span>` +
         `<span class="ind-actions">` +
@@ -442,7 +450,7 @@ const IndicatorManager = (() => {
       const gear = row.querySelector('.ind-gear');
       if (gear) gear.onclick = () => toggleConfig(inst, row);
       const cal = row.querySelector('.ind-cal');
-      if (cal) cal.onclick = () => BBXIndicator.openCalendar();
+      if (cal) cal.onclick = () => SETUPS[inst.type]().openCalendar();
       row.querySelector('.ind-eye').onclick = () => setVisible(inst.id, !inst.visible);
       row.querySelector('.ind-x').onclick = () => remove(inst.id);
       actEl.appendChild(row);
@@ -455,7 +463,7 @@ const IndicatorManager = (() => {
     if (inst.type === 'bb') return buildBbConfigEl(inst);
     if (inst.type === 'fvg') return buildFvgConfigEl(inst);
     if (inst.type === 'smc') return SMCIndicator.buildConfigEl(inst.params, (patch) => updateParams(inst.id, patch));
-    if (inst.type === 'bbx') return BBXIndicator.buildConfigEl(inst.params, (patch) => updateParams(inst.id, patch));
+    if (SETUPS[inst.type]) return SETUPS[inst.type]().buildConfigEl(inst.params, (patch) => updateParams(inst.id, patch));
     const cfg = document.createElement('div');
     cfg.className = 'ind-config';
     cfg.innerHTML =
