@@ -4,9 +4,9 @@ BB-Core, no target     n 1331 win 36.5% exp +0.451R avgWin +2.94R avgLoss −0.9
 I-Core                 n 760 win 32.0% exp +0.866R avgWin +4.73R avgLoss −0.95R PF 2.34 net +658R DD -30R top10 74%
 
 PESOS PER YEAR (fresh P10,000, 2.5%, cap P580)
-BB-Core, fixed target  ₱17,337 | ₱57,437 | ₱20,322 | ₱22,280 | ₱27,400 | ₱36,821 | ₱11,547 | sum ₱193,143 | w/o 2021 ₱135,706
-BB-Core, no target     ₱23,327 | ₱84,301 | ₱24,675 | ₱18,712 | ₱21,878 | ₱27,301 | ₱35,848 | sum ₱236,042 | w/o 2021 ₱151,741
-I-Core                 ₱29,690 | ₱59,491 | ₱5,198 | ₱31,642 | ₱10,660 | ₱28,083 | ₱14,722 | sum ₱179,485 | w/o 2021 ₱119,994
+BB-Core, fixed target  ₱13,961 | ₱57,858 | ₱28,792 | ₱17,891 | ₱30,206 | ₱34,744 | ₱11,651 | sum ₱195,104 | w/o 2021 ₱137,247
+BB-Core, no target     ₱16,793 | ₱84,514 | ₱34,110 | ₱14,216 | ₱24,976 | ₱25,816 | ₱35,962 | sum ₱236,387 | w/o 2021 ₱151,873
+I-Core                 ₱3,652 | ₱75,360 | ₱9,266 | ₱21,864 | ₱27,221 | ₱30,071 | ₱16,453 | sum ₱183,886 | w/o 2021 ₱108,526
 
 ROBUSTNESS expR
 BB-Core, fixed target  all +0.327 | w/o best year +0.291 (2021) | w/o best 2 yrs +0.281 | w/o top 10 trades +0.302
@@ -19,13 +19,49 @@ BB-Core, no target     exp +0.322R n 2136 net +689R DD -65R positive coins 7/7 l
 I-Core                 exp +0.295R n 1295 net +382R DD -91R positive coins 7/7 losing years 1/7
 
 PAIRS (two P10,000 accounts, fresh each year)
-BB-Core, no target + I-Core                    ₱53,017 | ₱143,792 | ₱29,873 | ₱50,354 | ₱32,538 | ₱55,383 | ₱50,570 | sum ₱415,527 | w/o 2021 ₱271,735 | worst yr ₱29,873 | corr 0.09 | same trade 12% | worst month −21R
-BB-Core, fixed target + I-Core                 ₱47,026 | ₱116,927 | ₱25,519 | ₱53,922 | ₱38,061 | ₱64,904 | ₱26,269 | sum ₱372,628 | w/o 2021 ₱255,700 | worst yr ₱25,519 | corr 0.15 | same trade 11% | worst month −17R
-BB-Core, fixed target + BB-Core, no target     ₱40,664 | ₱141,738 | ₱44,997 | ₱40,992 | ₱49,278 | ₱64,122 | ₱47,394 | sum ₱429,185 | w/o 2021 ₱287,447 | worst yr ₱40,664 | corr 0.80 | same trade 83% | worst month −34R
+BB-Core, no target + I-Core                    ₱20,445 | ₱159,874 | ₱43,376 | ₱36,080 | ₱52,196 | ₱55,887 | ₱52,416 | sum ₱420,273 | w/o 2021 ₱260,400 | worst yr ₱20,445 | corr 0.09 | same trade 12% | worst month −21R
+BB-Core, fixed target + I-Core                 ₱17,613 | ₱133,218 | ₱38,058 | ₱39,755 | ₱57,427 | ₱64,815 | ₱28,104 | sum ₱378,991 | w/o 2021 ₱245,773 | worst yr ₱17,613 | corr 0.15 | same trade 11% | worst month −17R
+BB-Core, fixed target + BB-Core, no target     ₱30,755 | ₱142,371 | ₱62,902 | ₱32,107 | ₱55,182 | ₱60,560 | ₱47,613 | sum ₱431,491 | w/o 2021 ₱289,120 | worst yr ₱30,755 | corr 0.80 | same trade 83% | worst month −34R
 
 NEW RISK STEPS, no cap
-BB-Core, fixed target  fresh-year ₱17,263 | ₱74,645 | ₱17,626 | ₱21,848 | ₱27,741 | ₱39,603 | ₱11,804 | sum ₱210,530 | one account to Oct 2026 ₱8.5M drop 36% (flat 2.5% no cap: ₱93.0M, drop 56%)
-BB-Core, no target     fresh-year ₱22,195 | ₱108,316 | ₱18,191 | ₱19,212 | ₱22,065 | ₱28,546 | ₱34,431 | sum ₱252,954 | one account to Oct 2026 ₱16.9M drop 30% (flat 2.5% no cap: ₱178.0M, drop 49%)
-I-Core                 fresh-year ₱29,690 | ₱60,568 | ₱5,198 | ₱31,786 | ₱10,660 | ₱27,045 | ₱14,363 | sum ₱179,311 | one account to Oct 2026 ₱6.8M drop 37% (flat 2.5% no cap: ₱27.5M, drop 53%)
+BB-Core, fixed target  fresh-year ₱13,858 | ₱73,337 | ₱23,338 | ₱18,227 | ₱29,954 | ₱36,582 | ₱11,889 | sum ₱207,185 | one account to Oct 2026 ₱8.5M drop 36% (flat 2.5% no cap: ₱93.0M, drop 56%)
+BB-Core, no target     fresh-year ₱16,423 | ₱108,583 | ₱27,313 | ₱14,203 | ₱26,083 | ₱26,382 | ₱34,604 | sum ₱253,591 | one account to Oct 2026 ₱16.9M drop 30% (flat 2.5% no cap: ₱178.0M, drop 49%)
+I-Core                 fresh-year ₱3,652 | ₱87,380 | ₱9,266 | ₱21,864 | ₱26,852 | ₱28,165 | ₱16,458 | sum ₱193,635 | one account to Oct 2026 ₱6.8M drop 37% (flat 2.5% no cap: ₱27.5M, drop 53%)
 BB-Core, no target + I-Core                    one account pair to Oct 2026 ₱23.7M drop 31%
 BB-Core, fixed target + I-Core                 one account pair to Oct 2026 ₱15.3M drop 31%
+
+NO CAP, FLAT 2.5%, fresh P10,000 each year (profit booked at close)
+BB-Core, fixed target
+  2020: end ₱23,858 profit ₱13,858 (+139%) trades 100 win 36% drop 22% best Jul +35% worst Aug −8%
+  2021: end ₱116,058 profit ₱106,058 (+1061%) trades 221 win 41% drop 23% best Aug +111% worst Mar −12%
+  2022: end ₱31,664 profit ₱21,664 (+217%) trades 231 win 43% drop 56% best Jan +74% worst Jul −31%
+  2023: end ₱27,451 profit ₱17,451 (+175%) trades 252 win 36% drop 47% best Oct +57% worst Apr −22%
+  2024: end ₱41,592 profit ₱31,592 (+316%) trades 253 win 38% drop 34% best Nov +99% worst May −15%
+  2025: end ₱47,070 profit ₱37,070 (+371%) trades 241 win 39% drop 32% best Nov +57% worst Dec −19%
+  2026: end ₱19,781 profit ₱9,781 (+98%) trades 212 win 38% drop 46% best May +67% worst Oct −35%
+BB-Core, no target
+  2020: end ₱25,507 profit ₱15,507 (+155%) trades 83 win 36% drop 20% best Jul +34% worst Dec −17%
+  2021: end ₱155,342 profit ₱145,342 (+1453%) trades 185 win 36% drop 33% best Aug +156% worst Mar −16%
+  2022: end ₱35,737 profit ₱25,737 (+257%) trades 215 win 40% drop 49% best Jan +103% worst Jul −31%
+  2023: end ₱24,203 profit ₱14,203 (+142%) trades 232 win 31% drop 47% best Dec +81% worst Feb −23%
+  2024: end ₱36,244 profit ₱26,244 (+262%) trades 218 win 38% drop 33% best Nov +97% worst Oct −19%
+  2025: end ₱37,953 profit ₱27,953 (+280%) trades 207 win 40% drop 29% best Oct +62% worst Mar −20%
+  2026: end ₱38,386 profit ₱28,386 (+284%) trades 191 win 36% drop 45% best Aug +124% worst Oct −36%
+I-Core
+  2020: end ₱13,652 profit ₱3,652 (+37%) trades 59 win 32% drop 28% best Jul +24% worst Nov −16%
+  2021: end ₱119,790 profit ₱109,790 (+1098%) trades 101 win 35% drop 32% best Dec +102% worst May −15%
+  2022: end ₱19,266 profit ₱9,266 (+93%) trades 112 win 35% drop 36% best May +69% worst Sep −16%
+  2023: end ₱31,864 profit ₱21,864 (+219%) trades 126 win 28% drop 53% best Nov +92% worst Feb −24%
+  2024: end ₱36,467 profit ₱26,467 (+265%) trades 123 win 32% drop 41% best Dec +172% worst May −21%
+  2025: end ₱36,705 profit ₱26,705 (+267%) trades 136 win 32% drop 37% best Nov +378% worst Dec −15%
+  2026: end ₱25,886 profit ₱15,886 (+159%) trades 103 win 31% drop 51% best Sep +130% worst Apr −24%
+
+CALENDAR MONTH AVERAGE RETURN
+BB-Core, fixed target  Jan +23% | Feb +22% | Mar +7% | Apr +7% | May +22% | Jun +12% | Jul +9% | Aug +21% | Sep +7% | Oct +7% | Nov +31% | Dec +15%
+BB-Core, no target     Jan +28% | Feb +18% | Mar +3% | Apr +4% | May +20% | Jun +18% | Jul +4% | Aug +44% | Sep +5% | Oct +13% | Nov +46% | Dec +16%
+I-Core                 Jan +6% | Feb +13% | Mar +14% | Apr +1% | May +7% | Jun +18% | Jul −0% | Aug +2% | Sep +28% | Oct −3% | Nov +78% | Dec +55%
+
+MARKET-MOVE THIRDS (avg monthly return)
+BB-Core, fixed target  quiet −2% | middle +17% | big +29% | corr 0.48
+BB-Core, no target     quiet −1% | middle +14% | big +39% | corr 0.56
+I-Core                 quiet −4% | middle +27% | big +28% | corr 0.10

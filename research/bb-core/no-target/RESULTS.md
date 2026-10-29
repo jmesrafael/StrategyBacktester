@@ -88,3 +88,8 @@ One ₱10,000 account 2020 -> Oct 2026: BB 1:4 ₱93M (drop 56%), BB no-target �
 
 ## 10. Risk that steps down as the account grows (Oct 29, 2026): `tiers.js`, `out-tiers.txt`
 2.5% below $500, 2.0% from $500, 1.5% from $1,000, no $ cap. BB no-target: ₱10k -> ₱16.9M by Oct 2026 with a 30% deepest drop (flat 2.5% no cap: ₱178M, 49%). Tiers on the peak balance give the same drawdown as tiers on the current balance and never raise risk during a drop.
+
+## 11. Basis note (Oct 29, 2026): when profit is counted in a year
+The admin report `bbcore-no-target-three-way.html` books profit **when a trade closes** (the house style of the other reports): the fresh-year account for year Y holds the trades that closed in Y, and a trade entered before 1 January is sized on the P10,000.
+The earlier outputs in this folder (`out-rank-2.5pct.txt`, `out-pairs.txt`, `out-growth-nocap.txt`, `out-tiers.txt`) count a trade in the year it was **entered**. BB-Core barely changes between the two; **I-Core changes a lot** because its trades last weeks (capped, sum of seven fresh years P179k entry basis vs P184k closing basis; I-Core 2020 P29.7k vs P3.7k; no cap P190.6k vs P213.6k). The order of the three strategies and the best pair do not change. Prefer the closing basis (the report) when the two differ.
+Detailed no-cap tables, month-by-month grids, calendar-month averages, best months and the market-move split: `nocap-section.js`, figures in `out-three-way.txt`.
