@@ -72,6 +72,9 @@ Monthly-R correlation with I-Core: BB 1:4 = 0.15, BB-A = 0.09 (very low: they wi
 
 Scripts: `lib.js` (engines and signals), `validate.js`, `compare.js`, `robust.js`, `cmp.js` (yearly), `trend.js` (exit variants), `big-moves-per-year.js`. Run with `node <file>`; set `STRAT_ROOT` (forward slashes, e.g. `C:/Users/me/Strat`) to the folder that holds your clones (default: this PC) when running them elsewhere.
 
+## 0. The admin report
+`build-report.js` rebuilds the admin report `ledger/reports/bbcore-no-target-three-way.html` (and its `index.json` entry) from these numbers; `out-three-way.txt` has the same figures as text. It lives on the ledger branch `bb-core-no-target-dashboard` until that is merged to `main`.
+
 ## 7. Ranking at 2.5% risk, ₱10,000 per year (Oct 29, 2026): `rank.js`, `out-rank-2.5pct.txt`
 Run `CAP=580 node rank.js` (580 = the bots' maxRiskUsd $10 at about ₱58/$; without CAP the compounding is unrealistic).
 Rank: **1. BB no-target**, **2. I-Core**, 3. BB 1:4. Best tandem: **BB no-target + I-Core** (correlation 0.09). Sum of the yearly ₱10k results: no-target ₱236k (₱152k without 2021),
