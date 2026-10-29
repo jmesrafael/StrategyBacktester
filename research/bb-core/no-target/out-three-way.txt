@@ -65,3 +65,43 @@ MARKET-MOVE THIRDS (avg monthly return)
 BB-Core, fixed target  quiet −2% | middle +17% | big +29% | corr 0.48
 BB-Core, no target     quiet −1% | middle +14% | big +39% | corr 0.56
 I-Core                 quiet −4% | middle +27% | big +28% | corr 0.10
+
+COMPOUNDING (no cap, 2.5%): fresh P10,000 each year, profit per year | continuous account end balance
+BB-Core, fixed target  Every trade            ₱13,858 | ₱106,058 | ₱21,664 | ₱17,451 | ₱31,592 | ₱37,070 | ₱9,781                             | to Oct 2026 ₱93.0M drop 56%
+BB-Core, fixed target  Every month            ₱14,985 | ₱97,156 | ₱26,021 | ₱20,626 | ₱31,789 | ₱36,447 | ₱7,903                              | to Oct 2026 ₱102.4M drop 53%
+BB-Core, fixed target  Every year             (same as never inside a fresh year)                                                             | to Oct 2026 ₱10.1M drop 37%
+BB-Core, fixed target  Never (₱250 a trade)   ₱10,421 | ₱29,387 | ₱16,852 | ₱15,312 | ₱19,782 | ₱20,344 | ₱11,208                             | to Oct 2026 ₱133,305 drop 14%
+BB-Core, no target     Every trade            ₱15,507 | ₱145,342 | ₱25,737 | ₱14,203 | ₱26,244 | ₱27,953 | ₱28,386                            | to Oct 2026 ₱178.0M drop 49%
+BB-Core, no target     Every month            ₱15,968 | ₱140,939 | ₱34,666 | ₱24,924 | ₱24,099 | ₱27,017 | ₱21,187                            | to Oct 2026 ₱248.3M drop 48%
+BB-Core, no target     Every year             (same as never inside a fresh year)                                                             | to Oct 2026 ₱22.0M drop 39%
+BB-Core, no target     Never (₱250 a trade)   ₱11,380 | ₱43,000 | ₱20,297 | ₱17,474 | ₱17,461 | ₱18,073 | ₱22,516                             | to Oct 2026 ₱160,202 drop 11%
+I-Core                 Every trade            ₱3,652 | ₱109,790 | ₱9,266 | ₱21,864 | ₱26,467 | ₱26,705 | ₱15,886                              | to Oct 2026 ₱27.5M drop 53%
+I-Core                 Every month            ₱4,567 | ₱119,110 | ₱11,064 | ₱24,616 | ₱28,536 | ₱28,120 | ₱18,372                             | to Oct 2026 ₱32.0M drop 53%
+I-Core                 Every year             (same as never inside a fresh year)                                                             | to Oct 2026 ₱15.2M drop 65%
+I-Core                 Never (₱250 a trade)   ₱4,637 | ₱48,140 | ₱10,086 | ₱23,696 | ₱23,259 | ₱32,559 | ₱22,137                              | to Oct 2026 ₱174,514 drop 18%
+
+WIN RATE AND EXPECTANCY BY YEAR (closing basis)
+BB-Core, fixed target
+  2020: trades 100 win 36.0% exp +0.417R avgWin +2.78R avgLoss −0.91R PF 1.71 per trade at P250 ₱104
+  2021: trades 221 win 40.7% exp +0.532R avgWin +2.72R avgLoss −0.97R PF 1.92 per trade at P250 ₱133
+  2022: trades 231 win 42.9% exp +0.292R avgWin +1.96R avgLoss −0.96R PF 1.53 per trade at P250 ₱73
+  2023: trades 252 win 35.7% exp +0.243R avgWin +2.37R avgLoss −0.94R PF 1.40 per trade at P250 ₱61
+  2024: trades 253 win 38.3% exp +0.313R avgWin +2.33R avgLoss −0.94R PF 1.54 per trade at P250 ₱78
+  2025: trades 241 win 39.4% exp +0.338R avgWin +2.29R avgLoss −0.94R PF 1.60 per trade at P250 ₱84
+  2026: trades 212 win 37.7% exp +0.211R avgWin +2.19R avgLoss −0.99R PF 1.34 per trade at P250 ₱53
+BB-Core, no target
+  2020: trades 83 win 36.1% exp +0.548R avgWin +3.18R avgLoss −0.94R PF 1.91 per trade at P250 ₱137
+  2021: trades 185 win 35.7% exp +0.930R avgWin +4.43R avgLoss −1.01R PF 2.43 per trade at P250 ₱232
+  2022: trades 215 win 39.5% exp +0.378R avgWin +2.45R avgLoss −0.98R PF 1.64 per trade at P250 ₱94
+  2023: trades 232 win 31.0% exp +0.301R avgWin +3.16R avgLoss −0.98R PF 1.44 per trade at P250 ₱75
+  2024: trades 218 win 37.6% exp +0.320R avgWin +2.47R avgLoss −0.97R PF 1.53 per trade at P250 ₱80
+  2025: trades 207 win 40.1% exp +0.349R avgWin +2.32R avgLoss −0.97R PF 1.60 per trade at P250 ₱87
+  2026: trades 191 win 35.6% exp +0.472R avgWin +3.12R avgLoss −0.99R PF 1.74 per trade at P250 ₱118
+I-Core
+  2020: trades 59 win 32.2% exp +0.314R avgWin +2.99R avgLoss −0.96R PF 1.49 per trade at P250 ₱79
+  2021: trades 101 win 34.7% exp +1.907R avgWin +7.29R avgLoss −0.95R PF 4.08 per trade at P250 ₱477
+  2022: trades 112 win 34.8% exp +0.360R avgWin +2.78R avgLoss −0.93R PF 1.59 per trade at P250 ₱90
+  2023: trades 126 win 27.8% exp +0.752R avgWin +5.25R avgLoss −0.98R PF 2.07 per trade at P250 ₱188
+  2024: trades 123 win 31.7% exp +0.756R avgWin +4.44R avgLoss −0.96R PF 2.16 per trade at P250 ₱189
+  2025: trades 136 win 32.4% exp +0.958R avgWin +4.92R avgLoss −0.94R PF 2.51 per trade at P250 ₱239
+  2026: trades 103 win 31.1% exp +0.860R avgWin +4.89R avgLoss −0.96R PF 2.30 per trade at P250 ₱215

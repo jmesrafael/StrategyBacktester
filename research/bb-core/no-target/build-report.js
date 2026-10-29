@@ -125,7 +125,7 @@ pages.push(`<div class="page" id="p1"><div class="cover-band"><div class="tag">P
 <li><b>3rd: BB-Core with the fixed target.</b> The steadiest per trade (its ten best trades are only ${pc(ROB.fx.top10)} of its profit) but the lowest average, and it caps every win at the target.</li>
 <li><b>Best pair: BB-Core with no target + I-Core.</b> The two almost never win in the same months (correlation ${PAIRS[0].corr.toFixed(2)}). It earns ${peso(PAIRS[0].tot - PAIRS[1].tot)} more than today's pair across seven fresh years, with about the same worst drop inside a year (${pc(PAIRS[0].ddMax)} against ${pc(PAIRS[1].ddMax)}).</li>
 <li><b>Status.</b> As of 29 Oct 2026 the no-target version is in the code but <b>not live yet</b>; the live bot still uses the fixed target.</li></ul>
-<div class="note"><b>How to read the pesos.</b> Each year starts again with ₱10,000 on 1 January. Every trade risks 2.5% of the current balance, never more than ₱580 (the old $10 cap), compounding on every trade. Sections 3 to 5 show a flat 2.5% with no cap, month by month. Section 9 shows the new rule (risk steps down as the account grows, no cap). Trades are counted in the year they closed.</div>${foot()}</div>`);
+<div class="note"><b>How to read the pesos.</b> Each year starts again with ₱10,000 on 1 January. Every trade risks 2.5% of the current balance, never more than ₱580 (the old $10 cap), compounding on every trade. Sections 3 to 8 show a flat 2.5% with no cap: ₱10,000 each year, compounding every trade, every month and every year, win rate and expectancy, and month by month. Section 12 shows the new rule (risk steps down as the account grows, no cap). Trades are counted in the year they closed.</div>${foot()}</div>`);
 
 pages.push(`<div class="page" id="p2"><h2>1. Per trade</h2><p class="sub">All five coins together, 1 Jan 2020 to late Oct 2026. Fees, slippage and funding included. R = the amount risked on a trade.</p>
 ${tbl(['', ...KEYS.map((k) => NAME[k])], [
@@ -149,15 +149,15 @@ ${tbl(['', ...Y.map(String), 'Sum', 'Sum without 2021'], KEYS.map(yrRow))}
 
 pages.push(...NOCAP.pages);                                          // sections 3, 4, 5: no cap, month by month, best months
 const robRow = (label, fn) => [label, ...KEYS.map(fn)];
-pages.push(`<div class="page" id="p4"><h2>6. Do they hold up without the best years and trades?</h2><p class="sub">Average per trade after taking out the best of the results. All three stay positive; the order changes when the biggest winners go.</p>
+pages.push(`<div class="page" id="p4"><h2>9. Do they hold up without the best years and trades?</h2><p class="sub">Average per trade after taking out the best of the results. All three stay positive; the order changes when the biggest winners go.</p>
 ${tbl(['', ...KEYS.map((k) => NAME[k])], [
   robRow('All trades', (k) => R(ST[k].exp)),
   robRow('Without the best year', (k) => `${R(ROB[k].e1.exp)}<br><span class="mut">(${ROB[k].best[0]} removed)</span>`),
   robRow('Without the best two years', (k) => R(ROB[k].e2.exp)),
   robRow('Without the ten best trades', (k) => R(ROB[k].e10)),
 ])}
-<div class="note"><b>The honest reading.</b> Without its ten best trades, BB-Core with no target is at ${f(ROB.nt.e10, 2)}R, about the same as the fixed target (${f(ROB.fx.e10, 2)}R), and I-Core drops to ${f(ROB.ic.e10, 2)}R. So the gain from removing the target comes from the occasional big winner it no longer cuts short. On these five coins it is ahead in fewer than two of every three coin-years, so it is not proven on them alone. Section 7 is the stronger evidence.</div>
-<h2 style="margin-top:18px">7. Seven coins never used to design the bots</h2><p class="sub">AVAX, BNB, DOGE, ETH, LINK, LTC, XRP over the same years (no funding data; the same fees and slippage).</p>
+<div class="note"><b>The honest reading.</b> Without its ten best trades, BB-Core with no target is at ${f(ROB.nt.e10, 2)}R, about the same as the fixed target (${f(ROB.fx.e10, 2)}R), and I-Core drops to ${f(ROB.ic.e10, 2)}R. So the gain from removing the target comes from the occasional big winner it no longer cuts short. On these five coins it is ahead in fewer than two of every three coin-years, so it is not proven on them alone. Section 10 is the stronger evidence.</div>
+<h2 style="margin-top:18px">10. Seven coins never used to design the bots</h2><p class="sub">AVAX, BNB, DOGE, ETH, LINK, LTC, XRP over the same years (no funding data; the same fees and slippage).</p>
 ${tbl(['', ...KEYS.map((k) => NAME[k])], [
   robRow('<b>Average per trade</b>', (k) => `<b>${R(OT[k].all.exp)}</b>`),
   robRow('Trades', (k) => OT[k].all.n), robRow('Total', (k) => R(OT[k].all.net, 0)), robRow('Deepest drop', (k) => `−${OT[k].all.dd.toFixed(0)}R`),
@@ -167,7 +167,7 @@ ${tbl(['', ...KEYS.map((k) => NAME[k])], [
 ])}${foot()}</div>`);
 
 const pairRow = (p) => [`${NAME[p.a]} + ${NAME[p.b]}`, ...p.yr.map((r) => P(r.profit)), `<b>${P(p.tot)}</b>`, P(p.no21)];
-pages.push(`<div class="page" id="p5"><h2>8. Two bots together</h2><p class="sub">Two accounts of ₱10,000 each (₱20,000), each with its own risk, each year starting fresh on 1 January. Profit made that year on the ₱20,000.</p>
+pages.push(`<div class="page" id="p5"><h2>11. Two bots together</h2><p class="sub">Two accounts of ₱10,000 each (₱20,000), each with its own risk, each year starting fresh on 1 January. Profit made that year on the ₱20,000.</p>
 ${tbl(['', ...Y.map(String), 'Sum', 'Sum without 2021'], PAIRS.map(pairRow))}
 <div style="height:14px"></div>${tbl(['', ...PAIRS.map((p) => `${NAME[p.a].replace('BB-Core, ', 'BB ')} + ${NAME[p.b].replace('BB-Core, ', 'BB ')}`)], [
   ['Monthly correlation (0 = independent, 1 = same)', ...PAIRS.map((p) => p.corr.toFixed(2))],
@@ -180,7 +180,7 @@ ${tbl(['', ...Y.map(String), 'Sum', 'Sum without 2021'], PAIRS.map(pairRow))}
 <div class="note"><b>Why the BB-Core pair is not the answer.</b> BB-Core with the fixed target + BB-Core with no target earns the most on paper (${peso(PAIRS[2].tot)}), but it is the same signal on the same coins: ${pc(PAIRS[2].same)} of the trades are the same trade, the monthly correlation is ${PAIRS[2].corr.toFixed(2)} and the worst month is ${f(PAIRS[2].worstMonth, 0)}R. It is one bet at double the risk. <b>BB-Core with no target + I-Core</b> are two different strategies that win in different months (correlation ${PAIRS[0].corr.toFixed(2)}), so it is the pair worth running.</div>${foot()}</div>`);
 
 const stepRow = (k) => [NAME[k], ...STEP[k].yr.map((r) => `${P(r.profit)}<br><span class="mut">drop ${pc(r.dd)}</span>`), `<b>${P(STEP[k].tot)}</b>`, P(STEP[k].no21)];
-pages.push(`<div class="page" id="p6"><h2>9. The new risk rule: steps down as the account grows, no cap</h2><p class="sub">2.5% of the balance per trade below ₱29,000, 2.0% from ₱29,000, 1.5% from ₱58,000, judged by the highest balance reached so far (so it never goes back up during a drop). No per-trade cap. Same fresh ₱10,000 each 1 January.</p>
+pages.push(`<div class="page" id="p6"><h2>12. The new risk rule: steps down as the account grows, no cap</h2><p class="sub">2.5% of the balance per trade below ₱29,000, 2.0% from ₱29,000, 1.5% from ₱58,000, judged by the highest balance reached so far (so it never goes back up during a drop). No per-trade cap. Same fresh ₱10,000 each 1 January.</p>
 ${tbl(['', ...Y.map(String), 'Sum', 'Sum without 2021'], KEYS.map(stepRow))}
 <h3 style="margin-top:16px">One account from 1 Jan 2020 (not restarted)</h3>
 ${tbl(['', 'End of 2021', 'End of 2023', 'End of 2025', 'Oct 2026', 'Deepest drop'], [
@@ -190,7 +190,7 @@ ${tbl(['', 'End of 2021', 'End of 2023', 'End of 2025', 'Oct 2026', 'Deepest dro
 <div style="height:14px"></div>${tbl(['Two ₱10,000 accounts, risk steps', 'End of 2023', 'End of 2025', 'Oct 2026', 'Deepest drop'], STEPP.map((p) => [`${NAME[p.a]} + ${NAME[p.b]}`, peso(p.whole.yEnd[2023]), peso(p.whole.yEnd[2025]), `<b>${peso(p.whole.end)}</b>`, `−${pc(p.whole.dd)}`]))}
 <div class="note"><b>What the steps do.</b> They cut the deepest drop from about half the account (${pc(FLATW.nt.dd)} for BB-Core with no target at a flat 2.5%) to ${pc(STEP.nt.whole.dd)}, and still turn ₱10,000 into ${peso(STEP.nt.whole.end)}. <b>Treat large balances as theoretical:</b> with no cap a 2.5%-risk trade needs a position of about 0.4 times the balance, which on GALA and ZEC stops filling at the test's prices long before these balances are reached. Drops of a third of the account are normal at these risk levels.</div>${foot()}</div>`);
 
-pages.push(`<div class="page" id="p7"><h2>10. Method and limits</h2>
+pages.push(`<div class="page" id="p7"><h2>13. Method and limits</h2>
 <ul style="margin:4px 0 0;padding-left:18px">
 <li><b>Same data, same costs.</b> 4-hour candles on the five coins, Binance prices, exchange fees, slippage and real funding for the five coins. The seven other coins have no funding data (applied equally to all three).</li>
 <li><b>A test on past prices.</b> The coins and settings were chosen with hindsight; I-Core's settings were tuned on 2020–2022 and judged on 2023–2026. 2021 (a very strong year) carries a lot of the profit in all three. 2020 and 2026 are part years.</li>
