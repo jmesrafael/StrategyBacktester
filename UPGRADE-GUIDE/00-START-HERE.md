@@ -13,7 +13,7 @@ The dashboard change is **not on `main`**. It waits on the `ledger` repo, branch
 **Merge it to `main` in step 20b of `03-STEPS.md`: right after BB-Core has run one clean 4h candle on the new code (step 19) and the daily compare says match (step 20). Not earlier, and do not wait for Phase 7.**
 If it is never merged, nothing breaks: the dashboard just keeps the old text ("4R target") and the old expected numbers, and its "Target-hit rate" check would flag a no-target bot as failing once 60 trades have closed. That last part is why it must not be forgotten.
 
-**The same branch also carries the new admin report "Three Strategies Compared"** (commit `9d3b0f8`), so the report shows in the admin Reports tab only after this merge.
+**The admin report "Three Strategies Compared" is already on `main`** (ledger commits `3ecc709`, `e996e87`, `8d26dd5`, pushed Oct 29 by cherry-picking only the report files). Nothing to do in step 20b for the report; step 20b is still needed for the dashboard text alone.
 
 It is also tracked in `bb-core/PENDING-UPGRADE.md` (row 1d), in `07-CHECKLIST.md`, and in `bb-core/RUN-LOG.md`.
 
