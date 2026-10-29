@@ -8,12 +8,12 @@ Written Oct 29, 2026. One folder, start to finish. Open the files in order; each
 
 ## PARKED: do not forget (the ledger branch)
 
-The dashboard change is **not on `main`**. It waits on the `ledger` repo, branch `bb-core-no-target-dashboard` (commit `457a1e3`), on purpose, so the live dashboard does not say "no target" while the bot still trades 1:4.
+The dashboard change is **not on `main`**. It waits on the `ledger` repo, branch `bb-core-no-target-dashboard` (commit `9d3b0f8`), on purpose, so the live dashboard does not say "no target" while the bot still trades 1:4.
 
 **Merge it to `main` in step 20b of `03-STEPS.md`: right after BB-Core has run one clean 4h candle on the new code (step 19) and the daily compare says match (step 20). Not earlier, and do not wait for Phase 7.**
 If it is never merged, nothing breaks: the dashboard just keeps the old text ("4R target") and the old expected numbers, and its "Target-hit rate" check would flag a no-target bot as failing once 60 trades have closed. That last part is why it must not be forgotten.
 
-**The same branch also carries the new admin report "Three Strategies Compared"** (commit `457a1e3`), so the report shows in the admin Reports tab only after this merge.
+**The same branch also carries the new admin report "Three Strategies Compared"** (commit `9d3b0f8`), so the report shows in the admin Reports tab only after this merge.
 
 It is also tracked in `bb-core/PENDING-UPGRADE.md` (row 1d), in `07-CHECKLIST.md`, and in `bb-core/RUN-LOG.md`.
 
@@ -34,7 +34,7 @@ Hosted dashboard (Vercel): small text/number changes (no target, expected number
 
 - **Done and tested on this PC:** the code of both bots, 1,117 test checks passing, both bots' replays identical to their backtests, both deploy bundles build clean (secret scan: 0 matches).
 - **On GitHub since Oct 29:** all code, this guide and the study (`bb-core`, `i-core`, `StrategyBacktester` on `main`; `ledger` on the branch `bb-core-no-target-dashboard`). **Not deployed anywhere:** the VPS and Vercel still run the old versions.
-- **Commits to pull at home:** `bb-core` `c4192df`, `i-core` `fd9f232` (both `main`), `ledger` `457a1e3` (branch `bb-core-no-target-dashboard`), and `StrategyBacktester` (this guide and the study; its newest commit on `main`). At home: `git pull` in `bb-core`, `i-core`, `StrategyBacktester`; `git fetch` in `ledger`. Then `export STRAT=<folder with the clones>` (see `06-COMMANDS.md`) and continue at step 5.
+- **Commits to pull at home:** `bb-core` `c4192df`, `i-core` `fd9f232` (both `main`), `ledger` `9d3b0f8` (branch `bb-core-no-target-dashboard`), and `StrategyBacktester` (this guide and the study; its newest commit on `main`). At home: `git pull` in `bb-core`, `i-core`, `StrategyBacktester`; `git fetch` in `ledger`. Then `export STRAT=<folder with the clones>` (see `06-COMMANDS.md`) and continue at step 5.
 - **Fixed on the way:** the bundle build was refusing to ship (a hash in `upgrade-ready.sh` looked like a secret). It builds now.
 - The VPS still runs the Oct 26 build of BB-Core (`bf4efd`) and an older I-Core (`e4eabaf`).
 

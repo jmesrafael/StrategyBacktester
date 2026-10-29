@@ -3,7 +3,7 @@
 Tick as you go. 🤖 = I tick it and tell you · 🧑 = you · ⛔ = needs your explicit "go". Details: `03-STEPS.md`.
 
 ## Parked items (do not forget)
-- [ ] ⛔ **Step 20b: merge the `ledger` branch `bb-core-no-target-dashboard` to `main`** (after BB-Core's first clean candle and a matching compare; not before). Branch commit `457a1e3`.
+- [ ] ⛔ **Step 20b: merge the `ledger` branch `bb-core-no-target-dashboard` to `main`** (after BB-Core's first clean candle and a matching compare; not before). Branch commit `9d3b0f8`.
 - [ ] 🧑 In Vercel: Production Branch = `main` confirmed for the ledger project
 
 ## Before anything
@@ -13,7 +13,7 @@ Tick as you go. 🤖 = I tick it and tell you · 🧑 = you · ⛔ = needs your 
 ## Phase 1: PC
 - [ ] 🤖 Step 2: all tests pass (1117+), both replays IDENTICAL
 - [ ] 🧑 Step 3: read the summary of what will be pushed
-- [x] ⛔ Step 4: committed and pushed on Oct 29 (`bb-core` c4192df, `i-core` fd9f232, `ledger` branch 457a1e3, `StrategyBacktester`). At home: pull them (see `00-START-HERE.md`)
+- [x] ⛔ Step 4: committed and pushed on Oct 29 (`bb-core` c4192df, `i-core` fd9f232, `ledger` branch 9d3b0f8, `StrategyBacktester`). At home: pull them (see `00-START-HERE.md`)
 - [ ] 🤖 Step 5: both bundles built, secrets check 0 matches, checksums written
 
 ## Phase 2: look at the VPS
