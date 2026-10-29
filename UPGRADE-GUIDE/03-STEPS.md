@@ -88,6 +88,13 @@ Expect: clean. If a trade closed at its stop or target, I confirm the journal ha
 
 **20. 🤖 Next day, 00:40 UTC compare.** The daily live-vs-backtest check should say `match` (it judges the older trades against the 1:4 backtest and new ones against the no-target engine). Expect: match, or only differences I can explain.
 
+**20b. 🤝 Merge the parked ledger branch to `main` (so the dashboard matches the bot).** Do this now: BB-Core is running the new code and has had one clean cycle.
+Why now and not earlier/later: earlier, the dashboard would describe a bot that still trades 1:4; later, its "Target-hit rate" check (which exists in the old dashboard code) would raise a false alarm once 60 trades have closed with no targets.
+- 🧑 First, once: in Vercel, open the ledger project > Settings > Git and confirm **Production Branch = `main`**, and that the branch push on Oct 29 produced only a **Preview** deployment (never Production). I could not check this: the Vercel connector in this session does not list the ledger project.
+- ⛔ After your "go": `cd $STRAT/ledger && git fetch && git checkout main && git merge --ff-only origin/bb-core-no-target-dashboard && git push` (commands in `06-COMMANDS.md`). Fast-forward only: if it refuses, `main` moved; tell me, do not force it.
+- 🤖 Then step 29 below (Vercel live, health ok, page looks right).
+Expect: the production deployment of the merge commit is Ready; the dashboard's BB-Core description says "no profit target" and there is no "Target-hit rate" tile.
+
 ---
 
 ## PHASE 6: Upgrade I-Core
@@ -123,7 +130,7 @@ Expect: the command prints `saved ...`; the `risk` row of `check` says e.g. `ris
 
 ## PHASE 8: Hosted dashboard (Vercel) and Supabase
 
-**28. ⛔ Put the dashboard change on `main`.** Two files changed (`bot-dashboard/app.js`, `lib/perf.js`): text and expected numbers only. It is already on GitHub in the branch `bb-core-no-target-dashboard` (pushed on Oct 29 so you can pull it at home without Vercel deploying it early). Fast-forward `main` to it and push (commands in `06-COMMANDS.md`).
+**28. ✅ Normally already done in step 20b.** If not, do it now: put the dashboard change on `main`. Two files changed (`bot-dashboard/app.js`, `lib/perf.js`): text and expected numbers only. It is already on GitHub in the branch `bb-core-no-target-dashboard` (pushed on Oct 29 so you can pull it at home without Vercel deploying it early). Fast-forward `main` to it and push (commands in `06-COMMANDS.md`).
 
 **29. 🤖 Check Vercel.** The production deployment of the new commit is live (I read it from Vercel), `/api/health` answers `{"ok":true}`.
 **🧑 Open `/bot-dashboard/`** in the browser: six tabs, press **R** once; BB-Core's description says "no profit target"; there is no "Target-hit rate" tile.

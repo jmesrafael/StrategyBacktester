@@ -2,6 +2,10 @@
 
 Tick as you go. 🤖 = I tick it and tell you · 🧑 = you · ⛔ = needs your explicit "go". Details: `03-STEPS.md`.
 
+## Parked items (do not forget)
+- [ ] ⛔ **Step 20b: merge the `ledger` branch `bb-core-no-target-dashboard` to `main`** (after BB-Core's first clean candle and a matching compare; not before). Branch commit `461cb59`.
+- [ ] 🧑 In Vercel: Production Branch = `main` confirmed for the ledger project
+
 ## Before anything
 - [ ] 🧑 Read `00-START-HERE.md` and `01-WHO-DOES-WHAT.md`
 - [ ] 🧑 Answered `02-DECISIONS.md`: D1 ___ D2 ___ D3 ___ D4 ___ D5 ___ D6 ___
@@ -35,6 +39,8 @@ Tick as you go. 🤖 = I tick it and tell you · 🧑 = you · ⛔ = needs your 
 - [ ] 🤖 Step 19: first run after the next close is clean (`lagSec` small, `errors []`)
 - [ ] 🤖 Step 20: next day's compare says match
 
+- [ ] ⛔ **Step 20b: merge the ledger branch to `main`** (see Parked items above)
+
 ## Phase 6: I-Core
 - [ ] 🤖 Steps 21-22: bundle copied, backup done, preflight GO
 - [ ] 🧑 Step 23: MEXC sub-account stops match
@@ -46,7 +52,7 @@ Tick as you go. 🤖 = I tick it and tell you · 🧑 = you · ⛔ = needs your 
 - [ ] 🤖 Step 27: first new trade sized correctly, Telegram says `Target none`
 
 ## Phase 8: dashboard
-- [ ] ⛔ Step 28: `ledger` pushed
+- [ ] ⛔ Step 28: only if step 20b was skipped: `ledger` branch merged to `main`
 - [ ] 🤖🧑 Step 29: Vercel live, `/api/health` ok, dashboard looks right
 - [ ] 🤖 Step 30: Supabase read-only check
 

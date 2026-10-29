@@ -6,6 +6,15 @@ Written Oct 29, 2026. One folder, start to finish. Open the files in order; each
 
 **Read `02-DECISIONS.md` and answer its 6 questions.** Nothing is deployed until you do. Then tell me **"go prepare"** and I start at step 1 of `03-STEPS.md`.
 
+## PARKED: do not forget (the ledger branch)
+
+The dashboard change is **not on `main`**. It waits on the `ledger` repo, branch `bb-core-no-target-dashboard` (commit `461cb59`), on purpose, so the live dashboard does not say "no target" while the bot still trades 1:4.
+
+**Merge it to `main` in step 20b of `03-STEPS.md`: right after BB-Core has run one clean 4h candle on the new code (step 19) and the daily compare says match (step 20). Not earlier, and do not wait for Phase 7.**
+If it is never merged, nothing breaks: the dashboard just keeps the old text ("4R target") and the old expected numbers, and its "Target-hit rate" check would flag a no-target bot as failing once 60 trades have closed. That last part is why it must not be forgotten.
+
+It is also tracked in `bb-core/PENDING-UPGRADE.md` (row 1d), in `07-CHECKLIST.md`, and in `bb-core/RUN-LOG.md`.
+
 ## What this upgrade changes
 
 | | BB-Core (`/opt/lucidio`, MEXC main wallet) | I-Core (`/opt/icore`, MEXC sub-account) |
