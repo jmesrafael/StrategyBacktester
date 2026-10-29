@@ -1,0 +1,50 @@
+
+BASE  4R target, 48 bar cap
+  n=1511 net +$2491 avgR 0.33 win 39% PF 1.57 maxDD -$127 (25R) avgBars 27 | trades>=8R: 0, best 4.1R
+  SOL +$532 | ZEC +$601 | NEAR +$390 | ADA +$530 | GALA +$437
+  2020 +$212 | 2021 +$593 | 2022 +$340 | 2023 +$315 | 2024 +$395 | 2025 +$408 | 2026 +$228
+
+A  no target, 48 bar cap (stop only)
+  n=1331 net +$3004 avgR 0.45 win 37% PF 1.72 maxDD -$116 (23R) avgBars 30 | trades>=8R: 32, best 65.8R
+  SOL +$593 | ZEC +$614 | NEAR +$433 | ADA +$562 | GALA +$801
+  2020 +$228 | 2021 +$860 | 2022 +$406 | 2023 +$349 | 2024 +$349 | 2025 +$361 | 2026 +$450
+
+B  trail mid-band, no cap
+  n=1875 net +$1607 avgR 0.17 win 36% PF 1.41 maxDD -$163 (33R) avgBars 13 | trades>=8R: 17, best 47.1R
+  SOL +$232 | ZEC +$325 | NEAR +$293 | ADA +$297 | GALA +$459
+  2020 +$162 | 2021 +$397 | 2022 +$235 | 2023 +$94 | 2024 +$99 | 2025 +$259 | 2026 +$361
+
+C  trail mid-band, 120 bar cap
+  n=1875 net +$1607 avgR 0.17 win 36% PF 1.41 maxDD -$163 (33R) avgBars 13 | trades>=8R: 17, best 47.1R
+  SOL +$232 | ZEC +$325 | NEAR +$293 | ADA +$297 | GALA +$459
+  2020 +$162 | 2021 +$397 | 2022 +$235 | 2023 +$94 | 2024 +$99 | 2025 +$259 | 2026 +$361
+
+D  trail SMA50, no cap
+  n=1459 net +$2265 avgR 0.31 win 31% PF 1.67 maxDD -$169 (34R) avgBars 25 | trades>=8R: 26, best 32.9R
+  SOL +$408 | ZEC +$392 | NEAR +$327 | ADA +$548 | GALA +$589
+  2020 +$147 | 2021 +$515 | 2022 +$269 | 2023 +$391 | 2024 +$299 | 2025 +$304 | 2026 +$340
+
+E  chandelier 3xATR, no cap
+  n=1644 net +$1235 avgR 0.15 win 37% PF 1.32 maxDD -$239 (48R) avgBars 17 | trades>=8R: 13, best 18.6R
+  SOL +$195 | ZEC +$366 | NEAR +$120 | ADA +$304 | GALA +$251
+  2020 +$169 | 2021 +$76 | 2022 +$222 | 2023 +$70 | 2024 +$211 | 2025 +$169 | 2026 +$319
+
+F  chandelier 4xATR, no cap
+  n=1348 net +$2186 avgR 0.32 win 35% PF 1.60 maxDD -$154 (31R) avgBars 27 | trades>=8R: 25, best 91.8R
+  SOL +$288 | ZEC +$426 | NEAR +$396 | ADA +$329 | GALA +$746
+  2020 +$162 | 2021 +$777 | 2022 +$280 | 2023 +$191 | 2024 +$190 | 2025 +$208 | 2026 +$379
+
+G  chandelier 5xATR, no cap
+  n=1168 net +$2487 avgR 0.43 win 33% PF 1.72 maxDD -$133 (27R) avgBars 37 | trades>=8R: 25, best 90.0R
+  SOL +$459 | ZEC +$534 | NEAR +$258 | ADA +$402 | GALA +$834
+  2020 +$115 | 2021 +$919 | 2022 +$273 | 2023 +$289 | 2024 +$246 | 2025 +$310 | 2026 +$333
+
+H  mid-band stop, BE@2R, chand 4xATR
+  n=1364 net +$1995 avgR 0.29 win 36% PF 1.56 maxDD -$156 (31R) avgBars 26 | trades>=8R: 21, best 91.8R
+  SOL +$263 | ZEC +$331 | NEAR +$409 | ADA +$256 | GALA +$736
+  2020 +$156 | 2021 +$658 | 2022 +$244 | 2023 +$158 | 2024 +$175 | 2025 +$211 | 2026 +$393
+
+I  hybrid: 4R cap removed, 8R target + mid trail
+  n=1919 net +$1617 avgR 0.17 win 36% PF 1.41 maxDD -$154 (31R) avgBars 12 | trades>=8R: 11, best 8.1R
+  SOL +$260 | ZEC +$383 | NEAR +$251 | ADA +$314 | GALA +$408
+  2020 +$233 | 2021 +$257 | 2022 +$318 | 2023 +$156 | 2024 +$157 | 2025 +$263 | 2026 +$234

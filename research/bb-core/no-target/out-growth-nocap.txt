@@ -1,0 +1,26 @@
+1) ONE account, ₱10,000 on Jan 1 2020, 2.5% of the balance per trade, NO cap. Balance at the end of each year:
+strategy              2020      2021      2022      2023      2024      2025      2026   deepest drop (peak -> bottom)
+BB 1:4              ₱23.9k   ₱275.5k   ₱869.1k    ₱2.41M    ₱9.98M   ₱46.94M   ₱93.01M   56% (2022-06 -> 2022-11)
+BB no-target        ₱25.5k   ₱393.4k    ₱1.39M    ₱3.36M   ₱12.16M   ₱46.30M  ₱178.03M   49% (2022-06 -> 2022-11)
+I-Core              ₱13.7k   ₱162.0k   ₱312.2k   ₱990.5k    ₱2.95M   ₱10.61M   ₱27.54M   53% (2023-01 -> 2023-05)
+
+2) FRESH ₱10,000 every Jan 1, no cap: profit made that year (deepest drop inside the year)
+strategy                    2020            2021            2022            2023            2024            2025            2026      sum     w/o 2021
+BB 1:4              ₱17.3k (22%)   ₱107.0k (23%)    ₱14.6k (56%)    ₱21.8k (47%)    ₱27.6k (34%)    ₱40.0k (34%)     ₱9.7k (46%)  ₱237.9k    ₱130.9k
+BB no-target        ₱22.4k (20%)   ₱146.5k (33%)    ₱14.7k (49%)    ₱19.2k (47%)    ₱22.2k (33%)    ₱30.3k (29%)    ₱28.2k (45%)  ₱283.6k    ₱137.1k
+I-Core              ₱29.7k (28%)    ₱72.8k (32%)     ₱5.2k (36%)    ₱31.8k (51%)    ₱10.7k (41%)    ₱26.1k (37%)    ₱14.4k (51%)  ₱190.6k    ₱117.8k
+
+3) TANDEMS, two accounts of ₱10,000 (₱20,000), no cap
+   a) one run from Jan 2020: combined balance at each year end
+   BB no-target + I-Core         ₱39.2k   ₱555.5k    ₱1.70M    ₱4.35M   ₱15.12M   ₱56.91M  ₱205.57M   drop 47% (2023-01 -> 2023-05)
+   BB 1:4 + I-Core               ₱37.5k   ₱437.5k    ₱1.18M    ₱3.40M   ₱12.94M   ₱57.55M  ₱120.55M   drop 50% (2022-06 -> 2022-11)
+   BB 1:4 + BB no-target         ₱49.4k   ₱668.9k    ₱2.26M    ₱5.77M   ₱22.15M   ₱93.25M  ₱271.04M   drop 52% (2022-06 -> 2022-11)
+   b) fresh ₱20,000 every year: profit that year
+   BB no-target + I-Core         ₱52.1k   ₱219.3k    ₱19.9k    ₱51.0k    ₱32.8k    ₱56.4k    ₱42.6k   sum ₱474.2k · w/o 2021 ₱254.9k · worst year ₱19.9k · worst drop in a year 47%
+   BB 1:4 + I-Core               ₱47.0k   ₱179.8k    ₱19.8k    ₱53.6k    ₱38.2k    ₱66.0k    ₱24.1k   sum ₱428.5k · w/o 2021 ₱248.7k · worst year ₱19.8k · worst drop in a year 48%
+   BB 1:4 + BB no-target         ₱39.7k   ₱253.5k    ₱29.3k    ₱41.1k    ₱49.8k    ₱70.2k    ₱37.9k   sum ₱521.4k · w/o 2021 ₱268.0k · worst year ₱29.3k · worst drop in a year 53%
+
+4) Where it stops being realistic: position size needed for a 2.5% risk (median stop distance of each strategy)
+   BB 1:4         median stop 6.2% away -> position = 2.5% / 6.2% = 0.40x the balance: ₱100.0k balance -> $690 per trade · ₱1.00M balance -> $6,899 per trade · ₱10.00M balance -> $68,986 per trade · ₱100.00M balance -> $689,861 per trade
+   BB no-target   median stop 5.8% away -> position = 2.5% / 5.8% = 0.43x the balance: ₱100.0k balance -> $740 per trade · ₱1.00M balance -> $7,397 per trade · ₱10.00M balance -> $73,974 per trade · ₱100.00M balance -> $739,743 per trade
+   I-Core         median stop 6.0% away -> position = 2.5% / 6.0% = 0.41x the balance: ₱100.0k balance -> $715 per trade · ₱1.00M balance -> $7,153 per trade · ₱10.00M balance -> $71,526 per trade · ₱100.00M balance -> $715,263 per trade

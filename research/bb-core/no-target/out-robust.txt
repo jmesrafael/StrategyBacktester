@@ -1,0 +1,36 @@
+1) OTHER COINS never used in the BB-Core design (no funding data, same fees/slippage)
+coin   1:4 expR (n)        A expR (n)       A-1:4
+AVAX    +0.246 (300)     +0.405 (270)   +0.160
+BNB     +0.092 (346)     +0.226 (312)   +0.134
+DOGE    +0.247 (337)     +0.771 (296)   +0.524
+ETH     +0.188 (347)     +0.286 (316)   +0.098
+LINK    +0.163 (331)     +0.238 (302)   +0.075
+LTC     +0.042 (354)     +0.081 (322)   +0.039
+XRP     +0.160 (349)     +0.290 (318)   +0.130
+ALL 7  +0.160 (2364)  win 35.4%  net +379R  DD -70  |  A +0.322 (2136) win 33.0% net +689R DD -65
+by year net R  1:4 vs A: 2020 +92/+123 | 2021 +135/+237 | 2022 +76/+139 | 2023 -39/+11 | 2024 +17/+44 | 2025 +68/+62 | 2026 +30/+72
+
+2) COST STRESS on the 5 traded coins (fees+slippage multiplied)
+x1:  1:4 expR +0.327 net +493R  |  A expR +0.451 net +601R  |  A better by +0.125R/trade
+x2:  1:4 expR +0.301 net +454R  |  A expR +0.421 net +561R  |  A better by +0.120R/trade
+x3:  1:4 expR +0.276 net +416R  |  A expR +0.391 net +521R  |  A better by +0.116R/trade
+
+3) A vs 1:4 by coin and year (net R): how often is A ahead?
+SOL   4-  -2 A+  20 4-  -2 4-  -2 A+   3 4-  -7 A+   3
+ZEC   A+   5 4- -15 A+  14 4-  -4 4- -13 A+   7 A+  10
+NEAR  4-  -8 A+   2 A+   2 4-  -3 A+   5 4-  -4 A+  16
+ADA   A+   9 4-  -4 4-  -2 A+   2 4-  -4 4-  -3 A+  10
+GALA     -   A+  51 A+   2 A+  15 A+   1 4-  -2 A+   7
+A ahead in 19 of 34 coin-years
+
+4) Without GALA (the coin carrying the 2021 spike):
+1:4 expR +0.321 net +406R DD -18  |  A expR +0.395 net +441R DD -21
+
+5) A with biggest winners removed (top N trades dropped), 5 coins:
+drop top  0:  1:4 exp +0.327   A exp +0.451
+drop top  5:  1:4 exp +0.314   A exp +0.349
+drop top 10:  1:4 exp +0.302   A exp +0.295
+drop top 20:  1:4 exp +0.277   A exp +0.213
+
+6) Bootstrap (trades resampled with replacement, 5 coins): chance A expectancy > 1:4 expectancy
+A > 1:4 in 90.1% of resamples; 95% interval of the difference -0.056 to +0.330 R/trade

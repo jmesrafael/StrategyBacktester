@@ -1,0 +1,29 @@
+A) ₱10,000 fresh at the start of EACH year, 2.5% risk per trade (compounding inside the year), trades by ENTRY year
+strategy                     2020             2021             2022             2023             2024             2025             2026
+BB 1:4            ₱17,337 (22%dd)  ₱57,437 (23%dd)  ₱20,322 (45%dd)  ₱22,280 (47%dd)  ₱27,400 (34%dd)  ₱36,821 (24%dd)  ₱11,547 (46%dd)
+BB no-target      ₱23,327 (18%dd)  ₱84,301 (33%dd)  ₱24,675 (36%dd)  ₱18,712 (47%dd)  ₱21,878 (33%dd)  ₱27,301 (29%dd)  ₱35,848 (45%dd)
+I-Core            ₱29,690 (28%dd)  ₱59,491 (26%dd)   ₱5,198 (36%dd)  ₱31,642 (51%dd)  ₱10,660 (41%dd)  ₱28,083 (37%dd)  ₱14,722 (51%dd)
+(₱ = profit on the ₱10,000 that year; dd = deepest drop from the peak inside that year. 2020 partial for every coin, 2026 to late Oct; I-Core needs 205 candles of warm-up)
+
+B) R per trade and robustness
+strategy        trades  win%   expR   avgWin  avgLoss  netR   maxDD_R | best year      | w/o best year expR  | w/o best 2 years expR | w/o top10 trades expR | top10 = % of profit | worst year R
+BB 1:4            1510   38.9  +0.327   +2.34    -0.95   +493     -26 | 2021 +118R     |     +0.291 (+376R)   |     +0.281 (+294R)     |       +0.302           |      8%             | 2020 +42R
+BB no-target      1331   36.5  +0.451   +2.94    -0.98   +601     -23 | 2021 +172R     |     +0.374 (+429R)   |     +0.355 (+339R)     |       +0.295           |     35%             | 2020 +46R
+I-Core             760   32.0  +0.866   +4.73    -0.95   +658     -30 | 2021 +193R     |     +0.706 (+465R)   |     +0.641 (+335R)     |       +0.231           |     74%             | 2020 +19R
+
+C) Whole period on ONE ₱10,000 account from 2020, 2.5% risk compounding (shows what drawdowns feel like in %)
+BB 1:4           end       ₱285,774  max drop from peak 22.0%
+BB no-target     end       ₱348,860  max drop from peak 17.8%
+I-Core           end       ₱357,800  max drop from peak 27.7%
+
+D) Seven coins never used to design any of the three (AVAX BNB DOGE ETH LINK LTC XRP; no funding data)
+BB 1:4           expR +0.160  net +379R  maxDD -70R  win 35%  losing years 1/7  coins positive 7/7
+BB no-target     expR +0.322  net +689R  maxDD -65R  win 33%  losing years 0/7  coins positive 7/7
+I-Core           expR +0.295  net +382R  maxDD -91R  win 27%  losing years 1/7  coins positive 7/7
+
+E) TANDEMS: two bots, ₱10,000 each (₱20,000 total), 2.5% risk each, results by entry year
+pair                       corr        2020      2021      2022      2023      2024      2025      2026   total ₱ (sum of years)  worst year  pooled expR  pooled DD_R | w/o best year ₱
+BB no-target + I-Core      0.09     ₱53,017  ₱143,792   ₱29,873   ₱50,354   ₱32,538   ₱55,383   ₱50,570       ₱415,527           2022 ₱29,873  +0.602        -50      | ₱271,735 (no 2021)
+BB 1:4 + I-Core            0.15     ₱47,026  ₱116,927   ₱25,519   ₱53,922   ₱38,061   ₱64,904   ₱26,269       ₱372,628           2022 ₱25,519  +0.507        -50      | ₱255,700 (no 2021)
+BB 1:4 + BB no-target      0.80     ₱40,664  ₱141,738   ₱44,997   ₱40,992   ₱49,278   ₱64,122   ₱47,394       ₱429,185           2020 ₱40,664  +0.385        -46      | ₱287,447 (no 2021)
+(BB 1:4 + BB no-target is shown only for completeness: same signal, same coins, they would take the same entries)

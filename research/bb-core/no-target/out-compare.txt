@@ -1,0 +1,35 @@
+strategy                  n    win%   expR    avgW   avgL    PF    netR   maxDD  | 2020-23 expR (n) | 2024-26 expR (n)
+BB 1:4 (current)          1510  38.9  +0.327  +2.34  -0.95   1.56    +493    -26 | +0.358 (804) | +0.291 (706)
+BB-A no target            1331  36.5  +0.451  +2.94  -0.98   1.72    +601    -23 | +0.516 (715) | +0.377 (616)
+I-Core (current)           760  32.0  +0.866  +4.73  -0.95   2.34    +658    -30 | +0.870 (398) | +0.861 (362)
+Donchian20 no target      1365  33.6  +0.360  +3.04  -1.00   1.54    +491    -36 | +0.409 (716) | +0.305 (649)
+Donchian40 no target      1008  41.7  +0.280  +1.99  -0.94   1.51    +283    -33 | +0.326 (533) | +0.229 (475)
+Keltner20/2 no target      987  39.2  +0.286  +2.20  -0.95   1.50    +282    -28 | +0.315 (528) | +0.253 (459)
+Donchian20 1:4            1557  35.7  +0.242  +2.45  -0.98   1.38    +377    -37 | +0.293 (817) | +0.186 (740)
+Keltner20/2 1:4           1090  39.5  +0.246  +2.03  -0.92   1.44    +268    -28 | +0.279 (585) | +0.208 (505)
+
+net R by year
+strategy                 2020    2021    2022    2023    2024    2025    2026
+BB 1:4 (current)           +42    +118     +67     +61     +79     +81     +45
+BB-A no target             +46    +172     +81     +70     +70     +72     +90
+I-Core (current)           +19    +193     +40     +95     +93    +130     +89
+Donchian20 no target       +36    +103     +80     +74     +43     +45    +111
+Donchian40 no target       +17     +80     +34     +42     +12     +20     +76
+Keltner20/2 no target      +11     +73     +13     +69     +31     +34     +51
+Donchian20 1:4             +52     +72     +71     +44     +42     +45     +51
+Keltner20/2 1:4            +18     +62     +28     +54     +28     +30     +47
+
+=== TANDEMS (equal R risk per trade on both engines, trades pooled) ===
+monthly-R correlation with I-Core: BB 1:4 0.15 | BB-A 0.09 | Donchian20 0.11 | BB-A vs Donchian20 0.87
+combo                                                              n    expR    netR   maxDD  netR/DD  worstYear  yrs+
+BB 1:4 (current) + I-Core (current)                                 2270  +0.507   +1151    -50   22.8    2020 +60 7/7
+BB-A no target + I-Core (current)                                   2091  +0.602   +1259    -50   25.1    2020 +64 7/7
+BB-A no target + Donchian20 no target                               2696  +0.405   +1092    -58   19.0    2020 +81 7/7
+BB-A no target + Donchian20 no target + I-Core (current)            3456  +0.506   +1750    -83   21.1   2020 +100 7/7
+BB 1:4 (current) + Donchian20 no target + I-Core (current)          3635  +0.452   +1642    -82   20.0    2020 +96 7/7
+
+best-year share of total R (concentration): 
+  BB 1:4 (current)         top10 trades = 8% of net R
+  BB-A no target           top10 trades = 35% of net R
+  I-Core (current)         top10 trades = 74% of net R
+  Donchian20 no target     top10 trades = 36% of net R

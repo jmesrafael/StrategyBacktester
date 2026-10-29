@@ -1,0 +1,18 @@
+
+=== BB no-target + I-Core ===
+  monthly correlation 0.09 · same entry (coin + candle) on 164 of 1331 BB no-target trades (12%)
+  by year (₱20k start each year): 2020 ₱53,017 (dd 17%) | 2021 ₱143,792 (dd 25%) | 2022 ₱29,873 (dd 33%) | 2023 ₱50,354 (dd 47%) | 2024 ₱32,538 (dd 31%) | 2025 ₱55,383 (dd 22%) | 2026 ₱50,570 (dd 47%)
+  sum ₱415,527 · without 2021 ₱271,735 · worst year 2022 ₱29,873 · deepest drop of the combined ₱20k: 47% (avg yearly 32%) · most of the balance at risk at once 13.3%
+  profit per 1% of worst drop: ₱8,748 · losing months 23/80 (29%) · worst month -21.2R
+
+=== BB 1:4 + I-Core ===
+  monthly correlation 0.15 · same entry (coin + candle) on 164 of 1510 BB 1:4 trades (11%)
+  by year (₱20k start each year): 2020 ₱47,026 (dd 15%) | 2021 ₱116,927 (dd 19%) | 2022 ₱25,519 (dd 40%) | 2023 ₱53,922 (dd 40%) | 2024 ₱38,061 (dd 31%) | 2025 ₱64,904 (dd 19%) | 2026 ₱26,269 (dd 47%)
+  sum ₱372,628 · without 2021 ₱255,700 · worst year 2022 ₱25,519 · deepest drop of the combined ₱20k: 47% (avg yearly 30%) · most of the balance at risk at once 13.3%
+  profit per 1% of worst drop: ₱7,875 · losing months 19/80 (24%) · worst month -17.3R
+
+=== BB 1:4 + BB no-target ===
+  monthly correlation 0.80 · same entry (coin + candle) on 1256 of 1510 BB 1:4 trades (83%)
+  by year (₱20k start each year): 2020 ₱40,664 (dd 15%) | 2021 ₱141,738 (dd 21%) | 2022 ₱44,997 (dd 37%) | 2023 ₱40,992 (dd 43%) | 2024 ₱49,278 (dd 34%) | 2025 ₱64,122 (dd 25%) | 2026 ₱47,394 (dd 45%)
+  sum ₱429,185 · without 2021 ₱287,447 · worst year 2020 ₱40,664 · deepest drop of the combined ₱20k: 45% (avg yearly 31%) · most of the balance at risk at once 13.2%
+  profit per 1% of worst drop: ₱9,559 · losing months 22/80 (28%) · worst month -34.0R

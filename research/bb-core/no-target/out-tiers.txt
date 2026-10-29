@@ -1,0 +1,41 @@
+
+=== BB 1:4: one ₱10,000 account from Jan 2020 ===
+rule                                 2020     2021     2022     2023     2024     2025     2026   deepest drop            worst drop in ₱
+flat 2.5%, $10 cap (bot today)     ₱24.0k   ₱92.1k  ₱131.2k  ₱166.7k  ₱212.6k  ₱259.8k  ₱285.8k    22%  ₱19.0k -> ₱14.9k       -₱4.2k
+flat 2.5%, no cap                  ₱23.9k  ₱275.5k  ₱869.1k   ₱2.41M   ₱9.98M  ₱46.94M  ₱93.01M    56%  ₱1.12M -> ₱493.0k      -₱627.8k
+tiers 2.5/2.0/1.5 on balance       ₱23.9k  ₱157.7k  ₱353.3k  ₱727.0k   ₱1.93M   ₱5.43M   ₱8.99M    36%  ₱389.1k -> ₱247.8k     -₱141.3k
+tiers 2.5/2.0/1.5 on peak          ₱23.9k  ₱149.4k  ₱334.8k  ₱688.9k   ₱1.83M   ₱5.14M   ₱8.52M    36%  ₱368.7k -> ₱234.8k     -₱133.9k
+
+=== BB no-target: one ₱10,000 account from Jan 2020 ===
+rule                                 2020     2021     2022     2023     2024     2025     2026   deepest drop            worst drop in ₱
+flat 2.5%, $10 cap (bot today)     ₱26.8k  ₱126.6k  ₱173.6k  ₱214.2k  ₱254.7k  ₱296.6k  ₱348.9k    18%  ₱27.1k -> ₱22.3k       -₱4.8k
+flat 2.5%, no cap                  ₱25.5k  ₱393.4k   ₱1.39M   ₱3.36M  ₱12.16M  ₱46.30M ₱178.03M    49%  ₱1.88M -> ₱950.9k      -₱925.1k
+tiers 2.5/2.0/1.5 on balance       ₱26.1k  ₱231.1k  ₱577.2k   ₱1.17M   ₱2.79M   ₱6.87M  ₱18.42M    30%  ₱648.0k -> ₱450.9k     -₱197.1k
+tiers 2.5/2.0/1.5 on peak          ₱26.4k  ₱211.6k  ₱528.5k   ₱1.07M   ₱2.55M   ₱6.29M  ₱16.87M    30%  ₱593.4k -> ₱412.9k     -₱180.5k
+
+=== I-Core: one ₱10,000 account from Jan 2020 ===
+rule                                 2020     2021     2022     2023     2024     2025     2026   deepest drop            worst drop in ₱
+flat 2.5%, $10 cap (bot today)     ₱13.7k   ₱98.6k  ₱122.0k  ₱176.9k  ₱230.9k  ₱306.4k  ₱357.8k    28%  ₱18.0k -> ₱13.0k       -₱5.0k
+flat 2.5%, no cap                  ₱13.7k  ₱162.0k  ₱312.2k  ₱990.5k   ₱2.95M  ₱10.61M  ₱27.54M    53%  ₱374.4k -> ₱174.4k     -₱200.0k
+tiers 2.5/2.0/1.5 on balance       ₱13.7k  ₱131.7k  ₱210.2k  ₱506.4k   ₱1.16M   ₱3.16M   ₱6.79M    37%  ₱235.5k -> ₱149.3k     -₱86.2k
+tiers 2.5/2.0/1.5 on peak          ₱13.7k  ₱131.7k  ₱210.2k  ₱506.4k   ₱1.16M   ₱3.16M   ₱6.79M    37%  ₱235.5k -> ₱149.3k     -₱86.2k
+
+=== TANDEMS: two ₱10,000 accounts, each with its own tiers ===
+
+BB no-target + I-Core
+  flat 2.5%, $10 cap (bot today)   ₱40.4k  ₱225.1k  ₱295.6k  ₱391.1k  ₱485.6k  ₱603.1k  ₱706.7k   drop 17% (₱42.9k -> ₱35.7k)
+  flat 2.5%, no cap                ₱39.2k  ₱555.5k   ₱1.70M   ₱4.35M  ₱15.12M  ₱56.91M ₱205.57M   drop 47% (₱2.38M -> ₱1.26M)
+  tiers 2.5/2.0/1.5 on peak        ₱40.1k  ₱343.3k  ₱738.7k   ₱1.57M   ₱3.71M   ₱9.45M  ₱23.66M   drop 31% (₱912.2k -> ₱631.0k)
+
+BB 1:4 + I-Core
+  flat 2.5%, $10 cap (bot today)   ₱37.6k  ₱190.6k  ₱253.1k  ₱343.6k  ₱443.5k  ₱566.2k  ₱643.6k   drop 15% (₱38.6k -> ₱32.6k)
+  flat 2.5%, no cap                ₱37.5k  ₱437.5k   ₱1.18M   ₱3.40M  ₱12.94M  ₱57.55M ₱120.55M   drop 50% (₱1.46M -> ₱733.5k)
+  tiers 2.5/2.0/1.5 on peak        ₱37.5k  ₱281.1k  ₱545.0k   ₱1.20M   ₱2.98M   ₱8.30M  ₱15.31M   drop 31% (₱10.81M -> ₱7.44M)
+
+BB 1:4 + BB no-target
+  flat 2.5%, $10 cap (bot today)   ₱50.8k  ₱218.6k  ₱304.8k  ₱380.9k  ₱467.3k  ₱556.4k  ₱634.6k   drop 15% (₱49.7k -> ₱42.4k)
+  flat 2.5%, no cap                ₱49.4k  ₱668.9k   ₱2.26M   ₱5.77M  ₱22.15M  ₱93.25M ₱271.04M   drop 52% (₱3.00M -> ₱1.44M)
+  tiers 2.5/2.0/1.5 on peak        ₱50.3k  ₱361.0k  ₱863.3k   ₱1.76M   ₱4.38M  ₱11.43M  ₱25.38M   drop 32% (₱962.1k -> ₱650.9k)
+
+When the steps happen (BB no-target, tiers on peak): first time above $500 / $1,000:
+  $500 (₱29k) reached 2020-11-29 · $1,000 (₱58k) reached 2021-02-18
