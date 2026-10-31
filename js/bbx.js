@@ -7,7 +7,11 @@
 // middle band, target = close ± targetR × (close − middle), exit at the next open after maxBars candles. One position at a time.
 // Signals use closed candles only — the still-forming last candle is ignored (it would repaint) — so a live setup never disappears.
 // Results here are in R before fees.
-const BBXIndicator = (() => {
+//
+// makeBBX({ noTarget: true }) builds the BB-Core variant: the same entries and mid-band stop, but NO take-profit — a winner runs until
+// the stop or the maxBars time exit (research/bb-core/no-target/RESULTS.md). Two instances are made at the bottom of this file.
+function makeBBX(opts = {}) {
+  const NT = !!opts.noTarget;
   let chart, series, container, canvas, ctx;
   let active = false;
   let lastCandles = [], ivSecs = 14400;
@@ -17,7 +21,7 @@ const BBXIndicator = (() => {
   let lastAlertKey = null, toastEl = null, toastTimer = null;
   let calBackdrop = null, calMonth = null;   // performance calendar modal state (calMonth: {y, m} 0-based month)
 
-  const DEFAULTS = { period: 20, mult: 2, trendLen: 200, targetR: 3, maxBars: 48, history: true, notify: true };
+  const DEFAULTS = { period: 20, mult: 2, trendLen: 200, targetR: NT ? 0 : 3, maxBars: 48, history: true, notify: true };
   let P = { ...DEFAULTS };
   const C = { long: '#22c55e', short: '#ef5350', tp: 'rgba(34,197,94,', sl: 'rgba(239,83,80,', band: '#42a5f5', sma: '#ffb74d' };
 
@@ -40,7 +44,7 @@ const BBXIndicator = (() => {
       if (pos) {
         const d = pos.dir;
         if (d === 1 ? c.low <= pos.stop : c.high >= pos.stop) close(d === 1 ? Math.min(pos.stop, c.open) : Math.max(pos.stop, c.open), i, 'stop');
-        else if (d === 1 ? c.high >= pos.tp : c.low <= pos.tp) close(d === 1 ? Math.max(pos.tp, c.open) : Math.min(pos.tp, c.open), i, 'target');
+        else if (pos.tp != null && (d === 1 ? c.high >= pos.tp : c.low <= pos.tp)) close(d === 1 ? Math.max(pos.tp, c.open) : Math.min(pos.tp, c.open), i, 'target');
       }
       closes.push(c.close);
       trs.push(i === 0 ? c.high - c.low : Math.max(c.high - c.low, Math.abs(c.high - B[i - 1].close), Math.abs(c.low - B[i - 1].close)));
@@ -55,7 +59,7 @@ const BBXIndicator = (() => {
       if (p.trendLen > 0) { const sma = closes.slice(-p.trendLen).reduce((a, b) => a + b, 0) / p.trendLen; if (dir === 1 ? c.close < sma : c.close > sma) continue; }
       const dist = Math.abs(c.close - mid);
       if (!(dist > 0) || atr == null || dist < 0.3 * atr) continue;
-      pend = { dir, stop: mid, tp: c.close + dir * p.targetR * dist, sig: i, close: c.close };
+      pend = { dir, stop: mid, tp: p.targetR > 0 ? c.close + dir * p.targetR * dist : null, sig: i, close: c.close };
     }
     if (pos) open = { ...pos, bars: n - 1 - pos.i0, exitNext: pendClose, now: B[n - 1].close, R: pos.dir * (B[n - 1].close - pos.entry) / Math.abs(pos.entry - pos.stop) };
     if (pend) setup = pend;
@@ -117,8 +121,8 @@ const BBXIndicator = (() => {
     clearPriceLines();
     const pl = (price, color, title, style) => priceLines.push(series.createPriceLine({ price, color, lineWidth: 1, lineStyle: style, axisLabelVisible: true, title }));
     const dashed = LightweightCharts.LineStyle.Dashed;
-    if (res.open) { const o = res.open; pl(o.entry, o.dir === 1 ? C.long : C.short, 'BB entry', LightweightCharts.LineStyle.Solid); pl(o.stop, C.short, 'BB SL', dashed); pl(o.tp, C.long, 'BB TP', dashed); }
-    else if (res.setup) { const s = res.setup; pl(s.close, s.dir === 1 ? C.long : C.short, 'SETUP ~entry', dashed); pl(s.stop, C.short, 'SETUP SL', dashed); pl(s.tp, C.long, 'SETUP TP', dashed); }
+    if (res.open) { const o = res.open; pl(o.entry, o.dir === 1 ? C.long : C.short, 'BB entry', LightweightCharts.LineStyle.Solid); pl(o.stop, C.short, 'BB SL', dashed); if (o.tp != null) pl(o.tp, C.long, 'BB TP', dashed); }
+    else if (res.setup) { const s = res.setup; pl(s.close, s.dir === 1 ? C.long : C.short, 'SETUP ~entry', dashed); pl(s.stop, C.short, 'SETUP SL', dashed); if (s.tp != null) pl(s.tp, C.long, 'SETUP TP', dashed); }
     maybeAlert(closed);
     render();
   }
@@ -131,7 +135,7 @@ const BBXIndicator = (() => {
     if (!fresh || key === lastAlertKey) return;
     const first = lastAlertKey === null; lastAlertKey = key;
     const s = res.setup, d = dec(s.close);
-    const msg = `BB Breakout ${s.dir === 1 ? 'LONG' : 'SHORT'} setup — enter at the next open (≈ ${s.close.toFixed(d)}), SL ${s.stop.toFixed(d)}, TP ${s.tp.toFixed(d)}`;
+    const msg = `BB Breakout ${s.dir === 1 ? 'LONG' : 'SHORT'} setup — enter at the next open (≈ ${s.close.toFixed(d)}), SL ${s.stop.toFixed(d)}, ` + (s.tp != null ? `TP ${s.tp.toFixed(d)}` : 'no target: runs to the stop or the time exit');
     toast(msg);
     if (!first && typeof Notification !== 'undefined' && Notification.permission === 'granted') { try { new Notification('🎯 ' + msg); } catch {} }
   }
@@ -164,7 +168,8 @@ const BBXIndicator = (() => {
     if (P.history) for (const t of res.trades) {
       const x0 = xAt(t.i0), x1 = xAt(t.i1, true);
       if (x0 == null || x1 == null || x1 < 0 || x0 > W) continue;
-      box(x0, x1, t.entry, t.tp, t.stop, 0.10, false);
+      // no target: the green box reaches the exit price on a winner (nothing on a loser)
+      box(x0, x1, t.entry, t.tp != null ? t.tp : t.R > 0 ? t.exit : t.entry, t.stop, 0.10, false);
       const won = t.R > 0, y = ty(t.why === 'target' ? t.tp : t.why === 'stop' ? t.stop : t.exit);
       if (y != null) label(x1 + 3, y, `${t.R >= 0 ? '+' : ''}${t.R.toFixed(1)}R${t.why === 'time' ? ' ⏱' : ''}`, won ? C.long : C.short, false);
       arrow(x0 + bw / 2, ty(t.entry), t.dir);
@@ -172,18 +177,20 @@ const BBXIndicator = (() => {
     if (res.open) {
       const o = res.open, x0 = xAt(o.i0), x1 = xAt(B.length - 1 + 6, true);
       if (x0 != null && x1 != null) {
-        box(x0, x1, o.entry, o.tp, o.stop, 0.22, true); arrow(x0 + bw / 2, ty(o.entry), o.dir);
+        box(x0, x1, o.entry, o.tp != null ? o.tp : o.R > 0 ? o.now : o.entry, o.stop, 0.22, true); arrow(x0 + bw / 2, ty(o.entry), o.dir);
         const d = dec(o.entry);
         label(x1 + 3, ty(o.entry), `${o.dir === 1 ? 'LONG' : 'SHORT'} open · ${o.R >= 0 ? '+' : ''}${o.R.toFixed(2)}R · candle ${o.bars}/${P.maxBars || '∞'}${o.exitNext ? ' · exits next open' : ''}`, o.dir === 1 ? C.long : C.short, true);
-        label(x1 + 3, ty(o.tp), `TP ${o.tp.toFixed(d)}`, C.long, false); label(x1 + 3, ty(o.stop), `SL ${o.stop.toFixed(d)}`, C.short, false);
+        if (o.tp != null) label(x1 + 3, ty(o.tp), `TP ${o.tp.toFixed(d)}`, C.long, false);
+        label(x1 + 3, ty(o.stop), `SL ${o.stop.toFixed(d)}`, C.short, false);
       }
     } else if (res.setup) {
       const s = res.setup, x0 = xAt(B.length), x1 = xAt(B.length + 8, true);
       if (x0 != null && x1 != null) {
-        box(x0, x1, s.close, s.tp, s.stop, 0.22, true, true);
+        box(x0, x1, s.close, s.tp != null ? s.tp : s.close, s.stop, 0.22, true, true);
         const d = dec(s.close);
-        label(x1 + 3, ty(s.close), `NEW SETUP ${s.dir === 1 ? 'LONG' : 'SHORT'} · enter next open ≈ ${s.close.toFixed(d)}`, s.dir === 1 ? C.long : C.short, true);
-        label(x1 + 3, ty(s.tp), `TP ${s.tp.toFixed(d)} (${P.targetR}R)`, C.long, false); label(x1 + 3, ty(s.stop), `SL ${s.stop.toFixed(d)}`, C.short, false);
+        label(x1 + 3, ty(s.close), `NEW SETUP ${s.dir === 1 ? 'LONG' : 'SHORT'} · enter next open ≈ ${s.close.toFixed(d)}${s.tp == null ? ' · no TP' : ''}`, s.dir === 1 ? C.long : C.short, true);
+        if (s.tp != null) label(x1 + 3, ty(s.tp), `TP ${s.tp.toFixed(d)} (${P.targetR}R)`, C.long, false);
+        label(x1 + 3, ty(s.stop), `SL ${s.stop.toFixed(d)}`, C.short, false);
       }
     }
   }
@@ -223,7 +230,7 @@ const BBXIndicator = (() => {
   }
   function updateParams(patch) { Object.assign(P, patch); if (active) compute(lastCandles, ivSecs); }
   function getDefaults() { return { ...DEFAULTS }; }
-  function label_(p) { return `🎯 BB Breakout ${p.period}/${p.mult}${p.trendLen > 0 ? ' · SMA' + p.trendLen : ''}`; }
+  function label_(p) { return `🎯 BB Breakout${NT ? ' (no target)' : ''} ${p.period}/${p.mult}${p.trendLen > 0 ? ' · SMA' + p.trendLen : ''}`; }
   // short status for the legend: what is happening on the last closed candle
   function status() {
     if (!active || !res) return '';
@@ -241,27 +248,32 @@ const BBXIndicator = (() => {
       `<label>BB length <input type="number" class="bx-n" min="5" max="100" value="${p.period}"></label>` +
       `<label>BB σ <input type="number" class="bx-k" min="0.5" max="4" step="0.1" value="${p.mult}"></label>` +
       `<label>Trend SMA (0=off) <input type="number" class="bx-t" min="0" max="400" value="${p.trendLen}"></label>` +
-      `<label>Target R <input type="number" class="bx-r" min="0.5" max="10" step="0.5" value="${p.targetR}"></label>` +
-      `<div style="grid-column:1/-1" class="bx-rpresets">` +
-        [1, 2, 3, 4, 5].map((v) => `<button type="button" class="bx-rp${p.targetR === v ? ' active' : ''}" data-r="${v}">${v}R</button>`).join('') +
-      `</div>` +
+      (NT ? '' :
+        `<label>Target R <input type="number" class="bx-r" min="0.5" max="10" step="0.5" value="${p.targetR}"></label>` +
+        `<div style="grid-column:1/-1" class="bx-rpresets">` +
+          [1, 2, 3, 4, 5].map((v) => `<button type="button" class="bx-rp${p.targetR === v ? ' active' : ''}" data-r="${v}">${v}R</button>`).join('') +
+        `</div>`) +
       `<label style="grid-column:1/-1">Exit after (candles, 0=off) <input type="number" class="bx-m" min="0" max="500" value="${p.maxBars}"></label>` +
       `<label style="grid-column:1/-1" class="st-row"><span>Show past trades</span><input type="checkbox" class="bx-h" ${p.history ? 'checked' : ''}></label>` +
       `<label style="grid-column:1/-1" class="st-row"><span>Alert on a new setup</span><input type="checkbox" class="bx-a" ${p.notify ? 'checked' : ''}></label>` +
-      `<div style="grid-column:1/-1;font-size:9px;opacity:.75">Defaults = the tested BB Breakout (20 / 2, SMA200, 3R, 48 candles), built for the 4h chart. Results in R before fees.</div>`;
+      `<div style="grid-column:1/-1;font-size:9px;opacity:.75">` + (NT
+        ? 'Defaults = BB-Core (20 / 2, SMA200, stop at the middle band, NO target, 48 candles): winners run until the stop or the time exit. Built for the 4h chart. Results in R before fees.'
+        : 'Defaults = the tested BB Breakout (20 / 2, SMA200, 3R, 48 candles), built for the 4h chart. Results in R before fees.') + `</div>`;
     const num = (sel, key, min) => { cfg.querySelector(sel).onchange = (e) => { const v = parseFloat(e.target.value); onChange({ [key]: isFinite(v) ? Math.max(min, v) : p[key] }); }; };
     num('.bx-n', 'period', 5); num('.bx-k', 'mult', 0.5); num('.bx-t', 'trendLen', 0); num('.bx-m', 'maxBars', 0);
-    cfg.querySelector('.bx-r').onchange = (e) => {
-      const v = parseFloat(e.target.value), targetR = isFinite(v) ? Math.max(0.5, v) : p.targetR;
-      cfg.querySelectorAll('.bx-rp').forEach((b) => b.classList.toggle('active', parseFloat(b.dataset.r) === targetR));
-      onChange({ targetR });
-    };
-    cfg.querySelectorAll('.bx-rp').forEach((btn) => btn.onclick = () => {
-      const v = parseFloat(btn.dataset.r);
-      cfg.querySelector('.bx-r').value = v;
-      cfg.querySelectorAll('.bx-rp').forEach((b) => b.classList.toggle('active', b === btn));
-      onChange({ targetR: v });
-    });
+    if (!NT) {
+      cfg.querySelector('.bx-r').onchange = (e) => {
+        const v = parseFloat(e.target.value), targetR = isFinite(v) ? Math.max(0.5, v) : p.targetR;
+        cfg.querySelectorAll('.bx-rp').forEach((b) => b.classList.toggle('active', parseFloat(b.dataset.r) === targetR));
+        onChange({ targetR });
+      };
+      cfg.querySelectorAll('.bx-rp').forEach((btn) => btn.onclick = () => {
+        const v = parseFloat(btn.dataset.r);
+        cfg.querySelector('.bx-r').value = v;
+        cfg.querySelectorAll('.bx-rp').forEach((b) => b.classList.toggle('active', b === btn));
+        onChange({ targetR: v });
+      });
+    }
     cfg.querySelector('.bx-h').onchange = (e) => onChange({ history: e.target.checked });
     cfg.querySelector('.bx-a').onchange = (e) => { onChange({ notify: e.target.checked }); if (e.target.checked && typeof Notification !== 'undefined' && Notification.permission === 'default') { try { Notification.requestPermission(); } catch {} } };
     return cfg;
@@ -292,7 +304,7 @@ const BBXIndicator = (() => {
       calBackdrop.className = 'bbx-cal-backdrop';
       calBackdrop.innerHTML = `<div class="bbx-cal-modal">
         <div class="bbx-cal-head">
-          <span class="bbx-cal-title">🎯 BB Breakout — Performance Calendar</span>
+          <span class="bbx-cal-title">🎯 BB Breakout${NT ? ' (no target)' : ''} — Performance Calendar</span>
           <button class="bbx-cal-close" title="Close">✕</button>
         </div>
         <div class="bbx-cal-seclbl">All-time</div>
@@ -310,8 +322,7 @@ const BBXIndicator = (() => {
         <div class="bbx-cal-totals bbx-cal-monthtotals"></div>
         <div class="bbx-cal-dow"></div>
         <div class="bbx-cal-grid"></div>
-        <div class="bbx-cal-seclbl bbx-cal-rfootlbl">Target R</div>
-        <div class="bbx-cal-rfoot"></div>
+        ${NT ? '' : '<div class="bbx-cal-seclbl bbx-cal-rfootlbl">Target R</div>\n        <div class="bbx-cal-rfoot"></div>'}
       </div>`;
       document.body.appendChild(calBackdrop);
       calBackdrop.addEventListener('click', (e) => { if (e.target === calBackdrop) closeCalendar(); });
@@ -322,12 +333,14 @@ const BBXIndicator = (() => {
       const dow = calBackdrop.querySelector('.bbx-cal-dow');
       dow.innerHTML = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map((d) => `<span>${d}</span>`).join('');
       const rfoot = calBackdrop.querySelector('.bbx-cal-rfoot');
-      rfoot.innerHTML = R_PRESETS.map((v) => `<button type="button" class="bx-rp" data-r="${v}">${v}R</button>`).join('');
-      rfoot.addEventListener('click', (e) => {
-        const btn = e.target.closest('.bx-rp'); if (!btn) return;
-        updateParams({ targetR: parseFloat(btn.dataset.r) });
-        renderCalendar();
-      });
+      if (rfoot) {
+        rfoot.innerHTML = R_PRESETS.map((v) => `<button type="button" class="bx-rp" data-r="${v}">${v}R</button>`).join('');
+        rfoot.addEventListener('click', (e) => {
+          const btn = e.target.closest('.bx-rp'); if (!btn) return;
+          updateParams({ targetR: parseFloat(btn.dataset.r) });
+          renderCalendar();
+        });
+      }
     }
     if (!calMonth) {
       const last = res.closed[res.trades[res.trades.length - 1].i1];
@@ -409,4 +422,6 @@ const BBXIndicator = (() => {
   }
 
   return { scan, compute, render, setActive, updateParams, getDefaults, label: label_, status, statusColor, buildConfigEl, openCalendar, get active() { return active; } };
-})();
+}
+const BBXIndicator = makeBBX();                    // with the 3R target
+const BBNIndicator = makeBBX({ noTarget: true });  // BB-Core: no target

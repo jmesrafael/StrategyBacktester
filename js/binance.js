@@ -38,7 +38,12 @@ const BINANCE = (() => {
   async function fetchPages(symbol, interval, target, onProgress, endSec) {
     const code = NATIVE[interval];
     if (!code) throw new Error(`Binance has no ${interval} interval`);
-    const pages = Math.max(1, Math.ceil(target / PAGE));
+    // "Since 2020" mode: walk back until 1 Jan 2020 (or SINCE_MAX_BARS candles, whichever comes first)
+    const since = target >= CFG.SINCE_2020;
+    const startMs = since ? CFG.SINCE_START_MS : null;
+    if (since) target = CFG.SINCE_MAX_BARS;
+    const wanted = since ? Math.min(target, ((endSec != null ? endSec * 1000 : Date.now()) - startMs) / 1000 / intervalToSeconds(interval)) : target;
+    const pages = Math.max(1, Math.ceil(wanted / PAGE));
     const merged = new Map();
     let endMs = endSec != null ? endSec * 1000 : null;
 
@@ -53,10 +58,13 @@ const BINANCE = (() => {
         merged.set(t, { time: t, open: +k[1], high: +k[2], low: +k[3], close: +k[4], volume: +k[5] });
       }
       if (rows.length < limit) break;
+      if (startMs != null && rows[0][0] <= startMs) break; // reached 1 Jan 2020
       endMs = rows[0][0] - 1;
+      if (since) await new Promise((r) => setTimeout(r, 60)); // long walk: stay gentle on the public API
     }
 
-    const all = [...merged.values()].sort((a, b) => a.time - b.time);
+    let all = [...merged.values()].sort((a, b) => a.time - b.time);
+    if (startMs != null) all = all.filter((c) => c.time * 1000 >= startMs);
     if (!all.length) throw new Error('No data');
     return all.length > target ? all.slice(all.length - target) : all;
   }

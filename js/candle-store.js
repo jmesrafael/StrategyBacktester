@@ -7,7 +7,7 @@ const CandleStore = (() => {
   // 'cr-candles' held MEXC data — a new DB keeps it from mixing with Binance bars.
   const DB = 'cr-candles-binance', OS = 'series';
   try { indexedDB.deleteDatabase('cr-candles'); } catch {}
-  const CAP = Math.max(...CFG.MAX_CANDLES); // newest bars kept per symbol|TF
+  const CAP = Math.max(...CFG.MAX_CANDLES.filter((n) => n < CFG.SINCE_2020), CFG.SINCE_MAX_BARS); // newest bars kept per symbol|TF
   let dbp = null;
   let allowed = null; // Set of enabled intervals (null = not set yet → store nothing)
 

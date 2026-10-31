@@ -46,6 +46,11 @@ const IndicatorManager = (() => {
       label: (p) => BBXIndicator.label(p),
       defaults: () => ({ ...BBXIndicator.getDefaults() }),
     },
+    bbn: {
+      name: '🎯 BB Breakout setups — no target (entry · SL · runs)',
+      label: (p) => BBNIndicator.label(p),
+      defaults: () => ({ ...BBNIndicator.getDefaults() }),
+    },
     icx: {
       name: '🧭 I-Core setups (entry · SL · trailing stop)',
       label: (p) => ICXIndicator.label(p),
@@ -53,7 +58,7 @@ const IndicatorManager = (() => {
     },
   };
   // the setup indicators (one shared overlay each, a performance calendar each)
-  const SETUPS = { bbx: () => BBXIndicator, icx: () => ICXIndicator };
+  const SETUPS = { bbx: () => BBXIndicator, bbn: () => BBNIndicator, icx: () => ICXIndicator };
 
   const RSI_PANE = 1;   // stacked sub-pane below the main price/volume pane
 
@@ -172,7 +177,7 @@ const IndicatorManager = (() => {
 
   function add(type, params) {
     // single-instance types (they own one shared overlay)
-    if (['volume', 'fvg', 'smc', 'bbx', 'icx'].includes(type) && instances.some((i) => i.type === type)) return;
+    if (['volume', 'fvg', 'smc', 'bbx', 'bbn', 'icx'].includes(type) && instances.some((i) => i.type === type)) return;
     materialize(type, params || {});
     recompute(lastCandles);
     renderPanel(); refreshBadge(); persist();

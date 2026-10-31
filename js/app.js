@@ -41,6 +41,16 @@
     LS.setItem(STORE.defaultSymbolV, '1');
   }
 
+  // one-time: history defaults to 2020 → now, even over a previously saved candle count
+  if (LS.getItem('cr.since2020V') !== '1') {
+    LS.removeItem(STORE.maxCandles);
+    if (startupDefaults.maxCandles) {
+      delete startupDefaults.maxCandles;
+      LS.setItem(STORE.defaults, JSON.stringify(startupDefaults));
+    }
+    LS.setItem('cr.since2020V', '1');
+  }
+
   // ---- populate controls ----
   CFG.SYMBOLS.forEach((s) => $('symbol').add(new Option(s, s)));
   $('symbol').value = startupDefaults.symbol && CFG.SYMBOLS.includes(startupDefaults.symbol)
@@ -152,7 +162,7 @@
   document.addEventListener('click', closeTfMenu);
 
   // max candles (persisted; defaults to the largest = most history)
-  CFG.MAX_CANDLES.forEach((n) => $('maxCandles').add(new Option(String(n), n)));
+  CFG.MAX_CANDLES.forEach((n) => $('maxCandles').add(new Option(n >= CFG.SINCE_2020 ? '2020 → now' : String(n), n)));
   const savedMax = startupDefaults.maxCandles || LS.getItem(STORE.maxCandles);
   $('maxCandles').value = savedMax && CFG.MAX_CANDLES.includes(+savedMax)
     ? String(savedMax) : String(CFG.DEFAULTS.maxCandles);

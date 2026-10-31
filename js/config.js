@@ -18,7 +18,12 @@ window.CFG = {
 
   // Max history selector (top bar). Fetched via paginated kline requests.
   // Default to the largest so the chart shows as much history as possible.
-  MAX_CANDLES: [1000, 3000, 5000, 10000, 20000],
+  // SINCE_2020 is not a count: it means "everything from 1 Jan 2020 to now" (binance.js walks back to that date), capped at
+  // SINCE_MAX_BARS so the sub-15m timeframes stay loadable (5m is ~2.8 years, 15m and up reach 2020 in full).
+  SINCE_2020: 1000000000,
+  SINCE_START_MS: Date.UTC(2020, 0, 1),
+  SINCE_MAX_BARS: 300000,
+  MAX_CANDLES: [1000, 3000, 5000, 10000, 20000, 1000000000],
 
   // Replay timing
   // realistic mode: each candle is animated over FRAMES sub-steps
@@ -27,8 +32,8 @@ window.CFG = {
   CANDLE_STEP_MS: 480,      // base per-candle ms at 1x in candle-by-candle mode
   MIN_FRAME_MS: 6,
 
-  // ~10000 candles ≈ 14 months on 1h → always shows deep history by default.
-  DEFAULTS: { symbol: 'SOLUSDT.P', interval: '60', maxCandles: 10000, candleStyle: 'mono' },
+  // Default history = 1 Jan 2020 → now (10000 candles was only ~14 months on 1h).
+  DEFAULTS: { symbol: 'SOLUSDT.P', interval: '60', maxCandles: 1000000000, candleStyle: 'mono' },
 
   // Replay trading simulator
   START_BALANCE: 10000,

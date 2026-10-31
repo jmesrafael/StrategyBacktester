@@ -172,6 +172,7 @@ async function prefetchCandles(symbol, intervals, target) {
 
 // Deterministic synthetic OHLC so the app fully works offline / if CORS blocks.
 function syntheticCandles(symbol, interval, count, endSec) {
+  if (count >= CFG.SINCE_2020) count = 20000;   // "Since 2020" is a date range, not a count — the offline sample stays small
   const seedBase = [...symbol].reduce((a, c) => a + c.charCodeAt(0), 0);
   let rng = mulberry32(seedBase * 7 + 13);
   const stepSec = intervalToSeconds(interval);
