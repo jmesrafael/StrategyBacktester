@@ -1,0 +1,576 @@
+TRADING MATHEMATICS — SURVIVAL, RISK & EDGE
+Organized Study Notes from the YouTube Transcription
+
+PURPOSE
+This video explains why a strategy can have a positive edge and still lose money. Long-term survival depends on controlling losses, position size, correlated exposure, uncertainty, and execution behavior.
+
+The video is organized into six parts:
+1. Losses and compounding
+2. Streaks and randomness
+3. Position size and the edge
+4. Hidden risk
+5. Proving the edge: edge vs. luck
+6. The trading plan
+
+============================================================
+1. LOSSES AND COMPOUNDING
+============================================================
+
+1.1 Losses require disproportionately larger recoveries
+
+A percentage loss is calculated from the current account balance. After a loss, the remaining balance is smaller, so the recovery percentage must be larger.
+
+FORMULA — GAIN REQUIRED TO RECOVER
+
+    Required gain = L / (1 - L)
+
+Where:
+- L = loss expressed as a decimal (e.g. 0.25 for 25%)
+- Required gain = percentage gain needed to return to the starting balance
+
+Examples:
+- 10% loss: 0.10 / 0.90 = 11.11% recovery required
+- 25% loss: 0.25 / 0.75 = 33.33%
+- 50% loss: 0.50 / 0.50 = 100%
+- 75% loss: 0.75 / 0.25 = 300%
+- 90% loss: 0.90 / 0.10 = 900%
+
+Example:
+An account falls from $100 to $50 after a 50% loss. A 50% gain on $50 produces only $75. The account needs a 100% gain from $50 to return to $100.
+
+KEY LESSON:
+Protecting capital is essential. The deeper the drawdown, the harder recovery becomes.
+
+1.2 Equal percentage wins and losses can still produce a loss
+
+A gain and a loss of the same percentage do not cancel each other because they are applied to different balances.
+
+Example:
+    $100 × 1.10 = $110
+    $110 × 0.90 = $99
+
+One gain of 10% followed by one loss of 10% leaves the account at $99, not $100.
+
+After ten +10%/-10% pairs:
+
+    Final balance = $100 × (1.10 × 0.90)^10
+                  ≈ $90.44
+
+The account loses about 9.56%, despite the equal percentage gains and losses.
+
+GENERAL COMPOUNDING FORMULA
+
+    Final balance = Starting balance × (1 + r1) × (1 + r2) × ... × (1 + rn)
+
+Where each r is a trade return expressed as a decimal. A loss is entered as a negative number.
+
+1.3 Volatility and the size of swings matter
+
+Two strategies can have the same average return but different ending balances because their gains and losses compound.
+
+Example from the video:
+- A 50% gain turns $100 into $150.
+- A following 40% loss reduces $150 by $60.
+- Final balance = $90.
+
+The arithmetic average return is not enough to describe the actual compounded result. Large swings can damage capital even when the average return appears positive.
+
+KEY LESSON:
+Evaluate both expected return and volatility. Lower volatility can improve long-term compounding and make a strategy easier to survive.
+
+1.4 A positive average does not mean every trader profits
+
+The video uses a game that gains 50% on heads and loses 40% on tails. One heads-and-tails pair changes:
+
+    $100 × 1.50 × 0.60 = $90
+
+A few unusually successful participants can raise the group average while most participants lose money.
+
+KEY LESSON:
+The average outcome can be misleading when results are highly uneven. Look at the median and the distribution of individual outcomes, not only the group average.
+
+============================================================
+2. STREAKS AND RANDOMNESS
+============================================================
+
+2.1 Losing streaks are normal, even with a profitable strategy
+
+A strategy with a 55% win rate still has a 45% chance of losing any individual trade. Random losses can cluster together.
+
+The video gives illustrative longest losing streaks over 500 trades:
+- 70% win rate: likely around 5 consecutive losses
+- 50% win rate: likely around 8; a bad case around 11
+- 40% win rate: a bad case can be around 11
+- 30% win rate: a bad case can reach around 15
+
+These are illustrative estimates, not guaranteed limits. Actual streaks depend on the number of trades and the sequence of outcomes.
+
+2.2 Consecutive losses compound
+
+When risk is a fixed percentage of the current account, each loss is taken from the reduced balance.
+
+FORMULA — BALANCE AFTER CONSECUTIVE LOSSES
+
+    Balance after n losses = Starting balance × (1 - r)^n
+
+Where:
+- r = fraction of current equity risked and lost per trade
+- n = number of consecutive losses
+
+Example: five consecutive losses
+- At 10% risk: remaining balance = 100% × 0.90^5 ≈ 59.05%
+  Account loss ≈ 40.95%.
+- At 1% risk: remaining balance = 100% × 0.99^5 ≈ 95.10%
+  Account loss ≈ 4.90%.
+
+KEY LESSON:
+Choose risk per trade with realistic losing streaks in mind, not just the expected win rate.
+
+2.3 Trade order changes the path
+
+Two traders can take the same set of winning and losing trades and finish with different results at a particular point because the sequence affects compounding and drawdown.
+
+The video illustrates 20 random sequences of 200 trades using:
+- Win rate: 55%
+- Reward-to-risk ratio: 1:1
+- Expected value: +0.1R per trade
+
+Some sequences finish profitably; others finish at a loss. This does not necessarily mean the strategy's underlying edge changed. The order of wins and losses affects the path.
+
+2.4 Short-term results are weak evidence
+
+A short losing streak does not automatically prove that a strategy has stopped working. Likewise, a short winning streak does not prove that a strategy is profitable.
+
+The video gives these illustrative probabilities for a 55% strategy being below its starting point:
+- After 20 trades: about 25%
+- After 100 trades: about 14%
+- After 500 trades: about 1.1%
+
+These figures depend on the assumptions used in the video's model. They should not be treated as universal probabilities for every strategy.
+
+2.5 Drawdown: time spent below a previous peak
+
+Drawdown is the decline from the highest account value reached so far.
+
+FORMULA — DRAWDOWN
+
+    Drawdown = (Peak equity - Current equity) / Peak equity
+
+Example:
+- Peak account value: $12,000
+- Current value: $10,800
+- Drawdown = ($12,000 - $10,800) / $12,000 = 10%
+
+A profitable account can spend much of its trading history below its previous high. The video reports that about 89% of trades in its simulation occurred during periods below the latest peak. This does not mean 89% of trades were losses; it means recovery to a new high can take time.
+
+2.6 The worst drawdown may still be ahead
+
+The longer a strategy is traded, the more opportunities there are for an unusually bad sequence.
+
+Illustrative worst drawdowns in the video's model:
+- Around 8R after 100 trades
+- Around 13R after 500 trades
+- Around 20R after 2,000 trades
+
+A backtest's maximum drawdown is only the worst drawdown observed in that sample. It is not a guaranteed maximum for future trading.
+
+KEY LESSON:
+Plan for drawdowns larger than the ones already observed.
+
+============================================================
+3. POSITION SIZE AND THE EDGE
+============================================================
+
+3.1 Position size is controllable; the next trade is not
+
+Position size should be calculated from the amount of money you are willing to lose and the distance to the stop.
+
+FORMULA — POSITION SIZE
+
+    Position size = Dollar risk / Stop distance per unit
+
+Where:
+- Dollar risk = account equity × risk percentage
+- Stop distance per unit = entry price minus stop price (in absolute terms)
+
+Example:
+- Account: $10,000
+- Risk: 1% = $100
+- Entry-to-stop distance: $2 per share
+- Position size = $100 / $2 = 50 shares
+
+A second trader using a $5 stop would buy 20 shares:
+
+    20 shares × $5 = $100 risk
+
+Both positions risk $100. Share quantity alone does not determine risk; stop distance matters too.
+
+3.2 Expected value (EV) measures the average result per trade
+
+The video uses a 55% win rate and a 1:1 reward-to-risk ratio, producing an expected value of +0.1R per trade.
+
+FORMULA — EXPECTED VALUE
+
+    EV = (Win probability × Average win) - (Loss probability × Average loss)
+
+For a 55% win rate, 1R average win, and 1R average loss:
+
+    EV = (0.55 × 1R) - (0.45 × 1R)
+       = +0.10R per trade
+
+R means the amount initially risked on a trade. If 1R equals $100, then +0.1R equals an expected +$10 per trade over a sufficiently large sample, before costs and execution effects.
+
+3.3 Position size affects growth and survival
+
+Increasing risk can increase expected growth while also making losses and drawdowns much more severe.
+
+The video discusses the Kelly size: the theoretical position size that maximizes long-run compounded growth under a specified probability model and known edge.
+
+For a simple win/loss model:
+
+    Kelly fraction = (b × p - q) / b
+
+Where:
+- p = probability of a win
+- q = probability of a loss = 1 - p
+- b = net reward per unit risk (reward-to-risk ratio)
+
+Important:
+- Kelly is model-dependent and assumes the estimated probabilities and payouts are reliable.
+- Full Kelly can produce very large drawdowns.
+- The video recommends that traders generally use only a fraction of theoretical Kelly sizing.
+- The video's example of a growth peak near 10% risk is specific to its illustration, not a universal recommendation.
+
+3.4 Same strategy, different risk, different outcome
+
+The video compares three accounts taking the same 300 trades:
+- 165 wins and 135 losses
+- Win rate: 55%
+- Risk levels: 1%, 10%, and 25%
+
+In the illustration:
+- 1% risk gained about 33%.
+- 10% risk gained about 349%.
+- 25% risk lost about 87% of the account.
+
+The exact results depend on the sequence and model assumptions. The point is that excessive risk can overwhelm a profitable edge.
+
+The video also illustrates the drawdown trade-off:
+- 1% risk: typical worst drawdown around 13%
+- 5% risk: around 53%
+- 10% risk: around 83%
+
+These are model-specific examples, not forecasts.
+
+3.5 Avoid doubling position size after every loss
+
+The video describes a Martingale-style method that doubles the position after each loss, hoping one later win will recover the sequence.
+
+Sequence of unit bets:
+    1, 2, 4, 8, 16, 32, 64, 128, 256, 512
+
+Total amount lost after ten consecutive losses:
+
+    Total = 1 + 2 + 4 + ... + 512
+          = 2^10 - 1
+          = 1,023 units
+
+The method risks 1,023 units to pursue a one-unit profit. A long losing streak can create an enormous loss or exceed available capital.
+
+KEY LESSON:
+Do not assume a future win will rescue an escalating position. A fixed, preplanned risk method is safer than uncontrolled doubling.
+
+============================================================
+4. HIDDEN RISK
+============================================================
+
+A trade's visible risk includes entry, stop loss, and position size. Other risks can make the actual loss larger than planned:
+- Correlation: several positions may move together.
+- Gaps: price may jump past the stop.
+- Fat tails: extreme market moves may occur more often than a normal distribution predicts.
+- Leverage: a small market move can create a large account-level loss.
+
+4.1 Correlation: several trades can behave like one
+
+Correlation measures how closely two assets or strategies move together.
+
+Correlation coefficient:
+    - +1: move perfectly together
+    -  0: no linear relationship
+    - -1: move perfectly in opposite directions
+
+Five positions risking 1% each do not necessarily provide five independent risks. If they are highly correlated, they may all lose together.
+
+The video gives illustrative combined-risk figures:
+- Five positions with low/no correlation: about 2.2% combined risk
+- Moderate correlation: about 3.9%
+- Perfectly aligned movement: up to 5%
+
+These are model-specific illustrations. Actual portfolio risk depends on position weights, volatility, correlations, and market conditions.
+
+KEY LESSON:
+Count shared exposure, not just the number of separate trades. Five technology stocks exposed to the same interest-rate news may behave like one concentrated position.
+
+4.2 A stop loss is an order, not a guaranteed price
+
+A stop loss is intended to exit a position at a specified level, but it does not guarantee execution at that exact price.
+
+Example:
+- Planned loss at stop: -1R
+- Market closes and reopens beyond the stop
+- The order fills at the next available price
+- Actual loss could become -4R
+
+The difference between the expected execution price and actual fill is slippage.
+
+Gaps can cause large slippage because the market may move across prices without trading at those levels.
+
+KEY LESSON:
+A stop defines an exit trigger, not a guaranteed maximum loss.
+
+4.3 Fat tails: extreme moves are more common than a simple bell curve suggests
+
+A normal (bell-curve) model assumes extreme outcomes are very rare. Financial returns can have fat tails, meaning unusually large moves occur more often than a normal model predicts.
+
+The video contrasts a five-sigma move:
+- Normal-model estimate: roughly once every 6,900 years
+- Fat-tail illustration: roughly every 15 months
+
+The transcript also contains another visual estimate of around three months. These are model-dependent illustrations; the exact frequency is not a universal market statistic.
+
+KEY LESSON:
+Do not build risk plans on the assumption that extreme events are practically impossible.
+
+4.4 Leverage magnifies market movements
+
+Leverage allows control of a position larger than the account's own capital.
+
+Example from the video:
+- Account: $10,000
+- At 1:1 leverage: controls $10,000
+- At 100:1 leverage: controls $1,000,000
+- A 1% move against $1,000,000 = $10,000 loss
+- At 500:1 leverage, a 0.2% adverse move on the $5,000,000 position equals $10,000
+
+Leverage does not change the market movement. It magnifies the effect of that movement on account equity. Actual liquidation and margin rules depend on the broker and instrument.
+
+============================================================
+5. PROVING THE EDGE: EDGE VS. LUCK
+============================================================
+
+5.1 Every result contains both edge and randomness
+
+A strategy's expected edge may be small compared with short-term random variation.
+
+The video gives an example of +0.1R expected value per trade:
+- After 20 trades: expected edge contribution = +2R
+- Random variation may be around 9R in either direction in the illustration
+- After 1,000 trades: expected edge contribution = +100R
+
+As the sample grows, the accumulated edge can become easier to distinguish from randomness. This does not remove risk or guarantee profit.
+
+5.2 A short record can make a random trader look skilled
+
+The video describes 100 people each flipping a fair coin 20 times. About 25% may get 12 or more heads, which looks like a 60% win rate.
+
+But a fair coin has no edge. Some participants appear successful purely because of random variation.
+
+KEY LESSON:
+A high win rate over a small sample does not prove that a strategy has an edge.
+
+5.3 More trades reduce uncertainty in the estimated win rate
+
+An observed win rate is an estimate of the strategy's true win probability. With more independent observations, the estimate generally becomes more precise.
+
+The video gives illustrative ranges:
+- At 50 trades, an observed 60% win rate may still be consistent with a broad true-rate range (the transcript mentions approximately 39%–81%).
+- At 500 trades, the example range narrows to approximately 56%–64%.
+
+These ranges depend on the statistical method and assumptions. The key point is that a small sample produces substantial uncertainty.
+
+5.4 Smaller edges need more trades to demonstrate
+
+The video compares how long it may take for an edge to become distinguishable from noise:
+- 0.2R edge: around 100 trades in the illustration
+- 0.1R edge: roughly four times as many trades
+- 0.05R edge: around 1,600 trades
+
+These are illustrative model results, not universal thresholds. The relationship emphasizes that smaller edges are harder to prove and require more data.
+
+5.5 Practical formula: expected edge over a sample
+
+    Expected cumulative result = Number of trades × EV per trade
+
+Example:
+    200 trades × 0.1R = +20R expected result
+
+This is an expectation, not a guaranteed outcome. Actual results can be above or below it because of randomness.
+
+KEY LESSON:
+Evaluate a strategy over a sufficiently large and representative sample. Do not declare success or failure based only on a few trades.
+
+============================================================
+6. THE TRADING PLAN: RULES THAT PROTECT THE EDGE
+============================================================
+
+6.1 Use risk limits at multiple levels
+
+The video recommends several layers of limits:
+
+1. Per-trade limit
+   Defines how much one trade or idea is allowed to lose.
+
+2. Daily limit
+   Defines when to stop trading for the day (the video gives 3R as an example).
+
+3. Weekly limit
+   Prevents several bad trading days from becoming a larger problem.
+
+4. Account-level limit
+   Defines when to reduce position size or pause trading.
+
+Write these rules while calm, before losses affect decision-making.
+
+6.2 Small execution habits can turn a winning system into a losing one
+
+The video gives an example of a system with an original expectancy of +0.2R per trade. Small changes can reduce or eliminate that edge:
+- Moving the stop farther away
+- Taking profits too early
+- Trading costs
+- Slippage
+
+The illustration shows these changes reducing the system to approximately -0.05R per trade.
+
+KEY LESSON:
+Follow the tested rules. A strategy's real-world results can differ from its backtest when execution changes.
+
+6.3 Reduce risk during losing periods or drawdowns
+
+The video compares:
+- Fixed risk of 2% per trade
+- A method that reduces risk during losing periods
+
+Illustrative results:
+- Fixed 2% risk produced about 146% growth, compared with about 84% for the reduced-risk method.
+- The bad-case drawdown was about 36% with fixed risk and 21% when reducing risk.
+- The chance of a 30% drawdown was about 25% with fixed risk and near 0% with the reduced-risk method.
+
+These are results from the video's model, not guaranteed outcomes. Reducing risk sacrifices some upside in exchange for limiting severe downside.
+
+6.4 Core rules from the video
+
+- Protect the downside first. A 50% loss requires a 100% gain to recover.
+- Plan for losing streaks before they happen.
+- Calculate position size from the dollar risk and stop distance.
+- Avoid excessive position sizing, even when the strategy has an edge.
+- Treat correlated positions as shared exposure.
+- Remember that stops can slip and gaps can increase losses.
+- Do not assume extreme market moves are impossible.
+- Judge strategies using hundreds of trades and appropriate testing.
+- Write trade, daily, weekly, and account-level limits in advance.
+- Reduce position size when drawdowns or losing periods require it.
+
+============================================================
+QUICK FORMULA REFERENCE
+============================================================
+
+1. Recovery gain after a loss
+
+    Recovery gain = L / (1 - L)
+
+2. Compounded account balance
+
+    Final balance = Initial balance × (1 + r1) × ... × (1 + rn)
+
+3. Balance after consecutive fixed-percentage losses
+
+    Final balance = Initial balance × (1 - r)^n
+
+4. Drawdown
+
+    Drawdown = (Peak equity - Current equity) / Peak equity
+
+5. Dollar risk
+
+    Dollar risk = Account equity × Risk percentage
+
+6. Position size
+
+    Position size = Dollar risk / Stop distance per unit
+
+7. Expected value
+
+    EV = (P(win) × Average win) - (P(loss) × Average loss)
+
+8. Kelly fraction for a simple win/loss model
+
+    Kelly fraction = (b × p - q) / b
+
+    p = win probability
+    q = loss probability = 1 - p
+    b = net reward per unit risk
+
+9. Expected cumulative edge
+
+    Expected cumulative result = Number of trades × EV per trade
+
+10. Martingale total after n losing bets, starting at one unit and doubling
+
+    Total loss = 2^n - 1
+
+============================================================
+IMPORTANT DEFINITIONS
+============================================================
+
+R:
+The amount initially risked on a trade. If the planned risk is $100, then 1R = $100.
+
+Expectancy / Expected value:
+The average theoretical result per trade over many trades.
+
+Edge:
+A statistical advantage that gives a strategy positive expected value over time.
+
+Drawdown:
+The percentage decline from a previous account equity peak.
+
+Volatility:
+The degree to which returns fluctuate.
+
+Correlation:
+A measure of how closely two return series move together.
+
+Slippage:
+The difference between the expected execution price and the actual fill price.
+
+Fat tails:
+A return distribution with a higher likelihood of extreme outcomes than a normal distribution predicts.
+
+Kelly sizing:
+A theoretical method for choosing the fraction of capital to risk to maximize long-run compounded growth under specified assumptions.
+
+============================================================
+PRACTICAL STUDY ORDER
+============================================================
+
+Learn and apply these in order:
+
+1. Understand percentage losses and recovery math.
+2. Understand compounding and why equal percentage wins/losses do not cancel.
+3. Calculate dollar risk and position size from the stop distance.
+4. Calculate expectancy in R.
+5. Understand losing streaks and drawdowns.
+6. Measure combined exposure and correlation.
+7. Account for gaps, slippage, fat tails, and leverage.
+8. Test the strategy over a large sample.
+9. Set per-trade, daily, weekly, and account-level limits.
+10. Review whether live execution preserves the strategy's tested edge.
+
+FINAL TAKEAWAY
+
+The central message of the video is to survive first. A profitable strategy is not enough if position size is excessive, losses compound, correlated positions concentrate risk, or execution habits destroy the edge.
+
+The goal is not simply to maximize profit on the next trade. It is to control risk well enough to remain in the market long enough for a genuine statistical edge to matter.
+
+SOURCE NOTE
+These notes are organized from the supplied YouTube transcription. Numerical examples and model results are retained as the speaker's illustrations. Where the transcript did not provide a complete equation, standard notation is used to express the described concept; model-specific figures should not be treated as universal trading rules.

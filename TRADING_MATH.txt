@@ -1,0 +1,730 @@
+THE MATHEMATICS NEEDED FOR TRADING
+Organized study notes from the YouTube transcript
+
+PURPOSE
+Trading uses data to identify an edge and distinguish useful signals from randomness. These mathematical concepts help evaluate strategies, understand market behavior, build portfolios, and control risk.
+
+The video groups the subject into four areas:
+1. Statistics and probability
+2. Linear algebra
+3. Time-series analysis
+4. Risk management
+
+Formula note:
+The transcript refers to several formulas without including their on-screen equations. The standard formulas below are included to make the notes useful for study. They explain the concepts, but they are not claimed to be exact formulas displayed in the video. Symbols are defined beside each formula. Some measures have multiple conventions.
+
+Context from the video:
+- Firms like Renaissance Technologies (founder Jim Simons; the flagship fund reportedly averaged ~66% annual returns before fees over 30 years) are built on top of these building blocks.
+- You don't need a PhD, but you need the right concepts in the right order.
+- Many traders skip the math, then wonder why their strategies fail.
+
+============================================================
+1. STATISTICS AND PROBABILITY
+============================================================
+
+Purpose: Separate signal from noise and determine whether a strategy's observed performance is meaningful.
+
+1.1 SAMPLE SIZE AND THE LAW OF LARGE NUMBERS
+
+Main idea:
+As the number of observations increases, the sample average tends to get closer to the true expected value, assuming the observations are drawn from a reasonably stable process.
+
+Trading application:
+- A backtest with only 10 winning trades is not strong evidence of a profitable strategy.
+- Use years of data and hundreds or thousands of trades when possible.
+- Test on out-of-sample data: data that was not used to design or optimize the strategy.
+- A larger sample helps, but does not fix biased data, changing market conditions, or over-optimization.
+
+Sample mean:
+    x̄ = (x₁ + x₂ + ... + xₙ) / n
+
+Where:
+- xᵢ = each observation or trade result
+- n = number of observations
+- x̄ = sample average
+
+1.2 CENTRAL TENDENCY: MEAN, MEDIAN, MODE, EXPECTED VALUE
+
+MEAN
+The arithmetic average.
+
+    Mean = (sum of all observations) / n
+
+Use:
+- Commonly used in moving averages; a simple moving average is the mean of the selected price observations (a rolling mean).
+- Sensitive to extreme values (outliers).
+
+MEDIAN
+The middle value after sorting observations.
+
+Use:
+- Often gives a more representative typical result when data contains outliers (and trading has many outliers).
+- Example: nine small losses and one unusually large loss can pull the mean away from what most trades look like. The median shows the middle, typical observation.
+- Example: for the average open-to-high % move, the median is usually more accurate than the mean.
+
+MODE
+The most frequently occurring value.
+
+Use:
+- Less common in trading analysis.
+- Can help identify frequently occurring price levels or price clustering around round numbers.
+
+EXPECTED VALUE (EV)
+The probability-weighted average outcome. It estimates what an outcome is worth over many repetitions.
+
+For a trade with possible outcomes:
+    EV = Σ [P(outcomeᵢ) × payoffᵢ]
+
+For a simple win/loss strategy:
+    EV = (Win rate × Average win)
+         - (Loss rate × Average loss)
+
+Where:
+- Win rate = probability/proportion of winning trades
+- Loss rate = probability/proportion of losing trades
+- Average win = average profit on a winning trade
+- Average loss = average loss amount, expressed as a positive number
+
+Example:
+Win rate = 55%, average win = $100
+Loss rate = 45%, average loss = $100
+
+    EV = (0.55 × $100) - (0.45 × $100)
+       = $10 per trade
+
+Interpretation:
+A positive EV means the strategy has positive average expectancy under the assumptions and data used. It does not mean every trade will win or that future results are guaranteed.
+
+1.3 VARIANCE AND STANDARD DEVIATION
+
+Variance measures how spread out observations are around their mean. It is the average squared deviation from the mean (with a sample adjustment when estimating from a sample).
+
+Population variance:
+    σ² = Σ(xᵢ - μ)² / N
+
+Sample variance:
+    s² = Σ(xᵢ - x̄)² / (n - 1)
+
+Standard deviation:
+    σ = √variance
+    s = √sample variance
+
+Where:
+- μ = population mean
+- x̄ = sample mean
+- N = population size
+- n = sample size
+
+Trading application:
+- Standard deviation of returns is commonly used as a measure of volatility.
+- Higher standard deviation means returns have been more spread out.
+- Risk measures and position-sizing methods often use volatility or a related measure.
+- Standard deviation measures dispersion; it does not fully describe crash risk or the direction of losses.
+
+1.4 COVARIANCE AND CORRELATION
+
+COVARIANCE
+Measures whether two variables tend to move together. Its value depends on the scale of the variables.
+
+Sample covariance:
+    Cov(X,Y) = Σ[(xᵢ - x̄)(yᵢ - ȳ)] / (n - 1)
+
+CORRELATION
+A standardized measure of the relationship between two variables. It ranges from -1 to +1.
+
+    ρ(X,Y) = Cov(X,Y) / (σX × σY)
+
+Interpretation:
+- +1: perfect positive linear relationship; they move together.
+-  0: no linear relationship.
+- -1: perfect negative linear relationship; they move in opposite directions.
+
+Trading application:
+Correlation helps determine whether strategies or assets provide genuine diversification.
+- Three highly correlated momentum strategies may behave like one large strategy, not three independent sources of return (3x the size, not 3x the diversification).
+- A correlation of 0.9 indicates strong co-movement.
+- A correlation of 0.2 indicates much weaker co-movement and potentially more diversification.
+- Correlation can change over time and does not prove causation.
+
+1.5 PROBABILITY DISTRIBUTIONS
+
+A probability distribution describes the possible outcomes of a random variable and how likely those outcomes are.
+
+NORMAL (GAUSSIAN) DISTRIBUTION
+- Bell-shaped and symmetric.
+- Many basic statistical models assume normality.
+- Real market returns can have heavier tails than a normal distribution.
+- A normal model may therefore underestimate the likelihood or size of extreme market moves (crashes or unusually large gains).
+
+BINOMIAL DISTRIBUTION
+- Models a fixed number of binary outcomes, such as win/loss or up/down.
+- Each trial has two possible outcomes.
+
+UNIFORM DISTRIBUTION
+- Every outcome in a specified range has equal probability.
+- Can be used as a baseline when there is no reason to favor one outcome over another.
+
+Key lesson:
+Choose a distribution that reasonably represents the data. Do not automatically assume market returns are normally distributed.
+
+1.6 CENTRAL LIMIT THEOREM (CLT)
+
+Main idea:
+Under suitable conditions, the distribution of the sample average tends toward a normal distribution as the sample size grows, even when the original observations are not normally distributed.
+
+Standardized sample-mean form:
+    Z = (x̄ - μ) / (σ / √n)
+
+Where:
+- x̄ = sample mean
+- μ = population mean
+- σ = population standard deviation
+- n = sample size
+
+Trading application:
+- An average across many trades can be more stable than the result of one trade (e.g. the average of 100 trades is more predictable than one trade).
+- Portfolio returns may behave more normally than the returns of individual assets in some circumstances.
+- The CLT does not make market data automatically normal; dependence, changing regimes, and extreme tails still matter.
+
+1.7 CONDITIONAL PROBABILITY
+
+The probability of event A occurring given that event B has occurred.
+
+    P(A | B) = P(A ∩ B) / P(B)
+
+Where:
+- P(A | B) = probability of A given B
+- P(A ∩ B) = probability that both A and B occur
+- P(B) = probability of B, assuming P(B) > 0
+
+Trading example:
+A strategy may win 55% of the time overall, but its win rate may differ when:
+- VIX is above 30
+- VIX is below 15
+- The market is trending
+- The market is ranging
+
+Use:
+Identify market conditions (regimes) in which a strategy performs better or worse. This can help filter trades, but the conditions must be tested rather than assumed.
+
+1.8 BAYES' THEOREM
+
+Bayes' theorem updates an initial probability (prior) after new evidence becomes available.
+
+    P(A | B) = [P(B | A) × P(A)] / P(B)
+
+Where:
+- P(A) = prior probability of A
+- P(B | A) = probability of observing B if A is true
+- P(B) = overall probability of observing B
+- P(A | B) = updated probability (posterior)
+
+Trading application:
+If you have an initial estimate of the probability that a stock will rise, new information such as an earnings result can change that estimate. Bayes' theorem provides a framework for updating beliefs as evidence arrives. Critical for adaptive and regime-based strategies.
+
+1.9 MAXIMUM LIKELIHOOD ESTIMATION (MLE)
+
+Main idea:
+Choose model parameters that make the observed data most likely under the model.
+
+    θ̂ = arg maxθ L(θ | data)
+
+Equivalent log-likelihood form:
+    θ̂ = arg maxθ log L(θ | data)
+
+Where:
+- θ = model parameters
+- L = likelihood of the observed data given those parameters
+- θ̂ = estimated parameters
+
+Connection to regression:
+For a linear regression with independent, normally distributed errors of constant variance, maximizing the likelihood is equivalent to minimizing the sum of squared errors.
+
+    SSE = Σ(yᵢ - ŷᵢ)²
+
+This explains why squared-error loss is commonly used in regression under Gaussian-noise assumptions.
+
+1.10 REGRESSION MODELS
+
+LINEAR REGRESSION
+Fits a linear relationship between input variable(s) and a numerical outcome.
+
+Simple linear regression:
+    y = β₀ + β₁x + ε
+
+Where:
+- y = outcome being modeled
+- x = input variable
+- β₀ = intercept
+- β₁ = slope/coefficient
+- ε = error term
+
+Trading uses:
+- Studying relationships between variables
+- Estimating values
+- Mean-reversion research
+- Identifying possible explanatory factors
+
+LOGISTIC REGRESSION
+Estimates the probability of a binary outcome, such as win/loss or up/down.
+
+    P(Y = 1 | x) = 1 / [1 + e^-(β₀ + β₁x)]
+
+Trading uses:
+- Predicting the probability of an up or down day
+- Estimating the probability that a trade wins
+- Modeling other yes/no outcomes
+
+Both are foundational models that can support more complex approaches.
+
+============================================================
+2. LINEAR ALGEBRA
+============================================================
+
+Purpose: Understand portfolios and multiple strategies mathematically. Once several assets or strategies are combined, vectors and matrices become useful.
+
+2.1 SCALARS, VECTORS, AND MATRICES
+
+SCALAR
+A single number.
+Example: one stock's return on one day.
+
+VECTOR
+An ordered list of numbers.
+Example: returns for 10 stocks on the same day, or the weights assigned to portfolio assets.
+
+MATRIX
+A rectangular arrangement of numbers in rows and columns.
+Example: a table of asset returns or a covariance matrix used in portfolio-risk calculations.
+
+A portfolio return is a weighted combination of asset returns. Portfolio risk calculations commonly use matrices.
+
+2.2 MATRIX OPERATIONS
+
+ADDITION
+Combines corresponding values in two matrices or vectors.
+Trading use: combining compatible signals or return data.
+
+MULTIPLICATION
+Combines values according to matrix multiplication rules.
+Trading use: applying portfolio weights to asset returns or calculating portfolio risk.
+
+TRANSPOSE
+Flips rows and columns.
+If A is a matrix, its transpose is written Aᵀ.
+Transposes appear in many portfolio and statistical calculations.
+
+2.3 PORTFOLIO RETURN AND RISK
+
+For a portfolio of assets:
+    Rₚ = wᵀr
+    Rₚ = Σ(wᵢ × rᵢ)
+
+Where:
+- Rₚ = portfolio return
+- wᵢ = portfolio weight of asset i
+- rᵢ = return of asset i
+- wᵀ = transposed weight vector
+
+Example:
+If 60% is allocated to an asset returning 2%, and 40% to an asset returning 1%:
+
+    Rₚ = (0.60 × 2%) + (0.40 × 1%)
+       = 1.6%
+
+This assumes the weights and returns are measured consistently and ignores costs unless they are included in the returns.
+
+Portfolio variance (matrix form):
+    σₚ² = wᵀ Σ w
+
+Where:
+- Σ = covariance matrix of asset returns
+- w = weight vector
+
+How it works: the covariance matrix holds every asset's variance on the diagonal and every pairwise covariance off the diagonal. Multiplying it by the weights on both sides shows how correlations drive total portfolio risk. Lower correlations reduce σₚ² and improve diversification.
+
+2.4 EIGENVALUES AND EIGENVECTORS
+
+For a square matrix A:
+    Av = λv
+
+Where:
+- A = matrix
+- v = eigenvector
+- λ = eigenvalue
+
+Main idea:
+Eigenvectors identify important directions or patterns in the data. Eigenvalues indicate the strength or importance associated with those directions.
+
+Trading application:
+- Risk modeling
+- Portfolio optimization
+- Understanding which common factors drive portfolio behavior
+- Estimating how many independent sources of return may exist (true diversification)
+
+2.5 PCA AND MATRIX DECOMPOSITION
+
+SVD (SINGULAR VALUE DECOMPOSITION)
+Breaks a matrix into simpler component matrices:
+
+    A = UΣVᵀ
+
+This can help reveal the structure in complex data.
+
+PCA (PRINCIPAL COMPONENT ANALYSIS)
+Finds the main patterns of variation in a dataset and represents the data using fewer components.
+
+Example from the video's explanation:
+- Start with 50 noisy indicators.
+- PCA may reduce them to five major components.
+- Those five components may explain around 90% of the variation in the original data.
+- This can make it easier to work with a smaller number of broad signals rather than many overlapping indicators.
+
+Important:
+PCA reduces dimensionality and summarizes variation. It does not automatically prove that the resulting components are profitable or independent trading strategies.
+
+============================================================
+3. TIME-SERIES ANALYSIS
+============================================================
+
+Purpose: Model how market data changes over time. Prices, returns, volatility, and relationships can depend on previous observations. (Markets have memory and structure: today depends on yesterday, volatility clusters, trends persist.)
+
+3.1 STATIONARITY
+
+A time series is stationary when its statistical properties remain stable over time (in the strict form, its joint distribution is unchanged over time).
+
+In practical terms, analysts often examine whether:
+- The mean is stable.
+- The variance is stable.
+- The dependence structure is stable.
+
+A common formal check is the Augmented Dickey-Fuller (ADF) test.
+
+Why it matters:
+Many time-series methods work best when the data is stationary.
+
+Trading challenge:
+Markets are not reliably stationary:
+- Volatility changes.
+- Correlations shift.
+- Market structure evolves.
+- Strategies can decay when the market enters a new regime.
+
+A model built on past conditions may fail when those conditions change.
+
+3.2 AUTOCORRELATION
+
+Measures how a time series relates to its own past values.
+
+Lag-1 autocorrelation:
+    ρ₁ = Corr(Xₜ, Xₜ₋₁)
+
+Where:
+- Xₜ = current observation
+- Xₜ₋₁ = previous observation
+
+Interpretation:
+- Positive autocorrelation: values tend to continue in the same direction; may be associated with momentum.
+- Negative autocorrelation: values tend to reverse; may be associated with mean reversion.
+- Near-zero autocorrelation: little linear relationship at that lag.
+
+A zero autocorrelation at one lag does not prove that the market is a random walk.
+
+3.3 ARIMA: AUTOREGRESSIVE INTEGRATED MOVING AVERAGE
+
+ARIMA is commonly written as ARIMA(p, d, q).
+
+- AR (p): autoregressive component; current value depends on previous values.
+- I (d): integrated component; differencing is used to make a series more stationary.
+- MA (q): moving-average component; current value depends on previous forecast errors.
+
+Differencing:
+    ΔXₜ = Xₜ - Xₜ₋₁
+
+Basic AR(p) idea:
+    Xₜ = c + φ₁Xₜ₋₁ + ... + φₚXₜ₋ₚ + εₜ
+
+Basic MA(q) idea:
+    Xₜ = μ + εₜ + θ₁εₜ₋₁ + ... + θqεₜ₋q
+
+Trading uses:
+ARIMA-type models can be used to forecast variables that evolve over time, such as returns, volatility, or other market measurements. Forecast quality must be tested out of sample.
+
+3.4 GARCH MODELS
+
+GARCH models changing volatility and volatility clustering.
+
+Main idea:
+- Large market moves can be followed by more large moves.
+- Calm periods can be followed by continued calm.
+- Volatility is not necessarily constant over time.
+
+A common GARCH(1,1) variance equation:
+    σₜ² = ω + αεₜ₋₁² + βσₜ₋₁²
+
+Where:
+- σₜ² = current conditional variance
+- ω = baseline variance term
+- εₜ₋₁² = previous squared shock
+- σₜ₋₁² = previous conditional variance
+- α and β = model parameters
+
+Trading application:
+If position size is based on recent volatility, a volatility model such as GARCH can provide a formal way to estimate changing risk. The model still needs validation and may not capture every market shock.
+
+3.5 COINTEGRATION
+
+Two assets can each be non-stationary (for example, both may trend), while a particular combination or spread between them is stationary.
+
+Simple spread:
+    Spreadₜ = Price Aₜ - Price Bₜ
+
+More generally:
+    Spreadₜ = Price Aₜ - β × Price Bₜ
+
+Where β is the hedge ratio.
+
+Example:
+- Stock A rises from $50 to $150.
+- Stock B rises from $45 to $135.
+- Their prices trend, but the spread between them stays stable (about $5 in the video's illustration).
+- If the spread moves away from its normal range, a pairs trader may expect it to move back toward its usual level.
+
+Pairs-trading signal (common practice):
+    z-score = (Spreadₜ - mean of spread) / std dev of spread
+- Enter when the z-score is extreme (spread stretched).
+- Exit when the z-score returns toward 0 (spread back to normal).
+
+Trading application:
+Cointegration is a foundation of pairs trading. The strategy focuses on the relationship or spread between assets rather than simply predicting whether the whole market will rise or fall.
+
+Important:
+A stable-looking spread in a chart is not enough to establish cointegration. It must be statistically tested, and the relationship can break down.
+
+============================================================
+4. RISK MANAGEMENT MATH
+============================================================
+
+Purpose: Control losses and avoid ruin. A strategy's edge is not enough if position sizing and risk are handled badly.
+
+4.1 VALUE AT RISK (VaR)
+
+VaR estimates a loss threshold over a specified time horizon at a chosen confidence level.
+
+Example:
+A one-day 95% VaR of $5,000 means that, under the model and assumptions, the loss is expected to exceed $5,000 on about 5% of days.
+
+Simple parametric approximation (assumes normal returns):
+    VaR ≈ z × σ × Portfolio value
+    (z ≈ 1.65 for 95% confidence, ≈ 2.33 for 99%)
+
+Important:
+- VaR is not the maximum possible loss.
+- Losses can be much larger than the VaR amount.
+- Always state the confidence level and time horizon.
+- VaR depends on the model and historical assumptions used.
+
+4.2 SHARPE RATIO
+
+Measures excess return relative to return volatility.
+
+    Sharpe Ratio = (Rₚ - Rf) / σₚ
+
+Where:
+- Rₚ = portfolio return
+- Rf = risk-free rate
+- σₚ = standard deviation of portfolio returns
+
+For periodic returns, the return and risk-free rate must use the same period. Annualization may be needed when comparing strategies.
+
+Interpretation:
+- Higher Sharpe means more excess return per unit of measured volatility.
+- If two strategies earn the same return, the one with lower volatility generally has the higher Sharpe ratio.
+- Sharpe does not describe every risk, especially extreme losses or non-normal returns.
+
+4.3 MAXIMUM DRAWDOWN (MDD)
+
+The largest peak-to-trough decline in portfolio value over a selected period.
+
+At time t:
+    Drawdownₜ = (Equityₜ - Running Peakₜ) / Running Peakₜ
+
+Maximum drawdown:
+    MDD = minimum(Drawdownₜ)
+
+It is normally reported as a negative percentage or as a positive loss magnitude.
+
+Example:
+- Equity reaches $10,000.
+- It later falls to $8,000 before making a new high.
+- Drawdown = ($8,000 - $10,000) / $10,000 = -20%.
+- If this is the largest decline in the period, maximum drawdown is 20%.
+
+Trading application:
+- Helps show how severe the worst historical decline was.
+- Often easier to understand than volatility alone.
+- Ask whether you can financially and psychologically tolerate a similar or larger drawdown.
+- Live drawdown can exceed the backtest's historical maximum.
+
+4.4 MONTE CARLO SIMULATION
+
+A backtest gives one historical sequence of trades. Monte Carlo simulation creates many alternative sequences or outcomes to examine how results could vary.
+
+Typical trade-sequence procedure:
+1. Start with the historical trade results.
+2. Randomly reorder or resample the trades.
+3. Recalculate the equity curve and performance.
+4. Repeat thousands of times.
+5. Examine the range of outcomes, including drawdowns and ending balances.
+
+What it helps reveal:
+- Whether the original backtest may have benefited from lucky trade ordering.
+- How much results can vary from one sequence to another.
+- What kinds of drawdowns or outcomes may be possible under the chosen assumptions (the worst drawdown may not have happened yet).
+
+Important:
+Monte Carlo results depend on how trades are resampled and on whether the simulation assumptions reflect real trading. Randomly reordering trades does not reproduce every market dependency or future regime change.
+
+============================================================
+5. WHAT TO LEARN FIRST
+============================================================
+
+The video emphasizes that beginners do not need to master every advanced topic immediately.
+
+Minimum recommended foundation for starting strategy backtesting:
+1. Mean
+2. Median
+3. Standard deviation
+4. Correlation
+5. Basic probability
+6. Sharpe ratio
+7. Maximum drawdown
+
+Why start here?
+These concepts help evaluate whether a strategy's results are meaningful and understand the risk being taken. Even traders who do not build complex algorithms should understand basic statistics and risk. Without the math, you cannot calculate your risk correctly.
+
+Suggested learning order:
+STAGE 1 — BASIC STRATEGY EVALUATION
+- Mean, median, mode
+- Expected value
+- Sample size and out-of-sample testing
+- Probability and distributions
+- Variance and standard deviation
+- Correlation
+
+STAGE 2 — MODELING AND PORTFOLIOS
+- Conditional probability and Bayes' theorem
+- Regression
+- Scalars, vectors, and matrices
+- Portfolio weights and portfolio return
+- Eigenvalues, eigenvectors, and PCA
+
+STAGE 3 — MARKET BEHAVIOR OVER TIME
+- Stationarity
+- Autocorrelation
+- ARIMA
+- GARCH
+- Cointegration
+
+STAGE 4 — ADVANCED RISK TESTING
+- Value at Risk
+- Sharpe ratio
+- Maximum drawdown
+- Monte Carlo simulation
+
+============================================================
+6. BOOKS AND RESOURCES MENTIONED
+============================================================
+
+Beginner / practical quantitative trading:
+- Quantitative Trading — Ernest P. Chan (how to build your own algorithmic trading business)
+- Algorithmic Trading: Winning Strategies and Their Rationale — Ernest P. Chan (more in-depth math tied to strategies)
+- Systematic Trading — Robert Carver (beginner-friendly, includes basic math)
+
+Time-series analysis:
+- Time Series Analysis — James D. Hamilton (the definitive reference; dense but comprehensive)
+- Analysis of Financial Time Series — Ruey S. Tsay
+
+Money management and position sizing:
+- The Mathematics of Money Management (classic text on position sizing)
+
+Backtesting and system testing:
+- Testing and Tuning Market Trading Systems — Timothy Masters (very mathy; ties math to backtesting)
+
+============================================================
+7. QUICK FORMULA REFERENCE
+============================================================
+
+Expected value:
+    EV = Σ[P(outcomeᵢ) × payoffᵢ]
+
+Simple win/loss expectancy:
+    EV = (Win rate × Average win) - (Loss rate × Average loss)
+
+Mean:
+    x̄ = Σxᵢ / n
+
+Sample variance:
+    s² = Σ(xᵢ - x̄)² / (n - 1)
+
+Standard deviation:
+    s = √s²
+
+Correlation:
+    ρ(X,Y) = Cov(X,Y) / (σX × σY)
+
+Conditional probability:
+    P(A | B) = P(A ∩ B) / P(B)
+
+Bayes' theorem:
+    P(A | B) = [P(B | A) × P(A)] / P(B)
+
+Linear regression:
+    y = β₀ + β₁x + ε
+
+Logistic regression:
+    P(Y = 1 | x) = 1 / [1 + e^-(β₀ + β₁x)]
+
+Portfolio return:
+    Rₚ = Σ(wᵢ × rᵢ)
+
+Portfolio variance:
+    σₚ² = wᵀ Σ w
+
+Eigenvalue equation:
+    Av = λv
+
+Singular value decomposition:
+    A = UΣVᵀ
+
+Differencing:
+    ΔXₜ = Xₜ - Xₜ₋₁
+
+GARCH(1,1):
+    σₜ² = ω + αεₜ₋₁² + βσₜ₋₁²
+
+Cointegration spread (simple form):
+    Spreadₜ = Price Aₜ - β × Price Bₜ
+
+Spread z-score:
+    z = (Spreadₜ - mean) / std dev
+
+Parametric VaR (normal assumption):
+    VaR ≈ z × σ × Portfolio value
+
+Sharpe ratio:
+    Sharpe = (Rₚ - Rf) / σₚ
+
+Drawdown:
+    Drawdownₜ = (Equityₜ - Running Peakₜ) / Running Peakₜ
+
+Maximum drawdown:
+    MDD = largest peak-to-trough decline
+
+============================================================
+CORE TAKEAWAY
+============================================================
+
+A trading strategy should not be judged by a small number of winning trades or by profit alone. Evaluate it with enough data, understand the distribution and volatility of its returns, check whether strategies are genuinely diversified, account for changing market conditions, and measure risk through drawdown and other risk statistics.
+
+The most practical starting point is statistics and risk management. Learn the basic measures first, then progress to portfolio mathematics and time-series models as your trading research becomes more advanced.
