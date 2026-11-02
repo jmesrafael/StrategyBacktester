@@ -26,3 +26,13 @@ console.log(`  fresh 2021: ${y21.n} trades, +₱${Math.round(y21.profit).toLocal
 console.log('  per year fresh:', fr.years.map((y) => `${y.y} ${y.n} ${y.R.toFixed(1)}R ₱${Math.round(y.profit)} dd${Math.round(y.dd * 100)}% low${Math.round(y.low)}`).join(' | '));
 const n = A.stats(nt);
 console.log(`BB-Core NT ${n.n} trades, ${n.net.toFixed(1)}R, win ${(n.win * 100).toFixed(1)}%   (report 1331, +601R, 36.5%)`);
+
+// the "Expectancy, statistics and probability" page of icore-10k-report.html: t 3.4, 95% range +0.43R..+1.41R, without 10 best +0.231R,
+// without 20 best +0.040R, Kelly 8.9% (5.1% without the 10 best), longest losing streak 16, at most 5 open at once
+{
+  const E = A.edge(fr.T, fr, co, { ...m, mode: 'compound' }), f = (v, d = 3) => v.toFixed(d);
+  console.log(`edge: t ${f(E.t, 1)}, 95% ${f(E.boot.lo, 2)}..${f(E.boot.hi, 2)}R, w/o 10 best ${f(E.exp10)}R, w/o 20 best ${f(E.exp20)}R, Kelly ${f(E.kelly.opt * 100, 1)}% (w/o 10 best ${f(E.kellyNoTop.opt * 100, 1)}%), streak ${E.s.streak}, max open ${E.open.max}`);
+  console.log(`  report: t 3.4, 0.43..1.41R, 0.231R, 0.040R, Kelly 8.9% (5.1%), streak 16, max open 5`);
+  const mc = E.mc.find((x) => x.risk === 0.025);
+  console.log(`  MC 2.5%: bad case ×${f(mc.all.p5, 1)}, median ×${f(mc.all.p50, 0)}, ends below start ${f(mc.all.below * 100, 1)}%, typical worst drop ${f(mc.all.ddMed * 100, 0)}%, P(−50%) ${f(mc.all.dd50 * 100, 0)}%`);
+}

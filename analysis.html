@@ -66,17 +66,30 @@
 </section>
 
 <main class="wrap" id="main">
-  <section class="card" id="secSummary"></section>
-  <section class="card" id="secCoins"></section>
-  <section class="card" id="secYears"></section>
-  <section class="card" id="secMonths"></section>
-  <section class="card" id="secCalendar"></section>
-  <section class="card" id="secExp"></section>
-  <section class="card" id="secGrowth"></section>
-  <section class="card" id="secTrades"></section>
-  <section class="card" id="secMethod"></section>
+  <nav class="tabs" id="tabs" role="tablist">
+    <button data-tab="overview" role="tab">Overview</button>
+    <button data-tab="periods" role="tab">Years · months · calendar</button>
+    <button data-tab="risk" role="tab">Risk &amp; edge</button>
+    <button data-tab="trades" role="tab">Trades</button>
+  </nav>
+  <section class="card" id="secEmpty" hidden></section>
+  <section class="card" data-tab="overview" id="secVerdict"></section>
+  <section class="card" data-tab="overview" id="secSummary"></section>
+  <section class="card" data-tab="overview" id="secCoins"></section>
+  <section class="card" data-tab="periods" id="secYears"></section>
+  <section class="card" data-tab="periods" id="secMonths"></section>
+  <section class="card" data-tab="periods" id="secCalendar"></section>
+  <section class="card" data-tab="risk" id="secEdge"></section>
+  <section class="card" data-tab="risk" id="secRisk"></section>
+  <section class="card" data-tab="risk" id="secGrowth"></section>
+  <section class="card" data-tab="risk" id="secTogether"></section>
+  <section class="card" data-tab="trades" id="secExp"></section>
+  <section class="card" data-tab="trades" id="secDist"></section>
+  <section class="card" data-tab="trades" id="secTrades"></section>
+  <section class="card" data-tab="trades" id="secMethod"></section>
 </main>
 <div class="tip" id="tip" hidden></div>
+<button class="totop" id="toTop" title="Back to top" aria-label="Back to top">↑</button>
 
 <script src="js/bbcore-core.js"></script>
 <script src="js/icore-core.js"></script>

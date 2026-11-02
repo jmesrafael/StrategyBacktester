@@ -186,7 +186,135 @@ function analyse(T, m) {
   return { T, rows, stats: stats(T), years: years(rows, m, yearList), curve: curve(rows, m), months: months(rows, m), days: days(rows), yearList, perCoin };
 }
 
-const API = { COINS, TF, TF_LABEL, STRATS, PARAMS, coinTrades, stats, book, years, curve, months, days, analyse, yearOf };
+// ---- edge, luck and survival (TRADING_MATH.txt, TRADING_SURVIVAL_EDGE.txt; the "Expectancy, statistics and probability" page of the reports) ----
+// Seeded random numbers, so the page shows the same simulated numbers on every load.
+function rng(seed) {
+  return () => { seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+}
+const quantile = (sorted, q) => { if (!sorted.length) return 0; const k = (sorted.length - 1) * q, a = Math.floor(k), b = Math.ceil(k); return sorted[a] + (sorted[b] - sorted[a]) * (k - a); };
+const mean = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0);
+const sdev = (a) => { const m = mean(a); return a.length > 1 ? Math.sqrt(a.reduce((s, x) => s + (x - m) ** 2, 0) / (a.length - 1)) : 0; };
+
+// 95% range of the average R per trade: resample the trades with replacement (bootstrap). pPos = share of resamples above 0.
+function bootstrapMean(R, sims = 4000, seed = 7) {
+  const n = R.length, r = rng(seed), out = new Float64Array(sims);
+  for (let s = 0; s < sims; s++) { let sum = 0; for (let i = 0; i < n; i++) sum += R[(r() * n) | 0]; out[s] = sum / n; }
+  const sorted = Array.from(out).sort((a, b) => a - b);
+  return { lo: quantile(sorted, 0.025), hi: quantile(sorted, 0.975), pPos: sorted.filter((v) => v > 0).length / sims };
+}
+// 95% range of the true win rate from k wins in n trades (Wilson)
+function wilson(k, n, z = 1.96) {
+  if (!n) return { lo: 0, hi: 0 };
+  const p = k / n, d = 1 + z * z / n, c = (p + z * z / (2 * n)) / d, h = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d;
+  return { lo: Math.max(0, c - h), hi: Math.min(1, c + h) };
+}
+// Kelly: the simple win/loss formula (b·p − q)/b, and the fixed % that grew THIS history fastest (max of the average log growth)
+function kelly(R) {
+  const w = R.filter((x) => x > 0), l = R.filter((x) => x <= 0);
+  const p = R.length ? w.length / R.length : 0, b = l.length && w.length ? mean(w) / -mean(l) : 0;
+  const simple = b > 0 ? (b * p - (1 - p)) / b : 0;
+  let best = 0, bestG = 0;
+  for (let f = 0.001; f <= 0.6; f += 0.001) {
+    let g = 0, ok = true;
+    for (const x of R) { const v = 1 + f * x; if (v <= 0) { ok = false; break; } g += Math.log(v); }
+    if (!ok) break;
+    if (g > bestG) { bestG = g; best = f; }
+  }
+  return { simple: Math.max(0, simple), opt: best, payoff: b };
+}
+// Monte Carlo: the same trades in a random order (drawn with replacement), one after another, compounding at `risk` of the balance
+// (capped at `cap`). Returns the spread of end balances (multiple of the start) and of the deepest drop.
+function monteCarlo(R, o) {
+  const { risk, trades, sims = 2000, seed = 11, cap = 0, start = 1 } = o, n = R.length, r = rng(seed);
+  const ends = new Float64Array(sims), dds = new Float64Array(sims);
+  for (let s = 0; s < sims; s++) {
+    let bal = start, pk = start, dd = 0;
+    for (let i = 0; i < trades; i++) {
+      const sz = cap > 0 ? Math.min(cap, bal * risk) : bal * risk;
+      bal = Math.max(0, bal + R[(r() * n) | 0] * sz);
+      if (bal > pk) pk = bal; else { const d = 1 - bal / pk; if (d > dd) dd = d; }
+    }
+    ends[s] = bal / start; dds[s] = dd;
+  }
+  const E = Array.from(ends).sort((a, b) => a - b), D = Array.from(dds).sort((a, b) => a - b);
+  const share = (arr, f) => arr.filter(f).length / sims;
+  return { p5: quantile(E, 0.05), p50: quantile(E, 0.5), p95: quantile(E, 0.95), below: share(E, (v) => v < 1), ddMed: quantile(D, 0.5), dd95: quantile(D, 0.95),
+    dd30: share(D, (v) => v >= 0.3), dd50: share(D, (v) => v >= 0.5), dd70: share(D, (v) => v >= 0.7) };
+}
+// how many positions were open together at most (one shared account), and when
+function maxOpen(T) {
+  const ev = []; for (const t of T) { ev.push([t.t, 1]); ev.push([t.tExit, -1]); }
+  ev.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  let k = 0, max = 0, at = null; for (const [t, d] of ev) { k += d; if (k > max) { max = k; at = t; } }
+  return { max, at };
+}
+// time spent below the previous high on the closed-trade balance (rows from book(), compounding)
+function underwater(rows, start) {
+  let pk = start, pkT = rows.length ? rows[0].t : 0, below = 0, longest = 0, longFrom = null, longTo = null;
+  for (const r of rows) {
+    if (r.bal >= pk) { const d = r.tc - pkT; if (d > longest && r.bal > pk) { longest = d; longFrom = pkT; longTo = r.tc; } pk = r.bal; pkT = r.tc; }
+    else below++;
+  }
+  const last = rows[rows.length - 1], now = last && last.bal < pk ? { since: pkT, dd: 1 - last.bal / pk } : null;
+  if (now && last.tc - pkT > longest) { longest = last.tc - pkT; longFrom = pkT; longTo = null; }
+  return { share: rows.length ? below / rows.length : 0, longest, longFrom, longTo, now };
+}
+// Pearson correlation of two equal-length arrays
+function corr(x, y) {
+  const n = x.length; if (n < 3) return NaN;
+  const mx = mean(x), my = mean(y); let a = 0, b = 0, c = 0;
+  for (let i = 0; i < n; i++) { a += (x[i] - mx) * (y[i] - my); b += (x[i] - mx) ** 2; c += (y[i] - my) ** 2; }
+  return b && c ? a / Math.sqrt(b * c) : NaN;
+}
+// month keys (y*100+m) from the first to the last month of a list of trades
+function monthKeys(T) {
+  if (!T.length) return [];
+  const a = new Date(Math.min(...T.map((t) => t.tc)) * 1000), b = new Date(Math.max(...T.map((t) => t.tc)) * 1000), out = [];
+  for (let y = a.getUTCFullYear(), m = a.getUTCMonth(); y * 12 + m <= b.getUTCFullYear() * 12 + b.getUTCMonth(); m++) { if (m > 11) { m = 0; y++; } out.push(y * 100 + m); }
+  return out;
+}
+
+// Everything the "Risk & edge" tab and the verdict need, from the trades (T), the booked accounts (fresh / compounding) and the money settings.
+function edge(T, fresh, comp, m) {
+  const R = T.map((t) => t.R), s = stats(T), sorted = [...R].sort((a, b) => a - b), n = R.length;
+  const bySize = [...R].sort((a, b) => b - a), net = s.net;
+  const without = (k) => (n > k ? (net - bySize.slice(0, k).reduce((a, b) => a + b, 0)) / (n - k) : 0);
+  const yR = fresh.years.map((y) => y.R), bestY = fresh.years.reduce((a, y) => (!a || y.R > a.R ? y : a), null);
+  const skew = (() => { const sd = sdev(R), mu = mean(R); return sd ? R.reduce((a, x) => a + ((x - mu) / sd) ** 3, 0) / n : 0; })();
+  const q = 1 - s.win;
+  const ky = kelly(R), kyNoTop = kelly(bySize.slice(10));
+  // months: compounding returns (0 for a month with no closed trade), for Sharpe and monthly VaR
+  const keys = monthKeys(T), mret = keys.map((k) => (comp.months.get(k) ? comp.months.get(k).ret : 0));
+  const mSorted = [...mret].sort((a, b) => a - b), msd = sdev(mret);
+  const span = T.length ? (Math.max(...T.map((t) => t.tc)) - Math.min(...T.map((t) => t.t))) / (365.25 * 86400) : 1;
+  const perYear = n / Math.max(0.25, span);
+  // coins together: correlation of their monthly R
+  const coins = [...new Set(T.map((t) => t.coin))].sort((a, b) => COINS.indexOf(a) - COINS.indexOf(b)), cm = {};
+  for (const c of coins) { const mm = new Map(); for (const t of T) if (t.coin === c) { const d = new Date(t.tc * 1000), k = d.getUTCFullYear() * 100 + d.getUTCMonth(); mm.set(k, (mm.get(k) || 0) + t.R); } cm[c] = keys.map((k) => mm.get(k) || 0); }
+  const corrM = coins.map((a) => coins.map((b) => corr(cm[a], cm[b])));
+  const pairs = []; for (let i = 0; i < coins.length; i++) for (let j = i + 1; j < coins.length; j++) pairs.push(corrM[i][j]);
+  // the distribution of results
+  const buckets = [[-Infinity, -1.2, 'Worse than −1.2R (gap past the stop)'], [-1.2, -0.8, '−1.2R to −0.8R (stopped out)'], [-0.8, 0, '−0.8R to 0 (small loss)'], [0, 1, '0 to +1R'], [1, 3, '+1R to +3R'], [3, 10, '+3R to +10R'], [10, 30, '+10R to +30R'], [30, Infinity, 'More than +30R']]
+    .map(([lo, hi, label]) => { const x = R.filter((v) => v > lo && v <= hi); return { label, n: x.length, R: x.reduce((a, b) => a + b, 0) }; });
+  const risks = [...new Set([0.005, 0.01, 0.02, 0.025, 0.05, m.risk])].sort((a, b) => a - b);
+  const mc = risks.map((rk) => ({ risk: rk, all: monteCarlo(R, { risk: rk, trades: n, cap: m.cap, start: m.start }), year: monteCarlo(R, { risk: rk, trades: Math.max(1, Math.round(perYear)), cap: m.cap, start: m.start, seed: 23 }) }));
+  return {
+    s, n, median: quantile(sorted, 0.5), sd: sdev(R), skew, t: s.sd ? s.exp / (s.sd / Math.sqrt(n)) : 0,
+    boot: bootstrapMean(R), winCI: wilson(s.wins, n), need: s.exp > 0 ? Math.ceil((1.96 * s.sd / s.exp) ** 2) : Infinity,
+    exp10: without(10), exp20: without(20), noBestYear: bestY ? { y: bestY.y, R: net - bestY.R, exp: (net - bestY.R) / Math.max(1, n - bestY.n) } : null,
+    posYears: yR.filter((v) => v > 0).length, years: yR.length, posMonths: mret.filter((v) => v > 0).length, months: keys.length,
+    longs: { n: s.longs, R: s.longR, win: T.filter((t) => t.dir === 1 && t.R > 0).length / Math.max(1, s.longs) },
+    shorts: { n: s.shorts, R: s.shortR, win: T.filter((t) => t.dir === -1 && t.R > 0).length / Math.max(1, s.shorts) },
+    streakExp: q > 0 && q < 1 ? Math.log(n * (1 - q)) / Math.log(1 / q) : 0,
+    kelly: ky, kellyNoTop: kyNoTop, perYear, span,
+    sharpe: msd ? mean(mret) / msd * Math.sqrt(12) : 0, var95: quantile(mSorted, 0.05), worstMonth: mSorted[0] || 0, bestMonth: mSorted[mSorted.length - 1] || 0,
+    under: underwater(comp.rows, m.start), open: maxOpen(T), gaps: R.filter((v) => v < -1.2), buckets,
+    coins, corrM, corrAvg: pairs.length ? mean(pairs.filter((v) => isFinite(v))) : NaN, mc,
+  };
+}
+
+const API = { COINS, TF, TF_LABEL, STRATS, PARAMS, coinTrades, stats, book, years, curve, months, days, analyse, yearOf,
+  rng, quantile, bootstrapMean, wilson, kelly, monteCarlo, maxOpen, underwater, corr, edge };
 if (typeof module !== 'undefined' && module.exports) module.exports = API;
 else globalThis.AnalysisCore = API;
 })();

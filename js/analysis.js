@@ -6,6 +6,7 @@
   const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const RISK_PRESETS = [0.5, 1, 2, 2.5, 5];
+  const TAB_LIST = ['overview', 'periods', 'risk', 'trades'];
   const PARAM_UI = {
     targetR: { label: 'Target (R)', min: 0.5, max: 20, step: 0.5 },
     maxBars: { label: 'Time exit (candles)', min: 0, max: 1000, step: 1 },
@@ -15,7 +16,7 @@
   };
 
   // ---- settings (URL hash) -------------------------------------------------------------------------------------------------
-  const DEF = { s: 'icore', tf: '240', coins: A.COINS.join(','), costs: 1, ...A.PARAMS, start: 10000, cur: '₱', risk: 2.5, cap: 0, from: '', to: '', view: 'total' };
+  const DEF = { s: 'icore', tf: '240', coins: A.COINS.join(','), costs: 1, ...A.PARAMS, start: 10000, cur: '₱', risk: 2.5, cap: 0, from: '', to: '', view: 'total', tab: 'overview' };
   delete DEF.costs; DEF.costs = 1;
   const S = { ...DEF };
   function readHash() {
@@ -24,6 +25,7 @@
     if (!A.STRATS[S.s]) S.s = DEF.s;
     if (!A.TF[S.tf]) S.tf = DEF.tf;
     if (!S.cur) S.cur = DEF.cur;
+    if (!TAB_LIST.includes(S.tab)) S.tab = DEF.tab;
   }
   function writeHash() {
     const h = new URLSearchParams();
@@ -129,6 +131,7 @@
       const d = DATA[`${c}|${S.tf}`];
       if (!d || d.B.length < 300) { out[c] = { trades: [], open: null }; continue; }
       out[c] = A.coinTrades(S.s, c, d.B, d.F, params(), iv);
+      if (S.costs) out[c].free = A.coinTrades(S.s, c, d.B, d.F, { ...params(), costs: false }, iv).trades;   // what the costs take
       lastCandle = Math.max(lastCandle, d.B[d.B.length - 1].time); firstCandle = Math.min(firstCandle, d.B[0].time);
     }
     TR = out; trKey = key;
@@ -154,7 +157,7 @@
   const sgn = (v) => (v > 0 ? '+' : v < 0 ? '−' : '');
   const cls = (v) => (v > 0 ? 'pos' : v < 0 ? 'neg' : 'mut');
   const fR = (v, d = 1) => `${sgn(v)}${Math.abs(v).toFixed(d)}R`;
-  const fPct = (v, d = 0) => `${sgn(v)}${Math.abs(v * 100).toLocaleString('en-US', { maximumFractionDigits: d, minimumFractionDigits: d })}%`;
+  const fPct = (v, d = 0) => `${sgn(+(v * 100).toFixed(d))}${Math.abs(v * 100).toLocaleString('en-US', { maximumFractionDigits: d, minimumFractionDigits: d })}%`;
   const pct = (v, d = 0) => `${(v * 100).toFixed(d)}%`;
   function fM(v, signed) {
     const a = Math.abs(v), s = signed ? sgn(v) : v < 0 ? '−' : '';
@@ -180,14 +183,16 @@
   let V = null;   // { T, fresh, comp, fixed, opens, coins }
   function select() {
     const coins = coinsOn(), from = S.from ? Date.parse(S.from) / 1000 : -Infinity, to = S.to ? Date.parse(S.to) / 1000 + 86400 : Infinity;
-    const T = [], opens = [];
+    const T = [], opens = [], free = [];
     for (const c of coins) {
       if (!TR[c]) continue;
       for (const t of TR[c].trades) if (t.t >= from && t.tc < to) T.push(t);
+      if (TR[c].free) for (const t of TR[c].free) if (t.t >= from && t.tc < to) free.push(t);
       if (TR[c].open && !S.to) opens.push(TR[c].open);
     }
+    T.sort((x, y) => x.tExit - y.tExit || x.t - y.t);   // coin by coin → by close, so V.T[0] / V.T[last] are the first / last closed trade
     const m = money();
-    V = { T, coins, opens, m, fresh: A.analyse(T, { ...m, mode: 'fresh' }), comp: A.analyse(T, { ...m, mode: 'compound' }), fixed: A.analyse(T, { ...m, mode: 'fixed' }) };
+    V = { T, coins, opens, m, free: S.costs ? free : null, E: null, fresh: A.analyse(T, { ...m, mode: 'fresh' }), comp: A.analyse(T, { ...m, mode: 'compound' }), fixed: A.analyse(T, { ...m, mode: 'fixed' }) };
     const ys = V.fresh.yearList, startT = Math.max(firstCandle + 205 * A.TF[S.tf], from), endT = Math.min(lastCandle, to);
     partFirst = ys.length && startT > Date.UTC(ys[0], 0, 8) / 1000 ? ys[0] : null;
     partLast = ys.length && endT < Date.UTC(ys[ys.length - 1], 11, 24) / 1000 ? ys[ys.length - 1] : null;
@@ -200,35 +205,54 @@
     $('title').textContent = `${st.name}: in-depth analysis`;
     $('subtitle').textContent = `The bot's own engine on Binance ${A.TF_LABEL[S.tf]} candles · ${V.coins.join(', ') || 'no coin selected'} · ${S.costs ? 'fees, slippage and funding included' : 'before costs'} · ${S.risk}% risk per trade from ${fM(S.start)}${S.cap > 0 ? `, at most ${fM(S.cap)} a trade` : ''}.`;
     document.title = `${st.short} analysis`;
-    if (!V.T.length) {
-      $('secSummary').innerHTML = `<h2>No closed trades</h2><p class="sub">Nothing closed with these settings. Pick at least one coin, or widen the dates.</p>`;
-      ['secCoins', 'secYears', 'secMonths', 'secCalendar', 'secExp', 'secGrowth', 'secTrades', 'secMethod'].forEach((id) => { $(id).innerHTML = ''; });
+    const empty = !V.T.length;
+    $('secEmpty').hidden = !empty; $('tabs').hidden = empty;
+    if (empty) {
+      $('secEmpty').innerHTML = `<h2>No closed trades</h2><p class="sub">Nothing closed with these settings. Pick at least one coin, or widen the dates.</p>`;
+      document.querySelectorAll('main section[data-tab]').forEach((el) => el.classList.add('off'));
       return;
     }
-    renderSummary(); renderCoins(); renderYears(); renderMonths(); renderCalendar(); renderExp(); renderGrowth(); renderTrades(); renderMethod();
+    dirty = new Set(TAB_LIST);
+    showTab();
   }
+  // four tabs; a tab's sections are drawn when it is shown (the simulations of "Risk & edge" only run when it is opened)
+  const TABS = {
+    overview: () => { renderVerdict(); renderSummary(); renderCoins(); },
+    periods: () => { renderYears(); renderMonths(); renderCalendar(); },
+    risk: () => { renderEdge(); renderRisk(); renderGrowth(); renderTogether(); },
+    trades: () => { renderExp(); renderDist(); renderTrades(); renderMethod(); },
+  };
+  let dirty = new Set();
+  function showTab() {
+    document.querySelectorAll('#tabs button').forEach((b) => { b.classList.toggle('on', b.dataset.tab === S.tab); b.setAttribute('aria-selected', b.dataset.tab === S.tab); });
+    document.querySelectorAll('main section[data-tab]').forEach((el) => el.classList.toggle('off', el.dataset.tab !== S.tab));
+    if (V && V.T.length && dirty.has(S.tab)) { dirty.delete(S.tab); TABS[S.tab](); }
+  }
+  const getE = () => V.E || (V.E = A.edge(V.T, V.fresh, V.comp, V.m));
 
   // ---- 1. summary ---------------------------------------------------------------------------------------------------------------
   function renderSummary() {
     const s = V.fresh.stats, comp = V.comp.curve, fy = V.fresh.years, worstY = Math.max(...fy.map((y) => y.dd));
     const sumFresh = fy.reduce((a, y) => a + y.profit, 0), endC = comp.pts[comp.pts.length - 1][1];
-    const first = V.T[0], last = V.T[V.T.length - 1];
+    const first = V.T[0], last = V.T[V.T.length - 1], per = perTrade();
+    const winR = s.avgWin * s.wins, lossR = s.avgLoss * s.losses;
     const k = (v, key, sub) => `<div class="kpi"><div class="v">${v}</div><div class="k">${key}</div>${sub ? `<div class="s">${sub}</div>` : ''}</div>`;
     $('secSummary').innerHTML = `
       <div class="sec-head"><div><h2>Summary</h2><p class="sub">${V.coins.length} coin${V.coins.length > 1 ? 's' : ''} together, one shared account, ${fmtDate(first.tc)} to ${fmtDate(last.tc)}. R = the amount risked on a trade.</p></div></div>
       <div class="kpis">
-        ${k(s.n.toLocaleString(), 'Trades', `${s.longs} long · ${s.shorts} short`)}
-        ${k(pct(s.win, 1), 'Win rate', `break-even at this payoff ${pct(s.beWin, 1)}`)}
-        ${k(span(s.exp, fR(s.exp, 2)), 'Average per trade', `win ${fR(s.avgWin, 2)} · loss ${fR(s.avgLoss, 2)}`)}
+        ${k(s.n.toLocaleString(), 'Trades', `${s.longs} long · ${s.shorts} short · about ${Math.round(getE().perYear)} a year`)}
+        ${k(`<span class="pos">${s.wins.toLocaleString()}</span>`, 'Wins', `${fR(winR, 1)} in total · average ${fR(s.avgWin, 2)}`)}
+        ${k(`<span class="neg">${s.losses.toLocaleString()}</span>`, 'Losses', `${fR(lossR, 1)} in total · average ${fR(s.avgLoss, 2)}`)}
+        ${k(pct(s.win, 1), 'Win rate', `break-even at this payoff: ${pct(s.beWin, 1)}`)}
+        ${k(span(s.exp, fR(s.exp, 2)), 'Expectancy (per trade)', `${pct(s.win)} × ${fR(s.avgWin, 2)} − ${pct(1 - s.win)} × ${fR(-s.avgLoss, 2).replace('+', '')} · ≈ ${fM(s.exp * per, true)} at ${fM(per)} risk`)}
+        ${k(s.avgLoss ? (s.avgWin / -s.avgLoss).toFixed(2) + ' : 1' : '–', 'Payoff ratio', 'average win ÷ average loss')}
         ${k(s.pf === Infinity ? '∞' : s.pf.toFixed(2), 'Profit factor', 'gross wins ÷ gross losses')}
-        ${k(span(s.net, fR(s.net, 1)), 'Total R', `deepest drop ${fR(-s.ddR, 1)}`)}
-        ${k(span(sumFresh, fM(sumFresh, true)), `Profit, fresh ${fM(S.start)} each January`, `sum of ${fy.length} years · worst drop in a year ${fPct(-worstY)}`)}
+        ${k(span(s.net, fR(s.net, 1)), 'Total R', `deepest drop ${fR(-s.ddR, 1)} · best trade ${fR(s.best, 1)}`)}
+        ${k(span(sumFresh, fM(sumFresh, true)), `Fresh ${fM(S.start)} each January`, `sum of ${fy.length} years · worst drop in a year ${fPct(-worstY)}`)}
         ${k(fM(endC), `Compounding, ${fM(S.start)} once`, `${fPct(endC / S.start - 1)} · deepest drop ${fPct(-comp.dd)}`)}
-        ${k(span(s.best, fR(s.best, 1)), 'Best trade', `ten best = ${pct(s.top10)} of all profit`)}
-        ${k(s.streak, 'Longest losing streak', `worst trade ${fR(s.worst, 2)}`)}
-        ${k((s.avgBars * A.TF[S.tf] / 86400).toFixed(1) + ' d', 'Average hold', `${s.avgBars.toFixed(0)} candles`)}
       </div>`;
   }
+  const perTrade = () => { const p = S.start * S.risk / 100; return S.cap > 0 ? Math.min(S.cap, p) : p; };
 
   // ---- 2. by coin ---------------------------------------------------------------------------------------------------------------
   function renderCoins() {
@@ -409,9 +433,9 @@
 
   // ---- 6. win rate and expectancy -----------------------------------------------------------------------------------------------
   function renderExp() {
-    const per = S.start * S.risk / 100, perTrade = S.cap > 0 ? Math.min(S.cap, per) : per;
-    const row = (lbl, T) => { const s = A.stats(T); return `<tr><td>${lbl}</td><td>${s.n}</td><td>${s.n ? pct(s.win, 1) : '–'}</td><td><b>${span(s.exp, fR(s.exp, 2))}</b></td><td>${fR(s.avgWin, 2)}</td><td>${fR(s.avgLoss, 2)}</td><td>${s.pf === Infinity ? '∞' : s.pf.toFixed(2)}</td><td>${span(s.exp, fM(s.exp * perTrade, true))}</td></tr>`; };
-    const head = ['', 'Trades closed', 'Win rate', 'Expectancy (avg R)', 'Average win', 'Average loss', 'Profit factor', `${S.cur} per trade at ${fM(perTrade)} risk`];
+    const pt = perTrade();
+    const row = (lbl, T) => { const s = A.stats(T); return `<tr><td>${lbl}</td><td>${s.n}</td><td>${s.n ? pct(s.win, 1) : '–'}</td><td><b>${span(s.exp, fR(s.exp, 2))}</b></td><td>${fR(s.avgWin, 2)}</td><td>${fR(s.avgLoss, 2)}</td><td>${s.pf === Infinity ? '∞' : s.pf.toFixed(2)}</td><td>${span(s.exp, fM(s.exp * pt, true))}</td></tr>`; };
+    const head = ['', 'Trades closed', 'Win rate', 'Expectancy (avg R)', 'Average win', 'Average loss', 'Profit factor', `${S.cur} per trade at ${fM(pt)} risk`];
     const ys = V.fresh.yearList, T = V.fresh.rows;
     const byY = ys.map((y) => row(yLabel(y), T.filter((t) => t.y === y)));
     byY.push(row('<b>All years</b>', T).replace('<tr>', '<tr class="tot">'));
@@ -432,7 +456,7 @@
         <div class="sec-tools"><div class="seg mini" id="gScale"><button data-v="log">Log scale</button><button data-v="lin">Linear</button></div></div></div>
       <h3>Growth of ${fM(S.start)}</h3><div class="chart" id="chEq"></div>
       <h3>Drop from the previous high</h3><div class="chart" id="chDD"></div>
-      <h3>Maximum drawdown by year</h3>${table(['Year', `Fresh ${fM(S.start)}`, 'Compounding', 'No compounding'], V.fresh.yearList.map((y, i) => `<tr><td>${yLabel(y)}</td><td>${fPct(-V.fresh.years[i].dd)}</td><td>${fPct(-V.comp.years[i].dd)}</td><td>${fPct(-V.fixed.years[i].dd)}</td></tr>`).concat(`<tr class="tot"><td>Whole period</td><td>${fPct(-Math.max(...V.fresh.years.map((y) => y.dd)))} (worst year)</td><td>${fPct(-V.comp.curve.dd)}</td><td>${fPct(-V.fixed.curve.dd)}</td></tr>`))}`;
+      <h3>Maximum drawdown by year</h3>${table(['Year', `Fresh ${fM(S.start)}`, 'Compounding', 'No compounding'], V.fresh.yearList.map((y, i) => `<tr><td>${yLabel(y)}</td><td>${fPct(-V.fresh.years[i].dd)}</td><td>${fPct(-V.comp.years[i].dd)}</td><td>${fPct(-V.fixed.years[i].dd)}</td></tr>`).concat(`<tr class="tot"><td>Whole period</td><td>${fPct(-Math.max(...V.fresh.years.map((y) => y.dd)))} (worst year)</td><td>${fPct(-V.comp.curve.dd)}</td><td>${fPct(-V.fixed.curve.dd)}</td></tr>`))}${survivalHtml()}`;
     segWire('gScale', GS.log ? 'log' : 'lin', (v) => { GS.log = v === 'log'; renderGrowth(); });
     lineChart($('chEq'), [{ name: 'Balance', color: 'var(--c-SOL)', pts: eq }], { log: GS.log, yFmt: (v) => fM(v), tipFmt: (v) => fM(v) });
     lineChart($('chDD'), [{ name: 'Drop', color: 'var(--neg)', pts: dd }], { yFmt: (v) => `${Math.round(v)}%`, tipFmt: (v) => `${v.toFixed(1)}%`, area: true, height: 160 });
@@ -475,6 +499,178 @@
       <p><b>Size.</b> ${S.risk}% of the closed-trade balance at the moment of entry${S.cap > 0 ? `, never more than ${fM(S.cap)}` : ''}; one position per coin, so up to ${V.coins.length} at once in the shared account. Trades are credited to the day, month and year they close. "Fresh" restarts the account at ${fM(S.start)} every 1 January; "compounding" never restarts it; "no compounding" risks ${S.risk}% of the start balance on every trade.</p>
       <p><b>Limits.</b> A test on past prices: the coins and settings were chosen with hindsight. Real fills (gaps, thin books, contract-size limits on small accounts) can be worse than the assumed costs. Not included: the Lucid'io fee, deposits and withdrawals, taxes. Past performance does not guarantee future results.</p>
       <p class="foot">With the default settings this page reproduces the admin reports (I-Core: 760 trades, +658R to late Oct 2026; Version 1 2021 = +₱109,790). Newer candles add the trades closed since.</p>`;
+  }
+
+  // ---- verdict: a rule-based read of the numbers (not a model): checks from TRADING_MATH / TRADING_SURVIVAL_EDGE, each good / so-so / bad ----
+  function checks() {
+    const E = getE(), s = E.s, out = [], r = S.risk / 100, comp = V.comp.curve;
+    const add = (st, title, brief, detail) => out.push({ st, title, brief, detail });
+    const mcY = E.mc.find((x) => Math.abs(x.risk - r) < 1e-9);
+    // 1. is there an edge at all, and is it more than luck?
+    if (s.exp <= 0) add('bad', 'No edge', 'it loses money on average', `Average ${fR(s.exp, 2)} a trade: over many trades it loses.`);
+    else if (E.boot.lo > 0) add('good', 'A real edge', `${fR(s.exp, 2)} a trade, very unlikely to be luck`, `${fR(s.exp, 2)} a trade. The 95% range is ${fR(E.boot.lo, 2)} to ${fR(E.boot.hi, 2)}, positive in ${pct(E.boot.pPos, 1)} of 4,000 resamples (t = ${E.t.toFixed(1)}; above 2 is unlikely to be luck).`);
+    else add('ok', 'Edge not proven', 'positive, but it could still be luck', `${fR(s.exp, 2)} a trade, but the 95% range ${fR(E.boot.lo, 2)} to ${fR(E.boot.hi, 2)} includes zero (t = ${E.t.toFixed(1)}).`);
+    // 2. enough trades to tell edge from noise
+    if (s.exp > 0) add(s.n >= E.need ? 'good' : s.n >= E.need / 2 ? 'ok' : 'bad', 'Sample size', s.n >= E.need ? 'enough trades to judge it' : 'too few trades to be sure',
+      `${s.n} trades. An edge of this size with this much spread needs about ${E.need.toLocaleString()} trades to stand out from chance: (1.96 × ${E.sd.toFixed(2)}R ÷ ${s.exp.toFixed(2)}R)².`);
+    // 3. payoff: does a win pay for the losses?
+    add(s.pf >= 1.5 ? 'good' : s.pf >= 1.15 ? 'ok' : 'bad', 'Wins pay for the losses', `profit factor ${s.pf === Infinity ? '∞' : s.pf.toFixed(2)}`,
+      `Profit factor ${s.pf === Infinity ? '∞' : s.pf.toFixed(2)}: the average win (${fR(s.avgWin, 2)}) is ${E.kelly.payoff.toFixed(1)}× the average loss (${fR(s.avgLoss, 2)}). It needs to win ${pct(s.beWin, 1)} of trades to break even and wins ${pct(s.win, 1)}.`);
+    // 4. how much it leans on a few huge winners
+    add(E.exp10 <= 0 ? 'bad' : s.top10 >= 0.5 ? 'ok' : 'good', 'Not only a few big winners', E.exp10 <= 0 ? 'the edge is only the 10 best trades' : s.top10 >= 0.5 ? `the 10 best trades are ${pct(s.top10)} of the profit` : 'profit is spread over many trades',
+      `The ten best trades make ${pct(s.top10)} of all profit. Without them: ${fR(E.exp10, 2)} a trade; without the 20 best: ${fR(E.exp20, 2)}. Missing one of them live would cost a lot.`);
+    // 5. consistency over time
+    const py = E.years ? E.posYears / E.years : 0;
+    add(py >= 0.8 ? 'good' : py >= 0.6 ? 'ok' : 'bad', 'Consistent over time', `${E.posYears} of ${E.years} years up`,
+      `${E.posYears} of ${E.years} years and ${E.posMonths} of ${E.months} months ended up (${pct(E.posMonths / Math.max(1, E.months))}).` + (E.noBestYear ? ` Without its best year (${E.noBestYear.y}) it still makes ${fR(E.noBestYear.R)} (${fR(E.noBestYear.exp, 2)} a trade).` : ''));
+    // 6. every coin, not one lucky coin
+    if (V.coins.length > 1) {
+      const cs = V.coins.filter((c) => V.fresh.perCoin[c]), pos = cs.filter((c) => V.fresh.perCoin[c].stats.net > 0);
+      add(pos.length === cs.length ? 'good' : pos.length * 2 > cs.length ? 'ok' : 'bad', 'Works on every coin', `${pos.length} of ${cs.length} coins positive`,
+        `Positive on ${pos.length} of ${cs.length} coins: ${cs.map((c) => `${c} ${fR(V.fresh.perCoin[c].stats.net, 0)}`).join(', ')}.`);
+    }
+    // 7. the drop at the chosen risk, and the gain needed to recover from it
+    const dd = comp.dd;
+    add(dd < 0.25 ? 'good' : dd < 0.45 ? 'ok' : 'bad', `Drawdown at ${S.risk}% risk`, `deepest drop ${fPct(-dd)}`,
+      `Deepest drop ${fPct(-dd)}; getting back from it needs ${fPct(dd / (1 - dd))} (a 50% loss needs +100%). In random orders the typical worst drop is ${pct(mcY.all.ddMed)}, and 1 in 20 is ${pct(mcY.all.dd95)} or worse.`);
+    // 8. sizing against Kelly
+    const half = E.kellyNoTop.opt / 2;
+    add(r <= half + 1e-9 ? 'good' : r <= E.kellyNoTop.opt ? 'ok' : 'bad', 'Risk per trade', r <= half + 1e-9 ? `${S.risk}% is within half-Kelly` : `${S.risk}% is above half-Kelly (${(half * 100).toFixed(1)}%)`,
+      `The fixed % that grew this history fastest is ${(E.kelly.opt * 100).toFixed(1)}% (${(E.kellyNoTop.opt * 100).toFixed(1)}% without the 10 best trades). Half of that, ${(half * 100).toFixed(1)}%, is the usual ceiling; more risk adds drawdown faster than growth.`);
+    // 9. a single year from the start
+    add(mcY.year.below < 0.15 ? 'good' : mcY.year.below < 0.3 ? 'ok' : 'bad', 'Odds over one year', `${pct(mcY.year.below)} of years end below the start`,
+      `Re-shuffling one year of about ${Math.round(E.perYear)} trades 2,000 times at ${S.risk}%: ${pct(mcY.year.below)} end below the start, the median ends at ×${mcY.year.p50.toFixed(2)}, the bad 1-in-20 at ×${mcY.year.p5.toFixed(2)}.`);
+    // 10. costs
+    if (V.free && V.free.length) {
+      const f = A.stats(V.free), share = f.exp > 0 ? (f.exp - s.exp) / f.exp : 1;
+      add(share < 0.25 ? 'good' : share < 0.5 ? 'ok' : 'bad', 'Survives the costs', `costs take ${pct(Math.max(0, share))} of the edge`,
+        `Before costs ${fR(f.exp, 2)} a trade, after fees, slippage and funding ${fR(s.exp, 2)}: costs take ${pct(Math.max(0, share))} of the edge. Worse fills live would take more.`);
+    }
+    return out;
+  }
+  function renderVerdict() {
+    const E = getE(), s = E.s, cs = checks(), pts = cs.reduce((a, c) => a + (c.st === 'good' ? 2 : c.st === 'ok' ? 1 : 0), 0), score = pts / (2 * cs.length);
+    const noEdge = cs[0].st === 'bad';
+    const label = noEdge ? 'Weak: no edge' : score >= 0.8 ? 'Strong' : score >= 0.6 ? 'Good, with caveats' : score >= 0.4 ? 'Mixed' : 'Weak';
+    const tone = noEdge || score < 0.45 ? 'bad' : score < 0.7 ? 'ok' : 'good';
+    const st = A.STRATS[S.s], per = perTrade(), first = V.T[0], last = V.T[V.T.length - 1], r = S.risk / 100;
+    const good = cs.filter((c) => c.st === 'good'), weak = cs.filter((c) => c.st !== 'good'), bad = cs.filter((c) => c.st === 'bad');
+    const head = {
+      good: `Overall a <b>good strategy on this history</b>: the edge is real${weak.length ? `, with ${weak.length} thing${weak.length > 1 ? 's' : ''} to watch` : ' and every check passes'}.`,
+      ok: `Overall <b>promising but not clean</b>: there is an edge, but ${weak.length} of ${cs.length} checks are not good.`,
+      bad: noEdge ? 'Overall <b>a bad strategy on this history</b>: on average a trade loses money.' : `Overall <b>weak on this history</b>: ${bad.length} check${bad.length === 1 ? '' : 's'} fail.`,
+    }[tone];
+    const profile = s.win < 0.45 && E.kelly.payoff > 2
+      ? `It is a <b>trend-follower</b>: it loses ${pct(1 - s.win)} of its trades, small and close to −1R each, and makes its money from a few big winners (best ${fR(s.best)}). The typical (median) trade is ${fR(E.median, 2)}, so most weeks feel like losing; long flat stretches between winners are normal, not a sign that it broke.`
+      : s.win >= 0.55 && E.kelly.payoff < 1.2
+        ? `It is a <b>high win-rate</b> strategy: it wins ${pct(s.win)} of trades, but a win (${fR(s.avgWin, 2)}) is not much bigger than a loss (${fR(s.avgLoss, 2)}), so a few bad losses can erase many wins.`
+        : `It wins ${pct(s.win)} of trades and a win is ${E.kelly.payoff.toFixed(1)}× a loss: a balanced profile.`;
+    const yrs = V.fresh.years.map((y) => y.ret).sort((a, b) => a - b), streak = Math.max(s.streak, Math.round(E.streakExp));
+    $('secVerdict').innerHTML = `
+      <div class="sec-head"><div><h2>Verdict: is it a good strategy?</h2><p class="sub">A plain-language read of the numbers, from fixed rules (not a model): ${cs.length} checks, each good, so-so or bad. Change any setting and it is judged again.</p></div></div>
+      <div class="verdict">
+        <div class="grade ${tone}"><div class="g">${label}</div><div class="meter"><i style="width:${Math.round(score * 100)}%"></i></div>
+          <div class="sc">${good.length} good · ${cs.length - good.length - bad.length} so-so · ${bad.length} bad</div></div>
+        <div class="story">
+          <p>${head}</p>
+          <p>${st.name} on ${V.coins.join(', ')} (${A.TF_LABEL[S.tf]}), ${fmtDate(first.tc)} to ${fmtDate(last.tc)}: <b>${s.n} trades, ${s.wins} wins and ${s.losses} losses</b> (${pct(s.win, 1)}). Expectancy <b>${fR(s.exp, 2)} a trade</b> = ${pct(s.win)} × ${fR(s.avgWin, 2)} − ${pct(1 - s.win)} × ${fR(-s.avgLoss, 2).replace('+', '')}; at ${fM(per)} risked that is about <b>${fM(s.exp * per, true)} a trade</b>, before the Lucid'io fee.</p>
+          <p>${profile}</p>
+          <p><b>What to expect at ${S.risk}% risk.</b> A fresh ${fM(S.start)} year: median ${fPct(A.quantile(yrs, 0.5))}, worst ${fPct(yrs[0])}, best ${fPct(yrs[yrs.length - 1])}. Plan for a losing streak of about ${streak} trades: on its own that takes ${fPct(-(1 - (1 - r) ** streak))} off the account. Up to ${E.open.max} trades are open at once, so ${(S.risk * E.open.max).toFixed(1)}% of the account can be at risk together.</p>
+          ${good.length ? `<p><b>Good:</b> ${good.map((c) => c.brief).join('; ')}.</p>` : ''}
+          ${weak.length ? `<p><b>Watch:</b> ${weak.map((c) => c.brief).join('; ')}.</p>` : ''}
+          <p class="foot">A test on past prices, with settings and coins chosen in hindsight. It describes this history and does not promise the future: paper-trade before trusting it with more money.</p>
+        </div>
+      </div>
+      <div class="checks">${cs.map((c) => `<div class="chk-i ${c.st}"><span class="ic">${c.st === 'good' ? '✓' : c.st === 'ok' ? '!' : '✕'}</span><div><b>${c.title}</b><span class="st">${{ good: 'good', ok: 'so-so', bad: 'bad' }[c.st]}</span><p>${c.detail}</p></div></div>`).join('')}</div>`;
+  }
+
+  // ---- risk & edge: edge or luck? --------------------------------------------------------------------------------------------
+  function kv(rows) { return `<div class="tw"><table class="data kv"><thead><tr><th>Statistic</th><th>Value</th><th class="l">What it means</th></tr></thead><tbody>${rows.map(([a, b, c]) => `<tr><td>${a}</td><td>${b}</td><td>${c}</td></tr>`).join('')}</tbody></table></div>`; }
+  function renderEdge() {
+    const E = getE(), s = E.s, f = V.free && V.free.length ? A.stats(V.free) : null;
+    const rows = [
+      ['Trades', s.n.toLocaleString(), `about ${Math.round(E.perYear)} a year across ${V.coins.length} coin${V.coins.length > 1 ? 's' : ''}; average hold ${(s.avgBars * A.TF[S.tf] / 86400).toFixed(1)} days`],
+      ['Wins / losses', `<span class="pos">${s.wins}</span> / <span class="neg">${s.losses}</span>`, `${fR(s.avgWin * s.wins, 1)} won, ${fR(s.avgLoss * s.losses, 1)} lost`],
+      ['Win rate', pct(s.win, 1), `95% range of the true rate ${pct(E.winCI.lo, 1)} to ${pct(E.winCI.hi, 1)} (Wilson); break-even at this payoff is ${pct(s.beWin, 1)}`],
+      ['Average win / average loss', `${fR(s.avgWin, 2)} / ${fR(s.avgLoss, 2)}`, `payoff ratio ${E.kelly.payoff.toFixed(2)} to 1`],
+      ['Expectancy (mean)', span(s.exp, fR(s.exp, 3)), `win rate × average win − loss rate × average loss = ${pct(s.win, 1)} × ${s.avgWin.toFixed(2)} − ${pct(1 - s.win, 1)} × ${(-s.avgLoss).toFixed(2)}`],
+      ['Median trade', span(E.median, fR(E.median, 2)), 'the typical trade: half the trades do better, half worse' + (E.median < 0 && s.exp > 0 ? '. Below zero while the mean is above: the average is carried by rare big wins' : '')],
+      ['Spread of one trade', `${E.sd.toFixed(2)}R`, `standard deviation; skew ${E.skew >= 0 ? '+' : ''}${E.skew.toFixed(1)} (${E.skew > 1 ? 'a long tail of big winners' : E.skew < -1 ? 'a long tail of big losers' : 'roughly balanced'})`],
+      ['t-statistic', E.t.toFixed(1), 'expectancy ÷ (spread ÷ √trades): above 2 is unlikely to be luck'],
+      ['95% range for expectancy', `${fR(E.boot.lo, 2)} to ${fR(E.boot.hi, 2)}`, `bootstrap, 4,000 resamples of the ${s.n} trades; positive in ${pct(E.boot.pPos, 1)}`],
+      ['Trades needed to prove the edge', E.need === Infinity ? '–' : E.need.toLocaleString(), E.need === Infinity ? 'no positive edge to prove' : `(1.96 × spread ÷ expectancy)²; there are ${s.n}${s.n >= E.need ? ': enough' : ': not yet enough'}`],
+      ['Expectancy without the 10 best trades', span(E.exp10, fR(E.exp10, 3)), `without the 20 best: ${fR(E.exp20, 3)}. The ten best are ${pct(s.top10)} of all profit`],
+      ['Without the best year', E.noBestYear ? span(E.noBestYear.R, fR(E.noBestYear.R)) : '–', E.noBestYear ? `${E.noBestYear.y} removed: ${fR(E.noBestYear.exp, 2)} a trade` : ''],
+      ['Longs vs shorts', `${fR(E.longs.R)} / ${fR(E.shorts.R)}`, `${E.longs.n} longs win ${pct(E.longs.win)}, ${E.shorts.n} shorts win ${pct(E.shorts.win)}`],
+      ['Longest losing streak', `${s.streak}`, `with ${pct(1 - s.win)} losers, the longest streak expected in ${s.n} trades is about ${Math.round(E.streakExp)}`],
+      ['Growth-optimal risk (Kelly)', `${(E.kelly.opt * 100).toFixed(1)}%`, `the fixed % that grew this history fastest; ${(E.kellyNoTop.opt * 100).toFixed(1)}% without the 10 best trades; simple formula (b·p − q) ÷ b = ${(E.kelly.simple * 100).toFixed(1)}%. People usually use half or less`],
+      ['Sharpe ratio (monthly, in yearly terms)', E.sharpe.toFixed(2), `average monthly return ÷ its spread × √12, compounding at ${S.risk}%, no risk-free rate`],
+      ['Monthly 95% VaR', fPct(E.var95, 1), `1 month in 20 is worse than this at ${S.risk}% risk; worst month ${fPct(E.worstMonth, 1)}, best ${fPct(E.bestMonth, 1)}`],
+    ];
+    if (f) rows.push(['Costs', `${fR(f.exp, 3)} → ${fR(s.exp, 3)}`, `per trade, before → after fees, slippage and funding: costs take ${pct(Math.max(0, (f.exp - s.exp) / Math.max(1e-9, f.exp)))} of the edge`]);
+    $('secEdge').innerHTML = `<div class="sec-head"><div><h2>Edge or luck?</h2><p class="sub">How much one trade is worth, how sure we can be of it, and what it leans on: the reports' "Expectancy, statistics and probability" page.</p></div></div>${kv(rows)}`;
+  }
+
+  // ---- risk & edge: the same trades at other risk levels ---------------------------------------------------------------------
+  const mult = (v) => (v >= 1000 ? Math.round(v).toLocaleString('en-US') : v >= 10 ? v.toFixed(0) : v.toFixed(2));
+  function renderRisk() {
+    const E = getE(), r = S.risk / 100;
+    const hist = E.mc.map(({ risk }) => {
+      const m = { ...V.m, risk }, c = A.curve(A.book(V.T, { ...m, mode: 'compound' }), m);
+      const fy = A.years(A.book(V.T, { ...m, mode: 'fresh' }), { ...m, mode: 'fresh' }, V.fresh.yearList);
+      return { risk, end: c.pts[c.pts.length - 1][1], dd: c.dd, fresh: fy.reduce((a, y) => a + y.profit, 0), worstY: Math.max(...fy.map((y) => y.dd)) };
+    });
+    const mark = (rk) => (Math.abs(rk - r) < 1e-9 ? ' class="tot"' : '');
+    const lab = (rk) => `${+(rk * 100).toFixed(2)}%${Math.abs(rk - r) < 1e-9 ? ' (yours)' : ''}`;
+    const t1 = table(['Risk per trade', `Fresh ${fM(S.start)} / yr (sum)`, 'Worst drop in a year', 'Compounding end', 'Deepest drop'],
+      hist.map((h) => `<tr${mark(h.risk)}><td>${lab(h.risk)}</td><td>${span(h.fresh, fM(h.fresh, true))}</td><td>${fPct(-h.worstY)}</td><td>${fM(h.end)}</td><td>${fPct(-h.dd)}</td></tr>`));
+    const t2 = table(['Risk per trade', 'Bad case (1 in 20)', 'Median', 'Ends below start', 'Typical worst drop', 'Worst drop, 1 in 20', 'Chance of −30%', 'Chance of −50%', 'Chance of −70%'],
+      E.mc.map(({ risk, all }) => `<tr${mark(risk)}><td>${lab(risk)}</td><td>×${mult(all.p5)}</td><td>×${mult(all.p50)}</td><td>${pct(all.below, 1)}</td><td>${fPct(-all.ddMed)}</td><td>${fPct(-all.dd95)}</td><td>${pct(all.dd30)}</td><td>${pct(all.dd50)}</td><td>${pct(all.dd70)}</td></tr>`));
+    const t3 = table(['Risk per trade', 'Ends below start', 'Bad case (1 in 20)', 'Median', 'Good case (1 in 20)', 'Typical worst drop', 'Chance of −30%'],
+      E.mc.map(({ risk, year }) => `<tr${mark(risk)}><td>${lab(risk)}</td><td>${pct(year.below, 1)}</td><td>${fPct(year.p5 - 1)}</td><td>${fPct(year.p50 - 1)}</td><td>${fPct(year.p95 - 1)}</td><td>${fPct(-year.ddMed)}</td><td>${pct(year.dd30)}</td></tr>`));
+    $('secRisk').innerHTML = `<div class="sec-head"><div><h2>Same trades, other risk levels</h2><p class="sub">Only the size of each trade changes. More risk grows the account faster until the drops start to eat the growth (the Kelly point here is ${(E.kelly.opt * 100).toFixed(1)}%).</p></div></div>
+      <h3>In the order they really happened</h3>${t1}
+      <h3>What could have happened: the ${E.n} trades re-shuffled at random, 2,000 times (compounding${S.cap > 0 ? `, capped at ${fM(S.cap)}` : ''})</h3>${t2}
+      <h3>One year of about ${Math.round(E.perYear)} trades, re-shuffled, from a fresh ${fM(S.start)}</h3>${t3}
+      <p class="foot">Re-shuffling keeps every trade's result and changes only the order (drawn with replacement), so it shows how much of the real path was luck of the order. It takes the trades one after another, while live up to ${E.open.max} are open at once, so real drops can be somewhat deeper.</p>`;
+  }
+
+  // ---- risk & edge: survival (under the growth charts) -----------------------------------------------------------------------
+  function survivalHtml() {
+    const E = getE(), dd = V.comp.curve.dd, r = S.risk / 100, u = E.under, days = (sec) => Math.round(sec / 86400);
+    const rows = [
+      ['Deepest drop', fPct(-dd), `getting back needs ${fPct(dd / (1 - dd))}: a loss of L needs a gain of L ÷ (1 − L)`],
+      ['Time below a previous high', pct(u.share), 'share of closed trades that left the balance below its best so far (normal for a winning strategy too)'],
+      ['Longest time to a new high', `${days(u.longest)} days`, u.longFrom ? `from ${fmtDate(u.longFrom)} to ${u.longTo ? fmtDate(u.longTo) : 'now (not back yet)'}` : ''],
+      ['Now', u.now ? fPct(-u.now.dd) : 'at a high', u.now ? `below the high of ${fmtDate(u.now.since)}` : 'the balance is at its best so far'],
+      ['Gaps past the stop', `${E.gaps.length} trade${E.gaps.length === 1 ? '' : 's'}`, E.gaps.length ? `lost more than 1.2R (worst ${fR(Math.min(...E.gaps), 2)}): a stop is an order, not a guaranteed price` : 'no trade lost more than 1.2R'],
+    ];
+    const cols = [0.01, 0.025, 0.05, r].filter((v, i, a) => a.indexOf(v) === i).sort((a, b) => a - b);
+    const streaks = [5, 10, 15, 20].map((k) => `<tr><td>${k} losses in a row</td>${cols.map((rk) => `<td>${fPct(-(1 - (1 - rk) ** k))}</td>`).join('')}</tr>`);
+    return `<h3>Survival</h3>${kv(rows)}
+      <h3>What a losing streak costs: balance × (1 − risk)<sup>n</sup></h3>${table(['Streak', ...cols.map((rk) => `At ${+(rk * 100).toFixed(2)}%${Math.abs(rk - r) < 1e-9 ? ' (yours)' : ''}`)], streaks)}
+      <p class="foot">Longest streak seen: ${E.s.streak}. Expected for this loss rate in ${E.n} trades: about ${Math.round(E.streakExp)}. The worst one may still be ahead.</p>`;
+  }
+
+  // ---- risk & edge: coins together ---------------------------------------------------------------------------------------------
+  function renderTogether() {
+    const E = getE(), cs = E.coins;
+    if (cs.length < 2) { $('secTogether').innerHTML = `<h2>Coins together</h2><p class="sub">Pick two or more coins to see how they move together.</p>`; return; }
+    const bg = (v) => (!isFinite(v) ? 'transparent' : `rgba(var(--${v >= 0 ? 'neg' : 'pos'}-bg),${(Math.abs(v) * 0.5).toFixed(2)})`);
+    const rows = cs.map((a, i) => `<tr><td>${coinName(a)}</td>${cs.map((b, j) => `<td style="background:${i === j ? 'var(--surface-3)' : bg(E.corrM[i][j])}">${i === j ? '–' : isFinite(E.corrM[i][j]) ? E.corrM[i][j].toFixed(2) : '·'}</td>`).join('')}</tr>`);
+    const avg = E.corrAvg, word = avg < 0.2 ? 'move mostly on their own: real diversification' : avg < 0.5 ? 'move together somewhat: partly diversified' : 'move together a lot: several trades can act like one big trade';
+    $('secTogether').innerHTML = `<div class="sec-head"><div><h2>Coins together</h2><p class="sub">Correlation of each pair's monthly R (+1 = good and bad in the same months, 0 = unrelated). Five trades at ${S.risk}% are five separate risks only when the coins do not move together.</p></div></div>
+      ${table(['', ...cs.map((c) => ({ t: coinName(c) }))], rows)}
+      <div class="note">Average correlation <b>${isFinite(avg) ? avg.toFixed(2) : '–'}</b>: the coins ${word}. At most <b>${E.open.max} positions were open at once</b> (${fmtDate(E.open.at)}), so up to ${(S.risk * E.open.max).toFixed(1)}% of the account was at risk together.</div>`;
+  }
+
+  // ---- trades: how the results are spread ---------------------------------------------------------------------------------------
+  function renderDist() {
+    const E = getE(), max = Math.max(...E.buckets.map((b) => b.n));
+    const rows = E.buckets.map((b) => `<tr><td>${b.label}</td><td>${b.n}</td><td>${pct(b.n / E.n, 1)}</td><td class="l" style="min-width:160px"><span style="display:inline-block;height:10px;border-radius:0 4px 4px 0;width:${Math.round(b.n / (max || 1) * 150)}px;background:var(--c-SOL)"></span></td><td>${span(b.R, fR(b.R))}</td></tr>`);
+    $('secDist').innerHTML = `<div class="sec-head"><div><h2>How the results are spread</h2><p class="sub">Every closed trade by its result. Mean ${fR(E.s.exp, 2)}, median ${fR(E.median, 2)}, spread ${E.sd.toFixed(2)}R.</p></div></div>
+      ${table(['Result', 'Trades', 'Share', { t: '', cls: 'l' }, 'Total R'], rows)}
+      <p class="foot">${E.median < 0 && E.s.exp > 0 ? 'Most trades lose a little and a small group of large winners pays for them: judge it over many trades, never over a few.' : 'The middle trade is positive: most of the profit comes from ordinary trades.'}</p>`;
   }
 
   // ---- charts: one y-axis, recessive grid, crosshair tooltip -------------------------------------------------------------------
@@ -571,9 +767,10 @@
     $('to').onchange = (e) => { S.to = e.target.value; recompute(); };
     $('paramBox').onchange = (e) => { const k = e.target.dataset.k; if (!k) return; const u = PARAM_UI[k], v = parseFloat(e.target.value); S[k] = isFinite(v) ? Math.min(u.max, Math.max(u.min, v)) : A.PARAMS[k]; recompute(); };
     $('paramBox').onclick = (e) => { const b = e.target.closest('button[data-reset]'); if (!b) return; for (const k of A.STRATS[S.s].params) S[k] = A.PARAMS[k]; recompute(); };
+    $('tabs').onclick = (e) => { const b = e.target.closest('button[data-tab]'); if (!b || b.dataset.tab === S.tab) return; S.tab = b.dataset.tab; writeHash(); showTab(); };
     $('refreshBtn').onclick = () => run(true);
     $('printBtn').onclick = () => window.print();
-    let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (V && V.T.length) { renderCoins(); renderGrowth(); } }, 200); });
+    let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (V && V.T.length) { dirty.add(S.tab); showTab(); } }, 200); });
   }
   function syncControls() {
     const on = (id, v) => $(id).querySelectorAll('button').forEach((b) => b.classList.toggle('on', b.dataset.v === String(v)));
@@ -586,6 +783,9 @@
       `<div class="ctl"><span class="ctl-l">&nbsp;</span><button class="more" style="margin:0" data-reset="1" ${dflt ? 'disabled' : ''}>${dflt ? 'Bot defaults' : 'Reset to the bot'}</button></div>`;
   }
 
-  window.addEventListener('hashchange', () => { const before = JSON.stringify(S); readHash(); if (JSON.stringify(S) !== before) { syncControls(); run(); } });
+  const toTop = $('toTop');
+  window.addEventListener('scroll', () => toTop.classList.toggle('show', window.scrollY > 500), { passive: true });
+  toTop.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.addEventListener('hashchange', () => { const before = JSON.stringify(S); readHash(); if (JSON.stringify(S) !== before) { syncControls(); showTab(); run(); } });
   readHash(); buildControls(); run();
 })();

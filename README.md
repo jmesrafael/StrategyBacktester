@@ -79,8 +79,12 @@ If the live fetch is blocked, the app automatically falls back to a built-in
   funding included; candles are kept on-device (IndexedDB) and ↻ Update data pulls the newest.
 - Settings: strategy, fixed timeframe (1h–1D, built for 4h), coins, strategy inputs, costs, start balance and
   currency, risk %, max risk per trade, date range, and **Total summary / By coin**. Everything is in the URL hash.
-- Sections in the admin reports' style: summary, by coin, year by year (fresh each January / compounding / no
-  compounding), month grid, the day calendar, win rate and expectancy, growth and drawdowns, every trade.
+- Four tabs, in the admin reports' style. **Overview**: a rule-based verdict (ten good / so-so / bad checks and a
+  plain-language read), the summary (wins, losses, expectancy) and by coin. **Years · months · calendar**: year by
+  year (fresh each January / compounding / no compounding), the month grid, the day calendar. **Risk & edge**: edge
+  or luck (t-statistic, bootstrap range, trades needed, Kelly, Sharpe, VaR, costs), other risk levels with
+  re-shuffled (Monte Carlo) odds, growth, drawdowns and survival, coin correlation. **Trades**: win rate and
+  expectancy by year and month, the spread of results, every trade, method.
 - `node scripts/analysis-check.mjs` checks the numbers against the reports on the bots' data files.
 
 ### Canvas settings (top-bar gear)
