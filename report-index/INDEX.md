@@ -4,7 +4,19 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 
 
 ## .
-- README.md — Chart Replay — TradingView-style + Trading Simulator (2026-10-24)
+- README.md — Chart Replay — TradingView-style + Trading Simulator (2026-11-02)
+- TRADING_MATH.txt — THE MATHEMATICS NEEDED FOR TRADING (2026-10-31)
+- TRADING_SURVIVAL_EDGE.txt — TRADING MATHEMATICS — SURVIVAL, RISK & EDGE (2026-11-01)
+
+## UPGRADE-GUIDE
+- 00-START-HERE.md — UPGRADE GUIDE: BB-Core (no target) + I-Core Tandem (2026-10-29)
+- 01-WHO-DOES-WHAT.md — Who does what (2026-10-29)
+- 02-DECISIONS.md — The 6 decisions only you can make (2026-10-29)
+- 03-STEPS.md — The steps, start to finish (2026-10-29)
+- 04-ROLLBACK.md — Rollback: how to undo each phase (2026-10-29)
+- 05-AFTER-THE-UPGRADE.md — After the upgrade: what to watch, and what "good" looks like (2026-10-29)
+- 06-COMMANDS.md — Commands, all in one place (2026-10-29)
+- 07-CHECKLIST.md — Checklist (2026-10-29)
 
 ## research/bb-core-v2
 - BIMONTHLY-2.5.md — Merged strategy, 2.5% risk compounding, % result of every 2-month block (MEXC, trades counted when they close; data to 21 Oct 2026) (2026-10-28)
@@ -131,6 +143,25 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - REPORT-bb-deep.md — BB Breakout (4h) on SOL, ZEC and BTC — six-year analysis (2026-10-21)
 - results-rr4-allyears.md — v7 and BB Breakout per coin — yearly then monthly, targets 1:3 / 1:4 / 1:5 (2026-10-21)
 - results-stress.md — BB Breakout — SOL + ZEC fee / slippage stress test, all years (2026-10-24)
+
+## research/bb-core/hold-time
+- out-no-target.txt — BB-Core no-target: time exit sweep, 5 coins, Binance 4h, real funding, costs in. 'held' = candles in the trade at most (maxBars+1). (2026-11-02)
+
+## research/bb-core/no-target
+- RESULTS.md — BB-Core: fixed 1:4 target vs no target ("A"), study of Oct 29, 2026 (2026-10-29)
+- out-big-moves.txt — coverage (2026-10-29)
+- out-compare.txt — strategy                  n    win%   expR    avgW   avgL    PF    netR   maxDD  | 2020-23 expR (n) | 2024-26 expR (n) (2026-10-29)
+- out-exit-variants.txt — BASE  4R target, 48 bar cap (2026-10-29)
+- out-growth-nocap.txt — 1) ONE account, ₱10,000 on Jan 1 2020, 2.5% of the balance per trade, NO cap. Balance at the end of each year: (2026-10-29)
+- out-pairs.txt — === BB no-target + I-Core === (2026-10-29)
+- out-rank-2.5pct.txt — A) ₱10,000 fresh at the start of EACH year, 2.5% risk per trade (compounding inside the year), trades by ENTRY year (2026-10-29)
+- out-robust.txt — 1) OTHER COINS never used in the BB-Core design (no funding data, same fees/slippage) (2026-10-29)
+- out-three-way.txt — PER TRADE (2026-10-29)
+- out-tiers.txt — === BB 1:4: one ₱10,000 account from Jan 2020 === (2026-10-29)
+- out-yearly-1to4-vs-A.txt — BASE  4R target, 48 bar cap (2026-10-29)
+
+## research/bb-core/targets
+- out-targets.txt — BB-Core fixed target sweep, time exit locked at 48 (held 49 candles). 5 coins, Binance 4h, real funding, costs in. (2026-11-02)
 
 ## research/big-swings
 - RESULTS-5coins-tuned.md — Frozen strategies on SOL · ZEC · NEAR · ADA · GALA — Binance USDT-M 4h, 2020 → Oct 2026 (2026-10-28)

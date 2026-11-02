@@ -16,7 +16,7 @@
   };
 
   // ---- settings (URL hash) -------------------------------------------------------------------------------------------------
-  const DEF = { s: 'icore', tf: '240', coins: A.COINS.join(','), costs: 1, ...A.PARAMS, start: 10000, cur: '₱', risk: 2.5, cap: 0, from: '', to: '', view: 'total', tab: 'overview' };
+  const DEF = { s: 'icore', tf: '240', coins: A.COINS.join(','), costs: 1, ...A.PARAMS, start: 10000, cur: '₱', risk: 2.5, cap: 0, from: '', to: '', view: 'total', tab: 'overview', tg: '1.5,2,3,4,5,6,8' };
   delete DEF.costs; DEF.costs = 1;
   const S = { ...DEF };
   function readHash() {
@@ -219,7 +219,7 @@
   const TABS = {
     overview: () => { renderVerdict(); renderSummary(); renderCoins(); },
     periods: () => { renderYears(); renderMonths(); renderCalendar(); },
-    risk: () => { renderEdge(); renderRisk(); renderGrowth(); renderTogether(); },
+    risk: () => { renderEdge(); renderRisk(); renderTargets().catch(console.error); renderGrowth(); renderTogether(); },
     trades: () => { renderExp(); renderDist(); renderTrades(); renderMethod(); },
   };
   let dirty = new Set();
@@ -633,6 +633,68 @@
       <h3>What could have happened: the ${E.n} trades re-shuffled at random, 2,000 times (compounding${S.cap > 0 ? `, capped at ${fM(S.cap)}` : ''})</h3>${t2}
       <h3>One year of about ${Math.round(E.perYear)} trades, re-shuffled, from a fresh ${fM(S.start)}</h3>${t3}
       <p class="foot">Re-shuffling keeps every trade's result and changes only the order (drawn with replacement), so it shows how much of the real path was luck of the order. It takes the trades one after another, while live up to ${E.open.max} are open at once, so real drops can be somewhat deeper.</p>`;
+  }
+
+  // ---- risk & edge: which fixed profit target? (BB-Core only; the time exit stays what Settings says, 48 = the bot's) ----------------------
+  const TGC = { key: '', by: new Map(), busy: 0 };
+  const parseTargets = () => [...new Set(String(S.tg).split(',').map((x) => parseFloat(x)).filter((x) => isFinite(x) && x > 0 && x <= 30))].sort((a, b) => a - b).slice(0, 10);
+  function pickFrom(per) {
+    const from = S.from ? Date.parse(S.from) / 1000 : -Infinity, to = S.to ? Date.parse(S.to) / 1000 + 86400 : Infinity, T = [];
+    for (const c of coinsOn()) for (const t of per[c] || []) if (t.t >= from && t.tc < to) T.push(t);
+    return T.sort((x, y) => x.tExit - y.tExit || x.t - y.t);
+  }
+  async function renderTargets() {
+    const el = $('secTargets');
+    if (S.s === 'icore') {
+      el.innerHTML = `<h2>Profit target</h2><p class="sub">I-Core has no profit target: a winner runs until its trailing stop (${S.kTrail}×ATR) catches it. Pick a BB-Core strategy above to compare targets.</p>`;
+      return;
+    }
+    const targets = [...parseTargets(), 0], iv = A.TF[S.tf], token = ++TGC.busy, key = [S.tf, S.maxBars, S.trendLen, S.costs].join('|');
+    if (TGC.key !== key) { TGC.key = key; TGC.by = new Map(); }
+    const head = (body) => `<div class="sec-head"><div><h2>Profit target: 2R, 3R, 4R, 5R … or none</h2>
+      <p class="sub">The same BB-Core entries and stop, with a fixed take-profit at N × the stop distance (the old bot used 4R; since 29 Oct 2026 it has none). Time exit: ${S.maxBars} candles${S.maxBars === 48 ? " (the bot's setting, the most robust one in research/bb-core/hold-time)" : " (changed from the bot's 48 in Settings)"}. <b>Click a row to switch this whole page to that target.</b></p></div>
+      <div class="sec-tools"><label class="ctl"><span class="ctl-l">Targets to compare (R, comma-separated)</span><input type="text" id="tgIn" value="${esc(S.tg)}" style="width:190px"></label></div></div>${body}`;
+    for (const t of targets) {
+      if (TGC.by.has(t)) continue;
+      el.innerHTML = head(`<p class="sub">Running the bot's engine for ${t ? t + 'R' : 'no target'} on ${A.COINS.length} coins…</p>`);
+      await sleep(15);
+      if (token !== TGC.busy) return;
+      const per = {};
+      for (const c of A.COINS) { const d = DATA[`${c}|${S.tf}`]; per[c] = d && d.B.length >= 300 ? A.coinTrades(t ? 'bbfx' : 'bbnt', c, d.B, d.F, { ...params(), targetR: t }, iv).trades : []; }
+      TGC.by.set(t, per);
+    }
+    if (token !== TGC.busy || !V) return;
+    const cur = S.s === 'bbfx' ? S.targetR : 0, lab = (t) => (t ? `${t}R` : 'none (today)');
+    const rows = targets.map((t) => {
+      const T = pickFrom(TGC.by.get(t)); if (!T.length) return null;
+      const an = A.analyse(T, { ...V.m, mode: 'fresh' }), s = an.stats, hit = T.filter((x) => x.why === 'target').length, stop = T.filter((x) => x.why === 'stop').length;
+      return { t, T, an, s, hit, stop, time: T.length - hit - stop, noTop: s.net * (1 - s.top10), fresh: an.years.reduce((a, y) => a + y.profit, 0), worst: Math.max(0, ...an.years.map((y) => y.dd)),
+        yrsUp: an.years.filter((y) => y.R > 0).length, coinsUp: V.coins.filter((c) => an.perCoin[c] && an.perCoin[c].stats.net > 0).length };
+    }).filter(Boolean);
+    if (!rows.length) { el.innerHTML = head('<p class="sub">No closed trades with these settings.</p>'); wireTargets(); return; }
+    const tr = (r, cells) => `<tr data-t="${r.t}" style="cursor:pointer"${r.t === cur ? ' class="tot"' : ''}><td>${lab(r.t)}${r.t === cur ? ' ◀ now' : ''}</td>${cells}</tr>`;
+    const t1 = table(['Target', 'Trades', 'Hit target', 'Stopped', 'Time exit', 'Win rate', 'Avg win', 'Avg loss', 'Expectancy', 'Total R', 'Profit factor', 'Deepest drop', 'Top 10 = % of profit', 'Profit w/o 10 best', 'Worst drop in a year', `Fresh ${fM(S.start)} / yr (sum)`, 'Years up', 'Coins up'],
+      rows.map((r) => tr(r, `<td>${r.s.n}</td><td>${r.t ? pct(r.hit / r.s.n) : '–'}</td><td>${pct(r.stop / r.s.n)}</td><td>${pct(r.time / r.s.n)}</td><td>${pct(r.s.win, 1)}</td><td>${fR(r.s.avgWin, 2)}</td><td>${fR(r.s.avgLoss, 2)}</td>
+        <td>${span(r.s.exp, fR(r.s.exp, 3))}</td><td><b>${span(r.s.net, fR(r.s.net))}</b></td><td>${r.s.pf === Infinity ? '∞' : r.s.pf.toFixed(2)}</td><td>${fR(-r.s.ddR)}</td><td>${pct(r.s.top10)}</td><td>${span(r.noTop, fR(r.noTop))}</td>
+        <td>${fPct(-r.worst)}</td><td>${span(r.fresh, fM(r.fresh, true))}</td><td>${r.yrsUp}/${r.an.years.length}</td><td>${r.coinsUp}/${V.coins.length}`) + '</td>'));
+    const cs = V.coins, t2 = table(['Total R by coin', ...cs.map((c) => ({ t: coinName(c) }))],
+      rows.map((r) => tr(r, cs.map((c) => `<td>${r.an.perCoin[c] ? span(r.an.perCoin[c].stats.net, fR(r.an.perCoin[c].stats.net, 0)) : '·'}</td>`).join(''))));
+    const ys = rows[0].an.yearList, t3 = table(['Total R by year', ...ys.map((y) => yLabel(y))],
+      rows.map((r) => tr(r, ys.map((y) => { const x = r.an.years.find((q) => q.y === y); return `<td>${x && x.n ? span(x.R, fR(x.R, 0)) : '·'}</td>`; }).join(''))));
+    const best = [...rows].sort((a, b) => b.s.net - a.s.net)[0], bestRob = [...rows].sort((a, b) => b.noTop - a.noTop)[0];
+    el.innerHTML = head(`${t1}<div class="two"><div>${t2}</div><div>${t3}</div></div>
+      <div class="note">Most total R: <b>${lab(best.t)}</b> (${fR(best.s.net)}). Most profit without the 10 best trades: <b>${lab(bestRob.t)}</b> (${fR(bestRob.noTop)}). A target caps every win, so a lower target wins more often but earns less per win; "none" keeps the huge winners and leans on them (top 10 = ${pct(rows[rows.length - 1].s.top10)} of its profit, against ${pct(rows[Math.min(3, rows.length - 1)].s.top10)} at ${lab(rows[Math.min(3, rows.length - 1)].t)}).</div>
+      <p class="foot">Hit target = closed at the take-profit; Stopped = closed at the stop; Time exit = closed by the ${S.maxBars}-candle limit. A target fills only when price trades 0.05% through it (maker fee 0.02%), as in the bot's research. Settings above (coins, dates, costs, risk, start balance) apply.</p>`);
+    wireTargets();
+  }
+  function wireTargets() {
+    const el = $('secTargets'), inp = el.querySelector('#tgIn');
+    if (inp) inp.onchange = () => { S.tg = inp.value; writeHash(); renderTargets(); };
+    el.onclick = (e) => {
+      const row = e.target.closest('tr[data-t]'); if (!row) return;
+      const t = +row.dataset.t; if (t) { S.s = 'bbfx'; S.targetR = t; } else S.s = 'bbnt';
+      writeHash(); syncControls(); run();
+    };
   }
 
   // ---- risk & edge: survival (under the growth charts) -----------------------------------------------------------------------

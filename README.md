@@ -83,7 +83,8 @@ If the live fetch is blocked, the app automatically falls back to a built-in
   plain-language read), the summary (wins, losses, expectancy) and by coin. **Years · months · calendar**: year by
   year (fresh each January / compounding / no compounding), the month grid, the day calendar. **Risk & edge**: edge
   or luck (t-statistic, bootstrap range, trades needed, Kelly, Sharpe, VaR, costs), other risk levels with
-  re-shuffled (Monte Carlo) odds, growth, drawdowns and survival, coin correlation. **Trades**: win rate and
+  re-shuffled (Monte Carlo) odds, **profit target comparison for BB-Core (1.5R–8R vs none, click a row to switch;
+  time exit stays at the bot's 48)**, growth, drawdowns and survival, coin correlation. **Trades**: win rate and
   expectancy by year and month, the spread of results, every trade, method.
 - `node scripts/analysis-check.mjs` checks the numbers against the reports on the bots' data files.
 
