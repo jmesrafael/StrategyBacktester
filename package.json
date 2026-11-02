@@ -5,6 +5,7 @@
     "setup-db": "node scripts/setup-supabase.mjs",
     "serve": "node .serve.js",
     "icore:sync": "node scripts/sync-icore-core.mjs",
-    "icore:parity": "node scripts/icx-parity.mjs"
+    "icore:parity": "node scripts/icx-parity.mjs",
+    "bbcore:sync": "node scripts/sync-bbcore-core.mjs"
   }
 }

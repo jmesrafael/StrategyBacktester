@@ -296,6 +296,12 @@ function makeBBX(opts = {}) {
   }
   function fmtR(v) { return `${v >= 0 ? '+' : ''}${v.toFixed(2)}R`; }
   const R_PRESETS = [1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5];
+  // the in-depth analysis page (analysis.html) with this indicator's settings: the bot's engine on all five coins, costs included
+  function deepLink() {
+    const tf = { 3600: '60', 7200: '120', 14400: '240', 21600: '360', 28800: '480', 43200: '720', 86400: 'D' }[ivSecs] || '240';
+    const q = NT ? { s: 'bbnt' } : { s: 'bbfx', targetR: P.targetR };
+    return 'analysis.html#' + new URLSearchParams({ ...q, tf, maxBars: P.maxBars, trendLen: P.trendLen }).toString();
+  }
 
   function openCalendar() {
     if (!res || !res.trades.length) { toast('No closed BB Breakout trades yet to show in the calendar.'); return; }
@@ -305,6 +311,7 @@ function makeBBX(opts = {}) {
       calBackdrop.innerHTML = `<div class="bbx-cal-modal">
         <div class="bbx-cal-head">
           <span class="bbx-cal-title">🎯 BB Breakout${NT ? ' (no target)' : ''} — Performance Calendar</span>
+          <a class="bbx-cal-deep" target="_blank" rel="noopener" title="Every number behind this calendar, for all five coins, on its own page">🔎 In-depth analysis</a>
           <button class="bbx-cal-close" title="Close">✕</button>
         </div>
         <div class="bbx-cal-seclbl">All-time</div>
@@ -419,6 +426,7 @@ function makeBBX(opts = {}) {
 
     calBackdrop.querySelectorAll('.bbx-cal-rfoot .bx-rp').forEach((b) =>
       b.classList.toggle('active', parseFloat(b.dataset.r) === P.targetR));
+    calBackdrop.querySelector('.bbx-cal-deep').href = deepLink();
   }
 
   return { scan, compute, render, setActive, updateParams, getDefaults, label: label_, status, statusColor, buildConfigEl, openCalendar, get active() { return active; } };

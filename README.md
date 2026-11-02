@@ -71,6 +71,18 @@ If the live fetch is blocked, the app automatically falls back to a built-in
   listed, dimmed, so you can switch them back on.
 - Indicator set + params persist for the session.
 
+### In-depth analysis (analysis.html)
+- Opened from the **🔎 In-depth analysis** button in the 📅 performance calendar of the BB Breakout, BB-Core and
+  I-Core setup indicators, with that indicator's settings and timeframe (`analysis.html#s=icore&tf=240&kTrail=7…`).
+- Runs the bots' own engines (`js/bbcore-core.js` = BB-Core's `lucidio-core.js`, `npm run bbcore:sync`;
+  `js/icore-core.js` = I-Core's, `npm run icore:sync`) on SOL, ZEC, ADA, NEAR and GALA from Binance, costs and
+  funding included; candles are kept on-device (IndexedDB) and ↻ Update data pulls the newest.
+- Settings: strategy, fixed timeframe (1h–1D, built for 4h), coins, strategy inputs, costs, start balance and
+  currency, risk %, max risk per trade, date range, and **Total summary / By coin**. Everything is in the URL hash.
+- Sections in the admin reports' style: summary, by coin, year by year (fresh each January / compounding / no
+  compounding), month grid, the day calendar, win rate and expectancy, growth and drawdowns, every trade.
+- `node scripts/analysis-check.mjs` checks the numbers against the reports on the bots' data files.
+
 ### Canvas settings (top-bar gear)
 - Toggle the **grid** on/off, pick the **background color**, and pick the **grid color**.
 - Applied live and persisted for the session.

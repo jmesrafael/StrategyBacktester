@@ -310,6 +310,11 @@ const ICXIndicator = (() => {
   }
   function fmtR(v) { return `${v >= 0 ? '+' : ''}${v.toFixed(2)}R`; }
   const TRAIL_PRESETS = [3, 4, 5, 6, 7, 8, 9, 10, 12];   // I-Core has no target R: the footer picks the trailing stop instead
+  // the in-depth analysis page (analysis.html) with this indicator's settings: the bot's engine on all five coins
+  function deepLink() {
+    const tf = { 3600: '60', 7200: '120', 14400: '240', 21600: '360', 28800: '480', 43200: '720', 86400: 'D' }[ivSecs] || '240';
+    return 'analysis.html#' + new URLSearchParams({ s: 'icore', tf, kInit: P.kInit, kTrail: P.kTrail, trendLen: P.trendLen, costs: P.costs ? 1 : 0 }).toString();
+  }
 
   function openCalendar() {
     if (!res || !res.trades.length) { toast('No closed I-Core trades yet to show in the calendar.'); return; }
@@ -319,6 +324,7 @@ const ICXIndicator = (() => {
       calBackdrop.innerHTML = `<div class="bbx-cal-modal">
         <div class="bbx-cal-head">
           <span class="bbx-cal-title">🧭 I-Core — Performance Calendar</span>
+          <a class="bbx-cal-deep" target="_blank" rel="noopener" title="Every number behind this calendar, for all five coins, on its own page">🔎 In-depth analysis</a>
           <button class="bbx-cal-close" title="Close">✕</button>
         </div>
         <div class="bbx-cal-seclbl">All-time</div>
@@ -432,6 +438,7 @@ const ICXIndicator = (() => {
 
     calBackdrop.querySelectorAll('.bbx-cal-rfoot .bx-rp').forEach((b) =>
       b.classList.toggle('active', parseFloat(b.dataset.k) === P.kTrail));
+    calBackdrop.querySelector('.bbx-cal-deep').href = deepLink();
   }
 
   return { scan, compute, render, setActive, updateParams, getDefaults, label: label_, status, statusColor, buildConfigEl, openCalendar, get active() { return active; } };
