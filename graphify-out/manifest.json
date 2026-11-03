@@ -3774,15 +3774,15 @@
     "semantic_hash": ""
   },
   "LEDGER/reports/backtest-data-usd.html": {
-    "mtime": 1793087877.6314132,
-    "seen": 1793170932.026485,
-    "ast_hash": "d560e8917ebee6136f00fa0e6825f6d3",
+    "mtime": 1793699566.4226992,
+    "seen": 1793699643.216925,
+    "ast_hash": "add4e413e61cea9c594b2604a15157da",
     "semantic_hash": ""
   },
   "LEDGER/reports/backtest-data.html": {
-    "mtime": 1793087877.6369967,
-    "seen": 1793170932.026485,
-    "ast_hash": "ed817ea387c7be908c41f4310f644155",
+    "mtime": 1793699566.418192,
+    "seen": 1793699643.216925,
+    "ast_hash": "829248c3b2f985287967b6e80e8557ef",
     "semantic_hash": ""
   },
   "LEDGER/reports/four-coin-5pct.html": {
@@ -3792,9 +3792,9 @@
     "semantic_hash": ""
   },
   "LEDGER/reports/how-lucid-io-works-v2.html": {
-    "mtime": 1793087877.65121,
-    "seen": 1793170932.026485,
-    "ast_hash": "b5b66ddb517332b2b7da79b703f5ba08",
+    "mtime": 1793699624.1703687,
+    "seen": 1793699643.2196882,
+    "ast_hash": "89a6866c7bf4fffdbc8e80e15a77e7e0",
     "semantic_hash": ""
   },
   "LEDGER/reports/how-lucid-io-works.html": {
@@ -5703,6 +5703,12 @@
     "mtime": 1793230725.510405,
     "seen": 1793697969.538409,
     "ast_hash": "86b4d48b2de2b58a465e9f6fc30fbbd7",
+    "semantic_hash": ""
+  },
+  "scripts/landing-data.mjs": {
+    "mtime": 1793699553.9757607,
+    "seen": 1793699643.2096868,
+    "ast_hash": "dfdd12b9d1fdd402c59234e02f7d45eb",
     "semantic_hash": ""
   },
   "LEDGER/package-lock.json": {
