@@ -6,7 +6,11 @@
   const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const RISK_PRESETS = [0.5, 1, 2, 2.5, 5];
-  const TAB_LIST = ['overview', 'periods', 'risk', 'trades'];
+  const TAB_LIST = ['overview', 'periods', 'risk', 'trades', 'sim'];
+  // capital simulator: when the size of a trade is re-set from the balance (AnalysisCore.simulate), and how often money is added
+  const SIM_MODES = { year: 'Once a year (1 Jan)', month: 'Once a month (the 1st)', trade: 'Every trade', fixed: 'Never (no compounding)' };
+  const SIM_DEP = { none: 'No deposits', week: 'Every week', month: 'Every month', year: 'Every 1 January' };
+  const DEP_TXT = { week: 'every Monday', month: 'every month', year: 'every 1 January' };
   const PARAM_UI = {
     targetR: { label: 'Target (R)', min: 0.5, max: 20, step: 0.5 },
     maxBars: { label: 'Time exit (candles)', min: 0, max: 1000, step: 1 },
@@ -16,7 +20,8 @@
   };
 
   // ---- settings (URL hash) -------------------------------------------------------------------------------------------------
-  const DEF = { s: 'icore', tf: '240', coins: A.COINS.join(','), costs: 1, ...A.PARAMS, start: 10000, cur: '₱', risk: 2.5, cap: 0, from: '', to: '', view: 'total', tab: 'overview', tg: '1.5,2,3,4,5,6,8' };
+  const DEF = { s: 'icore', tf: '240', coins: A.COINS.join(','), costs: 1, ...A.PARAMS, start: 10000, cur: '₱', risk: 2.5, cap: 0, from: '', to: '', view: 'total', tab: 'overview', tg: '1.5,2,3,4,5,6,8',
+    sy0: 0, sy1: 0, sm: 'year', dep: 0, de: 'month' };   // simulator: first / last year (0 = all), sizing rule, deposit amount and how often
   delete DEF.costs; DEF.costs = 1;
   const S = { ...DEF };
   function readHash() {
@@ -26,6 +31,8 @@
     if (!A.TF[S.tf]) S.tf = DEF.tf;
     if (!S.cur) S.cur = DEF.cur;
     if (!TAB_LIST.includes(S.tab)) S.tab = DEF.tab;
+    if (!SIM_MODES[S.sm]) S.sm = DEF.sm;
+    if (!SIM_DEP[S.de]) S.de = DEF.de;
   }
   function writeHash() {
     const h = new URLSearchParams();
@@ -221,6 +228,7 @@
     periods: () => { renderYears(); renderMonths(); renderCalendar(); },
     risk: () => { renderEdge(); renderRisk(); renderTargets().catch(console.error); renderGrowth(); renderTogether(); },
     trades: () => { renderExp(); renderDist(); renderTrades(); renderMethod(); },
+    sim: () => renderSim(),
   };
   let dirty = new Set();
   function showTab() {
@@ -733,6 +741,210 @@
     $('secDist').innerHTML = `<div class="sec-head"><div><h2>How the results are spread</h2><p class="sub">Every closed trade by its result. Mean ${fR(E.s.exp, 2)}, median ${fR(E.median, 2)}, spread ${E.sd.toFixed(2)}R.</p></div></div>
       ${table(['Result', 'Trades', 'Share', { t: '', cls: 'l' }, 'Total R'], rows)}
       <p class="foot">${E.median < 0 && E.s.exp > 0 ? 'Most trades lose a little and a small group of large winners pays for them: judge it over many trades, never over a few.' : 'The middle trade is positive: most of the profit comes from ordinary trades.'}</p>`;
+  }
+
+  // ---- capital simulator: one account over chosen years, money added on a schedule, and WHEN a trade's size is re-set from the balance ----
+  // (research/bb-core/no-target RESULTS.md sections 13-15). Uses the trades of the coins / dates / strategy chosen at the top.
+  const SIMS = { y: null, m: null, log: true };   // the year and month opened in the drill-down, chart scale
+  function simOpts() {
+    const ys = V.fresh.yearList;
+    let y0 = ys.includes(S.sy0) ? S.sy0 : ys[0], y1 = ys.includes(S.sy1) ? S.sy1 : ys[ys.length - 1];
+    if (y1 < y0) [y0, y1] = [y1, y0];
+    return { start: Math.max(1, S.start), risk: Math.max(0, S.risk) / 100, cap: Math.max(0, S.cap), mode: S.sm, dep: Math.max(0, S.dep), depEvery: S.dep > 0 ? S.de : 'none', y0, y1 };
+  }
+  const simRiskLbl = (mode) => ({ year: 'set on 1 January', month: 'set on the 1st', trade: 'at the start of the period', fixed: 'of the money put in' }[mode]);
+  // a rule-based plain-language read of the simulation (fixed rules, not a model): how it grew, what it cost, what it leans on, what to watch
+  function simSummary(sim, P, o, cmp, K) {
+    const yrs = P.years, mons = P.months.filter((m) => m.n), up = mons.filter((m) => m.profit > 0), N = sim.rows.length;
+    const rets = yrs.map((y) => y.ret).sort((a, b) => a - b), med = A.quantile(rets, 0.5), yUp = yrs.filter((y) => y.profit > 0).length;
+    const profit = sim.end - sim.put, mult_ = sim.end / sim.put, years = Math.max(0.25, (sim.until - sim.from) / (365.25 * 86400));
+    const cur = cmp.find((c) => c.md === o.mode), s0 = cur && cur.s0;
+    const mret = (m) => (m.start + m.dep > 0 ? m.profit / (m.start + m.dep) : 0);
+    const bestM = mons.reduce((a, m) => (!a || mret(m) > mret(a) ? m : a), null), worstM = mons.reduce((a, m) => (!a || mret(m) < mret(a) ? m : a), null);
+    const pos = mons.filter((m) => m.profit > 0).sort((a, b) => b.profit - a.profit), posTot = pos.reduce((a, m) => a + m.profit, 0);
+    const top3 = pos.slice(0, 3), top3Share = posTot > 0 ? top3.reduce((a, m) => a + m.profit, 0) / posTot : 0;
+    const bestY = yrs.reduce((a, y) => (!a || y.profit > a.profit ? y : a), null), worstY = yrs.reduce((a, y) => (!a || y.ret < a.ret ? y : a), null);
+    const bestShare = profit > 0 && bestY ? bestY.profit / profit : 0;
+    const botCap = S.cur === '$' ? 10 : 580, lastY = yrs[yrs.length - 1], firstY = yrs[0];
+    const rule = cmp.map((c) => ({ md: c.md, end: c.s.end, dd: c.s.dd })), byEnd = [...rule].sort((a, b) => b.end - a.end);
+    const mdName = (md) => ({ year: 'once a year (1 January)', month: 'once a month (the 1st)', trade: 'every trade', fixed: 'never (no compounding)' }[md]);
+    const dd = sim.dd, tone = dd >= 0.5 ? 'bad' : dd >= 0.3 ? 'ok' : 'good';
+    const p = [];
+    p.push(`<b>The result.</b> ${fM(o.start)}${sim.deps.length ? ` plus ${sim.deps.length} additions of ${fM(o.dep)} (${fM(sim.put)} in total)` : ''} grew to <b>${fM(sim.end)}</b> over ${years.toFixed(1)} years (${fmtDate(sim.from)} to ${fmtDate(sim.rows[N - 1].tc)}): ${span(profit, fM(profit, true))} profit, <b>×${mult(mult_)}</b> the money put in. ${N.toLocaleString()} trades closed, ${sim.rows.filter((r) => r.pnl > 0).length} won (${pct(sim.rows.filter((r) => r.pnl > 0).length / N)}).`);
+    p.push(`<b>How the years went.</b> ${yUp} of ${yrs.length} years ended up; the typical (median) year returned ${fPct(med)} on the money in at the time, the best year was ${fPct(rets[rets.length - 1])} (${yLabel(bestY.y)}) and the worst ${fPct(rets[0])} (${yLabel(worstY.y)}). ${up.length} of ${mons.length} months with a closed trade ended up (${pct(up.length / Math.max(1, mons.length))}); the best month was ${MONTHS[bestM.m]} ${bestM.y} (${fPct(mret(bestM))}) and the worst ${MONTHS[worstM.m]} ${worstM.y} (${fPct(mret(worstM))}).`);
+    p.push(`<b>The price of it.</b> The deepest drop from a high was <b>${fPct(-dd)}</b>${sim.ddAt ? ` (${fmtDate(sim.ddAt)})` : ''}; getting back from it takes ${fPct(dd / (1 - dd))}. ${dd >= 0.5 ? 'More than half the account vanished at one point: only a plan you will really sit through makes this size of risk usable.' : dd >= 0.3 ? 'A drop of this size is normal for this risk level, and it takes months to recover, so decide in advance that you will not stop or change the risk in the middle of it.' : 'The drops stayed moderate for the risk used.'} The worst single year was ${fPct(-Math.max(...yrs.map((y) => y.dd)))} deep inside the year.`);
+    if (K) {
+      const L = K.longestLoss, C = K.costliest, u = K.under, wt = K.worstTrades[0], wd = K.worstDays[0];
+      const deep = K.episodes.filter((e) => e.depth >= 0.2).length;
+      p.push(`<b>Losses and streaks.</b> ${pct(K.lossTrades / N)} of the trades lost. ${L ? `The longest losing streak was <b>${L.n} trades in a row</b> (${fmtDate(L.from)} to ${fmtDate(L.to)}), costing ${fM(-L.pnl)} or ${pct(-L.pct, 1)} of the account${C && C !== L ? `; the most expensive run was ${C.n} losses in a row, ${pct(-C.pct, 1)} of the account (${fmtDate(C.from)} to ${fmtDate(C.to)})` : ''}. ` : ''}${u.e ? `The longest time below a previous high was <b>${Math.round(u.d / 86400)} days</b> (${fmtDate(u.e.peakT)} to ${u.e.rec ? fmtDate(u.e.rec) : 'now, not back yet'}). ` : ''}The account fell 20% or more below a high ${deep} time${deep === 1 ? '' : 's'}. ${K.lossMonths} of ${K.months} months lost money${K.monthRun && K.monthRun.n > 1 ? `, up to ${K.monthRun.n} in a row` : ''}. ${wt ? `The worst single trade took ${pct(-wt.pct, 1)} of the account` : ''}${wd ? ` and the worst day ${pct(-wd.pct, 1)} (${fmtDate(wd.t)})` : ''}. ${L && L.n >= 10 ? 'Long losing runs are part of this strategy: if you cannot sit through one without stopping, lower the risk per trade.' : ''}${K.now ? ` <b>The account is still ${pct(pts1(sim))} below its high of ${fmtDate(K.now.peakT)}.</b>` : ''}`);
+    }
+    p.push(`<b>What it leans on.</b> ${top3.length >= 3 ? `The three best months (${top3.map((m) => `${MONTHS[m.m]} ${m.y}`).join(', ')}) make ${pct(top3Share)} of all the profit made in winning months. ` : ''}${yrs.length > 1 ? `The best year, ${yLabel(bestY.y)}, is ${pct(bestShare)} of the total profit` : ''}${bestShare > 0.5 ? ': without it the result would look very different, because compounding makes a late good year worth far more than an early one.' : '.'}${top3Share > 0.5 ? ' Most of the gain came from a few big months: expect long ordinary stretches between them.' : ''}`);
+    if (s0) {
+      const extra = sim.end - s0.end, put = sim.put - o.start;
+      p.push(`<b>What adding capital did.</b> Starting with ${fM(o.start)} and never adding would have ended at ${fM(s0.end)} (deepest drop ${fPct(-s0.dd)}). Adding ${fM(put)} over time ends at ${fM(sim.end)}: that is ${fM(extra, true)} more, ${extra > 0 && put > 0 ? `about ×${mult(extra / put)} what was added, because each addition then grew with the account` : 'the additions did not pay for themselves in this period'}. Money put in is ${pct(sim.put / sim.end, 1)} of the end balance; the rest is trading profit.`);
+    }
+    const best = byEnd[0], worst = byEnd[byEnd.length - 1], curRule = rule.find((r) => r.md === o.mode);
+    p.push(`<b>The compounding rule.</b> On these same trades "${mdName(best.md)}" ends highest (${fM(best.end)}, drop ${fPct(-best.dd)}) and "${mdName(worst.md)}" lowest (${fM(worst.end)}, drop ${fPct(-worst.dd)}). Yours, "${mdName(o.mode)}", ends at ${fM(curRule.end)} with a ${fPct(-curRule.dd)} drop. Re-sizing more often grows faster and draws down harder; "never" keeps the risk on the money put in and is the calmest.`);
+    const warn = [];
+    if (lastY && lastY.risk > botCap) warn.push(`In ${yLabel(lastY.y)} each trade risks ${fM(lastY.risk)}, which is ${Math.round(lastY.risk / botCap).toLocaleString()}× the bots' ${fM(botCap)} per-trade cap and far more than these coins' order books fill at the assumed costs`);
+    if (firstY && lastY && lastY.risk > 50 * firstY.risk) warn.push(`the amount risked per trade grows from ${fM(firstY.risk)} to ${fM(lastY.risk)}: the late years carry most of the money and are the least realistic`);
+    p.push(`<b>Read it with care.</b> ${warn.length ? warn.join('; ') + '. Set "Max risk per trade" at the top to a realistic amount to see a version you could actually run. ' : ''}This is a test on past prices, with coins and settings chosen in hindsight, before any fee charged by a service and before tax. It shows what this history would have done to this plan, not what the next years will do.`);
+    return `<div class="sec-head"><div><h2>Summary: how this simulation did</h2><p class="sub">A plain-language read of the numbers above, from fixed rules (not a model). It changes with every setting.</p></div></div>
+      <div class="verdict" style="grid-template-columns:1fr"><div class="story">${p.map((x) => `<p>${x}</p>`).join('')}</div></div>
+      <div class="note" style="border-left-color:var(--${tone === 'bad' ? 'neg' : tone === 'ok' ? 'warn-2' : 'pos'})"><b>In one line:</b> ${fM(sim.put)} became ${fM(sim.end)} (×${mult(mult_)}), ${yUp} of ${yrs.length} years up, deepest drop ${fPct(-dd)}${K && K.longestLoss ? `, up to ${K.longestLoss.n} losing trades in a row` : ''}${warn.length ? ', but the later years are not realistic at this size' : ''}.</div>`;
+  }
+  function renderSim() {
+    const ys = V.fresh.yearList, o = simOpts(), sim = A.simulate(V.T, o), P = A.simPeriods(sim, o);
+    const opt = (v, sel) => `<option${v === sel ? ' selected' : ''}>${v}</option>`;
+    const ctl = `<div class="sim-ctl"><div class="ctl-row">
+        <label class="ctl"><span class="ctl-l">Start capital</span><span class="inp-cur"><select id="simCur">${['₱', '$'].map((c) => opt(c, S.cur)).join('')}</select><input type="number" id="simStart" min="1" step="1000" value="${S.start}"></span></label>
+        <label class="ctl"><span class="ctl-l">Risk per trade</span><span class="inp-row"><input type="number" id="simRisk" min="0.01" max="50" step="0.1" value="${S.risk}"><em>%</em></span></label>
+        <label class="ctl"><span class="ctl-l">From year</span><select id="simY0">${ys.map((y) => opt(y, o.y0)).join('')}</select></label>
+        <label class="ctl"><span class="ctl-l">To year</span><select id="simY1">${ys.map((y) => opt(y, o.y1)).join('')}</select></label>
+        <label class="ctl"><span class="ctl-l">Add capital <i>(${S.cur} each time, 0 = none)</i></span><input type="number" id="simDep" min="0" step="500" value="${S.dep}"></label>
+        <div class="ctl"><span class="ctl-l">How often</span><div class="seg" id="simDe"><button data-v="week">Every week (Monday)</button><button data-v="month">Every month (the 1st)</button><button data-v="year">Every 1 January</button></div></div>
+      </div><div class="ctl-row">
+        <div class="ctl"><span class="ctl-l">Compounding: re-size the trades from the balance</span><div class="seg" id="simMode">${Object.entries(SIM_MODES).map(([k, t]) => `<button data-v="${k}">${t}</button>`).join('')}</div></div>
+      </div></div>`;
+    const head = `<div class="sec-head"><div><h2>Capital simulator</h2><p class="sub">One account from 1 January ${o.y0} to the end of ${o.y1}, on the real trades of ${A.STRATS[S.s].name} (${V.coins.join(', ')}, ${A.TF_LABEL[S.tf]}${S.costs ? ', costs included' : ', before costs'}). Choose the start capital, money to add, and how often a trade's size is re-set from the balance.</p></div></div>`;
+    if (!sim.rows.length) {
+      $('secSim').innerHTML = head + ctl + `<p class="sub">No trade opened and closed inside ${o.y0}–${o.y1}.</p>`;
+      $('secSimYears').innerHTML = ''; $('secSimRisk').innerHTML = ''; $('secSimSummary').innerHTML = '';
+      wireSim(); return;
+    }
+    const won = sim.rows.filter((r) => r.pnl > 0), lost = sim.rows.filter((r) => r.pnl <= 0), sum = (a) => a.reduce((x, r) => x + r.pnl, 0);
+    const profit = sim.end - sim.put, last = sim.rows[sim.rows.length - 1];
+    const k = (v, key, sub) => `<div class="kpi"><div class="v">${v}</div><div class="k">${key}</div>${sub ? `<div class="s">${sub}</div>` : ''}</div>`;
+    const kpis = `<div class="kpis">
+      ${k(fM(sim.put), 'Money put in', sim.deps.length ? `${fM(o.start)} + ${sim.deps.length} × ${fM(o.dep)}` : 'the start capital only')}
+      ${k(fM(sim.end), 'End balance', `after the last trade closed, ${fmtDate(last.tc)}`)}
+      ${k(span(profit, fM(profit, true)), 'Profit', `×${mult(sim.end / sim.put)} the money put in`)}
+      ${k(fPct(-sim.dd), 'Deepest drop', sim.ddAt ? `on ${fmtDate(sim.ddAt)} (money added does not hide it)` : '')}
+      ${k(sim.rows.length.toLocaleString(), 'Trades', `<span class="pos">${won.length} won ${fM(sum(won), true)}</span> · <span class="neg">${lost.length} lost ${fM(sum(lost), true)}</span>`)}
+    </div>`;
+    // the four sizing rules on the same trades and the same deposits
+    const cmp = Object.keys(SIM_MODES).map((md) => {
+      const s = md === o.mode ? sim : A.simulate(V.T, { ...o, mode: md });
+      return { md, s, s0: o.depEvery !== 'none' ? A.simulate(V.T, { ...o, mode: md, depEvery: 'none' }) : null };
+    });
+    const cmpT = table(['Re-size the trades', 'End balance', 'Profit', '× money put in', 'Deepest drop', ...(o.depEvery !== 'none' ? [`Without adding (${fM(o.start)} only)`] : [])],
+      cmp.map(({ md, s, s0 }) => `<tr class="pick${md === o.mode ? ' sel' : ''}" data-md="${md}"><td>${SIM_MODES[md]}${md === o.mode ? ' ◀' : ''}</td><td><b>${fM(s.end)}</b></td><td>${span(s.end - s.put, fM(s.end - s.put, true))}</td>
+        <td>×${mult(s.end / s.put)}</td><td>${fPct(-s.dd)}</td>${s0 ? `<td>${fM(s0.end)} · ${fPct(-s0.dd)}</td>` : ''}</tr>`));
+    const big = S.cur === '$' ? 1e5 : 5e6, peak = Math.max(...sim.pts.map((p) => p[1]));
+    const capNote = S.cap > 0 ? `Every trade is capped at ${fM(S.cap)} ("Max risk per trade" at the top).` : 'No cap on the size of a trade: set "Max risk per trade" at the top to keep big balances realistic (the bots cap a trade at $10, about ₱580).';
+    const bigNote = peak > big ? ` <b>The balance passes ${fM(big)}.</b> Past roughly ₱1–5M a ${S.risk}% risk needs positions larger than the coins' order books and the bot's cap allow (RESULTS.md section 9): read the early years, or set a cap.` : '';
+    $('secSim').innerHTML = `${head}${ctl}${kpis}
+      <div class="sec-head" style="margin-top:12px"><h3 style="margin:0">Balance${sim.deps.length ? ' and money put in' : ''}</h3>
+        <div class="sec-tools"><div class="seg mini" id="simScale"><button data-v="log">Log scale</button><button data-v="lin">Linear</button></div></div></div>
+      ${sim.deps.length ? `<div class="ch-legend"><span>${dot('SOL')}Balance</span><span><span class="dot" style="background:var(--muted)"></span>Money put in</span></div>` : ''}
+      <div class="chart" id="chSim"></div>
+      <h3>Drop from the previous high</h3><div class="chart" id="chSimDD"></div>
+      <h3>The same trades and deposits, re-sized at other moments</h3>${cmpT}
+      <div class="note">${capNote}${bigNote}</div>
+      <p class="foot">Trades that open on or after 1 January ${o.y0} and close by the end of ${o.y1}; each is credited to the day it closes. Money is added every Monday, on the 1st of the month or on 1 January (as chosen) after the start, up to the last closed trade; it counts toward a trade's size when the rule next re-sizes (every trade: at once; once a month: that month; once a year: from the next 1 January; never: from the next trade, on the money put in). Drops are measured on the closed-trade balance, with each deposit added to the high too.</p>`;
+    const series = [{ name: 'Balance', color: 'var(--c-SOL)', pts: sim.pts.map((p) => [p[0], p[1]]) }];
+    if (sim.deps.length) series.push({ name: 'Money put in', color: 'var(--muted)', pts: sim.pts.map((p) => [p[0], p[2]]) });
+    lineChart($('chSim'), series, { log: SIMS.log, yFmt: (v) => fM(v), tipFmt: (v) => fM(v) });
+    lineChart($('chSimDD'), [{ name: 'Drop', color: 'var(--neg)', pts: sim.pts.map((p) => [p[0], -(p[3] || 0) * 100]) }], { yFmt: (v) => `${Math.round(v)}%`, tipFmt: (v) => `${v.toFixed(1)}%`, area: true, height: 150 });
+    const K = A.simRisk(sim, P);
+    SIMS.K = K;
+    renderSimYears(sim, P, o);
+    renderSimRisk(sim, K);
+    $('secSimSummary').innerHTML = simSummary(sim, P, o, cmp, K);
+    wireSim();
+  }
+  // the losing side: drawdowns, streaks, the worst trades / days / months
+  function renderSimRisk(sim, K) {
+    const days = (s) => Math.round(s / 86400).toLocaleString(), mk = (k) => `${MONTHS[k % 100]} ${Math.floor(k / 100)}`;
+    const kp = (v, key, sub) => `<div class="kpi"><div class="v">${v}</div><div class="k">${key}</div>${sub ? `<div class="s">${sub}</div>` : ''}</div>`;
+    const d = K.deepest, L = K.longestLoss, W = K.longestWin, u = K.under, mr = K.monthRun;
+    const kpis = `<div class="kpis">
+      ${kp(d ? `<span class="neg">${fPct(-d.depth)}</span>` : '0%', 'Deepest drawdown', d ? `${fM(d.below)} below the high · bottom ${fmtDate(d.troughT)}` : 'never below a high')}
+      ${kp(u.e ? `${days(u.d)} days` : '–', 'Longest under water', u.e ? `${fmtDate(u.e.peakT)} → ${u.e.rec ? fmtDate(u.e.rec) : 'not back yet'}` : '')}
+      ${kp(L ? `<span class="neg">${L.n} losses</span>` : '–', 'Longest losing streak', L ? `${fM(L.pnl, true)} · account ${fPct(L.pct, 1)} · ${fmtDate(L.from)} → ${fmtDate(L.to)}` : 'no losing trade')}
+      ${kp(W ? `<span class="pos">${W.n} wins</span>` : '–', 'Longest winning streak', W ? `${fM(W.pnl, true)} · account ${fPct(W.pct, 1)} · ${fmtDate(W.from)} → ${fmtDate(W.to)}` : '')}
+      ${kp(`${K.lossMonths} of ${K.months}`, 'Losing months', mr ? `longest run ${mr.n} in a row (${mk(mr.from)}${mr.n > 1 ? ` → ${mk(mr.to)}` : ''}, ${fM(mr.pnl, true)})` : 'no losing month')}
+    </div>`;
+    const c = K.cur, now = `<div class="note">${K.now ? `<b>Now:</b> ${pct(pts1(sim))} below the high of ${fmtDate(K.now.peakT)} (at worst ${pct(K.now.depth)} below it in this drop).` : '<b>Now:</b> the balance is at its high.'} ${c ? `The last ${c.n} trade${c.n > 1 ? 's' : ''} ${c.win ? 'won' : 'lost'} (${fM(c.pnl, true)}).` : ''} ${K.lossTrades.toLocaleString()} of ${sim.rows.length.toLocaleString()} trades lost or broke even (${pct(K.lossTrades / Math.max(1, sim.rows.length))}): losing is the normal state of this kind of strategy, the winners are rarer and bigger.</div>`;
+    const eps = [...K.episodes].sort((a, b) => b.depth - a.depth).slice(0, 8);
+    const tEps = table(['#', 'High on', 'Bottom on', 'Depth', `${S.cur} below the high`, 'Trades to the bottom', 'Days to the bottom', 'Back at the high', 'Days under water'],
+      eps.map((e, i) => `<tr><td>${i + 1}</td><td>${fmtDate(e.peakT)}</td><td>${fmtDate(e.troughT)}</td><td><b class="neg">${fPct(-e.depth, 1)}</b></td><td class="neg">${fM(-e.below, true)}</td><td>${e.n}</td><td>${days(e.troughT - e.peakT)}</td>
+        <td>${e.rec ? fmtDate(e.rec) : '<b>not yet</b>'}</td><td>${days((e.rec ?? sim.pts[sim.pts.length - 1][0]) - e.peakT)}${e.rec ? '' : '+'}</td></tr>`));
+    const ls = [...K.loss].sort((a, b) => b.n - a.n || a.pnl - b.pnl).slice(0, 8);
+    const tLs = table(['Losing streak', 'From', 'To', 'Lost', 'R', 'Account fell'],
+      ls.map((x) => `<tr><td><b>${x.n} in a row</b></td><td>${fmtDate(x.from)}</td><td>${fmtDate(x.to)}</td><td class="neg">${fM(x.pnl, true)}</td><td>${fR(x.R)}</td><td class="neg">${fPct(x.pct, 1)}</td></tr>`));
+    const tDist = table(['Losing streak length', 'Times it happened'], K.streakDist.map(([l, n]) => `<tr><td>${l} losses in a row</td><td>${n}</td></tr>`));
+    const tTr = table(['Worst trades', 'Closed', 'Lost', 'R', 'Of the account'],
+      K.worstTrades.map((r) => `<tr><td>${coinName(r.coin)} ${r.dir === 1 ? 'long' : 'short'}</td><td>${fmtDate(r.tc)}</td><td class="neg">${fM(r.pnl, true)}</td><td>${fR(r.R, 2)}</td><td class="neg">${fPct(r.pct, 1)}</td></tr>`));
+    const tDay = table(['Worst days (UTC)', 'Trades closed', 'Lost', 'Of the account'],
+      K.worstDays.map((x) => `<tr><td>${fmtDate(x.t)}</td><td>${x.n} (${x.losses} lost)</td><td class="neg">${fM(x.pnl, true)}</td><td class="neg">${fPct(x.pct, 1)}</td></tr>`));
+    const tMon = table(['Worst months', 'Trades', 'Won / lost', `${S.cur} won`, `${S.cur} lost`, 'Result', 'Of the account'],
+      K.worstMonths.map((m) => `<tr><td>${MONTH_NAMES[m.m]} ${m.y}</td><td>${m.n}</td><td>${m.wins} / ${m.losses}</td><td class="pos">${fM(m.won, true)}</td><td class="neg">${fM(m.lost, true)}</td><td><b class="neg">${fM(m.profit, true)}</b></td><td class="neg">${fPct(m.pct, 1)}</td></tr>`));
+    $('secSimRisk').innerHTML = `<div class="sec-head"><div><h2>Drawdowns, losses and streaks</h2><p class="sub">The other side of the same simulation: how far and how long the account fell, the losing runs, and the worst trades, days and months. Shares are of the balance just before the loss.</p></div></div>
+      ${kpis}${now}
+      <h3>The deepest drawdowns (from a high to the bottom, and back)</h3>${tEps}
+      <div class="two"><div><h3>The longest losing streaks</h3>${tLs}</div><div><h3>How often losing streaks happen</h3>${tDist}<p class="foot">${K.loss.length} losing runs in all. With this many losing trades, a run as long as the longest one here can come again at any time.</p></div></div>
+      <div class="two"><div><h3>The worst single trades</h3>${tTr}</div><div><h3>The worst days</h3>${tDay}</div></div>
+      <h3>The worst months</h3>${tMon}
+      <p class="foot">A drawdown starts at a high of the closed-trade balance and ends when the balance is back above it; money added raises the high too, so a deposit never counts as a recovery. Streaks count trades in the order they closed, across all coins; a trade that breaks even counts as a loss. The drop chart above shows every drawdown over time.</p>`;
+  }
+  const pts1 = (sim) => sim.pts[sim.pts.length - 1][3] || 0;   // the drop from the high after the last booked event
+  function renderSimYears(sim, P, o) {
+    const inSpan = P.years.map((y) => y.y);
+    if (SIMS.y != null && !inSpan.includes(SIMS.y)) { SIMS.y = null; SIMS.m = null; }
+    // month grid: profit per month, click a month to open it
+    let max = 0; P.months.forEach((mo) => { max = Math.max(max, Math.abs(mo.profit)); });
+    const bg = (v) => { const a = (0.10 + 0.55 * Math.min(1, Math.abs(v) / (max || 1))).toFixed(2); return v > 0 ? `rgba(var(--pos-bg),${a})` : v < 0 ? `rgba(var(--neg-bg),${a})` : 'var(--surface-3)'; };
+    const byK = new Map(P.months.map((mo) => [mo.k, mo]));
+    const grid = P.years.map((y) => `<tr><td class="yr">${yLabel(y.y)}</td>${MONTHS.map((_, m) => {
+      const mo = byK.get(y.y * 100 + m);
+      if (!mo || (!mo.n && !mo.dep)) return '<td class="none">·</td>';
+      const tip = `<b>${MONTH_NAMES[m]} ${y.y}</b><div class='r'><span>Balance on the 1st</span><span>${fM(mo.start)}</span></div>${mo.dep ? `<div class='r'><span>Added</span><span>${fM(mo.dep)}</span></div>` : ''}<div class='r'><span>Trades</span><span>${mo.n} (${mo.wins} won)</span></div><div class='r'><span>Profit</span><span>${fM(mo.profit, true)}</span></div><div class='r'><span>Ends at</span><span>${fM(mo.end)}</span></div>`;
+      return `<td data-k="${mo.k}" style="cursor:pointer;background:${mo.n ? bg(mo.profit) : 'var(--surface-3)'}${SIMS.y === y.y && SIMS.m === mo.k ? ';outline:2px solid var(--ink)' : ''}" data-tip="${esc(tip)}">${mo.n ? fK(mo.profit) : '·'}</td>`;
+    }).join('')}<td class="tot ${cls(y.profit)}">${fK(y.profit)}</td></tr>`).join('');
+    // year table
+    const tot = P.years.reduce((a, y) => ({ dep: a.dep + y.dep, n: a.n + y.n, wins: a.wins + y.wins, losses: a.losses + y.losses, won: a.won + y.won, lost: a.lost + y.lost, R: a.R + y.R, profit: a.profit + y.profit, dd: Math.max(a.dd, y.dd) }), { dep: 0, n: 0, wins: 0, losses: 0, won: 0, lost: 0, R: 0, profit: 0, dd: 0 });
+    const bySt = SIMS.K ? SIMS.K.byYear : {}, maxSt = Math.max(0, ...Object.values(bySt));
+    const yT = table(['Year', 'Balance 1 Jan', 'Added', `Risk / trade (${simRiskLbl(o.mode)})`, 'Trades', 'Won', 'Lost', 'Longest losing streak', `${S.cur} won`, `${S.cur} lost`, 'R', 'Profit', 'Return', 'Ends at', 'Max drop'],
+      P.years.map((y) => `<tr class="pick${SIMS.y === y.y ? ' sel' : ''}" data-y="${y.y}"><td>${SIMS.y === y.y ? '▾' : '▸'} ${yLabel(y.y)}</td><td>${fM(y.start)}</td><td>${y.dep ? fM(y.dep) : '·'}</td><td>${fM(y.risk)}</td><td>${y.n}</td>
+        <td class="pos">${y.wins}</td><td class="neg">${y.losses}</td><td>${bySt[y.y] || 0}</td><td class="pos">${fM(y.won, true)}</td><td class="neg">${fM(y.lost, true)}</td><td>${fR(y.R)}</td><td><b>${span(y.profit, fM(y.profit, true))}</b></td><td>${span(y.ret, fPct(y.ret))}</td><td><b>${fM(y.end)}</b></td><td class="neg">${fPct(-y.dd)}</td></tr>`)
+        .concat(`<tr class="tot"><td>Total</td><td>${fM(o.start)}</td><td>${tot.dep ? fM(tot.dep) : '·'}</td><td></td><td>${tot.n}</td><td>${tot.wins}</td><td>${tot.losses}</td><td>${maxSt}</td><td>${fM(tot.won, true)}</td><td>${fM(tot.lost, true)}</td><td>${fR(tot.R)}</td><td>${span(tot.profit, fM(tot.profit, true))}</td><td></td><td>${fM(sim.end)}</td><td class="neg">${fPct(-tot.dd)}</td></tr>`));
+    // drill-down: the months of the opened year, then the trades of the opened month
+    let drill = '';
+    if (SIMS.y != null) {
+      const ms = P.months.filter((mo) => mo.y === SIMS.y);
+      const coinCell = (mo) => { const cs = V.coins.filter((c) => mo.coins[c]); return cs.length ? `<span class="cc">${cs.map((c) => `<span title="${c}">${dot(c)}${mo.coins[c]}</span>`).join('')}</span>` : '·'; };
+      const mT = table(['Month', 'Balance on the 1st', 'Added', `Risk / trade (${simRiskLbl(o.mode)})`, 'Trades', { t: 'By coin', cls: 'l' }, 'Won', 'Lost', `${S.cur} won`, `${S.cur} lost`, 'R', 'Profit', 'Ends at', 'Max drop'],
+        ms.map((mo) => `<tr class="pick${SIMS.m === mo.k ? ' sel' : ''}" data-k="${mo.k}"><td>${SIMS.m === mo.k ? '▾' : '▸'} ${MONTH_NAMES[mo.m]}</td><td>${fM(mo.start)}</td><td>${mo.dep ? fM(mo.dep) : '·'}</td><td>${fM(mo.risk)}</td><td>${mo.n || '·'}</td><td class="l">${coinCell(mo)}</td>
+          <td class="pos">${mo.wins || '·'}</td><td class="neg">${mo.losses || '·'}</td><td class="pos">${mo.won ? fM(mo.won, true) : '·'}</td><td class="neg">${mo.lost ? fM(mo.lost, true) : '·'}</td><td>${mo.n ? fR(mo.R) : '·'}</td><td><b>${span(mo.profit, fM(mo.profit, true))}</b></td><td>${fM(mo.end)}</td><td>${fPct(-mo.dd)}</td></tr>`));
+      let tl = '';
+      if (SIMS.m != null) {
+        const mm = SIMS.m % 100, list = sim.rows.filter((r) => { const d = new Date(r.tc * 1000); return d.getUTCFullYear() === SIMS.y && d.getUTCMonth() === mm; });
+        tl = `<div class="sim-drill"><h3>Trades closed in ${MONTH_NAMES[mm]} ${SIMS.y} (${list.length})</h3>${list.length ? tradeTable(list) : '<p class="sub">No trade closed this month.</p>'}</div>`;
+      }
+      drill = `<div class="sim-drill"><h3>${SIMS.y}, month by month <span class="sub" style="font-weight:400">· click a month for its trades</span></h3>${mT}${tl}</div>`;
+    }
+    $('secSimYears').innerHTML = `<div class="sec-head"><div><h2>Year by year and month by month</h2><p class="sub">${SIM_MODES[o.mode]}, ${S.risk}% risk${o.depEvery !== 'none' ? `, ${fM(o.dep)} added ${DEP_TXT[o.depEvery]}` : ''}. Click a year to open its months, then a month to see every trade, with the amount risked and the balance after it.</p></div></div>
+      <h3>Profit per month (${S.cur})</h3>
+      <div class="tw"><table class="cal"><thead><tr><th></th>${MONTHS.map((m) => `<th>${m}</th>`).join('')}<th>Year</th></tr></thead><tbody>${grid}</tbody></table></div>
+      <h3>Years</h3>${yT}${drill}`;
+  }
+  function wireSim() {
+    const all = () => { writeHash(); syncControls(); render(); };   // settings shared with the rest of the page
+    const num = (id, key, min, then) => { const el = $(id); if (el) el.onchange = (e) => { const v = parseFloat(e.target.value); S[key] = isFinite(v) ? Math.max(min, v) : DEF[key]; then(); }; };
+    const self = () => { writeHash(); renderSim(); };
+    num('simStart', 'start', 1, all); num('simRisk', 'risk', 0.01, all); num('simDep', 'dep', 0, self);
+    if ($('simCur')) $('simCur').onchange = (e) => { S.cur = e.target.value; all(); };
+    ['simY0', 'simY1'].forEach((id, i) => { if ($(id)) $(id).onchange = (e) => { S[i ? 'sy1' : 'sy0'] = +e.target.value; SIMS.y = SIMS.m = null; self(); }; });
+    segWire('simMode', S.sm, (v) => { S.sm = v; self(); });
+    segWire('simDe', S.de, (v) => { S.de = v; self(); });
+    segWire('simScale', SIMS.log ? 'log' : 'lin', (v) => { SIMS.log = v === 'log'; renderSim(); });
+    $('secSim').onclick = (e) => { const r = e.target.closest('tr[data-md]'); if (r) { S.sm = r.dataset.md; self(); } };
+    $('secSimYears').onclick = (e) => {
+      const y = e.target.closest('tr[data-y]'), m = e.target.closest('tr[data-k], td[data-k]');   // not the trade table's sort headers
+      if (y) { const v = +y.dataset.y; SIMS.y = SIMS.y === v ? null : v; SIMS.m = null; renderSim(); return; }
+      if (m) { const k = +m.dataset.k, yy = Math.floor(k / 100); if (SIMS.y === yy && SIMS.m === k && m.tagName === 'TR') SIMS.m = null; else { SIMS.y = yy; SIMS.m = k; } renderSim(); }
+    };
   }
 
   // ---- charts: one y-axis, recessive grid, crosshair tooltip -------------------------------------------------------------------

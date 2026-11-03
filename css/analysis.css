@@ -194,6 +194,13 @@ table.cal tr.foot td { background: transparent; color: var(--ink-2); font-size: 
 .tip { position: fixed; z-index: 50; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--line-2); border-radius: 8px; padding: 7px 10px; font-size: 11.5px; box-shadow: 0 6px 20px rgba(15,23,42,.18); max-width: 280px; line-height: 1.45; }
 .tip b { font-weight: 700; } .tip .r { display: flex; justify-content: space-between; gap: 14px; } .tip .r span:last-child { font-variant-numeric: tabular-nums; }
 
+/* capital simulator: click a year for its months, a month for its trades */
+.sim-ctl { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px 4px; margin: 8px 0 4px; background: var(--surface-2); }
+table.data tr.pick { cursor: pointer; } table.data tr.pick:hover td { background: var(--surface-3); }
+table.data tr.sel td { background: var(--surface-3); font-weight: 700; } table.data tr.sel td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+.sim-drill { border-left: 3px solid var(--accent); padding-left: 12px; margin: 10px 0 4px; }
+.cc { display: inline-flex; gap: 6px; } .cc .dot { margin-right: 2px; }
+
 .more { font: inherit; font-size: 12px; margin-top: 8px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line-2); background: var(--surface-2); color: var(--ink); cursor: pointer; }
 
 @media (max-width: 860px) {

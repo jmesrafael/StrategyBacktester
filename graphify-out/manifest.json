@@ -408,33 +408,33 @@
     "semantic_hash": ""
   },
   "js/api.js": {
-    "mtime": 1792538727.5113568,
-    "seen": 1793170932.0232046,
-    "ast_hash": "ce8587517418619921ecc07f28668b9d",
+    "mtime": 1793664234.60472,
+    "seen": 1793697969.3283613,
+    "ast_hash": "00cfbca7e63859bfed91d5ea26c1ff10",
     "semantic_hash": ""
   },
   "js/app.js": {
-    "mtime": 1792538727.5156069,
-    "seen": 1793170932.0232046,
-    "ast_hash": "0d80ca6ddd2e8fa0346bf6eaa847565d",
+    "mtime": 1793664234.6084883,
+    "seen": 1793697969.3283613,
+    "ast_hash": "df65ab1d573f92c46d7dbd70251adfc2",
     "semantic_hash": ""
   },
   "js/bbx.js": {
-    "mtime": 1793064674.5839686,
-    "seen": 1793170932.0232046,
-    "ast_hash": "d418e0168976c39ca5e270dc941e6f00",
+    "mtime": 1793664234.6174078,
+    "seen": 1793697969.3283613,
+    "ast_hash": "e3c128cc41c36df59b07c2ee4daeddac",
     "semantic_hash": ""
   },
   "js/binance.js": {
-    "mtime": 1792453007.7593396,
-    "seen": 1793170932.0232046,
-    "ast_hash": "7178bdec51fc95131a21992dbdf494df",
+    "mtime": 1793664234.6204157,
+    "seen": 1793697969.3283613,
+    "ast_hash": "f6fe046e9d58772337840a83a616d078",
     "semantic_hash": ""
   },
   "js/candle-store.js": {
-    "mtime": 1792452786.1184914,
-    "seen": 1793170932.0232046,
-    "ast_hash": "340ece2f9f903e3fedaa15fd6d975b59",
+    "mtime": 1793664234.6224172,
+    "seen": 1793697969.3283613,
+    "ast_hash": "f744f651682dfc1fc4f2de1f13b97aa9",
     "semantic_hash": ""
   },
   "js/chart.js": {
@@ -444,9 +444,9 @@
     "semantic_hash": ""
   },
   "js/config.js": {
-    "mtime": 1793064674.5859694,
-    "seen": 1793170932.0232046,
-    "ast_hash": "1cede6d41c6ae4315349b93c6763c69f",
+    "mtime": 1793664234.624414,
+    "seen": 1793697969.3283613,
+    "ast_hash": "240b4fdf72cef4bba1f6c96c73cadeee",
     "semantic_hash": ""
   },
   "js/data-page.js": {
@@ -468,9 +468,9 @@
     "semantic_hash": ""
   },
   "js/indicators-ui.js": {
-    "mtime": 1793064674.5878127,
-    "seen": 1793170932.0232046,
-    "ast_hash": "984941149926c36e9b760fbc8cfc1339",
+    "mtime": 1793664234.6367342,
+    "seen": 1793697969.3293593,
+    "ast_hash": "bff0b2f75f2d72734ee3a1d090df9091",
     "semantic_hash": ""
   },
   "js/indicators.js": {
@@ -528,9 +528,9 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1792367829.2591763,
-    "seen": 1793170932.0232046,
-    "ast_hash": "bbf617469c0d33d00b2d615367e1e29a",
+    "mtime": 1793664234.6457505,
+    "seen": 1793697969.3313518,
+    "ast_hash": "1533b07c0190abffe570d3e0d76bf8a9",
     "semantic_hash": ""
   },
   "research/bb-core-v2/after-loss.js": {
@@ -3726,9 +3726,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1792480481.7556493,
-    "seen": 1793170932.026485,
-    "ast_hash": "7526ed341670e76da1d522393b25e1d0",
+    "mtime": 1793664234.734269,
+    "seen": 1793697969.4760838,
+    "ast_hash": "90dcc39d4f036f0541592c08326b8adc",
     "semantic_hash": ""
   },
   "LEDGER/README.md": {
@@ -3834,15 +3834,15 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1792403925.9369047,
-    "seen": 1793170932.026485,
-    "ast_hash": "2c0695c52c6833176656b55279f9670b",
+    "mtime": 1793664234.5681474,
+    "seen": 1793697969.4791696,
+    "ast_hash": "5eb1db8bda936446e36d997e4a456a53",
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1792538727.5113568,
-    "seen": 1793170932.026485,
-    "ast_hash": "598cb00b2562a022cc9694afb37cc7a1",
+    "mtime": 1793230725.442253,
+    "seen": 1793697969.4791696,
+    "ast_hash": "d399f4166f01a696fff1827999da5a98",
     "semantic_hash": ""
   },
   "research/bb-core-v2/BIMONTHLY-2.5.md": {
@@ -5199,6 +5199,510 @@
     "mtime": 1792403926.180832,
     "seen": 1793170932.026485,
     "ast_hash": "284cec939cd40d108ca73340a6aea545",
+    "semantic_hash": ""
+  },
+  ".claude/settings.json": {
+    "mtime": 1793171367.8592317,
+    "seen": 1793697969.3088698,
+    "ast_hash": "630e4e4f400ed680fc8b3f35a982cddc",
+    "semantic_hash": ""
+  },
+  "js/analysis-core.js": {
+    "mtime": 1793698487.3340387,
+    "seen": 1793698619.5224614,
+    "ast_hash": "e3ac2af7c8432f07078d5e6585b4fc68",
+    "semantic_hash": ""
+  },
+  "js/analysis.js": {
+    "mtime": 1793698593.1032224,
+    "seen": 1793698619.5224614,
+    "ast_hash": "b6accde857377a8711611ec8351650b0",
+    "semantic_hash": ""
+  },
+  "js/bbcore-core.js": {
+    "mtime": 1793664234.6104946,
+    "seen": 1793697969.3283613,
+    "ast_hash": "1e531126704ee31de44d3d4ce5b59fa1",
+    "semantic_hash": ""
+  },
+  "js/icore-core.js": {
+    "mtime": 1793230725.442253,
+    "seen": 1793697969.3293593,
+    "ast_hash": "d02f12c778448e8581c566b3ee046ad2",
+    "semantic_hash": ""
+  },
+  "js/icx.js": {
+    "mtime": 1793664234.635715,
+    "seen": 1793697969.3293593,
+    "ast_hash": "561c2a32e987881d9642bbcd9c28ec7f",
+    "semantic_hash": ""
+  },
+  "report-index/hook_guard.py": {
+    "mtime": 1793171367.8125682,
+    "seen": 1793697969.3313518,
+    "ast_hash": "a26c0a27c8c70f03b1ae5ca1a86face6",
+    "semantic_hash": ""
+  },
+  "report-index/rq.py": {
+    "mtime": 1793230725.4908879,
+    "seen": 1793697969.3313518,
+    "ast_hash": "9826bf6b812665e89a99e382c16b5b47",
+    "semantic_hash": ""
+  },
+  "research/bb-core/hold-time/sweep.js": {
+    "mtime": 1793664234.7152357,
+    "seen": 1793697969.364142,
+    "ast_hash": "46dc4f7dffcd2e0bfbbe02d86d4ac062",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/big-moves-per-year.js": {
+    "mtime": 1793256241.0878906,
+    "seen": 1793697969.364142,
+    "ast_hash": "2e2a7a098a920df61f0e4e4680f1241c",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/build-report.js": {
+    "mtime": 1793258321.750298,
+    "seen": 1793697969.364142,
+    "ast_hash": "c651cf9e517df06cebc5ea948b6613df",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/cmp.js": {
+    "mtime": 1793256241.0868883,
+    "seen": 1793697969.364142,
+    "ast_hash": "538de9cd4bf78a5bb4fff0816ca135ba",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/compare.js": {
+    "mtime": 1793256219.484203,
+    "seen": 1793697969.364142,
+    "ast_hash": "aac7b501c59df1757e0ca87913031092",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/compound-peso-per-year.js": {
+    "mtime": 1793696417.3808546,
+    "seen": 1793697969.364142,
+    "ast_hash": "5257344635fb533a52b5e2adc9a0499b",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/flat-peso-per-year.js": {
+    "mtime": 1793696359.0789742,
+    "seen": 1793697969.364142,
+    "ast_hash": "5ef1d87f1a5014cf5d790c446a9b802c",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/growth.js": {
+    "mtime": 1793256219.4870946,
+    "seen": 1793697969.364142,
+    "ast_hash": "441fac895afbd597ea0158ee1301d4b9",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/lib.js": {
+    "mtime": 1793256241.0833693,
+    "seen": 1793697969.364142,
+    "ast_hash": "b7986c1370198b93daa7165b115d3a5d",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/monthly-deposit-peso.js": {
+    "mtime": 1793697211.3087208,
+    "seen": 1793697969.364142,
+    "ast_hash": "db55bdcd7c521cc227b6f9b441db3c0a",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/monthly-tp-vs-notarget.js": {
+    "mtime": 1793696036.759359,
+    "seen": 1793697969.364142,
+    "ast_hash": "1f376c01d02678da8313284c47f92758",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/nocap-section.js": {
+    "mtime": 1793258351.8013594,
+    "seen": 1793697969.364142,
+    "ast_hash": "aab884758d1fb124689175353e51b5eb",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/pairs.js": {
+    "mtime": 1793256219.4895377,
+    "seen": 1793697969.364142,
+    "ast_hash": "5da497e2567a22580fd30b73f7886866",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/rank.js": {
+    "mtime": 1793256219.4950147,
+    "seen": 1793697969.364142,
+    "ast_hash": "c28ccf9df5f783145452d6c8615506c8",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/robust.js": {
+    "mtime": 1793256219.498536,
+    "seen": 1793697969.364142,
+    "ast_hash": "af80134d3c40693199befdf6d1f612fd",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/tiers.js": {
+    "mtime": 1793256219.5003908,
+    "seen": 1793697969.364142,
+    "ast_hash": "943a122a67c86b64ab588e8a1526986b",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/trend.js": {
+    "mtime": 1793256241.0868883,
+    "seen": 1793697969.364142,
+    "ast_hash": "471fb4d9557b7ee71deb204586221b6f",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/validate.js": {
+    "mtime": 1793256219.5059838,
+    "seen": 1793697969.364142,
+    "ast_hash": "3f8f23160c4cfce0a2ad8db237fad482",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/yearstart-compound-peso.js": {
+    "mtime": 1793696756.0393238,
+    "seen": 1793697969.364142,
+    "ast_hash": "e856f2ef9d35d3dc400e6a1b1460b4e9",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/yearstart-deposit-peso.js": {
+    "mtime": 1793697019.443528,
+    "seen": 1793697969.364142,
+    "ast_hash": "a3312ef5e190d8a8c0482cc5077684b7",
+    "semantic_hash": ""
+  },
+  "research/bb-core/targets/sweep.js": {
+    "mtime": 1793664234.7247572,
+    "seen": 1793697969.3651516,
+    "ast_hash": "3de84b71d22f7526a0dd6bac730eaa32",
+    "semantic_hash": ""
+  },
+  "research/portfolio/dump-trades.mjs": {
+    "mtime": 1793230725.4981012,
+    "seen": 1793697969.4642477,
+    "ast_hash": "18ab28b8c4e8b8d660b28beb3659286b",
+    "semantic_hash": ""
+  },
+  "research/portfolio/month.mjs": {
+    "mtime": 1793230725.4981012,
+    "seen": 1793697969.4642477,
+    "ast_hash": "cde9556cc57337dce81e9826f481529e",
+    "semantic_hash": ""
+  },
+  "research/portfolio/novdec.mjs": {
+    "mtime": 1793230725.4994352,
+    "seen": 1793697969.4642477,
+    "ast_hash": "66627d4e6ab42b1473a42f07fc838e54",
+    "semantic_hash": ""
+  },
+  "research/portfolio/split.cjs": {
+    "mtime": 1793230725.4994352,
+    "seen": 1793697969.4642477,
+    "ast_hash": "f63a3077d24e20b79c822fe086192655",
+    "semantic_hash": ""
+  },
+  "research/portfolio/stats.mjs": {
+    "mtime": 1793230725.500441,
+    "seen": 1793697969.4642477,
+    "ast_hash": "157e7a3f1839c24ffd835972739d1e2e",
+    "semantic_hash": ""
+  },
+  "scripts/analysis-check.mjs": {
+    "mtime": 1793664234.7267716,
+    "seen": 1793697969.474068,
+    "ast_hash": "5e983e1d6ec66a8bd8808b029102008c",
+    "semantic_hash": ""
+  },
+  "scripts/icx-parity.mjs": {
+    "mtime": 1793230725.510405,
+    "seen": 1793697969.474068,
+    "ast_hash": "63fcb6166e061b19dd2bf8ed386f96bf",
+    "semantic_hash": ""
+  },
+  "scripts/sim-check.mjs": {
+    "mtime": 1793698557.8572214,
+    "seen": 1793698619.6219494,
+    "ast_hash": "d047ba5e22efb9614cbba5f56766c01a",
+    "semantic_hash": ""
+  },
+  "scripts/sync-bbcore-core.mjs": {
+    "mtime": 1793664234.7288015,
+    "seen": 1793697969.474068,
+    "ast_hash": "33424a19086acfad4b7e00cd2b68922c",
+    "semantic_hash": ""
+  },
+  "scripts/sync-icore-core.mjs": {
+    "mtime": 1793230725.510405,
+    "seen": 1793697969.474068,
+    "ast_hash": "dcddbed23f077e21a1dd8723c67fe253",
+    "semantic_hash": ""
+  },
+  "CLAUDE.md": {
+    "mtime": 1793171286.1433387,
+    "seen": 1793697969.4760838,
+    "ast_hash": "e139153552ee800e79b7ffe71ec6cfe8",
+    "semantic_hash": ""
+  },
+  "TRADING_MATH.txt": {
+    "mtime": 1793694033.218196,
+    "seen": 1793697969.4791696,
+    "ast_hash": "bb5a00b6955f39e0a9b119ec8fb6208a",
+    "semantic_hash": ""
+  },
+  "TRADING_SURVIVAL_EDGE.txt": {
+    "mtime": 1793664234.5775414,
+    "seen": 1793697969.4791696,
+    "ast_hash": "7159a5e70fe5e52f8f418e3b07bb1222",
+    "semantic_hash": ""
+  },
+  "UPGRADE-GUIDE/00-START-HERE.md": {
+    "mtime": 1793260757.4972477,
+    "seen": 1793697969.4791696,
+    "ast_hash": "31be0aa7bf7b1fbec33df61f26ae517d",
+    "semantic_hash": ""
+  },
+  "UPGRADE-GUIDE/01-WHO-DOES-WHAT.md": {
+    "mtime": 1793255651.7860909,
+    "seen": 1793697969.4791696,
+    "ast_hash": "04e9ef6cf4d97bbc5826b8f1fe2bd83d",
+    "semantic_hash": ""
+  },
+  "UPGRADE-GUIDE/02-DECISIONS.md": {
+    "mtime": 1793255677.9923575,
+    "seen": 1793697969.4791696,
+    "ast_hash": "2eded64193e939ad85d1de007d899751",
+    "semantic_hash": ""
+  },
+  "UPGRADE-GUIDE/03-STEPS.md": {
+    "mtime": 1793256464.6043775,
+    "seen": 1793697969.4791696,
+    "ast_hash": "a12ad8c235461f4f1085b0be7ff4f802",
+    "semantic_hash": ""
+  },
+  "UPGRADE-GUIDE/04-ROLLBACK.md": {
+    "mtime": 1793255788.1240585,
+    "seen": 1793697969.4791696,
+    "ast_hash": "60593f41a69c4d1bf18264d5dce322b3",
+    "semantic_hash": ""
+  },
+  "UPGRADE-GUIDE/05-AFTER-THE-UPGRADE.md": {
+    "mtime": 1793255800.1028032,
+    "seen": 1793697969.4791696,
+    "ast_hash": "0bde6a22cf0d2134770b9a436817575c",
+    "semantic_hash": ""
+  },
+  "UPGRADE-GUIDE/06-COMMANDS.md": {
+    "mtime": 1793256201.6016226,
+    "seen": 1793697969.4791696,
+    "ast_hash": "ecefcc7cdd8246f0ad6c7632133a6192",
+    "semantic_hash": ""
+  },
+  "UPGRADE-GUIDE/07-CHECKLIST.md": {
+    "mtime": 1793664234.5805483,
+    "seen": 1793697969.4791696,
+    "ast_hash": "24470b86121a48c34978da9a4e29395a",
+    "semantic_hash": ""
+  },
+  "analysis.html": {
+    "mtime": 1793698501.4628346,
+    "seen": 1793698619.6292338,
+    "ast_hash": "839fd164a0367dee5bd407412fd80d53",
+    "semantic_hash": ""
+  },
+  "report-index/INDEX.md": {
+    "mtime": 1793696762.705387,
+    "seen": 1793697969.4791696,
+    "ast_hash": "1ba685dcc8304eadbf1d3f3ce5b72630",
+    "semantic_hash": ""
+  },
+  "research/bb-core/hold-time/out-no-target.txt": {
+    "mtime": 1793664234.7132292,
+    "seen": 1793697969.5105486,
+    "ast_hash": "bd855ce006187b045479c1f59d879556",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/RESULTS.md": {
+    "mtime": 1793696762.5639598,
+    "seen": 1793697969.5105486,
+    "ast_hash": "e5944a76da46993b3d790e5abe47a50b",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/out-big-moves.txt": {
+    "mtime": 1793252292.1733274,
+    "seen": 1793697969.5105486,
+    "ast_hash": "23c34ef435f8138013f56c5d2bc3edbd",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/out-compare.txt": {
+    "mtime": 1793252288.589444,
+    "seen": 1793697969.5105486,
+    "ast_hash": "aaac1ab44a1dd9475d8faf45247e8555",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/out-compound-peso-per-year.txt": {
+    "mtime": 1793696696.2937555,
+    "seen": 1793697969.5105486,
+    "ast_hash": "b71ba449b1dbfbe343abe4c9a0d7068e",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/out-exit-variants.txt": {
+    "mtime": 1793252291.8778195,
+    "seen": 1793697969.5105486,
+    "ast_hash": "95d7b602c4e9d87ad33786a3e738f60f",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/out-flat-peso-per-year.txt": {
+    "mtime": 1793696695.7396123,
+    "seen": 1793697969.5105486,
+    "ast_hash": "c51ca264d43070198628657850dbbad5",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/out-growth-nocap.txt": {
+    "mtime": 1793252933.0869162,
+    "seen": 1793697969.5105486,
+    "ast_hash": "372fe67ae7077efeb115d02f177dca51",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/out-monthly-tp-vs-notarget.txt": {
+    "mtime": 1793696037.4653711,
+    "seen": 1793697969.5105486,
+    "ast_hash": "098144f6f42e5a132fafb115c30391db",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/out-pairs.txt": {
+    "mtime": 1793252873.9825678,
+    "seen": 1793697969.5105486,
+    "ast_hash": "bf1b722776e05580aca8ee66fb1130f1",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/out-rank-2.5pct.txt": {
+    "mtime": 1793252655.8227699,
+    "seen": 1793697969.5105486,
+    "ast_hash": "4ca49fc133e8a590be737eef8910aae3",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/out-robust.txt": {
+    "mtime": 1793252290.3229406,
+    "seen": 1793697969.5105486,
+    "ast_hash": "fec2deafb26d22068c0b62d86daed5a9",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/out-three-way.txt": {
+    "mtime": 1793258363.5580027,
+    "seen": 1793697969.5105486,
+    "ast_hash": "63c8aca7ea357e4c68a3a2d751ff4d6a",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/out-tiers.txt": {
+    "mtime": 1793253169.8399456,
+    "seen": 1793697969.5105486,
+    "ast_hash": "fbedf4e690c5eb6515c04e1d367825b4",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/out-yearly-1to4-vs-A.txt": {
+    "mtime": 1793252290.657349,
+    "seen": 1793697969.5105486,
+    "ast_hash": "165f2c692ce7f1c20c8d1cc6cf3b6f8a",
+    "semantic_hash": ""
+  },
+  "research/bb-core/no-target/out-yearstart-compound-peso.txt": {
+    "mtime": 1793696762.5009606,
+    "seen": 1793697969.5105486,
+    "ast_hash": "041d85f5d16cbf337d9852233526eda2",
+    "semantic_hash": ""
+  },
+  "research/bb-core/targets/out-targets.txt": {
+    "mtime": 1793664234.722744,
+    "seen": 1793697969.5105486,
+    "ast_hash": "6561e3285411e18deb7fc52d243604ab",
+    "semantic_hash": ""
+  },
+  "research/portfolio/README.md": {
+    "mtime": 1793230725.4941068,
+    "seen": 1793697969.538409,
+    "ast_hash": "410070ffa1cc82b1dd0fe3a77c0d743b",
+    "semantic_hash": ""
+  },
+  "research/portfolio/RESULTS-month.md": {
+    "mtime": 1793230725.4950988,
+    "seen": 1793697969.538409,
+    "ast_hash": "8e16483a52efc81b356697334cbcb1ee",
+    "semantic_hash": ""
+  },
+  "research/portfolio/RESULTS-novdec.md": {
+    "mtime": 1793230725.4961,
+    "seen": 1793697969.538409,
+    "ast_hash": "ed0c8945c656f8c33d4e6bdf8dda630d",
+    "semantic_hash": ""
+  },
+  "research/portfolio/RESULTS-split.md": {
+    "mtime": 1793230725.4970987,
+    "seen": 1793697969.538409,
+    "ast_hash": "db09b833f5b737af9883bff5636e79f2",
+    "semantic_hash": ""
+  },
+  "research/portfolio/RESULTS-stats.md": {
+    "mtime": 1793230725.4970987,
+    "seen": 1793697969.538409,
+    "ast_hash": "b747e66d160cff00f02c4828710b34b4",
+    "semantic_hash": ""
+  },
+  "research/portfolio/trades/bb_ADA.txt": {
+    "mtime": 1793230725.5014532,
+    "seen": 1793697969.538409,
+    "ast_hash": "17f3402db9bfc478ff9cb4961df0caad",
+    "semantic_hash": ""
+  },
+  "research/portfolio/trades/bb_GALA.txt": {
+    "mtime": 1793230725.5014532,
+    "seen": 1793697969.538409,
+    "ast_hash": "bc98616f19d5d7a995ce9559f4bf4d8b",
+    "semantic_hash": ""
+  },
+  "research/portfolio/trades/bb_NEAR.txt": {
+    "mtime": 1793230725.5028572,
+    "seen": 1793697969.538409,
+    "ast_hash": "779d1c37f7247db7576a602c1e84afcf",
+    "semantic_hash": ""
+  },
+  "research/portfolio/trades/bb_SOL.txt": {
+    "mtime": 1793230725.5043554,
+    "seen": 1793697969.538409,
+    "ast_hash": "66979860346a93525b271042cf12f6bd",
+    "semantic_hash": ""
+  },
+  "research/portfolio/trades/bb_ZEC.txt": {
+    "mtime": 1793230725.5043554,
+    "seen": 1793697969.538409,
+    "ast_hash": "61048cdea6e37f42326ceca3cc836b74",
+    "semantic_hash": ""
+  },
+  "research/portfolio/trades/ic_ADA.txt": {
+    "mtime": 1793230725.5054026,
+    "seen": 1793697969.538409,
+    "ast_hash": "94d940e49d52d7fd1274fc1dcc0efd0d",
+    "semantic_hash": ""
+  },
+  "research/portfolio/trades/ic_GALA.txt": {
+    "mtime": 1793230725.5074048,
+    "seen": 1793697969.538409,
+    "ast_hash": "0a9089aee4fd52cc252e52eaf9874feb",
+    "semantic_hash": ""
+  },
+  "research/portfolio/trades/ic_NEAR.txt": {
+    "mtime": 1793230725.5094025,
+    "seen": 1793697969.538409,
+    "ast_hash": "9c69b3d555ff5b55e85d1d71a749868f",
+    "semantic_hash": ""
+  },
+  "research/portfolio/trades/ic_SOL.txt": {
+    "mtime": 1793230725.510405,
+    "seen": 1793697969.538409,
+    "ast_hash": "2f9f3af58f15e7af46138a1db147bb97",
+    "semantic_hash": ""
+  },
+  "research/portfolio/trades/ic_ZEC.txt": {
+    "mtime": 1793230725.510405,
+    "seen": 1793697969.538409,
+    "ast_hash": "86b4d48b2de2b58a465e9f6fc30fbbd7",
     "semantic_hash": ""
   },
   "LEDGER/package-lock.json": {
