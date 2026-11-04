@@ -1,0 +1,59 @@
+=== 1. PER-TRADE R (no target) 1331 trades
+win rate 36.5%  expectancy 0.451R
+WINS          486 mean 2.94 med 1.94 p25 0.96 p75 3.62 p90 5.98 max 65.78 min 0.01
+LOSSES        845 mean -0.98 med -1.03 p25 -1.04 p75 -1.01 p90 -0.99 max -0.00 min -2.71
+exit:stop     777 mean -1.04 med -1.03 p25 -1.04 p75 -1.02 p90 -1.01 max -0.80 min -2.71
+exit:time     554 mean 2.54 med 1.58 p25 0.56 p75 3.38 p90 5.78 max 65.78 min -0.83
+wins 0-1R      128 26.3% of wins 64.6R
+wins 1-2R      125 25.7% of wins 182.8R
+wins 2-4R      131 27.0% of wins 373.7R
+wins 4-8R      70 14.4% of wins 382.1R
+wins 8-+R      32 6.6% of wins 426.8R
+top 10 wins 210.6R of 1430.0R total wins
+
+=== 2. PER YEAR (no target)
+2020 n 85 win% 37.6 avgWin 3.33 medWin 2.77 avgLoss -0.94 expect 0.67
+2021 n 186 win% 36.0 avgWin 4.35 medWin 2.46 avgLoss -1.01 expect 0.92
+2022 n 217 win% 38.2 avgWin 2.39 medWin 1.43 avgLoss -0.99 expect 0.31
+2023 n 228 win% 31.6 avgWin 3.19 medWin 2.00 avgLoss -0.98 expect 0.34
+2024 n 219 win% 37.0 avgWin 2.47 medWin 1.94 avgLoss -0.97 expect 0.30
+2025 n 207 win% 40.6 avgWin 2.30 medWin 1.79 avgLoss -0.97 expect 0.36
+2026 n 189 win% 35.4 avgWin 3.15 medWin 1.92 avgLoss -0.99 expect 0.48
+
+=== 3. PER MONTH (complete months only, before 2026-10)
+avgWin/mo      79 mean 2.94 med 2.49 p25 1.81 p75 3.26 p90 4.99 max 12.01 min 0.09
+netR/mo        79 mean 7.82 med 5.36 p25 -1.78 p75 15.30 p90 22.54 max 64.69 min -13.45
+wins/mo        79 mean 6.13 med 6.00 p25 4.00 p75 8.00 p90 9.00 max 13.00 min 1.00
+trades/mo      79 mean 16.61 med 18.00 p25 15.00 p75 20.00 p90 21.00 max 25.00 min 6.00
+since 2022: 57 months; negative 20 (35.1%); months with ZERO winners 0
+Novembers: 2020-11 15tr 5.6R | 2021-11 19tr 58.9R | 2022-11 25tr -2.6R | 2023-11 20tr -0.5R | 2024-11 15tr 36.0R | 2025-11 10tr 13.9R
+longest run of consecutive negative months: 2
+
+=== 4. LOSING STREAKS (trades, all five coins merged by entry time)
+longest losing streak 20
+windows of 7 trades all losing: 134/1325 = 10.11%
+windows of 10 trades all losing: 47/1322 = 3.56%
+windows of 15 trades all losing: 9/1317 = 0.68%
+windows of 18 trades all losing: 3/1314 = 0.23%
+
+=== 5. HOW NORMAL IS A BAD START (windows in the history)
+7-trade windows at -5R or worse: 14.0%
+30-day windows at -5R or worse: 16.3%; at -12R or worse: 3.0%
+worst months since 2022: 2026-10 -16.6R, 2026-02 -13.5R, 2025-12 -12.1R, 2022-07 -11.5R, 2026-04 -11.3R (Oct 2026 is partial data, ends ~Oct 21-26)
+
+=== 6. NO TARGET vs 1:4 (same coins, same entries, trades counted by entry date)
+2020       noTarget   85 tr +57R 0.67R/tr win 38%  | 1:4  102 tr +48R 0.47R/tr win 37%
+2021       noTarget  186 tr +171R 0.92R/tr win 36%  | 1:4  221 tr +117R 0.53R/tr win 41%
+2022       noTarget  217 tr +66R 0.31R/tr win 38%  | 1:4  233 tr +57R 0.25R/tr win 42%
+2023       noTarget  228 tr +77R 0.34R/tr win 32%  | 1:4  251 tr +67R 0.27R/tr win 36%
+2024       noTarget  219 tr +65R 0.30R/tr win 37%  | 1:4  252 tr +76R 0.30R/tr win 38%
+2025       noTarget  207 tr +75R 0.36R/tr win 41%  | 1:4  241 tr +84R 0.35R/tr win 40%
+2026 YTD   noTarget  189 tr +90R 0.48R/tr win 35%  | 1:4  210 tr +45R 0.21R/tr win 38%
+last 6 mo  noTarget  131 tr +81R 0.62R/tr win 34%  | 1:4  146 tr +28R 0.19R/tr win 36%
+last 3 mo  noTarget   76 tr +32R 0.42R/tr win 29%  | 1:4   82 tr -1R -0.01R/tr win 30%
+max drawdown (sum of R in order): noTarget 22.2R, 1:4 27.6R
+
+=== 7. RUN FOR N MONTHS UNTOUCHED (rolling windows of N x 30 days, any start day since 2022, before Oct 22 2026)
+1 mo: 1726 windows | trades median 18 | net R p5 -10.4 p10 -7.4 p25 -2.6 med 5.5 p75 13.6 p90 22.1 | negative 35.9% | worse than -10R 5.1%
+3 mo: 1666 windows | trades median 54 | net R p5 -6.0 p10 -1.3 p25 7.8 med 15.5 p75 30.1 p90 41.8 | negative 11.0% | worse than -10R 2.7%
+6 mo: 1576 windows | trades median 109 | net R p5 6.8 p10 10.2 p25 22.6 med 34.2 p75 47.9 p90 56.2 | negative 1.6% | worse than -10R 0.3%
