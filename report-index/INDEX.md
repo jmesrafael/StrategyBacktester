@@ -259,13 +259,58 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - results-yearly-dd.md — BB Breakout (4h) vs NY SMC v7 (15m) — every year on SOL / DOGE / ZEC, $5 risk per trade (2026-10-20)
 
 ## research/indicator-top10
+- REPORT-1H-1000PESOS.md — 1h bb-core (x4 lengths) · 5 bot coins · start ₱1,000 on 1 Jan 2020 (₱63/$1; live risk tiers; ₱3,150 total risk cap per trade) (2026-11-05)
+- REPORT-1H.md — 1-hour timeframe search (Binance USDT-M futures 1h, Sep 2019 - 5 Nov 2026, 7 coins; reports use the 5 bot coins) (2026-11-05)
+- REPORT-4H-VS-1H.md — bb-core 4h vs 1h: side by side (5 bot coins, real funding, sized at entry) (2026-11-05)
 - REPORT-7COINS.md — MA trend systems on 7 coins, by year (SOL ZEC NEAR ADA GALA BTC ETH, 4h, 2019 to 2026-11-05) (2026-11-05)
+- REPORT-BATCH2.md — Batch 2 — next 18 indicators from the list (4h, 7 coins, no look-ahead: lookahead2.js 0 mismatches) (2026-11-05)
+- REPORT-PRE2020.md — Pre-2020 out-of-sample check (Binance spot 4h, Aug 2017 - Dec 2019) (2026-11-05)
 - REPORT-SPLIT-5COINS.md — bb-core vs I-Core vs MA Trend on the bots' own 5 coins (SOL, ZEC, NEAR, ADA, GALA), 4h, to 2026-11-05 (2026-11-05)
 - REPORT.md — First 10 list indicators - 4h BTC, ETH, SOL, ADA, ~7 years (2019-09 to 2026-11) (2026-11-05)
+- baseline-7.json — baseline-7.json (2026-11-05)
 - baseline.json — baseline.json (2026-11-05)
 - champion.json — champion.json (2026-11-05)
+
+## research/indicator-top10/data1h-spot
+- ADA.json — ADA.json (2026-11-05)
+- BTC.json — BTC.json (2026-11-05)
+- ETH.json — ETH.json (2026-11-05)
+- ZEC.json — ZEC.json (2026-11-05)
+
+## research/indicator-top10/data1h
+- ADA.json — ADA.json (2026-11-05)
+- BTC.json — BTC.json (2026-11-05)
+- ETH.json — ETH.json (2026-11-05)
+- GALA.json — GALA.json (2026-11-05)
+- NEAR.json — NEAR.json (2026-11-05)
+- SOL.json — SOL.json (2026-11-05)
+- ZEC.json — ZEC.json (2026-11-05)
+
+## research/indicator-top10/data4h-spot
+- ADA.json — ADA.json (2026-11-05)
+- BTC.json — BTC.json (2026-11-05)
+- ETH.json — ETH.json (2026-11-05)
+- ZEC.json — ZEC.json (2026-11-05)
+
+## research/indicator-top10/mexc1h
+- ADA.json — ADA.json (2026-11-05)
+- GALA.json — GALA.json (2026-11-05)
+- NEAR.json — NEAR.json (2026-11-05)
+- SOL.json — SOL.json (2026-11-05)
+- ZEC.json — ZEC.json (2026-11-05)
+
+## research/indicator-top10/mexc4h
+- ADA.json — ADA.json (2026-11-05)
+- GALA.json — GALA.json (2026-11-05)
+- NEAR.json — NEAR.json (2026-11-05)
+- SOL.json — SOL.json (2026-11-05)
+- ZEC.json — ZEC.json (2026-11-05)
+
+## research/indicator-top10
 - multi.json — multi.json (2026-11-05)
 - replay-check.out.txt — 1) streaming MAs vs batch: 470580 bar-values, 0 mismatches (2026-11-05)
+- results-1H.json — results-1H.json (2026-11-05)
+- results-B2.json — results-B2.json (2026-11-05)
 - results-R2.json — results-R2.json (2026-11-05)
 - results.json — results.json (2026-11-05)
 - split-5coins.json — split-5coins.json (2026-11-05)

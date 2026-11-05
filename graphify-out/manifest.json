@@ -5508,9 +5508,9 @@
     "semantic_hash": ""
   },
   "report-index/INDEX.md": {
-    "mtime": 1793854734.0672896,
-    "seen": 1793854749.8126404,
-    "ast_hash": "d5d89ee90b66a478b31ee12d91c9ef26",
+    "mtime": 1793867745.8950615,
+    "seen": 1793867758.989467,
+    "ast_hash": "bee4fd67c01e5bd1a5b2df7f289b2345",
     "semantic_hash": ""
   },
   "research/bb-core/hold-time/out-no-target.txt": {
@@ -5838,9 +5838,9 @@
     "semantic_hash": ""
   },
   "research/indicator-top10/rstrat.js": {
-    "mtime": 1793854580.2619743,
-    "seen": 1793854749.7975936,
-    "ast_hash": "a86457f1140aac765af7f29f6efbfd01",
+    "mtime": 1793864866.743625,
+    "seen": 1793865754.8416965,
+    "ast_hash": "3abe757a7163a691f537aa6852551d19",
     "semantic_hash": ""
   },
   "research/indicator-top10/run.js": {
@@ -5913,6 +5913,306 @@
     "mtime": 1793856067.917467,
     "seen": 1793856146.66645,
     "ast_hash": "fa7d7967becd8189e9bab53486f6dd74",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/analyze-1h.js": {
+    "mtime": 1793864953.2096672,
+    "seen": 1793865754.8278136,
+    "ast_hash": "5f08c70ba25ff9e46ada7a937e289f9d",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/analyze-b2.js": {
+    "mtime": 1793864502.9972167,
+    "seen": 1793865754.8278136,
+    "ast_hash": "c38d89b45d7f9086e6bc119e951c74d8",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/analyze-b2b.js": {
+    "mtime": 1793864519.0377007,
+    "seen": 1793865754.8278136,
+    "ast_hash": "661cbcf451a05d39515dea594f7cc6e8",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/baseline-7.json": {
+    "mtime": 1793864503.3022287,
+    "seen": 1793865754.8278136,
+    "ast_hash": "e76d64ddac69bc87140f9977213a06a0",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/batch1h.js": {
+    "mtime": 1793864882.113158,
+    "seen": 1793865754.8278136,
+    "ast_hash": "415db9bb2567880449326247549747b0",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/batch2.js": {
+    "mtime": 1793864467.1120436,
+    "seen": 1793865754.8278136,
+    "ast_hash": "24c893d43e3f55c674d7f36b6b1b57bd",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/bb1h-1000.js": {
+    "mtime": 1793865117.7026553,
+    "seen": 1793865754.8278136,
+    "ast_hash": "56dbff44eef253778a8241ff3a7a8d72",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/bb1h-robust.js": {
+    "mtime": 1793864998.0849328,
+    "seen": 1793865754.8278136,
+    "ast_hash": "71e59c7f71087c0d4cb33642b875726f",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/build-split-report.js": {
+    "mtime": 1793858471.1301498,
+    "seen": 1793865754.8278136,
+    "ast_hash": "8b583a42d496656feb5f27d2010c50fa",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/capped-1h.js": {
+    "mtime": 1793864975.9758463,
+    "seen": 1793865754.8278136,
+    "ast_hash": "824ebf0905237557fd01b657c7d23db3",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/capped-b2.js": {
+    "mtime": 1793864535.8880208,
+    "seen": 1793865754.8404794,
+    "ast_hash": "9ca5358720b959b791c70eed0b16202e",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/cmp-4h-1h.js": {
+    "mtime": 1793865219.0076594,
+    "seen": 1793865754.8404794,
+    "ast_hash": "6252c716de0e88bff2e5624a64ab7aab",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/data1h-spot/ADA.json": {
+    "mtime": 1793865584.036204,
+    "seen": 1793865754.8404794,
+    "ast_hash": "c2cf30de2fb26a56f485354e6a66a4d9",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/data1h-spot/ZEC.json": {
+    "mtime": 1793865585.7894943,
+    "seen": 1793865754.8404794,
+    "ast_hash": "b006f1e5a488c16465e26a06db076d62",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/data4h-spot/ADA.json": {
+    "mtime": 1793864675.014299,
+    "seen": 1793865754.8404794,
+    "ast_hash": "35fd4a9c4dfc253bd86e4a93f34ca581",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/data4h-spot/BTC.json": {
+    "mtime": 1793864672.526573,
+    "seen": 1793865754.8404794,
+    "ast_hash": "b752f462be111062f9fc85455e95c8a8",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/data4h-spot/ETH.json": {
+    "mtime": 1793864673.9477134,
+    "seen": 1793865754.8404794,
+    "ast_hash": "447fab3b8bd8d5f34faaf80e9f2540b6",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/data4h-spot/ZEC.json": {
+    "mtime": 1793864675.351542,
+    "seen": 1793865754.8404794,
+    "ast_hash": "d07c809d9b13d30420e82bb390575b5d",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/fetch-cmp-data.js": {
+    "mtime": 1793865553.334359,
+    "seen": 1793865754.8416965,
+    "ast_hash": "9e2d992c09aa3b5b555f7d35c0078170",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/fetch-spot.js": {
+    "mtime": 1793864670.8320107,
+    "seen": 1793865754.8416965,
+    "ast_hash": "9df83b94d66c832f95bc7c7cefaa1576",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/fetch1h.js": {
+    "mtime": 1793864783.1020539,
+    "seen": 1793865754.8416965,
+    "ast_hash": "d0ecfd275042e2e51c56cf6ec7903b36",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/funding/ADA.json": {
+    "mtime": 1793865562.8369997,
+    "seen": 1793865754.8416965,
+    "ast_hash": "647e38f4438fbcd3ce3fdd86e10714ff",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/funding/BTC.json": {
+    "mtime": 1793865567.1454456,
+    "seen": 1793865754.8416965,
+    "ast_hash": "31a760a1018d39555e47d4c57f6c28ab",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/funding/ETH.json": {
+    "mtime": 1793865569.6707842,
+    "seen": 1793865754.8416965,
+    "ast_hash": "0a2866ff5e7237c287b60dbafaac179f",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/funding/GALA.json": {
+    "mtime": 1793865564.6246614,
+    "seen": 1793865754.8416965,
+    "ast_hash": "b43065c64e8881bc9907466ac3b74429",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/funding/NEAR.json": {
+    "mtime": 1793865560.3441796,
+    "seen": 1793865754.8416965,
+    "ast_hash": "27391a7ee1375be579c3c341688bbadf",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/funding/SOL.json": {
+    "mtime": 1793865555.722046,
+    "seen": 1793865754.8416965,
+    "ast_hash": "b77b25569c546dcd95e6fcb7c4386972",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/funding/ZEC.json": {
+    "mtime": 1793865558.1961331,
+    "seen": 1793865754.8416965,
+    "ast_hash": "38cedfae2028d5490bccfb5d8fd10240",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/lookahead2.js": {
+    "mtime": 1793864475.7589295,
+    "seen": 1793865754.8416965,
+    "ast_hash": "e435f0510c2dc4cdfee4d57c9bd13b31",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/mexc4h/ADA.json": {
+    "mtime": 1793865634.4187322,
+    "seen": 1793865754.8416965,
+    "ast_hash": "ab7e39c46f9107444282271db3002249",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/mexc4h/GALA.json": {
+    "mtime": 1793865636.3738256,
+    "seen": 1793865754.8416965,
+    "ast_hash": "644f0681d5a54f2e2361ea1cc08e3f31",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/mexc4h/NEAR.json": {
+    "mtime": 1793865632.289107,
+    "seen": 1793865754.8416965,
+    "ast_hash": "a90e22b7206d44ad02d848123cc8dd3b",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/mexc4h/SOL.json": {
+    "mtime": 1793865627.5143218,
+    "seen": 1793865754.8416965,
+    "ast_hash": "d96a991e405be9ca2c71e2e60c54f53f",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/mexc4h/ZEC.json": {
+    "mtime": 1793865629.6415226,
+    "seen": 1793865754.8416965,
+    "ast_hash": "5dd4f5fef2906b3de13e49193858f59e",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/pre2020.js": {
+    "mtime": 1793864689.5173037,
+    "seen": 1793865754.8416965,
+    "ast_hash": "6978506bd0577eedc7a481d9bfbf6e15",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/results-1H.json": {
+    "mtime": 1793864946.3461907,
+    "seen": 1793865754.8416965,
+    "ast_hash": "e81da0e22ab01c0850b8f4943231402e",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/results-B2.json": {
+    "mtime": 1793864492.0018046,
+    "seen": 1793865754.8416965,
+    "ast_hash": "ab8c07bccab5db7f16029afcaf2a7718",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/side-by-side.js": {
+    "mtime": 1793865708.7265687,
+    "seen": 1793865754.8416965,
+    "ast_hash": "be08a12772a76b1c4f69fd2e429e3be0",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/split-5coins.json": {
+    "mtime": 1793858471.3990686,
+    "seen": 1793865754.8416965,
+    "ast_hash": "2879ac1f2856a4d812bb9722b8e98ec3",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/split250-php.js": {
+    "mtime": 1793857222.3191187,
+    "seen": 1793865754.8416965,
+    "ast_hash": "55e3345ee5d618e390be818d6d8a0122",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/split250.js": {
+    "mtime": 1793856781.4321015,
+    "seen": 1793865754.8416965,
+    "ast_hash": "ec6ed9a7f18a12c2f86aa9fa08afa0ec",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/tandem.js": {
+    "mtime": 1793856689.7532058,
+    "seen": 1793865754.8416965,
+    "ast_hash": "923656e6de78d870f117c947b79fb019",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/REPORT-1H-1000PESOS.md": {
+    "mtime": 1793865124.5237548,
+    "seen": 1793865754.867616,
+    "ast_hash": "5b80ed955a4d833a6e8f0d7a9a6b55fc",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/REPORT-1H.md": {
+    "mtime": 1793865009.940019,
+    "seen": 1793865754.867616,
+    "ast_hash": "0fef10aefe057de995c9ac8a5253d233",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/REPORT-4H-VS-1H.md": {
+    "mtime": 1793865740.019215,
+    "seen": 1793865754.867616,
+    "ast_hash": "56dde35e946ce284fdc1138c76d50ad7",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/REPORT-BATCH2.md": {
+    "mtime": 1793864547.336295,
+    "seen": 1793865754.867616,
+    "ast_hash": "92cbbed41ee4053597c78809baeb6a01",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/REPORT-PRE2020.md": {
+    "mtime": 1793864694.9583323,
+    "seen": 1793865754.867616,
+    "ast_hash": "6aabd5c38a88b49ac7d57e272c44682a",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/REPORT-SPLIT-5COINS.md": {
+    "mtime": 1793858471.4074504,
+    "seen": 1793865754.867616,
+    "ast_hash": "04670b4adeeac79cb109ccf02a16f3c1",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/split250-php63.md": {
+    "mtime": 1793857225.213798,
+    "seen": 1793865754.867616,
+    "ast_hash": "2fd6cbfa7b3d54ebb97802172569b1da",
+    "semantic_hash": ""
+  },
+  "research/indicator-top10/build-1h-reports.js": {
+    "mtime": 1793867736.8333743,
+    "seen": 1793867758.9687502,
+    "ast_hash": "cb40a2468ab296f3f8ce1e57eed32881",
     "semantic_hash": ""
   },
   "LEDGER/package-lock.json": {

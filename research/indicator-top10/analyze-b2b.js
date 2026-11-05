@@ -1,0 +1,16 @@
+process.env.COINS='SOL,ZEC,NEAR,ADA,GALA,BTC,ETH';
+const fs=require('fs');const {run,CFG}=require('./batch2.js');const {account}=require('./baseline');
+const SPLIT=Date.UTC(2023,0,1)/1000;const base=JSON.parse(fs.readFileSync('baseline-7.json'));
+const P=(x,d=2)=>x.toFixed(d);
+const res=JSON.parse(fs.readFileSync('results-B2.json'));
+const cal=r=>r.full.ccalmar, tcal=r=>r.test.ccalmar;
+console.log('BASELINE calmar (CAGR/|DD|) full, test:');base.forEach(b=>console.log(b.n.padEnd(18),P(b.full.ccalmar),P(b.test.ccalmar),'DD',P(b.full.mdd*100,0),'cagr',P(b.full.cagr*100,0)));
+console.log('\nTOP 15 by FULL calmar, requiring train calmar>0 & test calmar>0 & n>=150');
+const ok=res.filter(r=>r.full.n>=150&&r.train.ccalmar>0&&r.test.ccalmar>0);
+ok.sort((a,b)=>cal(b)-cal(a)).slice(0,15).forEach(r=>console.log(`${(r.ind+' '+r.lab).padEnd(28)} f${+r.filt} i${r.kI} t${r.kT} n=${r.full.n} R${P(r.full.totR,0)} exp${P(r.full.expR)} PF${P(r.full.pf)} win${P(r.full.win*100,0)}% DD${P(r.full.mdd*100,0)}% calmar ${P(cal(r))} test ${P(tcal(r))}`));
+console.log('\nSmoothest: lowest DD with full totR>=800 (beats bb/I-Core R)');
+res.filter(r=>r.full.totR>=800&&r.full.n>=150).sort((a,b)=>b.full.mdd-a.full.mdd).slice(0,10).forEach(r=>console.log(`${(r.ind+' '+r.lab).padEnd(28)} f${+r.filt} i${r.kI} t${r.kT} n=${r.full.n} R${P(r.full.totR,0)} PF${P(r.full.pf)} win${P(r.full.win*100,0)}% DD${P(r.full.mdd*100,0)}% test R${P(r.test.totR,0)}`));
+console.log('\nPlateau per indicator (filter on, kInit 2, kTrail 14): median over its param settings');
+const by={};res.filter(r=>r.filt&&r.kI===2&&r.kT===14).forEach(r=>(by[r.ind]=by[r.ind]||[]).push(r));
+const med=a=>{a=[...a].sort((x,y)=>x-y);return a[Math.floor(a.length/2)]};
+Object.entries(by).map(([k,v])=>[k,v.length,med(v.map(r=>r.full.totR)),med(v.map(r=>r.test.totR)),med(v.map(r=>r.full.pf)),med(v.map(r=>r.full.mdd)),v.filter(r=>r.train.totR>0&&r.test.totR>0).length]).sort((a,b)=>b[2]-a[2]).forEach(x=>console.log(x[0].padEnd(11),'cfgs',x[1],'medR',P(x[2],0),'medTestR',P(x[3],0),'medPF',P(x[4]),'medDD',P(x[5]*100,0)+'%','profit both halves',x[6]+'/'+x[1]));

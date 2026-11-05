@@ -1,11 +1,12 @@
 // rstrat.js — stop/trail "R" version of the MA strategies, built with the SAME trade loop + cost model as i-core
 // (signal on closed bar i -> fill at open i+1, stop = entry -/+ kInit*ATR, ATR trail from best price, costs fee .05% + slip .02% per side + funding .005%/bar).
+const IV = +(process.env.IV || 14400), TREND = +(process.env.TREND || 200);
 const fs = require('fs'); const { IND, SMA, SMMA } = require('./indicators'); const { account } = require('./baseline');
-const COINS = (process.env.COINS || 'BTC,ETH,SOL,ADA').split(','), SPLIT = Date.UTC(2023, 0, 1) / 1000, COST = { fee: 0.0005, slip: 0.0002, fund: 0.00005 };
-const D = {}; for (const c of COINS) { const b = JSON.parse(fs.readFileSync(`data4h/${c}.json`)); const C = b.map(r => r[4]);
+const COINS = (process.env.COINS || 'BTC,ETH,SOL,ADA').split(','), SPLIT = Date.UTC(2023, 0, 1) / 1000, COST = { fee: 0.0005, slip: 0.0002, fund: 0.00005 * IV / 14400 };
+const D = {}; for (const c of COINS) { const b = JSON.parse(fs.readFileSync(`${process.env.DATADIR || "data4h"}/${c}.json`)); const C = b.map(r => r[4]);
   const tr = b.map((r, i) => i ? Math.max(r[2] - r[3], Math.abs(r[2] - b[i - 1][4]), Math.abs(r[3] - b[i - 1][4])) : r[2] - r[3]);
-  const gap = new Array(b.length).fill(false); let last = -1e9; for (let i = 1; i < b.length; i++) { if (b[i][0] - b[i - 1][0] !== 14400) last = i; gap[i] = i - last < 200; }
-  D[c] = { b, C, V: b.map(r => r[5]), T: b.map(r => r[0]), ATR: SMMA(tr, 14), S200: SMA(C, 200), gap, cache: new Map() }; }
+  const gap = new Array(b.length).fill(false); let last = -1e9; for (let i = 1; i < b.length; i++) { if (b[i][0] - b[i - 1][0] !== IV) last = i; gap[i] = i - last < TREND; }
+  D[c] = { b, C, V: b.map(r => r[5]), T: b.map(r => r[0]), ATR: SMMA(tr, 14), S200: SMA(C, TREND), gap, cache: new Map() }; }
 const ind = (name, c, n) => { const d = D[c], k = name + n; if (!d.cache.has(k)) d.cache.set(k, IND[name](d.C, d.V, n)); return d.cache.get(k); };
 
 function events(name, c, mode, p, filt, longOnly) { // +1/-1 at the bar where the cross happens (closed bar i)
@@ -24,9 +25,9 @@ function sim(c, ev, kInit, kTrail, maxBars = 600, stopRef = 'open', timeFill = '
       else if (long ? l <= pos.stop : h >= pos.stop) { px = long ? Math.min(o, pos.stop) : Math.max(o, pos.stop); why = 'stop'; }
       else if (i - pos.i0 >= maxBars && timeFill === 'close') { px = cl; why = 'time'; }
       if (px !== null) { const gross = pos.dir * (px - pos.entry) / pos.entry, cc = 2 * (COST.fee + COST.slip) + COST.fund * (i - pos.i0 + 1);
-        trades.push({ dir: pos.dir, t: b[pos.i0][0], tExit: t + 14400, R: (gross - cc) / pos.risk, bars: i - pos.i0 + 1, coin: c }); pos = null; }
+        trades.push({ dir: pos.dir, t: b[pos.i0][0], tExit: t + IV, R: (gross - cc) / pos.risk, bars: i - pos.i0 + 1, coin: c }); pos = null; }
       else { if (i - pos.i0 >= maxBars && timeFill === 'nextOpen') pos.exitNext = true; pos.ext = long ? Math.max(pos.ext, h) : Math.min(pos.ext, l); const ns = pos.ext - pos.dir * kTrail * ATR[i]; if (long ? ns > pos.stop : ns < pos.stop) pos.stop = ns; } }
-    if (!pos && i + 1 < n && ev[i] && !gap[i] && ATR[i] > 0 && i >= 205) pend = { dir: ev[i], at: i + 1, atr: ATR[i], ref: cl }; }
+    if (!pos && i + 1 < n && ev[i] && !gap[i] && ATR[i] > 0 && i >= TREND + 5) pend = { dir: ev[i], at: i + 1, atr: ATR[i], ref: cl }; }
   return trades;
 }
 function cfgRun(name, mode, p, filt, longOnly, kInit, kTrail, stopRef = 'open', timeFill = 'close') {

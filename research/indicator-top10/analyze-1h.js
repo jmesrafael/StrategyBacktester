@@ -1,0 +1,10 @@
+const fs=require('fs');const res=JSON.parse(fs.readFileSync('results-1H.json'));const P=(x,d=2)=>x.toFixed(d);
+const line=r=>`${(r.ind+' '+r.lab).padEnd(26)} f${+r.filt} i${r.kI} t${r.kT} n=${String(r.full.n).padStart(5)} R${P(r.full.totR,0).padStart(5)} exp${P(r.full.expR).padStart(5)} PF${P(r.full.pf)} win${P(r.full.win*100,0)}% DD${P(r.full.mdd*100,0)}% | train ${P(r.train.totR,0).padStart(5)}R | test ${P(r.test.totR,0).padStart(5)}R exp${P(r.test.expR)} PF${P(r.test.pf)}`;
+console.log('configs',res.length,' profitable full:',res.filter(r=>r.full.totR>0).length,' profitable in BOTH halves:',res.filter(r=>r.train.totR>0&&r.test.totR>0).length);
+console.log('\nTOP 20: profitable both halves, n>=200, by full totR');
+res.filter(r=>r.train.totR>0&&r.test.totR>0&&r.full.n>=200).sort((a,b)=>b.full.totR-a.full.totR).slice(0,20).forEach(r=>console.log(line(r)));
+console.log('\nTOP 10 by expectancy (n>=300, both halves +)');
+res.filter(r=>r.train.totR>0&&r.test.totR>0&&r.full.n>=300).sort((a,b)=>b.full.expR-a.full.expR).slice(0,10).forEach(r=>console.log(line(r)));
+console.log('\nPlateau per indicator: median full R / share of configs profitable in both halves');
+const by={};res.forEach(r=>(by[r.ind]=by[r.ind]||[]).push(r));const med=a=>{a=[...a].sort((x,y)=>x-y);return a[a.length>>1]};
+Object.entries(by).map(([k,v])=>[k,v.length,med(v.map(r=>r.full.totR)),med(v.map(r=>r.full.expR)),v.filter(r=>r.train.totR>0&&r.test.totR>0).length]).sort((a,b)=>b[2]-a[2]).forEach(x=>console.log(x[0].padEnd(11),'medR',P(x[2],0).padStart(5),'medExp',P(x[3]),'bothHalves',x[4]+'/'+x[1]));

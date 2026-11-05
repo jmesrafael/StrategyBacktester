@@ -1,0 +1,20 @@
+process.env.COINS='SOL,ZEC,NEAR,ADA,GALA,BTC,ETH';
+const fs=require('fs');const {account}=require('./baseline');const {cfgRun,COINS}=require('./rstrat.js');
+const BB=require('../../../bb-core/lucidio-core.js'),IC=require('../../js/icore-core.js');
+const SPLIT=Date.UTC(2023,0,1)/1000;
+const bots=core=>{const all=[];for(const c of COINS){const B=JSON.parse(fs.readFileSync(`data4h/${c}.json`)).map(r=>({time:r[0],open:r[1],high:r[2],low:r[3],close:r[4]}));all.push(...core.backtest(B).trades.map(t=>({...t,coin:c})))}return all};
+const row=(n,t)=>{const f=account(t),a=account(t,.025,0,SPLIT),b=account(t,.025,SPLIT);return {n,full:f,train:a,test:b}};
+const base=[row('bb-core',bots(BB)),row('I-Core',bots(IC)),row('MA Trend SMA200',cfgRun('SMA','P',[200],true,true,2,14,'close','nextOpen').trades)];
+fs.writeFileSync('baseline-7.json',JSON.stringify(base));
+const P=(x,d=2)=>x.toFixed(d);
+const line=(n,r)=>`${n.padEnd(34)} n=${String(r.full.n).padStart(4)} full ${P(r.full.totR,0).padStart(5)}R exp ${P(r.full.expR).padStart(5)} PF ${P(r.full.pf).padStart(5)} win ${P(r.full.win*100,0)}% DD ${P(r.full.mdd*100,0)}% | train ${P(r.train.totR,0).padStart(5)}R | test ${P(r.test.totR,0).padStart(5)}R exp ${P(r.test.expR)} PF ${P(r.test.pf)}`;
+console.log('BASELINES (7 coins)');base.forEach(r=>console.log(line(r.n,r)));
+const res=JSON.parse(fs.readFileSync('results-B2.json'));
+console.log('\nBEST per indicator, picked on TRAIN (<2023) totR with >=80 train trades; test/full shown');
+const by={};res.forEach(r=>(by[r.ind]=by[r.ind]||[]).push(r));
+const best=[];for(const k in by){const c=by[k].filter(r=>r.train.n>=80).sort((a,b)=>b.train.totR-a.train.totR)[0];if(c)best.push(c)}
+best.sort((a,b)=>b.full.totR-a.full.totR);
+best.forEach(r=>console.log(line(`${r.ind} ${r.lab} f${+r.filt} i${r.kI} t${r.kT}`,r)));
+console.log('\nTOP 15 overall by TEST totR among configs with train totR>0 and >=80 train trades');
+res.filter(r=>r.train.n>=80&&r.train.totR>0).sort((a,b)=>b.test.totR-a.test.totR).slice(0,15).forEach(r=>console.log(line(`${r.ind} ${r.lab} f${+r.filt} i${r.kI} t${r.kT}`,r)));
+console.log('\nHow many configs beat bb-core full totR/ I-Core / MA:',base.map(b=>b.n+':'+res.filter(r=>r.full.totR>b.full.totR).length).join('  '),'of',res.length);

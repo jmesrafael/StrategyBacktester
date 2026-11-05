@@ -1,0 +1,46 @@
+# bb-core 1h PAPER bot: simulated money only, next to the live bots, sharing nothing with them.
+# Installed by deploy-1h/install-1h-paper.sh. Its own user, code in /opt/lucidio-1h (owned by root), data in /var/lib/lucidio-1h.
+#   sudo systemctl status lucidio-1h      sudo journalctl -u lucidio-1h -f      sudo bash /opt/lucidio-1h/deploy-1h/status.sh
+[Unit]
+Description=bb-core 1h PAPER bot (simulated, no orders)
+After=network-online.target time-sync.target
+Wants=network-online.target
+StartLimitIntervalSec=600
+StartLimitBurst=20
+
+[Service]
+Type=simple
+User=lucidio-1h
+Group=lucidio-1h
+WorkingDirectory=/opt/lucidio-1h
+ExecStart=/usr/bin/node /opt/lucidio-1h/lucidio.js loop
+Restart=always
+RestartSec=15
+KillSignal=SIGTERM
+TimeoutStopSec=30
+SyslogIdentifier=lucidio-1h
+Environment=NODE_ENV=production
+Environment=TZ=UTC
+Environment=LUCIDIO_STATE_DIR=/var/lib/lucidio-1h
+Environment=LUCIDIO_NO_NOTIFY=1
+# it must never compete with the live bots
+MemoryHigh=150M
+MemoryMax=250M
+Nice=10
+CPUQuota=25%
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectHome=true
+ProtectSystem=strict
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6
+CapabilityBoundingSet=
+ReadWritePaths=/var/lib/lucidio-1h
+InaccessiblePaths=-/opt/lucidio -/opt/icore -/etc/lucidio -/etc/icore -/var/backups
+
+[Install]
+WantedBy=multi-user.target
