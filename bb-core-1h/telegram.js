@@ -124,7 +124,7 @@ const money = (v, signed = true) => `${v < 0 ? '-' : signed ? '+' : ''}$${Math.a
 const ratio = (entry, stop, tp) => `1:${+(Math.abs(tp - entry) / Math.abs(entry - stop)).toFixed(1)}`;                          // reward : risk, "1:4" for the 4R target
 const qtyStr = (q) => String(+Number(q).toPrecision(3));
 // which strategy sent it: [CORE 1] replaces the old LIVE label. A paper-mode message still says PAPER after it, so a practice trade can never be mistaken for a real one.
-const CORE = 'CORE 1';
+const CORE = 'CORE 1H';
 const tag = (mode) => `[${CORE}]${String(mode).toLowerCase() === 'live' ? '' : ' · ' + String(mode).toUpperCase()}`;
 const REASON = { target: 'TARGET', stop: 'STOP', time: 'TIME LIMIT' };
 // i = { symbol, dir (1/-1), mode, entry, stop, tp, riskPct (fraction of balance), sigTime (unix sec of the signal candle open),

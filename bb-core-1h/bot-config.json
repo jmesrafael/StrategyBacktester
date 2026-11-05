@@ -2,7 +2,7 @@
   "mode": "paper",
   "coins": ["SOL", "ZEC", "NEAR", "ADA", "GALA"],
   "riskPct": 0,
-  "startBalance": 250,
+  "startBalance": 100,
   "riskUsd": 1,
   "maxRiskUsd": 500,
   "maxRiskMult": 1.5,

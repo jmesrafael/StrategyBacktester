@@ -22,7 +22,6 @@ SyslogIdentifier=lucidio-1h
 Environment=NODE_ENV=production
 Environment=TZ=UTC
 Environment=LUCIDIO_STATE_DIR=/var/lib/lucidio-1h
-Environment=LUCIDIO_NO_NOTIFY=1
 # it must never compete with the live bots
 MemoryHigh=150M
 MemoryMax=250M
