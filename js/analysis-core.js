@@ -24,8 +24,10 @@ const STRATS = {
   bbnt: { name: 'BB-Core · no target', short: 'BB-Core NT', funding: true, params: ['maxBars', 'trendLen'] },
   bbfx: { name: 'BB-Core · fixed target', short: 'BB-Core FX', funding: true, params: ['targetR', 'maxBars', 'trendLen'] },
   icore: { name: 'I-Core', short: 'I-Core', funding: false, params: ['kInit', 'kTrail', 'trendLen'] },
+  matrend: { name: 'MA Trend (new)', short: 'MA Trend', funding: false, params: ['maKind', 'maLen', 'mInit', 'mTrail', 'mTrend', 'mLong'] },
 };
-const PARAMS = { targetR: 4, maxBars: 48, kInit: 2, kTrail: 7, trendLen: 200, costs: true };
+// MA Trend has its own parameter names (maKind 1 SMA … 4 VWMA … 10 ALMA; mLong 1 = long only) so that its defaults never collide with I-Core's kTrail 7
+const PARAMS = { targetR: 4, maxBars: 48, kInit: 2, kTrail: 7, trendLen: 200, maKind: 1, maLen: 200, mInit: 2, mTrail: 14, mTrend: 200, mLong: 1, costs: true };
 
 // ---- trades ------------------------------------------------------------------------------------------------------
 // B = closed candles { time, open, high, low, close }, F = funding [[time, rate], …] or null. Returns { trades, open }.
@@ -33,7 +35,11 @@ const PARAMS = { targetR: 4, maxBars: 48, kInit: 2, kTrail: 7, trendLen: 200, co
 function coinTrades(strat, coin, B, F, p, iv) {
   p = { ...PARAMS, ...p };
   let r;
-  if (strat === 'icore') {
+  if (strat === 'matrend') {
+    const MT = g().MATrend, D = MT.DEFAULTS.cost;
+    const cost = p.costs ? { ...D, fund: D.fund * iv / 14400 } : MT.FREE;   // flat funding per 4h candle, scaled to the timeframe (as I-Core)
+    r = MT.backtest(B, { maKind: p.maKind, maLen: p.maLen, kInit: p.mInit, kTrail: p.mTrail, trendLen: p.mTrend, longOnly: p.mLong ? 1 : 0, interval: iv, cost });
+  } else if (strat === 'icore') {
     const IC = g().ICore, D = IC.DEFAULTS.cost;
     const cost = p.costs ? { ...D, fund: D.fund * iv / 14400 } : IC.FREE;   // flat funding is per 4h candle in the bot: scale it to the timeframe
     r = IC.backtest(B, { kInit: p.kInit, kTrail: p.kTrail, trendLen: p.trendLen, interval: iv, cost });
@@ -46,7 +52,7 @@ function coinTrades(strat, coin, B, F, p, iv) {
   const trades = r.trades.map((t) => ({ coin, dir: t.dir, t: B[t.i0].time, tExit: B[t.i1].time + iv, tc: B[t.i1].time, R: t.R, why: t.why, bars: t.bars, entry: t.entry, exit: t.exit }));
   let open = null;
   if (r.open) {
-    const o = r.open, last = B[B.length - 1], oneR = strat === 'icore' ? Math.abs(o.entry - o.stop0) : Math.abs(o.entry - o.stop);
+    const o = r.open, last = B[B.length - 1], oneR = strat === 'icore' || strat === 'matrend' ? Math.abs(o.entry - o.stop0) : Math.abs(o.entry - o.stop);
     open = { coin, dir: o.dir, t: B[o.i0].time, entry: o.entry, stop: o.stop, now: last.close, R: o.dir * (last.close - o.entry) / oneR, bars: B.length - o.i0 };
   }
   return { trades, open };

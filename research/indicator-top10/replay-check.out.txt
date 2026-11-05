@@ -1,0 +1,6 @@
+1) streaming MAs vs batch: 470580 bar-values, 0 mismatches
+2) VWMA price×MA200             replay trades 469, mismatches vs batch 0, max |R diff| 2.5e-10 (ATR seed differs in the 7th digit)
+2) ALMA 50×200                  replay trades 301, mismatches vs batch 0, max |R diff| 4.6e-10 (ATR seed differs in the 7th digit)
+2) HMA price×MA20 both sides    replay trades 964, mismatches vs batch 0, max |R diff| 1.7e-6 (ATR seed differs in the 7th digit)
+2) KAMA price×MA100 both        replay trades 520, mismatches vs batch 0, max |R diff| 2.3e-8 (ATR seed differs in the 7th digit)
+REPLAY CHECK: 2254 trades on 7 coins x 4 strategies, 0 mismatches

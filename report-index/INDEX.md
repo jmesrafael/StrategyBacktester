@@ -165,6 +165,7 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 
 ## research/bb-core/no-target
 - RESULTS.md — BB-Core: fixed 1:4 target vs no target ("A"), study of Oct 29, 2026 (2026-11-03)
+- REVIEW-2026-11-04.md — BB-Core (no target): review on Nov 4, 2026, and the decision to run it untouched for 3-6 months (2026-11-04)
 - out-big-moves.txt — coverage (2026-10-29)
 - out-compare.txt — strategy                  n    win%   expR    avgW   avgL    PF    netR   maxDD  | 2020-23 expR (n) | 2024-26 expR (n) (2026-10-29)
 - out-compound-peso-per-year.txt — A) fresh ₱10,000 each year, 2.5% of realized balance per trade, compounding within the year (trades by exit year) (2026-11-03)
@@ -174,6 +175,7 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - out-monthly-tp-vs-notarget.txt — Month   | FIXED 1:4: trades  merged net   R     coin trades (S/Z/N/A/G)  | NO TARGET: trades  merged net   R     coin trades (S/Z/N/A/G)  | better (2026-11-03)
 - out-pairs.txt — === BB no-target + I-Core === (2026-10-29)
 - out-rank-2.5pct.txt — A) ₱10,000 fresh at the start of EACH year, 2.5% risk per trade (compounding inside the year), trades by ENTRY year (2026-10-29)
+- out-review-2026-11-04.txt — === 1. PER-TRADE R (no target) 1331 trades (2026-11-04)
 - out-robust.txt — 1) OTHER COINS never used in the BB-Core design (no funding data, same fees/slippage) (2026-10-29)
 - out-three-way.txt — PER TRADE (2026-10-29)
 - out-tiers.txt — === BB 1:4: one ₱10,000 account from Jan 2020 === (2026-10-29)
@@ -255,6 +257,19 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - results-year-2022.md — 2022 — monthly, $5 risk per trade (2026-10-20)
 - results-yearly-compare.md — Year by year on SOL / DOGE / ZEC — $5 risk per trade (whole dollars) (2026-10-20)
 - results-yearly-dd.md — BB Breakout (4h) vs NY SMC v7 (15m) — every year on SOL / DOGE / ZEC, $5 risk per trade (2026-10-20)
+
+## research/indicator-top10
+- REPORT-7COINS.md — MA trend systems on 7 coins, by year (SOL ZEC NEAR ADA GALA BTC ETH, 4h, 2019 to 2026-11-05) (2026-11-05)
+- REPORT-SPLIT-5COINS.md — bb-core vs I-Core vs MA Trend on the bots' own 5 coins (SOL, ZEC, NEAR, ADA, GALA), 4h, to 2026-11-05 (2026-11-05)
+- REPORT.md — First 10 list indicators - 4h BTC, ETH, SOL, ADA, ~7 years (2019-09 to 2026-11) (2026-11-05)
+- baseline.json — baseline.json (2026-11-05)
+- champion.json — champion.json (2026-11-05)
+- multi.json — multi.json (2026-11-05)
+- replay-check.out.txt — 1) streaming MAs vs batch: 470580 bar-values, 0 mismatches (2026-11-05)
+- results-R2.json — results-R2.json (2026-11-05)
+- results.json — results.json (2026-11-05)
+- split-5coins.json — split-5coins.json (2026-11-05)
+- split250-php63.md — A. Summary by period, capped at ₱3,150 total risk per trade (2026-11-05)
 
 ## research/ny-smc-iterations
 - ITERATION-LOG.md — NY-session SMC strategy: iteration log (15m, SOL + ETH) (2026-10-21)
