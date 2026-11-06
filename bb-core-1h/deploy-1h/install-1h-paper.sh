@@ -56,7 +56,10 @@ if [ ! -e /etc/lucidio-1h.env ]; then
 else ok "/etc/lucidio-1h.env kept"; fi
 
 step "3. read-only pre-flight (public MEXC data, no keys)"
-PF="$(cd "$DEST" && sudo -u "$SVC" env LUCIDIO_STATE_DIR="$DATA" LUCIDIO_NO_NOTIFY=1 /usr/bin/node lucidio.js check 2>&1)"; RC=$?
+pre_flight() { PF="$(cd "$DEST" && sudo -u "$SVC" env LUCIDIO_STATE_DIR="$DATA" LUCIDIO_NO_NOTIFY=1 /usr/bin/node lucidio.js check 2>&1)"; RC=$?; }
+pre_flight
+# in the first seconds of every hour MEXC has not published the new candle yet: that is not a problem, wait and look again once
+if [ "$RC" -ne 0 ] && echo "$PF" | grep -q "forming candle MISSING"; then echo "   the new hour's candle is not on MEXC yet (it is just after the hour): waiting 40 s and checking once more"; sleep 40; pre_flight; fi
 echo "$PF" | grep -E '^(BAD|WARN)|candles|problem' | cut -c1-150
 [ "$RC" -eq 0 ] || die "pre-flight found problems (above): the service was not started"
 ok "pre-flight passed"

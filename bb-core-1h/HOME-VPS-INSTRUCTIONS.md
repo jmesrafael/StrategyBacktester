@@ -1,5 +1,7 @@
 # bb-core 1h paper bot: VPS instructions for later
 
+> **SUPERSEDED (Nov 6, 2026): do not use this file.** Use `StrategyBacktester/vps-lab/VPS-LAB-INSTALL.md` instead. It installs this same 1h paper bot with real-world costs, plus the data recorder, from one file. The bundle embedded below is the older version (fixed costs, $250 start, no dashboard tag).
+
 Written Nov 5, 2026. This one file is all you need: the whole install bundle is embedded at the bottom, so it works from any PC.
 
 **What this installs:** the 1h version of bb-core on simulated money ($250 start, same 5 coins, same risk steps as live). It runs beside the live bots with its own user, folder and service. It has no API keys and cannot place orders.

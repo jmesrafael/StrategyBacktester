@@ -2,7 +2,7 @@
 
 A separate copy of the bb-core bot running the 1h version on simulated money. It is not connected to the live 4h bot in `../bb-core`.
 
-- **Settings:** band 80, trend filter 800, time exit 192 candles, same 5 coins, MEXC candles, start balance $250, same risk steps as live.
+- **Settings:** band 80, trend filter 800, time exit 192 candles, same 5 coins, MEXC candles, start balance $100, same risk steps as live.
 - **Start / stop / see results:** `start-paper.cmd`, `stop-paper.cmd`, `status-paper.cmd`.
 - **Files:** `state/bot.log` (log), `state/state.json` (positions, trades), `journal/` (every decision).
 - **Cannot trade:** `liveAllowed()` always returns false and there are no API keys. Telegram and the ledger are not configured; on the VPS it can report to the dashboard as its own bot (`bb1h`, shown as BB-1h lab) when `/etc/lucidio-1h.env` has the dashboard address.

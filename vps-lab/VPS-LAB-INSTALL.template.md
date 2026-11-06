@@ -5,7 +5,7 @@ Written __DATE__. This one file is all you need: the whole install bundle is emb
 **What this installs** (two small services, public MEXC data only, no API keys, neither can place an order):
 
 - **Data recorder.** Writes down, all day and without anyone asking: 1m, 1h and 4h candles of the five coins, an order-book snapshot every 5 minutes (spread, depth, what a $100 ... $20,000 market order would really cost), MEXC's real funding rates, and what kind of market each coin is in. Research then uses the data the bots actually saw.
-- **1h paper bot, with real-world costs.** The 1h bb-core on simulated money ($250 start). Unlike the first paper version, each trade pays what MEXC would charge: the coin's own fee rate, a fill taken from the real order book, real funding every 8 hours, whole contracts like the live bot. Stops use the *bad case* slippage the recorder measured.
+- **1h paper bot, with real-world costs.** The 1h bb-core on simulated money ($100 start, Telegram trade messages on). Unlike the first paper version, each trade pays what MEXC would charge: the coin's own fee rate, a fill taken from the real order book, real funding every 8 hours, whole contracts like the live bot. Stops use the *bad case* slippage the recorder measured.
 
 **What it does not touch:** the live BB-Core and I-Core bots, their keys, state or settings. Each installer checks the bots' start times before and after.
 
@@ -17,7 +17,8 @@ Everything else in this file explains these. First make sure the dashboard updat
 scp VPS-LAB-INSTALL.md YOUR-VPS:/tmp/                                  (from the PC)
 cd /tmp && sed -n '/^BEGIN-BUNDLE$/,/^END-BUNDLE$/p' VPS-LAB-INSTALL.md | sed '1d;$d' | base64 -d > lucidio-lab.tar.gz && sha256sum lucidio-lab.tar.gz     (must be __SHA__)
 mkdir -p /tmp/lucidio-lab && tar -xzf lucidio-lab.tar.gz -C /tmp/lucidio-lab && cd /tmp/lucidio-lab && sudo bash install-lab.sh --add-swap
-sudo grep -E '^(DASHBOARD_URL|DASHBOARD_PUSH_SECRET)=' /opt/lucidio/.env | sudo tee -a /etc/lucidio-recorder.env /etc/lucidio-1h.env > /dev/null
+sudo grep -E '^(DASHBOARD_URL|DASHBOARD_PUSH_SECRET)=' /opt/lucidio/.env | sudo tee -a /etc/lucidio-recorder.env > /dev/null
+sudo grep -E '^(DASHBOARD_URL|DASHBOARD_PUSH_SECRET|TELEGRAM_BOT_TOKEN|TELEGRAM_CHAT_ID)=' /opt/lucidio/.env | sudo tee -a /etc/lucidio-1h.env > /dev/null
 sudo systemctl restart lucidio-recorder lucidio-1h
 ```
 
@@ -58,20 +59,21 @@ cd /tmp/lucidio-lab && sudo bash install-lab.sh --add-swap
 
 **Check the end of the output.** Each of the two installs must say `start times unchanged: YES` and show its service running. If a step says `FATAL`, it stopped there and nothing later was changed: send me the output. The recorder's first run takes about 20 seconds (it fetches 200 days of 1h candles).
 
-### 4. VPS: show them on the dashboard (copy two values, the secret is never shown)
+### 4. VPS: show them on the dashboard and get Telegram messages (copy values, nothing is printed)
 
-Both services work without this, they just do not appear on the dashboard. They need the same dashboard address and secret the live bot uses. This copies those two lines from the live bot's env file into both new ones, without printing them:
+Both services work without this: they just do not appear on the dashboard, and the paper bot sends no Telegram messages. They need the same dashboard address and secret the live bot uses, and the paper bot also the Telegram token and chat id (its trade messages are labelled CORE 1H, PAPER). These copy the lines from the live bot's env file without printing them:
 
 ```
-sudo grep -E '^(DASHBOARD_URL|DASHBOARD_PUSH_SECRET)=' /opt/lucidio/.env | sudo tee -a /etc/lucidio-recorder.env /etc/lucidio-1h.env > /dev/null
+sudo grep -E '^(DASHBOARD_URL|DASHBOARD_PUSH_SECRET)=' /opt/lucidio/.env | sudo tee -a /etc/lucidio-recorder.env > /dev/null
+sudo grep -E '^(DASHBOARD_URL|DASHBOARD_PUSH_SECRET|TELEGRAM_BOT_TOKEN|TELEGRAM_CHAT_ID)=' /opt/lucidio/.env | sudo tee -a /etc/lucidio-1h.env > /dev/null
 sudo systemctl restart lucidio-recorder lucidio-1h
 ```
 
-To check it worked: `sudo grep -cE '^DASHBOARD_' /etc/lucidio-1h.env` must print `2`. If it prints `0`, `/opt/lucidio/.env` is not where the live bot keeps its settings: run `sudo systemctl cat lucidio` to find its folder, or fill the two files by hand with `sudo nano /etc/lucidio-1h.env` and `sudo nano /etc/lucidio-recorder.env`.
+To check it worked: `sudo grep -cE '^(DASHBOARD_|TELEGRAM_)' /etc/lucidio-1h.env` must print `4` (or `2` if the live bot has no Telegram set up) and `sudo grep -cE '^DASHBOARD_' /etc/lucidio-recorder.env` must print `2`. If either prints `0`, `/opt/lucidio/.env` is not where the live bot keeps its settings: run `sudo systemctl cat lucidio` to find its folder, or fill the two files by hand with `sudo nano /etc/lucidio-1h.env` and `sudo nano /etc/lucidio-recorder.env`.
 
 ### 5. Work PC: stop the local 1h paper copy
 
-In `D:\testing\Strat\bb-core-1h`, run `stop-paper.cmd`, so only the VPS keeps the paper record. The VPS starts a new record at $250.
+In `D:\testing\Strat\bb-core-1h`, run `stop-paper.cmd`, so only the VPS keeps the paper record. The VPS starts a new record at $100.
 
 ### 6. Check it after the next hour
 

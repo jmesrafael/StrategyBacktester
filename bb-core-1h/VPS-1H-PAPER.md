@@ -38,7 +38,7 @@ Run `stop-paper.cmd` in `bb-core-1h`, so only the VPS keeps the paper record.
 
 ## What to know
 
-- A new paper record starts on the VPS at $250. The trades from the PC run are not carried over.
+- A new paper record starts on the VPS at $100. The trades from the PC run are not carried over.
 - It makes about 5 public MEXC candle requests an hour from the same server address as the live bots. It uses no API key.
-- It sends no Telegram messages and does not appear on the dashboard or ledger.
+- Telegram trade messages are on (labelled CORE 1H, PAPER) once TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID are in /etc/lucidio-1h.env; it appears on the dashboard as BB-1h lab once DASHBOARD_URL and DASHBOARD_PUSH_SECRET are there too. It does not touch the ledger.
 - If you install more than 15 minutes after the hour, the first check may log a signal as too late to enter. That is normal.
