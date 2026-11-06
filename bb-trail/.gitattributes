@@ -1,0 +1,7 @@
+*.sh text eol=lf
+*.service text eol=lf
+*.timer text eol=lf
+deploy/*.js text eol=lf
+VPS-TRAIL-INSTALL.md text eol=lf
+VPS-TRAIL-INSTALL.template.md text eol=lf
+# the install file is decoded on the VPS with sed + base64: a CRLF checkout on Windows would break it

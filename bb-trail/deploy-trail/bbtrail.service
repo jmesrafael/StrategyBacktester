@@ -1,0 +1,53 @@
+# BB-Trail PAPER lab bot: simulated money only (bb-core entry, 2 ATR stop, 14 ATR trailing stop, 4h), next to the live bots, sharing nothing with them.
+# Installed by deploy-trail/install-trail-paper.sh. Its own user, code in /opt/bbtrail (owned by root), data in /var/lib/bbtrail.
+#   sudo systemctl status bbtrail      sudo journalctl -u bbtrail -f      sudo bash /opt/bbtrail/deploy-trail/status.sh
+[Unit]
+Description=BB-Trail PAPER lab bot (simulated, no orders)
+After=network-online.target time-sync.target
+Wants=network-online.target
+StartLimitIntervalSec=600
+StartLimitBurst=20
+
+[Service]
+Type=simple
+User=bbtrail
+Group=bbtrail
+WorkingDirectory=/opt/bbtrail
+ExecStart=/usr/bin/node /opt/bbtrail/icore.js loop
+Restart=always
+RestartSec=15
+KillSignal=SIGTERM
+TimeoutStopSec=30
+SyslogIdentifier=bbtrail
+Environment=NODE_ENV=production
+Environment=TZ=UTC
+Environment=ICORE_STATE_DIR=/var/lib/bbtrail
+# no key file exists at this path, so the bot can never read an account or sign a request
+Environment=ICORE_KEYS=/var/lib/bbtrail/no-keys.json
+# Dashboard: reports as its own bot (bbtr) and never answers "Ask bot now" (that request is for the live bots).
+# DASHBOARD_URL, DASHBOARD_PUSH_SECRET and the optional TELEGRAM_* come from /etc/bbtrail.env (root only). Without them nothing is pushed and the bot works the same.
+Environment=DASHBOARD_ASK_POLL_SEC=0
+EnvironmentFile=-/etc/bbtrail.env
+# measured slippage written by the data recorder (read only); absent = the bot uses the live order book instead
+Environment=LUCIDIO_RECORDER_SUMMARY=/var/lib/lucidio-recorder/summary/slippage.json
+# it must never compete with the live bots
+MemoryHigh=150M
+MemoryMax=250M
+Nice=10
+CPUQuota=25%
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectHome=true
+ProtectSystem=strict
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6
+CapabilityBoundingSet=
+ReadWritePaths=/var/lib/bbtrail
+InaccessiblePaths=-/opt/lucidio -/opt/icore -/opt/lucidio-1h -/etc/lucidio -/etc/icore -/etc/lucidio-1h.env -/var/backups
+
+[Install]
+WantedBy=multi-user.target

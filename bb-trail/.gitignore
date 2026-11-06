@@ -1,0 +1,13 @@
+# runtime state, secrets and real trade data: never committed
+state/
+mexc-keys.json
+STOP
+.env
+journal/
+review/
+live-data/
+
+# old I-Core deployment bundle names
+icore-deploy*.tar.gz
+icore-deploy*.tar.gz.sha256
+node_modules/

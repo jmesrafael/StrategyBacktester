@@ -20,3 +20,9 @@ Do NOT grep or read whole report files. Query the index instead:
 - `report-index/INDEX.md` is a one-line-per-file catalog (path, title, date).
 - After new reports are generated or edited, run `python report-index/rq.py update` (incremental, <1s).
 Raw candle caches (cache-1m, data*, funding) are intentionally not indexed.
+
+## Pending: T-CORE paper lab (formerly BB-Trail, bot tag bbtr; built Nov 6, 2026, VPS install not done yet)
+
+- If the owner asks to install T-CORE / the trail bot, continue the T-CORE install or "do the handoff", read `bb-trail/T-CORE-INSTALL-WHEN-HOME.md` and follow it (step 0 checks whether it is already on the VPS). Paper only; confirm the VPS install with the owner. The dashboard side is already pushed and live (ledger commit 12046bd).
+- Going live later: `bb-trail/LIVE-READINESS-TCORE.md` (plan and gates only).
+- Names: TRI-CORE = BB-CORE + I-CORE + T-CORE (50/25/25). Report: `../ledger/reports/live-pair-vs-three-bot.html`.
