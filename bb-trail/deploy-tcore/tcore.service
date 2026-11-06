@@ -1,0 +1,49 @@
+# T-CORE LIVE bot: real orders on MEXC (bb-core entry, 2 ATR stop, 14 ATR trailing stop, 4h), on its own MEXC account, next to the other bots, sharing nothing with them.
+# Installed by deploy-tcore/install-tcore-live.sh. Its own user, code in /opt/tcore (owned by root), state, journal and key file in /var/lib/tcore.
+#   sudo systemctl status tcore      sudo journalctl -u tcore -f      sudo bash /opt/tcore/deploy-tcore/status.sh
+[Unit]
+Description=T-CORE LIVE bot (MEXC futures, real orders)
+After=network-online.target time-sync.target
+Wants=network-online.target
+StartLimitIntervalSec=600
+StartLimitBurst=20
+
+[Service]
+Type=simple
+User=tcore
+Group=tcore
+WorkingDirectory=/opt/tcore
+ExecStart=/usr/bin/node /opt/tcore/icore.js loop
+Restart=always
+RestartSec=15
+# a stopped bot leaves its positions protected by their stop on MEXC; it re-checks everything on start
+KillSignal=SIGTERM
+TimeoutStopSec=30
+SyslogIdentifier=tcore
+Environment=NODE_ENV=production
+Environment=TZ=UTC
+Environment=ICORE_STATE_DIR=/var/lib/tcore
+Environment=ICORE_KEYS=/var/lib/tcore/mexc-keys.json
+# the live gate (bot-config.json must ALSO say "mode": "live")
+Environment=ICORE_ALLOW_LIVE=1
+# DASHBOARD_URL, DASHBOARD_PUSH_SECRET, TELEGRAM_* come from /etc/tcore.env (root only). It reports as its own bot (tcore) and never answers "Ask bot now".
+Environment=DASHBOARD_ASK_POLL_SEC=0
+EnvironmentFile=-/etc/tcore.env
+MemoryHigh=300M
+MemoryMax=450M
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectHome=true
+ProtectSystem=strict
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6
+CapabilityBoundingSet=
+ReadWritePaths=/var/lib/tcore
+InaccessiblePaths=-/opt/lucidio -/opt/icore -/opt/lucidio-1h -/opt/bbtrail -/var/lib/bbtrail -/etc/lucidio -/etc/icore -/etc/lucidio-1h.env -/etc/bbtrail.env -/var/backups
+
+[Install]
+WantedBy=multi-user.target

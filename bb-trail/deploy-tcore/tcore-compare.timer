@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily T-CORE live vs its own backtest (00:58 UTC, after the other comparisons)
+
+[Timer]
+OnCalendar=*-*-* 00:58:00 UTC
+RandomizedDelaySec=120
+Persistent=true
+
+[Install]
+WantedBy=timers.target

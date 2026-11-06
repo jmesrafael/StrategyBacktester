@@ -1,0 +1,28 @@
+# Daily "did T-CORE LIVE do what its own backtest says, on the same candles?" (compare-live-vs-backtest.js: reads the journal and public candles; no orders).
+# Writes /var/lib/tcore/audit/compare-<date>.json and .txt and pushes the summary to the dashboard (if configured).
+# Exit 1 = not a match (an investigation item, not a failure of this unit), 2 = could not run (e.g. no journal yet on a fresh install).
+[Unit]
+Description=T-CORE live vs its own backtest (read-only)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=tcore
+Group=tcore
+WorkingDirectory=/opt/tcore
+ExecStart=/usr/bin/node /opt/tcore/compare-live-vs-backtest.js --mode live --tolerance 0.15 --rel-tolerance 0.05 --out-dir /var/lib/tcore/audit --push --quiet
+SuccessExitStatus=1 2
+TimeoutStartSec=300
+Nice=10
+Environment=TZ=UTC
+Environment=ICORE_STATE_DIR=/var/lib/tcore
+Environment=ICORE_KEYS=/var/lib/tcore/mexc-keys.json
+EnvironmentFile=-/etc/tcore.env
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/tcore
+InaccessiblePaths=-/opt/lucidio -/opt/icore -/opt/lucidio-1h -/opt/bbtrail -/var/lib/bbtrail -/etc/lucidio -/etc/icore -/etc/lucidio-1h.env -/etc/bbtrail.env -/var/backups
