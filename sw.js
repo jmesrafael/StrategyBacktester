@@ -5,12 +5,12 @@
 // • Market data (Binance futures API) and Supabase: never cached here (the
 //   app keeps its own copy in IndexedDB and has an offline sample-data fallback).
 
-const CACHE = 'replay-game-v8';
+const CACHE = 'replay-game-v9';
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'css/styles.css',
   'js/config.js', 'js/supabase-config.js', 'js/binance.js', 'js/candle-store.js',
   'js/api.js', 'js/indicators.js', 'js/chart.js',
-  'js/indicators-ui.js', 'js/replay.js', 'js/drawings.js', 'js/fvg.js', 'js/smc.js', 'js/bbx.js', 'js/icore-core.js', 'js/matrend-core.js', 'js/icx.js', 'js/trade-sim.js',
+  'js/indicators-ui.js', 'js/replay.js', 'js/drawings.js', 'js/fvg.js', 'js/smc.js', 'js/bbx.js', 'js/icore-core.js', 'js/matrend-core.js', 'js/tcore-core.js', 'js/icx.js', 'js/trade-sim.js',
   'analysis.html', 'css/analysis.css', 'js/bbcore-core.js', 'js/analysis-core.js', 'js/analysis.js',
   'js/strategy.js', 'js/data-page.js', 'js/supabase-client.js', 'js/app.js', 'js/mobile.js',
   'strategies/registry.js', 'strategies/ema-rsi-divergence-strategy.js', 'strategies/ny-smc-v7-strategy.js', 'strategies/bb-breakout-strategy.js', 'strategies/ma-trend-strategy.js', 'strategies/fvg-pullback-strategy.js',

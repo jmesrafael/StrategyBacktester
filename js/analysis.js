@@ -23,6 +23,9 @@
     mTrail: { label: 'Trail (×ATR)', min: 2, max: 40, step: 1 },
     mTrend: { label: 'Trend SMA (0 = off)', min: 0, max: 400, step: 10 },
     mLong: { label: 'Long only (1) / both (0)', min: 0, max: 1, step: 1 },
+    tInit: { label: 'First stop (×ATR)', min: 0.5, max: 10, step: 0.5 },
+    tTrail: { label: 'Trail (×ATR)', min: 2, max: 40, step: 1 },
+    tTrend: { label: 'Trend SMA (0 = off)', min: 0, max: 400, step: 10 },
   };
 
   // ---- settings (URL hash) -------------------------------------------------------------------------------------------------
@@ -46,7 +49,7 @@
     history.replaceState(null, '', '#' + h.toString());
   }
   const coinsOn = () => S.coins.split(',').filter((c) => A.COINS.includes(c));
-  const params = () => ({ targetR: S.targetR, maxBars: S.maxBars, kInit: S.kInit, kTrail: S.kTrail, trendLen: S.trendLen, maKind: S.maKind, maLen: S.maLen, mInit: S.mInit, mTrail: S.mTrail, mTrend: S.mTrend, mLong: S.mLong, costs: !!S.costs });
+  const params = () => ({ targetR: S.targetR, maxBars: S.maxBars, kInit: S.kInit, kTrail: S.kTrail, trendLen: S.trendLen, maKind: S.maKind, maLen: S.maLen, mInit: S.mInit, mTrail: S.mTrail, mTrend: S.mTrend, mLong: S.mLong, tInit: S.tInit, tTrail: S.tTrail, tTrend: S.tTrend, costs: !!S.costs });
   const money = () => ({ start: Math.max(1, S.start), risk: Math.max(0, S.risk) / 100, cap: Math.max(0, S.cap) });
 
   // ---- data: Binance USDT-M futures (CORS-open), cached in IndexedDB ------------------------------------------------------------
@@ -136,7 +139,7 @@
     }
   }
   function computeTrades() {
-    const key = [S.s, S.tf, S.targetR, S.maxBars, S.kInit, S.kTrail, S.trendLen, S.maKind, S.maLen, S.mInit, S.mTrail, S.mTrend, S.mLong, S.costs].join('|');
+    const key = [S.s, S.tf, S.targetR, S.maxBars, S.kInit, S.kTrail, S.trendLen, S.maKind, S.maLen, S.mInit, S.mTrail, S.mTrend, S.mLong, S.tInit, S.tTrail, S.tTrend, S.costs].join('|');
     if (TR && key === trKey) return;
     const iv = A.TF[S.tf], out = {};
     lastCandle = 0; firstCandle = Infinity;
@@ -315,7 +318,7 @@
   }
   function renderYears() {
     const cap = S.cap > 0 ? `, never more than ${fM(S.cap)} a trade` : '';
-    const foot = `<p class="foot">${partFirst ? `* ${partFirst} is a part year (the first signals need about ${S.s === 'icore' || S.s === 'matrend' ? '205' : '202'} candles of history${S.from ? ', or the From date' : ''}). ` : ''}${partLast ? `† ${partLast} runs to ${fmtDate(Math.min(lastCandle, S.to ? Date.parse(S.to) / 1000 : Infinity))}. ` : ''}In the fresh version a trade open over New Year is sized from the new ${fM(S.start)}. "Max drop" is the deepest fall from that year's high, on closed trades.</p>`;
+    const foot = `<p class="foot">${partFirst ? `* ${partFirst} is a part year (the first signals need about ${S.s === 'icore' || S.s === 'matrend' || S.s === 'tcore' ? '205' : '202'} candles of history${S.from ? ', or the From date' : ''}). ` : ''}${partLast ? `† ${partLast} runs to ${fmtDate(Math.min(lastCandle, S.to ? Date.parse(S.to) / 1000 : Infinity))}. ` : ''}In the fresh version a trade open over New Year is sized from the new ${fM(S.start)}. "Max drop" is the deepest fall from that year's high, on closed trades.</p>`;
     let html = `<div class="sec-head"><div><h2>Year by year at ${S.risk}% risk, from ${fM(S.start)}</h2>
       <p class="sub">Same trades, same signals: the only difference is how big each trade is. Each year is credited with the trades that <i>closed</i> in it; drops are measured on the closed-trade balance (not minute by minute).</p></div></div>`;
     if (S.view === 'coin') {
@@ -506,9 +509,9 @@
 
   // ---- 9. method -----------------------------------------------------------------------------------------------------------------
   function renderMethod() {
-    const ic = S.s === 'icore' || S.s === 'matrend', mt = S.s === 'matrend';
+    const ic = S.s === 'icore' || S.s === 'matrend' || S.s === 'tcore', mt = S.s === 'matrend', tc = S.s === 'tcore';
     $('secMethod').innerHTML = `<h2>How the numbers were made</h2>
-      <p><b>Trades.</b> The bot's own engine, not a copy of its rules: ${mt ? '<code>MATrend.backtest()</code> (js/matrend-core.js; research/indicator-top10, replay-checked against the chart strategy "MA Trend")' : ic ? '<code>ICore.backtest()</code> from the I-Core bot (js/icore-core.js)' : '<code>BBCore.backtest()</code> from the BB-Core bot (js/bbcore-core.js)'}, on Binance USDT-M ${A.TF_LABEL[S.tf]} candles from the start of each coin's history. ${A.TF[S.tf] !== 14400 ? '<b>The bots are built for 4h</b>: other timeframes use the same rules with every length counted in candles of that timeframe. ' : ''}Signals use closed candles only and fill at the next candle's open.</p>
+      <p><b>Trades.</b> The bot's own engine, not a copy of its rules: ${tc ? '<code>TCore.backtest()</code> from the T-CORE bot (js/tcore-core.js = bb-trail/icore-core.js): the BB-Core entry (close outside the Bollinger band and the 200 SMA), a 2 ATR first stop and a 14 ATR trailing stop' : mt ? '<code>MATrend.backtest()</code> (js/matrend-core.js; research/indicator-top10, replay-checked against the chart strategy "MA Trend")' : ic ? '<code>ICore.backtest()</code> from the I-Core bot (js/icore-core.js)' : '<code>BBCore.backtest()</code> from the BB-Core bot (js/bbcore-core.js)'}, on Binance USDT-M ${A.TF_LABEL[S.tf]} candles from the start of each coin's history. ${A.TF[S.tf] !== 14400 ? '<b>The bots are built for 4h</b>: other timeframes use the same rules with every length counted in candles of that timeframe. ' : ''}Signals use closed candles only and fill at the next candle's open.</p>
       <p><b>Costs.</b> ${S.costs ? (ic ? 'Fee 0.05% + slippage 0.02% each way and 0.005% funding per 4 hours held, in both directions (pessimistic).' : 'Fee 0.05% + slippage 0.02% on entry and exit, and the real Binance funding rates the trade was open through.') : 'Switched off: results are before fees, slippage and funding.'}</p>
       <p><b>Size.</b> ${S.risk}% of the closed-trade balance at the moment of entry${S.cap > 0 ? `, never more than ${fM(S.cap)}` : ''}; one position per coin, so up to ${V.coins.length} at once in the shared account. Trades are credited to the day, month and year they close. "Fresh" restarts the account at ${fM(S.start)} every 1 January; "compounding" never restarts it; "no compounding" risks ${S.risk}% of the start balance on every trade.</p>
       <p><b>Limits.</b> A test on past prices: the coins and settings were chosen with hindsight. Real fills (gaps, thin books, contract-size limits on small accounts) can be worse than the assumed costs. Not included: the Lucid'io fee, deposits and withdrawals, taxes. Past performance does not guarantee future results.</p>
@@ -659,8 +662,8 @@
   }
   async function renderTargets() {
     const el = $('secTargets');
-    if (S.s === 'icore' || S.s === 'matrend') {
-      el.innerHTML = `<h2>Profit target</h2><p class="sub">${S.s === 'matrend' ? 'MA Trend' : 'I-Core'} has no profit target: a winner runs until its trailing stop (${S.s === 'matrend' ? S.mTrail : S.kTrail}×ATR) catches it. Pick a BB-Core strategy above to compare targets.</p>`;
+    if (S.s === 'icore' || S.s === 'matrend' || S.s === 'tcore') {
+      el.innerHTML = `<h2>Profit target</h2><p class="sub">${S.s === 'matrend' ? 'MA Trend' : S.s === 'tcore' ? 'T-CORE' : 'I-Core'} has no profit target: a winner runs until its trailing stop (${S.s === 'matrend' ? S.mTrail : S.s === 'tcore' ? S.tTrail : S.kTrail}×ATR) catches it. Pick a BB-Core strategy above to compare targets.</p>`;
       return;
     }
     const targets = [...parseTargets(), 0], iv = A.TF[S.tf], token = ++TGC.busy, key = [S.tf, S.maxBars, S.trendLen, S.costs].join('|');
