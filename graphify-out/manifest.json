@@ -5496,9 +5496,9 @@
     "semantic_hash": ""
   },
   "report-index/INDEX.md": {
-    "mtime": 1793936039.0928597,
-    "seen": 1793936056.1936455,
-    "ast_hash": "cb0cbf9efeebb5f61b46c9d29587423f",
+    "mtime": 1793942155.90528,
+    "seen": 1793942174.889031,
+    "ast_hash": "d476460945a10e8c362dfcbf25ccbb99",
     "semantic_hash": ""
   },
   "research/bb-core/hold-time/out-no-target.txt": {
@@ -6813,6 +6813,114 @@
     "mtime": 1793934321.1583712,
     "seen": 1793936056.2196164,
     "ast_hash": "1bf818339572ca68e3aad2c414529313",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/build-ledger-report.js": {
+    "mtime": 1793942146.1552489,
+    "seen": 1793942174.8810542,
+    "ast_hash": "b5fd8767b40762bfc56d1d9cc085ed1e",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/dash/months.json": {
+    "mtime": 1793942091.2340107,
+    "seen": 1793942174.882059,
+    "ast_hash": "daf18af88ee09eb05da8d89b99310501",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/dash/portfolios.json": {
+    "mtime": 1793942091.2295969,
+    "seen": 1793942174.882059,
+    "ast_hash": "05d3c2bfa7a7244e3445219effe50181",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/dash/risk-levels.json": {
+    "mtime": 1793942091.2699149,
+    "seen": 1793942174.882059,
+    "ast_hash": "8fdb21d918d89d4f5bfd4d68b84830c9",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/dash/walk-forward.json": {
+    "mtime": 1793942091.2709353,
+    "seen": 1793942174.882059,
+    "ast_hash": "37145390b3f35a65e722959ebbbaa40d",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/dash/walk-summary.json": {
+    "mtime": 1793942091.2723527,
+    "seen": 1793942174.882059,
+    "ast_hash": "9a70dfb853289d47f789ed3798dc0a95",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/dash/years.json": {
+    "mtime": 1793942091.2327585,
+    "seen": 1793942174.882059,
+    "ast_hash": "638cb0b5a759eaf306c0a76310a72311",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/export-dash.js": {
+    "mtime": 1793941914.4908412,
+    "seen": 1793942174.882059,
+    "ast_hash": "9240e59871f04324cf14904601f3ac06",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/pair-ex10.js": {
+    "mtime": 1793941081.5114136,
+    "seen": 1793942174.882059,
+    "ast_hash": "004590236063f1b18b4cb69ac0fede41",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/pesos-flat-0.005.json": {
+    "mtime": 1793942088.396319,
+    "seen": 1793942174.882059,
+    "ast_hash": "3fbcf89e81396fa75e9803c9e7c57c5c",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/pesos-flat-0.01.json": {
+    "mtime": 1793942089.054933,
+    "seen": 1793942174.882059,
+    "ast_hash": "e4dc4de246bd1fd159a3a1b13fe35fd2",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/pesos-flat-0.015.json": {
+    "mtime": 1793942089.727865,
+    "seen": 1793942174.882059,
+    "ast_hash": "3b0124da01766b777a5b8a52cc9d18cd",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/pesos-flat-0.025.json": {
+    "mtime": 1793942090.3859892,
+    "seen": 1793942174.882059,
+    "ast_hash": "89b440ea21efe752a19fc8b1b823bf3a",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/pesos-out.json": {
+    "mtime": 1793942091.1151793,
+    "seen": 1793942174.882059,
+    "ast_hash": "1b2ad932a87a494bd90a72ff07651d3a",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/pesos-risk.json": {
+    "mtime": 1793942090.4622924,
+    "seen": 1793942174.882059,
+    "ast_hash": "4380359337872e827f10cbf5bac77fdd",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/pesos.js": {
+    "mtime": 1793942087.718391,
+    "seen": 1793942174.882059,
+    "ast_hash": "bfd64e2181a2e6072524ff3d77a4bfd5",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/rank-ex10.js": {
+    "mtime": 1793941071.2513385,
+    "seen": 1793942174.882059,
+    "ast_hash": "8e73ed1a9d1d9230adb674bdd2328eb7",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/REPORT-live-pair-vs-three-bot.html": {
+    "mtime": 1793942147.7612405,
+    "seen": 1793942174.922115,
+    "ast_hash": "ddab2fe60260d5e3fa57fcebd884c7ef",
     "semantic_hash": ""
   },
   "LEDGER/package-lock.json": {

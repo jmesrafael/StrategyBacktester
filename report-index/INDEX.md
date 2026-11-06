@@ -433,7 +433,23 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - REPORT-FULL-TABLES.md — All 118 variants, full tables (5 coins pooled, R = units of the amount risked per trade) (2026-11-06)
 - REPORT.md — Can anything beat bb-core or I-Core? 27 indicator strategies, 5 coins, 4h and 1h, 2020 to Nov 5 2026 (2026-11-06)
 - REPORT.template.md — Can anything beat bb-core or I-Core? 27 indicator strategies, 5 coins, 4h and 1h, 2020 to Nov 5 2026 (2026-11-06)
+
+## research/strat-hunt-nov6/dash
+- months.json — months.json (2026-11-06)
+- portfolios.json — portfolios.json (2026-11-06)
+- risk-levels.json — risk-levels.json (2026-11-06)
+- walk-forward.json — walk-forward.json (2026-11-06)
+- walk-summary.json — walk-summary.json (2026-11-06)
+- years.json — years.json (2026-11-06)
+
+## research/strat-hunt-nov6
 - paramscan.txt — 4h: bb-core entry + Bollinger-middle stop; rows = ATR trail (x 1 on 1h), columns = time cap in candles (48/96/192/none) (2026-11-06)
+- pesos-flat-0.005.json — pesos-flat-0.005.json (2026-11-06)
+- pesos-flat-0.01.json — pesos-flat-0.01.json (2026-11-06)
+- pesos-flat-0.015.json — pesos-flat-0.015.json (2026-11-06)
+- pesos-flat-0.025.json — pesos-flat-0.025.json (2026-11-06)
+- pesos-out.json — pesos-out.json (2026-11-06)
+- pesos-risk.json — pesos-risk.json (2026-11-06)
 - results-cost2.json — results-cost2.json (2026-11-06)
 - results-hybrid.json — results-hybrid.json (2026-11-06)
 - results.json — results.json (2026-11-06)
