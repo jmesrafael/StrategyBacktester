@@ -47,7 +47,10 @@ function leakCheck(json) {
 const numOrNull = (v) => (v == null || !Number.isFinite(+v) ? null : +v);
 const strN = (v, n = 200) => (v == null ? null : String(v).slice(0, n));
 const allowedSymbol = (s) => config.ALLOWED_SYMBOLS.includes(s);
-const mk = (type, id, tsMs, mode, extra, data) => ({ event_id: String(id), type, ts_ms: Math.round(tsMs), mode, ...extra, data });
+// A bot that shares the dashboard with the live bots says who it is (DASHBOARD_BOT, e.g. bb1h for the 1h paper lab bot): every event carries bot:<name> and an event_id that
+// starts with "<name>|", which the server requires, so its events can never mix into BB-Core's or collide with them. Unset = BB-Core, exactly as before.
+const BOT = String(process.env.DASHBOARD_BOT || '').trim().toLowerCase(), PFX = BOT ? `${BOT}|` : '';
+const mk = (type, id, tsMs, mode, extra, data) => ({ event_id: PFX + String(id), type, ts_ms: Math.round(tsMs), mode, ...(BOT ? { bot: BOT } : {}), ...extra, data });
 
 // journal record -> dashboard events (one or two). Used live (right after the journal write) and by `dashboard-backfill`, with the same event ids.
 function fromJournal(rec) {

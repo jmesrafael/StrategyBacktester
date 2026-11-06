@@ -22,6 +22,14 @@ SyslogIdentifier=lucidio-1h
 Environment=NODE_ENV=production
 Environment=TZ=UTC
 Environment=LUCIDIO_STATE_DIR=/var/lib/lucidio-1h
+# Telegram trade messages are ON (LUCIDIO_NO_NOTIFY is not set): they need TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in /etc/lucidio-1h.env; without them it is silent.
+# The dashboard: this bot reports as its own bot (bb1h), never as BB-Core, and never answers "Ask bot now" (that request is for the live bots).
+# DASHBOARD_URL and DASHBOARD_PUSH_SECRET come from /etc/lucidio-1h.env (root only). Without them nothing is pushed and the bot works the same.
+Environment=DASHBOARD_BOT=bb1h
+Environment=DASHBOARD_ASK_POLL_SEC=0
+EnvironmentFile=-/etc/lucidio-1h.env
+# measured slippage written by the data recorder (read only); absent = the bot uses the live order book instead
+Environment=LUCIDIO_RECORDER_SUMMARY=/var/lib/lucidio-recorder/summary/slippage.json
 # it must never compete with the live bots
 MemoryHigh=150M
 MemoryMax=250M

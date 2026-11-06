@@ -10,6 +10,8 @@
   "haltAtR": -39,
   "maxEntryDelaySec": 900,
   "wakeDelaySec": 2,
+  "realisticPaper": true,
+  "minTakerFee": 0.0002,
   "heartbeatUrl": "",
   "riskTiers": [[0, 0.025], [500, 0.02], [1000, 0.015]],
   "ledgerSync": false,

@@ -127,6 +127,8 @@ function createClient({ apiKey = '', apiSecret = '', keys = null, base = BASE, t
     },
     contract: (symbol) => get('/api/v1/contract/detail', { symbol }),
     ticker: (symbol) => get('/api/v1/contract/ticker', { symbol }),
+    fundingRate: (symbol) => get(`/api/v1/contract/funding_rate/${symbol}`),                                   // { fundingRate, nextSettleTime, collectCycle }
+    fundingHistory: (symbol, pageSize = 60) => get('/api/v1/contract/funding_rate/history', { symbol, page_num: 1, page_size: pageSize }),   // { resultList: [{ fundingRate, settleTime, collectCycle }] } newest first
     depth: (symbol, limit = 200) => get(`/api/v1/contract/depth/${symbol}`, { limit }),   // { asks: [[price, contracts, orders]...], bids: [...] }; 200 levels reach ~2% on SOL
     async klines(symbol, interval, startSec, endSec) {   // max 2000 per request (docs); includes the still-forming candle
       const d = await get(`/api/v1/contract/kline/${symbol}`, { interval, start: startSec, end: endSec });

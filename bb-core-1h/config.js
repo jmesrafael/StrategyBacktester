@@ -27,6 +27,8 @@ const DEFAULTS = {
   // risk steps DOWN as the account grows (Oct 29, 2026, owner's decision): [balance from ($, highest balance so far), risk per trade]. Replaces riskPct while set; [] = off.
   riskTiers: [[0, 0.025], [500, 0.02], [1000, 0.015]], maxRiskMult: 1.5, maxLeverage: 20, startBalance: 100,
   haltAtR: -39, maxEntryDelaySec: 900, wakeDelaySec: 2, heartbeatUrl: '',
+  realisticPaper: false,   // true = paper trades cost what they would on MEXC: the coin's real fee rate, the order book's real fill, real funding, whole contracts (see realpaper.js)
+  minTakerFee: 0.0002,     // a market order never costs less than this, even where MEXC lists 0% (a promotion can end); set 0 to use the listed rate
   ledgerSync: false,   // true = post the real MEXC equity to the Lucid'io Ledger after every run (see ledger-sync.js); set by hand in this file
   ledgerWalletSync: false,   // true = also send this wallet's own report (equity, withdrawable, positions) to the ledger after every run; needs ledgerWallet + ledgerWalletKey in mexc-keys.json (see ledger-sync.js). Off: nothing is sent
 };

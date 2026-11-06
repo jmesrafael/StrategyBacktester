@@ -17,6 +17,7 @@ const fs = require('fs'), path = require('path');
 const { signalFrom, gapInWindow, DEFAULTS } = require('./lucidio-core.js');
 const mexc = require('./mexc.js');
 const { createLiveExecutor } = require('./live.js');
+const { createRealisticPaper } = require('./realpaper.js');
 const ledgerSync = require('./ledger-sync.js');
 require('./envfile.js').load();                        // the server env file (<app>/.env): TELEGRAM_*, DASHBOARD_*; names only, values are never printed
 const tg = require('./telegram.js');
@@ -92,9 +93,10 @@ const paper = {
 };
 
 // cost fields for the journal. Paper numbers are ESTIMATES from the cost model (paper mode has no funding); live numbers are what MEXC reported.
-const entryCosts = (p) => (p.live ? { kind: 'actual', note: 'real fees, slippage and funding come from MEXC at the exit', order_book: p.entryBook ?? null }
+const entryCosts = (p) => (p.entrySlipSource ? { kind: 'modelled (paper)', entry_fee_pct: (p.fees ? p.fees.taker : COST.entryFee) * 100, entry_slippage_pct: (p.entrySlipFrac ?? COST.slip) * 100, entry_slip_source: p.entrySlipSource, book: p.entryBook ?? null, fee_listed_taker: p.fees ? p.fees.listed_taker : null, contracts: p.vol ?? null, ...(p.degraded ? { degraded: p.degraded } : {}) } : p.live ? { kind: 'actual', note: 'real fees, slippage and funding come from MEXC at the exit', order_book: p.entryBook ?? null }
   : { kind: 'estimate (paper)', entry_fee_pct: COST.entryFee * 100, entry_slippage_pct: COST.slip * 100, funding: 'not modelled in paper mode' });
 function exitCosts(p, x) {
+  if (x.costs) return x.costs;                                      // the realistic paper executor measured them
   if (p.live) return { kind: 'actual', fees_usd: x.fees ?? null, funding_usd: x.funding ?? null, slippage_r: p.slipR ?? null,
     exit: { closed_by: x.closed_by ?? null, trigger_price: x.trigger_price ?? null, fill_price: x.fill_price ?? null, slippage_r: x.exit_slip_r ?? null, mexc_history: x.mexc_history ?? null } };
   const exitFee = x.why === 'stop' ? COST.stopFee : x.why === 'target' ? COST.tpFee : COST.timeFee, exitSlip = x.why === 'target' ? COST.tpSlip : COST.slip;
@@ -277,6 +279,9 @@ function heartbeat(ok) {
 
 let liveExec = null, lastRun = null;
 let sessionCoins = null;   // the coin list the journal was last told about (a 'session' event): a change is journaled
+// the paper executor with real costs (realpaper.js): the coin's real fee rate, the order book's real fill, real funding. Used when bot-config.json has "realisticPaper": true.
+let realPaperExec = null;
+const getRealPaper = () => (realPaperExec = realPaperExec || createRealisticPaper({ client: mexc.client, cfgFn: () => CFG, cost: COST, interval: IV, log: (m) => event('warn', 'paper', m) }));
 const getLive = () => (liveExec = liveExec || createLiveExecutor({ api: mexc.client, cfg: CFG, log: (m) => event('warn', 'MEXC', m) }));
 
 // MEXC says no (HTTP 403/451, or a region / IP / permission error): not a glitch, so no retries. Alert ONCE (state.accessLost), then only warnings until it clears.
@@ -334,7 +339,7 @@ async function runOnce(opt = {}) {
   } catch (e) { if (noteBlocked(run, state, e, 'clock check')) return finishRun(); run.warnings.push('clock check failed: ' + e.message); }
 
   const hooks = makeHooks();
-  let exec = paper;
+  let exec = CFG.realisticPaper ? getRealPaper() : paper;
   if (live) {
     if (!mexc.hasKeys()) return fail('LIVE mode needs mexc-keys.json (trade permission) — no trading this run');
     try {

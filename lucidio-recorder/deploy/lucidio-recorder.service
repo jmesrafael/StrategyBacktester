@@ -1,0 +1,50 @@
+# Lucid'io data recorder: public MEXC data only (candles, order books, funding), no keys, no orders. Installed by deploy/install-recorder.sh.
+# Its own user, code in /opt/lucidio-recorder (owned by root), data in /var/lib/lucidio-recorder.
+#   sudo systemctl status lucidio-recorder      sudo journalctl -u lucidio-recorder -f      sudo bash /opt/lucidio-recorder/deploy/status.sh
+[Unit]
+Description=Lucid'io data recorder (public MEXC data, no keys)
+After=network-online.target time-sync.target
+Wants=network-online.target
+StartLimitIntervalSec=600
+StartLimitBurst=20
+
+[Service]
+Type=simple
+User=lucidio-recorder
+Group=lucidio-recorder
+WorkingDirectory=/opt/lucidio-recorder
+ExecStart=/usr/bin/node /opt/lucidio-recorder/recorder.js run
+Restart=always
+RestartSec=20
+KillSignal=SIGTERM
+TimeoutStopSec=30
+SyslogIdentifier=lucidio-recorder
+Environment=NODE_ENV=production
+Environment=TZ=UTC
+Environment=RECORDER_DIR=/var/lib/lucidio-recorder
+# DASHBOARD_URL, DASHBOARD_PUSH_SECRET and RECORDER_SYNC_CMD (the optional copy off the server) come from this root-only file; without it the recorder still records.
+EnvironmentFile=-/etc/lucidio-recorder.env
+# it must never compete with the live bots: one slow CPU, so it runs last, with low priority for the disk too
+MemoryHigh=100M
+MemoryMax=180M
+Nice=15
+CPUQuota=20%
+IOSchedulingClass=idle
+# files are readable by other users on purpose: the 1h paper bot reads summary/slippage.json (public market data, nothing secret in the folder)
+UMask=0022
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectHome=true
+ProtectSystem=strict
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6
+CapabilityBoundingSet=
+ReadWritePaths=/var/lib/lucidio-recorder
+ReadOnlyPaths=-/etc/lucidio-recorder
+InaccessiblePaths=-/opt/lucidio -/opt/icore -/etc/lucidio -/etc/icore -/var/backups -/etc/lucidio-1h.env -/var/lib/lucidio-1h
+
+[Install]
+WantedBy=multi-user.target

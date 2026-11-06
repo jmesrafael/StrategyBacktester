@@ -5,8 +5,8 @@ A separate copy of the bb-core bot running the 1h version on simulated money. It
 - **Settings:** band 80, trend filter 800, time exit 192 candles, same 5 coins, MEXC candles, start balance $250, same risk steps as live.
 - **Start / stop / see results:** `start-paper.cmd`, `stop-paper.cmd`, `status-paper.cmd`.
 - **Files:** `state/bot.log` (log), `state/state.json` (positions, trades), `journal/` (every decision).
-- **Cannot trade:** `liveAllowed()` always returns false, there are no API keys, and Telegram, ledger and dashboard are not configured.
-- **Paper fills:** at the price when the bot wakes, about 2 seconds after the candle closes. No funding is charged, so results run slightly high.
+- **Cannot trade:** `liveAllowed()` always returns false and there are no API keys. Telegram and the ledger are not configured; on the VPS it can report to the dashboard as its own bot (`bb1h`, shown as BB-1h lab) when `/etc/lucidio-1h.env` has the dashboard address.
+- **Paper costs (`"realisticPaper": true`, `realpaper.js`):** whole contracts like the live bot; a fill taken from MEXC's real order book at the moment of entry; the coin's own taker fee from MEXC's contract list (never below `minTakerFee`, 0.02%); stops use the 90th-percentile slippage measured by the data recorder (the live book when it is not there); real settled funding for every 8-hour settlement the trade was open through. A failed data call falls back to the fixed model (0.05% fee, 0.02% slippage, no funding) and is flagged on that trade. Set `"realisticPaper": false` for the old fixed model.
 - **Runs only while this PC is on:** after a restart run `start-paper.cmd`. Signals missed while it was off are skipped, and open trades are checked against the candles it missed.
 
 `apply-1h-patch.js` lists every change from the 4h files (already applied, do not run again). `parity-check.js` compares the bot with the backtest on MEXC's 1h history in `data/`: on Nov 5, 2026 all 1,454 entries matched, and 6 trades differed in R (time exits across MEXC candle holes: the bot counts clock time, the backtest counts candles).

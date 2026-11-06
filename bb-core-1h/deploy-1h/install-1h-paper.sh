@@ -23,13 +23,15 @@ if [ "${1:-}" = "--uninstall" ]; then
 fi
 
 step "1. checks before anything changes"
-FILES="lucidio.js lucidio-core.js mexc.js live.js config.js envfile.js telegram.js journal.js dashboard-push.js ledger-sync.js keyinfo.js paper-vs-backtest.js bot-config.json README-1H.md"
+FILES="lucidio.js lucidio-core.js realpaper.js mexc.js live.js config.js envfile.js telegram.js journal.js dashboard-push.js ledger-sync.js keyinfo.js paper-vs-backtest.js bot-config.json README-1H.md"
 for f in $FILES deploy-1h/lucidio-1h.service deploy-1h/status.sh; do [ -f "$SRC/$f" ] || die "missing in the bundle: $f"; done
 [ ! -e "$SRC/mexc-keys.json" ] && [ ! -e "$SRC/.env" ] || die "the bundle holds keys or an .env file: refusing"
 grep -q '"mode": "paper"' "$SRC/bot-config.json" || die "bot-config.json is not in paper mode: refusing"
 grep -q 'const liveAllowed = () => false;' "$SRC/lucidio.js" || die "lucidio.js has no paper lock: refusing"
 grep -q 'interval: 3600' "$SRC/lucidio-core.js" || die "lucidio-core.js is not the 1h version: refusing"
 grep -q "'Min60'" "$SRC/mexc.js" || die "mexc.js does not read 1h candles: refusing"
+grep -q '"realisticPaper": true' "$SRC/bot-config.json" || die "bot-config.json does not have realisticPaper on: refusing"
+grep -q 'fundingHistory' "$SRC/mexc.js" || die "mexc.js has no funding history call: refusing"
 [ -x /usr/bin/node ] || die "/usr/bin/node not found (the service needs it there)"
 [ "$(/usr/bin/node -p 'process.versions.node.split(".")[0]')" -ge 20 ] || die "node $(/usr/bin/node -v) is too old (20 or newer)"
 ok "paper lock present, 1h settings present, no keys, node $(/usr/bin/node -v)"
@@ -45,6 +47,13 @@ for f in $FILES; do install -m 644 -o root -g root "$SRC/$f" "$DEST/$f" || die "
 install -m 644 -o root -g root "$SRC/deploy-1h/status.sh" "$DEST/deploy-1h/status.sh"
 install -d -m 750 -o "$SVC" -g "$SVC" "$DATA"
 ok "code in $DEST, paper record in $DATA"
+# the dashboard settings live in a root-only file systemd reads (never in the code folder, never in the bundle). Created once, never overwritten.
+if [ ! -e /etc/lucidio-1h.env ]; then
+  install -m 600 -o root -g root /dev/null /etc/lucidio-1h.env
+  printf '%s
+' '# Lets the 1h paper bot report to the dashboard as its own bot (bb1h). Copy the two values from the live bot env file (same server, same secret).' '#DASHBOARD_URL=https://YOUR-DASHBOARD-ADDRESS' '#DASHBOARD_PUSH_SECRET=' > /etc/lucidio-1h.env
+  ok "created /etc/lucidio-1h.env (empty): fill DASHBOARD_URL and DASHBOARD_PUSH_SECRET to show this bot on the dashboard"
+else ok "/etc/lucidio-1h.env kept"; fi
 
 step "3. read-only pre-flight (public MEXC data, no keys)"
 PF="$(cd "$DEST" && sudo -u "$SVC" env LUCIDIO_STATE_DIR="$DATA" LUCIDIO_NO_NOTIFY=1 /usr/bin/node lucidio.js check 2>&1)"; RC=$?
