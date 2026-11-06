@@ -9,6 +9,20 @@ Written __DATE__. This one file is all you need: the whole install bundle is emb
 
 **What it does not touch:** the live BB-Core and I-Core bots, their keys, state or settings. Each installer checks the bots' start times before and after.
 
+## The short version (about 15 minutes, all at the VPS)
+
+Everything else in this file explains these. First make sure the dashboard update is live (next section), then:
+
+```
+scp VPS-LAB-INSTALL.md YOUR-VPS:/tmp/                                  (from the PC)
+cd /tmp && sed -n '/^BEGIN-BUNDLE$/,/^END-BUNDLE$/p' VPS-LAB-INSTALL.md | sed '1d;$d' | base64 -d > lucidio-lab.tar.gz && sha256sum lucidio-lab.tar.gz     (must be __SHA__)
+mkdir -p /tmp/lucidio-lab && tar -xzf lucidio-lab.tar.gz -C /tmp/lucidio-lab && cd /tmp/lucidio-lab && sudo bash install-lab.sh --add-swap
+sudo grep -E '^(DASHBOARD_URL|DASHBOARD_PUSH_SECRET)=' /opt/lucidio/.env | sudo tee -a /etc/lucidio-recorder.env /etc/lucidio-1h.env > /dev/null
+sudo systemctl restart lucidio-recorder lucidio-1h
+```
+
+Then, on the dashboard, Research -> switch to **BB-1h lab**. If anything says `FATAL`, stop and send me the output.
+
 ## Before you start: the dashboard must be updated first
 
 The dashboard needs the lab update (it learns the new bot `bb1h` and the `recorder`). If the VPS reports before that, the dashboard refuses the reports and they are lost. Deploy the dashboard first, then do the steps below.
@@ -44,14 +58,16 @@ cd /tmp/lucidio-lab && sudo bash install-lab.sh --add-swap
 
 **Check the end of the output.** Each of the two installs must say `start times unchanged: YES` and show its service running. If a step says `FATAL`, it stopped there and nothing later was changed: send me the output. The recorder's first run takes about 20 seconds (it fetches 200 days of 1h candles).
 
-### 4. VPS: show them on the dashboard (two small files)
+### 4. VPS: show them on the dashboard (copy two values, the secret is never shown)
 
-Both services work without this, they just do not appear on the dashboard. Open each file, remove the `#` in front of the two lines, and paste the same address and secret the live bot uses (look in the live bot's env file):
+Both services work without this, they just do not appear on the dashboard. They need the same dashboard address and secret the live bot uses. This copies those two lines from the live bot's env file into both new ones, without printing them:
 
 ```
-sudo nano /etc/lucidio-recorder.env      then   sudo systemctl restart lucidio-recorder
-sudo nano /etc/lucidio-1h.env            then   sudo systemctl restart lucidio-1h
+sudo grep -E '^(DASHBOARD_URL|DASHBOARD_PUSH_SECRET)=' /opt/lucidio/.env | sudo tee -a /etc/lucidio-recorder.env /etc/lucidio-1h.env > /dev/null
+sudo systemctl restart lucidio-recorder lucidio-1h
 ```
+
+To check it worked: `sudo grep -cE '^DASHBOARD_' /etc/lucidio-1h.env` must print `2`. If it prints `0`, `/opt/lucidio/.env` is not where the live bot keeps its settings: run `sudo systemctl cat lucidio` to find its folder, or fill the two files by hand with `sudo nano /etc/lucidio-1h.env` and `sudo nano /etc/lucidio-recorder.env`.
 
 ### 5. Work PC: stop the local 1h paper copy
 
