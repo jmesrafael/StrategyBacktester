@@ -3,7 +3,7 @@
 // What changes, and nothing else:
 //   1. icore.js: the paper lock is replaced by I-Core's own live gate (live needs --allow-live or ICORE_ALLOW_LIVE=1, which the tcore service sets);
 //   2. dashboard-push.js: reports as its own bot 'tcore' (ids "tcore|…"), so it never mixes with the paper lab (bbtr), BB-Core or I-Core;
-//   3. telegram.js: messages say [CORE 3];
+//   3. telegram.js: messages say [CORE 3]; ledger-sync.js reads the key file from ICORE_KEYS (keys are not beside the root-owned code);
 //   4. bot-config.json: mode live, I-Core's live risk settings (2.5% steps, $500 cap), T-CORE's own halt (45R below the best point), no paper cost model.
 // The strategy core (icore-core.js) and all the trading machinery are untouched: the live code path is I-Core's, already proven on MEXC.
 // Each edit must match exactly the expected number of times, or it stops without writing anything.
@@ -36,6 +36,8 @@ edit('dashboard-push.js', [
    "// T-CORE LIVE: tagged bot:'tcore', ids start with \"tcore|\" (kept apart from the T-CORE paper lab, which reports as bbtr)\nconst mk = (type, id, tsMs, mode, extra, data) => ({ event_id: 'tcore|' + String(id), type, ts_ms: Math.round(tsMs), mode, bot: 'tcore', ...extra, data });", 1],
 ]);
 edit('telegram.js', [["const CORE = 'TRAIL LAB';", "const CORE = 'CORE 3';", 1]]);
+// ledger-sync.js reads the key file next to the code; T-CORE's code folder is root-owned, so its keys live in ICORE_KEYS (/var/lib/tcore). Without this the wallet reports and closed trades never reach the ledger.
+edit('ledger-sync.js', [["const KEYS = path.join(__dirname, 'mexc-keys.json');", "const KEYS = process.env.ICORE_KEYS || path.join(__dirname, 'mexc-keys.json');", 1]]);
 
 const cfg = {
   mode: 'live', coins: ['SOL', 'ZEC', 'NEAR', 'ADA', 'GALA'], riskPct: 0.025, startBalance: 100, riskUsd: 1, maxRiskUsd: 500, maxRiskMult: 1.5, maxLeverage: 20,

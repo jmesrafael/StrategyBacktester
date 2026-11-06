@@ -27,7 +27,7 @@ pf() { PF="$(cd "$DEST" && sudo -u "$SVC" env ICORE_STATE_DIR="$DATA" ICORE_KEYS
 case "${1:-}" in
   --uninstall)
     step "uninstall T-CORE live (the other bots are not touched; open positions stay on MEXC with their stop)"
-    systemctl disable --now "$SVC.service" "$SVC-compare.timer" >/dev/null 2>&1 || true; rm -f /etc/cron.d/tcore-wallet
+    systemctl disable --now "$SVC.service" "$SVC-compare.timer" >/dev/null 2>&1 || true; rm -f /etc/cron.d/tcore-wallet /etc/cron.d/tcore-old-position
     rm -f "/etc/systemd/system/$SVC.service" "/etc/systemd/system/$SVC-compare.service" "/etc/systemd/system/$SVC-compare.timer"; systemctl daemon-reload; rm -rf "$DEST"
     ok "units and code removed; $DATA (state, journal, keys) kept"; summary; exit 0 ;;
   --stop)
@@ -61,7 +61,7 @@ esac
 
 step "1. checks before anything changes"
 FILES="icore.js icore-core.js realpaper.js live.js mexc.js config.js envfile.js telegram.js journal.js dashboard-push.js ledger-sync.js keyinfo.js matchkey.js compare-live-vs-backtest.js lab-report.js bot-config.json README-TRAIL.md"
-for f in $FILES deploy-tcore/tcore.service deploy-tcore/tcore-compare.service deploy-tcore/tcore-compare.timer deploy-tcore/status.sh deploy-tcore/make-keys.sh; do [ -f "$SRC/$f" ] || die "missing in the bundle: $f"; done
+for f in $FILES deploy-tcore/tcore.service deploy-tcore/tcore-compare.service deploy-tcore/tcore-compare.timer deploy-tcore/status.sh deploy-tcore/make-keys.sh deploy-tcore/track-old-position.js; do [ -f "$SRC/$f" ] || die "missing in the bundle: $f"; done
 for c in SOL ZEC NEAR ADA GALA; do [ -f "$SRC/data/$c.json" ] || die "missing in the bundle: data/$c.json"; done
 [ ! -e "$SRC/mexc-keys.json" ] && [ ! -e "$SRC/.env" ] || die "the bundle holds keys or an .env file: refusing"
 grep -q '"mode": "live"' "$SRC/bot-config.json" || die "bot-config.json is not the live config: refusing (build with build-tcore-live.sh)"
@@ -78,7 +78,7 @@ id "$SVC" >/dev/null 2>&1 || useradd --system --home "$DEST" --shell /usr/sbin/n
 install -d -m 755 -o root -g root "$DEST" "$DEST/deploy-tcore" "$DEST/data"
 for f in $FILES; do install -m 644 -o root -g root "$SRC/$f" "$DEST/$f" || die "could not install $f"; done
 for c in SOL ZEC NEAR ADA GALA; do install -m 644 -o root -g root "$SRC/data/$c.json" "$DEST/data/$c.json"; done
-for f in status.sh make-keys.sh install-tcore-live.sh; do install -m 755 -o root -g root "$SRC/deploy-tcore/$f" "$DEST/deploy-tcore/$f"; done
+for f in status.sh make-keys.sh install-tcore-live.sh track-old-position.js; do install -m 755 -o root -g root "$SRC/deploy-tcore/$f" "$DEST/deploy-tcore/$f"; done
 install -d -m 750 -o "$SVC" -g "$SVC" "$DATA" "$DATA/audit"
 ok "code in $DEST, state in $DATA"
 if [ ! -e /etc/tcore.env ]; then
@@ -90,6 +90,12 @@ else ok "/etc/tcore.env kept"; fi
 step "3. systemd units (the bot is NOT started by this step)"
 for u in tcore.service tcore-compare.service tcore-compare.timer; do install -m 644 "$SRC/deploy-tcore/$u" "/etc/systemd/system/$u" || die "could not install $u"; done
 systemctl daemon-reload
+# books I-Core's old SOL short (position 1529457475, still open on this account) when it closes: read-only on MEXC until then, one ledger write at the close, then it stops itself
+if [ ! -f "$DATA/old-position.done" ]; then
+  printf '%s
+' '# T-CORE: book the old SOL short (not opened by this bot) when it closes; see deploy-tcore/track-old-position.js' \n    '*/5 * * * * tcore ICORE_STATE_DIR=/var/lib/tcore ICORE_KEYS=/var/lib/tcore/mexc-keys.json node /opt/tcore/deploy-tcore/track-old-position.js >> /var/log/tcore-old-position.log 2>&1' > /etc/cron.d/tcore-old-position
+  chmod 644 /etc/cron.d/tcore-old-position; touch /var/log/tcore-old-position.log; chown tcore:tcore /var/log/tcore-old-position.log; ok "old SOL short tracker on (every 5 min, log /var/log/tcore-old-position.log)"
+fi
 if [ "$WAS_ACTIVE" = "active" ]; then systemctl restart "$SVC.service"; sleep 8; systemctl is-active --quiet "$SVC" && ok "was running: restarted on the new code" || die "restart failed: journalctl -u $SVC -n 30 --no-pager"
 else ok "units installed, bot stopped (start it with --start after the keys and the test trade)"; fi
 
