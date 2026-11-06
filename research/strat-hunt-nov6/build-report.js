@@ -1,0 +1,20 @@
+// build-report.js — fills REPORT.template.md with tables generated from the result files -> REPORT.md, and writes REPORT-FULL-TABLES.md.
+'use strict';
+const fs = require('fs');
+process.argv[2] = 'results.json';
+const t = require('./tables.js');
+const H = JSON.parse(fs.readFileSync('results-hybrid.json', 'utf8'));
+const ALL = { ...t.R }; for (const [k, v] of Object.entries(H)) if (!ALL[k]) ALL[k] = v;
+const pick = (tf, keys) => keys.map((k) => ALL[k + '|' + tf]).filter(Boolean).map(t.row);
+const full = (tf) => t.table(tf, Object.values(ALL).filter((v) => v.tf === tf).map(t.row).sort((a, b) => b.p.total - a.p.total));
+const KEY4 = ['bb-core|BBX', 'i-core|P7', 'bb-trail|P14', 'bb-trail|P7', 'fractal|P14', 'bb-vol|P14', 'don-vol|P14', 'cci100|P14', 'bb-hybrid|BBT7', 'bb-hybrid|BBT14', 'bb-hybrid|BBX96', 'bb-hybrid|BBX192', 'tsmom|P7', 'elder|P7'];
+const KEY1 = ['bb-core|BBX', 'i-core|P7', 'bb-vol|P14', 'don-vol|P14', 'bb-trail|P14', 'fractal|P14', 'bb-hybrid|BBX96', 'bb-hybrid|BBT7'];
+let tpl = fs.readFileSync('REPORT.template.md', 'utf8');
+tpl = tpl.replace('{{KEY4H}}', t.table('4h', pick('4h', KEY4))).replace('{{KEY1H}}', t.table('1h', pick('1h', KEY1)));
+tpl = tpl.replace('{{PARAMSCAN}}', fs.readFileSync('paramscan.txt', 'utf8').trim());
+const sh = (c) => require('child_process').execSync(c, { encoding: 'utf8' }).trim();
+tpl = tpl.replace('{{COMBOS4H}}', sh('node combos.js 4h')).replace('{{COMBOS1H}}', sh('node combos.js 1h')).replace('{{ALLPAIRS}}', sh('node allpairs.js'));
+tpl = tpl.replace('{{ROBUST4H}}', sh('node analyze.js "bb-core|BBX|4h,i-core|P7|4h,bb-trail|P14|4h,bb-trail|P7|4h,bb-hybrid|BBT7|4h,bb-hybrid|BBT14|4h,bb-hybrid|BBX96|4h,fractal|P14|4h,don-vol|P14|4h,cci100|P14|4h,bb-vol|P14|4h"'));
+fs.writeFileSync('REPORT.md', tpl);
+fs.writeFileSync('REPORT-FULL-TABLES.md', `# All ${Object.keys(ALL).length} variants, full tables (5 coins pooled, R = units of the amount risked per trade)\n\n## 4h\n\n${full('4h')}\n\n## 1h\n\n${full('1h')}\n`);
+console.log('wrote REPORT.md and REPORT-FULL-TABLES.md');

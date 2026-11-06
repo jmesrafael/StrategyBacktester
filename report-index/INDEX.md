@@ -7,17 +7,25 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - README.md — Lucid'io Ledger (2026-10-27)
 - backup.config.example.json — backup.config.example.json (2026-10-22)
 
+## LEDGER/bot-dashboard
+- regime-history.json — regime-history.json (2026-11-06)
+
 ## LEDGER/docs
+- NEXT-STEPS-GUIDE.md — What to do next: a guide you can follow later (2026-11-06)
+- SCENARIOS.md — Every money-in / money-out / profit-sharing scenario: solved or not (2026-11-06)
 - accounting-model.md — Lucid'io Ledger: accounting model and integrity remediation (2026-10-27)
+- confirmed-gain-fee.md — Confirmed-gain performance fee (`fee_timing = 'confirmed'`) (2026-11-06)
+- full-exit-rounding.md — Full exit and rounding: the edge, what was established, and the decision still needed (2026-11-06)
 - hwm-settlement.md — High-water mark, loss carry-forward and the two-month settlement (`investor_hwm_v2`) (2026-10-27)
 - pool-update.md — Pool Update: trading results never move the pool by themselves (2026-10-27)
 - settlement-controls.md — Settlement controls and backups (2026-10-27)
+- wallet-snapshots.md — Per-wallet snapshots, combined NAV and the payout cap (2026-11-06)
 
 ## LEDGER/reports
-- index.json — index.json (2026-10-27)
+- index.json — index.json (2026-11-06)
 
 ## LEDGER
-- vercel.json — vercel.json (2026-10-27)
+- vercel.json — vercel.json (2026-11-06)
 
 ## .
 - README.md — Chart Replay — TradingView-style + Trading Simulator (2026-11-03)
@@ -33,6 +41,15 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - 05-AFTER-THE-UPGRADE.md — After the upgrade: what to watch, and what "good" looks like (2026-10-29)
 - 06-COMMANDS.md — Commands, all in one place (2026-10-29)
 - 07-CHECKLIST.md — Checklist (2026-11-03)
+
+## bb-core-1h
+- HOME-VPS-INSTRUCTIONS.md — bb-core 1h paper bot: VPS instructions for later (2026-11-06)
+- README-1H.md — bb-core 1h, PAPER ONLY (2026-11-06)
+- VPS-1H-PAPER.md — Putting the 1h paper bot on the VPS (2026-11-06)
+- bot-config.json — bot-config.json (2026-11-06)
+
+## lucidio-recorder
+- README.md — Lucid'io data recorder (2026-11-06)
 
 ## research/bb-core-v2
 - BIMONTHLY-2.5.md — Merged strategy, 2.5% risk compounding, % result of every 2-month block (MEXC, trades counted when they close; data to 21 Oct 2026) (2026-10-27)
@@ -411,3 +428,21 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - v3-SOL-15m.txt — SOL 15m | Original rules (2026-10-19)
 - v3-SOL-1m.json — v3-SOL-1m.json (2026-10-19)
 - v3-SOL-1m.txt — SOL 1m | Original rules (2026-10-19)
+
+## research/strat-hunt-nov6
+- REPORT-FULL-TABLES.md — All 118 variants, full tables (5 coins pooled, R = units of the amount risked per trade) (2026-11-06)
+- REPORT.md — Can anything beat bb-core or I-Core? 27 indicator strategies, 5 coins, 4h and 1h, 2020 to Nov 5 2026 (2026-11-06)
+- REPORT.template.md — Can anything beat bb-core or I-Core? 27 indicator strategies, 5 coins, 4h and 1h, 2020 to Nov 5 2026 (2026-11-06)
+- paramscan.txt — 4h: bb-core entry + Bollinger-middle stop; rows = ATR trail (x 1 on 1h), columns = time cap in candles (48/96/192/none) (2026-11-06)
+- results-cost2.json — results-cost2.json (2026-11-06)
+- results-hybrid.json — results-hybrid.json (2026-11-06)
+- results.json — results.json (2026-11-06)
+- run-cost2.log — 4h SOL done 13458 bars (2026-11-06)
+- run.log — 4h SOL done 13458 bars (2026-11-06)
+- trades-cost2.json — trades-cost2.json (2026-11-06)
+- trades-hybrid.json — trades-hybrid.json (2026-11-06)
+- trades.json — trades.json (2026-11-06)
+
+## vps-lab
+- VPS-LAB-INSTALL.md — Lab on the VPS: data recorder + 1h paper bot with real costs (2026-11-06)
+- VPS-LAB-INSTALL.template.md — Lab on the VPS: data recorder + 1h paper bot with real costs (2026-11-06)

@@ -24,9 +24,9 @@
     "semantic_hash": ""
   },
   "LEDGER/api/data.js": {
-    "mtime": 1793087877.5943515,
-    "seen": 1793170932.0232046,
-    "ast_hash": "fb664cf55471cae2bb99aa65d4408c75",
+    "mtime": 1793930642.1584806,
+    "seen": 1793936056.1164815,
+    "ast_hash": "bc28ff05b334162db8a1497a4bdbc08f",
     "semantic_hash": ""
   },
   "LEDGER/api/health.js": {
@@ -66,15 +66,15 @@
     "semantic_hash": ""
   },
   "LEDGER/bot-dashboard/app.js": {
-    "mtime": 1793087877.5943515,
-    "seen": 1793170932.0232046,
-    "ast_hash": "ca2fa8c0af451f2471b505346489aa26",
+    "mtime": 1793930642.1604862,
+    "seen": 1793936056.1164815,
+    "ast_hash": "35863a59e18f72b376fc9b043acb93d1",
     "semantic_hash": ""
   },
   "LEDGER/js/app.js": {
-    "mtime": 1793087877.6183834,
-    "seen": 1793170932.0232046,
-    "ast_hash": "a68a44434e310652aae8fe2417c3ed21",
+    "mtime": 1793926416.5562174,
+    "seen": 1793929184.8657134,
+    "ast_hash": "d0f793e771429322c86a5f783907b14a",
     "semantic_hash": ""
   },
   "LEDGER/js/config.js": {
@@ -102,21 +102,21 @@
     "semantic_hash": ""
   },
   "LEDGER/js/recordhelp.js": {
-    "mtime": 1793087877.6183834,
-    "seen": 1793170932.0232046,
-    "ast_hash": "fe2839d1b5709d971c214b045f026b94",
+    "mtime": 1793926416.5562174,
+    "seen": 1793929184.8657134,
+    "ast_hash": "22250674fbbc48f9150fcfaeb1a4b526",
     "semantic_hash": ""
   },
   "LEDGER/js/returns.js": {
-    "mtime": 1792711809.4179804,
-    "seen": 1793170932.0232046,
-    "ast_hash": "09db0cf6c801ff53d7f7e6dbe02b3b29",
+    "mtime": 1793926416.5562174,
+    "seen": 1793929184.8657134,
+    "ast_hash": "a2add7855de40f1950abeea6390735d3",
     "semantic_hash": ""
   },
   "LEDGER/lib/aggregate.js": {
-    "mtime": 1793087877.6183834,
-    "seen": 1793170932.0232046,
-    "ast_hash": "e26891093044991fe4a7235f979dfaa9",
+    "mtime": 1793930642.1604862,
+    "seen": 1793936056.1164815,
+    "ast_hash": "24d569d122837e69fe260dbe8ad61875",
     "semantic_hash": ""
   },
   "LEDGER/lib/auth.js": {
@@ -150,9 +150,9 @@
     "semantic_hash": ""
   },
   "LEDGER/lib/schema.js": {
-    "mtime": 1793087877.6261768,
-    "seen": 1793170932.0232046,
-    "ast_hash": "13a07b639ecd449d414b09886a711634",
+    "mtime": 1793930642.1604862,
+    "seen": 1793936056.1164815,
+    "ast_hash": "f7a017952a5694b9eeca2b2955cab716",
     "semantic_hash": ""
   },
   "LEDGER/lib/signature.js": {
@@ -162,21 +162,21 @@
     "semantic_hash": ""
   },
   "LEDGER/lib/store.js": {
-    "mtime": 1793087877.627177,
-    "seen": 1793170932.0232046,
-    "ast_hash": "70c445524f94011eda7d279688516483",
+    "mtime": 1793930642.1652284,
+    "seen": 1793936056.1164815,
+    "ast_hash": "84fa6ca4679cdbac83fbf251f890a88b",
     "semantic_hash": ""
   },
   "LEDGER/package.json": {
-    "mtime": 1793087877.630001,
-    "seen": 1793170932.0232046,
-    "ast_hash": "81a4fb1a6498aecb566eede6c51a86fd",
+    "mtime": 1793930642.1652284,
+    "seen": 1793936056.1164815,
+    "ast_hash": "74aaccd9a68da4688cc7b62da16bd6dc",
     "semantic_hash": ""
   },
   "LEDGER/reports/index.json": {
-    "mtime": 1793092776.5123582,
-    "seen": 1793170932.0232046,
-    "ast_hash": "b9f5637f15646106e38080a5e32c1a1a",
+    "mtime": 1793926416.5719845,
+    "seen": 1793929184.86772,
+    "ast_hash": "845c23f33ea43779afe27dfa07a41fd8",
     "semantic_hash": ""
   },
   "LEDGER/scripts/backup-ledger.mjs": {
@@ -270,9 +270,9 @@
     "semantic_hash": ""
   },
   "LEDGER/tests/audit-backup.test.mjs": {
-    "mtime": 1793087877.6671946,
-    "seen": 1793170932.0232046,
-    "ast_hash": "d6abf2a3cd3eef90689191ce32657b7d",
+    "mtime": 1793926416.585293,
+    "seen": 1793929184.8697312,
+    "ast_hash": "07a4335e0ef05e9689c279426af732a7",
     "semantic_hash": ""
   },
   "LEDGER/tests/bot-symbols.test.mjs": {
@@ -300,9 +300,9 @@
     "semantic_hash": ""
   },
   "LEDGER/tests/contact.test.mjs": {
-    "mtime": 1792727481.1329148,
-    "seen": 1793170932.0232046,
-    "ast_hash": "3948f8ef6d0f99b69a139b7f7525f7fb",
+    "mtime": 1793926416.5872989,
+    "seen": 1793929184.8697312,
+    "ast_hash": "7dcd79fbc8a839289a715e7369ea3308",
     "semantic_hash": ""
   },
   "LEDGER/tests/gate-ui.test.mjs": {
@@ -312,9 +312,9 @@
     "semantic_hash": ""
   },
   "LEDGER/tests/hwm-settlement.test.mjs": {
-    "mtime": 1793087877.6830585,
-    "seen": 1793170932.0232046,
-    "ast_hash": "9879ebafd3d293797adad09eeab14df2",
+    "mtime": 1793926416.5892785,
+    "seen": 1793929184.8697312,
+    "ast_hash": "a570e694fee7453ea710d82a8c02b1a6",
     "semantic_hash": ""
   },
   "LEDGER/tests/hwm.test.mjs": {
@@ -354,9 +354,9 @@
     "semantic_hash": ""
   },
   "LEDGER/tests/pool-update.test.mjs": {
-    "mtime": 1793087877.6830585,
-    "seen": 1793170932.0232046,
-    "ast_hash": "e25ddcb7157efe61d7285d976bbd367e",
+    "mtime": 1793926416.5892785,
+    "seen": 1793929184.8717482,
+    "ast_hash": "19a4edfb336038ace7dc9444a356f596",
     "semantic_hash": ""
   },
   "LEDGER/tests/position-ui.test.mjs": {
@@ -366,33 +366,33 @@
     "semantic_hash": ""
   },
   "LEDGER/tests/record-help.test.mjs": {
-    "mtime": 1793087877.6830585,
-    "seen": 1793170932.0232046,
-    "ast_hash": "a9d98e4173a2718308ce831a57dc98b0",
+    "mtime": 1793926416.5892785,
+    "seen": 1793929184.8717482,
+    "ast_hash": "334d8889fe099160e8f35b9e5ca869af",
     "semantic_hash": ""
   },
   "LEDGER/tests/returns.test.mjs": {
-    "mtime": 1793087877.6830585,
-    "seen": 1793170932.0232046,
-    "ast_hash": "84d00c25a67d27bd05a994c95c4468fd",
+    "mtime": 1793926416.591787,
+    "seen": 1793929184.8717482,
+    "ast_hash": "fc4a4f9b57b749eb983069a73e834c8d",
     "semantic_hash": ""
   },
   "LEDGER/tests/risk-fixes.test.mjs": {
-    "mtime": 1793087877.6830585,
-    "seen": 1793170932.0232046,
-    "ast_hash": "1c3680e88f4bce13aa411d387ce9c4bb",
+    "mtime": 1793926416.591787,
+    "seen": 1793929184.8717482,
+    "ast_hash": "483bee22013b7f317e66a1815917b786",
     "semantic_hash": ""
   },
   "LEDGER/tests/settlement-workflow.test.mjs": {
-    "mtime": 1793087877.6830585,
-    "seen": 1793170932.0232046,
-    "ast_hash": "4d8d08924cae3db8fbadb985abea5971",
+    "mtime": 1793926416.591787,
+    "seen": 1793929184.8717482,
+    "ast_hash": "a459b9a439194f61d19200101aaf15a9",
     "semantic_hash": ""
   },
   "LEDGER/tests/statements.test.mjs": {
-    "mtime": 1793087877.6830585,
-    "seen": 1793170932.0232046,
-    "ast_hash": "63982c819665898228dc5257ed4f5469",
+    "mtime": 1793926416.591787,
+    "seen": 1793929184.8717482,
+    "ast_hash": "8b8450dc467b0a2d7bce6250ef87d74d",
     "semantic_hash": ""
   },
   "LEDGER/tests/withdrawal-fee.test.mjs": {
@@ -402,9 +402,9 @@
     "semantic_hash": ""
   },
   "LEDGER/vercel.json": {
-    "mtime": 1793087877.6830585,
-    "seen": 1793170932.0232046,
-    "ast_hash": "2ce08dd865bc044cf16f77651dc96424",
+    "mtime": 1793926416.5947173,
+    "seen": 1793929184.8717482,
+    "ast_hash": "606b0cb4b986f949d8595cb465b74843",
     "semantic_hash": ""
   },
   "js/api.js": {
@@ -3738,9 +3738,9 @@
     "semantic_hash": ""
   },
   "LEDGER/bot-dashboard/index.html": {
-    "mtime": 1793087877.5943515,
-    "seen": 1793170932.026485,
-    "ast_hash": "4a9a882955580e8d444660a3c3b93ecd",
+    "mtime": 1793930642.1604862,
+    "seen": 1793936056.1936455,
+    "ast_hash": "c938dfde69bd21168c113d2fc9ded5fb",
     "semantic_hash": ""
   },
   "LEDGER/docs/accounting-model.md": {
@@ -3768,33 +3768,33 @@
     "semantic_hash": ""
   },
   "LEDGER/login.html": {
-    "mtime": 1793087877.627177,
-    "seen": 1793170932.026485,
-    "ast_hash": "850cbcb0547ce2e0c52bad53e27a6347",
+    "mtime": 1793926416.5618968,
+    "seen": 1793929185.0538514,
+    "ast_hash": "e188a23042d8cedf340ce8dc6c995ccb",
     "semantic_hash": ""
   },
   "LEDGER/reports/backtest-data-usd.html": {
-    "mtime": 1793699566.4226992,
-    "seen": 1793699643.216925,
-    "ast_hash": "add4e413e61cea9c594b2604a15157da",
+    "mtime": 1793926416.5618968,
+    "seen": 1793929185.0538514,
+    "ast_hash": "5528b792bc2c209bfb17952cfb867def",
     "semantic_hash": ""
   },
   "LEDGER/reports/backtest-data.html": {
-    "mtime": 1793699566.418192,
-    "seen": 1793699643.216925,
-    "ast_hash": "829248c3b2f985287967b6e80e8557ef",
+    "mtime": 1793926416.5657132,
+    "seen": 1793929185.0538514,
+    "ast_hash": "700ccab2c5ba4d240e26cbc9368671cb",
     "semantic_hash": ""
   },
   "LEDGER/reports/four-coin-5pct.html": {
-    "mtime": 1793087877.6436207,
-    "seen": 1793170932.026485,
-    "ast_hash": "5dab137d4bd06352ff6ddbde4ab2fd3f",
+    "mtime": 1793926416.5719845,
+    "seen": 1793929185.0538514,
+    "ast_hash": "aaed36d5116b1cabed1ac93d928764c4",
     "semantic_hash": ""
   },
   "LEDGER/reports/how-lucid-io-works-v2.html": {
-    "mtime": 1793699624.1703687,
-    "seen": 1793699643.2196882,
-    "ast_hash": "89a6866c7bf4fffdbc8e80e15a77e7e0",
+    "mtime": 1793926416.5719845,
+    "seen": 1793929185.0538514,
+    "ast_hash": "4d6330308d93346df0c8be531a1b8875",
     "semantic_hash": ""
   },
   "LEDGER/reports/how-lucid-io-works.html": {
@@ -3803,22 +3803,10 @@
     "ast_hash": "f2cfda9daca3f79d3f122d9b1ba4b37f",
     "semantic_hash": ""
   },
-  "LEDGER/reports/ichimoku-vs-current-bot.html": {
-    "mtime": 1793092776.5113587,
-    "seen": 1793170932.026485,
-    "ast_hash": "de80a0532211aa5975c3ca91e30b49b4",
-    "semantic_hash": ""
-  },
   "LEDGER/reports/index.html": {
     "mtime": 1793087877.6533225,
     "seen": 1793170932.026485,
     "ast_hash": "0b5f2ed96f3ae47a6c952383f14f2608",
-    "semantic_hash": ""
-  },
-  "LEDGER/reports/merged-strategies-sol.html": {
-    "mtime": 1793087877.83639,
-    "seen": 1793170932.026485,
-    "ast_hash": "c130fe94988d548519c5d9ff7f69a23d",
     "semantic_hash": ""
   },
   "LEDGER/reports/risk-and-compounding.html": {
@@ -5004,9 +4992,9 @@
     "semantic_hash": ""
   },
   "LEDGER/reports/backtest-data.pdf": {
-    "mtime": 1793087877.6425786,
-    "seen": 1793170932.026485,
-    "ast_hash": "d4d898c338d1edc40ecdffdd02cb9e52",
+    "mtime": 1793926416.5657132,
+    "seen": 1793929185.1005962,
+    "ast_hash": "af97fcb1a7662820bca14a5f12327249",
     "semantic_hash": ""
   },
   "LEDGER/reports/four-coin-5pct.pdf": {
@@ -5508,9 +5496,9 @@
     "semantic_hash": ""
   },
   "report-index/INDEX.md": {
-    "mtime": 1793867745.8950615,
-    "seen": 1793867758.989467,
-    "ast_hash": "bee4fd67c01e5bd1a5b2df7f289b2345",
+    "mtime": 1793936039.0928597,
+    "seen": 1793936056.1936455,
+    "ast_hash": "cb0cbf9efeebb5f61b46c9d29587423f",
     "semantic_hash": ""
   },
   "research/bb-core/hold-time/out-no-target.txt": {
@@ -6213,6 +6201,618 @@
     "mtime": 1793867736.8333743,
     "seen": 1793867758.9687502,
     "ast_hash": "cb40a2468ab296f3f8ce1e57eed32881",
+    "semantic_hash": ""
+  },
+  "LEDGER/bot-dashboard/regime-history.json": {
+    "mtime": 1793930642.1604862,
+    "seen": 1793936056.1164815,
+    "ast_hash": "07be28c8155ad1e6793e08fdd8fa374e",
+    "semantic_hash": ""
+  },
+  "LEDGER/bot-dashboard/research.js": {
+    "mtime": 1793930642.1604862,
+    "seen": 1793936056.1164815,
+    "ast_hash": "7ce1ece22bc0d8e1b928db389a451d20",
+    "semantic_hash": ""
+  },
+  "LEDGER/js/bottotal.js": {
+    "mtime": 1793926416.5562174,
+    "seen": 1793929184.8657134,
+    "ast_hash": "a33a924e43601a52e46e7c63a4407b1d",
+    "semantic_hash": ""
+  },
+  "LEDGER/js/confirmsheet.js": {
+    "mtime": 1793926416.5562174,
+    "seen": 1793929184.8657134,
+    "ast_hash": "9b139b5d182a236fa9d06a50cfb5e782",
+    "semantic_hash": ""
+  },
+  "LEDGER/js/investorctx.js": {
+    "mtime": 1793926416.5562174,
+    "seen": 1793929184.8657134,
+    "ast_hash": "cff6204fb74e0e947066f41ac0755cf9",
+    "semantic_hash": ""
+  },
+  "LEDGER/js/settlepreview.js": {
+    "mtime": 1793926416.5562174,
+    "seen": 1793929184.8657134,
+    "ast_hash": "0a4b0ec3bf556ee8be65dbfae12d02b5",
+    "semantic_hash": ""
+  },
+  "LEDGER/lib/perf.js": {
+    "mtime": 1793926416.5608902,
+    "seen": 1793929184.86772,
+    "ast_hash": "7bf013f98c2edef22b7aba536ebead35",
+    "semantic_hash": ""
+  },
+  "LEDGER/scripts/new-wallet-key.mjs": {
+    "mtime": 1793926416.57941,
+    "seen": 1793929184.86772,
+    "ast_hash": "566ee4ec172374c74c478519c5d4adce",
+    "semantic_hash": ""
+  },
+  "LEDGER/tests/bot-lab.test.mjs": {
+    "mtime": 1793930642.16663,
+    "seen": 1793936056.1164815,
+    "ast_hash": "09efbf4326da36b8fb2f545923ceb7d9",
+    "semantic_hash": ""
+  },
+  "LEDGER/tests/bot-research.test.mjs": {
+    "mtime": 1793926822.7313714,
+    "seen": 1793929184.8697312,
+    "ast_hash": "59b814a20cd88a13a2010c73029f3d68",
+    "semantic_hash": ""
+  },
+  "LEDGER/tests/bottotal.test.mjs": {
+    "mtime": 1793926416.5872989,
+    "seen": 1793929184.8697312,
+    "ast_hash": "0642cdd48bcea9e8ac53960e39a51ebf",
+    "semantic_hash": ""
+  },
+  "LEDGER/tests/closed-trades.test.mjs": {
+    "mtime": 1793926416.5872989,
+    "seen": 1793929184.8697312,
+    "ast_hash": "20d89ec74c0f8da3cb31c31cf6908442",
+    "semantic_hash": ""
+  },
+  "LEDGER/tests/confirmed-fee.test.mjs": {
+    "mtime": 1793926416.5872989,
+    "seen": 1793929184.8697312,
+    "ast_hash": "c9829bb8092d104bfde8285a480c7109",
+    "semantic_hash": ""
+  },
+  "LEDGER/tests/dashboard-booked-pnl.test.mjs": {
+    "mtime": 1793926416.5872989,
+    "seen": 1793929184.8697312,
+    "ast_hash": "d41ec0828bcff4781bb6a012d174b650",
+    "semantic_hash": ""
+  },
+  "LEDGER/tests/dashboard-capital.test.mjs": {
+    "mtime": 1793930642.167236,
+    "seen": 1793936056.1164815,
+    "ast_hash": "bf14f63466da2fdd8bac8d9cc89a864c",
+    "semantic_hash": ""
+  },
+  "LEDGER/tests/fee-summary-preview.test.mjs": {
+    "mtime": 1793926416.5892785,
+    "seen": 1793929184.8697312,
+    "ast_hash": "5469e7c3f9dd2fa553d1c8afe325ff8b",
+    "semantic_hash": ""
+  },
+  "LEDGER/tests/profile-ui.test.mjs": {
+    "mtime": 1793926416.5892785,
+    "seen": 1793929184.8717482,
+    "ast_hash": "d1f9fa8bc5cd1c2c64b278bc30bad446",
+    "semantic_hash": ""
+  },
+  "LEDGER/tests/profile.test.mjs": {
+    "mtime": 1793926416.5892785,
+    "seen": 1793929184.8717482,
+    "ast_hash": "e781646caf08e15880f3fd97d5bf7fe3",
+    "semantic_hash": ""
+  },
+  "LEDGER/tests/ranges-start.test.mjs": {
+    "mtime": 1793926416.5892785,
+    "seen": 1793929184.8717482,
+    "ast_hash": "7111b9625f1535829da8f0eadb89b248",
+    "semantic_hash": ""
+  },
+  "LEDGER/tests/stage1-ui.test.mjs": {
+    "mtime": 1793926416.591787,
+    "seen": 1793929184.8717482,
+    "ast_hash": "eb4a7c6faa33d17b071404722a1da29e",
+    "semantic_hash": ""
+  },
+  "LEDGER/tests/units-from-manager.test.mjs": {
+    "mtime": 1793926416.591787,
+    "seen": 1793929184.8717482,
+    "ast_hash": "67cccf584f64b7623f0c0a402cf62197",
+    "semantic_hash": ""
+  },
+  "LEDGER/tests/wallet-snapshots.test.mjs": {
+    "mtime": 1793926416.591787,
+    "seen": 1793929184.8717482,
+    "ast_hash": "3de4ad28916b1e3336e6354b53577f79",
+    "semantic_hash": ""
+  },
+  "LEDGER/tests/withdraw-safety.test.mjs": {
+    "mtime": 1793926416.5947173,
+    "seen": 1793929184.8717482,
+    "ast_hash": "07b26586c3976ce7bfbaf532317385a8",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/apply-1h-patch.js": {
+    "mtime": 1793868821.8845575,
+    "seen": 1793929184.8717482,
+    "ast_hash": "4dcbce397e4baf3e39ea80d93e618b01",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/bot-config.json": {
+    "mtime": 1793930403.6858008,
+    "seen": 1793936056.1250224,
+    "ast_hash": "41033955631d77223b6f7b3c4e933e18",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/build-bundle.sh": {
+    "mtime": 1793930403.6858008,
+    "seen": 1793936056.1250224,
+    "ast_hash": "49cc2234489ed2a8d9467159a36a4dd7",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/config.js": {
+    "mtime": 1793930403.6858008,
+    "seen": 1793936056.1250224,
+    "ast_hash": "e82545cd6c6c19d71ce73d87910a3a55",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/dashboard-push.js": {
+    "mtime": 1793930403.6904798,
+    "seen": 1793936056.1250224,
+    "ast_hash": "be915c0e9a4c92929d587bae10d8bc7c",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/deploy-1h/install-1h-paper.sh": {
+    "mtime": 1793930476.1397114,
+    "seen": 1793936056.1250224,
+    "ast_hash": "38a632fea4d174b265386d3319d55a57",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/deploy-1h/status.sh": {
+    "mtime": 1793868822.100626,
+    "seen": 1793929184.8717482,
+    "ast_hash": "93a81ad86c03b900adf761913fbe5733",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/envfile.js": {
+    "mtime": 1793868821.6872733,
+    "seen": 1793929184.8717482,
+    "ast_hash": "1bf87b4ceef1f73e3d939549dfc58690",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/journal.js": {
+    "mtime": 1793868821.7313874,
+    "seen": 1793929184.8717482,
+    "ast_hash": "ee6fda705b385066ebb3a35d52bb95ce",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/keyinfo.js": {
+    "mtime": 1793868821.8075638,
+    "seen": 1793929184.8717482,
+    "ast_hash": "ca71172e0dc68595e710455af319badd",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/ledger-sync.js": {
+    "mtime": 1793868821.782322,
+    "seen": 1793929184.8717482,
+    "ast_hash": "c2708dca52fc144972bdc445371c62b1",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/live.js": {
+    "mtime": 1793868821.6415572,
+    "seen": 1793929184.8717482,
+    "ast_hash": "d42a676a8ce16dc01e7465c305144378",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/lucidio-core.js": {
+    "mtime": 1793868821.59404,
+    "seen": 1793929184.8717482,
+    "ast_hash": "c03f3e79edff581b0e4220ddb1f3d708",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/lucidio.js": {
+    "mtime": 1793930403.6933024,
+    "seen": 1793936056.1250224,
+    "ast_hash": "84ae0dd0caa0ca9c62ef992ae306861b",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/mexc.js": {
+    "mtime": 1793930403.693851,
+    "seen": 1793936056.1250224,
+    "ast_hash": "f8ce19a44307c595c1d9ffe16ce6f0d1",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/paper-vs-backtest.js": {
+    "mtime": 1793868821.8326392,
+    "seen": 1793929184.8717482,
+    "ast_hash": "b4a5e289e83efb84af7fa2032d8ec21d",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/parity-check.js": {
+    "mtime": 1793868821.8583083,
+    "seen": 1793929184.8717482,
+    "ast_hash": "8b3bb2d8d59fd002cb21054a26d0bc1d",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/realpaper.js": {
+    "mtime": 1793930403.6948988,
+    "seen": 1793936056.126264,
+    "ast_hash": "d0fd5d696f30b42c6378802ffcb458fd",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/telegram.js": {
+    "mtime": 1793930403.4545207,
+    "seen": 1793936056.126264,
+    "ast_hash": "4d534dd91ca6493aa4506cdad7186ff6",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/test/realpaper-integration-test.js": {
+    "mtime": 1793930403.6954463,
+    "seen": 1793936056.126264,
+    "ast_hash": "d09562eec49d8f73049ff36565815221",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/test/realpaper-test.js": {
+    "mtime": 1793930403.6964853,
+    "seen": 1793936056.126264,
+    "ast_hash": "66bd2e06a92a13daa070ace187bdaba3",
+    "semantic_hash": ""
+  },
+  "lucidio-recorder/archive.js": {
+    "mtime": 1793930403.698062,
+    "seen": 1793936056.126264,
+    "ast_hash": "8aacfd198978a5ac617566228bbfc2f5",
+    "semantic_hash": ""
+  },
+  "lucidio-recorder/bookstats.js": {
+    "mtime": 1793930403.6996095,
+    "seen": 1793936056.126264,
+    "ast_hash": "c5ce82336444a7b5346b693984cda6b2",
+    "semantic_hash": ""
+  },
+  "lucidio-recorder/deploy/add-swap.sh": {
+    "mtime": 1793930403.7006414,
+    "seen": 1793936056.126264,
+    "ast_hash": "e840267b465a89a92acc55b32ead9eac",
+    "semantic_hash": ""
+  },
+  "lucidio-recorder/deploy/install-recorder.sh": {
+    "mtime": 1793930403.701165,
+    "seen": 1793936056.126264,
+    "ast_hash": "c1cf662c9a78e3adb50a092ba18fe20f",
+    "semantic_hash": ""
+  },
+  "lucidio-recorder/deploy/status.sh": {
+    "mtime": 1793930403.7016778,
+    "seen": 1793936056.126264,
+    "ast_hash": "214946ea0f8c5af6256878186982828f",
+    "semantic_hash": ""
+  },
+  "lucidio-recorder/deploy/vps-check.sh": {
+    "mtime": 1793930403.7030592,
+    "seen": 1793936056.126264,
+    "ast_hash": "f49973391d7672ec60644d41125e17c7",
+    "semantic_hash": ""
+  },
+  "lucidio-recorder/mexcpub.js": {
+    "mtime": 1793930403.7030592,
+    "seen": 1793936056.126264,
+    "ast_hash": "7f2c3d1f8597792b4f8b4b1b11fe3c9d",
+    "semantic_hash": ""
+  },
+  "lucidio-recorder/push.js": {
+    "mtime": 1793930403.7040863,
+    "seen": 1793936056.126264,
+    "ast_hash": "2785cd3270b6bdbe164734cc8942675b",
+    "semantic_hash": ""
+  },
+  "lucidio-recorder/recorder.js": {
+    "mtime": 1793930403.7040863,
+    "seen": 1793936056.126264,
+    "ast_hash": "0ff7dbc147ea4a07b69382bb3e04bcaa",
+    "semantic_hash": ""
+  },
+  "lucidio-recorder/regime-history.js": {
+    "mtime": 1793930403.7040863,
+    "seen": 1793936056.126264,
+    "ast_hash": "7efa37c2cb0d65d643723ba458ef4826",
+    "semantic_hash": ""
+  },
+  "lucidio-recorder/regime.js": {
+    "mtime": 1793930403.7040863,
+    "seen": 1793936056.126264,
+    "ast_hash": "982101741d338803facb9d6570dd07d5",
+    "semantic_hash": ""
+  },
+  "lucidio-recorder/test/recorder-test.js": {
+    "mtime": 1793930403.7040863,
+    "seen": 1793936056.126264,
+    "ast_hash": "68336851716a4084e45b92039456c99d",
+    "semantic_hash": ""
+  },
+  "vps-lab/build-lab.sh": {
+    "mtime": 1793930403.7040863,
+    "seen": 1793936056.1936455,
+    "ast_hash": "8b7365011252b58c3fc95d323d74abd7",
+    "semantic_hash": ""
+  },
+  "vps-lab/install-lab.sh": {
+    "mtime": 1793930403.7040863,
+    "seen": 1793936056.1936455,
+    "ast_hash": "0508e7e79caaa77f485d23fea3469fd2",
+    "semantic_hash": ""
+  },
+  "LEDGER/docs/NEXT-STEPS-GUIDE.md": {
+    "mtime": 1793926416.5516694,
+    "seen": 1793929185.0538514,
+    "ast_hash": "d6b5c210d1cf6691373ada75553c8ee8",
+    "semantic_hash": ""
+  },
+  "LEDGER/docs/SCENARIOS.md": {
+    "mtime": 1793926416.5516694,
+    "seen": 1793929185.0538514,
+    "ast_hash": "865dfe77cf05eb053c8108b302f56061",
+    "semantic_hash": ""
+  },
+  "LEDGER/docs/confirmed-gain-fee.md": {
+    "mtime": 1793926416.5516694,
+    "seen": 1793929185.0538514,
+    "ast_hash": "9ae973483842e551dc3a8901916786b0",
+    "semantic_hash": ""
+  },
+  "LEDGER/docs/full-exit-rounding.md": {
+    "mtime": 1793926416.5516694,
+    "seen": 1793929185.0538514,
+    "ast_hash": "839fbf8cc1a8c0716e1fd984cdb422c0",
+    "semantic_hash": ""
+  },
+  "LEDGER/docs/wallet-snapshots.md": {
+    "mtime": 1793926416.5516694,
+    "seen": 1793929185.0538514,
+    "ast_hash": "bd10afba932be2caa22211c782f10092",
+    "semantic_hash": ""
+  },
+  "LEDGER/reports/alt-bot-vs-current.html": {
+    "mtime": 1793926416.5618968,
+    "seen": 1793929185.0538514,
+    "ast_hash": "a8d852bb8018367304802141025de80d",
+    "semantic_hash": ""
+  },
+  "LEDGER/reports/bbcore-1h-1000-pesos.html": {
+    "mtime": 1793926416.5657132,
+    "seen": 1793929185.0538514,
+    "ast_hash": "d74a50dbe9fbb246510909c4e5717ebc",
+    "semantic_hash": ""
+  },
+  "LEDGER/reports/bbcore-1h-search.html": {
+    "mtime": 1793926416.5657132,
+    "seen": 1793929185.0538514,
+    "ast_hash": "fdc7ec521b66f90a2b9fd340e9662880",
+    "semantic_hash": ""
+  },
+  "LEDGER/reports/bbcore-4h-vs-1h.html": {
+    "mtime": 1793926416.569189,
+    "seen": 1793929185.0538514,
+    "ast_hash": "facbf58224ca9f3941bd6b21e569a9a5",
+    "semantic_hash": ""
+  },
+  "LEDGER/reports/bot-10k-report.html": {
+    "mtime": 1793926416.5719845,
+    "seen": 1793929185.0538514,
+    "ast_hash": "0b0c30f152d4d549f600b037746b9085",
+    "semantic_hash": ""
+  },
+  "LEDGER/reports/ma-trend-7coins-by-year.html": {
+    "mtime": 1793926416.5719845,
+    "seen": 1793929185.0538514,
+    "ast_hash": "e0d9028eb6ba42fbfece9a11d46ef7d9",
+    "semantic_hash": ""
+  },
+  "LEDGER/reports/ma-trend-split-5coins.html": {
+    "mtime": 1793926416.5719845,
+    "seen": 1793929185.0538514,
+    "ast_hash": "8dfb89756a8c090cdda33cfabe71f7be",
+    "semantic_hash": ""
+  },
+  "LEDGER/reports/ma-trend-vs-bots.html": {
+    "mtime": 1793926416.5775023,
+    "seen": 1793929185.0538514,
+    "ast_hash": "1d04243d7392450a516393d6bd89e85c",
+    "semantic_hash": ""
+  },
+  "LEDGER/reports/merged-strategies-single-market.html": {
+    "mtime": 1793926416.5775023,
+    "seen": 1793929185.0538514,
+    "ast_hash": "9e279ced558108b9236e8347cdb78bb5",
+    "semantic_hash": ""
+  },
+  "LEDGER/reports/three-way-comparison.html": {
+    "mtime": 1793926416.5775023,
+    "seen": 1793929185.055878,
+    "ast_hash": "f1df2e92fd13001c75b413b31441f8c4",
+    "semantic_hash": ""
+  },
+  "LEDGER/reports/two-bot-trades-and-profit.html": {
+    "mtime": 1793926416.5775023,
+    "seen": 1793929185.055878,
+    "ast_hash": "678fbca88d6e7b1574a81ae1c61cd1ea",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/HOME-VPS-INSTRUCTIONS.md": {
+    "mtime": 1793930516.8172374,
+    "seen": 1793936056.1936455,
+    "ast_hash": "dcd4b7a9eb2e4e2ebf80a7a63586384e",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/README-1H.md": {
+    "mtime": 1793930476.1411805,
+    "seen": 1793936056.1936455,
+    "ast_hash": "46411fbb9e48516e6f7673a84ede45ab",
+    "semantic_hash": ""
+  },
+  "bb-core-1h/VPS-1H-PAPER.md": {
+    "mtime": 1793930476.1411805,
+    "seen": 1793936056.1936455,
+    "ast_hash": "389b4d7a7986a45c1d2a7647ab6ac667",
+    "semantic_hash": ""
+  },
+  "lucidio-recorder/README.md": {
+    "mtime": 1793930403.697011,
+    "seen": 1793936056.1936455,
+    "ast_hash": "2dae98bdcc5a56e9f28377e37716b879",
+    "semantic_hash": ""
+  },
+  "vps-lab/VPS-LAB-INSTALL.md": {
+    "mtime": 1793930498.2302966,
+    "seen": 1793936056.2196164,
+    "ast_hash": "427f7f485f80d015d597666071f1c4e4",
+    "semantic_hash": ""
+  },
+  "vps-lab/VPS-LAB-INSTALL.template.md": {
+    "mtime": 1793930476.1411805,
+    "seen": 1793936056.2196164,
+    "ast_hash": "c49ff8941fa7ccd3d797e4fb629b9d25",
+    "semantic_hash": ""
+  },
+  "LEDGER/reports/bbcore-icore-trades-and-profit.pdf": {
+    "mtime": 1793926416.5719845,
+    "seen": 1793929185.1005962,
+    "ast_hash": "35e1a74e586a08f93bb6fa66659c3493",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/allpairs.js": {
+    "mtime": 1793934361.1888533,
+    "seen": 1793936056.190877,
+    "ast_hash": "18c19244ab480af1fa89ad1a2634099d",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/analyze.js": {
+    "mtime": 1793933361.9688995,
+    "seen": 1793936056.190877,
+    "ast_hash": "889ab5ebbd2abe544c79d23cbc3ab2d6",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/build-report.js": {
+    "mtime": 1793935949.546911,
+    "seen": 1793936056.190877,
+    "ast_hash": "9e4d380a441b417279736718f5e240b0",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/combos.js": {
+    "mtime": 1793934341.4802978,
+    "seen": 1793936056.190877,
+    "ast_hash": "b271d1dc5a4e83a19a5cd388a8bad254",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/data.js": {
+    "mtime": 1793930257.3121192,
+    "seen": 1793936056.190877,
+    "ast_hash": "a140eb06bdbc044568ccc27fe5da04a1",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/engine.js": {
+    "mtime": 1793930255.0163763,
+    "seen": 1793936056.190877,
+    "ast_hash": "8480f9f1c5e6e14ccd504614d7aa6a4d",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/ind.js": {
+    "mtime": 1793930245.020415,
+    "seen": 1793936056.190877,
+    "ast_hash": "e53e56cc35a189858897c4e82a578187",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/lookahead.js": {
+    "mtime": 1793930359.6669173,
+    "seen": 1793936056.190877,
+    "ast_hash": "5833950bb7c66e6130c326c88b80c814",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/paramscan.js": {
+    "mtime": 1793934317.4075289,
+    "seen": 1793936056.190877,
+    "ast_hash": "9bf24d407ac74d6224adcd66bf4719ec",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/results-cost2.json": {
+    "mtime": 1793935923.55082,
+    "seen": 1793936056.190877,
+    "ast_hash": "7611ad317be56c266ac0c5dbd47a1e37",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/results-hybrid.json": {
+    "mtime": 1793934274.9740787,
+    "seen": 1793936056.190877,
+    "ast_hash": "79df35356a62a690bbd13902dfd5646c",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/results.json": {
+    "mtime": 1793932703.2593753,
+    "seen": 1793936056.190877,
+    "ast_hash": "a6e27e6c7bc4d38852f31c6ce2ced954",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/run.js": {
+    "mtime": 1793932746.9695666,
+    "seen": 1793936056.190877,
+    "ast_hash": "d79be31e1dbd0b0ee413492719015d5c",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/strategies.js": {
+    "mtime": 1793932746.9695666,
+    "seen": 1793936056.190877,
+    "ast_hash": "27d3d4318785371aa6341db43c4a6a59",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/tables.js": {
+    "mtime": 1793930989.618285,
+    "seen": 1793936056.190877,
+    "ast_hash": "73b613bd855f36ae583b5ac2b8d38f41",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/trades-hybrid.json": {
+    "mtime": 1793934274.9740787,
+    "seen": 1793936056.190877,
+    "ast_hash": "811f79967ca38ce485c0874c0be56449",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/validate.js": {
+    "mtime": 1793930347.2709432,
+    "seen": 1793936056.190877,
+    "ast_hash": "494772f2fea01bcbbc5bc6aa9f491c6d",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/REPORT-FULL-TABLES.md": {
+    "mtime": 1793936034.5420885,
+    "seen": 1793936056.2196164,
+    "ast_hash": "37b1f851771fab237f8e35c1d1c9e221",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/REPORT.md": {
+    "mtime": 1793936034.5420885,
+    "seen": 1793936056.2196164,
+    "ast_hash": "2d38b985fa08c51efca448c4f888ac40",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/REPORT.template.md": {
+    "mtime": 1793936033.7891252,
+    "seen": 1793936056.2196164,
+    "ast_hash": "bb1b290db6bec2a618d6f41316daa465",
+    "semantic_hash": ""
+  },
+  "research/strat-hunt-nov6/paramscan.txt": {
+    "mtime": 1793934321.1583712,
+    "seen": 1793936056.2196164,
+    "ast_hash": "1bf818339572ca68e3aad2c414529313",
     "semantic_hash": ""
   },
   "LEDGER/package-lock.json": {
