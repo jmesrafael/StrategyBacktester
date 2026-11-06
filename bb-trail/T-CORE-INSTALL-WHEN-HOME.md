@@ -26,7 +26,7 @@ The bot's own Telegram messages and console text still say "BB-Trail". That is e
 | Install file `bb-trail/VPS-TRAIL-INSTALL.md` | built, newer than every code file. SHA-256 of the embedded bundle: `91f86622d4e3bed2eaa0cd64733a673f756d9bb407844e7a4613ff1a02780b28` |
 | Dashboard support (`ledger/`, repo `jmesrafael/ledger`) | **DONE.** Committed and pushed to `main` as `12046bd` ("Dashboard: T-CORE paper lab bot (bbtr), trend capture, TRI-CORE report"). `npm test`: 372 passed, 0 failed. The public site (lucidio.vercel.app) was serving the new report right after the push, so the deploy is live. |
 | Dashboard label | renamed "BB-Trail lab" to "T-CORE lab" (before the push) |
-| VPS install | **TODO** (the owner thought it might already be there; the files say it is not. Check first, see step 0) |
+| VPS install | **DONE Nov 6, 2026 ~08:27 UTC**, connected to dashboard, verified (do not reinstall; step 0 will show active) |
 | Live trading | not enabled and not part of this install. See `LIVE-READINESS-TCORE.md` |
 
 ## Rules (do not break)

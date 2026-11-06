@@ -21,8 +21,8 @@ Do NOT grep or read whole report files. Query the index instead:
 - After new reports are generated or edited, run `python report-index/rq.py update` (incremental, <1s).
 Raw candle caches (cache-1m, data*, funding) are intentionally not indexed.
 
-## Pending: T-CORE paper lab (formerly BB-Trail, bot tag bbtr; built Nov 6, 2026, VPS install not done yet)
+## T-CORE paper lab (formerly BB-Trail, bot tag bbtr; built Nov 6, 2026, INSTALLED on the VPS Nov 6, 2026, service bbtrail)
 
-- If the owner asks to install T-CORE / the trail bot, continue the T-CORE install or "do the handoff", read `bb-trail/T-CORE-INSTALL-WHEN-HOME.md` and follow it (step 0 checks whether it is already on the VPS). Paper only; confirm the VPS install with the owner. The dashboard side is already pushed and live (ledger commit 12046bd).
+- Already installed and connected to the dashboard; do not reinstall. Check with `sudo bash /opt/bbtrail/deploy-trail/status.sh [report|compare]`. Plan record: `bb-trail/T-CORE-INSTALL-WHEN-HOME.md`. Paper only.
 - Going live later: `bb-trail/LIVE-READINESS-TCORE.md` (plan and gates only).
 - Names: TRI-CORE = BB-CORE + I-CORE + T-CORE (50/25/25). Report: `../ledger/reports/live-pair-vs-three-bot.html`.
