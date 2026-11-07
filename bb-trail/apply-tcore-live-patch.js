@@ -39,6 +39,14 @@ edit('telegram.js', [["const CORE = 'TRAIL LAB';", "const CORE = 'CORE 3';", 1]]
 // ledger-sync.js reads the key file next to the code; T-CORE's code folder is root-owned, so its keys live in ICORE_KEYS (/var/lib/tcore). Without this the wallet reports and closed trades never reach the ledger.
 edit('ledger-sync.js', [["const KEYS = path.join(__dirname, 'mexc-keys.json');", "const KEYS = process.env.ICORE_KEYS || path.join(__dirname, 'mexc-keys.json');", 1]]);
 
+// the paper lab's wording would be wrong on a live bot: Telegram prefix, console headers, the status line ("LAB bot") and the check header ("PAPER LAB check")
+edit('icore.js', [
+  ['`BB-Trail ${CFG.mode.toUpperCase()}: ${text}`', '`T-CORE ${CFG.mode.toUpperCase()}: ${text}`', 1],
+  ['console.log(`BB-Trail ${CFG.mode.toUpperCase()} mode`);', 'console.log(`T-CORE ${CFG.mode.toUpperCase()} mode`);', 1],
+  ['console.log(`BB-Trail ${CFG.mode.toUpperCase()} LAB bot · coins', 'console.log(`T-CORE ${CFG.mode.toUpperCase()} bot · coins', 1],
+  ['console.log(`BB-Trail PAPER LAB check · mode', 'console.log(`T-CORE check · mode', 1],
+]);
+
 const cfg = {
   mode: 'live', coins: ['SOL', 'ZEC', 'NEAR', 'ADA', 'GALA'], riskPct: 0.025, startBalance: 100, riskUsd: 1, maxRiskUsd: 500, maxRiskMult: 1.5, maxLeverage: 20,
   haltAtR: -45, maxEntryDelaySec: 900, wakeDelaySec: 2, heartbeatUrl: '', riskTiers: [[0, 0.025], [500, 0.02], [1000, 0.015]],
