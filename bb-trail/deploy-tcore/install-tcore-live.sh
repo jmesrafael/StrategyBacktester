@@ -92,8 +92,8 @@ for u in tcore.service tcore-compare.service tcore-compare.timer; do install -m 
 systemctl daemon-reload
 # books I-Core's old SOL short (position 1529457475, still open on this account) when it closes: read-only on MEXC until then, one ledger write at the close, then it stops itself
 if [ ! -f "$DATA/old-position.done" ]; then
-  printf '%s
-' '# T-CORE: book the old SOL short (not opened by this bot) when it closes; see deploy-tcore/track-old-position.js' \n    '*/5 * * * * tcore ICORE_STATE_DIR=/var/lib/tcore ICORE_KEYS=/var/lib/tcore/mexc-keys.json node /opt/tcore/deploy-tcore/track-old-position.js >> /var/log/tcore-old-position.log 2>&1' > /etc/cron.d/tcore-old-position
+  printf '%s\n' '# T-CORE: book the old SOL short (not opened by this bot) when it closes; see deploy-tcore/track-old-position.js' \
+    '*/5 * * * * tcore ICORE_STATE_DIR=/var/lib/tcore ICORE_KEYS=/var/lib/tcore/mexc-keys.json node /opt/tcore/deploy-tcore/track-old-position.js >> /var/log/tcore-old-position.log 2>&1' > /etc/cron.d/tcore-old-position
   chmod 644 /etc/cron.d/tcore-old-position; touch /var/log/tcore-old-position.log; chown tcore:tcore /var/log/tcore-old-position.log; ok "old SOL short tracker on (every 5 min, log /var/log/tcore-old-position.log)"
 fi
 if [ "$WAS_ACTIVE" = "active" ]; then systemctl restart "$SVC.service"; sleep 8; systemctl is-active --quiet "$SVC" && ok "was running: restarted on the new code" || die "restart failed: journalctl -u $SVC -n 30 --no-pager"
