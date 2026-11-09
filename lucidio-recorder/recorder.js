@@ -10,7 +10,7 @@
 //   node recorder.js status     what it has recorded                node recorder.js verify    holes in the stored candles
 // A failing task is logged and counted, never fatal: the others still run and the next cycle tries again. Files: archive.js.
 'use strict';
-const fs = require('fs'), path = require('path'), cp = require('child_process');
+const fs = require('fs'), os = require('os'), path = require('path'), cp = require('child_process');
 const { createClient, IV } = require('./mexcpub.js');
 const { createArchive, holesIn, STEP } = require('./archive.js');
 const bookstats = require('./bookstats.js');
@@ -132,6 +132,31 @@ function runSync() {
   });
 }
 
+// ---------------- the server, as the dashboard shows it ----------------
+// Read from the machine itself (os and /proc), numbers only: CPU load, memory, and whether each bot's process is running (its script path in /proc/<pid>/cmdline).
+// svc_<name> is 1 when that process is running, 0 when it is not. Nothing is sent that names a path, user or address.
+const SERVICES = { svc_bbcore: '/opt/lucidio/lucidio.js', svc_icore: '/opt/icore/icore.js', svc_tcore: '/opt/tcore/icore.js', svc_bb1h: '/opt/lucidio-1h/lucidio.js', svc_recorder: '/opt/lucidio-recorder/recorder.js', svc_shadow: '/opt/lucidio-shadow/shadow-recorder.js' };
+function serverStats() {
+  const out = {};
+  try { const l = os.loadavg(); out.load_1m = Math.round(l[0] * 100) / 100; out.load_5m = Math.round(l[1] * 100) / 100; out.load_15m = Math.round(l[2] * 100) / 100; out.cpus = os.cpus().length; out.vps_uptime_sec = Math.round(os.uptime()); } catch { /* no figure */ }
+  try {
+    const m = fs.readFileSync('/proc/meminfo', 'utf8'), kb = (k) => { const x = m.match(new RegExp(`^${k}:\\s+(\\d+)`, 'm')); return x ? +x[1] : null; };
+    const total = kb('MemTotal'), avail = kb('MemAvailable'), st = kb('SwapTotal'), sf = kb('SwapFree');
+    if (total != null && avail != null) { out.mem_total_mb = Math.round(total / 1024); out.mem_used_mb = Math.round((total - avail) / 1024); }
+    if (st != null && sf != null) out.swap_used_mb = Math.round((st - sf) / 1024);
+  } catch { /* not Linux: no memory figure */ }
+  try {
+    const found = new Set();
+    for (const pid of fs.readdirSync('/proc')) {
+      if (!/^\d+$/.test(pid)) continue;
+      let c = ''; try { c = fs.readFileSync(`/proc/${pid}/cmdline`, 'utf8'); } catch { continue; }
+      for (const [k, p] of Object.entries(SERVICES)) if (c.includes(p)) found.add(k);
+    }
+    for (const k of Object.keys(SERVICES)) out[k] = found.has(k) ? 1 : 0;
+  } catch { /* no /proc: no service list */ }
+  return out;
+}
+
 // ---------------- what the dashboard sees ----------------
 const finite = (o) => Object.fromEntries(Object.entries(o).filter(([, v]) => v != null && Number.isFinite(+v)).map(([k, v]) => [k, +v]));
 function heartbeatData() {
@@ -139,6 +164,7 @@ function heartbeatData() {
   const data = { recorder: finite({ version: VERSION, started_ms: st.started, uptime_sec: Math.round((Date.now() - st.started) / 1000), candles_ok_ms: st.ok.candles, book_ok_ms: st.ok.book, funding_ok_ms: st.ok.funding,
     regime_ok_ms: st.ok.regime, upload_ok_ms: st.ok.upload, upload_on: process.env.RECORDER_SYNC_CMD ? 1 : 0, errors_1h: st.errors.length, holes_1h_7d: st.holes.h1_7d, holes_1m_24h: st.holes.m1_24h,
     disk_free_gb: st.disk.free_gb, disk_low: st.disk.low, archive_mb: fp.mb, first_ms: fp.first_ms, coins: SYMBOLS.length }) };
+  data.server = finite(serverStats());
   if (rg && rg.market) {
     const coinKeys = ['atr_pct', 'rv24', 'rv7d', 'trend_pct', 'er48', 'bbw', 'bbw_pctile', 'bb_pos'];
     data.regime = {}; data.regime_state = {};
@@ -213,7 +239,7 @@ function verify() {
   }
 }
 
-module.exports = { cycle, computeSlippage, computeRegime, syncCandles, snapshotBooks, heartbeatData, archive, SYMBOLS, st };
+module.exports = { cycle, computeSlippage, computeRegime, syncCandles, snapshotBooks, heartbeatData, serverStats, archive, SYMBOLS, st };
 const cmd = require.main === module ? process.argv[2] : 'lib';
 if (cmd === 'run') loop();
 else if (cmd === 'once') cycle(true).then(() => { log('one cycle done'); process.exit(0); }).catch((e) => { console.error(e); process.exit(1); });
