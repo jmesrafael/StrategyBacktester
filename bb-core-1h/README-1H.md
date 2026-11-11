@@ -17,5 +17,5 @@ To move it to the VPS, follow `VPS-1H-PAPER.md`. The bundle is `dist/lucidio-1h-
 
 This folder is the code and instructions only. It does not hold the running paper record (state/, journal/), the candle data (data/) or the built bundle (dist/):
 - the MEXC 1h candles that `parity-check.js` reads are in `research/indicator-top10/mexc1h/`; copy them into a `data/` folder here to run it;
-- `bash build-bundle.sh` rebuilds `dist/lucidio-1h-paper.tar.gz`, and `HOME-VPS-INSTRUCTIONS.md` already carries the bundle inside it;
+- `bash build-bundle.sh` rebuilds `dist/lucidio-1h-paper.tar.gz`, and `archive-done/DONE-HOME-VPS-INSTRUCTIONS-1h.md` (moved, already installed) carries the bundle inside it;
 - the bot that ran on the work PC from Nov 5, 2026 lives in `D:\testing\Strat\bb-core-1h`.

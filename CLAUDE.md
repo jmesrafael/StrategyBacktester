@@ -23,6 +23,6 @@ Raw candle caches (cache-1m, data*, funding) are intentionally not indexed.
 
 ## T-CORE paper lab (formerly BB-Trail, bot tag bbtr; built Nov 6, 2026, INSTALLED on the VPS Nov 6, 2026, service bbtrail)
 
-- Already installed and connected to the dashboard; do not reinstall. Check with `sudo bash /opt/bbtrail/deploy-trail/status.sh [report|compare]`. Plan record: `bb-trail/T-CORE-INSTALL-WHEN-HOME.md`. Paper only.
+- Already installed and connected to the dashboard; do not reinstall. Check with `sudo bash /opt/bbtrail/deploy-trail/status.sh [report|compare]`. Plan record: `archive-done/DONE-T-CORE-INSTALL-WHEN-HOME.md`. Paper only.
 - Going live later: `bb-trail/LIVE-READINESS-TCORE.md` (plan and gates only).
 - Names: TRI-CORE = BB-CORE + I-CORE + T-CORE (50/25/25). Report: `../ledger/reports/live-pair-vs-three-bot.html`.

@@ -1,6 +1,8 @@
-# HANDOFF: install the BB-Trail paper lab (for Claude Code, from home)
+# DONE - HANDOFF: install the BB-Trail paper lab (for Claude Code, from home)
 
-> **Superseded in part (Nov 6, 2026):** the current plan is `T-CORE-INSTALL-WHEN-HOME.md` in this folder. The dashboard step (step 2 below) is already done (ledger commit `12046bd`, deployed). The bot is now called T-CORE.
+> **STATUS: DONE (verified on the VPS Nov 11, 2026). Nothing here is left to do; do not rerun it. `bbtrail` (now T-CORE paper lab) has been installed since Nov 6 and is active. Kept only as history.**
+>
+> **Superseded in part (Nov 6, 2026):** the current plan is `T-CORE-INSTALL-WHEN-HOME.md` in `archive-done/` (also finished). The dashboard step (step 2 below) is already done (ledger commit `12046bd`, deployed). The bot is now called T-CORE.
 
 Written Nov 6, 2026. If the owner says "install the trail bot", "do the handoff" or similar, this file is the plan. Everything was built and tested on the work PC; **nothing has been deployed or installed yet.**
 
@@ -48,7 +50,8 @@ If a test fails, fix it before going on and tell the owner. If `bb-trail\VPS-TRA
 ```
 scp D:\testing\Strat\StrategyBacktester\bb-trail\VPS-TRAIL-INSTALL.md admin@193.181.221.91:/tmp/
 ssh admin@193.181.221.91
-cd /tmp && tr -d '' < VPS-TRAIL-INSTALL.md | sed -n '/^BEGIN-BUNDLE$/,/^END-BUNDLE$/p' | sed '1d;$d' | base64 -d > bbtrail.tar.gz && sha256sum bbtrail.tar.gz
+cd /tmp && tr -d '
+' < VPS-TRAIL-INSTALL.md | sed -n '/^BEGIN-BUNDLE$/,/^END-BUNDLE$/p' | sed '1d;$d' | base64 -d > bbtrail.tar.gz && sha256sum bbtrail.tar.gz
 ```
 
 The hash printed must equal the `SHA-256:` line at the end of the file (also written in the file's text). If not, stop.

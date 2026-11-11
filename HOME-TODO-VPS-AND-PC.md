@@ -1,5 +1,12 @@
 # HOME TODO — everything not applied yet (VPS, Vercel, PC)
 
+> **STATUS Nov 11, 2026 (done by Claude over SSH, verified on the VPS)**
+> - Part 0 DONE. Part 1 DONE: `newsbb`, `newsic`, `newstc` installed (hash `6fbcb712…` matched, "live bots' start times unchanged: YES", dashboard lines added, no Telegram setting, all three running with 0 errors). The first dashboard heartbeat comes after the 16:00Z candle.
+> - Part 4 DONE: both VPS `perf-watch.js` are byte-identical to the new repo file, 0 "digest", `--dry` runs fine.
+> - Part 2: check the News Lab tab after the first heartbeat (not verifiable without your login).
+> - **STILL OPEN, needs you:** Part 3 (Vercel is not reachable from my tools; `/api/monthly-report` answers 503 "CRON_SECRET is not set", so add the 3 variables and redeploy), Part 5 (backup key is created in the app), Part 7 (optional). Part 6 (old SSH key) is left to the owner.
+> - Once Part 3 and 5 are done, rename this file to start with `DONE-`.
+
 Written **Nov 11, 2026**. This is the one list. Do the parts in order; each part says whether it touches the running bots (only Part 4 does, and it doesn't restart them).
 Rule for the whole session: **never edit, restart or reinstall a live bot** (`lucidio` BB-CORE, `icore`, `tcore`) or the existing paper bots (`bbtrail`, `lucidio-1h`, recorder). Everything below adds new things beside them.
 
@@ -136,7 +143,7 @@ cd /tmp/newslab && sudo bash deploy/install-news-lab.sh --uninstall          # a
 
 ## Part 3 — Monthly Telegram report: Vercel settings and dry run
 
-Full original plan: `D:\testing\Strat\MONTHLY-REPORT-INSTALL-WHEN-HOME.md` (built Nov 9). The code is pushed; this is the part still to do.
+Full original plan: `MONTHLY-REPORT-INSTALL-WHEN-HOME.md` (same folder) (built Nov 9). The code is pushed; this is the part still to do.
 
 **3a. Re-run the tests (PC, 30 s)**
 ```
@@ -208,11 +215,11 @@ If either is already gone, that's fine. Then confirm you can still log in with y
 
 ## Final checklist (tick when done)
 
-- [ ] Part 0: all six services active, start times written down, memory OK
-- [ ] Part 1: hash matches `6fbcb712…`, installer ends with "start times unchanged: YES", no `TELEGRAM` in the three env files
+- [x] Part 0: all six services active, start times written down, memory OK
+- [x] Part 1: hash matches `6fbcb712…`, installer ends with "start times unchanged: YES", no `TELEGRAM` in the three env files
 - [ ] Part 2: News Lab tab shows heartbeats for `bbn`, `icn`, `tcn`
 - [ ] Part 3: Vercel variables set, cron visible, dry run matches the dashboard
-- [ ] Part 4: no "digest" in either `perf-watch.js`
+- [x] Part 4: no "digest" in either `perf-watch.js`
 - [ ] Part 5: backup key created, recon check scheduled
 - [ ] Part 6: old SSH key and sudoers rule removed
 - [ ] Part 7 (optional): Upstash connected

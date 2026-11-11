@@ -1,7 +1,9 @@
 # Monthly Telegram report: install when home
 
+> **STATUS Nov 11, 2026:** Step 4 (VPS) is DONE and verified over SSH: BB-Core and I-Core `perf-watch.js` match the new file, 0 "digest", dry run sends nothing. The ledger code is already deployed (`/api/monthly-report` answers). **Still open: steps 2 and 3**, because `CRON_SECRET` is not set in Vercel (the endpoint returns 503). Add the three variables, redeploy, run the dry run. Then rename this file to start with `DONE-`.
+
 Built Nov 9, 2026. Replaces the weekly Telegram digest with ONE monthly message: a block per live bot (BB-CORE, I-CORE, T-CORE: Trades, Result, Drawdown) and a summary of all the accounts. Paper bots and labs are never included.
-Nothing is deployed yet. Until you do the steps below, the old weekly message keeps arriving and no monthly message is sent.
+The weekly digest is already removed from the VPS, so until Vercel is set up (steps 2-3) NO report arrives at all.
 
 It does not change how any bot decides or sizes a trade, and it never restarts a bot. The bots are only touched in step 4 (a small `perf-watch` job, not the trading process).
 

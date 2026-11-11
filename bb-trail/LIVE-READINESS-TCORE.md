@@ -8,7 +8,7 @@ Written Nov 6, 2026. T-CORE is the third bot of TRI-CORE (BB-CORE + I-CORE + T-C
 |---|---|
 | Bot code, paper lab | built, `npm test` 41 passed, 0 failed |
 | Dashboard support (`ledger/`, bot `bbtr`) | edited, **uncommitted**, not deployed |
-| VPS install (`VPS-TRAIL-INSTALL.md`) | built; install not confirmed (see HANDOFF-HOME.md) |
+| VPS install (`VPS-TRAIL-INSTALL.md`) | built; install not confirmed (DONE Nov 6, see archive-done/DONE-HANDOFF-HOME.md) |
 | Paper results | none yet |
 
 ## The strategy in numbers (own backtest, 2020 to Nov 2026, real costs)
@@ -47,7 +47,7 @@ Safest route: keep the paper lab running as it is, and build a separate live cop
 
 ## Order of work
 
-1. Now: deploy the dashboard, install the paper lab (HANDOFF-HOME.md). Needs your yes for each outward step.
+1. Now: deploy the dashboard, install the paper lab (archive-done/DONE-HANDOFF-HOME.md, already done). Needs your yes for each outward step.
 2. Dec 4 review: machinery, costs, first trend-capture numbers.
 3. About 30 trades: decide on a small live size or keep waiting.
 4. Live copy built, tested, installed with a fresh key, at the smallest risk step.
