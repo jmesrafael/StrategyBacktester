@@ -8,8 +8,11 @@ const FILE = path.join(__dirname, 'bot-config.json');
 // function in paper.enter / live.enter / mexc.createOrder, and the tests in test/selftest.js). Adding a coin is a code + research decision.
 // I-Core starts on the same five coins as bb-core (SOL, ZEC, NEAR, ADA, GALA): the Ichimoku strategy was tuned on 2020-2022 data of these five and judged on
 // 2023-2026 (research: StrategyBacktester/research/big-swings, RESULTS-search5.md). Caveat kept on purpose: a few giant winners (ZEC in 2025) carry most of the profit.
-const ALLOWED_SYMBOLS = Object.freeze(['SOL_USDT', 'ZEC_USDT', 'NEAR_USDT', 'ADA_USDT', 'GALA_USDT']);
-const COINS = ALLOWED_SYMBOLS.map((s) => s.replace(/_USDT$/, ''));   // ['SOL', 'ZEC', 'NEAR', 'ADA', 'GALA']: the short names used in the config and state
+// ETH was added and ZEC retired on Nov 12, 2026 (owner's decision; ZEC is being delisted): ETH was the best replacement of 45 coins over 7 years,
+// 9 coins over 10 years and the top 100 (StrategyBacktester research/zec-replacement). ZEC stays in this list ONLY so the ZEC trades still open
+// are managed to their exit (a coin in the allowlist but not in "coins" gets no new entries); bot-config.json no longer lists it.
+const ALLOWED_SYMBOLS = Object.freeze(['SOL_USDT', 'ZEC_USDT', 'NEAR_USDT', 'ADA_USDT', 'GALA_USDT', 'ETH_USDT']);
+const COINS = ALLOWED_SYMBOLS.map((s) => s.replace(/_USDT$/, ''));   // ['SOL', 'ZEC', 'NEAR', 'ADA', 'GALA', 'ETH']: the short names used in the config and state
 class SymbolNotAllowedError extends Error { constructor(msg) { super(msg); this.name = 'SymbolNotAllowedError'; this.code = 'SYMBOL_NOT_ALLOWED'; } }
 // throws unless `symbol` is exactly one of ALLOWED_SYMBOLS (a coin name like 'SOL' is NOT a symbol: pass `${coin}_USDT`)
 function assertAllowedSymbol(symbol, what = 'order') {
@@ -20,7 +23,7 @@ const coinToSymbol = (coin) => `${coin}_USDT`;
 const MAX_RISK_PCT = 0.05;      // hard cap: 5% of balance per trade. Raised from 1% on Oct 24, 2026 at the owner's explicit request (the audit, §11 item 7, advised 0.25-0.5% for a first live phase: 5% = 94% chance of a >50% drawdown)
 
 const DEFAULTS = {
-  mode: 'paper', coins: ['SOL', 'ZEC', 'NEAR', 'ADA', 'GALA'], riskUsd: 1, riskPct: 0.005, maxRiskUsd: 0,
+  mode: 'paper', coins: ['SOL', 'ETH', 'NEAR', 'ADA', 'GALA'], riskUsd: 1, riskPct: 0.005, maxRiskUsd: 0,
   // risk steps DOWN as the account grows (Oct 29, 2026, owner's decision): [balance from ($, highest balance so far), risk per trade]. Replaces riskPct while set; [] = off.
   riskTiers: [[0, 0.025], [500, 0.02], [1000, 0.015]], maxRiskMult: 1.5, maxLeverage: 20, startBalance: 100,
   haltAtR: -35, maxEntryDelaySec: 900, wakeDelaySec: 2, heartbeatUrl: '',
@@ -31,7 +34,7 @@ const DEFAULTS = {
 // type, limits, and what the Settings panel shows. "live: true" = takes effect for real money.
 const FIELDS = {
   mode:             { type: 'enum', values: ['paper', 'live'], label: 'Mode', help: 'paper = simulated account; live = real orders on MEXC' },
-  coins:            { type: 'coins', values: COINS, min: 1, label: 'Coins', help: 'the bot trades SOL, ZEC, NEAR, ADA and GALA only; untick one to pause it' },
+  coins:            { type: 'coins', values: COINS, min: 1, label: 'Coins', help: 'the bot trades SOL, ETH, NEAR, ADA and GALA; ZEC is retired (it only finishes trades already open); untick one to pause it' },
   riskPct:          { type: 'number', min: 0, max: MAX_RISK_PCT, label: 'Risk per trade (% of balance)', help: '0 = use the fixed $ amount instead. Hard cap 5% (raised from 1% on Oct 24, 2026); the audit suggests 0.25–0.5% for a first live phase' },
   riskUsd:          { type: 'number', min: 0.1, max: 100, label: 'Fixed risk per trade ($)', help: 'used when % risk is 0' },
   maxRiskUsd:       { type: 'number', min: 0, max: 500, label: 'Max risk per trade ($)', help: '0 = no cap (default since Oct 29, 2026). Otherwise a hard cap on any trade, also when % risk grows the amount' },

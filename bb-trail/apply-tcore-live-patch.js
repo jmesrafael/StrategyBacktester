@@ -48,7 +48,7 @@ edit('icore.js', [
 ]);
 
 const cfg = {
-  mode: 'live', coins: ['SOL', 'ZEC', 'NEAR', 'ADA', 'GALA'], riskPct: 0.025, startBalance: 100, riskUsd: 1, maxRiskUsd: 500, maxRiskMult: 1.5, maxLeverage: 20,
+  mode: 'live', coins: ['SOL', 'NEAR', 'ADA', 'GALA', 'ETH'], riskPct: 0.025, startBalance: 100, riskUsd: 1, maxRiskUsd: 500, maxRiskMult: 1.5, maxLeverage: 20,
   haltAtR: -45, maxEntryDelaySec: 900, wakeDelaySec: 2, heartbeatUrl: '', riskTiers: [[0, 0.025], [500, 0.02], [1000, 0.015]],
 };
 out.set(path.join(dir, 'bot-config.json'), JSON.stringify(cfg, null, 2) + '\n');

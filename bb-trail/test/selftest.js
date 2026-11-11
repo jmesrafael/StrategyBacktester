@@ -307,7 +307,7 @@ async function scenario(name, knobs, fn, pick) {
     cfgFile(['SOL', 'BTC']);
     const run = cp.spawnSync(process.execPath, [path.join(BOX, 'icore.js'), 'status'], { env: { ...process.env, ICORE_STATE_DIR: path.join(BOX, 'state') }, encoding: 'utf8', timeout: 20000 });
     ok(run.status === 1 && /REFUSING TO START/.test(run.stderr) && /BTC/.test(run.stderr), 'the bot refuses to start with a clear error when bot-config.json lists BTC');
-    ok(cfgMod.ALLOWED_SYMBOLS.join() === 'SOL_USDT,ZEC_USDT,NEAR_USDT,ADA_USDT,GALA_USDT' && Object.isFrozen(cfgMod.ALLOWED_SYMBOLS), 'the allowlist is one frozen constant: SOL_USDT, ZEC_USDT, NEAR_USDT, ADA_USDT, GALA_USDT');
+    ok(cfgMod.ALLOWED_SYMBOLS.join() === 'SOL_USDT,ZEC_USDT,NEAR_USDT,ADA_USDT,GALA_USDT,ETH_USDT' && Object.isFrozen(cfgMod.ALLOWED_SYMBOLS), 'the allowlist is one frozen constant: SOL_USDT, ZEC_USDT, NEAR_USDT, ADA_USDT, GALA_USDT, ETH_USDT');
     cfgFile(['SOL', 'ZEC', 'NEAR_USDT', 'ADA', 'GALA']); ok(require(path.join(BOX, 'config.js')).load().coins.join() === 'SOL,ZEC,NEAR,ADA,GALA', 'NEAR, ADA and GALA are accepted (as coin names or symbols) and normalised');
     cfgFile(['SOL', 'BTC']);
 
@@ -327,11 +327,11 @@ async function scenario(name, knobs, fn, pick) {
       ok([e1, e2, e3].every((e) => e && e.code === 'SYMBOL_NOT_ALLOWED') && apiCalls.length === 0 && Object.keys(st).length === 0, `LIVE enter / beginRun / close for ${coin} all throw SYMBOL_NOT_ALLOWED; 0 exchange API calls; no pending order written`);
     }
     const mx = require('../mexc.js'), client = mx.createClient({ apiKey: 'test-key', apiSecret: 'test-secret' });
-    for (const symbol of ['BTC_USDT', 'ETH_USDT', 'JUNK', '', undefined, 'sol_usdt']) {
+    for (const symbol of ['BTC_USDT', 'XRP_USDT', 'JUNK', '', undefined, 'sol_usdt']) {
       const e = await thrown(() => client.createOrder({ symbol, vol: 1, side: 1, type: 5, openType: 1 }));
       if (!(e && e.code === 'SYMBOL_NOT_ALLOWED') || netCalls.length) ok(false, `mexc createOrder(${JSON.stringify(symbol)}) must throw before any request (got ${e && e.code}, ${netCalls.length} request(s))`);
     }
-    ok(netCalls.length === 0, 'mexc createOrder for BTC_USDT, ETH_USDT, a junk string, an empty and an undefined symbol, and lower-case sol_usdt: all throw; fetch was never called');
+    ok(netCalls.length === 0, 'mexc createOrder for BTC_USDT, XRP_USDT, a junk string, an empty and an undefined symbol, and lower-case sol_usdt: all throw; fetch was never called');
     await client.createOrder({ symbol: 'SOL_USDT', vol: 1, side: 1, type: 5, openType: 1 });
     ok(netCalls.length === 1 && /order\/create/.test(netCalls[0]), 'control: an order for SOL_USDT is NOT blocked (the guard does not break valid orders)');
     global.fetch = realFetch;

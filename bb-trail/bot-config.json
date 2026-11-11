@@ -2,10 +2,10 @@
   "mode": "paper",
   "coins": [
     "SOL",
-    "ZEC",
     "NEAR",
     "ADA",
-    "GALA"
+    "GALA",
+    "ETH"
   ],
   "riskPct": 0.005,
   "startBalance": 100,
