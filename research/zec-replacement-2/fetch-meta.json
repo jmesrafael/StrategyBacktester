@@ -1,0 +1,537 @@
+{
+ "XAU": {
+  "sym": "XAU_USDT",
+  "src": "duka",
+  "id": "xauusd",
+  "bars": 22163,
+  "from": "2013-01-01",
+  "to": "2026-11-10",
+  "splits": [],
+  "maxGapPct": 2.5,
+  "maxGapAt": "2020-03-15",
+  "fundingN": 1012,
+  "fundingMean": 0.000028150197628458506
+ },
+ "SILVER": {
+  "sym": "SILVER_USDT",
+  "src": "duka",
+  "id": "xagusd",
+  "bars": 22162,
+  "from": "2013-01-01",
+  "to": "2026-11-10",
+  "splits": [],
+  "maxGapPct": 5.2,
+  "maxGapAt": "2013-05-19",
+  "fundingN": 1823,
+  "fundingMean": 0.00007808612177729015
+ },
+ "USOIL": {
+  "sym": "USOIL_USDT",
+  "src": "duka",
+  "id": "lightcmdusd",
+  "bars": 21430,
+  "from": "2013-01-01",
+  "to": "2026-11-10",
+  "splits": [],
+  "maxGapPct": 35.3,
+  "maxGapAt": "2020-04-19",
+  "fundingN": 2662,
+  "fundingMean": -0.00006045942900075138
+ },
+ "UKOIL": {
+  "sym": "UKOIL_USDT",
+  "src": "duka",
+  "id": "brentcmdusd",
+  "bars": 20680,
+  "from": "2013-01-01",
+  "to": "2026-11-10",
+  "splits": [],
+  "maxGapPct": 27.6,
+  "maxGapAt": "2020-03-09",
+  "fundingN": 2505,
+  "fundingMean": -0.0000814431137724551
+ },
+ "SPX500": {
+  "sym": "SPX500_USDT",
+  "src": "duka",
+  "id": "usa500idxusd",
+  "bars": 20340,
+  "from": "2013-01-01",
+  "to": "2026-11-10",
+  "splits": [],
+  "maxGapPct": 12.1,
+  "maxGapAt": "2013-05-22",
+  "fundingN": 751,
+  "fundingMean": -0.00015555392809587284
+ },
+ "NAS100": {
+  "sym": "NAS100_USDT",
+  "src": "duka",
+  "id": "usatechidxusd",
+  "bars": 20421,
+  "from": "2013-01-01",
+  "to": "2026-11-10",
+  "splits": [],
+  "maxGapPct": 10.9,
+  "maxGapAt": "2013-05-22",
+  "fundingN": 732,
+  "fundingMean": -0.00003371857923497275
+ },
+ "US30": {
+  "sym": "US30_USDT",
+  "src": "duka",
+  "id": "usa30idxusd",
+  "bars": 19799,
+  "from": "2013-09-30",
+  "to": "2026-11-10",
+  "splits": [],
+  "maxGapPct": 6.8,
+  "maxGapAt": "2020-03-16",
+  "fundingN": 245,
+  "fundingMean": 0
+ },
+ "NVDA": {
+  "sym": "NVIDIA_USDT",
+  "src": "duka",
+  "id": "nvdaususd",
+  "bars": 5715,
+  "from": "2017-01-26",
+  "to": "2026-11-10",
+  "splits": [
+   [
+    "2000-06-27",
+    2
+   ],
+   [
+    "2001-09-12",
+    2
+   ],
+   [
+    "2006-04-07",
+    2
+   ],
+   [
+    "2007-09-11",
+    1.5
+   ],
+   [
+    "2021-07-20",
+    4
+   ],
+   [
+    "2024-06-10",
+    10
+   ]
+  ],
+  "maxGapPct": 26.3,
+  "maxGapAt": "2023-05-25",
+  "fundingN": 960,
+  "fundingMean": 0.00003819166666666666
+ },
+ "MU": {
+  "sym": "MUSTOCK_USDT",
+  "src": "duka",
+  "id": "muususd",
+  "bars": 5294,
+  "from": "2017-11-02",
+  "to": "2026-11-10",
+  "splits": [
+   [
+    "1994-04-19",
+    2.5
+   ],
+   [
+    "1995-05-23",
+    2
+   ],
+   [
+    "2000-05-02",
+    2
+   ]
+  ],
+  "maxGapPct": 18,
+  "maxGapAt": "2024-09-26",
+  "fundingN": 877,
+  "fundingMean": 0.00009830102622576955
+ },
+ "TSLA": {
+  "sym": "TESLA_USDT",
+  "src": "duka",
+  "id": "tslaususd",
+  "bars": 5715,
+  "from": "2017-01-26",
+  "to": "2026-11-10",
+  "splits": [
+   [
+    "2020-08-31",
+    5
+   ],
+   [
+    "2022-08-25",
+    3
+   ]
+  ],
+  "maxGapPct": 17.6,
+  "maxGapAt": "2019-10-24",
+  "fundingN": 980,
+  "fundingMean": 0.00002239285714285714
+ },
+ "AMD": {
+  "sym": "AMDSTOCK_USDT",
+  "src": "duka",
+  "id": "amdususd",
+  "bars": 5294,
+  "from": "2017-11-02",
+  "to": "2026-11-10",
+  "splits": [
+   [
+    "1982-10-28",
+    1.5
+   ],
+   [
+    "1983-08-23",
+    2
+   ],
+   [
+    "2000-08-22",
+    2
+   ]
+  ],
+  "maxGapPct": 37.6,
+  "maxGapAt": "2025-10-06",
+  "fundingN": 893,
+  "fundingMean": 0.0000486181410974244
+ },
+ "INTC": {
+  "sym": "INTCSTOCK_USDT",
+  "src": "duka",
+  "id": "intcususd",
+  "bars": 5715,
+  "from": "2017-01-26",
+  "to": "2026-11-10",
+  "splits": [
+   [
+    "1983-07-01",
+    2
+   ],
+   [
+    "1987-10-29",
+    1.5
+   ],
+   [
+    "1993-06-07",
+    2
+   ],
+   [
+    "1995-06-19",
+    2
+   ],
+   [
+    "1997-07-14",
+    2
+   ],
+   [
+    "1999-04-12",
+    2
+   ],
+   [
+    "2000-07-31",
+    2
+   ]
+  ],
+  "maxGapPct": 34.8,
+  "maxGapAt": "2026-10-30",
+  "fundingN": 911,
+  "fundingMean": 0.00006278485181119652
+ },
+ "AVGO": {
+  "sym": "AVGOSTOCK_USDT",
+  "src": "duka",
+  "id": "avgoususd",
+  "bars": 5715,
+  "from": "2017-01-26",
+  "to": "2026-11-10",
+  "splits": [
+   [
+    "2024-07-15",
+    10
+   ]
+  ],
+  "maxGapPct": 18.4,
+  "maxGapAt": "2024-12-13",
+  "fundingN": 915,
+  "fundingMean": 0.00003488524590163936
+ },
+ "GOOGL": {
+  "sym": "GOOGLSTOCK_USDT",
+  "src": "duka",
+  "id": "googlususd",
+  "bars": 5715,
+  "from": "2017-01-26",
+  "to": "2026-11-10",
+  "splits": [
+   [
+    "2014-04-03",
+    1.998
+   ],
+   [
+    "2022-07-18",
+    20
+   ]
+  ],
+  "maxGapPct": 13.5,
+  "maxGapAt": "2026-10-29",
+  "fundingN": 952,
+  "fundingMean": 0.00006576050420168064
+ },
+ "TSM": {
+  "sym": "TSMSTOCK_USDT",
+  "src": "duka",
+  "id": "tsmususd",
+  "bars": 5114,
+  "from": "2018-02-01",
+  "to": "2026-11-10",
+  "splits": [
+   [
+    "1998-08-26",
+    1.45
+   ],
+   [
+    "1999-08-16",
+    1.23
+   ],
+   [
+    "2000-05-15",
+    1.28
+   ],
+   [
+    "2001-06-26",
+    1.4
+   ],
+   [
+    "2002-06-19",
+    1.1
+   ],
+   [
+    "2003-07-07",
+    1.08
+   ],
+   [
+    "2004-06-14",
+    1.14
+   ],
+   [
+    "2005-06-13",
+    1.05
+   ],
+   [
+    "2006-06-20",
+    1.03
+   ],
+   [
+    "2009-07-15",
+    1.005
+   ]
+  ],
+  "maxGapPct": 13.5,
+  "maxGapAt": "2020-03-16",
+  "fundingN": 741,
+  "fundingMean": 0.00005648313090418352
+ },
+ "AAPL": {
+  "sym": "AAPLSTOCK_USDT",
+  "src": "duka",
+  "id": "aaplususd",
+  "bars": 5715,
+  "from": "2017-01-26",
+  "to": "2026-11-10",
+  "splits": [
+   [
+    "1987-06-16",
+    2
+   ],
+   [
+    "2000-06-21",
+    2
+   ],
+   [
+    "2005-02-28",
+    2
+   ],
+   [
+    "2014-06-09",
+    7
+   ],
+   [
+    "2020-08-31",
+    4
+   ]
+  ],
+  "maxGapPct": 15,
+  "maxGapAt": "2020-03-16",
+  "fundingN": 956,
+  "fundingMean": 0.000012303347280334736
+ },
+ "MSFT": {
+  "sym": "MSFTSTOCK_USDT",
+  "src": "duka",
+  "id": "msftususd",
+  "bars": 5715,
+  "from": "2017-01-26",
+  "to": "2026-11-10",
+  "splits": [
+   [
+    "1987-09-21",
+    2
+   ],
+   [
+    "1990-04-16",
+    2
+   ],
+   [
+    "1991-06-27",
+    1.5
+   ],
+   [
+    "1992-06-15",
+    1.5
+   ],
+   [
+    "1994-05-23",
+    2
+   ],
+   [
+    "1996-12-09",
+    2
+   ],
+   [
+    "1998-02-23",
+    2
+   ],
+   [
+    "1999-03-29",
+    2
+   ],
+   [
+    "2003-02-18",
+    2
+   ]
+  ],
+  "maxGapPct": 13.6,
+  "maxGapAt": "2020-03-16",
+  "fundingN": 932,
+  "fundingMean": 0.000033113733905579415
+ },
+ "SMH": {
+  "sym": "SOXL_USDT",
+  "src": "duka",
+  "id": "smhususd",
+  "bars": 1553,
+  "from": "2024-10-21",
+  "to": "2026-11-10",
+  "splits": [
+   [
+    "2023-05-05",
+    2
+   ]
+  ],
+  "maxGapPct": 14.4,
+  "maxGapAt": "2025-04-10",
+  "fundingN": 464,
+  "fundingMean": 0.00009843965517241382
+ },
+ "SNDK": {
+  "sym": "SNDKSTOCK_USDT",
+  "src": "yahoo",
+  "id": "SNDK",
+  "bars": 964,
+  "from": "2025-02-24",
+  "to": "2026-11-11",
+  "splits": [],
+  "maxGapPct": 20.1,
+  "maxGapAt": "2026-01-30",
+  "fundingN": 710,
+  "fundingMean": 0.00005143380281690142
+ },
+ "SKHYNIX": {
+  "sym": "SKHYNIXSTOCK_USDT",
+  "src": "yahoo",
+  "id": "000660.KS",
+  "bars": 1456,
+  "from": "2023-11-10",
+  "to": "2026-11-11",
+  "splits": [],
+  "maxGapPct": 26.7,
+  "maxGapAt": "2026-07-31",
+  "fundingN": 1138,
+  "fundingMean": 0.0001409130052724078
+ },
+ "SAMSUNG": {
+  "sym": "SAMSUNGSTOCK_USDT",
+  "src": "yahoo",
+  "id": "005930.KS",
+  "bars": 1456,
+  "from": "2023-11-10",
+  "to": "2026-11-11",
+  "splits": [],
+  "maxGapPct": 22.5,
+  "maxGapAt": "2026-07-31",
+  "fundingN": 1143,
+  "fundingMean": 0.00007145319335083116
+ },
+ "MSTR": {
+  "sym": "MSTRSTOCK_USDT",
+  "src": "yahoo",
+  "id": "MSTR",
+  "bars": 1688,
+  "from": "2023-12-14",
+  "to": "2026-11-11",
+  "splits": [],
+  "maxGapPct": 40.1,
+  "maxGapAt": "2024-08-05",
+  "fundingN": 939,
+  "fundingMean": 0.000037023429179978694
+ },
+ "CRCL": {
+  "sym": "CRCLSTOCK_USDT",
+  "src": "yahoo",
+  "id": "CRCL",
+  "bars": 812,
+  "from": "2025-06-05",
+  "to": "2026-11-11",
+  "splits": [],
+  "maxGapPct": 122.6,
+  "maxGapAt": "2025-06-05",
+  "fundingN": 971,
+  "fundingMean": 0.00012068074150360447
+ },
+ "NBIS": {
+  "error": "fetch failed https://query1.finance.yahoo.com/v8/finance/chart/NBIS?interval=1h&range=730d"
+ },
+ "CRWV": {
+  "sym": "CRWVSTOCK_USDT",
+  "src": "yahoo",
+  "id": "CRWV",
+  "bars": 905,
+  "from": "2025-03-28",
+  "to": "2026-11-11",
+  "splits": [],
+  "maxGapPct": 20.3,
+  "maxGapAt": "2026-08-12",
+  "fundingN": 692,
+  "fundingMean": 0.00007200144508670521
+ },
+ "SOXL": {
+  "sym": "SOXL_USDT",
+  "src": "yahoo",
+  "id": "SOXL",
+  "bars": 1688,
+  "from": "2023-12-14",
+  "to": "2026-11-11",
+  "splits": [],
+  "maxGapPct": 27.5,
+  "maxGapAt": "2026-06-23",
+  "fundingN": 464,
+  "fundingMean": 0.00009843965517241382
+ }
+}

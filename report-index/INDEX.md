@@ -42,7 +42,7 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - TCORE-LIVE-GO.md — T-CORE LIVE: go-live steps (prepared Nov 6, 2026) (2026-11-06)
 - VPS-TRAIL-INSTALL.md — BB-Trail paper lab on the VPS (2026-11-06)
 - VPS-TRAIL-INSTALL.template.md — BB-Trail paper lab on the VPS (2026-11-06)
-- bot-config.json — bot-config.json (2026-11-06)
+- bot-config.json — bot-config.json (2026-11-12)
 
 ## lucidio-recorder
 - README.md — Lucid'io data recorder (2026-11-06)
@@ -267,6 +267,13 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - results-yearly-compare.md — Year by year on SOL / DOGE / ZEC — $5 risk per trade (whole dollars) (2026-10-20)
 - results-yearly-dd.md — BB Breakout (4h) vs NY SMC v7 (15m) — every year on SOL / DOGE / ZEC, $5 risk per trade (2026-10-20)
 
+## research/eth-yearly
+- COMPARE.md — ETH vs the 5 bot coins — losing months and long-term consistency (2026-11-12)
+- REPORT.md — ETH on the three TRI-CORE bots — year by year (2026-11-12)
+- compare.json — compare.json (2026-11-12)
+- trades.json — trades.json (2026-11-12)
+- verdict.json — verdict.json (2026-11-12)
+
 ## research/indicator-top10
 - REPORT-1H-1000PESOS.md — 1h bb-core (x4 lengths) · 5 bot coins · start ₱1,000 on 1 Jan 2020 (₱63/$1; live risk tiers; ₱3,150 total risk cap per trade) (2026-11-05)
 - REPORT-1H.md — 1-hour timeframe search (Binance USDT-M futures 1h, Sep 2019 - 5 Nov 2026, 7 coins; reports use the 5 bot coins) (2026-11-05)
@@ -449,8 +456,27 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - trades-hybrid.json — trades-hybrid.json (2026-11-06)
 - trades.json — trades.json (2026-11-06)
 
+## research/zec-replacement-2
+- DEEP.md — 5th coin for BB-CORE and I-CORE — finalists, judged like ETH (Nov 12, 2026) (2026-11-12)
+- PERBOT.md — 5th coin per bot (Nov 12, 2026) (2026-11-12)
+- REPORT.md — ZEC replacement, round 2: tradfi perps + a 5th coin per bot (Nov 12, 2026) (2026-11-12)
+- deep.json — deep.json (2026-11-12)
+- detail.json — detail.json (2026-11-12)
+- fetch-meta.json — fetch-meta.json (2026-11-12)
+- fetch.log — XAU {"sym":"XAU_USDT","src":"duka","id":"xauusd","bars":22163,"from":"2013-01-01","to":"2026-11-10","splits":[],"maxGapPct":2.5,"maxGapAt":"2020-03-15 (2026-11-12)
+- perbot.json — perbot.json (2026-11-12)
+- perbot.log — 5th coin per bot (Nov 12, 2026) (2026-11-12)
+- results-fill.json — results-fill.json (2026-11-12)
+- results-session.json — results-session.json (2026-11-12)
+- screen-fill.txt — MODE fill. Sorted by portfolio test (keepers + candidate vs keepers + ETH, same window). (2026-11-12)
+- screen-session.txt — MODE session. Sorted by portfolio test (keepers + candidate vs keepers + ETH, same window). (2026-11-12)
+- ticker.json — ticker.json (2026-11-12)
+- trades-fill.json — trades-fill.json (2026-11-12)
+- trades-session.json — trades-session.json (2026-11-12)
+
 ## research/zec-replacement
 - REPORT.md — ZEC replacement screen (Nov 11, 2026) (2026-11-11)
+- candidates.json — candidates.json (2026-11-12)
 
 ## research/zec-replacement/data4h-10y
 - BTC.json — BTC.json (2026-11-11)
@@ -477,12 +503,17 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 
 ## research/zec-replacement
 - deep.json — deep.json (2026-11-11)
+- eth-vs-coins-2020.json — eth-vs-coins-2020.json (2026-11-12)
+- eth-vs-coins-2021.json — eth-vs-coins-2021.json (2026-11-12)
+- eth-vs-coins-2022.json — eth-vs-coins-2022.json (2026-11-12)
 - fetch-meta.json — fetch-meta.json (2026-11-11)
 - math.json — math.json (2026-11-11)
 - results.json — results.json (2026-11-11)
 - results10.json — results10.json (2026-11-11)
 - results100.json — results100.json (2026-11-11)
 - splice-check.json — splice-check.json (2026-11-11)
+- stability.json — stability.json (2026-11-12)
+- tcore-eth.json — tcore-eth.json (2026-11-12)
 - top100.json — top100.json (2026-11-11)
 - trades.json — trades.json (2026-11-11)
 - universe.json — universe.json (2026-11-11)
