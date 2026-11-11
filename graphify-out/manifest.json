@@ -3726,9 +3726,9 @@
     "semantic_hash": ""
   },
   "sw.js": {
-    "mtime": 1793856090.6035976,
-    "seen": 1793856146.6794918,
-    "ast_hash": "3ef7cf2fad509bd1c43a759f6ac8d15f",
+    "mtime": 1794204408.3624828,
+    "seen": 1794382288.460035,
+    "ast_hash": "29c1f7f20bd7fedde1d17e1448a446a3",
     "semantic_hash": ""
   },
   "LEDGER/README.md": {
@@ -5196,15 +5196,15 @@
     "semantic_hash": ""
   },
   "js/analysis-core.js": {
-    "mtime": 1793856082.320127,
-    "seen": 1793856146.6254253,
-    "ast_hash": "0cced88c10f149b4ca23f2a0d7bde8ce",
+    "mtime": 1794204408.2246983,
+    "seen": 1794382287.8459396,
+    "ast_hash": "7d30a45c73f39857d6df0437f2ed7774",
     "semantic_hash": ""
   },
   "js/analysis.js": {
-    "mtime": 1793856090.5732102,
-    "seen": 1793856146.6254253,
-    "ast_hash": "20a9178faf10b55f9f446c94b5c96cc6",
+    "mtime": 1794204408.228332,
+    "seen": 1794382287.8459396,
+    "ast_hash": "f1368c25ef7061018abf2efa9a01bb41",
     "semantic_hash": ""
   },
   "js/bbcore-core.js": {
@@ -5424,9 +5424,9 @@
     "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1793171286.1433387,
-    "seen": 1793697969.4760838,
-    "ast_hash": "e139153552ee800e79b7ffe71ec6cfe8",
+    "mtime": 1794204408.2062392,
+    "seen": 1794382288.462053,
+    "ast_hash": "ff15f003493bfab05f0128ad699fb960",
     "semantic_hash": ""
   },
   "TRADING_MATH.txt": {
@@ -5490,15 +5490,15 @@
     "semantic_hash": ""
   },
   "analysis.html": {
-    "mtime": 1793856082.320127,
-    "seen": 1793856146.6794918,
-    "ast_hash": "4bdbd1aa8526ce717494ec4636605f0e",
+    "mtime": 1794204408.20778,
+    "seen": 1794382288.4818635,
+    "ast_hash": "da70ccb2b170530b010029f2206c35c0",
     "semantic_hash": ""
   },
   "report-index/INDEX.md": {
-    "mtime": 1793942155.90528,
-    "seen": 1793942174.889031,
-    "ast_hash": "d476460945a10e8c362dfcbf25ccbb99",
+    "mtime": 1794204408.2303336,
+    "seen": 1794382288.4838378,
+    "ast_hash": "b93d87ce67ce48895bcd3069069de70e",
     "semantic_hash": ""
   },
   "research/bb-core/hold-time/out-no-target.txt": {
@@ -6516,9 +6516,9 @@
     "semantic_hash": ""
   },
   "lucidio-recorder/recorder.js": {
-    "mtime": 1793930403.7040863,
-    "seen": 1793936056.126264,
-    "ast_hash": "0ff7dbc147ea4a07b69382bb3e04bcaa",
+    "mtime": 1794292904.8822112,
+    "seen": 1794382287.8967063,
+    "ast_hash": "7942839b98c65150700a284e5f17c5ad",
     "semantic_hash": ""
   },
   "lucidio-recorder/regime-history.js": {
@@ -6921,6 +6921,492 @@
     "mtime": 1793942147.7612405,
     "seen": 1793942174.922115,
     "ast_hash": "ddab2fe60260d5e3fa57fcebd884c7ef",
+    "semantic_hash": ""
+  },
+  "bb-trail/apply-tcore-live-patch.js": {
+    "mtime": 1794204408.2134295,
+    "seen": 1794382287.8459396,
+    "ast_hash": "5b9532f3d542f3431b0c40fa274dd5aa",
+    "semantic_hash": ""
+  },
+  "bb-trail/apply-trail-patch.js": {
+    "mtime": 1793943938.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "1533caf4392d136c1955b06612619585",
+    "semantic_hash": ""
+  },
+  "bb-trail/bot-config.json": {
+    "mtime": 1793943056.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "e71e87b6969626aba75d55e47a3184ec",
+    "semantic_hash": ""
+  },
+  "bb-trail/build-tcore-live.sh": {
+    "mtime": 1794204408.2170494,
+    "seen": 1794382287.8459396,
+    "ast_hash": "daabc4f52bc128bbf5ffca39a8bdf8de",
+    "semantic_hash": ""
+  },
+  "bb-trail/build-trail-bundle.sh": {
+    "mtime": 1793945017.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "5d60cafa02cbd095b3e48fd449741e48",
+    "semantic_hash": ""
+  },
+  "bb-trail/compare-live-vs-backtest.js": {
+    "mtime": 1793943941.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "e252bb410c702df142b803596a892a5b",
+    "semantic_hash": ""
+  },
+  "bb-trail/config.js": {
+    "mtime": 1793254095.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "1d7aad392d3d57f22f02ec34a105ead1",
+    "semantic_hash": ""
+  },
+  "bb-trail/dashboard-push.js": {
+    "mtime": 1793943941.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "a182af9facce067b39997d29abccdc3e",
+    "semantic_hash": ""
+  },
+  "bb-trail/data/ADA.json": {
+    "mtime": 1793093572.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "cd308bf347d1b12e0ce89302011a95cb",
+    "semantic_hash": ""
+  },
+  "bb-trail/data/GALA.json": {
+    "mtime": 1793093572.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "666e2afa4f0ceee7af1e36edefa7b1c7",
+    "semantic_hash": ""
+  },
+  "bb-trail/data/NEAR.json": {
+    "mtime": 1793093572.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "4911e5e61b2287453db868bcda3bdf88",
+    "semantic_hash": ""
+  },
+  "bb-trail/data/SOL.json": {
+    "mtime": 1793093572.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "84413ad28ccbc9caa474b6af654399a1",
+    "semantic_hash": ""
+  },
+  "bb-trail/data/ZEC.json": {
+    "mtime": 1793093572.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "57eb490e2c9a2ad6b9ee76f7efb8bfb5",
+    "semantic_hash": ""
+  },
+  "bb-trail/deploy-tcore/install-tcore-live.sh": {
+    "mtime": 1794204408.2180543,
+    "seen": 1794382287.8459396,
+    "ast_hash": "1373f49b61841f8158454285fb2064f6",
+    "semantic_hash": ""
+  },
+  "bb-trail/deploy-tcore/make-keys.sh": {
+    "mtime": 1794204408.2190554,
+    "seen": 1794382287.8459396,
+    "ast_hash": "edef4f930d11f3a91fc460158e8b7002",
+    "semantic_hash": ""
+  },
+  "bb-trail/deploy-tcore/status.sh": {
+    "mtime": 1794204408.2200549,
+    "seen": 1794382287.8459396,
+    "ast_hash": "f7acfc2070da6897ab45bd2119182b72",
+    "semantic_hash": ""
+  },
+  "bb-trail/deploy-tcore/track-old-position.js": {
+    "mtime": 1794204408.2230585,
+    "seen": 1794382287.8459396,
+    "ast_hash": "66c67a7029a2f073d64239516802cd08",
+    "semantic_hash": ""
+  },
+  "bb-trail/deploy-trail/install-trail-paper.sh": {
+    "mtime": 1793943623.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "830e65694b2babc5055fb6a2fc71b1c1",
+    "semantic_hash": ""
+  },
+  "bb-trail/deploy-trail/status.sh": {
+    "mtime": 1793943670.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "cfbb4ffb03ac50642d363625a55167c5",
+    "semantic_hash": ""
+  },
+  "bb-trail/deploy/watchdog.js": {
+    "mtime": 1793093583.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "5797f460efe37d0813a60cdef3056cb2",
+    "semantic_hash": ""
+  },
+  "bb-trail/envfile.js": {
+    "mtime": 1793093583.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "e5462c30cc0e6594928a471c06dd7420",
+    "semantic_hash": ""
+  },
+  "bb-trail/icore-core.js": {
+    "mtime": 1793942921.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "2fbfc67ac74122dcca1607de517f424e",
+    "semantic_hash": ""
+  },
+  "bb-trail/icore.js": {
+    "mtime": 1793943941.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "ae3b9ff540dba11786842656311f8ad7",
+    "semantic_hash": ""
+  },
+  "bb-trail/journal.js": {
+    "mtime": 1793943941.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "b348926c22df7ab3229f80029a50ea37",
+    "semantic_hash": ""
+  },
+  "bb-trail/keyinfo.js": {
+    "mtime": 1793093583.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "452352e7e1f807616654dbda72114e05",
+    "semantic_hash": ""
+  },
+  "bb-trail/lab-report.js": {
+    "mtime": 1793943567.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "c913406efe6e0ad38427faeb36140b98",
+    "semantic_hash": ""
+  },
+  "bb-trail/ledger-sync.js": {
+    "mtime": 1793694041.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "25280678584e12c77047362d452d2846",
+    "semantic_hash": ""
+  },
+  "bb-trail/live.js": {
+    "mtime": 1793094264.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "fd280a8070e8e0b249a288e5a96d7479",
+    "semantic_hash": ""
+  },
+  "bb-trail/matchkey.js": {
+    "mtime": 1793093583.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "874284b709f21161cd5c1546ff328798",
+    "semantic_hash": ""
+  },
+  "bb-trail/mexc.js": {
+    "mtime": 1793943941.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "132681825c8da03ae3240bd00f6b9052",
+    "semantic_hash": ""
+  },
+  "bb-trail/package.json": {
+    "mtime": 1793944055.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "55bce4c4b527dfdd95b72cc794cb5140",
+    "semantic_hash": ""
+  },
+  "bb-trail/realpaper.js": {
+    "mtime": 1793943020.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "d0fd5d696f30b42c6378802ffcb458fd",
+    "semantic_hash": ""
+  },
+  "bb-trail/telegram.js": {
+    "mtime": 1793943941.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "e26d34d1c23e94e4fb6f7d7a6edd4cbe",
+    "semantic_hash": ""
+  },
+  "bb-trail/test/compare-test.js": {
+    "mtime": 1793153990.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "2b0254e1cb5f1bff4ff4674a90b2c9c7",
+    "semantic_hash": ""
+  },
+  "bb-trail/test/dashboard-schema-test.js": {
+    "mtime": 1793950772.841611,
+    "seen": 1794382287.8459396,
+    "ast_hash": "e7b3df99684aa1dcb913e8812adb9b40",
+    "semantic_hash": ""
+  },
+  "bb-trail/test/dashboard-tag-test.js": {
+    "mtime": 1793943156.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "74eec174fc6e0e29b6066d3fec88a829",
+    "semantic_hash": ""
+  },
+  "bb-trail/test/full-loop-parity.js": {
+    "mtime": 1793153990.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "7db49ccf328402717086d5bbd462530d",
+    "semantic_hash": ""
+  },
+  "bb-trail/test/helpers.js": {
+    "mtime": 1793093583.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "9034b008c0ddc04b4818803023f491e1",
+    "semantic_hash": ""
+  },
+  "bb-trail/test/journal-test.js": {
+    "mtime": 1793943156.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "401a0680954e8c3da8092fd12d299030",
+    "semantic_hash": ""
+  },
+  "bb-trail/test/ledger-wallet-test.js": {
+    "mtime": 1793694041.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "e9b9fe4a3cbb661f26334784f1a62287",
+    "semantic_hash": ""
+  },
+  "bb-trail/test/ops-test.js": {
+    "mtime": 1793943414.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "93836d5723020cbf2a55f2e18f196108",
+    "semantic_hash": ""
+  },
+  "bb-trail/test/realpaper-test.js": {
+    "mtime": 1793943434.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "7322dbef4602141fa5e4ab93193df00b",
+    "semantic_hash": ""
+  },
+  "bb-trail/test/risk-tiers-test.js": {
+    "mtime": 1793254087.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "d291126fa1c10507be266c806c066a27",
+    "semantic_hash": ""
+  },
+  "bb-trail/test/selftest.js": {
+    "mtime": 1793943364.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "a15e4c121a7f986da8a8d9989ad135fa",
+    "semantic_hash": ""
+  },
+  "bb-trail/test/telegram-test.js": {
+    "mtime": 1793943156.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "fab0468b525c35e3e84dac0712819a2f",
+    "semantic_hash": ""
+  },
+  "bb-trail/test/trail-lab-test.js": {
+    "mtime": 1793943578.0,
+    "seen": 1794382287.8459396,
+    "ast_hash": "3330ed7ca08f1ef746d94de610000fa8",
+    "semantic_hash": ""
+  },
+  "bb-trail/test/trail-parity.js": {
+    "mtime": 1793950772.835842,
+    "seen": 1794382287.8459396,
+    "ast_hash": "46aabbdf15321ad07b0763d0f6655097",
+    "semantic_hash": ""
+  },
+  "js/tcore-core.js": {
+    "mtime": 1794204408.229334,
+    "seen": 1794382287.8817933,
+    "ast_hash": "ec180c2db154b30dc8755de2fefb80d8",
+    "semantic_hash": ""
+  },
+  "news-gate/news-gate.js": {
+    "mtime": 1794381390.5021281,
+    "seen": 1794382287.904774,
+    "ast_hash": "366a4743db27ef37751b75d3b5dc649a",
+    "semantic_hash": ""
+  },
+  "news-lab-bots/build-news-lab.sh": {
+    "mtime": 1794381665.5459688,
+    "seen": 1794382287.904774,
+    "ast_hash": "7c014beb6493812d4c66cbfac84b3270",
+    "semantic_hash": ""
+  },
+  "news-lab-bots/build.js": {
+    "mtime": 1794381325.1719635,
+    "seen": 1794382287.904774,
+    "ast_hash": "0f2c419beffda0fa8322efeb5d86c90a",
+    "semantic_hash": ""
+  },
+  "news-lab-bots/deploy/install-news-lab.sh": {
+    "mtime": 1794381635.0939121,
+    "seen": 1794382287.904774,
+    "ast_hash": "990dbaf839ee72fd3f86169974f45228",
+    "semantic_hash": ""
+  },
+  "news-lab-bots/deploy/status.sh": {
+    "mtime": 1794381618.6896384,
+    "seen": 1794382287.904774,
+    "ast_hash": "bc5f4cc91cc9f0ff1bf69a4ee6ef55a0",
+    "semantic_hash": ""
+  },
+  "news-lab-bots/newsgate.js": {
+    "mtime": 1794381236.3833687,
+    "seen": 1794382287.904774,
+    "ast_hash": "3019e483f5ca4d078e06f63f5a08d771",
+    "semantic_hash": ""
+  },
+  "news-lab-bots/patches/edit.js": {
+    "mtime": 1794381239.900593,
+    "seen": 1794382287.904774,
+    "ast_hash": "570fe0ba4053d2c499a38107324d89ef",
+    "semantic_hash": ""
+  },
+  "news-lab-bots/patches/gate.js": {
+    "mtime": 1794381341.9778485,
+    "seen": 1794382287.904774,
+    "ast_hash": "352716f2a6bd14875752fa16c5596e6b",
+    "semantic_hash": ""
+  },
+  "news-lab-bots/patches/news-bb.js": {
+    "mtime": 1794381284.5051374,
+    "seen": 1794382287.904774,
+    "ast_hash": "ea6bc2bb3b5885453200c3f563ad6cc5",
+    "semantic_hash": ""
+  },
+  "news-lab-bots/patches/news-ic.js": {
+    "mtime": 1794381300.420089,
+    "seen": 1794382287.904774,
+    "ast_hash": "aba021eff8a9c6ca80d42f711c038f7c",
+    "semantic_hash": ""
+  },
+  "news-lab-bots/patches/news-tc.js": {
+    "mtime": 1794381308.2019975,
+    "seen": 1794382287.904774,
+    "ast_hash": "9c84b4a31971c692bd5606e93d817b95",
+    "semantic_hash": ""
+  },
+  "news-lab-bots/test/bot-test.js": {
+    "mtime": 1794381509.915266,
+    "seen": 1794382287.904774,
+    "ast_hash": "374e31d0c79dbfcb0b4dc7b714dcc387",
+    "semantic_hash": ""
+  },
+  "news-lab-bots/test/newsgate-test.js": {
+    "mtime": 1794381466.4434896,
+    "seen": 1794382287.904774,
+    "ast_hash": "a3322b213f5e0553644979becfa983ad",
+    "semantic_hash": ""
+  },
+  "news-lab-bots/test/run-original-suites.js": {
+    "mtime": 1794382522.8622234,
+    "seen": 1794383769.1254454,
+    "ast_hash": "4f9f2ec592e62580591d313b6e5465a7",
+    "semantic_hash": ""
+  },
+  "research/news-lab/backtest.js": {
+    "mtime": 1794381390.515187,
+    "seen": 1794382288.3799267,
+    "ast_hash": "1f9da67f6afb9957a1387a7821e02d92",
+    "semantic_hash": ""
+  },
+  "research/news-lab/data/ff-usd-high.json": {
+    "mtime": 1794381347.5664115,
+    "seen": 1794382288.3799267,
+    "ast_hash": "c5d68ab32f87ba43509a39ae1d5ce478",
+    "semantic_hash": ""
+  },
+  "research/news-lab/data/fng.json": {
+    "mtime": 1794380842.0870917,
+    "seen": 1794382288.3799267,
+    "ast_hash": "ea6df6480112b57e50d11a988aec0649",
+    "semantic_hash": ""
+  },
+  "research/news-lab/data/hacks.json": {
+    "mtime": 1794380842.5044422,
+    "seen": 1794382288.3799267,
+    "ast_hash": "5cedd9627c36adac9b7cf0d6069fd76e",
+    "semantic_hash": ""
+  },
+  "research/news-lab/fetch-events.js": {
+    "mtime": 1794380817.2017846,
+    "seen": 1794382288.3799267,
+    "ast_hash": "4857a3a957684f778c6ac2e8577615df",
+    "semantic_hash": ""
+  },
+  "research/news-lab/results.json": {
+    "mtime": 1794381393.549098,
+    "seen": 1794382288.3799267,
+    "ast_hash": "c54145249328cfe3a9f3ba0bfbdf8714",
+    "semantic_hash": ""
+  },
+  "scripts/sync-tcore-core.mjs": {
+    "mtime": 1794204408.3603995,
+    "seen": 1794382288.4547753,
+    "ast_hash": "6f6ab7f8383c09272b4c3a61681a625c",
+    "semantic_hash": ""
+  },
+  "bb-trail/CLAUDE.md": {
+    "mtime": 1794204408.20778,
+    "seen": 1794382288.4838378,
+    "ast_hash": "4b4f6416399098dadc502ba855ac56a4",
+    "semantic_hash": ""
+  },
+  "bb-trail/HANDOFF-HOME.md": {
+    "mtime": 1793950930.7904499,
+    "seen": 1794382288.4838378,
+    "ast_hash": "fd9fb74be3be7dc948a9e8655e4a954d",
+    "semantic_hash": ""
+  },
+  "bb-trail/LIVE-READINESS-TCORE.md": {
+    "mtime": 1793950887.086553,
+    "seen": 1794382288.4838378,
+    "ast_hash": "55937a3ec8f52893be668c6cd22c4f9f",
+    "semantic_hash": ""
+  },
+  "bb-trail/README-TRAIL.md": {
+    "mtime": 1793950887.0861156,
+    "seen": 1794382288.4838378,
+    "ast_hash": "e3dae22c3a5b018131d8a87221046005",
+    "semantic_hash": ""
+  },
+  "bb-trail/T-CORE-INSTALL-WHEN-HOME.md": {
+    "mtime": 1794204408.20778,
+    "seen": 1794382288.4838378,
+    "ast_hash": "b47e9e4132ce54dbb5dca2d8d08a5bb8",
+    "semantic_hash": ""
+  },
+  "bb-trail/TCORE-LIVE-GO.md": {
+    "mtime": 1794204408.20778,
+    "seen": 1794382288.4838378,
+    "ast_hash": "731ee5da91a590b17e7fdf4678527dc2",
+    "semantic_hash": ""
+  },
+  "bb-trail/VPS-TRAIL-INSTALL.md": {
+    "mtime": 1793945023.0,
+    "seen": 1794382288.4838378,
+    "ast_hash": "bb7d463663e89be4dd4e2bcf9a4805cc",
+    "semantic_hash": ""
+  },
+  "bb-trail/VPS-TRAIL-INSTALL.template.md": {
+    "mtime": 1793945010.0,
+    "seen": 1794382288.4838378,
+    "ast_hash": "50f7a89c924612fc5cc273bb0b6202cc",
+    "semantic_hash": ""
+  },
+  "news-lab-bots/NEWS-LAB-INSTALL.template.md": {
+    "mtime": 1794381678.6134562,
+    "seen": 1794382288.4838378,
+    "ast_hash": "a42bf73ec3ac535ae5e17e8a59743115",
+    "semantic_hash": ""
+  },
+  "news-lab-bots/README.md": {
+    "mtime": 1794381686.163654,
+    "seen": 1794382288.4838378,
+    "ast_hash": "5f7aae06ed12c4383001f351448f1af6",
+    "semantic_hash": ""
+  },
+  "research/news-lab/REPORT.md": {
+    "mtime": 1794381393.5502627,
+    "seen": 1794382288.6355033,
+    "ast_hash": "f924055e3c572483493a205ee0447525",
+    "semantic_hash": ""
+  },
+  "news-lab-bots/NEWS-LAB-INSTALL.md": {
+    "mtime": 1794383634.573516,
+    "seen": 1794383769.393559,
+    "ast_hash": "37deeb0b1589eac47507a9ac85b9aa4c",
     "semantic_hash": ""
   },
   "LEDGER/package-lock.json": {

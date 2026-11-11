@@ -1,0 +1,58 @@
+# BB-CORE NEWS LAB PAPER bot (simulated money, no orders, no Telegram) with the NEWS GATE, next to the live bots, sharing nothing with them.
+# Installed by deploy/install-news-lab.sh. Its own user, code in /opt/newsbb (owned by root), data in /var/lib/newsbb. Dashboard tag: bbn.
+#   sudo systemctl status newsbb      sudo journalctl -u newsbb -f      sudo bash /opt/newsbb/deploy/status.sh
+[Unit]
+Description=BB-CORE NEWS LAB PAPER bot with news gate (simulated, no orders, no Telegram)
+After=network-online.target time-sync.target
+Wants=network-online.target
+StartLimitIntervalSec=600
+StartLimitBurst=20
+
+[Service]
+Type=simple
+User=newsbb
+Group=newsbb
+WorkingDirectory=/opt/newsbb
+ExecStart=/usr/bin/node /opt/newsbb/lucidio.js loop
+Restart=always
+RestartSec=15
+KillSignal=SIGTERM
+TimeoutStopSec=30
+SyslogIdentifier=newsbb
+Environment=NODE_ENV=production
+Environment=TZ=UTC
+Environment=LUCIDIO_STATE_DIR=/var/lib/newsbb
+# no key file exists at these paths: the bot can never read an account or sign a request; no <app>/.env is read either
+Environment=LUCIDIO_KEYS=/var/lib/newsbb/no-keys.json
+Environment=LUCIDIO_ENV_FILE=/var/lib/newsbb/no-env-file
+# Telegram is removed in the code (send() never reaches the network); this switch is a second lock
+Environment=LUCIDIO_NO_NOTIFY=1
+# the news gate signal (fail-open: unreachable or stale = entries are not gated)
+Environment=NEWS_SIGNAL_URL=https://cryptobai.vercel.app/api/signal
+# Dashboard: reports as its own bot (bbn) and never answers "Ask bot now" (that is for the live bots).
+# DASHBOARD_URL and DASHBOARD_PUSH_SECRET come from /etc/newsbb.env (root only). Without them nothing is pushed and the bot works the same.
+Environment=DASHBOARD_ASK_POLL_SEC=0
+EnvironmentFile=-/etc/newsbb.env
+# measured slippage written by the data recorder (read only); absent = the bot uses the live order book instead
+Environment=LUCIDIO_RECORDER_SUMMARY=/var/lib/lucidio-recorder/summary/slippage.json
+# it must never compete with the live bots
+MemoryHigh=150M
+MemoryMax=200M
+Nice=10
+CPUQuota=20%
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectHome=true
+ProtectSystem=strict
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6
+CapabilityBoundingSet=
+ReadWritePaths=/var/lib/newsbb
+InaccessiblePaths=-/opt/lucidio -/opt/icore -/opt/tcore -/opt/bbtrail -/opt/lucidio-1h -/etc/lucidio -/etc/icore -/etc/tcore -/etc/tcore.env -/etc/bbtrail.env -/etc/lucidio-1h.env -/etc/lucidio-recorder.env -/var/lib/lucidio -/var/lib/icore -/var/lib/tcore -/var/lib/bbtrail -/var/lib/lucidio-1h -/var/backups -/opt/newsic -/opt/newstc -/var/lib/newsic -/var/lib/newstc -/etc/newsic.env -/etc/newstc.env
+
+[Install]
+WantedBy=multi-user.target
