@@ -1,0 +1,92 @@
+{
+ "BTC": {
+  "first": "2016-01-01",
+  "poloniexCandles": 3565,
+  "binanceFrom": "2017-08-17",
+  "overlapCandles": 361,
+  "medianCloseDiffPct": 0.391,
+  "p95CloseDiffPct": 1.511,
+  "wicksClipped": 0,
+  "zeroVolPolo": 0
+ },
+ "ETH": {
+  "first": "2016-01-01",
+  "poloniexCandles": 3565,
+  "binanceFrom": "2017-08-17",
+  "overlapCandles": 361,
+  "medianCloseDiffPct": 0.372,
+  "p95CloseDiffPct": 2.037,
+  "wicksClipped": 4,
+  "zeroVolPolo": 35
+ },
+ "XRP": {
+  "first": "2016-01-01",
+  "poloniexCandles": 5126,
+  "binanceFrom": "2018-05-04",
+  "overlapCandles": 361,
+  "medianCloseDiffPct": 0.177,
+  "p95CloseDiffPct": 0.524,
+  "wicksClipped": 10,
+  "zeroVolPolo": 374
+ },
+ "LTC": {
+  "first": "2016-01-01",
+  "poloniexCandles": 4272,
+  "binanceFrom": "2017-12-13",
+  "overlapCandles": 361,
+  "medianCloseDiffPct": 0.516,
+  "p95CloseDiffPct": 2.485,
+  "wicksClipped": 2,
+  "zeroVolPolo": 149
+ },
+ "DASH": {
+  "first": "2016-01-01",
+  "poloniexCandles": 7093,
+  "binanceFrom": "2019-03-28",
+  "overlapCandles": 361,
+  "medianCloseDiffPct": 0.307,
+  "p95CloseDiffPct": 1.133,
+  "wicksClipped": 2,
+  "zeroVolPolo": 183
+ },
+ "ETC": {
+  "first": "2016-07-28",
+  "poloniexCandles": 4104,
+  "binanceFrom": "2018-06-12",
+  "overlapCandles": 361,
+  "medianCloseDiffPct": 0.197,
+  "p95CloseDiffPct": 0.576,
+  "wicksClipped": 2,
+  "zeroVolPolo": 0
+ },
+ "XLM": {
+  "first": "2016-01-01",
+  "poloniexCandles": 5288,
+  "binanceFrom": "2018-05-31",
+  "overlapCandles": 361,
+  "medianCloseDiffPct": 0.265,
+  "p95CloseDiffPct": 0.763,
+  "wicksClipped": 14,
+  "zeroVolPolo": 628
+ },
+ "ZEC": {
+  "first": "2016-10-28",
+  "poloniexCandles": 5241,
+  "binanceFrom": "2019-03-21",
+  "overlapCandles": 361,
+  "medianCloseDiffPct": 0.315,
+  "p95CloseDiffPct": 0.999,
+  "wicksClipped": 7,
+  "zeroVolPolo": 5
+ },
+ "XMR": {
+  "first": "2016-01-01",
+  "poloniexCandles": 23805,
+  "binanceFrom": "2026-11-11",
+  "overlapCandles": 0,
+  "medianCloseDiffPct": null,
+  "p95CloseDiffPct": null,
+  "wicksClipped": 11,
+  "zeroVolPolo": 123
+ }
+}

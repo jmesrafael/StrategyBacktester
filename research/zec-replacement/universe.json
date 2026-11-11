@@ -1,0 +1,366 @@
+{
+ "cutoff": "2019-11-11T00:00:00.000Z",
+ "built": "2026-11-11T13:51:07.041Z",
+ "coins": [
+  {
+   "coin": "BTC",
+   "symbol": "BTCUSDT",
+   "first": "2017-08-17",
+   "mexcUsd24h": 3273418886.45023,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 11127167429.93
+  },
+  {
+   "coin": "ZEC",
+   "symbol": "ZECUSDT",
+   "first": "2019-03-21",
+   "mexcUsd24h": 2204703501.6341,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 3137383537.45
+  },
+  {
+   "coin": "ETH",
+   "symbol": "ETHUSDT",
+   "first": "2017-08-17",
+   "mexcUsd24h": 1496366408.8155,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 7402177835.31
+  },
+  {
+   "coin": "XRP",
+   "symbol": "XRPUSDT",
+   "first": "2018-05-04",
+   "mexcUsd24h": 326839142.2152,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 750893650.0337
+  },
+  {
+   "coin": "DOGE",
+   "symbol": "DOGEUSDT",
+   "first": "2019-07-05",
+   "mexcUsd24h": 117865326.268,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 304300667.24914
+  },
+  {
+   "coin": "LINK",
+   "symbol": "LINKUSDT",
+   "first": "2019-01-16",
+   "mexcUsd24h": 91424691.533,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 94901894.565
+  },
+  {
+   "coin": "XLM",
+   "symbol": "XLMUSDT",
+   "first": "2018-05-31",
+   "mexcUsd24h": 26840502.1505,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 40835861.17119
+  },
+  {
+   "coin": "ADA",
+   "symbol": "ADAUSDT",
+   "first": "2018-04-17",
+   "mexcUsd24h": 22242229.7128,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 112472227.9503
+  },
+  {
+   "coin": "DASH",
+   "symbol": "DASHUSDT",
+   "first": "2019-03-28",
+   "mexcUsd24h": 16986996.3313,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 44423287.87
+  },
+  {
+   "coin": "ONE",
+   "symbol": "ONEUSDT",
+   "first": "2019-06-01",
+   "mexcUsd24h": 7743211.7957995,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 190124153.2197459
+  },
+  {
+   "coin": "BNB",
+   "symbol": "BNBUSDT",
+   "first": "2017-11-06",
+   "mexcUsd24h": 7684007.1143,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 267697041.197
+  },
+  {
+   "coin": "HBAR",
+   "symbol": "HBARUSDT",
+   "first": "2019-09-29",
+   "mexcUsd24h": 7543515.7076,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 26726436.49494
+  },
+  {
+   "coin": "FET",
+   "symbol": "FETUSDT",
+   "first": "2019-02-28",
+   "mexcUsd24h": 4474792.478,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 27408324.4906
+  },
+  {
+   "coin": "LTC",
+   "symbol": "LTCUSDT",
+   "first": "2017-12-13",
+   "mexcUsd24h": 3462198.2052,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 52458714.84
+  },
+  {
+   "coin": "ATOM",
+   "symbol": "ATOMUSDT",
+   "first": "2019-04-29",
+   "mexcUsd24h": 2609358.1576,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 16104463.509
+  },
+  {
+   "coin": "TRX",
+   "symbol": "TRXUSDT",
+   "first": "2018-06-11",
+   "mexcUsd24h": 2247723.1588,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 34073347.01103
+  },
+  {
+   "coin": "ETC",
+   "symbol": "ETCUSDT",
+   "first": "2018-06-12",
+   "mexcUsd24h": 1539334.6241,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 14878552.524
+  },
+  {
+   "coin": "ALGO",
+   "symbol": "ALGOUSDT",
+   "first": "2019-06-22",
+   "mexcUsd24h": 825489.28412,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 6863730.642907
+  },
+  {
+   "coin": "HOT",
+   "symbol": "HOTUSDT",
+   "first": "2019-02-18",
+   "mexcUsd24h": 783805.6331655,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 23068388.0825331
+  },
+  {
+   "coin": "BAT",
+   "symbol": "BATUSDT",
+   "first": "2019-03-04",
+   "mexcUsd24h": 683251.08318,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 8143295.488018
+  },
+  {
+   "coin": "XTZ",
+   "symbol": "XTZUSDT",
+   "first": "2019-09-24",
+   "mexcUsd24h": 520008.46274,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 2703708.09252
+  },
+  {
+   "coin": "NEO",
+   "symbol": "NEOUSDT",
+   "first": "2017-11-20",
+   "mexcUsd24h": 464856.2568,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 2137836.894
+  },
+  {
+   "coin": "STX",
+   "symbol": "STXUSDT",
+   "first": "2019-10-25",
+   "mexcUsd24h": 443429.619,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 10043299.9305
+  },
+  {
+   "coin": "VET",
+   "symbol": "VETUSDT",
+   "first": "2018-07-25",
+   "mexcUsd24h": 357116.656768,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 3358061.524503
+  },
+  {
+   "coin": "CHZ",
+   "symbol": "CHZUSDT",
+   "first": "2019-09-06",
+   "mexcUsd24h": 323474.11879,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 3746491.31326
+  },
+  {
+   "coin": "ZIL",
+   "symbol": "ZILUSDT",
+   "first": "2019-02-19",
+   "mexcUsd24h": 272837.72722,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 4745680.135202
+  },
+  {
+   "coin": "THETA",
+   "symbol": "THETAUSDT",
+   "first": "2019-04-10",
+   "mexcUsd24h": 201483.5952,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 2063965.8247
+  },
+  {
+   "coin": "IOTA",
+   "symbol": "IOTAUSDT",
+   "first": "2018-05-31",
+   "mexcUsd24h": 192360.48929,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 2755859.108634
+  },
+  {
+   "coin": "RVN",
+   "symbol": "RVNUSDT",
+   "first": "2019-09-25",
+   "mexcUsd24h": 180700.48185,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 1652278.797012
+  },
+  {
+   "coin": "ENJ",
+   "symbol": "ENJUSDT",
+   "first": "2019-04-18",
+   "mexcUsd24h": 180300.7266,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 2363464.6397
+  },
+  {
+   "coin": "IOST",
+   "symbol": "IOSTUSDT",
+   "first": "2019-03-22",
+   "mexcUsd24h": 155001.47217,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 3982166.7960717
+  },
+  {
+   "coin": "ZRX",
+   "symbol": "ZRXUSDT",
+   "first": "2019-02-28",
+   "mexcUsd24h": 135517.1311,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 740099.9177
+  },
+  {
+   "coin": "KAVA",
+   "symbol": "KAVAUSDT",
+   "first": "2019-10-25",
+   "mexcUsd24h": 133562.949276,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 1963508.722421
+  },
+  {
+   "coin": "ONT",
+   "symbol": "ONTUSDT",
+   "first": "2018-06-08",
+   "mexcUsd24h": 126220.89496,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 1391108.783448
+  },
+  {
+   "coin": "DUSK",
+   "symbol": "DUSKUSDT",
+   "first": "2019-07-22",
+   "mexcUsd24h": 119057.9769,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 1753387.93115
+  },
+  {
+   "coin": "CVC",
+   "symbol": "CVCUSDT",
+   "first": "2019-08-27",
+   "mexcUsd24h": 114562.37952,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 773193.26656
+  },
+  {
+   "coin": "BAND",
+   "symbol": "BANDUSDT",
+   "first": "2019-09-18",
+   "mexcUsd24h": 113710.01565,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 669412.7185
+  },
+  {
+   "coin": "ARPA",
+   "symbol": "ARPAUSDT",
+   "first": "2019-11-06",
+   "mexcUsd24h": 113074.50116,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 525040.81326
+  },
+  {
+   "coin": "QTUM",
+   "symbol": "QTUMUSDT",
+   "first": "2018-03-19",
+   "mexcUsd24h": 112783.20431,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 666330.33138
+  },
+  {
+   "coin": "ANKR",
+   "symbol": "ANKRUSDT",
+   "first": "2019-07-23",
+   "mexcUsd24h": 108857.391534,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 935233.673048
+  },
+  {
+   "coin": "CELR",
+   "symbol": "CELRUSDT",
+   "first": "2019-03-25",
+   "mexcUsd24h": 107421.167018,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 974579.017494
+  },
+  {
+   "coin": "ONG",
+   "symbol": "ONGUSDT",
+   "first": "2019-02-16",
+   "mexcUsd24h": 102428.8514,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 1528904.73286
+  },
+  {
+   "coin": "MTL",
+   "symbol": "MTLUSDT",
+   "first": "2019-08-23",
+   "mexcUsd24h": 101904.2147,
+   "binanceFutures": true,
+   "binanceFutUsd24h": 537065.9569
+  },
+  {
+   "coin": "TFUEL",
+   "symbol": "TFUELUSDT",
+   "first": "2019-05-24",
+   "mexcUsd24h": null,
+   "binanceFutures": false,
+   "binanceFutUsd24h": null
+  },
+  {
+   "coin": "WIN",
+   "symbol": "WINUSDT",
+   "first": "2019-08-01",
+   "mexcUsd24h": null,
+   "binanceFutures": false,
+   "binanceFutUsd24h": null
+  }
+ ]
+}

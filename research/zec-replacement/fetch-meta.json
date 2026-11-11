@@ -1,0 +1,911 @@
+{
+ "XRP": {
+  "candles": 18679,
+  "first": "2018-05-04",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 9,
+  "longestGap": 2,
+  "fundingFrom": "2020-01-06",
+  "funding": 7504
+ },
+ "ZEC": {
+  "candles": 16754,
+  "first": "2019-03-21",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 4,
+  "longestGap": 2,
+  "fundingFrom": "2020-02-04",
+  "funding": 7417
+ },
+ "ETH": {
+  "candles": 20240,
+  "first": "2017-08-17",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 16,
+  "longestGap": 7,
+  "fundingFrom": "2019-11-27",
+  "funding": 7624
+ },
+ "BTC": {
+  "candles": 20240,
+  "first": "2017-08-17",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 16,
+  "longestGap": 7,
+  "fundingFrom": "2019-09-10",
+  "funding": 7858
+ },
+ "DOGE": {
+  "candles": 16116,
+  "first": "2019-07-05",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 2,
+  "longestGap": 1,
+  "fundingFrom": "2020-07-10",
+  "funding": 6946
+ },
+ "LINK": {
+  "candles": 17137,
+  "first": "2019-01-16",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 5,
+  "longestGap": 2,
+  "fundingFrom": "2020-01-17",
+  "funding": 7471
+ },
+ "XLM": {
+  "candles": 18517,
+  "first": "2018-05-31",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 9,
+  "longestGap": 2,
+  "fundingFrom": "2020-01-19",
+  "funding": 7464
+ },
+ "ADA": {
+  "candles": 18782,
+  "first": "2018-04-17",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 9,
+  "longestGap": 2,
+  "fundingFrom": "2020-01-19",
+  "funding": 7464
+ },
+ "ONE": {
+  "candles": 16322,
+  "first": "2019-06-01",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 2,
+  "longestGap": 1,
+  "fundingFrom": "2021-03-18",
+  "funding": 6574
+ },
+ "DASH": {
+  "candles": 16712,
+  "first": "2019-03-28",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 4,
+  "longestGap": 2,
+  "fundingFrom": "2020-02-04",
+  "funding": 7417
+ },
+ "BNB": {
+  "candles": 19755,
+  "first": "2017-11-06",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 16,
+  "longestGap": 7,
+  "fundingFrom": "2020-02-10",
+  "funding": 7399
+ },
+ "HBAR": {
+  "candles": 15602,
+  "first": "2019-09-29",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 1,
+  "longestGap": 1,
+  "fundingFrom": "2021-03-17",
+  "funding": 6196
+ },
+ "FET": {
+  "candles": 16879,
+  "first": "2019-02-28",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 5,
+  "longestGap": 2,
+  "fundingFrom": "2023-01-16",
+  "funding": 4186
+ },
+ "LTC": {
+  "candles": 19533,
+  "first": "2017-12-13",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 16,
+  "longestGap": 7,
+  "fundingFrom": "2020-01-09",
+  "funding": 7495
+ },
+ "ATOM": {
+  "candles": 16520,
+  "first": "2019-04-29",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 4,
+  "longestGap": 2,
+  "fundingFrom": "2020-02-06",
+  "funding": 7410
+ },
+ "ETC": {
+  "candles": 18447,
+  "first": "2018-06-12",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 9,
+  "longestGap": 2,
+  "fundingFrom": "2020-01-16",
+  "funding": 7474
+ },
+ "TRX": {
+  "candles": 18451,
+  "first": "2018-06-11",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 9,
+  "longestGap": 2,
+  "fundingFrom": "2020-01-15",
+  "funding": 7477
+ },
+ "ALGO": {
+  "candles": 16197,
+  "first": "2019-06-22",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 2,
+  "longestGap": 1,
+  "fundingFrom": "2020-05-26",
+  "funding": 7080
+ },
+ "HOT": {
+  "candles": 16939,
+  "first": "2019-02-18",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 5,
+  "longestGap": 2,
+  "fundingFrom": "2021-03-30",
+  "funding": 6296
+ },
+ "BAT": {
+  "candles": 16855,
+  "first": "2019-03-04",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 5,
+  "longestGap": 2,
+  "fundingFrom": "2020-02-13",
+  "funding": 7390
+ },
+ "XTZ": {
+  "candles": 15631,
+  "first": "2019-09-24",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 1,
+  "longestGap": 1,
+  "fundingFrom": "2020-02-04",
+  "funding": 8494
+ },
+ "NEO": {
+  "candles": 19671,
+  "first": "2017-11-20",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 16,
+  "longestGap": 7,
+  "fundingFrom": "2020-02-17",
+  "funding": 7378
+ },
+ "VET": {
+  "candles": 18188,
+  "first": "2018-07-25",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 6,
+  "longestGap": 2,
+  "fundingFrom": "2020-02-14",
+  "funding": 7387
+ },
+ "CHZ": {
+  "candles": 15740,
+  "first": "2019-09-06",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 1,
+  "longestGap": 1,
+  "fundingFrom": "2020-12-28",
+  "funding": 6433
+ },
+ "ZIL": {
+  "candles": 16933,
+  "first": "2019-02-19",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 5,
+  "longestGap": 2,
+  "fundingFrom": "2020-06-17",
+  "funding": 7829
+ },
+ "STX": {
+  "candles": 15446,
+  "first": "2019-10-25",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 1,
+  "longestGap": 1,
+  "fundingFrom": "2023-02-21",
+  "funding": 4078
+ },
+ "RVN": {
+  "candles": 15624,
+  "first": "2019-09-25",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 1,
+  "longestGap": 1,
+  "fundingFrom": "2021-02-23",
+  "funding": 7548
+ },
+ "IOTA": {
+  "candles": 18517,
+  "first": "2018-05-31",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 9,
+  "longestGap": 2,
+  "fundingFrom": "2020-02-12",
+  "funding": 7393
+ },
+ "ENJ": {
+  "candles": 16586,
+  "first": "2019-04-18",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 4,
+  "longestGap": 2,
+  "fundingFrom": "2020-09-29",
+  "funding": 7312
+ },
+ "KAVA": {
+  "candles": 15447,
+  "first": "2019-10-25",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 1,
+  "longestGap": 1,
+  "fundingFrom": "2020-07-28",
+  "funding": 7778
+ },
+ "ZRX": {
+  "candles": 16880,
+  "first": "2019-02-28",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 5,
+  "longestGap": 2,
+  "fundingFrom": "2020-06-24",
+  "funding": 7875
+ },
+ "IOST": {
+  "candles": 16748,
+  "first": "2019-03-22",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 4,
+  "longestGap": 2,
+  "fundingFrom": "2020-02-21",
+  "funding": 7782
+ },
+ "CVC": {
+  "candles": 15800,
+  "first": "2019-08-27",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 926,
+  "longestGap": 925,
+  "fundingFrom": "2020-11-11",
+  "funding": 7807
+ },
+ "DUSK": {
+  "candles": 16015,
+  "first": "2019-07-22",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 2,
+  "longestGap": 1,
+  "fundingFrom": "2022-01-06",
+  "funding": 6083
+ },
+ "ONT": {
+  "candles": 18470,
+  "first": "2018-06-08",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 9,
+  "longestGap": 2,
+  "fundingFrom": "2020-02-11",
+  "funding": 8282
+ },
+ "ARPA": {
+  "candles": 15372,
+  "first": "2019-11-06",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 1,
+  "longestGap": 1,
+  "fundingFrom": "2021-10-19",
+  "funding": 5548
+ },
+ "QTUM": {
+  "candles": 18955,
+  "first": "2018-03-19",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 9,
+  "longestGap": 2,
+  "fundingFrom": "2020-02-19",
+  "funding": 7371
+ },
+ "CELR": {
+  "candles": 16730,
+  "first": "2019-03-25",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 4,
+  "longestGap": 2,
+  "fundingFrom": "2021-03-29",
+  "funding": 6160
+ },
+ "BAND": {
+  "candles": 15666,
+  "first": "2019-09-18",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 1,
+  "longestGap": 1,
+  "fundingFrom": "2020-07-29",
+  "funding": 6889
+ },
+ "ANKR": {
+  "candles": 16008,
+  "first": "2019-07-23",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 2,
+  "longestGap": 1,
+  "fundingFrom": "2021-01-25",
+  "funding": 6895
+ },
+ "MTL": {
+  "candles": 15823,
+  "first": "2019-08-23",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 1,
+  "longestGap": 1,
+  "fundingFrom": "2021-03-30",
+  "funding": 6447
+ },
+ "ONG": {
+  "candles": 16951,
+  "first": "2019-02-16",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 5,
+  "longestGap": 2,
+  "fundingFrom": "2023-11-27",
+  "funding": 5480
+ },
+ "GALA": {
+  "candles": 11312,
+  "first": "2021-09-13",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2021-09-17",
+  "funding": 5643
+ },
+ "SOL": {
+  "candles": 13700,
+  "first": "2020-08-11",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2020-09-13",
+  "funding": 6825
+ },
+ "NEAR": {
+  "candles": 13316,
+  "first": "2020-10-14",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2020-10-14",
+  "funding": 6657
+ },
+ "HYPE": {
+  "source": "binance futures",
+  "candles": 3181,
+  "first": "2025-05-30",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "fundingFrom": "2025-05-30",
+  "funding": 2781
+ },
+ "SUI": {
+  "candles": 7728,
+  "first": "2023-05-03",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2023-05-03",
+  "funding": 3864
+ },
+ "GRAM": {
+  "candles": 793,
+  "first": "2026-07-02",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2026-07-02",
+  "funding": 794
+ },
+ "UNI": {
+  "candles": 13479,
+  "first": "2020-09-17",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2020-09-17",
+  "funding": 6739
+ },
+ "AVAX": {
+  "candles": 13448,
+  "first": "2020-09-22",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2020-09-22",
+  "funding": 6723
+ },
+ "BCH": {
+  "candles": 15241,
+  "first": "2019-11-28",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 1,
+  "longestGap": 1,
+  "fundingFrom": "2019-12-19",
+  "funding": 7557
+ },
+ "TAO": {
+  "candles": 5664,
+  "first": "2024-04-11",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2024-04-11",
+  "funding": 4864
+ },
+ "SHIB": {
+  "candles": 12067,
+  "first": "2021-05-10",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": null,
+  "funding": 0
+ },
+ "PEPE": {
+  "candles": 7715,
+  "first": "2023-05-05",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": null,
+  "funding": 0
+ },
+ "QNT": {
+  "candles": 11588,
+  "first": "2021-07-29",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2022-10-20",
+  "funding": 4450
+ },
+ "ONDO": {
+  "candles": 3474,
+  "first": "2025-04-11",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2024-01-20",
+  "funding": 5172
+ },
+ "ENA": {
+  "candles": 5719,
+  "first": "2024-04-02",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2024-04-02",
+  "funding": 4918
+ },
+ "ASTER": {
+  "candles": 2406,
+  "first": "2025-10-06",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2025-09-19",
+  "funding": 2172
+ },
+ "WLFI": {
+  "candles": 2616,
+  "first": "2025-09-01",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2025-08-23",
+  "funding": 2271
+ },
+ "MORPHO": {
+  "candles": 2424,
+  "first": "2025-10-03",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2024-11-27",
+  "funding": 3684
+ },
+ "SKY": {
+  "candles": 2521,
+  "first": "2025-09-17",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2025-09-09",
+  "funding": 2172
+ },
+ "AAVE": {
+  "candles": 13311,
+  "first": "2020-10-15",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2020-10-16",
+  "funding": 6652
+ },
+ "WLD": {
+  "candles": 7237,
+  "first": "2023-07-24",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2023-07-24",
+  "funding": 3618
+ },
+ "DOT": {
+  "candles": 13654,
+  "first": "2020-08-18",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2020-08-20",
+  "funding": 6823
+ },
+ "ICP": {
+  "candles": 12063,
+  "first": "2021-05-11",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2021-05-11",
+  "funding": 6031
+ },
+ "JST": {
+  "candles": 13700,
+  "first": "2020-08-11",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2025-04-28",
+  "funding": 2973
+ },
+ "POL": {
+  "candles": 4735,
+  "first": "2024-09-13",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2024-09-13",
+  "funding": 4134
+ },
+ "JUP": {
+  "candles": 6089,
+  "first": "2024-01-31",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2024-02-01",
+  "funding": 5172
+ },
+ "RENDER": {
+  "candles": 5029,
+  "first": "2024-07-26",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2024-07-26",
+  "funding": 4229
+ },
+ "NIGHT": {
+  "candles": 1470,
+  "first": "2026-03-11",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2025-12-10",
+  "funding": 1817
+ },
+ "ZRO": {
+  "candles": 5244,
+  "first": "2024-06-20",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2024-06-20",
+  "funding": 4444
+ },
+ "ETHFI": {
+  "candles": 5808,
+  "first": "2024-03-18",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2024-03-18",
+  "funding": 5008
+ },
+ "INJ": {
+  "candles": 13274,
+  "first": "2020-10-21",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2022-08-16",
+  "funding": 4644
+ },
+ "PYTH": {
+  "candles": 6078,
+  "first": "2024-02-02",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2023-11-22",
+  "funding": 5510
+ },
+ "CAKE": {
+  "candles": 12548,
+  "first": "2021-02-19",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2023-11-02",
+  "funding": 5630
+ },
+ "APT": {
+  "candles": 8907,
+  "first": "2022-10-19",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2022-10-18",
+  "funding": 4455
+ },
+ "TIA": {
+  "candles": 6641,
+  "first": "2023-10-31",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2023-10-31",
+  "funding": 5641
+ },
+ "PENGU": {
+  "candles": 4164,
+  "first": "2024-12-17",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2024-12-17",
+  "funding": 3564
+ },
+ "RAY": {
+  "candles": 11516,
+  "first": "2021-08-10",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2021-08-19",
+  "funding": 4773
+ },
+ "AERO": {
+  "candles": 701,
+  "first": "2026-07-17",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2024-12-04",
+  "funding": 3642
+ },
+ "VIRTUAL": {
+  "candles": 3474,
+  "first": "2025-04-11",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2024-12-10",
+  "funding": 3606
+ },
+ "FF": {
+  "candles": 2448,
+  "first": "2025-09-29",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2025-09-29",
+  "funding": 2172
+ },
+ "KITE": {
+  "candles": 2238,
+  "first": "2025-11-03",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2025-10-29",
+  "funding": 2069
+ },
+ "STRK": {
+  "candles": 5970,
+  "first": "2024-02-20",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2024-02-20",
+  "funding": 5170
+ },
+ "CRV": {
+  "candles": 13676,
+  "first": "2020-08-15",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2020-09-01",
+  "funding": 6787
+ },
+ "SEI": {
+  "candles": 7104,
+  "first": "2023-08-15",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2023-08-16",
+  "funding": 3549
+ },
+ "ARB": {
+  "candles": 7974,
+  "first": "2023-03-23",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "longestGap": 0,
+  "fundingFrom": "2023-03-23",
+  "funding": 3988
+ },
+ "XMR": {
+  "source": "poloniex (10y series)",
+  "candles": 23805,
+  "first": "2016-01-01",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "fundingFrom": "2020-01-19",
+  "funding": 7464
+ },
+ "CC": {
+  "source": "binance futures",
+  "candles": 2256,
+  "first": "2025-10-31",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "fundingFrom": "2025-10-31",
+  "funding": 2057
+ },
+ "M": {
+  "source": "binance futures",
+  "candles": 2953,
+  "first": "2025-07-07",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "fundingFrom": "2025-07-07",
+  "funding": 2940
+ },
+ "BTW": {
+  "source": "binance futures",
+  "candles": 960,
+  "first": "2026-06-04",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "fundingFrom": "2026-06-04",
+  "funding": 959
+ },
+ "MNT": {
+  "source": "mexc futures",
+  "candles": 6008,
+  "first": "2024-02-14",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "fundingFrom": "2025-05-20",
+  "funding": 1620
+ },
+ "VVV": {
+  "source": "binance futures",
+  "candles": 3907,
+  "first": "2025-01-29",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "fundingFrom": "2025-01-29",
+  "funding": 3308
+ },
+ "LIT": {
+  "source": "binance futures",
+  "candles": 1937,
+  "first": "2025-12-23",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "fundingFrom": "2025-12-23",
+  "funding": 1737
+ },
+ "PI": {
+  "source": "mexc futures",
+  "candles": 3775,
+  "first": "2025-02-20",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "fundingFrom": "2025-05-20",
+  "funding": 3240
+ },
+ "KAS": {
+  "source": "binance futures",
+  "candles": 6543,
+  "first": "2023-11-17",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "fundingFrom": "2023-11-16",
+  "funding": 5545
+ },
+ "STABLE": {
+  "source": "binance futures",
+  "candles": 2220,
+  "first": "2025-11-06",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "fundingFrom": "2025-11-06",
+  "funding": 2021
+ },
+ "FLR": {
+  "source": "mexc futures",
+  "candles": 8408,
+  "first": "2023-01-10",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "fundingFrom": "2025-05-20",
+  "funding": 1620
+ },
+ "PIEVERSE": {
+  "source": "binance futures",
+  "candles": 2173,
+  "first": "2025-11-14",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "fundingFrom": "2025-11-14",
+  "funding": 1973
+ },
+ "SPX": {
+  "source": "binance futures",
+  "candles": 4206,
+  "first": "2024-12-10",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "fundingFrom": "2024-12-10",
+  "funding": 3606
+ },
+ "BSV": {
+  "source": "binance futures",
+  "candles": 6708,
+  "first": "2023-10-20",
+  "last": "2026-11-11T08:00",
+  "gapSlots": 0,
+  "fundingFrom": "2023-10-20",
+  "funding": 5709
+ }
+}

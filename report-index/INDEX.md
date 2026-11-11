@@ -449,6 +449,44 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - trades-hybrid.json — trades-hybrid.json (2026-11-06)
 - trades.json — trades.json (2026-11-06)
 
+## research/zec-replacement
+- REPORT.md — ZEC replacement screen (Nov 11, 2026) (2026-11-11)
+
+## research/zec-replacement/data4h-10y
+- BTC.json — BTC.json (2026-11-11)
+- DASH.json — DASH.json (2026-11-11)
+- ETC.json — ETC.json (2026-11-11)
+- ETH.json — ETH.json (2026-11-11)
+- LTC.json — LTC.json (2026-11-11)
+- XLM.json — XLM.json (2026-11-11)
+- XMR.json — XMR.json (2026-11-11)
+- XRP.json — XRP.json (2026-11-11)
+- ZEC.json — ZEC.json (2026-11-11)
+
+## research/zec-replacement/data4h-fut
+- ADAUSDT.json — ADAUSDT.json (2026-11-11)
+- BNBUSDT.json — BNBUSDT.json (2026-11-11)
+- BTCUSDT.json — BTCUSDT.json (2026-11-11)
+- DOGEUSDT.json — DOGEUSDT.json (2026-11-11)
+- ETHUSDT.json — ETHUSDT.json (2026-11-11)
+- LINKUSDT.json — LINKUSDT.json (2026-11-11)
+- ONEUSDT.json — ONEUSDT.json (2026-11-11)
+- VETUSDT.json — VETUSDT.json (2026-11-11)
+- XRPUSDT.json — XRPUSDT.json (2026-11-11)
+- ZECUSDT.json — ZECUSDT.json (2026-11-11)
+
+## research/zec-replacement
+- deep.json — deep.json (2026-11-11)
+- fetch-meta.json — fetch-meta.json (2026-11-11)
+- math.json — math.json (2026-11-11)
+- results.json — results.json (2026-11-11)
+- results10.json — results10.json (2026-11-11)
+- results100.json — results100.json (2026-11-11)
+- splice-check.json — splice-check.json (2026-11-11)
+- top100.json — top100.json (2026-11-11)
+- trades.json — trades.json (2026-11-11)
+- universe.json — universe.json (2026-11-11)
+
 ## vps-lab
 - VPS-LAB-INSTALL.md — Lab on the VPS: data recorder + 1h paper bot with real costs (2026-11-06)
 - VPS-LAB-INSTALL.template.md — Lab on the VPS: data recorder + 1h paper bot with real costs (2026-11-06)

@@ -1,0 +1,1005 @@
+{
+ "built": "2026-11-11T15:37:52.422Z",
+ "coins": [
+  {
+   "rank": 1,
+   "coin": "BTC",
+   "name": "Bitcoin",
+   "mcap": 1485855822749,
+   "mexc": "BTC",
+   "mexcUsd24h": 3038606681.15408,
+   "binanceSpot": true,
+   "binanceFut": "BTC"
+  },
+  {
+   "rank": 2,
+   "coin": "ETH",
+   "name": "Ethereum",
+   "mcap": 252768795607,
+   "mexc": "ETH",
+   "mexcUsd24h": 1339200725.9047,
+   "binanceSpot": true,
+   "binanceFut": "ETH"
+  },
+  {
+   "rank": 3,
+   "coin": "BNB",
+   "name": "BNB",
+   "mcap": 89746940953,
+   "mexc": "BNB",
+   "mexcUsd24h": 7297672.4431,
+   "binanceSpot": true,
+   "binanceFut": "BNB"
+  },
+  {
+   "rank": 4,
+   "coin": "XRP",
+   "name": "XRP",
+   "mcap": 67647806361,
+   "mexc": "XRP",
+   "mexcUsd24h": 301536022.3587,
+   "binanceSpot": true,
+   "binanceFut": "XRP"
+  },
+  {
+   "rank": 5,
+   "coin": "SOL",
+   "name": "Solana",
+   "mcap": 49914934555,
+   "mexc": "SOL",
+   "mexcUsd24h": 543188080.451,
+   "binanceSpot": true,
+   "binanceFut": "SOL"
+  },
+  {
+   "rank": 6,
+   "coin": "TRX",
+   "name": "TRON",
+   "mcap": 30099360222,
+   "mexc": "TRX",
+   "mexcUsd24h": 2760482.7814,
+   "binanceSpot": true,
+   "binanceFut": "TRX"
+  },
+  {
+   "rank": 7,
+   "coin": "HYPE",
+   "name": "Hyperliquid",
+   "mcap": 17507135383,
+   "mexc": "HYPE",
+   "mexcUsd24h": 32180012.5651,
+   "binanceSpot": true,
+   "binanceFut": "HYPE"
+  },
+  {
+   "rank": 8,
+   "coin": "ZEC",
+   "name": "Zcash",
+   "mcap": 16779021006,
+   "mexc": "ZEC",
+   "mexcUsd24h": 2145458150.1019,
+   "binanceSpot": true,
+   "binanceFut": "ZEC"
+  },
+  {
+   "rank": 9,
+   "coin": "XMR",
+   "name": "Monero",
+   "mcap": 11063222508,
+   "mexc": "XMR",
+   "mexcUsd24h": 3700163.8788,
+   "binanceSpot": false,
+   "binanceFut": "XMR"
+  },
+  {
+   "rank": 10,
+   "coin": "DOGE",
+   "name": "Dogecoin",
+   "mcap": 10760521573,
+   "mexc": "DOGE",
+   "mexcUsd24h": 106758746.918,
+   "binanceSpot": true,
+   "binanceFut": "DOGE"
+  },
+  {
+   "rank": 11,
+   "coin": "LINK",
+   "name": "Chainlink",
+   "mcap": 7982642999,
+   "mexc": "LINK",
+   "mexcUsd24h": 87194833.9907,
+   "binanceSpot": true,
+   "binanceFut": "LINK"
+  },
+  {
+   "rank": 12,
+   "coin": "ADA",
+   "name": "Cardano",
+   "mcap": 6680021750,
+   "mexc": "ADA",
+   "mexcUsd24h": 21216311.1372,
+   "binanceSpot": true,
+   "binanceFut": "ADA"
+  },
+  {
+   "rank": 13,
+   "coin": "XLM",
+   "name": "Stellar",
+   "mcap": 5325314226,
+   "mexc": "XLM",
+   "mexcUsd24h": 28442377.7402,
+   "binanceSpot": true,
+   "binanceFut": "XLM"
+  },
+  {
+   "rank": 14,
+   "coin": "NEAR",
+   "name": "NEAR Protocol",
+   "mcap": 4902691476,
+   "mexc": "NEAR",
+   "mexcUsd24h": 37267107.984,
+   "binanceSpot": true,
+   "binanceFut": "NEAR"
+  },
+  {
+   "rank": 15,
+   "coin": "BCH",
+   "name": "Bitcoin Cash",
+   "mcap": 4649960338,
+   "mexc": "BCH",
+   "mexcUsd24h": 1653733.6864,
+   "binanceSpot": true,
+   "binanceFut": "BCH"
+  },
+  {
+   "rank": 16,
+   "coin": "LTC",
+   "name": "Litecoin",
+   "mcap": 3984178736,
+   "mexc": "LTC",
+   "mexcUsd24h": 3099491.4322,
+   "binanceSpot": true,
+   "binanceFut": "LTC"
+  },
+  {
+   "rank": 17,
+   "coin": "UNI",
+   "name": "Uniswap",
+   "mcap": 3937120651,
+   "mexc": "UNI",
+   "mexcUsd24h": 40564020.8548,
+   "binanceSpot": true,
+   "binanceFut": "UNI"
+  },
+  {
+   "rank": 18,
+   "coin": "AVAX",
+   "name": "Avalanche",
+   "mcap": 3813758088,
+   "mexc": "AVAX",
+   "mexcUsd24h": 23887862.2782,
+   "binanceSpot": true,
+   "binanceFut": "AVAX"
+  },
+  {
+   "rank": 19,
+   "coin": "CC",
+   "name": "Canton",
+   "mcap": 3729168241,
+   "mexc": "CC",
+   "mexcUsd24h": 999419.936,
+   "binanceSpot": false,
+   "binanceFut": "CC"
+  },
+  {
+   "rank": 20,
+   "coin": "SUI",
+   "name": "Sui",
+   "mcap": 3458743418,
+   "mexc": "SUI",
+   "mexcUsd24h": 45739422.4017,
+   "binanceSpot": true,
+   "binanceFut": "SUI"
+  },
+  {
+   "rank": 21,
+   "coin": "GRAM",
+   "name": "Gram (prev. Toncoin)",
+   "mcap": 3384405674,
+   "mexc": "GRAM",
+   "mexcUsd24h": 3751794.9,
+   "binanceSpot": true,
+   "binanceFut": "GRAM"
+  },
+  {
+   "rank": 22,
+   "coin": "HBAR",
+   "name": "Hedera",
+   "mcap": 2940405871,
+   "mexc": "HBAR",
+   "mexcUsd24h": 7910930.2571,
+   "binanceSpot": true,
+   "binanceFut": "HBAR"
+  },
+  {
+   "rank": 23,
+   "coin": "RAIN",
+   "name": "Rain",
+   "mcap": 2834277354,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 24,
+   "coin": "SHIB",
+   "name": "Shiba Inu",
+   "mcap": 2634081468,
+   "mexc": "SHIB",
+   "mexcUsd24h": 4753954.202674,
+   "binanceSpot": true,
+   "binanceFut": "1000SHIB"
+  },
+  {
+   "rank": 25,
+   "coin": "TAO",
+   "name": "Bittensor",
+   "mcap": 2625408610,
+   "mexc": "TAO",
+   "mexcUsd24h": 46954638.4571,
+   "binanceSpot": true,
+   "binanceFut": "TAO"
+  },
+  {
+   "rank": 26,
+   "coin": "QNT",
+   "name": "Quant",
+   "mcap": 2587878637,
+   "mexc": "QNT",
+   "mexcUsd24h": 41364554.8283,
+   "binanceSpot": true,
+   "binanceFut": "QNT"
+  },
+  {
+   "rank": 27,
+   "coin": "USYC",
+   "name": "Circle USYC",
+   "mcap": 2100773058,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 28,
+   "coin": "PEPE",
+   "name": "Pepe",
+   "mcap": 2091333227,
+   "mexc": "PEPE",
+   "mexcUsd24h": 74530021.113,
+   "binanceSpot": true,
+   "binanceFut": "1000PEPE"
+  },
+  {
+   "rank": 29,
+   "coin": "ENA",
+   "name": "Ethena",
+   "mcap": 2084731475,
+   "mexc": "ENA",
+   "mexcUsd24h": 36637170.6647,
+   "binanceSpot": true,
+   "binanceFut": "ENA"
+  },
+  {
+   "rank": 30,
+   "coin": "AAVE",
+   "name": "Aave",
+   "mcap": 1904200011,
+   "mexc": "AAVE",
+   "mexcUsd24h": 9203154.8565,
+   "binanceSpot": true,
+   "binanceFut": "AAVE"
+  },
+  {
+   "rank": 31,
+   "coin": "M",
+   "name": "MemeCore",
+   "mcap": 1828198484,
+   "mexc": "M",
+   "mexcUsd24h": 109518.4833,
+   "binanceSpot": false,
+   "binanceFut": "M"
+  },
+  {
+   "rank": 32,
+   "coin": "ONDO",
+   "name": "Ondo",
+   "mcap": 1813334519,
+   "mexc": "ONDO",
+   "mexcUsd24h": 14993588.846,
+   "binanceSpot": true,
+   "binanceFut": "ONDO"
+  },
+  {
+   "rank": 33,
+   "coin": "ASTER",
+   "name": "Aster",
+   "mcap": 1679409384,
+   "mexc": "ASTER",
+   "mexcUsd24h": 2047547.7571,
+   "binanceSpot": true,
+   "binanceFut": "ASTER"
+  },
+  {
+   "rank": 34,
+   "coin": "PUMP",
+   "name": "Pump.fun",
+   "mcap": 1669996814,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": true,
+   "binanceFut": "PUMP"
+  },
+  {
+   "rank": 35,
+   "coin": "U",
+   "name": "United Stables",
+   "mcap": 1622404444,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": true,
+   "binanceFut": null
+  },
+  {
+   "rank": 36,
+   "coin": "BTW",
+   "name": "Bitway",
+   "mcap": 1592296925,
+   "mexc": "BTW",
+   "mexcUsd24h": 5602571.25,
+   "binanceSpot": false,
+   "binanceFut": "BTW"
+  },
+  {
+   "rank": 37,
+   "coin": "WLFI",
+   "name": "World Liberty Financial",
+   "mcap": 1517410795,
+   "mexc": "WLFI",
+   "mexcUsd24h": 718189.42614,
+   "binanceSpot": true,
+   "binanceFut": "WLFI"
+  },
+  {
+   "rank": 38,
+   "coin": "DOT",
+   "name": "Polkadot",
+   "mcap": 1476703219,
+   "mexc": "DOT",
+   "mexcUsd24h": 9438214.99445,
+   "binanceSpot": true,
+   "binanceFut": "DOT"
+  },
+  {
+   "rank": 39,
+   "coin": "MORPHO",
+   "name": "Morpho",
+   "mcap": 1429925683,
+   "mexc": "MORPHO",
+   "mexcUsd24h": 366173.9047,
+   "binanceSpot": true,
+   "binanceFut": "MORPHO"
+  },
+  {
+   "rank": 40,
+   "coin": "ICP",
+   "name": "Internet Computer",
+   "mcap": 1426836620,
+   "mexc": "ICP",
+   "mexcUsd24h": 5998748.18397,
+   "binanceSpot": true,
+   "binanceFut": "ICP"
+  },
+  {
+   "rank": 41,
+   "coin": "MNT",
+   "name": "Mantle",
+   "mcap": 1397503546,
+   "mexc": "MNT",
+   "mexcUsd24h": 312339.735,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 42,
+   "coin": "SKY",
+   "name": "Sky",
+   "mcap": 1393962956,
+   "mexc": "SKY",
+   "mexcUsd24h": 296797.274,
+   "binanceSpot": true,
+   "binanceFut": "SKY"
+  },
+  {
+   "rank": 43,
+   "coin": "HTX",
+   "name": "HTX DAO",
+   "mcap": 1355685399,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 44,
+   "coin": "WLD",
+   "name": "Worldcoin",
+   "mcap": 1200461323,
+   "mexc": "WLD",
+   "mexcUsd24h": 22595064.0163,
+   "binanceSpot": true,
+   "binanceFut": "WLD"
+  },
+  {
+   "rank": 45,
+   "coin": "JST",
+   "name": "JUST",
+   "mcap": 1150944388,
+   "mexc": "JST",
+   "mexcUsd24h": 285045.648,
+   "binanceSpot": true,
+   "binanceFut": "JST"
+  },
+  {
+   "rank": 46,
+   "coin": "ARB",
+   "name": "Arbitrum",
+   "mcap": 1103250291,
+   "mexc": "ARB",
+   "mexcUsd24h": 24604098.77506,
+   "binanceSpot": true,
+   "binanceFut": "ARB"
+  },
+  {
+   "rank": 47,
+   "coin": "ETC",
+   "name": "Ethereum Classic",
+   "mcap": 1069973713,
+   "mexc": "ETC",
+   "mexcUsd24h": 1406835.5311,
+   "binanceSpot": true,
+   "binanceFut": "ETC"
+  },
+  {
+   "rank": 48,
+   "coin": "VVV",
+   "name": "Venice Token",
+   "mcap": 975003836,
+   "mexc": "VVV",
+   "mexcUsd24h": 5123598.7954,
+   "binanceSpot": false,
+   "binanceFut": "VVV"
+  },
+  {
+   "rank": 49,
+   "coin": "POL",
+   "name": "POL (ex-MATIC)",
+   "mcap": 951082430,
+   "mexc": "POL",
+   "mexcUsd24h": 699476.4922,
+   "binanceSpot": true,
+   "binanceFut": "POL"
+  },
+  {
+   "rank": 50,
+   "coin": "JUP",
+   "name": "Jupiter",
+   "mcap": 866583879,
+   "mexc": "JUP",
+   "mexcUsd24h": 4716724.099,
+   "binanceSpot": true,
+   "binanceFut": "JUP"
+  },
+  {
+   "rank": 51,
+   "coin": "RENDER",
+   "name": "Render",
+   "mcap": 853119130,
+   "mexc": "RENDER",
+   "mexcUsd24h": 2465426.649,
+   "binanceSpot": true,
+   "binanceFut": "RENDER"
+  },
+  {
+   "rank": 52,
+   "coin": "LIT",
+   "name": "Lighter",
+   "mcap": 848892648,
+   "mexc": "LIT",
+   "mexcUsd24h": 11420712.15071,
+   "binanceSpot": false,
+   "binanceFut": "LIT"
+  },
+  {
+   "rank": 53,
+   "coin": "ALGO",
+   "name": "Algorand",
+   "mcap": 825670810,
+   "mexc": "ALGO",
+   "mexcUsd24h": 787044.92754,
+   "binanceSpot": true,
+   "binanceFut": "ALGO"
+  },
+  {
+   "rank": 54,
+   "coin": "PI",
+   "name": "Pi Network",
+   "mcap": 814975007,
+   "mexc": "PI",
+   "mexcUsd24h": 1304153.86728,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 55,
+   "coin": "KAS",
+   "name": "Kaspa",
+   "mcap": 810881473,
+   "mexc": "KAS",
+   "mexcUsd24h": 2763782.87,
+   "binanceSpot": false,
+   "binanceFut": "KAS"
+  },
+  {
+   "rank": 56,
+   "coin": "INJ",
+   "name": "Injective",
+   "mcap": 792334666,
+   "mexc": "INJ",
+   "mexcUsd24h": 19748497.217,
+   "binanceSpot": true,
+   "binanceFut": "INJ"
+  },
+  {
+   "rank": 57,
+   "coin": "ATOM",
+   "name": "Cosmos Hub",
+   "mcap": 769071632,
+   "mexc": "ATOM",
+   "mexcUsd24h": 2633667.3048,
+   "binanceSpot": true,
+   "binanceFut": "ATOM"
+  },
+  {
+   "rank": 58,
+   "coin": "NIGHT",
+   "name": "Midnight",
+   "mcap": 763066753,
+   "mexc": "NIGHT",
+   "mexcUsd24h": 1144256.473,
+   "binanceSpot": true,
+   "binanceFut": "NIGHT"
+  },
+  {
+   "rank": 59,
+   "coin": "NEXO",
+   "name": "NEXO",
+   "mcap": 711263474,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": true,
+   "binanceFut": null
+  },
+  {
+   "rank": 60,
+   "coin": "GHO",
+   "name": "GHO",
+   "mcap": 697877782,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 61,
+   "coin": "USTB",
+   "name": "Invesco Short Duration US Government Securities Fund",
+   "mcap": 674782361,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 62,
+   "coin": "FIL",
+   "name": "Filecoin",
+   "mcap": 651127871,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": true,
+   "binanceFut": "FIL"
+  },
+  {
+   "rank": 63,
+   "coin": "ZRO",
+   "name": "LayerZero",
+   "mcap": 640569994,
+   "mexc": "ZRO",
+   "mexcUsd24h": 2797471.1651,
+   "binanceSpot": true,
+   "binanceFut": "ZRO"
+  },
+  {
+   "rank": 64,
+   "coin": "ETHFI",
+   "name": "Ether.fi",
+   "mcap": 631718268,
+   "mexc": "ETHFI",
+   "mexcUsd24h": 4161717.0554,
+   "binanceSpot": true,
+   "binanceFut": "ETHFI"
+  },
+  {
+   "rank": 65,
+   "coin": "STX",
+   "name": "Stacks",
+   "mcap": 596326629,
+   "mexc": "STX",
+   "mexcUsd24h": 461024.453,
+   "binanceSpot": true,
+   "binanceFut": "STX"
+  },
+  {
+   "rank": 66,
+   "coin": "XDC",
+   "name": "XDC Network",
+   "mcap": 584409500,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 67,
+   "coin": "CAKE",
+   "name": "PancakeSwap",
+   "mcap": 583635953,
+   "mexc": "CAKE",
+   "mexcUsd24h": 310310.7534,
+   "binanceSpot": true,
+   "binanceFut": "CAKE"
+  },
+  {
+   "rank": 68,
+   "coin": "JAAA",
+   "name": "Janus Henderson Anemoy AAA CLO Fund",
+   "mcap": 577386666,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 69,
+   "coin": "BDX",
+   "name": "Beldex",
+   "mcap": 572314540,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 70,
+   "coin": "DASH",
+   "name": "Dash",
+   "mcap": 561129237,
+   "mexc": "DASH",
+   "mexcUsd24h": 15054652.7734,
+   "binanceSpot": true,
+   "binanceFut": "DASH"
+  },
+  {
+   "rank": 71,
+   "coin": "PEARL",
+   "name": "Pearl",
+   "mcap": 538978756,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 72,
+   "coin": "PYTH",
+   "name": "Pyth Network",
+   "mcap": 531053417,
+   "mexc": "PYTH",
+   "mexcUsd24h": 1928966.6123,
+   "binanceSpot": true,
+   "binanceFut": "PYTH"
+  },
+  {
+   "rank": 73,
+   "coin": "APT",
+   "name": "Aptos",
+   "mcap": 512146839,
+   "mexc": "APT",
+   "mexcUsd24h": 4340008.09156,
+   "binanceSpot": true,
+   "binanceFut": "APT"
+  },
+  {
+   "rank": 74,
+   "coin": "币安人生",
+   "name": "币安人生 (BinanceLife)",
+   "mcap": 497050053,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": true,
+   "binanceFut": "币安人生"
+  },
+  {
+   "rank": 75,
+   "coin": "STABLE",
+   "name": "​​Stable",
+   "mcap": 495715547,
+   "mexc": "STABLE",
+   "mexcUsd24h": 207458.2209,
+   "binanceSpot": false,
+   "binanceFut": "STABLE"
+  },
+  {
+   "rank": 76,
+   "coin": "FLR",
+   "name": "Flare",
+   "mcap": 476868974,
+   "mexc": "FLR",
+   "mexcUsd24h": 129500.5382,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 77,
+   "coin": "EUTBL",
+   "name": "Spiko EU T-Bills Money Market Fund",
+   "mcap": 473957030,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 78,
+   "coin": "A7A5",
+   "name": "A7A5",
+   "mcap": 471364970,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 79,
+   "coin": "YLDS",
+   "name": "YLDS",
+   "mcap": 467149876,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 80,
+   "coin": "PIEVERSE",
+   "name": "Pieverse",
+   "mcap": 459176034,
+   "mexc": "PIEVERSE",
+   "mexcUsd24h": 3311418.764,
+   "binanceSpot": false,
+   "binanceFut": "PIEVERSE"
+  },
+  {
+   "rank": 81,
+   "coin": "VET",
+   "name": "VeChain",
+   "mcap": 451353300,
+   "mexc": "VET",
+   "mexcUsd24h": 337925.817104,
+   "binanceSpot": true,
+   "binanceFut": "VET"
+  },
+  {
+   "rank": 82,
+   "coin": "RAY",
+   "name": "Raydium",
+   "mcap": 443074084,
+   "mexc": "RAY",
+   "mexcUsd24h": 810933.21825,
+   "binanceSpot": true,
+   "binanceFut": null
+  },
+  {
+   "rank": 83,
+   "coin": "HASH",
+   "name": "Provenance Blockchain",
+   "mcap": 432082263,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 84,
+   "coin": "TIA",
+   "name": "Celestia",
+   "mcap": 429876278,
+   "mexc": "TIA",
+   "mexcUsd24h": 9588223.5581,
+   "binanceSpot": true,
+   "binanceFut": "TIA"
+  },
+  {
+   "rank": 85,
+   "coin": "QFI",
+   "name": "Quantix Finance",
+   "mcap": 411595029,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 86,
+   "coin": "PENGU",
+   "name": "Pudgy Penguins",
+   "mcap": 400287167,
+   "mexc": "PENGU",
+   "mexcUsd24h": 2549668.6934,
+   "binanceSpot": true,
+   "binanceFut": "PENGU"
+  },
+  {
+   "rank": 87,
+   "coin": "CRV",
+   "name": "Curve DAO",
+   "mcap": 392751317,
+   "mexc": "CRV",
+   "mexcUsd24h": 2010492.72168,
+   "binanceSpot": true,
+   "binanceFut": "CRV"
+  },
+  {
+   "rank": 88,
+   "coin": "AERO",
+   "name": "Aero",
+   "mcap": 386044926,
+   "mexc": "AERO",
+   "mexcUsd24h": 771249.39,
+   "binanceSpot": true,
+   "binanceFut": "AERO"
+  },
+  {
+   "rank": 89,
+   "coin": "VIRTUAL",
+   "name": "Virtuals Protocol",
+   "mcap": 357791556,
+   "mexc": "VIRTUAL",
+   "mexcUsd24h": 1688865.402,
+   "binanceSpot": true,
+   "binanceFut": "VIRTUAL"
+  },
+  {
+   "rank": 90,
+   "coin": "SPX",
+   "name": "SPX6900",
+   "mcap": 351758363,
+   "mexc": "SPX",
+   "mexcUsd24h": 2941864.0433,
+   "binanceSpot": false,
+   "binanceFut": "SPX"
+  },
+  {
+   "rank": 91,
+   "coin": "FET",
+   "name": "Artificial Superintelligence Alliance",
+   "mcap": 344917992,
+   "mexc": "FET",
+   "mexcUsd24h": 4036845.837,
+   "binanceSpot": true,
+   "binanceFut": "FET"
+  },
+  {
+   "rank": 92,
+   "coin": "BTT",
+   "name": "BitTorrent",
+   "mcap": 341132464,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 93,
+   "coin": "DRV",
+   "name": "Derive",
+   "mcap": 330194689,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 94,
+   "coin": "DRV",
+   "name": "Derive",
+   "mcap": 331147178,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": false,
+   "binanceFut": null
+  },
+  {
+   "rank": 95,
+   "coin": "BSV",
+   "name": "Bitcoin SV",
+   "mcap": 327943541,
+   "mexc": "BSV",
+   "mexcUsd24h": 171913.6394,
+   "binanceSpot": false,
+   "binanceFut": "BSV"
+  },
+  {
+   "rank": 96,
+   "coin": "TRUMP",
+   "name": "Official Trump",
+   "mcap": 326095499,
+   "mexc": null,
+   "mexcUsd24h": null,
+   "binanceSpot": true,
+   "binanceFut": "TRUMP"
+  },
+  {
+   "rank": 97,
+   "coin": "FF",
+   "name": "Falcon Finance",
+   "mcap": 309381215,
+   "mexc": "FF",
+   "mexcUsd24h": 112784.36354,
+   "binanceSpot": true,
+   "binanceFut": "FF"
+  },
+  {
+   "rank": 98,
+   "coin": "KITE",
+   "name": "Kite",
+   "mcap": 304096256,
+   "mexc": "KITE",
+   "mexcUsd24h": 467878.4925,
+   "binanceSpot": true,
+   "binanceFut": "KITE"
+  },
+  {
+   "rank": 99,
+   "coin": "SEI",
+   "name": "Sei",
+   "mcap": 302833250,
+   "mexc": "SEI",
+   "mexcUsd24h": 2610830.0647,
+   "binanceSpot": true,
+   "binanceFut": "SEI"
+  },
+  {
+   "rank": 100,
+   "coin": "STRK",
+   "name": "Starknet",
+   "mcap": 298367514,
+   "mexc": "STRK",
+   "mexcUsd24h": 657186.19045,
+   "binanceSpot": true,
+   "binanceFut": "STRK"
+  }
+ ]
+}
