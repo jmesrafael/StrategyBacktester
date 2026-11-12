@@ -3,6 +3,7 @@
 //   node update.js XYZ,ABC      update / add just these coins
 //   node update.js --full SOL   throw away the stored 1h/4h/funding files and re-download that coin from listing
 //   node update.js --no-1m      skip the 1m series (1h/4h/funding only, a few seconds)
+//   node update.js --1m-all     also build 1m for the 'history' coins (default: they get 1h/4h/funding only, ~130 MB 1m each)
 //   node update.js --fill-gaps  also re-request every hole inside the 1m series (holes Binance cannot fill are real exchange downtime)
 // Layout: binance-futures/1h/<COIN>.json, 4h/<COIN>.json  rows [openTimeSec, o, h, l, c, volume]
 //         binance-futures/1m/<COIN>.json                  rows [openTimeSec, o, h, l, c]  (fills / stops; ~130 MB per coin)
@@ -17,10 +18,10 @@ const fs = require('fs'), path = require('path');
 const ROOT = path.join(__dirname, 'binance-futures');
 const TF = [['1h', 3600], ['4h', 14400]];
 const LISTING_ERA = 1567900800; // 2019-09-08, first Binance USDT-M perp; the API starts each coin at its own listing
-const args = process.argv.slice(2), full = args.includes('--full'), no1m = args.includes('--no-1m'), fillGaps = args.includes('--fill-gaps');
+const args = process.argv.slice(2), full = args.includes('--full'), no1m = args.includes('--no-1m'), fillGaps = args.includes('--fill-gaps'), all1m = args.includes('--1m-all');
 const cfg = JSON.parse(fs.readFileSync(path.join(__dirname, 'coins.json')));
 const list = args.filter(a => !a.startsWith('--'));
-const COINS = (list.length ? list.join(',').split(',') : [...cfg.bots, ...cfg.extra]).map(s => s.trim().toUpperCase()).filter(Boolean);
+const COINS = (list.length ? list.join(',').split(',') : [...cfg.bots, ...cfg.extra, ...(cfg.history || [])]).map(s => s.trim().toUpperCase()).filter(Boolean);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 let last = 0;
 async function jget(u) {
@@ -128,7 +129,8 @@ function check(rows, secs) {
       fs.writeFileSync(FF, JSON.stringify(fund));
       e.funding = { rows: fund.length, first: iso(fund[0][0]), last: iso(fund.at(-1)[0]) };
       console.log(`${c.padEnd(5)} funding +${nf}  ${fund.length} rows`);
-      if (!no1m) problems += await update1m(c, sym, e);
+      const hist = (cfg.history || []).includes(c) && !all1m && !list.length && !fs.existsSync(path.join(ROOT, '1m', `${c}.json`));
+      if (!no1m && !hist) problems += await update1m(c, sym, e);
     } catch (err) { problems++; console.log(`${c}: ERROR ${err.message}`); }
   }
   man.updated = new Date().toISOString();

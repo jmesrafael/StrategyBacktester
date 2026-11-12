@@ -29,3 +29,6 @@ research/bollinger/cache-1m/
 
 # BB-Core is now its own standalone repo (origin: bb-core.git)
 🔴BB-Core/
+
+# 1m candle cache: 120-170 MB per coin, over GitHub's 100 MB file limit (hard-linked to research/orb-universe/data, rebuilt by candles/update.js)
+candles/binance-futures/1m/

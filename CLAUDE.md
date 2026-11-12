@@ -27,13 +27,14 @@ Raw candle caches (cache-1m, data*, funding) are intentionally not indexed.
 
 ## Local candle library (use before downloading candles)
 
-- `candles/` holds 1h + 4h candles and funding (Binance USDT-M perps, closed bars only) for SOL ADA NEAR GALA ZEC BTC ETH BNB XRP DOGE AVAX LINK DOT SUI.
-- Load with `require('<rel>/candles/candles.js').load('SOL','1h')`. Refresh with `node candles/update.js` (incremental). Add coins to `candles/coins.json`. Do not write new fetch scripts for 1h/4h.
-- 1m candles: `research/orb-universe/data/<COIN>-1m.json`.
+- `candles/` holds 1m + 1h + 4h candles and funding (Binance USDT-M perps, closed bars only, from each coin's listing) for SOL ADA NEAR GALA ZEC BTC ETH BNB XRP DOGE AVAX LINK DOT SUI.
+- Load with `require('<rel>/candles/candles.js').load('SOL','1h')` ('1m' / '4h' too). Refresh with `node candles/update.js` (incremental). Add coins to `candles/coins.json`. Do not write new fetch scripts.
+- `candles/binance-futures/1m/*.json` are hard links to `research/orb-universe/data/<COIN>-1m.json` (same data); write them in place, never rename over them.
+- Known bad windows (Binance 1m vs 1h disagree, e.g. 2024-10-28 20:00-22:00 UTC all coins): see `candles/README.md`.
 
-## SUI + ARB on the live bots (decided Nov 12, 2026; NOT installed yet)
+## SUI + ARB on the live bots (decided Nov 12, 2026; code and database DONE, VPS install pending)
 
-- BB-CORE + ARB, T-CORE + SUI + ARB, I-CORE unchanged. Code is ready in `bb-core` and `bb-trail`; the database migration and the VPS steps are pending. The one plan: `SUI-ARB-LIVE-WHEN-HOME.md`. Report: `ledger/reports/sui-arb-live.html` (generator `research/coin-walkforward/sui-arb-live-report.js`).
+- BB-CORE + ARB, T-CORE + SUI + ARB, I-CORE unchanged, same risk per coin. Code is on GitHub (bb-core `bf8cd79`, bb-trail in this repo); the database accepts SUI_USDT / ARB_USDT (applied Nov 12). Only the VPS steps are left: `SUI-ARB-LIVE-WHEN-HOME.md`. Report: `ledger/reports/sui-arb-live.html` (generator `research/coin-walkforward/sui-arb-live-report.js`).
 
 ## T-CORE paper lab (formerly BB-Trail, bot tag bbtr; built Nov 6, 2026, INSTALLED on the VPS Nov 6, 2026, service bbtrail)
 

@@ -1,0 +1,56 @@
+# T-CORE COIN LAB PAPER bot on SUI + ARB (simulated money, no orders, no Telegram), next to the live bots, sharing nothing with them.
+# Installed by deploy/install-coin-lab.sh. Its own user, code in /opt/cointc (owned by root), data in /var/lib/cointc. Dashboard tag: ctc.
+#   sudo systemctl status cointc      sudo journalctl -u cointc -f      sudo bash /opt/cointc/deploy/status.sh
+[Unit]
+Description=T-CORE COIN LAB PAPER bot on SUI + ARB (simulated, no orders, no Telegram)
+After=network-online.target time-sync.target
+Wants=network-online.target
+StartLimitIntervalSec=600
+StartLimitBurst=20
+
+[Service]
+Type=simple
+User=cointc
+Group=cointc
+WorkingDirectory=/opt/cointc
+ExecStart=/usr/bin/node /opt/cointc/icore.js loop
+Restart=always
+RestartSec=15
+KillSignal=SIGTERM
+TimeoutStopSec=30
+SyslogIdentifier=cointc
+Environment=NODE_ENV=production
+Environment=TZ=UTC
+Environment=ICORE_STATE_DIR=/var/lib/cointc
+# no key file exists at these paths: the bot can never read an account or sign a request; no <app>/.env is read either
+Environment=ICORE_KEYS=/var/lib/cointc/no-keys.json
+Environment=ICORE_ENV_FILE=/var/lib/cointc/no-env-file
+# Telegram is removed in the code (send() never reaches the network); this switch is a second lock
+Environment=ICORE_NO_NOTIFY=1
+# Dashboard: reports as its own bot (ctc) and never answers "Ask bot now" (that is for the live bots).
+# DASHBOARD_URL and DASHBOARD_PUSH_SECRET come from /etc/cointc.env (root only). Without them nothing is pushed and the bot works the same.
+Environment=DASHBOARD_ASK_POLL_SEC=0
+EnvironmentFile=-/etc/cointc.env
+# measured slippage written by the data recorder (read only); absent = the bot uses the live order book instead
+Environment=LUCIDIO_RECORDER_SUMMARY=/var/lib/lucidio-recorder/summary/slippage.json
+# it must never compete with the live bots
+MemoryHigh=150M
+MemoryMax=200M
+Nice=10
+CPUQuota=20%
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectHome=true
+ProtectSystem=strict
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6
+CapabilityBoundingSet=
+ReadWritePaths=/var/lib/cointc
+InaccessiblePaths=-/opt/lucidio -/opt/icore -/opt/tcore -/opt/bbtrail -/opt/lucidio-1h -/etc/lucidio -/etc/icore -/etc/tcore -/etc/tcore.env -/etc/bbtrail.env -/etc/lucidio-1h.env -/etc/lucidio-recorder.env -/var/lib/lucidio -/var/lib/icore -/var/lib/tcore -/var/lib/bbtrail -/var/lib/lucidio-1h -/var/backups -/opt/newsbb -/opt/newsic -/opt/newstc -/var/lib/newsbb -/var/lib/newsic -/var/lib/newstc -/etc/newsbb.env -/etc/newsic.env -/etc/newstc.env -/opt/coinbb -/var/lib/coinbb -/etc/coinbb.env
+
+[Install]
+WantedBy=multi-user.target
