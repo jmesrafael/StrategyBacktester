@@ -32,9 +32,10 @@ Raw candle caches (cache-1m, data*, funding) are intentionally not indexed.
 - `candles/binance-futures/1m/*.json` are hard links to `research/orb-universe/data/<COIN>-1m.json` (same data); write them in place, never rename over them.
 - Known bad windows (Binance 1m vs 1h disagree, e.g. 2024-10-28 20:00-22:00 UTC all coins): see `candles/README.md`.
 
-## SUI + ARB on the live bots (decided Nov 12, 2026; code and database DONE, VPS install pending)
+## Live coins (Nov 12, 2026: DONE on the VPS, do not redo)
 
-- BB-CORE + ARB, T-CORE + SUI + ARB, I-CORE unchanged, same risk per coin. Code is on GitHub (bb-core `bf8cd79`, bb-trail in this repo); the database accepts SUI_USDT / ARB_USDT (applied Nov 12). Only the VPS steps are left: `SUI-ARB-LIVE-WHEN-HOME.md`. Report: `ledger/reports/sui-arb-live.html` (generator `research/coin-walkforward/sui-arb-live-report.js`).
+- BB-CORE and I-CORE: SOL, ZEC, NEAR, ADA, GALA. T-CORE: SOL, ZEC, NEAR, ADA, GALA, ETH, SUI. ZEC is back (MEXC cancelled its delisting). ETH and SUI are T-CORE only.
+- ARB is on the allowlists but OFF: it fails the owner's stability rule (research/zec-replacement/sui-arb-check.js). Record: `archive-done/DONE-SUI-ARB-LIVE.md`. A coin is added only if it makes that bot steadier (stability over luck): `research/zec-replacement/stability.js`, `candidates-report.js`.
 
 ## T-CORE paper lab (formerly BB-Trail, bot tag bbtr; built Nov 6, 2026, INSTALLED on the VPS Nov 6, 2026, service bbtrail)
 

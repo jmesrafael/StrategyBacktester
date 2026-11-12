@@ -1,6 +1,6 @@
 # HOME TODO — everything not applied yet (VPS, Vercel, PC)
 
-> **NEW Nov 12, 2026: SUI + ARB on the live bots** (BB-CORE + ARB, T-CORE + SUI + ARB). Its own step list: **`SUI-ARB-LIVE-WHEN-HOME.md`** (database first, then BB-CORE, then T-CORE). This one touches live bots, unlike the parts below.
+> **DONE Nov 12, 2026: SUI + ARB.** T-CORE trades SUI live since 15:14 UTC; ARB was left off (it fails the stability rule). Record: `archive-done/DONE-SUI-ARB-LIVE.md`. ZEC is back on every bot (MEXC cancelled the delisting).
 
 > **STATUS Nov 11, 2026 (done by Claude over SSH, verified on the VPS)**
 > - Part 0 DONE. Part 1 DONE: `newsbb`, `newsic`, `newstc` installed (hash `6fbcb712…` matched, "live bots' start times unchanged: YES", dashboard lines added, no Telegram setting, all three running with 0 errors). The first dashboard heartbeat comes after the 16:00Z candle.

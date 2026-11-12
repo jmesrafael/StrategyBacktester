@@ -1,5 +1,10 @@
 # SUI + ARB on the live bots: steps for home (prepared Nov 12, 2026)
 
+> **DONE Nov 12, 2026 (by Claude over SSH, verified on the VPS). Nothing here is left to do; kept as history.**
+> - **T-CORE: SUI is LIVE** since 15:14 UTC (allowlist + coins, backups `*.bak-20261112-sui`; check OK, 68 contracts, real risk $2.68). Coins: SOL, ZEC, NEAR, ADA, GALA, ETH, SUI.
+> - **ARB was NOT switched on** (BB-CORE or T-CORE): re-checked against the lineups with ZEC back (`research/zec-replacement/sui-arb-check.js`), ARB fails the owner's stability rule: on BB-CORE it lost 2023 and 2024, half its profit is one month and it raises losing months 34% -> 37%; on T-CORE it raises losing months 54% -> 56%. ARB stays on the allowlist, off.
+> - Database (step 1) applied and verified. BB-CORE runs SOL, ZEC, NEAR, ADA, GALA; I-CORE unchanged (SOL, ZEC, NEAR, ADA, GALA).
+
 > **ZEC IS BACK (Nov 12, 2026, 14:20 UTC):** MEXC cancelled the ZEC futures delisting, and ZEC was put back on BB-CORE, I-CORE and T-CORE on the VPS. Every coin list in this file now includes ZEC. Do not run a command that leaves ZEC out: it would stop the bot trading ZEC again.
 
 **Decision (owner, Nov 12, 2026):** BB-CORE gets **ARB**, T-CORE gets **SUI + ARB**, I-CORE stays as it is. Live, same rules, same 2.5% risk per trade, no paper period first.
