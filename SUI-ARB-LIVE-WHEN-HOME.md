@@ -23,6 +23,10 @@ Backtest of this line-up, 2020 → Nov 2026 (candle library): BB-CORE +476R → 
 | **Database** | **NOT done.** Production still refuses SUI_USDT / ARB_USDT in `bot_events` (checked Nov 12). Step 1 below |
 | VPS | Nothing touched |
 
+**Nothing is pushed yet.** The three repos are committed on the work PC only (Nov 12). Before the VPS steps, on the work PC: `git push` in `D:	estingStratb-core`, `D:	estingStratledger` and `D:	estingStratStrategyBacktester` (ask Claude to do it with your OK). The ledger push deploys the new report on the site. Skip the push and the VPS pull has nothing to pull.
+
+**Timing (both live bots restart for a few seconds):** candles close at 00:00, 04:00, 08:00, 12:00, 16:00 and 20:00 UTC (08:00, 12:00, 16:00, 20:00, 00:00, 04:00 in the Philippines). Do steps 2 and 3 between **15 minutes after a close and 10 minutes before the next one**, for example 04:15-07:50 UTC (12:15-15:50 PH). The BB-CORE menu refuses inside 5 minutes before / 12 minutes after a close. Do the two bots one after the other, not together, so there is never a moment with both down.
+
 **Order at home: Step 1 (database) → Step 2 (BB-CORE) → Step 3 (T-CORE).** If step 1 is skipped, the bots still trade the new coins but the dashboard rejects their events (no trade shown, no stats).
 
 MEXC (public data, Nov 12): SUI_USDT and ARB_USDT are open for API trading, 1 contract = 1 coin, minimum 1 contract. 24h volume SUI ≈ $37M, ARB ≈ $15M (GALA, already traded, ≈ $1M).
@@ -54,8 +58,8 @@ Undo (only while no SUI/ARB row is stored): `ledger/supabase/rollback/2026121200
 
 ## Step 2: BB-CORE + ARB
 
-1. **PC:** the `bb-core` changes must be pushed to GitHub (ask Claude to commit and push them if that has not happened yet).
-2. **VPS:** back up and pull the update the usual way: `bb-core/VPS-UPDATE-GUIDE.md` §3b-3e (menu, Pull changes from GitHub). An update never overwrites the VPS's own `bot-config.json`.
+1. **PC:** the `bb-core` commit (`bf8cd79`, "ARB joins the traded coins") must be pushed to GitHub (see the top of this file).
+2. **VPS:** back up and pull the update the usual way: `bb-core/VPS-UPDATE-GUIDE.md` §3c (backup), §3d (type `lucidio`, menu, **Pull changes from GitHub**, read the file list, answer `y`), §3e (health check). Expect these files in the list: `config.js`, `bot-config.json`, `dashboard/lib/schema.js`, `live-review.js`, `sidecar/shadow-recorder.js`, `deploy/lucidio-shadow.service` and the two test files. If the VPS has not pulled since Nov 12 05:54 it also brings the earlier ETH commits (`7de2c2a`, `77bb3d8`): that is fine, ETH stays off on BB-CORE. `lucidio-core.js` must NOT be in the list (the strategy file is untouched). The pull runs the safety tests and rolls back by itself if the bot does not come back. An update never overwrites the VPS's own `bot-config.json`, so ARB is still off until 2.3.
 3. **VPS: switch ARB on** (the bot re-reads its settings every run, no restart needed):
    ```bash
    sudo -u lucidio node -e 'const c=require("/opt/lucidio/config.js");const v=c.validate({coins:["SOL","NEAR","ADA","GALA","ARB"]});if(!v.ok){console.error(v.errors);process.exit(1)}c.save(v.next);console.log("saved:",v.next.riskPct,v.next.coins.join())'
@@ -66,7 +70,7 @@ Undo (only while no SUI/ARB row is stored): `ledger/supabase/rollback/2026121200
 
 ## Step 3: T-CORE + SUI + ARB
 
-1. **PC:** build the live bundle (Git Bash):
+1. **PC:** `git pull` in `StrategyBacktester` first (commit `e3fcfa6` has the change), then build the live bundle (Git Bash):
    ```bash
    cd StrategyBacktester/bb-trail && npm test && bash build-tcore-live.sh
    ```
