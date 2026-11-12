@@ -16,6 +16,8 @@ const FILE = path.join(__dirname, 'bot-config.json');
 // MONTHLY.md). Caveats kept on purpose: 60% of SUI's T-CORE profit is one month (Feb 2024) and about half of ARB's is one month (Oct 2026); ARB alone deepens the
 // worst drop (40.7R), only the pair keeps it flat; the coins were picked after seeing the results. MEXC: 1 contract = 1 SUI / 1 ARB. The paper lab (bbtr) keeps
 // its own coin list in bot-config.json (unchanged); only the live build (apply-tcore-live-patch.js) turns SUI and ARB on.
+// Nov 12, 2026, 15:15 UTC: T-CORE LIVE trades SUI (it lowers T-CORE's losing months 54% -> 49%, Sharpe 1.07 -> 1.16, +2.6R worst drop) but NOT ARB (it raises
+// losing months to 56%; half its profit is one month). Owner's stability rule; research/zec-replacement/sui-arb-check.js.
 const ALLOWED_SYMBOLS = Object.freeze(['SOL_USDT', 'ZEC_USDT', 'NEAR_USDT', 'ADA_USDT', 'GALA_USDT', 'ETH_USDT', 'SUI_USDT', 'ARB_USDT']);
 const COINS = ALLOWED_SYMBOLS.map((s) => s.replace(/_USDT$/, ''));   // ['SOL', 'ZEC', 'NEAR', 'ADA', 'GALA', 'ETH', 'SUI', 'ARB']: the short names used in the config and state
 class SymbolNotAllowedError extends Error { constructor(msg) { super(msg); this.name = 'SymbolNotAllowedError'; this.code = 'SYMBOL_NOT_ALLOWED'; } }
@@ -39,7 +41,7 @@ const DEFAULTS = {
 // type, limits, and what the Settings panel shows. "live: true" = takes effect for real money.
 const FIELDS = {
   mode:             { type: 'enum', values: ['paper', 'live'], label: 'Mode', help: 'paper = simulated account; live = real orders on MEXC' },
-  coins:            { type: 'coins', values: COINS, min: 1, label: 'Coins', help: 'the bot trades SOL, ZEC, NEAR, ADA, GALA and ETH (T-CORE live also SUI and ARB, added Nov 12, 2026); ZEC is back (MEXC cancelled its futures delisting, Nov 12, 2026); untick one to pause it' },
+  coins:            { type: 'coins', values: COINS, min: 1, label: 'Coins', help: 'the bot trades SOL, ZEC, NEAR, ADA, GALA and ETH (T-CORE live also SUI from Nov 12, 2026; ARB allowed but off); ZEC is back (MEXC cancelled its futures delisting, Nov 12, 2026); untick one to pause it' },
   riskPct:          { type: 'number', min: 0, max: MAX_RISK_PCT, label: 'Risk per trade (% of balance)', help: '0 = use the fixed $ amount instead. Hard cap 5% (raised from 1% on Oct 24, 2026); the audit suggests 0.25–0.5% for a first live phase' },
   riskUsd:          { type: 'number', min: 0.1, max: 100, label: 'Fixed risk per trade ($)', help: 'used when % risk is 0' },
   maxRiskUsd:       { type: 'number', min: 0, max: 500, label: 'Max risk per trade ($)', help: '0 = no cap (default since Oct 29, 2026). Otherwise a hard cap on any trade, also when % risk grows the amount' },
