@@ -1,5 +1,7 @@
 # SUI + ARB on the live bots: steps for home (prepared Nov 12, 2026)
 
+> **ZEC IS BACK (Nov 12, 2026, 14:20 UTC):** MEXC cancelled the ZEC futures delisting, and ZEC was put back on BB-CORE, I-CORE and T-CORE on the VPS. Every coin list in this file now includes ZEC. Do not run a command that leaves ZEC out: it would stop the bot trading ZEC again.
+
 **Decision (owner, Nov 12, 2026):** BB-CORE gets **ARB**, T-CORE gets **SUI + ARB**, I-CORE stays as it is. Live, same rules, same 2.5% risk per trade, no paper period first.
 **Why:** ledger report `/reports/sui-arb-live.html` ("SUI and ARB Join the Live Bots"). On the TRI-CORE account from Jun 2023 to Nov 2026 the change lifts +277.6R to +319.7R with the same worst drop (20.5R to 20.3R). Study: `research/coin-walkforward/` (SUI-ARB.md, MONTHLY.md).
 
@@ -18,7 +20,7 @@ Backtest of this line-up, 2020 → Nov 2026 (candle library): BB-CORE +476R → 
 | Piece | State |
 |---|---|
 | BB-CORE code (`bb-core` repo) | ARB added to the allowlist, the defaults, `bot-config.json`, the dashboard schema copy, the contract specs (1 contract = 1 ARB), the shadow recorder; tests pass (the 2 `review-test` failures were already there before this change) |
-| T-CORE code (`StrategyBacktester/bb-trail`) | SUI + ARB added to the allowlist; the live build (`apply-tcore-live-patch.js`) now ships coins SOL, NEAR, ADA, GALA, ETH, SUI, ARB; `npm test` passes; the paper lab's own coin list (`bot-config.json`, bbtr) is unchanged |
+| T-CORE code (`StrategyBacktester/bb-trail`) | SUI + ARB added to the allowlist; the live build (`apply-tcore-live-patch.js`) now ships coins SOL, ZEC, NEAR, ADA, GALA, ETH, SUI, ARB; `npm test` passes; the paper lab's own coin list (`bot-config.json`, bbtr) is unchanged |
 | Dashboard (`ledger` repo) | Already accepts SUI_USDT / ARB_USDT (commit `3016531`). New report "SUI and ARB Join the Live Bots" + index entry pushed (Vercel deploys it) |
 | **Database** | **DONE Nov 12** (Supabase project "Backtester", migration `bot_events_sui_arb`): `bot_events_symbol_check` now allows SUI_USDT and ARB_USDT, checked after applying. Step 1 below is only a re-check |
 | VPS | Nothing touched |
@@ -42,8 +44,8 @@ MEXC (public data, Nov 12): SUI_USDT and ARB_USDT are open for API trading, 1 co
 ```bash
 systemctl is-active lucidio icore tcore bbtrail
 for s in lucidio icore tcore bbtrail lucidio-1h lucidio-recorder; do echo "$s $(systemctl show $s -p ActiveEnterTimestamp --value)"; done
-sudo cat /opt/lucidio/bot-config.json | grep -A8 '"coins"'      # BB-CORE today: SOL, NEAR, ADA, GALA
-sudo cat /opt/tcore/bot-config.json   | grep -A9 '"coins"'      # T-CORE today: SOL, NEAR, ADA, GALA, ETH (or still ZEC if the ETH build was never installed)
+sudo cat /opt/lucidio/bot-config.json | grep -A8 '"coins"'      # BB-CORE today: SOL, ZEC, NEAR, ADA, GALA (ZEC back since Nov 12 14:20 UTC)
+sudo cat /opt/tcore/bot-config.json   | grep -A9 '"coins"'      # T-CORE today: SOL, ZEC, NEAR, ADA, GALA, ETH (ZEC back since Nov 12 14:20 UTC)
 ```
 If a live bot is not `active`, stop and fix that first.
 
@@ -62,9 +64,9 @@ Undo (only while no SUI/ARB row is stored): `ledger/supabase/rollback/2026121200
 2. **VPS:** back up and pull the update the usual way: `bb-core/VPS-UPDATE-GUIDE.md` §3c (backup), §3d (type `lucidio`, menu, **Pull changes from GitHub**, read the file list, answer `y`), §3e (health check). Expect these files in the list: `config.js`, `bot-config.json`, `dashboard/lib/schema.js`, `live-review.js`, `sidecar/shadow-recorder.js`, `deploy/lucidio-shadow.service` and the two test files. If the VPS has not pulled since Nov 12 05:54 it also brings the earlier ETH commits (`7de2c2a`, `77bb3d8`): that is fine, ETH stays off on BB-CORE. `lucidio-core.js` must NOT be in the list (the strategy file is untouched). The pull runs the safety tests and rolls back by itself if the bot does not come back. An update never overwrites the VPS's own `bot-config.json`, so ARB is still off until 2.3.
 3. **VPS: switch ARB on** (the bot re-reads its settings every run, no restart needed):
    ```bash
-   sudo -u lucidio node -e 'const c=require("/opt/lucidio/config.js");const v=c.validate({coins:["SOL","NEAR","ADA","GALA","ARB"]});if(!v.ok){console.error(v.errors);process.exit(1)}c.save(v.next);console.log("saved:",v.next.riskPct,v.next.coins.join())'
+   sudo -u lucidio node -e 'const c=require("/opt/lucidio/config.js");const v=c.validate({coins:["SOL","ZEC","NEAR","ADA","GALA","ARB"]});if(!v.ok){console.error(v.errors);process.exit(1)}c.save(v.next);console.log("saved:",v.next.riskPct,v.next.coins.join())'
    ```
-   It must print `saved: … SOL,NEAR,ADA,GALA,ARB`. An error that ARB is not allowed means the VPS still has the old code: redo 2.2. (ARB can also be ticked in the dashboard's Settings panel.)
+   It must print `saved: … SOL,ZEC,NEAR,ADA,GALA,ARB`. An error that ARB is not allowed means the VPS still has the old code: redo 2.2. (ARB can also be ticked in the dashboard's Settings panel.)
 4. **Shadow recorder** (if installed): copy the updated `deploy/lucidio-shadow.service` (it now records SOL, ETH, NEAR, ADA, GALA, ARB) and restart only that service, see the guide §4.
 5. Check at the next 4h candle: `bb-core/VPS-UPDATE-GUIDE.md` §3f. The heartbeat on the dashboard should list ARB among the enabled coins.
 
@@ -113,8 +115,8 @@ Switching a coin off = take it out of `coins` (the commands below). It stays in 
 
 ## Rollback
 
-- **BB-CORE without ARB:** `sudo -u lucidio node -e 'const c=require("/opt/lucidio/config.js");const v=c.validate({coins:["SOL","NEAR","ADA","GALA"]});if(!v.ok){console.error(v.errors);process.exit(1)}c.save(v.next);console.log("saved:",v.next.coins.join())'`
-- **T-CORE without SUI and ARB** (its config is root-owned, it re-reads it every run): `sudo node -e 'const c=require("/opt/tcore/config.js");const v=c.validate({coins:["SOL","NEAR","ADA","GALA","ETH"]});if(!v.ok){console.error(v.errors);process.exit(1)}c.save(v.next);console.log("saved:",v.next.coins.join())'`
+- **BB-CORE without ARB:** `sudo -u lucidio node -e 'const c=require("/opt/lucidio/config.js");const v=c.validate({coins:["SOL","ZEC","NEAR","ADA","GALA"]});if(!v.ok){console.error(v.errors);process.exit(1)}c.save(v.next);console.log("saved:",v.next.coins.join())'`
+- **T-CORE without SUI and ARB** (its config is root-owned, it re-reads it every run): `sudo node -e 'const c=require("/opt/tcore/config.js");const v=c.validate({coins:["SOL","ZEC","NEAR","ADA","GALA","ETH"]});if(!v.ok){console.error(v.errors);process.exit(1)}c.save(v.next);console.log("saved:",v.next.coins.join())'`
 
 ## Not needed any more?
 
