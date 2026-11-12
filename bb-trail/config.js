@@ -8,9 +8,9 @@ const FILE = path.join(__dirname, 'bot-config.json');
 // function in paper.enter / live.enter / mexc.createOrder, and the tests in test/selftest.js). Adding a coin is a code + research decision.
 // I-Core starts on the same five coins as bb-core (SOL, ZEC, NEAR, ADA, GALA): the Ichimoku strategy was tuned on 2020-2022 data of these five and judged on
 // 2023-2026 (research: StrategyBacktester/research/big-swings, RESULTS-search5.md). Caveat kept on purpose: a few giant winners (ZEC in 2025) carry most of the profit.
-// ETH was added and ZEC retired on Nov 12, 2026 (owner's decision; ZEC is being delisted): ETH was the best replacement of 45 coins over 7 years,
-// 9 coins over 10 years and the top 100 (StrategyBacktester research/zec-replacement). ZEC stays in this list ONLY so the ZEC trades still open
-// are managed to their exit (a coin in the allowlist but not in "coins" gets no new entries); bot-config.json no longer lists it.
+// ETH was added on Nov 12, 2026 (owner's decision; StrategyBacktester research/zec-replacement): it suits T-CORE only, so it is traded there and
+// allowed but off on BB-CORE / I-CORE. ZEC was retired the same day because MEXC announced its futures delisting, then put back on Nov 12, 2026
+// (14:20 UTC) when MEXC cancelled the delisting: ZEC is a traded coin again on every bot.
 // SUI and ARB were added on Nov 12, 2026 for T-CORE LIVE (owner's decision, live without a paper period): added together to the five coins from Jun 2023 to
 // Nov 2026 they lift T-CORE from +355R to +453R while its worst drop stays about the same (34.5R -> 34.9R) (StrategyBacktester research/coin-walkforward/SUI-ARB.md,
 // MONTHLY.md). Caveats kept on purpose: 60% of SUI's T-CORE profit is one month (Feb 2024) and about half of ARB's is one month (Oct 2026); ARB alone deepens the
@@ -28,7 +28,7 @@ const coinToSymbol = (coin) => `${coin}_USDT`;
 const MAX_RISK_PCT = 0.05;      // hard cap: 5% of balance per trade. Raised from 1% on Oct 24, 2026 at the owner's explicit request (the audit, §11 item 7, advised 0.25-0.5% for a first live phase: 5% = 94% chance of a >50% drawdown)
 
 const DEFAULTS = {
-  mode: 'paper', coins: ['SOL', 'ETH', 'NEAR', 'ADA', 'GALA'], riskUsd: 1, riskPct: 0.005, maxRiskUsd: 0,
+  mode: 'paper', coins: ['SOL', 'ZEC', 'ETH', 'NEAR', 'ADA', 'GALA'], riskUsd: 1, riskPct: 0.005, maxRiskUsd: 0,
   // risk steps DOWN as the account grows (Oct 29, 2026, owner's decision): [balance from ($, highest balance so far), risk per trade]. Replaces riskPct while set; [] = off.
   riskTiers: [[0, 0.025], [500, 0.02], [1000, 0.015]], maxRiskMult: 1.5, maxLeverage: 20, startBalance: 100,
   haltAtR: -35, maxEntryDelaySec: 900, wakeDelaySec: 2, heartbeatUrl: '',
@@ -39,7 +39,7 @@ const DEFAULTS = {
 // type, limits, and what the Settings panel shows. "live: true" = takes effect for real money.
 const FIELDS = {
   mode:             { type: 'enum', values: ['paper', 'live'], label: 'Mode', help: 'paper = simulated account; live = real orders on MEXC' },
-  coins:            { type: 'coins', values: COINS, min: 1, label: 'Coins', help: 'the bot trades SOL, ETH, NEAR, ADA and GALA (T-CORE live also SUI and ARB, added Nov 12, 2026); ZEC is retired (it only finishes trades already open); untick one to pause it' },
+  coins:            { type: 'coins', values: COINS, min: 1, label: 'Coins', help: 'the bot trades SOL, ZEC, NEAR, ADA, GALA and ETH (T-CORE live also SUI and ARB, added Nov 12, 2026); ZEC is back (MEXC cancelled its futures delisting, Nov 12, 2026); untick one to pause it' },
   riskPct:          { type: 'number', min: 0, max: MAX_RISK_PCT, label: 'Risk per trade (% of balance)', help: '0 = use the fixed $ amount instead. Hard cap 5% (raised from 1% on Oct 24, 2026); the audit suggests 0.25–0.5% for a first live phase' },
   riskUsd:          { type: 'number', min: 0.1, max: 100, label: 'Fixed risk per trade ($)', help: 'used when % risk is 0' },
   maxRiskUsd:       { type: 'number', min: 0, max: 500, label: 'Max risk per trade ($)', help: '0 = no cap (default since Oct 29, 2026). Otherwise a hard cap on any trade, also when % risk grows the amount' },
