@@ -150,11 +150,35 @@ async function postClosedTrade({ enabled, trade, dry = false, creds = keys(), fe
   return { status: 'sent', positionId: rep.body.p_position_id, replayed: !!(r.data && r.data.replayed), pool: r.data && r.data.pool };
 }
 
+// An exit whose journal record has no MEXC history (MEXC had not returned the closed position yet at the exit, as with BB-Core's NEAR short of Nov 10, 2026)
+// was never sent, and the ledger then blocked every flow ("bot exit without a booked MEXC result"). history(symbol, startMs) is the bot's READ-ONLY
+// history_positions call. The position is taken only when exactly ONE closed position of that coin and side closed within 15 minutes of the exit (and, when the
+// journal knows the entry fill, opened within 0.5% of it). Anything else stays unsent: never a guess, never the bot's own estimate.
+async function recoverHistory(e, history) {
+  const want = sideOf(e.side) === 'LONG' ? 1 : sideOf(e.side) === 'SHORT' ? 2 : null;
+  const exitMs = e.exit_ts ? Date.parse(e.exit_ts) : Number(e.ts_ms);
+  if (!want || !e.symbol || !Number.isFinite(exitMs)) return null;
+  const entry = e.entry_summary && Number(e.entry_summary.fill_price), opened = e.match_key && Number(e.match_key.signal_candle_open_ms);
+  const list = await history(e.symbol, (Number.isFinite(opened) && opened > 0 ? opened : exitMs - 30 * 86400000) - 86400000);
+  const hits = (Array.isArray(list) ? list : []).filter((x) => +x.state === 3 && +x.positionType === want && Math.abs(+x.updateTime - exitMs) <= 15 * 60000
+    && (!(entry > 0) || Math.abs(+x.openAvgPrice / entry - 1) <= 0.005));
+  if (hits.length !== 1) return null;
+  const h = hits[0];
+  return { positionId: h.positionId, realised: h.realised, fee: h.fee, holdFee: h.holdFee, updateTime: h.updateTime, recovered: true };
+}
+
 // resend every live exit in the journal newer than sinceMs (safe: the ledger records each trade once). events = journal.readAll().events
-async function flushClosedTrades({ enabled, events, sinceMs = 0, dry = false, creds = keys(), fetchImpl = fetch }) {
-  const out = { sent: 0, replayed: 0, skipped: 0, errors: [] };
-  for (const e of events || []) {
-    if (!e || e.type !== 'exit' || e.mode !== 'live' || !(Number(e.ts_ms) >= sinceMs)) continue;
+// history: optional read-only MEXC lookup (see recoverHistory) for exits without MEXC history, tried back to recoverSinceMs (default 14 days).
+async function flushClosedTrades({ enabled, events, sinceMs = 0, dry = false, creds = keys(), fetchImpl = fetch, history = null, recoverSinceMs = Date.now() - 14 * 86400000 }) {
+  const out = { sent: 0, replayed: 0, skipped: 0, recovered: 0, errors: [] };
+  for (let e of events || []) {
+    if (!e || e.type !== 'exit' || e.mode !== 'live') continue;
+    const missing = !(e.costs && e.costs.exit && e.costs.exit.mexc_history);
+    if (!(Number(e.ts_ms) >= sinceMs) && !(missing && history && Number(e.ts_ms) >= recoverSinceMs)) continue;
+    if (missing && history && enabled) {
+      let h = null; try { h = await recoverHistory(e, history); } catch (err) { out.errors.push(`${e.symbol} ${e.exit_ts}: MEXC history not read (${err.message})`); }
+      if (h) { e = { ...e, costs: { ...(e.costs || {}), exit: { ...((e.costs && e.costs.exit) || {}), mexc_history: h } } }; out.recovered++; }
+    }
     const r = await postClosedTrade({ enabled, trade: e, dry, creds, fetchImpl });
     if (r.status === 'sent') (r.replayed ? out.replayed++ : out.sent++);
     else if (r.status === 'error') out.errors.push(`${r.positionId}: ${r.detail}`);
@@ -163,4 +187,4 @@ async function flushClosedTrades({ enabled, events, sinceMs = 0, dry = false, cr
   return out;
 }
 
-module.exports = { postEquity, postSnapshot, postWalletSnapshot, walletReport, closedTradeReport, postClosedTrade, flushClosedTrades, keys };
+module.exports = { postEquity, postSnapshot, postWalletSnapshot, walletReport, closedTradeReport, postClosedTrade, flushClosedTrades, recoverHistory, keys };

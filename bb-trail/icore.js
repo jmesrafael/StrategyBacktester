@@ -665,7 +665,7 @@ async function ledgerWalletNow(dry) {
   const account = (await mexc.account()).data, positions = (await mexc.positions()).data;
   const st = loadState(), openOrders = Object.values(st.coins || {}).filter((c) => c.pending).length;
   // closed trades first (exactly-once at the ledger: a resend is a replay), so the snapshot that follows can already include them
-  try { const f = await ledgerSync.flushClosedTrades({ enabled: true, events: journalMod.readAll().events, sinceMs: Date.now() - 3 * 86400000, dry }); if (f.sent || f.errors.length) console.log('closed trades -> ledger: ' + f.sent + ' new, ' + f.replayed + ' already there' + (f.errors.length ? ', ' + f.errors.length + ' failed: ' + f.errors[0] : '')); } catch (e) { console.log('closed trades not sent: ' + e.message); }
+  try { const f = await ledgerSync.flushClosedTrades({ enabled: true, events: journalMod.readAll().events, sinceMs: Date.now() - 3 * 86400000, dry, history: (s, ms) => mexc.client.historyPositions(s, ms) }); if (f.sent || f.errors.length || f.recovered) console.log('closed trades -> ledger: ' + f.sent + ' new, ' + f.replayed + ' already there' + (f.recovered ? ', ' + f.recovered + ' with MEXC history read afterwards' : '') + (f.errors.length ? ', ' + f.errors.length + ' failed: ' + f.errors[0] : '')); } catch (e) { console.log('closed trades not sent: ' + e.message); }
   const r = await ledgerSync.postWalletSnapshot({ enabled: true, account, openPositions: positions.length, openOrders, dry });
   console.log(`wallet snapshot (${r.wallet || 'no wallet'}): ${r.status}${r.detail ? ' — ' + r.detail : ''}${r.suspect ? ' — the ledger marked it SUSPECT: the manager must accept it' : ''}`);
   if (r.status === 'error' || r.status === 'incomplete') process.exitCode = 1;

@@ -91,5 +91,21 @@ const base = { enabled: true, account, openPositions: 2, openOrders: 0, now: NOW
   f = stub(); r = await ls.flushClosedTrades({ enabled: true, creds, fetchImpl: f, sinceMs: NOW - 60000, events: [exitEv, { ...exitEv, ts_ms: NOW - 9e9 }, { ...exitEv, type: 'entry' }, { ...exitEv, mode: 'paper' }, { type: 'exit', mode: 'live', ts_ms: NOW, costs: {} }] });
   ok(f.calls.length === 1 && r.sent === 1 && r.skipped === 1, 'flush sends recent live exits with MEXC history only (old, entry, paper and history-less ones are not)');
 
+
+  // ---- an exit saved without MEXC history (NEAR short, Nov 10, 2026: MEXC had not returned the closed position yet): read it afterwards, read-only, only when unambiguous
+  const near = { type: 'exit', mode: 'live', ts_ms: Date.parse('2026-11-10T16:00:17.559Z'), exit_ts: '2026-11-10T16:00:09.000Z', symbol: 'NEAR_USDT', side: 'SHORT', r_result: 2.9737,
+    match_key: { signal_candle_open_ms: 1793606400000 }, entry_summary: { fill_price: 4.13 }, costs: { exit: { closed_by: 'bot_time_exit', mexc_history: null } } };
+  const hist = { positionId: 1531343295, state: 3, positionType: 2, openAvgPrice: 4.13, closeAvgPrice: 3.565, realised: 13.6125, fee: -0.1477, holdFee: 0.2003, updateTime: Date.parse('2026-11-10T16:00:10Z') };
+  const asked = []; const history = async (s, ms) => { asked.push([s, ms]); return [hist, { ...hist, positionId: 1, positionType: 1 }, { ...hist, positionId: 2, updateTime: hist.updateTime - 86400000 }]; };
+  const h = await ls.recoverHistory(near, history);
+  ok(h && h.positionId === 1531343295 && h.realised === 13.6125 && asked[0][0] === 'NEAR_USDT', 'missing history: the ONE closed NEAR short that matches the exit is found (other side and other days ignored)');
+  ok(await ls.recoverHistory(near, async () => [hist, { ...hist, positionId: 9 }]) === null, 'two candidates: nothing is chosen');
+  ok(await ls.recoverHistory(near, async () => [{ ...hist, openAvgPrice: 4.5 }]) === null, 'a different entry price: not this trade');
+  ok(await ls.recoverHistory(near, async () => [{ ...hist, state: 1 }]) === null, 'a position not closed yet: nothing');
+  f = stub({ ok: true, status: 200, body: { ok: true, replayed: false, trade_id: 17 } });
+  r = await ls.flushClosedTrades({ enabled: true, creds, fetchImpl: f, sinceMs: Date.now(), recoverSinceMs: near.ts_ms - 1000, history, events: [near] });
+  ok(r.recovered === 1 && r.sent === 1 && JSON.parse(f.calls[0].init.body).p_realized === 13.6125 && JSON.parse(f.calls[0].init.body).p_position_id === '1531343295', 'flush sends it with the realised P&L MEXC booked, even after the 3-day resend window');
+  f = stub(); r = await ls.flushClosedTrades({ enabled: true, creds, fetchImpl: f, sinceMs: Date.now(), recoverSinceMs: near.ts_ms - 1000, history: async () => [], events: [near] });
+  ok(f.calls.length === 0 && r.skipped === 1, 'MEXC has no matching position: still nothing sent');
   console.log(`\n${pass} passed, ${failN} failed`); process.exitCode = failN ? 1 : 0;
 })().catch((e) => { console.log('FAIL  test crashed: ' + e.stack); process.exitCode = 1; });
