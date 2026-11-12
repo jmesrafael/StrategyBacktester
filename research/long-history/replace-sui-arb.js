@@ -1,0 +1,78 @@
+// replace-sui-arb.js — which long-history coin could take ARB's place on BB-CORE and SUI's / ARB's place on T-CORE?
+// SUI and ARB only exist from 2023, so their pick could not be checked out of sample. Long-history coins can:
+//   pick window (in-sample)  Jan 2022 -> Dec 2023  (every current bot coin trades; GALA from Sep 2021)
+//   check window (out-of-sample) Jan 2024 -> Nov 11 2026, and 2026 on its own
+// Each coin is ADDED to the bot's current coins (same rules, same risk per trade) and judged by what it does to the bot:
+// change in total R, in max drawdown and in return ÷ drawdown. Liquidity: MEXC futures 24h volume, fetched live.
+//   node replace-sui-arb.js -> REPLACE-SUI-ARB.md, replace-sui-arb.json
+'use strict';
+const fs = require('fs'), path = require('path');
+const H = path.join(__dirname, '../strat-hunt-nov6'), C = require('../../candles/candles.js');
+const { run, COST } = require(path.join(H, 'engine.js')), { S, makeCtx, exitOf } = require(path.join(H, 'strategies.js'));
+const BOTS = { 'BB-CORE': 'BBX', 'T-CORE': 'P14' };
+const BASE = { 'BB-CORE': ['SOL', 'NEAR', 'ADA', 'GALA'], 'T-CORE': ['SOL', 'NEAR', 'ADA', 'GALA', 'ETH'] };
+const LIVE_PICK = { 'BB-CORE': ['ARB'], 'T-CORE': ['SUI', 'ARB'] };
+const t = (y, m = 0, d = 1) => Date.UTC(y, m, d) / 1000;
+const IS0 = t(2022), IS1 = t(2024), OOS1 = t(2026, 10, 12), Y26 = t(2026), SH0 = t(2023, 5, 10);
+const MIN_VOL = 3;   // $M/day on MEXC futures to count as tradable (ONE ~ $4.7M; GALA, already traded, ~ $0.8M is below: flagged, not dropped)
+const by = (id) => S.find((s) => s.id === id);
+
+(async () => {
+  const tick = (await (await fetch('https://contract.mexc.com/api/v1/contract/ticker')).json()).data;
+  const VOL = Object.fromEntries(tick.filter((x) => x.symbol.endsWith('_USDT')).map((x) => [x.symbol.replace('_USDT', '').replace(/^1000/, '1000'), x.amount24 / 1e6]));
+  const vol = (c) => VOL[c] ?? VOL[c.replace(/^1000/, '')] ?? null;
+  const coins = C.coins().filter((c) => C.load(c, '4h')[0][0] <= t(2021, 11, 1) || ['SUI', 'ARB'].includes(c));
+  const T = {};
+  for (const c of coins) {
+    const B = C.load(c, '4h').map((r) => ({ time: r[0], open: r[1], high: r[2], low: r[3], close: r[4], volume: r[5] })), F = C.funding(c);
+    const x = makeCtx(B, '4h'), bbc = by('bb-core').build(x), built = { BBX: bbc, P14: { ...bbc, stopL: null, stopS: null } };
+    T[c] = {};
+    for (const [bot, p] of Object.entries(BOTS)) T[c][bot] = run(B, x.atr14, built[p], exitOf(p, x), F, 14400, COST).trades.filter((q) => q.tExit > IS0 && q.tExit <= OOS1).map((q) => ({ x: q.tExit, R: q.R }));
+  }
+  const mk = (x) => { const d = new Date(x * 1e3); return d.getUTCFullYear() * 12 + d.getUTCMonth(); };
+  function st(tr, a, b) {
+    const s = tr.filter((q) => q.x > a && q.x <= b).sort((p, q) => p.x - q.x); let e = 0, pk = 0, dd = 0; for (const q of s) { e += q.R; pk = Math.max(pk, e); dd = Math.max(dd, pk - e); }
+    const m = {}; for (const q of s) m[mk(q.x)] = (m[mk(q.x)] || 0) + q.R; const nm = mk(b - 1) - mk(a + 1) + 1;
+    return { n: s.length, R: e, dd, rdd: dd ? e / dd : e > 0 ? 99 : 0, pos: Object.values(m).filter((v) => v > 1e-9).length, nm };
+  }
+  const W = { is: [IS0, IS1], oos: [IS1, OOS1], y26: [Y26, OOS1], sh: [SH0, OOS1] };
+  const res = {};
+  for (const bot of Object.keys(BOTS)) {
+    const baseTr = BASE[bot].flatMap((c) => T[c][bot]), base = Object.fromEntries(Object.entries(W).map(([k, [a, b]]) => [k, st(baseTr, a, b)]));
+    const rows = [];
+    for (const c of coins) {
+      if (BASE[bot].includes(c)) continue;
+      const tr = [...baseTr, ...T[c][bot]], r = { c, vol: vol(c) };
+      for (const [k, [a, b]] of Object.entries(W)) { const s = st(tr, a, b), alone = st(T[c][bot], a, b); r[k] = { R: s.R - base[k].R, dd: s.dd - base[k].dd, rdd: s.rdd - base[k].rdd, alone: alone.R, pos: alone.pos, nm: alone.nm }; }
+      const yrs = [2022, 2023, 2024, 2025, 2026].map((y) => st(T[c][bot], t(y), Math.min(t(y + 1), OOS1)).R); r.years = yrs; r.yearsPos = yrs.filter((v) => v > 0).length;
+      rows.push(r);
+    }
+    // the live pick, judged the same way on the windows it has
+    const lp = [...baseTr, ...LIVE_PICK[bot].flatMap((c) => T[c][bot])], live = {};
+    for (const k of ['oos', 'y26', 'sh']) { const [a, b] = W[k], s = st(lp, a, b); live[k] = { R: s.R - base[k].R, dd: s.dd - base[k].dd, rdd: s.rdd - base[k].rdd }; }
+    res[bot] = { base, rows, live };
+  }
+  // ---- report
+  const f = (v, d = 1) => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(d), out = [], P = (s) => out.push(s);
+  P('# Replacements for SUI and ARB with a long history');
+  P('\nEvery coin listed on Binance perps before Dec 2021 (candle library), ADDED to the bot\'s current coins, same rules and risk. Pick window Jan 2022 → Dec 2023; check window Jan 2024 → Nov 11, 2026; and 2026 alone.');
+  P(`"Δ" = what adding the coin changes in the bot: total R, max drawdown, return ÷ drawdown. Tradable = MEXC futures volume ≥ $${MIN_VOL}M a day (live, Nov 12, 2026). Generated by replace-sui-arb.js.`);
+  for (const bot of Object.keys(BOTS)) {
+    const { base, rows, live } = res[bot];
+    const good = (r, k) => r[k].rdd > 0 && r[k].R > 0;
+    const pickIS = rows.filter((r) => !['SUI', 'ARB'].includes(r.c) && good(r, 'is')).sort((a, b) => b.is.rdd - a.is.rdd);
+    P(`\n## ${bot} (current: ${BASE[bot].join(', ')}; live pick ${LIVE_PICK[bot].join(' + ')})`);
+    P(`Bot alone: pick window ${f(base.is.R)}R (DD ${base.is.dd.toFixed(1)}), check window ${f(base.oos.R)}R (DD ${base.oos.dd.toFixed(1)}), 2026 ${f(base.y26.R)}R (DD ${base.y26.dd.toFixed(1)}).`);
+    P(`Coins that improved the bot in the pick window: ${pickIS.length} of ${rows.length - 2}. Of those, still improving it in the check window: ${pickIS.filter((r) => good(r, 'oos')).length}; tradable on MEXC and improving in both: ${pickIS.filter((r) => good(r, 'oos') && (r.vol ?? 0) >= MIN_VOL).length}.`);
+    P('\n| Coin | MEXC $M/day | Pick 2022–23 Δ R / Δ DD / Δ R÷DD | Check 2024–26 Δ R / Δ DD / Δ R÷DD | 2026 Δ R / Δ DD | Coin alone by year 2022 · 23 · 24 · 25 · 26 |');
+    P('|---|---:|---|---|---|---|');
+    const show = pickIS.filter((r) => good(r, 'oos')).slice(0, 12);
+    for (const r of show) P(`| ${r.c}${(r.vol ?? 0) >= MIN_VOL ? '' : ' (thin)'} | ${r.vol == null ? 'none' : r.vol.toFixed(1)} | ${f(r.is.R, 0)} / ${f(r.is.dd)} / ${f(r.is.rdd, 2)} | ${f(r.oos.R, 0)} / ${f(r.oos.dd)} / ${f(r.oos.rdd, 2)} | ${f(r.y26.R, 0)} / ${f(r.y26.dd)} | ${r.years.map((v) => f(v, 0)).join(' · ')} |`);
+    const lr = (c) => rows.find((r) => r.c === c);
+    P(`| **live pick ${LIVE_PICK[bot].join('+')}** | ${LIVE_PICK[bot].map((c) => vol(c).toFixed(1)).join(' / ')} | no data before 2023 | ${f(live.oos.R, 0)} / ${f(live.oos.dd)} / ${f(live.oos.rdd, 2)} | ${f(live.y26.R, 0)} / ${f(live.y26.dd)} | ${LIVE_PICK[bot].map((c) => c + ' ' + lr(c).years.map((v) => f(v, 0)).join(' · ')).join('; ')} |`);
+    for (const c of LIVE_PICK[bot]) { const r = lr(c); P(`| ${c} alone added | ${vol(c).toFixed(1)} | – | ${f(r.oos.R, 0)} / ${f(r.oos.dd)} / ${f(r.oos.rdd, 2)} | ${f(r.y26.R, 0)} / ${f(r.y26.dd)} | |`); }
+  }
+  fs.writeFileSync(path.join(__dirname, 'REPLACE-SUI-ARB.md'), out.join('\n') + '\n');
+  fs.writeFileSync(path.join(__dirname, 'replace-sui-arb.json'), JSON.stringify(res));
+  console.log(out.join('\n'));
+})();

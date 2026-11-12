@@ -307,7 +307,7 @@ async function scenario(name, knobs, fn, pick) {
     cfgFile(['SOL', 'BTC']);
     const run = cp.spawnSync(process.execPath, [path.join(BOX, 'icore.js'), 'status'], { env: { ...process.env, ICORE_STATE_DIR: path.join(BOX, 'state') }, encoding: 'utf8', timeout: 20000 });
     ok(run.status === 1 && /REFUSING TO START/.test(run.stderr) && /BTC/.test(run.stderr), 'the bot refuses to start with a clear error when bot-config.json lists BTC');
-    ok(cfgMod.ALLOWED_SYMBOLS.join() === 'SOL_USDT,ZEC_USDT,NEAR_USDT,ADA_USDT,GALA_USDT,ETH_USDT' && Object.isFrozen(cfgMod.ALLOWED_SYMBOLS), 'the allowlist is one frozen constant: SOL_USDT, ZEC_USDT, NEAR_USDT, ADA_USDT, GALA_USDT, ETH_USDT');
+    ok(cfgMod.ALLOWED_SYMBOLS.join() === 'SOL_USDT,ZEC_USDT,NEAR_USDT,ADA_USDT,GALA_USDT,ETH_USDT,SUI_USDT,ARB_USDT' && Object.isFrozen(cfgMod.ALLOWED_SYMBOLS), 'the allowlist is one frozen constant: SOL_USDT, ZEC_USDT, NEAR_USDT, ADA_USDT, GALA_USDT, ETH_USDT, SUI_USDT, ARB_USDT');
     cfgFile(['SOL', 'ZEC', 'NEAR_USDT', 'ADA', 'GALA']); ok(require(path.join(BOX, 'config.js')).load().coins.join() === 'SOL,ZEC,NEAR,ADA,GALA', 'NEAR, ADA and GALA are accepted (as coin names or symbols) and normalised');
     cfgFile(['SOL', 'BTC']);
 

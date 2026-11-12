@@ -11,8 +11,13 @@ const FILE = path.join(__dirname, 'bot-config.json');
 // ETH was added and ZEC retired on Nov 12, 2026 (owner's decision; ZEC is being delisted): ETH was the best replacement of 45 coins over 7 years,
 // 9 coins over 10 years and the top 100 (StrategyBacktester research/zec-replacement). ZEC stays in this list ONLY so the ZEC trades still open
 // are managed to their exit (a coin in the allowlist but not in "coins" gets no new entries); bot-config.json no longer lists it.
-const ALLOWED_SYMBOLS = Object.freeze(['SOL_USDT', 'ZEC_USDT', 'NEAR_USDT', 'ADA_USDT', 'GALA_USDT', 'ETH_USDT']);
-const COINS = ALLOWED_SYMBOLS.map((s) => s.replace(/_USDT$/, ''));   // ['SOL', 'ZEC', 'NEAR', 'ADA', 'GALA', 'ETH']: the short names used in the config and state
+// SUI and ARB were added on Nov 12, 2026 for T-CORE LIVE (owner's decision, live without a paper period): added together to the five coins from Jun 2023 to
+// Nov 2026 they lift T-CORE from +355R to +453R while its worst drop stays about the same (34.5R -> 34.9R) (StrategyBacktester research/coin-walkforward/SUI-ARB.md,
+// MONTHLY.md). Caveats kept on purpose: 60% of SUI's T-CORE profit is one month (Feb 2024) and about half of ARB's is one month (Oct 2026); ARB alone deepens the
+// worst drop (40.7R), only the pair keeps it flat; the coins were picked after seeing the results. MEXC: 1 contract = 1 SUI / 1 ARB. The paper lab (bbtr) keeps
+// its own coin list in bot-config.json (unchanged); only the live build (apply-tcore-live-patch.js) turns SUI and ARB on.
+const ALLOWED_SYMBOLS = Object.freeze(['SOL_USDT', 'ZEC_USDT', 'NEAR_USDT', 'ADA_USDT', 'GALA_USDT', 'ETH_USDT', 'SUI_USDT', 'ARB_USDT']);
+const COINS = ALLOWED_SYMBOLS.map((s) => s.replace(/_USDT$/, ''));   // ['SOL', 'ZEC', 'NEAR', 'ADA', 'GALA', 'ETH', 'SUI', 'ARB']: the short names used in the config and state
 class SymbolNotAllowedError extends Error { constructor(msg) { super(msg); this.name = 'SymbolNotAllowedError'; this.code = 'SYMBOL_NOT_ALLOWED'; } }
 // throws unless `symbol` is exactly one of ALLOWED_SYMBOLS (a coin name like 'SOL' is NOT a symbol: pass `${coin}_USDT`)
 function assertAllowedSymbol(symbol, what = 'order') {
@@ -34,7 +39,7 @@ const DEFAULTS = {
 // type, limits, and what the Settings panel shows. "live: true" = takes effect for real money.
 const FIELDS = {
   mode:             { type: 'enum', values: ['paper', 'live'], label: 'Mode', help: 'paper = simulated account; live = real orders on MEXC' },
-  coins:            { type: 'coins', values: COINS, min: 1, label: 'Coins', help: 'the bot trades SOL, ETH, NEAR, ADA and GALA; ZEC is retired (it only finishes trades already open); untick one to pause it' },
+  coins:            { type: 'coins', values: COINS, min: 1, label: 'Coins', help: 'the bot trades SOL, ETH, NEAR, ADA and GALA (T-CORE live also SUI and ARB, added Nov 12, 2026); ZEC is retired (it only finishes trades already open); untick one to pause it' },
   riskPct:          { type: 'number', min: 0, max: MAX_RISK_PCT, label: 'Risk per trade (% of balance)', help: '0 = use the fixed $ amount instead. Hard cap 5% (raised from 1% on Oct 24, 2026); the audit suggests 0.25–0.5% for a first live phase' },
   riskUsd:          { type: 'number', min: 0.1, max: 100, label: 'Fixed risk per trade ($)', help: 'used when % risk is 0' },
   maxRiskUsd:       { type: 'number', min: 0, max: 500, label: 'Max risk per trade ($)', help: '0 = no cap (default since Oct 29, 2026). Otherwise a hard cap on any trade, also when % risk grows the amount' },
