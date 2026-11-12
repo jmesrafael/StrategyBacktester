@@ -4,7 +4,7 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 
 
 ## .
-- HOME-TODO-VPS-AND-PC.md — HOME TODO — everything not applied yet (VPS, Vercel, PC) (2026-11-12)
+- HOME-TODO-VPS-AND-PC.md — HOME TODO — everything not applied yet (VPS, Vercel, PC) (2026-11-13)
 - MONTHLY-REPORT-INSTALL-WHEN-HOME.md — Monthly Telegram report: install when home (2026-11-11)
 - README.md — Chart Replay — TradingView-style + Trading Simulator (2026-11-02)
 - TRADING_MATH.txt — THE MATHEMATICS NEEDED FOR TRADING (2026-10-31)
@@ -13,7 +13,7 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 ## archive-done
 - DONE-HANDOFF-HOME.md — DONE - HANDOFF: install the BB-Trail paper lab (for Claude Code, from home) (2026-11-11)
 - DONE-HOME-VPS-INSTRUCTIONS-1h.md — bb-core 1h paper bot: VPS instructions for later (2026-11-06)
-- DONE-SUI-ARB-LIVE.md — SUI + ARB on the live bots: steps for home (prepared Nov 12, 2026) (2026-11-12)
+- DONE-SUI-ARB-LIVE.md — SUI + ARB on the live bots: steps for home (prepared Nov 12, 2026) (2026-11-13)
 - DONE-T-CORE-INSTALL-WHEN-HOME.md — T-CORE paper lab: install on the VPS (prepared Nov 6, 2026, to run when the owner is home) (2026-11-06)
 
 ## archive-done/DONE-UPGRADE-GUIDE-oct29
