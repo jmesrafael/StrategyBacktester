@@ -13,27 +13,27 @@
 
 Backtest of this line-up, 2020 → Nov 2026 (candle library): BB-CORE +476R → +511R (worst drop 26.5R both), T-CORE +722R → +807R (34.7R → 35.5R), TRI account +535R → +574R (16.5R → 17.1R), every year positive. 2026 alone: account +63R → +85R. Details: `research/long-history/SETUP-7Y.md`.
 
-## What is already done (on the work PC, Nov 12; committed and pushed to `main`)
+## What is already done (Nov 12, from the work PC)
 
 | Piece | State |
 |---|---|
 | BB-CORE code (`bb-core` repo) | ARB added to the allowlist, the defaults, `bot-config.json`, the dashboard schema copy, the contract specs (1 contract = 1 ARB), the shadow recorder; tests pass (the 2 `review-test` failures were already there before this change) |
 | T-CORE code (`StrategyBacktester/bb-trail`) | SUI + ARB added to the allowlist; the live build (`apply-tcore-live-patch.js`) now ships coins SOL, NEAR, ADA, GALA, ETH, SUI, ARB; `npm test` passes; the paper lab's own coin list (`bot-config.json`, bbtr) is unchanged |
 | Dashboard (`ledger` repo) | Already accepts SUI_USDT / ARB_USDT (commit `3016531`). New report "SUI and ARB Join the Live Bots" + index entry pushed (Vercel deploys it) |
-| **Database** | **NOT done.** Production still refuses SUI_USDT / ARB_USDT in `bot_events` (checked Nov 12). Step 1 below |
+| **Database** | **DONE Nov 12** (Supabase project "Backtester", migration `bot_events_sui_arb`): `bot_events_symbol_check` now allows SUI_USDT and ARB_USDT, checked after applying. Step 1 below is only a re-check |
 | VPS | Nothing touched |
 
-**Nothing is pushed yet.** The three repos are committed on the work PC only (Nov 12). Before the VPS steps, on the work PC: `git push` in `D:	estingStratb-core`, `D:	estingStratledger` and `D:	estingStratStrategyBacktester` (ask Claude to do it with your OK). The ledger push deploys the new report on the site. Skip the push and the VPS pull has nothing to pull.
+**Pushed Nov 12:** `bb-core` (`bf8cd79`), `ledger` (`351752b`, the report is on the site) and the `StrategyBacktester` commits for this change are on GitHub `main`. On the home PC just `git pull` in each folder before the VPS steps.
 
 **Timing (both live bots restart for a few seconds):** candles close at 00:00, 04:00, 08:00, 12:00, 16:00 and 20:00 UTC (08:00, 12:00, 16:00, 20:00, 00:00, 04:00 in the Philippines). Do steps 2 and 3 between **15 minutes after a close and 10 minutes before the next one**, for example 04:15-07:50 UTC (12:15-15:50 PH). The BB-CORE menu refuses inside 5 minutes before / 12 minutes after a close. Do the two bots one after the other, not together, so there is never a moment with both down.
 
-**Order at home: Step 1 (database) → Step 2 (BB-CORE) → Step 3 (T-CORE).** If step 1 is skipped, the bots still trade the new coins but the dashboard rejects their events (no trade shown, no stats).
+**Order at home: Step 2 (BB-CORE) → Step 3 (T-CORE).** Step 1 (database) is already done, only re-check it.
 
 MEXC (public data, Nov 12): SUI_USDT and ARB_USDT are open for API trading, 1 contract = 1 coin, minimum 1 contract. 24h volume SUI ≈ $37M, ARB ≈ $15M (GALA, already traded, ≈ $1M).
 
 ## Rules for the session
 
-- Do the steps in order. Step 1 must be done before either bot can trade a new coin, or the dashboard will reject the new coins' trades.
+- Do the steps in order (step 1, the database, is already done).
 - Never touch I-CORE (`icore`), the paper bots or the recorder.
 - Before you start, note every bot's start time (step 0) and compare at the end.
 
@@ -47,9 +47,9 @@ sudo cat /opt/tcore/bot-config.json   | grep -A9 '"coins"'      # T-CORE today: 
 ```
 If a live bot is not `active`, stop and fix that first.
 
-## Step 1: database (Supabase project "Backtester")
+## Step 1: database (already applied Nov 12, only re-check)
 
-Run the file `ledger/supabase/migrations/20261212000000_bot_events_sui_arb.sql` (SQL editor, or ask Claude to apply it with your OK). It only widens the allowed-symbol check; nothing is deleted. Check:
+Applied from the work PC. Re-check with the query below; if it ever lacks SUI/ARB, run the file `ledger/supabase/migrations/20261212000000_bot_events_sui_arb.sql` (SQL editor, or ask Claude to apply it with your OK). It only widens the allowed-symbol check; nothing is deleted. Check:
 ```sql
 select pg_get_constraintdef(oid) from pg_constraint where conname = 'bot_events_symbol_check';
 -- must list ... 'ETH_USDT', 'SUI_USDT', 'ARB_USDT'
