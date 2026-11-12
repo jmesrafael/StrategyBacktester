@@ -21,6 +21,16 @@ Do NOT grep or read whole report files. Query the index instead:
 - After new reports are generated or edited, run `python report-index/rq.py update` (incremental, <1s).
 Raw candle caches (cache-1m, data*, funding) are intentionally not indexed.
 
+## Tested strategies registry (check before testing anything)
+
+- `research/TESTED-STRATEGIES.md` lists every strategy already tested, with its verdict, key numbers, evidence files and lessons. Search it before starting a study; do not re-test what is there. Add a row after every study. It also holds the standard test checklist.
+
+## Local candle library (use before downloading candles)
+
+- `candles/` holds 1h + 4h candles and funding (Binance USDT-M perps, closed bars only) for SOL ADA NEAR GALA ZEC BTC ETH BNB XRP DOGE AVAX LINK DOT SUI.
+- Load with `require('<rel>/candles/candles.js').load('SOL','1h')`. Refresh with `node candles/update.js` (incremental). Add coins to `candles/coins.json`. Do not write new fetch scripts for 1h/4h.
+- 1m candles: `research/orb-universe/data/<COIN>-1m.json`.
+
 ## T-CORE paper lab (formerly BB-Trail, bot tag bbtr; built Nov 6, 2026, INSTALLED on the VPS Nov 6, 2026, service bbtrail)
 
 - Already installed and connected to the dashboard; do not reinstall. Check with `sudo bash /opt/bbtrail/deploy-trail/status.sh [report|compare]`. Plan record: `archive-done/DONE-T-CORE-INSTALL-WHEN-HOME.md`. Paper only.

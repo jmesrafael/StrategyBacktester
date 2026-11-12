@@ -1,0 +1,5 @@
+{
+  "note": "Coins kept in the local candle library. Base asset only; the symbol is <COIN>USDT on Binance USDT-M perpetual futures. Add a coin here, then run: node update.js",
+  "bots": ["SOL", "ADA", "NEAR", "GALA", "ZEC"],
+  "extra": ["BTC", "ETH", "BNB", "XRP", "DOGE", "AVAX", "LINK", "DOT", "SUI"]
+}
