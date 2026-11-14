@@ -1,0 +1,406 @@
+{
+ "generated": "2026-11-14",
+ "months": 83,
+ "trades": 3898,
+ "risks": {
+  "0.005": {
+   "yearGrossMed": 1.0391,
+   "yearGrossWorst": 0.02406,
+   "losingMonths": 0.28049,
+   "horizons": {
+    "12": {
+     "1": {
+      "invVs2Med": -0.00163,
+      "invVs2Worst": -0.00661,
+      "mgrVs2Med": 0.01441,
+      "effMed": 0.24223,
+      "netMed": 0.7894,
+      "events": 7.70423
+     },
+     "2": {
+      "invVs2Med": 0,
+      "invVs2Worst": 0,
+      "mgrVs2Med": 0,
+      "effMed": 0.23971,
+      "netMed": 0.79306,
+      "events": 4.90141
+     },
+     "3": {
+      "invVs2Med": 0.00123,
+      "invVs2Worst": -0.00493,
+      "mgrVs2Med": -0.00935,
+      "effMed": 0.23444,
+      "netMed": 0.79549,
+      "events": 3.94366
+     },
+     "6": {
+      "invVs2Med": 0.00668,
+      "invVs2Worst": 0,
+      "mgrVs2Med": -0.04342,
+      "effMed": 0.22357,
+      "netMed": 0.79921,
+      "events": 2.50704
+     },
+     "12": {
+      "invVs2Med": 0.00983,
+      "invVs2Worst": -0.00007,
+      "mgrVs2Med": -0.0846,
+      "effMed": 0.21363,
+      "netMed": 0.80216,
+      "events": 1.77465
+     }
+    },
+    "24": {
+     "1": {
+      "invVs2Med": -0.00438,
+      "invVs2Worst": -0.00871,
+      "mgrVs2Med": 0.01581,
+      "effMed": 0.28585,
+      "netMed": 1.75533,
+      "events": 7.83898
+     },
+     "2": {
+      "invVs2Med": 0,
+      "invVs2Worst": 0,
+      "mgrVs2Med": 0,
+      "effMed": 0.28182,
+      "netMed": 1.7677,
+      "events": 4.68644
+     },
+     "3": {
+      "invVs2Med": 0.00486,
+      "invVs2Worst": -0.00268,
+      "mgrVs2Med": -0.01855,
+      "effMed": 0.27977,
+      "netMed": 1.77187,
+      "events": 3.72034
+     },
+     "6": {
+      "invVs2Med": 0.01498,
+      "invVs2Worst": 0.00294,
+      "mgrVs2Med": -0.0667,
+      "effMed": 0.26746,
+      "netMed": 1.80071,
+      "events": 2.12712
+     },
+     "12": {
+      "invVs2Med": 0.02973,
+      "invVs2Worst": 0.00331,
+      "mgrVs2Med": -0.1255,
+      "effMed": 0.24428,
+      "netMed": 1.85895,
+      "events": 1.37288
+     }
+    },
+    "36": {
+     "1": {
+      "invVs2Med": -0.00521,
+      "invVs2Worst": -0.01011,
+      "mgrVs2Med": 0.01531,
+      "effMed": 0.33252,
+      "netMed": 2.88515,
+      "events": 7.80851
+     },
+     "2": {
+      "invVs2Med": 0,
+      "invVs2Worst": 0,
+      "mgrVs2Med": 0,
+      "effMed": 0.32853,
+      "netMed": 2.92382,
+      "events": 4.53901
+     },
+     "3": {
+      "invVs2Med": 0.00562,
+      "invVs2Worst": 0.00081,
+      "mgrVs2Med": -0.01749,
+      "effMed": 0.32052,
+      "netMed": 2.95873,
+      "events": 3.57447
+     },
+     "6": {
+      "invVs2Med": 0.02394,
+      "invVs2Worst": 0.01683,
+      "mgrVs2Med": -0.06198,
+      "effMed": 0.30297,
+      "netMed": 3.03239,
+      "events": 1.96454
+     },
+     "12": {
+      "invVs2Med": 0.05007,
+      "invVs2Worst": 0.03015,
+      "mgrVs2Med": -0.13751,
+      "effMed": 0.2801,
+      "netMed": 3.07186,
+      "events": 1.23404
+     }
+    }
+   }
+  },
+  "0.01": {
+   "yearGrossMed": 2.64501,
+   "yearGrossWorst": 0.02529,
+   "losingMonths": 0.30488,
+   "horizons": {
+    "12": {
+     "1": {
+      "invVs2Med": -0.004,
+      "invVs2Worst": -0.01669,
+      "mgrVs2Med": 0.02662,
+      "effMed": 0.2733,
+      "netMed": 1.93331,
+      "events": 7.21127
+     },
+     "2": {
+      "invVs2Med": 0,
+      "invVs2Worst": 0,
+      "mgrVs2Med": 0,
+      "effMed": 0.27073,
+      "netMed": 1.95422,
+      "events": 4.83099
+     },
+     "3": {
+      "invVs2Med": 0.00481,
+      "invVs2Worst": -0.0077,
+      "mgrVs2Med": -0.02319,
+      "effMed": 0.26161,
+      "netMed": 1.96421,
+      "events": 3.76056
+     },
+     "6": {
+      "invVs2Med": 0.01624,
+      "invVs2Worst": 0,
+      "mgrVs2Med": -0.08342,
+      "effMed": 0.24326,
+      "netMed": 2.02683,
+      "events": 2.47887
+     },
+     "12": {
+      "invVs2Med": 0.03002,
+      "invVs2Worst": -0.00056,
+      "mgrVs2Med": -0.13518,
+      "effMed": 0.22393,
+      "netMed": 2.04584,
+      "events": 1.76056
+     }
+    },
+    "24": {
+     "1": {
+      "invVs2Med": -0.0131,
+      "invVs2Worst": -0.0197,
+      "mgrVs2Med": 0.02475,
+      "effMed": 0.35577,
+      "netMed": 5.54631,
+      "events": 7.20339
+     },
+     "2": {
+      "invVs2Med": 0,
+      "invVs2Worst": 0,
+      "mgrVs2Med": 0,
+      "effMed": 0.34444,
+      "netMed": 5.54574,
+      "events": 4.64407
+     },
+     "3": {
+      "invVs2Med": 0.01411,
+      "invVs2Worst": -0.00803,
+      "mgrVs2Med": -0.02921,
+      "effMed": 0.34256,
+      "netMed": 5.52425,
+      "events": 3.52542
+     },
+     "6": {
+      "invVs2Med": 0.04478,
+      "invVs2Worst": 0.00963,
+      "mgrVs2Med": -0.10738,
+      "effMed": 0.32174,
+      "netMed": 5.69565,
+      "events": 2.11017
+     },
+     "12": {
+      "invVs2Med": 0.08311,
+      "invVs2Worst": 0.01036,
+      "mgrVs2Med": -0.19568,
+      "effMed": 0.27852,
+      "netMed": 5.95361,
+      "events": 1.36441
+     }
+    },
+    "36": {
+     "1": {
+      "invVs2Med": -0.01718,
+      "invVs2Worst": -0.02386,
+      "mgrVs2Med": 0.024,
+      "effMed": 0.4429,
+      "netMed": 11.76637,
+      "events": 7.16312
+     },
+     "2": {
+      "invVs2Med": 0,
+      "invVs2Worst": 0,
+      "mgrVs2Med": 0,
+      "effMed": 0.43579,
+      "netMed": 11.91667,
+      "events": 4.50355
+     },
+     "3": {
+      "invVs2Med": 0.0192,
+      "invVs2Worst": 0.00083,
+      "mgrVs2Med": -0.02783,
+      "effMed": 0.4196,
+      "netMed": 12.25854,
+      "events": 3.41844
+     },
+     "6": {
+      "invVs2Med": 0.07331,
+      "invVs2Worst": 0.05272,
+      "mgrVs2Med": -0.09884,
+      "effMed": 0.38458,
+      "netMed": 12.73242,
+      "events": 1.95035
+     },
+     "12": {
+      "invVs2Med": 0.14559,
+      "invVs2Worst": 0.08914,
+      "mgrVs2Med": -0.20856,
+      "effMed": 0.34486,
+      "netMed": 13.13983,
+      "events": 1.22695
+     }
+    }
+   }
+  },
+  "0.025": {
+   "yearGrossMed": 9.68156,
+   "yearGrossWorst": -0.06902,
+   "losingMonths": 0.30488,
+   "horizons": {
+    "12": {
+     "1": {
+      "invVs2Med": -0.01777,
+      "invVs2Worst": -0.05889,
+      "mgrVs2Med": 0.05296,
+      "effMed": 0.35323,
+      "netMed": 6.59791,
+      "events": 6.80282
+     },
+     "2": {
+      "invVs2Med": 0,
+      "invVs2Worst": 0,
+      "mgrVs2Med": 0,
+      "effMed": 0.33127,
+      "netMed": 6.5891,
+      "events": 4.78873
+     },
+     "3": {
+      "invVs2Med": 0.01124,
+      "invVs2Worst": -0.01586,
+      "mgrVs2Med": -0.03311,
+      "effMed": 0.31982,
+      "netMed": 6.87549,
+      "events": 3.64789
+     },
+     "6": {
+      "invVs2Med": 0.06235,
+      "invVs2Worst": 0,
+      "mgrVs2Med": -0.14739,
+      "effMed": 0.28256,
+      "netMed": 7.09719,
+      "events": 2.38028
+     },
+     "12": {
+      "invVs2Med": 0.1,
+      "invVs2Worst": -0.00551,
+      "mgrVs2Med": -0.2264,
+      "effMed": 0.25015,
+      "netMed": 7.09719,
+      "events": 1.70423
+     }
+    },
+    "24": {
+     "1": {
+      "invVs2Med": -0.04228,
+      "invVs2Worst": -0.0704,
+      "mgrVs2Med": 0.04834,
+      "effMed": 0.50399,
+      "netMed": 36.48862,
+      "events": 6.66949
+     },
+     "2": {
+      "invVs2Med": 0,
+      "invVs2Worst": 0,
+      "mgrVs2Med": 0,
+      "effMed": 0.47205,
+      "netMed": 37.08575,
+      "events": 4.61864
+     },
+     "3": {
+      "invVs2Med": 0.04855,
+      "invVs2Worst": -0.01408,
+      "mgrVs2Med": -0.05205,
+      "effMed": 0.4699,
+      "netMed": 38.47486,
+      "events": 3.36441
+     },
+     "6": {
+      "invVs2Med": 0.14798,
+      "invVs2Worst": 0.04299,
+      "mgrVs2Med": -0.18226,
+      "effMed": 0.41272,
+      "netMed": 42.26517,
+      "events": 2.05085
+     },
+     "12": {
+      "invVs2Med": 0.25371,
+      "invVs2Worst": 0.03814,
+      "mgrVs2Med": -0.29057,
+      "effMed": 0.33528,
+      "netMed": 48.23672,
+      "events": 1.33898
+     }
+    },
+    "36": {
+     "1": {
+      "invVs2Med": -0.06178,
+      "invVs2Worst": -0.08357,
+      "mgrVs2Med": 0.03816,
+      "effMed": 0.6307,
+      "netMed": 192.53232,
+      "events": 6.57447
+     },
+     "2": {
+      "invVs2Med": 0,
+      "invVs2Worst": 0,
+      "mgrVs2Med": 0,
+      "effMed": 0.61267,
+      "netMed": 199.9138,
+      "events": 4.48936
+     },
+     "3": {
+      "invVs2Med": 0.0628,
+      "invVs2Worst": 0.00074,
+      "mgrVs2Med": -0.0455,
+      "effMed": 0.57677,
+      "netMed": 220.76917,
+      "events": 3.20567
+     },
+     "6": {
+      "invVs2Med": 0.2441,
+      "invVs2Worst": 0.18622,
+      "mgrVs2Med": -0.16107,
+      "effMed": 0.50897,
+      "netMed": 248.2896,
+      "events": 1.9078
+     },
+     "12": {
+      "invVs2Med": 0.45322,
+      "invVs2Worst": 0.29641,
+      "mgrVs2Med": -0.29318,
+      "effMed": 0.44232,
+      "netMed": 290.14759,
+      "events": 1.20567
+     }
+    }
+   }
+  }
+ }
+}
