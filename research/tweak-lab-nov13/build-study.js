@@ -5,8 +5,8 @@
 const fs = require('fs'), path = require('path');
 const LEDGER = path.join(__dirname, '..', '..', '..', '🔴LEDGER', 'reports');
 const J = (f) => JSON.parse(fs.readFileSync(path.join(__dirname, f), 'utf8'));
-const S = J('study.json'), S2 = J('study-cost2.json'), V = J('verify.json');
-const DATE = 'Nov 13, 2026', TITLE = 'Bot Improvement Study', SLUG = 'bot-improvements';
+const S = J('study.json'), S2 = J('study-cost2.json'), V = J('verify.json'), CW = J('coin-worth.json');   // CW = coin-worth.js: ETH and BNB on their whole history
+const DATE = 'Nov 14, 2026', TITLE = 'Bot Improvement Study', SLUG = 'bot-improvements';
 const BOTS = Object.keys(S.bots), YRS = ['2020', '2021', '2022', '2023', '2024', '2025', '2026'];
 const f = (v, d = 0) => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(d), pc = (v) => (v * 100).toFixed(0) + '%';
 const yearsUp = (m) => Object.values(m.yrs).filter((v) => v > 0).length;
@@ -17,10 +17,10 @@ const TEXT = {
     conf: 'Medium-low', confWhy: 'The extra profit is reliable (25 of 27 nearby settings also earn more, and it holds on unseen years). The smaller drop and shorter streak are not reliable: only 4 of 27 nearby settings beat today in all four columns.', pick: 'DOGE', pickKind: 'profit' },
   'I-CORE': { rules: 'Ichimoku cloud break with the SMA200 trend. First stop 2 ATR. Trailing stop 7 ATR.',
     changes: ['First stop at <b>1.75 ATR</b> instead of 2.', 'Once a trade is up <b>+4R</b>, move the stop to <b>+1R</b>, so a good trade can no longer turn into a loss.'],
-    conf: 'Medium', confWhy: 'All 12 nearby settings earn more with a smaller drop, and every year and every coin improves. The shorter losing streak is not reliable (only 3 of 12 nearby settings).', pick: 'ETH', pickKind: 'ratio' },
+    conf: 'Medium', confWhy: 'All 12 nearby settings earn more with a smaller drop, and every year and every coin improves. The shorter losing streak is not reliable (only 3 of 12 nearby settings).', pick: 'ETH', pickKind: 'applied' },
   'T-CORE': { rules: 'Bollinger close-through entry with the SMA200 trend. First stop 2 ATR. Trailing stop 14 ATR. No time exit.',
     changes: ['If a trade is <b>under +1R after 48 candles</b> (8 days), close it. Trades that go nowhere stop tying up the coin.', 'Bollinger length <b>30</b> instead of 20 for the entry.'],
-    conf: 'High', confWhy: '17 of 20 nearby settings beat today in all four columns, and all 20 earn more with a smaller drop and a shorter streak. It also holds on unseen years.', pick: 'BNB', pickKind: 'ratio' },
+    conf: 'High', confWhy: '17 of 20 nearby settings beat today in all four columns, and all 20 earn more with a smaller drop and a shorter streak. It also holds on unseen years.', pick: 'BNB', pickKind: 'dropped' },
 };
 
 // ---- small pieces
@@ -70,10 +70,14 @@ function botSection(bot) {
   const rem = ct.remove.map((r) => { const steadier = ratio(r) > r0 * 1.05; return `<tr><td>Without <b>${r.coin}</b></td><td class="bad">${f(r.R - base.R)}R</td><td>${f(r.R)}R</td><td>${r.dd.toFixed(0)}R ${mark('dd', base.dd, r.dd)}</td><td>${r.ls} ${mark('ls', base.ls, r.ls)}</td><td>${pc(r.loseM)} ${mark('loseM', base.loseM, r.loseM)}</td><td>${ratio(r).toFixed(1)}</td><td>${steadier ? '<span class="tag mid">Steadier without it, but less profit</span>' : '<span class="tag ok">Keep</span>'}</td></tr>`; }).join('');
   const adds = [...ct.add].sort((x, y) => ratio(y) - ratio(x));
   const addRow = (r) => { const t = ctT.add.find((q) => q.coin === r.coin), solid = r.own.yrsUp >= r.own.yrsN - 2 && r.own.yrsN >= 6;
-    const verdict = r.all4 ? '<span class="tag ok">Better in every column</span>' : ratio(r) >= r0 && solid ? '<span class="tag ok">Good add</span>' : r.R > base.R * 1.1 && ratio(r) >= r0 * 0.9 && solid ? '<span class="tag mid">More profit, deeper drop</span>' : r.R > base.R * 1.05 ? '<span class="tag bad">Profit not worth the extra drop</span>' : '<span class="tag bad">No real gain</span>';
+    const verdict = r.coin === T.pick && T.pickKind === 'dropped' ? '<span class="tag bad">Dropped: see long-history check</span>' : r.coin === T.pick && T.pickKind === 'applied' ? '<span class="tag ok">Applied Nov 14, 2026</span>' : r.all4 ? '<span class="tag ok">Better in every column</span>' : ratio(r) >= r0 && solid ? '<span class="tag ok">Good add</span>' : r.R > base.R * 1.1 && ratio(r) >= r0 * 0.9 && solid ? '<span class="tag mid">More profit, deeper drop</span>' : r.R > base.R * 1.05 ? '<span class="tag bad">Profit not worth the extra drop</span>' : '<span class="tag bad">No real gain</span>';
     return `<tr${r.coin === T.pick ? ' class="hl"' : ''}><td>With <b>${r.coin}</b></td><td>${f(r.own.R)}R · ${r.own.yrsUp}/${r.own.yrsN} yrs</td><td class="good">${f(r.R - base.R)}R</td><td>${f(r.R)}R</td><td>${r.dd.toFixed(0)}R ${mark('dd', base.dd, r.dd)}</td><td>${r.ls} ${mark('ls', base.ls, r.ls)}</td><td>${pc(r.loseM)} ${mark('loseM', base.loseM, r.loseM)}</td><td>${ratio(r).toFixed(1)}</td><td>${f(t.R - ctT.base.R)}R / ${f(t.dd - ctT.base.dd)}R</td><td>${verdict}</td></tr>`; };
   const pick = ct.add.find((r) => r.coin === T.pick);
-  const pickText = T.pickKind === 'ratio'
+  const pickText = T.pickKind === 'dropped'
+    ? `<b>${T.pick} was tested here and dropped, it was never added.</b> On the improved rules it adds ${f(pick.R - base.R)}R, but ${f(CW.BNB.with.yrs['2021'] - CW.BNB.without.yrs['2021'])}R of that is the single year 2021, and the worst drop goes from ${base.dd.toFixed(0)}R to ${pick.dd.toFixed(0)}R. Over its whole history (2017–2026) one trade made 67% of its profit. See the long-history check below.`
+    : T.pickKind === 'applied'
+    ? `<b>${T.pick} was added to ${bot} on Nov 14, 2026.</b> It adds ${f(pick.R - base.R)}R of profit and lowers losing months from ${pc(base.loseM)} to ${pc(pick.loseM)}; the worst drop goes from ${base.dd.toFixed(0)}R to ${pick.dd.toFixed(0)}R and the longest losing streak from ${base.ls} to ${pick.ls}. On its whole history (2016–2026) it won 10 of 11 years (see the long-history check below).`
+    : T.pickKind === 'ratio'
     ? `<b>Best coin to add: ${T.pick}.</b> It adds ${f(pick.R - base.R)}R of profit for only ${f(pick.dd - base.dd)}R more drop, so profit per unit of drop goes up (${r0.toFixed(1)} → ${ratio(pick).toFixed(1)}). On its own ${T.pick} made ${f(pick.own.R)}R and won ${pick.own.yrsUp} of ${pick.own.yrsN} years on these rules.`
     : `<b>No coin improves this bot's balance of profit and drop.</b> Today's six coins already do that job. If you want more profit and accept a deeper drop, <b>${T.pick}</b> is the strongest: ${f(pick.R - base.R)}R more profit, but the worst drop goes from ${base.dd.toFixed(0)}R to ${pick.dd.toFixed(0)}R. On its own it made ${f(pick.own.R)}R and won ${pick.own.yrsUp} of ${pick.own.yrsN} years.`;
   const weakest = [...ct.remove].sort((x, y) => (base.R - x.R) - (base.R - y.R))[0];
@@ -139,10 +143,10 @@ const sumRows = BOTS.map((bot) => { const b = S.bots[bot], a = b.today, m = b.im
   const rule = `<tr><td><b>${bot}</b><br>${T.changes.map((c) => c.replace(/<\/?b>/g, '')).join(' ')}</td>
     <td>${f(a.R)}R → <b>${f(m.R)}R</b><br><span class="good">${f((m.R / a.R - 1) * 100)}%</span></td><td>${a.dd.toFixed(0)}R → <b>${m.dd.toFixed(0)}R</b><br><span class="good">${f((m.dd / a.dd - 1) * 100)}%</span></td>
     <td>${a.ls} → <b>${m.ls}</b></td><td>${pc(a.loseM)} → <b>${pc(m.loseM)}</b></td><td>${f((wf.walk.R / wf.today.R - 1) * 100)}% profit<br><span class="muted">${f(wf.today.R)}R → ${f(wf.walk.R)}R</span></td><td><span class="tag ${T.conf === 'High' ? 'ok' : 'mid'}">${T.conf}</span></td></tr>`;
-  const coin = `<tr class="sub"><td>… and add <b>${T.pick}</b> to ${bot}${T.pickKind === 'profit' ? ' (only if a deeper drop is acceptable)' : ''}</td>
-    <td>→ <b>${f(pick.R)}R</b><br><span class="good">${f(pick.R - base.R)}R more</span></td><td>→ <b>${pick.dd.toFixed(0)}R</b><br><span class="${pick.dd < a.dd ? 'good' : 'bad'}">${pick.dd < a.dd ? 'still below today' : 'above today'}</span></td>
+  const coin = `<tr class="sub"><td>… and <b>${T.pick}</b> added to ${bot} (applied Nov 14, 2026)</td>
+    <td>→ <b>${f(pick.R)}R</b><br><span class="good">${f(pick.R - base.R)}R more</span></td><td>→ <b>${pick.dd.toFixed(0)}R</b><br><span class="${pick.dd <= m.dd ? 'good' : 'bad'}">${pick.dd <= m.dd ? 'no deeper' : f(pick.dd - m.dd) + 'R deeper than without it'}</span></td>
     <td>→ <b>${pick.ls}</b></td><td>→ <b>${pc(pick.loseM)}</b></td><td class="muted">not tested this way</td><td><span class="tag mid">${T.pickKind === 'ratio' ? 'Medium' : 'Low'}</span></td></tr>`;
-  return rule + coin; }).join('');
+  return rule + (T.pickKind === 'applied' ? coin : ''); }).join('');
 const rpAll = Object.values(V.replay), tot = (k) => rpAll.reduce((s, r) => s + r[k], 0);
 
 const CSS = `
@@ -159,7 +163,8 @@ table.main td{font-size:16px;padding:10px}table.main td:first-child{font-weight:
 .imp{color:var(--imp);font-weight:700}.good{color:var(--good);font-weight:600}.bad{color:var(--bad);font-weight:600}.same{color:var(--mut)}
 tr.hl td{background:#f0fdfa}tr.tot td{font-weight:700;border-top:2px solid var(--ink)}tr.sub td{background:#fafafa;color:#374151}
 .box{background:#f0fdfa;border:1px solid #99f6e4;border-radius:8px;padding:12px 16px;margin:12px 0}.box ol{margin:6px 0 0;padding-left:20px}
-.note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px 16px;margin:14px 0}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}.pair h4{margin:0 0 6px}
+.note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px 16px;margin:14px 0}.note.applied{background:#f0fdfa;border-color:#99f6e4}
 .tag{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:20px;white-space:nowrap}.tag.ok{background:#ccfbf1;color:#0f766e}.tag.mid{background:#fef3c7;color:#92400e}.tag.bad{background:#fee2e2;color:#b91c1c}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0}
 .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;color:inherit;text-decoration:none;display:block}.card:hover{border-color:var(--imp)}
@@ -169,8 +174,41 @@ tr.hl td{background:#f0fdfa}tr.tot td{font-weight:700;border-top:2px solid var(-
 details{margin:14px 0}summary{cursor:pointer;font-weight:600;color:var(--imp);padding:4px 0}
 ul.plain{padding-left:20px;margin:6px 0}ul.plain li{margin:4px 0}
 nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}nav a{font-size:13px;padding:5px 12px;border:1px solid var(--line);border-radius:20px;background:#fff;color:var(--ink);text-decoration:none}nav a:hover{border-color:var(--imp)}
-@media(max-width:760px){.cards{grid-template-columns:1fr}section{padding:16px}h1{font-size:25px}}
+@media(max-width:760px){.cards,.pair{grid-template-columns:1fr}section{padding:16px}h1{font-size:25px}}
 @media print{body{background:#fff}section{break-inside:auto;border:none;padding:0}details{display:block}}
+`;
+
+const cwRows = (c, bot) => Object.keys(CW[c].alone.yrs).sort().map((y) => { const a = CW[c].alone.yrs[y], w = CW[c].without.yrs[y], x = CW[c].with.yrs[y]; return `<tr><td>${y}</td><td class="${a >= 0 ? 'good' : 'bad'}">${f(a)}R</td><td>${w == null ? '—' : f(w) + 'R'}</td><td>${x == null ? '—' : f(x) + 'R'}</td></tr>`; }).join('');
+const cwTable = (c, bot) => `<div class="scroll"><table><tr><th>Year</th><th>${c} alone</th><th>${bot} without</th><th>${bot} with ${c}</th></tr>${cwRows(c, bot)}<tr class="tot"><td>Total</td><td>${f(CW[c].alone.R)}R</td><td>${f(CW[c].without.R)}R</td><td>${f(CW[c].with.R)}R</td></tr></table></div>`;
+const longHistory = `<section id="long-history">
+  <h2>Long-history check on the two added coins</h2>
+  <p class="muted">The coin tests above start in 2020. These two coins have longer histories (ETH from 2016, BNB from late 2017), so each was also run alone on its whole history with the live bot code and the improved rules, and then inside its bot over 2020 → Nov 2026. These numbers use the live bot code, so totals differ by a few percent from the research-engine coin tables above (for example I-CORE with ETH: +942R here, +952R above).</p>
+  <div class="pair">
+    <div>
+      <h3>ETH on I-CORE <span class="tag ok">Kept</span></h3>
+      <ul class="plain">
+        <li>Whole history 2016–2026: 307 trades, <b>+193R</b>, 10 of 11 years up (only 2023, −11R).</li>
+        <li>Best year is 22% of its profit; without its 5 best trades it still makes +92R.</li>
+        <li>First half +138R, second half +55R, last 12 months +21R.</li>
+        <li>Moves mostly on its own: monthly correlation with the rest of I-CORE 0.20.</li>
+        <li>Inside I-CORE: +812R → <b>+942R</b>, worst drop 29R → 32R, streak 14 → 17, losing months 41% → <b>36%</b>, added profit in 6 of 7 years.</li>
+      </ul>
+      ${cwTable('ETH', 'I-CORE')}
+    </div>
+    <div>
+      <h3>BNB on T-CORE <span class="tag bad">Dropped</span></h3>
+      <ul class="plain">
+        <li>Whole history 2017–2026: 257 trades, <b>+350R</b>, 7 of 9 years up.</li>
+        <li>One trade (Mar 2021, +235R) is <b>67% of all its profit</b>; best year (2021) is 68%. Without its 5 best trades it loses 25R.</li>
+        <li>First half +310R, second half +40R, last 12 months +1R.</li>
+        <li>Inside T-CORE: +1159R → +1430R, but +239R of the +271R is 2021. Worst drop 34R → <b>40R</b>, streak 14 → 17, losing months 43% → 46%.</li>
+        <li>It deepened the worst drop in every year 2020–2026 and lost 13R in T-CORE's 36 losing months.</li>
+      </ul>
+      ${cwTable('BNB', 'T-CORE')}
+    </div>
+  </div>
+  <div class="note"><b>Why BNB was dropped.</b> The 2020–2026 coin test ranked BNB first for T-CORE, but that ranking rested on one trade. A coin whose profit comes from a single month adds risk to every other month. ETH earns steadily across many years, so it stays. Neither coin is better in all four columns: both add profit and also deepen the drop a little. ETH was kept because its profit is steady across many years and it lowers losing months; BNB was dropped because its profit is one trade. BNB never went live.</div>
+</section>
 `;
 const tt = S.bots['T-CORE'], ic = S.bots['I-CORE'], bc = S.bots['BB-CORE'];
 const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -178,10 +216,11 @@ const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta n
 <meta name="robots" content="noindex, nofollow, noarchive">
 <title>${TITLE} · Lucid'io</title><style>${CSS}</style></head><body><div class="wrap">
 <header>
-  <p class="muted small" style="margin:0">Lucid'io · ${DATE} · research only, nothing changed on the live bots</p>
+  <p class="muted small" style="margin:0">Lucid'io · ${DATE} · applied to the live bots on Nov 14, 2026</p>
   <h1>${TITLE}: today's rules vs an improved version</h1>
   <p>For each of the three bots, this page compares the rules running today with the best version found that is <b>better in all four columns at once</b>: more profit, a smaller worst drop, a shorter losing streak and fewer losing months. Then it tests which coins to add or remove.</p>
-  <nav><a href="#answer">The answer</a><a href="#honest">Is the test honest?</a>${BOTS.map((b) => `<a href="#${b.toLowerCase()}">${b}</a>`).join('')}<a href="#summary">Summary: if we do this</a></nav>
+  <div class="note applied"><b>Status: APPLIED</b> to the live bots on Nov 14, 2026 (the first candle judged by the new rules closes at 04:00 UTC). BB-CORE, I-CORE and T-CORE run the improved rules. ETH was added to I-CORE. BNB was studied and dropped (see the <a href="#long-history">long-history check</a>).</div>
+  <nav><a href="#answer">The answer</a><a href="#honest">Is the test honest?</a>${BOTS.map((b) => `<a href="#${b.toLowerCase()}">${b}</a>`).join('')}<a href="#long-history">Long-history check</a><a href="#summary">Summary: what was done</a></nav>
 </header>
 
 <section id="answer">
@@ -218,16 +257,19 @@ const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta n
 
 ${BOTS.map(botSection).join('\n')}
 
+${longHistory}
+
 <section id="summary">
-  <h2>Summary: if we do this, we improve this</h2>
+  <h2>Summary: what was done, and what it improves</h2>
   <p class="muted">Full history, Jan 2020 → Nov 11, 2026. "Unseen years" is the fairer estimate: settings picked from the past only, 2023 → 2026.</p>
   <div class="scroll"><table><tr><th>If we do this</th><th>Profit</th><th>Worst drop</th><th>Losing streak</th><th>Losing months</th><th>On unseen years</th><th>Confidence</th></tr>${sumRows}</table></div>
-  <h3>What I would do, in order</h3>
+  <h3>What was done</h3>
+  <p>All of this went live on the VPS on Nov 14, 2026 at about 01:25 UTC. The first candle judged by the new rules closes at 04:00 UTC; trades opened before it keep the old rules until they close.</p>
   <ol>
-    <li><b>T-CORE rule change first.</b> It is the surest: profit ${f(tt.today.R)}R → ${f(tt.improved.R)}R, worst drop ${tt.today.dd.toFixed(0)}R → ${tt.improved.dd.toFixed(0)}R, losing streak ${tt.today.ls} → ${tt.improved.ls}, and its one losing year (2023) turns positive. T-CORE already has a paper bot on the VPS, so it can run there first.</li>
-    <li><b>I-CORE rule change second.</b> Every year and every coin improves: ${f(ic.today.R)}R → ${f(ic.improved.R)}R with the drop down from ${ic.today.dd.toFixed(0)}R to ${ic.improved.dd.toFixed(0)}R. Do not count on the shorter losing streak.</li>
-    <li><b>BB-CORE last, and only for the profit.</b> ${f(bc.today.R)}R → ${f(bc.improved.R)}R. Its smaller drop did not hold on unseen years. The time exit moves from 48 to 42 candles, which reopens a setting we locked on Nov 2; the gain from that one step is small, so bands 1.8 alone is a fair simpler choice.</li>
-    <li><b>Coins after the rules, one at a time.</b> BNB on T-CORE and ETH on I-CORE add profit faster than they add drop. No coin needs removing. Coin picks are the least certain part of this study: which coin looks best changes with the rules.</li>
+    <li><b>T-CORE rule change: done.</b> Profit ${f(tt.today.R)}R → ${f(tt.improved.R)}R, worst drop ${tt.today.dd.toFixed(0)}R → ${tt.improved.dd.toFixed(0)}R, losing streak ${tt.today.ls} → ${tt.improved.ls}, and its one losing year (2023) turns positive. It is the surest of the three.</li>
+    <li><b>I-CORE rule change and ETH: done.</b> ${f(ic.today.R)}R → ${f(ic.improved.R)}R with the drop down from ${ic.today.dd.toFixed(0)}R to ${ic.improved.dd.toFixed(0)}R. Do not count on the shorter losing streak. ETH was added on top (see the long-history check).</li>
+    <li><b>BB-CORE rule change: done, for the profit.</b> ${f(bc.today.R)}R → ${f(bc.improved.R)}R. Its smaller drop did not hold on unseen years. The time exit moved from 48 to 42 candles, which reopened a setting locked on Nov 2.</li>
+    <li><b>BNB on T-CORE: dropped.</b> It looked good over 2020–2026, but its whole history shows one trade making 67% of its profit. It never went live. No coin was removed from any bot.</li>
   </ol>
   <h3>What not to do</h3>
   <ul class="plain">
@@ -240,6 +282,6 @@ ${BOTS.map(botSection).join('\n')}
 </div></body></html>`;
 fs.writeFileSync(path.join(LEDGER, SLUG + '.html'), html);
 const idx = JSON.parse(fs.readFileSync(path.join(LEDGER, 'index.json'), 'utf8')).filter((r) => r.slug !== SLUG);
-idx.unshift({ slug: SLUG, title: TITLE + ': Today\'s Rules vs an Improved Version', summary: 'BB-CORE, I-CORE and T-CORE as they run today against the best version found that is better in all four columns (profit, worst drop, losing streak, losing months), on Binance 4-hour data from Jan 2020 to Nov 2026. Year by year, coin by coin, which coins to add or remove, a replay test that proves no future sight or repaint, a walk-forward test on unseen years, and a summary of what each change improves. Research only; nothing changed on the live bots.', updated: DATE, kind: 'Data report', file: SLUG + '.html' });
+idx.unshift({ slug: SLUG, title: TITLE + ': Today\'s Rules vs an Improved Version', summary: 'BB-CORE, I-CORE and T-CORE as they run today against the best version found that is better in all four columns (profit, worst drop, losing streak, losing months), on Binance 4-hour data from Jan 2020 to Nov 2026. Year by year, coin by coin, which coins to add or remove, a replay test that proves no future sight or repaint, a walk-forward test on unseen years, and a summary of what each change improves. Applied to the live bots on Nov 14, 2026; ETH added to I-CORE; BNB studied and dropped after a long-history check.', updated: DATE, kind: 'Data report', file: SLUG + '.html' });
 fs.writeFileSync(path.join(LEDGER, 'index.json'), JSON.stringify(idx, null, 1) + '\n');
 console.log('wrote', SLUG + '.html', (html.length / 1024).toFixed(0) + ' KB');
