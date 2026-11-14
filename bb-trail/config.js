@@ -18,10 +18,10 @@ const FILE = path.join(__dirname, 'bot-config.json');
 // its own coin list in bot-config.json (unchanged); only the live build (apply-tcore-live-patch.js) turns SUI and ARB on.
 // Nov 12, 2026: T-CORE LIVE trades SUI (15:14 UTC; losing months 54% -> 49%, Sharpe 1.07 -> 1.16) and ARB (owner's decision, live, no paper period; it raises
 // losing months to 56% and about half its profit is one month, research/zec-replacement/sui-arb-check.js).
-// Nov 14, 2026: BNB added to T-CORE LIVE with rules v3 (owner's decision): +271R more over 2020-2026, worst drop 34R -> 40R, 7/7 years up
-// (StrategyBacktester research/tweak-lab-nov13, ledger report bot-improvements). The ledger accepts BNB_USDT (migration 20261216000000). MEXC: 1 contract = 0.01 BNB.
-const ALLOWED_SYMBOLS = Object.freeze(['SOL_USDT', 'ZEC_USDT', 'NEAR_USDT', 'ADA_USDT', 'GALA_USDT', 'ETH_USDT', 'SUI_USDT', 'ARB_USDT', 'BNB_USDT']);
-const COINS = ALLOWED_SYMBOLS.map((s) => s.replace(/_USDT$/, ''));   // ['SOL', 'ZEC', 'NEAR', 'ADA', 'GALA', 'ETH', 'SUI', 'ARB', 'BNB']: the short names used in the config and state
+// Nov 14, 2026: BNB was considered and DROPPED (owner's decision): on its whole history (2017-2026) one trade (Mar 2021, +235R) is 67% of its profit,
+// without its 5 best trades it loses, and it deepened T-CORE's worst drop in every year 2020-2026 (research/tweak-lab-nov13/coin-worth.js).
+const ALLOWED_SYMBOLS = Object.freeze(['SOL_USDT', 'ZEC_USDT', 'NEAR_USDT', 'ADA_USDT', 'GALA_USDT', 'ETH_USDT', 'SUI_USDT', 'ARB_USDT']);
+const COINS = ALLOWED_SYMBOLS.map((s) => s.replace(/_USDT$/, ''));   // ['SOL', 'ZEC', 'NEAR', 'ADA', 'GALA', 'ETH', 'SUI', 'ARB']: the short names used in the config and state
 class SymbolNotAllowedError extends Error { constructor(msg) { super(msg); this.name = 'SymbolNotAllowedError'; this.code = 'SYMBOL_NOT_ALLOWED'; } }
 // throws unless `symbol` is exactly one of ALLOWED_SYMBOLS (a coin name like 'SOL' is NOT a symbol: pass `${coin}_USDT`)
 function assertAllowedSymbol(symbol, what = 'order') {
@@ -43,7 +43,7 @@ const DEFAULTS = {
 // type, limits, and what the Settings panel shows. "live: true" = takes effect for real money.
 const FIELDS = {
   mode:             { type: 'enum', values: ['paper', 'live'], label: 'Mode', help: 'paper = simulated account; live = real orders on MEXC' },
-  coins:            { type: 'coins', values: COINS, min: 1, label: 'Coins', help: 'the bot trades SOL, ZEC, NEAR, ADA, GALA and ETH (T-CORE live also SUI and ARB, added Nov 12, 2026, and BNB, added Nov 14, 2026); ZEC is back (MEXC cancelled its futures delisting, Nov 12, 2026); untick one to pause it' },
+  coins:            { type: 'coins', values: COINS, min: 1, label: 'Coins', help: 'the bot trades SOL, ZEC, NEAR, ADA, GALA and ETH (T-CORE live also SUI and ARB, added Nov 12, 2026); ZEC is back (MEXC cancelled its futures delisting, Nov 12, 2026); untick one to pause it' },
   riskPct:          { type: 'number', min: 0, max: MAX_RISK_PCT, label: 'Risk per trade (% of balance)', help: '0 = use the fixed $ amount instead. Hard cap 5% (raised from 1% on Oct 24, 2026); the audit suggests 0.25–0.5% for a first live phase' },
   riskUsd:          { type: 'number', min: 0.1, max: 100, label: 'Fixed risk per trade ($)', help: 'used when % risk is 0' },
   maxRiskUsd:       { type: 'number', min: 0, max: 500, label: 'Max risk per trade ($)', help: '0 = no cap (default since Oct 29, 2026). Otherwise a hard cap on any trade, also when % risk grows the amount' },
