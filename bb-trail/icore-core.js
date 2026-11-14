@@ -4,12 +4,14 @@
 //
 // RULES (4h chart, everything decided on a candle's CLOSE, filled at the NEXT candle's open)
 //   Entry  = bb-core's entry, unchanged:
-//            LONG  : close > upper Bollinger band (SMA 20 + 2 population SD of the closes)  AND  close > SMA(200)
+//            LONG  : close > upper Bollinger band (SMA 30 + 2 population SD of the closes)  AND  close > SMA(200)      (length 30 since Nov 13, 2026; 20 before)
 //            SHORT : close < lower band                                                   AND  close < SMA(200)
 //            and the close is at least 0.3 × ATR(14) away from the middle band (bb-core's "stop too tight" filter).
 //   Stop   : entry ∓ kInit (2) × ATR(14) at the signal candle. That distance is 1R.
 //   Trail  : after every candle that does not stop the trade: stop = best price since entry ∓ kTrail (14) × ATR(14). It only moves in the trade's favour,
 //            and a new stop is live from the NEXT candle. No profit target, no Bollinger-middle stop, no 48-candle exit: a winner runs until the trail catches it.
+//   Stale  : a trade that is under staleR (+1) R at a candle close, staleBars (48) candles or more after its entry, is closed: it is going nowhere and frees the coin.
+//            (rules v3, Nov 13, 2026. Study: StrategyBacktester/research/tweak-lab-nov13; ledger report bot-improvements. LEGACY below = the rules before.)
 //   Time   : safety exit after maxBars (1200) candles (the longest trade 2020-2026 was 835 candles).
 //
 // Research: StrategyBacktester/research/strat-hunt-nov6 (strategy "bb-trail", exit "P14", 4h): 613 trades 2020 → Nov 2026, +788R, win 21%, +1.29R a trade,
@@ -18,10 +20,13 @@
 'use strict';
 
 const DEFAULTS = {
-  bbLen: 20, bbMult: 2, minStopAtr: 0.3, trendLen: 200, atrLen: 14, kInit: 2, kTrail: 14, maxBars: 1200, warmup: 205, interval: 14400, gapSkip: true,
+  bbLen: 30, bbMult: 2, minStopAtr: 0.3, trendLen: 200, atrLen: 14, kInit: 2, kTrail: 14, lockAtR: 0, lockToR: 1, staleBars: 48, staleR: 1, maxBars: 1200, warmup: 205, interval: 14400, gapSkip: true,
   // the same flat cost model as I-Core's paper executor (the realistic paper executor in realpaper.js replaces it with real fees, book fills and funding)
   cost: { fee: 0.0005, slip: 0.0002, fund: 0.00005 },
 };
+// the rules before v3 (Nov 13, 2026). A trade whose signal candle opened before RULES_V3_FROM keeps them until it closes (the live bot and the compare tool both use this).
+const LEGACY = { bbLen: 20, lockAtR: 0, staleBars: 0 };
+const RULES_V3_FROM = Date.UTC(2026, 10, 14, 0) / 1000;   // the first signal candle judged by the v3 rules (opens Nov 14, 2026 00:00 UTC, closes 04:00: the first close after the deploy)
 const FREE = { fee: 0, slip: 0, fund: 0 };
 const scaleCost = (c, k) => ({ fee: c.fee * k, slip: c.slip * k, fund: c.fund * k });
 
@@ -93,12 +98,14 @@ function backtest(B, userCfg = {}) {
     if (pos) {
       const long = pos.dir === 1;
       let px = null, why = null;
-      if (long ? b.low <= pos.stop : b.high >= pos.stop) { px = long ? Math.min(b.open, pos.stop) : Math.max(b.open, pos.stop); why = 'stop'; }
+      if (pos.out) { px = B[i - 1].close; why = 'time'; }   // the stale exit decided at the previous close: a market close right after it (priced at that close, like the bot's paper time exit), counted in this candle
+      else if (long ? b.low <= pos.stop : b.high >= pos.stop) { px = long ? Math.min(b.open, pos.stop) : Math.max(b.open, pos.stop); why = 'stop'; }
       else if (cfg.maxBars > 0 && i - pos.i0 >= cfg.maxBars) { px = b.close; why = 'time'; }
       if (px !== null) {
-        pos.adv = long ? Math.min(pos.adv, b.low) : Math.max(pos.adv, b.high);
-        const gross = pos.dir * (px - pos.entry) / pos.entry, c = 2 * (cost.fee + cost.slip) + cost.fund * (i - pos.i0 + 1), oneR = pos.risk * pos.entry;
-        trades.push({ dir: pos.dir, i0: pos.i0, i1: i, t: B[pos.i0].time, tExit: b.time + cfg.interval, entry: pos.entry, exit: px, stop0: pos.stop0, stop: pos.stop, R: (gross - c) / pos.risk, why, bars: i - pos.i0 + 1,
+        const ix = pos.out ? i - 1 : i;   // a stale exit belongs to the candle it was decided on (costs, candle count, exit time); it only blocks a re-entry on that candle
+        if (!pos.out) pos.adv = long ? Math.min(pos.adv, b.low) : Math.max(pos.adv, b.high);
+        const gross = pos.dir * (px - pos.entry) / pos.entry, c = 2 * (cost.fee + cost.slip) + cost.fund * (ix - pos.i0 + 1), oneR = pos.risk * pos.entry;
+        trades.push({ dir: pos.dir, i0: pos.i0, i1: ix, t: B[pos.i0].time, tExit: B[ix].time + cfg.interval, entry: pos.entry, exit: px, stop0: pos.stop0, stop: pos.stop, R: (gross - c) / pos.risk, why, bars: ix - pos.i0 + 1,
           mfeR: pos.dir * (pos.ext - pos.entry) / oneR, maeR: pos.dir * (pos.adv - pos.entry) / oneR });
         pos = null;
       } else {
@@ -106,6 +113,12 @@ function backtest(B, userCfg = {}) {
         pos.adv = long ? Math.min(pos.adv, b.low) : Math.max(pos.adv, b.high);
         const ns = pos.ext - pos.dir * cfg.kTrail * atr[i];
         if (long ? ns > pos.stop : ns < pos.stop) pos.stop = ns;
+        if (cfg.lockAtR > 0) {   // profit lock: once the best price is lockAtR R ahead, the stop is never worse than entry + lockToR R (live from the next candle, like the trail)
+          const oneR = Math.abs(pos.entry - pos.stop0);
+          if (pos.dir * (pos.ext - pos.entry) >= cfg.lockAtR * oneR) { const ls = pos.entry + pos.dir * cfg.lockToR * oneR; if (long ? ls > pos.stop : ls < pos.stop) pos.stop = ls; }
+        }
+        // stale exit: under staleR R at this close, staleBars candles or more after the entry -> going nowhere, close at the next open
+        if (cfg.staleBars > 0 && i - pos.i0 >= cfg.staleBars && pos.dir * (b.close - pos.entry) < cfg.staleR * Math.abs(pos.entry - pos.stop0)) pos.out = true;
       }
     }
     if (!pos && i + 1 < n && i >= cfg.warmup && atr[i] > 0 && !(cfg.gapSkip && gapInWindow(B, i, cfg.trendLen, cfg.interval))) {
@@ -116,6 +129,18 @@ function backtest(B, userCfg = {}) {
   const open = pos ? { ...pos, bars: n - pos.i0 } : null, last = n - 1;
   const setup = last >= cfg.warmup && !pos && atr[last] > 0 && !(cfg.gapSkip && gapInWindow(B, last, cfg.trendLen, cfg.interval)) ? (() => { const s = sig(last); return s ? { dir: s, atr: atr[last], sigClose: B[last].close } : null; })() : null;
   return { trades, open, setup, cfg };
+}
+
+// the backtest as the LIVE bot runs it across the rules change: a signal candle before API.RULES_V3_FROM is judged by LEGACY (and that trade keeps the old rules
+// to its close), a signal from it on by the current rules. Two runs on the same candles, merged by signal time. Used by the compare and review tools.
+function backtestLiveRules(B, userCfg = {}) {
+  const cut = API.RULES_V3_FROM, iv = (userCfg && userCfg.interval) || DEFAULTS.interval, sigOf = (t) => t.t - iv;
+  const old = backtest(B, { ...userCfg, ...LEGACY }), now = backtest(B, userCfg);
+  const trades = old.trades.filter((t) => sigOf(t) < cut).concat(now.trades.filter((t) => sigOf(t) >= cut)).sort((a, b) => a.tExit - b.tExit || a.t - b.t);
+  const openOf = (r, B0) => (r.open ? { ...r.open, t: B0[r.open.i0].time } : null);
+  const oo = openOf(old, B), no = openOf(now, B);
+  const open = no && sigOf(no) >= cut ? now.open : oo && sigOf(oo) < cut ? old.open : null;
+  return { trades, open, setup: now.setup, cfg: now.cfg };
 }
 
 // ---- statistics (same as I-Core's) ----
@@ -129,7 +154,7 @@ function stats(trades, risk = 5) {
   return { n, net: eq, avgR: n ? eq / risk / n : 0, winRate: n ? wins.length / n : 0, pf: gl ? gp / gl : Infinity, maxDD: dd, maxLossStreak: maxStreak, years };
 }
 
-const STRATEGY = 'bb-trail P14 (bb-core entry, 2 ATR stop, 14 ATR trail)';
-const API = { backtest, signalAt, indicators, atrSeries, bandsAt, gapInWindow, stats, DEFAULTS, FREE, scaleCost, STRATEGY };
+const STRATEGY = 'bb-trail P14 v3 (bb-core entry with Bollinger length 30, 2 ATR stop, 14 ATR trail, out if under +1R after 48 candles)';
+const API = { backtest, backtestLiveRules, signalAt, indicators, atrSeries, bandsAt, gapInWindow, stats, DEFAULTS, LEGACY, RULES_V3_FROM, FREE, scaleCost, STRATEGY };
 if (typeof module !== 'undefined' && module.exports) module.exports = API;
 else globalThis.ICore = API;

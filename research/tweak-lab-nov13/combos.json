@@ -1,0 +1,25 @@
+{
+ "BB-CORE": [
+  ["bands 1.5 sigma", {"bb": {"sigma": 1.5}}], ["bands 1.6 sigma", {"bb": {"sigma": 1.6}}], ["bands 1.7 sigma", {"bb": {"sigma": 1.7}}], ["bands 1.9 sigma", {"bb": {"sigma": 1.9}}],
+  ["1.8 sigma + target 12R", {"bb": {"sigma": 1.8}, "tpR": 12}], ["1.8 sigma + wait 6 after a loss", {"bb": {"sigma": 1.8}, "cooldown": 6}], ["1.8 sigma + volume > 1.5x", {"bb": {"sigma": 1.8}, "gate": "vol15"}],
+  ["1.9 sigma + target 12R", {"bb": {"sigma": 1.9}, "tpR": 12}], ["target 10R", {"tpR": 10}], ["target 15R", {"tpR": 15}]
+ ],
+ "I-CORE": [
+  ["first stop 1.75 ATR", {"kInit": 1.75}], ["first stop 1.25 ATR", {"kInit": 1.25}],
+  ["after +2.5R lock +0.5R", {"beR": 2.5, "beLock": 0.5}], ["after +4R lock +1R", {"beR": 4, "beLock": 1}], ["after +4R lock +2R", {"beR": 4, "beLock": 2}], ["after +5R lock +2R", {"beR": 5, "beLock": 2}],
+  ["trail 8 + after +3R lock +1R", {"kTrail": 8, "beR": 3, "beLock": 1}], ["trail 9 + after +3R lock +1R", {"kTrail": 9, "beR": 3, "beLock": 1}],
+  ["first stop 1.5 + after +3R lock +1R", {"kInit": 1.5, "beR": 3, "beLock": 1}], ["first stop 1.75 + trail 8 + lock +1R at +3R", {"kInit": 1.75, "kTrail": 8, "beR": 3, "beLock": 1}],
+  ["ADX > 20 + trail 8", {"gate": "adx20", "kTrail": 8}]
+ ],
+ "T-CORE": [
+  ["out if under +1R after 36 candles", {"staleBars": 36, "staleR": 1}], ["out if under +1R after 60 candles", {"staleBars": 60, "staleR": 1}], ["out if under +1R after 72 candles", {"staleBars": 72, "staleR": 1}], ["out if under +1R after 96 candles", {"staleBars": 96, "staleR": 1}],
+  ["out if under +0.5R after 48 candles", {"staleBars": 48, "staleR": 0.5}], ["out if under +1.5R after 48 candles", {"staleBars": 48, "staleR": 1.5}], ["out if under +2R after 48 candles", {"staleBars": 48, "staleR": 2}],
+  ["Bollinger length 25", {"bb": {"len": 25}}], ["Bollinger length 35", {"bb": {"len": 35}}], ["Bollinger length 40", {"bb": {"len": 40}}],
+  ["first stop 1.75 ATR", {"kInit": 1.75}],
+  ["length 30 + out if under +1R after 48", {"bb": {"len": 30}, "staleBars": 48, "staleR": 1}], ["length 30 + ADX > 20", {"bb": {"len": 30}, "gate": "adx20"}],
+  ["out if under +1R after 48 + ADX > 20", {"staleBars": 48, "staleR": 1, "gate": "adx20"}], ["out if under +1R after 48 + clear of SMA200", {"staleBars": 48, "staleR": 1, "gate": "near"}],
+  ["out if under +1R after 48 + trail 17", {"staleBars": 48, "staleR": 1, "kTrail": 17}], ["out if under +1R after 48 + trail 20", {"staleBars": 48, "staleR": 1, "kTrail": 20}],
+  ["out if under +1R after 48 + first stop 1.5", {"staleBars": 48, "staleR": 1, "kInit": 1.5}], ["out if under +1R after 48 + first stop 2.5", {"staleBars": 48, "staleR": 1, "kInit": 2.5}],
+  ["out if under +1R after 48 + first stop 3", {"staleBars": 48, "staleR": 1, "kInit": 3}]
+ ]
+}

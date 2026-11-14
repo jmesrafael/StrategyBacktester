@@ -1,0 +1,30 @@
+================ A. REPLAY TEST: bot rerun with only the candles up to a random cut ================
+BB-CORE  today     84 cuts | signals compared 1,411,598 -> 0 different | trades compared 11,265 -> 0 different  PASS
+BB-CORE  improved  84 cuts | signals compared 1,070,636 -> 0 different | trades compared 9,109 -> 0 different  PASS
+I-CORE   today     72 cuts | signals compared 1,288,146 -> 0 different | trades compared 4,889 -> 0 different  PASS
+I-CORE   improved  72 cuts | signals compared 1,156,864 -> 0 different | trades compared 4,616 -> 0 different  PASS
+T-CORE   today     108 cuts | signals compared 1,805,644 -> 0 different | trades compared 5,286 -> 0 different  PASS
+T-CORE   improved  108 cuts | signals compared 1,722,928 -> 0 different | trades compared 6,556 -> 0 different  PASS
+
+================ B. WALK-FORWARD: settings chosen on past years only, then traded on the next unseen year ================
+
+--- BB-CORE on 2023 -> Nov 2026 (81 settings in the family)
+  today's rules                          +340R drop  31.2 streak 17 loseM 38% win 36% | 23:+81 24:+66 25:+88 26:+105
+  walk-forward (re-picked every year)    +436R drop  33.1 streak 15 loseM 34% win 35% | 23:+129 24:+82 25:+88 26:+137
+  picked once on 2020-22 only            +435R drop  41.9 streak 20 loseM 38% win 34% | 23:+129 24:+84 25:+105 26:+116   {"bb":{"sigma":1.75},"maxBars":48}
+  the improved rules of the report       +408R drop  28.5 streak 14 loseM 38% win 36% | 23:+132 24:+94 25:+68 26:+114
+  picks: 2023 {"bb":{"sigma":1.75},"maxBars":48} | 2024 {"bb":{"sigma":1.8},"maxBars":48,"cooldown":3} | 2025 {"bb":{"sigma":1.8},"maxBars":45} | 2026 {"bb":{"sigma":1.8},"maxBars":45}
+
+--- I-CORE on 2023 -> Nov 2026 (21 settings in the family)
+  today's rules                          +436R drop  30.2 streak 16 loseM 47% win 32% | 23:+105 24:+93 25:+143 26:+94
+  walk-forward (re-picked every year)    +515R drop  27.7 streak 21 loseM 40% win 31% | 23:+130 24:+102 25:+171 26:+112
+  picked once on 2020-22 only            +521R drop  27.7 streak 21 loseM 40% win 32% | 23:+130 24:+101 25:+176 26:+114   {"kInit":1.75,"beR":3,"beLock":1}
+  the improved rules of the report       +526R drop  25.4 streak 14 loseM 38% win 32% | 23:+135 24:+104 25:+175 26:+112
+  picks: 2023 {"kInit":1.75,"beR":3,"beLock":1} | 2024 {"kInit":1.75,"beR":5,"beLock":1} | 2025 {"kInit":1.75,"beR":4,"beLock":0.5} | 2026 {"kInit":1.75,"beR":4,"beLock":1}
+
+--- T-CORE on 2023 -> Nov 2026 (31 settings in the family)
+  today's rules                          +704R drop  50.1 streak 27 loseM 51% win 21% | 23:-4 24:+314 25:+252 26:+141
+  walk-forward (re-picked every year)    +798R drop  45.9 streak 21 loseM 47% win 36% | 23:+4 24:+393 25:+263 26:+138
+  picked once on 2020-22 only            +767R drop  45.9 streak 21 loseM 49% win 36% | 23:+4 24:+392 25:+234 26:+136   {"bb":{"len":20},"staleBars":54,"staleR":1}
+  the improved rules of the report       +812R drop  31.6 streak 14 loseM 38% win 38% | 23:+22 24:+386 25:+262 26:+142
+  picks: 2023 {"bb":{"len":20},"staleBars":54,"staleR":1} | 2024 {"bb":{"len":28},"staleBars":54,"staleR":1} | 2025 {"bb":{"len":28},"staleBars":54,"staleR":1} | 2026 {"bb":{"len":28},"staleBars":54,"staleR":1}

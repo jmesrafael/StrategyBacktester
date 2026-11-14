@@ -4,6 +4,7 @@
 // and trailing stop included. Then the journal is broken on purpose (a missing trade, a skip, a wrong exit, an R or stop that drifted) and each must be caught.
 //   node test/compare-test.js        No network, no money, writes only to the OS temp folder.
 'use strict';
+require('../icore-core.js').RULES_V3_FROM = 0;   // rules v3 (Nov 13, 2026) for every candle here: this test exercises the path the bot runs from now on
 const fs = require('fs'), path = require('path');
 const H = require('./helpers.js');
 const STATE = H.tmp('compare'), JDIR = path.join(STATE, 'journal');
@@ -45,7 +46,7 @@ const IV = 14400, clone = (x) => JSON.parse(JSON.stringify(x));
   // ---- broken on purpose ----
   const entries = events.filter((e) => e.type === 'entry'), exitOf = (id) => events.find((e) => e.type === 'exit' && e.trade_id === id);
   const closed = entries.filter((e) => exitOf(e.trade_id));
-  const small = closed.find((e) => Math.abs(exitOf(e.trade_id).r_result) < 2), big = closed.reduce((a, e) => (Math.abs(exitOf(e.trade_id).r_result) > Math.abs(exitOf(a.trade_id).r_result) ? e : a));
+  const small = closed.find((e) => Math.abs(exitOf(e.trade_id).r_result) < 2 && exitOf(e.trade_id).exit_reason === 'stop'), big = closed.reduce((a, e) => (Math.abs(exitOf(e.trade_id).r_result) > Math.abs(exitOf(a.trade_id).r_result) ? e : a));
 
   // 1) a trade missing from the journal: backtest-only, unexplained; with a skip event it is explained by the skip
   const gone = closed[1].trade_id, noTrade = events.filter((e) => e.trade_id !== gone);

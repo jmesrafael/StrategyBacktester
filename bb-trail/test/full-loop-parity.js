@@ -15,6 +15,7 @@ const coins = (process.argv[2] || 'SOL,ZEC,NEAR,ADA,GALA').split(',');
     process.env.ICORE_JOURNAL_DIR = path.join(STATE, coin);
     for (const k of Object.keys(require.cache)) if (/icore|journal|compare|dashboard-push|telegram/.test(k) && !/helpers/.test(k)) delete require.cache[k];
     const bot = require('../icore.js'), journal = require('../journal.js'), cmp = require('../compare-live-vs-backtest.js');
+    require('../icore-core.js').RULES_V3_FROM = 0;   // rules v3 (Nov 13, 2026) for every candle: the path the bot runs from now on (set after the cache clear above)
     const all = H.load(coin), W = cmp.WARM + 1, END = all.length - 1;
     const st = { lastTime: null, pos: null, realizedR: 0, n: 0, trades: [] }, acct = { balance: 100, totalR: 0, peakR: -1e9 }, hooks = bot.makeHooks();
     hooks.session({ coins: [coin], note: 'full-history loop' });

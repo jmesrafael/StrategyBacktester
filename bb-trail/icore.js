@@ -133,6 +133,11 @@ async function processCoin(coin, B, st, exec, opt = {}) {
   const win = (i) => B.slice(Math.max(0, i - 399), i + 1);
   const indAt = (i) => (H ? core.indicators(win(i), S, atr[i]) : null);
   const atr = core.atrSeries(B);
+  // rules v3 (Nov 13, 2026): the profit lock and the stale exit only act on a trade whose signal candle opened at or after RULES_V3_FROM. A trade opened under
+  // the old rules keeps them until it closes. Replay (the parity test) judges everything by the current rules.
+  const isV3 = (p) => !!opt.replay || (p.sigTime ?? (p.t0 - IV)) >= core.RULES_V3_FROM;
+  const oneROf = (p) => Math.abs(p.entry - (p.stop0 ?? p.stop));
+  const stale = (p, c) => S.staleBars > 0 && isV3(p) && (c.time - p.t0) / IV >= S.staleBars && p.dir * (c.close - p.entry) < S.staleR * oneROf(p);
   if (st.lastTime == null) st.lastTime = n >= 3 ? B[n - 3].time : 0; // fresh start: evaluate only the newest closed candle
   for (let i = 1; i < n - 1; i++) {
     const c = B[i], next = B[i + 1];
@@ -143,7 +148,7 @@ async function processCoin(coin, B, st, exec, opt = {}) {
       const x = await exec.checkExit(st.pos, c);
       if (x) finish(x, c.time + IV, c.time);                        // stopped out: flat again, a new signal on this same candle is allowed
       else {
-        if (S.maxBars > 0 && (c.time - st.pos.t0) / IV >= S.maxBars) {   // safety time exit (never reached in the research: longest trade 402 candles)
+        if ((S.maxBars > 0 && (c.time - st.pos.t0) / IV >= S.maxBars) || stale(st.pos, c)) {   // safety time exit (never reached in the research), or the stale exit of rules v3 (under staleR R after staleBars candles): the same market close
           const t = await exec.timeExit(st.pos, c);
           if (t) { finish(t, opt.replay ? next.time : Math.round(now), next.time); st.lastTime = c.time; continue; }
           ev.push(`ERROR ${coin}: time exit failed — position still open on MEXC (its stop still protects it); retrying next run`);
@@ -189,8 +194,12 @@ async function processCoin(coin, B, st, exec, opt = {}) {
   // raise the stop to (best price so far) ∓ kTrail × ATR; it never moves back. The new stop is live from the NEXT candle (decided at this close).
   async function trail(p, c, a) {
     p.ext = p.dir === 1 ? Math.max(p.ext ?? p.entry, c.high) : Math.min(p.ext ?? p.entry, c.low);
-    const ns = p.ext - p.dir * S.kTrail * a;
-    if (!(a > 0) || !(p.dir === 1 ? ns > p.stop : ns < p.stop)) return;
+    let ns = a > 0 ? p.ext - p.dir * S.kTrail * a : NaN;
+    if (S.lockAtR > 0 && isV3(p) && p.dir * (p.ext - p.entry) >= S.lockAtR * oneROf(p)) {   // profit lock: lockAtR R ahead -> the stop is never worse than entry + lockToR R
+      const ls = p.entry + p.dir * S.lockToR * oneROf(p);
+      if (!Number.isFinite(ns) || (p.dir === 1 ? ls > ns : ls < ns)) ns = ls;
+    }
+    if (!Number.isFinite(ns) || !(p.dir === 1 ? ns > p.stop : ns < p.stop)) return;
     const old = p.stop;
     let got = null;
     try { got = await exec.moveStop(p, ns); } catch (e) { got = null; ev.push(`ERROR ${coin}: stop move failed (${e.message}) — the old stop ${old.toPrecision(6)} still protects the trade; retrying at the next close`); return; }

@@ -12,7 +12,7 @@ let total = 0, bad = 0, maxDiff = 0;
 for (const coin of COINS) {
   const d = load(coin, '4h'), c = makeCtx(d.B, '4h'), st = strat.build(c);
   const ref = run(d.B, c.atr14, st, exitOf('P14', c), null, d.iv, { fee: 0, slip: 0 }).trades;
-  const mine = core.backtest(d.B, { cost: core.FREE, maxBars: 0 }).trades;
+  const mine = core.backtest(d.B, { ...core.LEGACY, cost: core.FREE, maxBars: 0 }).trades;   // the research P14 = the rules before v3 (Nov 13, 2026)
   const n = Math.max(ref.length, mine.length); let coinBad = 0;
   for (let k = 0; k < n; k++) {
     const a = ref[k], b = mine[k];

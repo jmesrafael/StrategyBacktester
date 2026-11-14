@@ -15,7 +15,7 @@ const ok = (c, w) => { if (c) pass++; else failN++; console.log(`${c ? 'PASS' : 
 (async () => {
   ok(bot.liveAllowed() === false, 'live is locked off in the lab');
   ok(bot.CFG.mode === 'paper' && bot.CFG.realisticPaper === true, 'bot-config.json: paper mode with realistic costs');
-  ok(core.DEFAULTS.kTrail === 14 && core.DEFAULTS.kInit === 2 && core.DEFAULTS.bbLen === 20 && core.DEFAULTS.trendLen === 200, 'strategy settings: 2 ATR stop, 14 ATR trail, Bollinger 20, SMA 200');
+  ok(core.DEFAULTS.kTrail === 14 && core.DEFAULTS.kInit === 2 && core.DEFAULTS.bbLen === 30 && core.DEFAULTS.trendLen === 200 && core.DEFAULTS.staleBars === 48 && core.DEFAULTS.staleR === 1, 'strategy settings (rules v3, Nov 13, 2026): 2 ATR stop, 14 ATR trail, Bollinger 30, SMA 200, out if under +1R after 48 candles');
 
   const all = H.load('SOL'), ref = core.backtest(all, { cost: core.FREE }).trades;
   // a long winning trend trade well inside the data (room for the 500-candle window)

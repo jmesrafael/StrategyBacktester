@@ -91,7 +91,7 @@ function buildReport(o) {
     // the backtest's candles end with the last one the window covers + 1 (that candle's open is the fill of a signal on toSig)
     const end = slice.findIndex((c) => c.time > toSig + IV), used = end < 0 ? slice : slice.slice(0, end);
     btLast[s] = used[used.length - 1].time;   // the last candle the backtest managed an open trade on (the bot's state.lastTime must be the same one)
-    const res = core.backtest(used, { warmup: Math.max(w, S.warmup) });
+    const res = core.backtestLiveRules(used, { warmup: Math.max(w, S.warmup) });   // old rules for signals before Nov 13, 2026, rules v3 from then on (as the bot)
     const all = res.trades.map((t) => ({ ...t, open: false }));
     if (res.open) all.push({ dir: res.open.dir, t: slice[res.open.i0].time, entry: res.open.entry, stop: res.open.stop, stop0: res.open.stop0, R: null, why: null, exit: null, tExit: null, open: true });
     for (const t of all) {

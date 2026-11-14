@@ -1,0 +1,264 @@
+================ WEAKNESSES (live rules, live coins) ================
+
+--- BB-CORE: 1537 trades, win 36%, +663.3R, PF 1.69, DD 31.2, losing months 34%, longest losing run 17, avg win +2.89 / loss -0.98, hold 4.9d
+  10 best trades = +215R (32% of profit); top 1% of trades = 43%; top 20 = 50%; without the 10 best: +448R
+  longs 737 tr +412R (win 34%, +0.56/tr) | shorts 800 tr +251R (win 39%, +0.31/tr)
+  shorts by year: 2020 +30, 2021 -1, 2022 +104, 2023 +14, 2024 +32, 2025 +41, 2026 +30 | longs by year: 2020 +49, 2021 +172, 2022 -31, 2023 +67, 2024 +34, 2025 +46, 2026 +75
+  by hold (candles): 1-3: 136 tr -141R win 0% | 4-6: 151 tr -156R win 0% | 7-12: 205 tr -211R win 0% | 13-24: 221 tr -229R win 0% | 25-48: 180 tr -189R win 0% | 49-96: 644 tr +1589R win 87% | 97+: 0 tr +0R win 0%
+  by exit: stop loss 899 tr -932R | time win 560 tr +1620R | time loss 78 tr -24R
+  losses worse than -1.15R (gaps, costs on tight stops): 18 trades, -25R, worst -2.72R | most positions open at once: 6
+  years: 2020 +79, 2021 +171, 2022 +73, 2023 +81, 2024 +66, 2025 +88, 2026 +105
+
+--- I-CORE: 769 trades, win 33%, +696.8R, PF 2.41, DD 32.9, losing months 45%, longest losing run 16, avg win +4.63 / loss -0.96, hold 9.1d
+  10 best trades = +475R (68% of profit); top 1% of trades = 62%; top 20 = 90%; without the 10 best: +222R
+  longs 329 tr +609R (win 30%, +1.85/tr) | shorts 440 tr +88R (win 36%, +0.20/tr)
+  shorts by year: 2020 +12, 2021 -9, 2022 +40, 2023 +24, 2024 +5, 2025 +15, 2026 +1 | longs by year: 2020 +34, 2021 +189, 2022 -6, 2023 +81, 2024 +89, 2025 +128, 2026 +94
+  by hold (candles): 1-3: 57 tr -58R win 0% | 4-6: 75 tr -72R win 1% | 7-12: 106 tr -103R win 1% | 13-24: 108 tr -111R win 0% | 25-48: 114 tr -81R win 9% | 49-96: 149 tr +132R win 64% | 97+: 160 tr +990R win 94%
+  by exit: stop win 257 tr +1189R | stop loss 512 tr -492R
+  losses worse than -1.15R (gaps, costs on tight stops): 6 trades, -8R, worst -1.93R | most positions open at once: 5
+  years: 2020 +46, 2021 +181, 2022 +34, 2023 +105, 2024 +93, 2025 +143, 2026 +94
+
+--- T-CORE: 922 trades, win 22%, +1081.3R, PF 2.50, DD 50.1, losing months 47%, longest losing run 27, avg win +8.89 / loss -1.01, hold 15.6d
+  10 best trades = +668R (62% of profit); top 1% of trades = 62%; top 20 = 84%; without the 10 best: +413R
+  longs 459 tr +971R (win 20%, +2.11/tr) | shorts 463 tr +110R (win 24%, +0.24/tr)
+  shorts by year: 2020 +10, 2021 -29, 2022 +60, 2023 +11, 2024 -4, 2025 +15, 2026 +48 | longs by year: 2020 +92, 2021 +281, 2022 -35, 2023 -15, 2024 +318, 2025 +237, 2026 +93
+  by hold (candles): 1-3: 87 tr -89R win 0% | 4-6: 114 tr -117R win 0% | 7-12: 113 tr -116R win 0% | 13-24: 119 tr -119R win 1% | 25-48: 125 tr -127R win 1% | 49-96: 101 tr -85R win 5% | 97+: 263 tr +1734R win 75%
+  by exit: stop win 203 tr +1804R | stop loss 719 tr -723R
+  losses worse than -1.15R (gaps, costs on tight stops): 20 trades, -25R, worst -1.74R | most positions open at once: 8
+  years: 2020 +101, 2021 +252, 2022 +25, 2023 -4, 2024 +314, 2025 +252, 2026 +141
+
+
+================ TWEAKS (** = better in both halves, without the 10 best trades, drawdown not deeper; s = clearly safer for little profit) ================
+
+--- BB-CORE
+   TODAY (live rules)                              1537  36%   +663 (   +0) PF 1.69 DD  31 R/DD  21.3 loseM  34% run 17 | 20-22  +324 23-26  +340 L12  +108 | ex10  +448 | yrs 7/7 worst  +66 | helps 0/6
+   hold 24 candles (4d)                            1983  41%   +415 ( -249) PF 1.39 DD  40 R/DD  10.3 loseM  37% run 17 | 20-22  +187 23-26  +227 L12   +48 | ex10  +293 | yrs 7/7 worst  +41 | helps 0/6
+   hold 36 (6d)                                    1721  39%   +514 ( -149) PF 1.51 DD  31 R/DD  16.6 loseM  34% run 18 | 20-22  +206 23-26  +308 L12   +82 | ex10  +381 | yrs 7/7 worst  +47 | helps 1/6
+   hold 60 (10d)                                   1415  34%   +607 (  -57) PF 1.66 DD  35 R/DD  17.4 loseM  30% run 16 | 20-22  +311 23-26  +296 L12   +57 | ex10  +408 | yrs 7/7 worst  +58 | helps 1/6
+   hold 72 (12d)                                   1313  33%   +682 (  +19) PF 1.78 DD  35 R/DD  19.5 loseM  29% run 18 | 20-22  +384 23-26  +298 L12   +47 | ex10  +406 | yrs 7/7 worst  +44 | helps 3/6
+   hold 96 (16d)                                   1181  30%   +680 (  +17) PF 1.82 DD  30 R/DD  22.9 loseM  35% run 20 | 20-22  +372 23-26  +309 L12   +58 | ex10  +385 | yrs 7/7 worst  +56 | helps 3/6
+   fixed target 2R                                 2067  44%   +413 ( -251) PF 1.38 DD  28 R/DD  14.9 loseM  23% run 15 | 20-22  +185 23-26  +228 L12   +40 | ex10  +392 | yrs 7/7 worst  +33 | helps 0/6
+   fixed target 3R                                 1838  40%   +454 ( -209) PF 1.44 DD  29 R/DD  15.5 loseM  24% run 19 | 20-22  +201 23-26  +253 L12   +46 | ex10  +424 | yrs 7/7 worst  +43 | helps 0/6
+   fixed target 4R                                 1730  39%   +512 ( -152) PF 1.51 DD  32 R/DD  16.2 loseM  24% run 18 | 20-22  +231 23-26  +280 L12   +48 | ex10  +471 | yrs 7/7 worst  +47 | helps 0/6
+   fixed target 6R                                 1630  37%   +560 ( -103) PF 1.57 DD  32 R/DD  17.7 loseM  30% run 18 | 20-22  +254 23-26  +306 L12   +56 | ex10  +499 | yrs 7/7 worst  +53 | helps 1/6
+   fixed target 8R                                 1590  37%   +604 (  -59) PF 1.62 DD  29 R/DD  20.5 loseM  33% run 16 | 20-22  +274 23-26  +330 L12   +68 | ex10  +523 | yrs 7/7 worst  +65 | helps 1/6
+   fixed target 12R                                1560  37%   +671 (   +8) PF 1.70 DD  30 R/DD  22.3 loseM  34% run 15 | 20-22  +305 23-26  +365 L12  +107 | ex10  +550 | yrs 7/7 worst  +68 | helps 4/6
+   half off at 2R, rest runs                       1537  43%   +481 ( -182) PF 1.56 DD  29 R/DD  16.3 loseM  28% run 17 | 20-22  +222 23-26  +259 L12   +66 | ex10  +363 | yrs 7/7 worst  +39 | helps 1/6
+   half off at 3R, rest runs                       1537  39%   +526 ( -138) PF 1.58 DD  31 R/DD  16.8 loseM  29% run 17 | 20-22  +240 23-26  +286 L12   +69 | ex10  +403 | yrs 7/7 worst  +56 | helps 0/6
+   breakeven after +1R                             1711  26%   +537 ( -127) PF 1.70 DD  26 R/DD  20.4 loseM  33% run 27 | 20-22  +214 23-26  +323 L12  +112 | ex10  +388 | yrs 7/7 worst  +65 | helps 2/6
+   breakeven after +2R                             1577  33%   +591 (  -72) PF 1.66 DD  30 R/DD  19.6 loseM  34% run 18 | 20-22  +280 23-26  +311 L12  +110 | ex10  +376 | yrs 7/7 worst  +54 | helps 0/6
+   after +3R lock +1R                              1570  39%   +616 (  -47) PF 1.66 DD  31 R/DD  19.6 loseM  34% run 17 | 20-22  +284 23-26  +332 L12  +108 | ex10  +400 | yrs 7/7 worst  +52 | helps 2/6
+   stop follows the middle band                    2140  36%   +403 ( -260) PF 1.45 DD  42 R/DD   9.7 loseM  42% run 19 | 20-22  +213 23-26  +190 L12   +76 | ex10  +209 | yrs 7/7 worst  +18 | helps 0/6
+   middle-band trail + hold 96                     2138  36%   +381 ( -282) PF 1.43 DD  42 R/DD   9.1 loseM  42% run 19 | 20-22  +196 23-26  +185 L12   +75 | ex10  +209 | yrs 7/7 worst  +18 | helps 0/6
+   middle-band trail, no time exit                 2138  36%   +381 ( -282) PF 1.43 DD  42 R/DD   9.1 loseM  42% run 19 | 20-22  +196 23-26  +185 L12   +75 | ex10  +209 | yrs 7/7 worst  +18 | helps 0/6
+   ATR trail 7 added                               1551  36%   +623 (  -41) PF 1.65 DD  31 R/DD  20.2 loseM  35% run 17 | 20-22  +301 23-26  +321 L12   +96 | ex10  +407 | yrs 7/7 worst  +59 | helps 1/6
+   ATR trail 10 + hold 96                          1197  30%   +672 (   +8) PF 1.81 DD  34 R/DD  19.6 loseM  36% run 22 | 20-22  +380 23-26  +292 L12   +57 | ex10  +376 | yrs 7/7 worst  +52 | helps 3/6
+   stale exit: out if not in profit after 12 candles  1783  24%   +602 (  -61) PF 1.67 DD  33 R/DD  18.3 loseM  34% run 29 | 20-22  +310 23-26  +292 L12   +97 | ex10  +391 | yrs 7/7 worst  +42 | helps 2/6
+   stale exit after 24 candles                     1628  29%   +650 (  -13) PF 1.70 DD  31 R/DD  20.7 loseM  33% run 24 | 20-22  +309 23-26  +342 L12  +110 | ex10  +435 | yrs 7/7 worst  +65 | helps 2/6
+   min stop distance 0.5 ATR                       1537  36%   +663 (   +0) PF 1.69 DD  31 R/DD  21.3 loseM  34% run 17 | 20-22  +324 23-26  +340 L12  +108 | ex10  +448 | yrs 7/7 worst  +66 | helps 0/6
+   min stop distance 0.75 ATR                      1537  36%   +663 (   +0) PF 1.69 DD  31 R/DD  21.3 loseM  34% run 17 | 20-22  +324 23-26  +340 L12  +108 | ex10  +448 | yrs 7/7 worst  +66 | helps 2/6
+   min stop distance 1.0 ATR                       1522  37%   +659 (   -4) PF 1.70 DD  31 R/DD  21.1 loseM  34% run 17 | 20-22  +324 23-26  +335 L12  +107 | ex10  +447 | yrs 7/7 worst  +66 | helps 3/6
+   bands 2.5 sigma                                 1029  41%   +372 ( -292) PF 1.65 DD  19 R/DD  19.9 loseM  37% run 12 | 20-22  +156 23-26  +215 L12   +68 | ex10  +260 | yrs 7/7 worst  +17 | helps 0/6
+   bands 1.8 sigma                                 1704  36%   +835 ( +171) PF 1.77 DD  37 R/DD  22.8 loseM  30% run 19 | 20-22  +390 23-26  +444 L12  +126 | ex10  +584 | yrs 7/7 worst  +88 | helps 6/6
+   Bollinger length 30                             1351  41%   +502 ( -161) PF 1.67 DD  31 R/DD  16.2 loseM  33% run 13 | 20-22  +194 23-26  +308 L12  +107 | ex10  +365 | yrs 7/7 worst  +40 | helps 2/6
+   longs only                                       765  33%   +402 ( -261) PF 1.79 DD  36 R/DD  11.0 loseM  48% run 24 | 20-22  +189 23-26  +213 L12   +71 | ex10  +195 | yrs 6/7 worst  -28 | helps 0/6
+   shorts only while BTC < SMA200                  1380  36%   +557 ( -106) PF 1.65 DD  32 R/DD  17.3 loseM  37% run 17 | 20-22  +303 23-26  +255 L12   +96 | ex10  +345 | yrs 7/7 worst  +14 | helps 0/6
+   trade only with BTC trend                       1285  36%   +521 ( -143) PF 1.65 DD  33 R/DD  16.0 loseM  40% run 17 | 20-22  +303 23-26  +218 L12   +76 | ex10  +316 | yrs 7/7 worst   +9 | helps 1/6
+   ADX > 20                                        1196  40%   +416 ( -247) PF 1.61 DD  30 R/DD  13.8 loseM  36% run 17 | 20-22  +187 23-26  +229 L12   +73 | ex10  +231 | yrs 7/7 worst  +20 | helps 0/6
+   ADX > 25                                         917  42%   +282 ( -382) PF 1.58 DD  23 R/DD  12.4 loseM  40% run 13 | 20-22   +93 23-26  +188 L12   +39 | ex10  +173 | yrs 7/7 worst  +24 | helps 0/6
+   volume > 1.5x                                   1296  39%   +535 ( -128) PF 1.69 DD  28 R/DD  19.3 loseM  33% run 17 | 20-22  +259 23-26  +276 L12   +77 | ex10  +330 | yrs 7/7 worst  +36 | helps 0/6
+   SMA200 slope agrees                             1135  34%   +361 ( -302) PF 1.49 DD  29 R/DD  12.3 loseM  39% run 18 | 20-22  +202 23-26  +159 L12  +101 | ex10  +221 | yrs 7/7 worst   +4 | helps 0/6
+   price > 2 ATR clear of SMA200                   1279  37%   +519 ( -145) PF 1.66 DD  25 R/DD  20.6 loseM  36% run 22 | 20-22  +274 23-26  +245 L12   +79 | ex10  +356 | yrs 7/7 worst  +28 | helps 0/6
+   price < 6 ATR from SMA200                       1162  37%   +521 ( -143) PF 1.73 DD  28 R/DD  18.8 loseM  34% run 16 | 20-22  +214 23-26  +307 L12   +94 | ex10  +316 | yrs 7/7 worst  +29 | helps 1/6
+   wait 6 candles after a loss                     1427  36%   +607 (  -57) PF 1.68 DD  27 R/DD  22.2 loseM  37% run 15 | 20-22  +333 23-26  +274 L12   +92 | ex10  +391 | yrs 7/7 worst  +55 | helps 1/6
+   wait 12 candles after a loss                    1340  35%   +514 ( -149) PF 1.60 DD  31 R/DD  16.6 loseM  40% run 16 | 20-22  +274 23-26  +240 L12   +66 | ex10  +347 | yrs 7/7 worst  +57 | helps 1/6
+   bands 1.5 sigma                                 1952  32%   +957 ( +294) PF 1.73 DD  55 R/DD  17.4 loseM  31% run 25 | 20-22  +454 23-26  +504 L12  +147 | ex10  +691 | yrs 7/7 worst  +89 | helps 6/6
+   bands 1.6 sigma                                 1879  33%   +887 ( +224) PF 1.71 DD  54 R/DD  16.6 loseM  29% run 24 | 20-22  +439 23-26  +448 L12  +131 | ex10  +624 | yrs 7/7 worst  +84 | helps 6/6
+   bands 1.7 sigma                                 1792  35%   +873 ( +210) PF 1.75 DD  45 R/DD  19.4 loseM  30% run 20 | 20-22  +411 23-26  +462 L12  +120 | ex10  +620 | yrs 7/7 worst  +89 | helps 5/6
+** bands 1.9 sigma                                 1624  36%   +742 (  +78) PF 1.73 DD  33 R/DD  22.4 loseM  34% run 18 | 20-22  +348 23-26  +393 L12  +130 | ex10  +509 | yrs 7/7 worst  +76 | helps 5/6
+   1.8 sigma + target 12R                          1732  36%   +841 ( +178) PF 1.78 DD  35 R/DD  24.4 loseM  25% run 19 | 20-22  +384 23-26  +457 L12  +117 | ex10  +720 | yrs 7/7 worst +100 | helps 5/6
+   1.8 sigma + wait 6 after a loss                 1582  35%   +720 (  +57) PF 1.70 DD  35 R/DD  20.8 loseM  33% run 17 | 20-22  +365 23-26  +355 L12  +113 | ex10  +481 | yrs 7/7 worst  +67 | helps 5/6
+s  1.8 sigma + volume > 1.5x                       1376  38%   +607 (  -56) PF 1.73 DD  23 R/DD  26.1 loseM  31% run 16 | 20-22  +285 23-26  +322 L12   +90 | ex10  +406 | yrs 7/7 worst  +46 | helps 2/6
+** 1.9 sigma + target 12R                          1647  37%   +747 (  +83) PF 1.73 DD  31 R/DD  24.1 loseM  31% run 18 | 20-22  +341 23-26  +406 L12  +117 | ex10  +626 | yrs 7/7 worst  +81 | helps 5/6
+   target 10R                                      1575  37%   +652 (  -12) PF 1.67 DD  29 R/DD  22.2 loseM  33% run 16 | 20-22  +295 23-26  +357 L12   +92 | ex10  +550 | yrs 7/7 worst  +78 | helps 3/6
+   target 15R                                      1545  36%   +617 (  -46) PF 1.64 DD  31 R/DD  19.8 loseM  34% run 17 | 20-22  +273 23-26  +344 L12  +111 | ex10  +467 | yrs 7/7 worst  +66 | helps 1/6
+
+--- I-CORE
+   TODAY (live rules)                               769  33%   +697 (   +0) PF 2.41 DD  33 R/DD  21.2 loseM  45% run 16 | 20-22  +261 23-26  +436 L12  +230 | ex10  +222 | yrs 7/7 worst  +34 | helps 0/5
+   trail 5 ATR                                     1002  34%   +433 ( -263) PF 1.73 DD  33 R/DD  13.1 loseM  36% run 18 | 20-22  +235 23-26  +198 L12   +80 | ex10  +182 | yrs 7/7 worst  +13 | helps 0/5
+   trail 6 ATR                                      879  34%   +535 ( -162) PF 1.98 DD  32 R/DD  16.9 loseM  37% run 16 | 20-22  +227 23-26  +308 L12   +77 | ex10  +198 | yrs 7/7 worst  +33 | helps 1/5
+   trail 8 ATR                                      700  31%   +872 ( +175) PF 2.87 DD  31 R/DD  27.8 loseM  40% run 15 | 20-22  +290 23-26  +582 L12  +387 | ex10  +208 | yrs 7/7 worst  +40 | helps 3/5
+** trail 9 ATR                                      642  31%   +871 ( +174) PF 3.00 DD  36 R/DD  24.4 loseM  41% run 13 | 20-22  +272 23-26  +600 L12  +386 | ex10  +230 | yrs 7/7 worst  +42 | helps 4/5
+   trail 10 ATR                                     602  30%   +869 ( +172) PF 3.07 DD  39 R/DD  22.5 loseM  45% run 13 | 20-22  +278 23-26  +591 L12  +360 | ex10  +200 | yrs 6/7 worst   -3 | helps 3/5
+   trail 12 ATR                                     527  27%   +820 ( +123) PF 3.14 DD  42 R/DD  19.3 loseM  48% run 19 | 20-22  +276 23-26  +544 L12  +345 | ex10  +156 | yrs 6/7 worst  -15 | helps 3/5
+   trail 14 ATR                                     486  25%   +746 (  +50) PF 3.03 DD  40 R/DD  18.9 loseM  49% run 16 | 20-22  +237 23-26  +509 L12  +336 | ex10   +94 | yrs 6/7 worst  -14 | helps 3/5
+   first stop 1.5 ATR                               904  28%   +883 ( +186) PF 2.35 DD  39 R/DD  22.6 loseM  39% run 19 | 20-22  +369 23-26  +514 L12  +261 | ex10  +283 | yrs 7/7 worst  +41 | helps 5/5
+   first stop 2.5 ATR                               687  37%   +543 ( -154) PF 2.37 DD  24 R/DD  22.7 loseM  40% run 13 | 20-22  +236 23-26  +307 L12  +170 | ex10  +189 | yrs 7/7 worst  +37 | helps 0/5
+   first stop 3 ATR                                 628  39%   +428 ( -269) PF 2.28 DD  16 R/DD  27.6 loseM  43% run 12 | 20-22  +189 23-26  +239 L12  +138 | ex10  +133 | yrs 7/7 worst  +26 | helps 0/5
+   fixed target 4R                                  895  33%   +315 ( -382) PF 1.54 DD  28 R/DD  11.4 loseM  37% run 15 | 20-22  +166 23-26  +150 L12   +29 | ex10  +274 | yrs 7/7 worst  +27 | helps 0/5
+   fixed target 8R                                  812  33%   +346 ( -351) PF 1.66 DD  33 R/DD  10.5 loseM  39% run 16 | 20-22  +182 23-26  +164 L12   +37 | ex10  +265 | yrs 7/7 worst  +30 | helps 0/5
+   fixed target 15R                                 789  33%   +416 ( -280) PF 1.82 DD  33 R/DD  12.7 loseM  45% run 16 | 20-22  +216 23-26  +201 L12   +69 | ex10  +267 | yrs 7/7 worst  +20 | helps 0/5
+   half off at 3R, rest runs                        769  36%   +462 ( -235) PF 1.96 DD  24 R/DD  19.1 loseM  34% run 13 | 20-22  +187 23-26  +276 L12  +123 | ex10  +210 | yrs 7/7 worst  +37 | helps 0/5
+   half off at 5R, rest runs                        769  34%   +519 ( -178) PF 2.06 DD  27 R/DD  19.4 loseM  36% run 16 | 20-22  +211 23-26  +308 L12  +138 | ex10  +257 | yrs 7/7 worst  +45 | helps 0/5
+   breakeven after +1R                              933  26%   +396 ( -301) PF 1.90 DD  34 R/DD  11.5 loseM  42% run 21 | 20-22  +159 23-26  +237 L12   +98 | ex10   +92 | yrs 6/7 worst   -1 | helps 1/5
+   breakeven after +2R                              797  32%   +517 ( -180) PF 2.09 DD  31 R/DD  16.5 loseM  42% run 16 | 20-22  +264 23-26  +253 L12   +98 | ex10  +180 | yrs 7/7 worst   +4 | helps 1/5
+   after +3R lock +1R                               785  36%   +700 (   +3) PF 2.42 DD  28 R/DD  25.0 loseM  41% run 13 | 20-22  +253 23-26  +447 L12  +230 | ex10  +225 | yrs 7/7 worst  +37 | helps 3/5
+   time exit 48 candles                            1049  36%   +377 ( -320) PF 1.57 DD  42 R/DD   9.0 loseM  40% run 22 | 20-22  +171 23-26  +205 L12   +74 | ex10  +213 | yrs 7/7 worst  +30 | helps 0/5
+   time exit 96                                     895  33%   +529 ( -168) PF 1.91 DD  30 R/DD  17.8 loseM  34% run 19 | 20-22  +246 23-26  +283 L12   +77 | ex10  +263 | yrs 7/7 worst  +37 | helps 1/5
+   time exit 192                                    791  33%   +621 (  -76) PF 2.22 DD  35 R/DD  17.6 loseM  45% run 17 | 20-22  +265 23-26  +356 L12  +101 | ex10  +215 | yrs 7/7 worst  +32 | helps 1/5
+   stale exit after 12 candles                      999  22%   +609 (  -88) PF 2.31 DD  39 R/DD  15.8 loseM  46% run 23 | 20-22  +202 23-26  +407 L12  +187 | ex10  +170 | yrs 7/7 worst  +21 | helps 0/5
+   stale exit after 24 candles                      882  27%   +665 (  -32) PF 2.37 DD  39 R/DD  17.0 loseM  45% run 20 | 20-22  +211 23-26  +454 L12  +237 | ex10  +194 | yrs 7/7 worst  +25 | helps 2/5
+   stale exit after 48 candles                      800  32%   +704 (   +7) PF 2.43 DD  36 R/DD  19.6 loseM  45% run 18 | 20-22  +262 23-26  +442 L12  +232 | ex10  +229 | yrs 7/7 worst  +35 | helps 2/5
+   longs only                                       353  30%   +625 (  -72) PF 3.60 DD  37 R/DD  17.1 loseM  49% run 13 | 20-22  +235 23-26  +390 L12  +225 | ex10  +149 | yrs 6/7 worst   -9 | helps 1/5
+   shorts only while BTC < SMA200                   653  33%   +697 (   +0) PF 2.66 DD  39 R/DD  17.8 loseM  42% run 18 | 20-22  +290 23-26  +407 L12  +230 | ex10  +221 | yrs 7/7 worst  +28 | helps 1/5
+   trade only with BTC trend                        610  34%   +497 ( -200) PF 2.26 DD  39 R/DD  12.9 loseM  42% run 17 | 20-22  +259 23-26  +237 L12   +61 | ex10  +169 | yrs 6/7 worst   -3 | helps 1/5
+   ADX > 20                                         478  35%   +578 ( -118) PF 2.94 DD  21 R/DD  27.1 loseM  45% run 11 | 20-22  +231 23-26  +347 L12  +171 | ex10  +134 | yrs 7/7 worst  +30 | helps 1/5
+   ADX > 25                                         234  35%   +308 ( -389) PF 3.17 DD  18 R/DD  16.9 loseM  52% run 10 | 20-22   +98 23-26  +210 L12  +131 | ex10    +3 | yrs 6/7 worst   -2 | helps 0/5
+   volume > 1.5x                                    420  34%   +491 ( -205) PF 2.81 DD  29 R/DD  17.0 loseM  47% run 11 | 20-22  +153 23-26  +339 L12  +226 | ex10   +96 | yrs 7/7 worst  +28 | helps 1/5
+   SMA200 slope agrees                              624  30%   +391 ( -306) PF 1.93 DD  38 R/DD  10.4 loseM  52% run 18 | 20-22  +180 23-26  +210 L12  +178 | ex10   +48 | yrs 6/7 worst   -5 | helps 0/5
+   price > 2 ATR clear of SMA200                    573  31%   +374 ( -322) PF 1.98 DD  39 R/DD   9.7 loseM  48% run 16 | 20-22  +152 23-26  +223 L12  +154 | ex10   +61 | yrs 7/7 worst   +7 | helps 0/5
+   price < 6 ATR from SMA200                        695  34%   +643 (  -54) PF 2.47 DD  31 R/DD  20.8 loseM  42% run 16 | 20-22  +223 23-26  +420 L12  +240 | ex10  +198 | yrs 7/7 worst  +36 | helps 3/5
+   wait 6 candles after a loss                      691  33%   +564 ( -133) PF 2.27 DD  29 R/DD  19.5 loseM  45% run 16 | 20-22  +289 23-26  +275 L12  +194 | ex10  +174 | yrs 7/7 worst  +33 | helps 1/5
+   wait 12 candles after a loss                     640  33%   +527 ( -170) PF 2.28 DD  22 R/DD  24.0 loseM  46% run 16 | 20-22  +217 23-26  +309 L12  +164 | ex10  +140 | yrs 7/7 worst  +29 | helps 1/5
+** first stop 1.75 ATR                              815  31%   +837 ( +140) PF 2.53 DD  28 R/DD  30.4 loseM  42% run 16 | 20-22  +325 23-26  +511 L12  +267 | ex10  +292 | yrs 7/7 worst  +41 | helps 5/5
+   first stop 1.25 ATR                             1022  24%  +1046 ( +349) PF 2.32 DD  51 R/DD  20.5 loseM  41% run 26 | 20-22  +440 23-26  +606 L12  +293 | ex10  +326 | yrs 7/7 worst  +47 | helps 5/5
+   after +2.5R lock +0.5R                           790  37%   +695 (   -2) PF 2.43 DD  29 R/DD  23.6 loseM  39% run 13 | 20-22  +256 23-26  +439 L12  +233 | ex10  +220 | yrs 7/7 worst  +40 | helps 3/5
+s  after +4R lock +1R                               776  35%   +698 (   +1) PF 2.42 DD  27 R/DD  26.0 loseM  43% run 16 | 20-22  +253 23-26  +445 L12  +230 | ex10  +223 | yrs 7/7 worst  +37 | helps 3/5
+   after +4R lock +2R                               803  34%   +637 (  -60) PF 2.25 DD  27 R/DD  23.9 loseM  39% run 16 | 20-22  +216 23-26  +421 L12  +232 | ex10  +196 | yrs 7/7 worst  +43 | helps 1/5
+   after +5R lock +2R                               781  34%   +637 (  -59) PF 2.29 DD  29 R/DD  22.0 loseM  45% run 16 | 20-22  +209 23-26  +429 L12  +233 | ex10  +196 | yrs 7/7 worst  +36 | helps 2/5
+   trail 8 + after +3R lock +1R                     728  35%   +875 ( +178) PF 2.88 DD  29 R/DD  30.3 loseM  40% run 12 | 20-22  +276 23-26  +599 L12  +385 | ex10  +211 | yrs 7/7 worst  +35 | helps 5/5
+   trail 9 + after +3R lock +1R                     691  36%   +835 ( +138) PF 2.89 DD  31 R/DD  26.5 loseM  40% run 13 | 20-22  +257 23-26  +578 L12  +379 | ex10  +193 | yrs 7/7 worst  +34 | helps 2/5
+** first stop 1.5 + after +3R lock +1R              972  33%   +809 ( +112) PF 2.22 DD  33 R/DD  24.5 loseM  37% run 18 | 20-22  +352 23-26  +457 L12  +261 | ex10  +235 | yrs 7/7 worst  +47 | helps 4/5
+** first stop 1.75 + trail 8 + lock +1R at +3R      786  34%  +1027 ( +330) PF 2.97 DD  31 R/DD  33.0 loseM  37% run 21 | 20-22  +330 23-26  +697 L12  +449 | ex10  +264 | yrs 7/7 worst  +49 | helps 5/5
+   ADX > 20 + trail 8                               461  32%   +542 ( -155) PF 2.78 DD  23 R/DD  23.9 loseM  45% run 13 | 20-22  +207 23-26  +336 L12  +180 | ex10  +107 | yrs 7/7 worst  +35 | helps 0/5
+
+--- T-CORE
+   TODAY (live rules)                               922  22%  +1081 (   +0) PF 2.50 DD  50 R/DD  21.6 loseM  47% run 27 | 20-22  +378 23-26  +704 L12  +357 | ex10  +413 | yrs 6/7 worst   -4 | helps 0/8
+** trail 8 ATR                                     1340  28%  +1141 (  +60) PF 2.21 DD  54 R/DD  21.3 loseM  39% run 26 | 20-22  +390 23-26  +751 L12  +398 | ex10  +495 | yrs 7/7 worst  +56 | helps 4/8
+   trail 10 ATR                                    1137  26%  +1304 ( +222) PF 2.56 DD  68 R/DD  19.2 loseM  41% run 22 | 20-22  +458 23-26  +846 L12  +384 | ex10  +559 | yrs 6/7 worst  -18 | helps 7/8
+   trail 12 ATR                                    1000  24%  +1217 ( +136) PF 2.60 DD  61 R/DD  19.9 loseM  42% run 27 | 20-22  +424 23-26  +793 L12  +357 | ex10  +505 | yrs 6/7 worst  -25 | helps 7/8
+   trail 17 ATR                                     791  22%  +1156 (  +75) PF 2.84 DD  50 R/DD  23.0 loseM  40% run 35 | 20-22  +553 23-26  +603 L12  +310 | ex10  +342 | yrs 7/7 worst   +5 | helps 5/8
+   trail 20 ATR                                     674  21%  +1177 (  +96) PF 3.17 DD  46 R/DD  25.6 loseM  40% run 37 | 20-22  +558 23-26  +619 L12  +270 | ex10  +311 | yrs 6/7 worst   -5 | helps 4/8
+   first stop 1.5 ATR                              1097  19%  +1447 ( +366) PF 2.57 DD  64 R/DD  22.8 loseM  42% run 28 | 20-22  +541 23-26  +907 L12  +416 | ex10  +574 | yrs 7/7 worst   +8 | helps 8/8
+   first stop 2.5 ATR                               785  26%   +889 ( -193) PF 2.57 DD  36 R/DD  24.8 loseM  45% run 18 | 20-22  +332 23-26  +556 L12  +278 | ex10  +332 | yrs 7/7 worst   +5 | helps 0/8
+   first stop 3 ATR                                 681  30%   +741 ( -340) PF 2.63 DD  32 R/DD  23.3 loseM  45% run 24 | 20-22  +276 23-26  +465 L12  +226 | ex10  +283 | yrs 7/7 worst   +7 | helps 0/8
+   first stop at middle band (BB-CORE stop)         805  25%   +951 ( -130) PF 2.61 DD  39 R/DD  24.5 loseM  46% run 19 | 20-22  +505 23-26  +446 L12  +228 | ex10  +327 | yrs 6/7 worst   -7 | helps 4/8
+   fixed target 8R                                 1284  22%   +535 ( -546) PF 1.52 DD  50 R/DD  10.6 loseM  41% run 32 | 20-22  +187 23-26  +348 L12   +92 | ex10  +453 | yrs 7/7 worst  +28 | helps 0/8
+   fixed target 15R                                1060  22%   +678 ( -403) PF 1.81 DD  51 R/DD  13.4 loseM  42% run 30 | 20-22  +248 23-26  +430 L12   +96 | ex10  +527 | yrs 7/7 worst  +27 | helps 2/8
+   fixed target 25R                                1022  21%   +928 ( -153) PF 2.15 DD  45 R/DD  20.6 loseM  45% run 27 | 20-22  +373 23-26  +556 L12  +150 | ex10  +678 | yrs 7/7 worst  +25 | helps 3/8
+   half off at 3R, rest runs                        922  31%   +637 ( -444) PF 1.98 DD  40 R/DD  16.1 loseM  40% run 22 | 20-22  +235 23-26  +402 L12  +177 | ex10  +288 | yrs 6/7 worst   -9 | helps 0/8
+   half off at 5R, rest runs                        922  25%   +717 ( -364) PF 2.03 DD  32 R/DD  22.5 loseM  42% run 27 | 20-22  +249 23-26  +468 L12  +201 | ex10  +358 | yrs 7/7 worst  +10 | helps 0/8
+   third off at 5R, rest runs                       922  25%   +841 ( -240) PF 2.21 DD  35 R/DD  23.9 loseM  43% run 27 | 20-22  +293 23-26  +548 L12  +254 | ex10  +377 | yrs 7/7 worst   +5 | helps 0/8
+   breakeven after +1R                             1292  20%   +926 ( -156) PF 2.48 DD  50 R/DD  18.4 loseM  46% run 39 | 20-22  +326 23-26  +600 L12  +335 | ex10  +298 | yrs 6/7 worst   -8 | helps 2/8
+   breakeven after +2R                             1082  23%   +977 ( -104) PF 2.45 DD  44 R/DD  22.1 loseM  48% run 31 | 20-22  +367 23-26  +610 L12  +326 | ex10  +298 | yrs 6/7 worst   -4 | helps 2/8
+   breakeven after +3R                              983  23%  +1040 (  -41) PF 2.51 DD  58 R/DD  17.9 loseM  47% run 29 | 20-22  +402 23-26  +637 L12  +342 | ex10  +361 | yrs 6/7 worst  -12 | helps 3/8
+   after +3R lock +1R                              1059  32%  +1031 (  -50) PF 2.41 DD  59 R/DD  17.4 loseM  43% run 22 | 20-22  +366 23-26  +666 L12  +354 | ex10  +390 | yrs 6/7 worst  -15 | helps 3/8
+   after +5R lock +2R                              1006  26%  +1021 (  -60) PF 2.35 DD  51 R/DD  20.2 loseM  45% run 28 | 20-22  +372 23-26  +649 L12  +359 | ex10  +351 | yrs 6/7 worst   -2 | helps 2/8
+   time exit 96 candles                            1603  29%   +809 ( -272) PF 1.69 DD  64 R/DD  12.7 loseM  33% run 29 | 20-22  +328 23-26  +481 L12  +132 | ex10  +536 | yrs 7/7 worst  +67 | helps 1/8
+   time exit 192                                   1216  23%  +1041 (  -41) PF 2.09 DD  61 R/DD  17.0 loseM  42% run 46 | 20-22  +402 23-26  +639 L12  +184 | ex10  +640 | yrs 7/7 worst  +76 | helps 5/8
+   time exit 360                                   1004  22%  +1036 (  -46) PF 2.31 DD  49 R/DD  21.1 loseM  47% run 28 | 20-22  +350 23-26  +685 L12  +163 | ex10  +421 | yrs 7/7 worst  +27 | helps 3/8
+** stale exit after 12 candles                     1266  16%  +1175 (  +94) PF 2.78 DD  46 R/DD  25.8 loseM  47% run 33 | 20-22  +411 23-26  +764 L12  +377 | ex10  +471 | yrs 7/7 worst  +12 | helps 7/8
+** stale exit after 24 candles                     1126  18%  +1149 (  +68) PF 2.69 DD  48 R/DD  24.0 loseM  43% run 27 | 20-22  +409 23-26  +740 L12  +359 | ex10  +466 | yrs 7/7 worst   +9 | helps 6/8
+** stale exit after 48 candles                     1019  20%  +1154 (  +73) PF 2.67 DD  52 R/DD  22.1 loseM  46% run 25 | 20-22  +427 23-26  +728 L12  +366 | ex10  +471 | yrs 6/7 worst   -5 | helps 7/8
+** out if under +1R after 48 candles               1199  37%  +1177 (  +96) PF 2.60 DD  45 R/DD  26.4 loseM  41% run 18 | 20-22  +413 23-26  +763 L12  +351 | ex10  +482 | yrs 7/7 worst   +6 | helps 6/8
+   min stop distance 0.75 ATR at signal             922  22%  +1081 (   +0) PF 2.50 DD  50 R/DD  21.6 loseM  47% run 27 | 20-22  +378 23-26  +704 L12  +357 | ex10  +413 | yrs 6/7 worst   -4 | helps 0/8
+   bands 2.5 sigma                                  749  24%  +1010 (  -71) PF 2.78 DD  36 R/DD  28.2 loseM  41% run 24 | 20-22  +285 23-26  +725 L12  +354 | ex10  +359 | yrs 7/7 worst   +6 | helps 3/8
+** Bollinger length 30                              844  24%  +1156 (  +74) PF 2.78 DD  35 R/DD  32.9 loseM  43% run 27 | 20-22  +391 23-26  +765 L12  +387 | ex10  +438 | yrs 7/7 worst  +19 | helps 5/8
+   longs only                                       499  21%  +1118 (  +37) PF 3.76 DD  68 R/DD  16.4 loseM  64% run 39 | 20-22  +415 23-26  +703 L12  +287 | ex10  +391 | yrs 5/7 worst  -38 | helps 3/8
+   shorts only while BTC < SMA200                   835  23%  +1094 (  +13) PF 2.69 DD  60 R/DD  18.2 loseM  47% run 38 | 20-22  +427 23-26  +668 L12  +323 | ex10  +442 | yrs 7/7 worst  +18 | helps 4/8
+   trade only with BTC trend                        800  24%   +934 ( -147) PF 2.51 DD  74 R/DD  12.6 loseM  46% run 47 | 20-22  +445 23-26  +489 L12  +167 | ex10  +420 | yrs 7/7 worst  +17 | helps 4/8
+** ADX > 20                                         814  24%  +1111 (  +30) PF 2.78 DD  43 R/DD  25.8 loseM  46% run 23 | 20-22  +421 23-26  +690 L12  +322 | ex10  +430 | yrs 7/7 worst   +6 | helps 5/8
+   ADX > 25                                         747  24%   +867 ( -214) PF 2.51 DD  38 R/DD  23.1 loseM  49% run 20 | 20-22  +267 23-26  +600 L12  +282 | ex10  +291 | yrs 6/7 worst   -9 | helps 2/8
+** volume > 1.5x                                    866  23%  +1143 (  +62) PF 2.69 DD  45 R/DD  25.4 loseM  45% run 25 | 20-22  +414 23-26  +729 L12  +384 | ex10  +423 | yrs 7/7 worst  +10 | helps 3/8
+   SMA200 slope agrees                              732  23%   +879 ( -202) PF 2.54 DD  58 R/DD  15.0 loseM  49% run 32 | 20-22  +309 23-26  +570 L12  +372 | ex10  +241 | yrs 6/7 worst  -40 | helps 0/8
+s  price > 2 ATR clear of SMA200                    823  23%  +1044 (  -37) PF 2.65 DD  32 R/DD  32.2 loseM  46% run 21 | 20-22  +371 23-26  +673 L12  +326 | ex10  +396 | yrs 7/7 worst   +2 | helps 4/8
+   price < 6 ATR from SMA200                        883  22%  +1087 (   +6) PF 2.58 DD  46 R/DD  23.7 loseM  48% run 28 | 20-22  +377 23-26  +710 L12  +340 | ex10  +420 | yrs 7/7 worst   +0 | helps 6/8
+   wait 6 candles after a loss                      872  22%  +1002 (  -79) PF 2.47 DD  55 R/DD  18.3 loseM  49% run 27 | 20-22  +347 23-26  +655 L12  +339 | ex10  +354 | yrs 6/7 worst   -8 | helps 1/8
+   wait 12 candles after a loss                     855  22%   +966 ( -115) PF 2.44 DD  49 R/DD  19.5 loseM  49% run 24 | 20-22  +346 23-26  +620 L12  +331 | ex10  +341 | yrs 6/7 worst   -1 | helps 2/8
+** out if under +1R after 36 candles               1297  40%  +1204 ( +123) PF 2.62 DD  41 R/DD  29.1 loseM  46% run 14 | 20-22  +441 23-26  +763 L12  +348 | ex10  +495 | yrs 7/7 worst   +6 | helps 6/8
+** out if under +1R after 60 candles               1136  35%  +1190 ( +109) PF 2.63 DD  42 R/DD  28.6 loseM  41% run 19 | 20-22  +419 23-26  +772 L12  +358 | ex10  +496 | yrs 7/7 worst  +11 | helps 6/8
+   out if under +1R after 72 candles               1082  33%  +1189 ( +107) PF 2.63 DD  57 R/DD  21.0 loseM  43% run 17 | 20-22  +421 23-26  +768 L12  +373 | ex10  +494 | yrs 6/7 worst   -5 | helps 7/8
+** out if under +1R after 96 candles               1012  28%  +1167 (  +86) PF 2.59 DD  51 R/DD  22.7 loseM  47% run 25 | 20-22  +422 23-26  +745 L12  +399 | ex10  +463 | yrs 6/7 worst   -0 | helps 5/8
+** out if under +0.5R after 48 candles             1087  34%  +1159 (  +78) PF 2.70 DD  39 R/DD  29.5 loseM  45% run 19 | 20-22  +441 23-26  +718 L12  +344 | ex10  +453 | yrs 7/7 worst   +9 | helps 6/8
+   out if under +1.5R after 48 candles             1303  37%  +1183 ( +102) PF 2.46 DD  59 R/DD  20.0 loseM  40% run 18 | 20-22  +419 23-26  +764 L12  +364 | ex10  +476 | yrs 6/7 worst   -7 | helps 6/8
+   out if under +2R after 48 candles               1412  37%  +1201 ( +120) PF 2.38 DD  62 R/DD  19.4 loseM  41% run 22 | 20-22  +430 23-26  +772 L12  +362 | ex10  +494 | yrs 6/7 worst  -11 | helps 6/8
+** Bollinger length 25                              861  23%  +1117 (  +35) PF 2.68 DD  34 R/DD  32.8 loseM  43% run 28 | 20-22  +380 23-26  +736 L12  +337 | ex10  +431 | yrs 7/7 worst   +9 | helps 5/8
+s  Bollinger length 35                              866  23%  +1054 (  -27) PF 2.55 DD  40 R/DD  26.5 loseM  47% run 30 | 20-22  +399 23-26  +655 L12  +308 | ex10  +396 | yrs 7/7 worst  +17 | helps 3/8
+s  Bollinger length 40                              852  22%  +1063 (  -18) PF 2.59 DD  38 R/DD  28.2 loseM  45% run 23 | 20-22  +398 23-26  +665 L12  +307 | ex10  +398 | yrs 7/7 worst  +21 | helps 4/8
+   first stop 1.75 ATR                             1012  20%  +1185 ( +103) PF 2.45 DD  62 R/DD  19.1 loseM  46% run 28 | 20-22  +431 23-26  +753 L12  +365 | ex10  +462 | yrs 6/7 worst   -8 | helps 8/8
+** length 30 + out if under +1R after 48           1154  37%  +1191 ( +110) PF 2.70 DD  33 R/DD  36.2 loseM  41% run 14 | 20-22  +379 23-26  +812 L12  +378 | ex10  +463 | yrs 7/7 worst  +14 | helps 6/8
+s  length 30 + ADX > 20                             790  25%  +1060 (  -22) PF 2.76 DD  37 R/DD  28.8 loseM  46% run 24 | 20-22  +379 23-26  +681 L12  +315 | ex10  +421 | yrs 7/7 worst  +20 | helps 3/8
+   out if under +1R after 48 + ADX > 20            1068  37%   +912 ( -169) PF 2.41 DD  52 R/DD  17.5 loseM  46% run 18 | 20-22  +355 23-26  +557 L12  +222 | ex10  +321 | yrs 6/7 worst   -2 | helps 2/8
+s  out if under +1R after 48 + clear of SMA200     1045  37%  +1057 (  -24) PF 2.62 DD  33 R/DD  32.0 loseM  41% run 19 | 20-22  +390 23-26  +668 L12  +327 | ex10  +405 | yrs 7/7 worst  +13 | helps 4/8
+   out if under +1R after 48 + trail 17            1048  37%  +1262 ( +180) PF 2.96 DD  43 R/DD  29.2 loseM  41% run 18 | 20-22  +579 23-26  +683 L12  +315 | ex10  +398 | yrs 7/7 worst  +10 | helps 5/8
+s  out if under +1R after 48 + trail 20             911  38%  +1260 ( +179) PF 3.28 DD  42 R/DD  30.3 loseM  41% run 11 | 20-22  +597 23-26  +663 L12  +288 | ex10  +368 | yrs 6/7 worst  -12 | helps 2/8
+   out if under +1R after 48 + first stop 1.5      1300  29%  +1501 ( +419) PF 2.62 DD  74 R/DD  20.4 loseM  43% run 15 | 20-22  +575 23-26  +926 L12  +456 | ex10  +572 | yrs 6/7 worst  -13 | helps 7/8
+   out if under +1R after 48 + first stop 2.5      1149  42%   +918 ( -163) PF 2.46 DD  30 R/DD  30.5 loseM  45% run 13 | 20-22  +334 23-26  +584 L12  +276 | ex10  +372 | yrs 7/7 worst  +12 | helps 1/8
+   out if under +1R after 48 + first stop 3        1148  46%   +806 ( -275) PF 2.47 DD  34 R/DD  23.9 loseM  43% run 16 | 20-22  +287 23-26  +519 L12  +242 | ex10  +324 | yrs 7/7 worst   +6 | helps 1/8
+
+
+================ COINS (each bot today, minus one coin / plus one coin) ================
+
+--- BB-CORE today: +663R, DD 31, R/DD 21.3, losing months 34%, Sharpe 1.85, worst year +66
+   without SOL      +536 ( -128) DD  30 R/DD  17.9 loseM  33% Sharpe 1.73 worstYr  +43 23-26  +277
+   without ZEC      +531 ( -132) DD  27 R/DD  19.4 loseM  39% Sharpe 1.62 worstYr  +34 23-26  +290
+   without NEAR     +578 (  -86) DD  26 R/DD  21.9 loseM  36% Sharpe 1.81 worstYr  +47 23-26  +284
+   without ADA      +543 ( -120) DD  27 R/DD  20.3 loseM  35% Sharpe 1.78 worstYr  +43 23-26  +286
+   without GALA     +503 ( -161) DD  27 R/DD  18.3 loseM  34% Sharpe 1.69 worstYr  +47 23-26  +258
+   without ARB      +627 (  -37) DD  26 R/DD  24.6 loseM  31% Sharpe 1.82 worstYr  +66 23-26  +303
+   with ETH         +764 ( +101) DD  34 R/DD  22.6 loseM  31% Sharpe 1.87 worstYr  +66 23-26  +374 | alone: +101R, yrs 6/7, PF 1.50, ex10 -9
+   with SUI         +726 (  +63) DD  35 R/DD  20.6 loseM  33% Sharpe 1.88 worstYr  +73 23-26  +402 | alone: +63R, yrs 4/4, PF 1.56, ex10 -32
+   with BNB         +750 (  +87) DD  35 R/DD  21.3 loseM  33% Sharpe 1.78 worstYr  +76 23-26  +377 | alone: +87R, yrs 7/7, PF 1.40, ex10 -15
+   with BTC         +732 (  +69) DD  38 R/DD  19.3 loseM  36% Sharpe 1.81 worstYr  +65 23-26  +373 | alone: +69R, yrs 4/7, PF 1.30, ex10 -47
+   with DOGE        +912 ( +248) DD  40 R/DD  22.8 loseM  29% Sharpe 1.99 worstYr  +66 23-26  +370 | alone: +248R, yrs 6/7, PF 2.15, ex10 +4
+   with XRP         +780 ( +117) DD  35 R/DD  22.6 loseM  35% Sharpe 1.79 worstYr  +60 23-26  +344 | alone: +117R, yrs 6/7, PF 1.54, ex10 -34
+   with LINK        +749 (  +86) DD  40 R/DD  18.9 loseM  33% Sharpe 1.87 worstYr  +74 23-26  +383 | alone: +86R, yrs 6/7, PF 1.44, ex10 -4
+   with DOT         +749 (  +86) DD  35 R/DD  21.4 loseM  33% Sharpe 1.80 worstYr  +71 23-26  +379 | alone: +86R, yrs 6/7, PF 1.52, ex10 +8
+   with AVAX        +765 ( +102) DD  37 R/DD  20.5 loseM  33% Sharpe 1.85 worstYr  +68 23-26  +385 | alone: +102R, yrs 6/7, PF 1.60, ex10 +5
+
+--- I-CORE today: +697R, DD 33, R/DD 21.2, losing months 45%, Sharpe 1.32, worst year +34
+   without SOL      +559 ( -138) DD  25 R/DD  22.6 loseM  43% Sharpe 1.14 worstYr  +29 23-26  +340
+   without ZEC      +494 ( -203) DD  24 R/DD  20.5 loseM  43% Sharpe 1.38 worstYr   +9 23-26  +267
+   without NEAR     +606 (  -90) DD  39 R/DD  15.4 loseM  41% Sharpe 1.20 worstYr  +21 23-26  +398
+   without ADA      +523 ( -174) DD  28 R/DD  18.4 loseM  45% Sharpe 1.14 worstYr  +14 23-26  +340
+   without GALA     +606 (  -91) DD  34 R/DD  17.9 loseM  46% Sharpe 1.24 worstYr  +27 23-26  +398
+   with ETH         +791 (  +94) DD  38 R/DD  20.8 loseM  42% Sharpe 1.39 worstYr  +54 23-26  +449 | alone: +94R, yrs 5/7, PF 1.70, ex10 -32
+   with SUI         +705 (   +9) DD  33 R/DD  21.4 loseM  42% Sharpe 1.34 worstYr  +34 23-26  +444 | alone: +9R, yrs 3/4, PF 1.14, ex10 -48
+   with ARB         +710 (  +13) DD  33 R/DD  21.6 loseM  43% Sharpe 1.30 worstYr  +34 23-26  +449 | alone: +13R, yrs 2/4, PF 1.20, ex10 -41
+   with BNB         +815 ( +118) DD  38 R/DD  21.3 loseM  40% Sharpe 1.37 worstYr  +43 23-26  +453 | alone: +118R, yrs 6/7, PF 1.87, ex10 -36
+   with BTC         +814 ( +118) DD  49 R/DD  16.6 loseM  41% Sharpe 1.42 worstYr  +32 23-26  +476 | alone: +118R, yrs 6/7, PF 1.94, ex10 -31
+   with DOGE        +840 ( +143) DD  51 R/DD  16.4 loseM  40% Sharpe 1.43 worstYr  +22 23-26  +478 | alone: +143R, yrs 4/7, PF 2.10, ex10 -25
+   with XRP         +830 ( +133) DD  40 R/DD  20.8 loseM  42% Sharpe 1.29 worstYr  +35 23-26  +535 | alone: +133R, yrs 7/7, PF 1.96, ex10 -49
+   with LINK        +725 (  +28) DD  50 R/DD  14.5 loseM  41% Sharpe 1.29 worstYr  +33 23-26  +459 | alone: +28R, yrs 4/7, PF 1.22, ex10 -74
+   with DOT         +723 (  +26) DD  38 R/DD  19.2 loseM  45% Sharpe 1.30 worstYr  +35 23-26  +453 | alone: +26R, yrs 4/7, PF 1.23, ex10 -52
+   with AVAX        +713 (  +16) DD  41 R/DD  17.3 loseM  43% Sharpe 1.29 worstYr  +33 23-26  +445 | alone: +16R, yrs 3/7, PF 1.14, ex10 -60
+
+--- T-CORE today: +1081R, DD 50, R/DD 21.6, losing months 47%, Sharpe 1.17, worst year -4
+   without SOL      +870 ( -212) DD  45 R/DD  19.5 loseM  46% Sharpe 1.19 worstYr   -5 23-26  +585
+   without ZEC      +826 ( -256) DD  40 R/DD  20.7 loseM  43% Sharpe 1.16 worstYr  +23 23-26  +480
+   without NEAR     +984 (  -97) DD  52 R/DD  19.1 loseM  51% Sharpe 1.14 worstYr  -21 23-26  +641
+   without ADA      +932 ( -150) DD  44 R/DD  21.1 loseM  46% Sharpe 1.14 worstYr   -6 23-26  +649
+   without GALA     +988 (  -93) DD  46 R/DD  21.6 loseM  49% Sharpe 1.09 worstYr  -16 23-26  +636
+   without ETH      +904 ( -177) DD  42 R/DD  21.4 loseM  48% Sharpe 1.03 worstYr   -6 23-26  +625
+   without SUI     +1038 (  -43) DD  47 R/DD  22.2 loseM  49% Sharpe 1.12 worstYr   -1 23-26  +660
+   without ARB     +1027 (  -54) DD  44 R/DD  23.3 loseM  46% Sharpe 1.17 worstYr   +2 23-26  +650
+   with BNB        +1237 ( +156) DD  56 R/DD  22.0 loseM  49% Sharpe 1.18 worstYr   -9 23-26  +747 | alone: +156R, yrs 6/7, PF 2.25, ex10 -65
+   with BTC        +1353 ( +271) DD  55 R/DD  24.4 loseM  49% Sharpe 1.23 worstYr  +18 23-26  +780 | alone: +271R, yrs 6/7, PF 3.47, ex10 -54
+   with DOGE       +1297 ( +215) DD  59 R/DD  22.0 loseM  45% Sharpe 1.31 worstYr  -18 23-26  +776 | alone: +215R, yrs 5/7, PF 2.84, ex10 -43
+   with XRP        +1163 (  +82) DD  54 R/DD  21.6 loseM  48% Sharpe 1.19 worstYr  -13 23-26  +740 | alone: +82R, yrs 4/7, PF 1.56, ex10 -79
+   with LINK       +1168 (  +87) DD  53 R/DD  22.2 loseM  48% Sharpe 1.18 worstYr   -5 23-26  +730 | alone: +87R, yrs 3/7, PF 1.71, ex10 -76
+   with DOT        +1178 (  +97) DD  54 R/DD  22.0 loseM  43% Sharpe 1.23 worstYr   +8 23-26  +735 | alone: +97R, yrs 5/7, PF 2.15, ex10 -44
+   with AVAX       +1246 ( +165) DD  50 R/DD  25.1 loseM  45% Sharpe 1.18 worstYr   -1 23-26  +792 | alone: +165R, yrs 6/7, PF 2.72, ex10 -51
+
+
+================ FINALISTS (costs x1) ================
+FIN BB-CORE | TODAY                                    +663 DD 31 loseM 34% run 17 win 36% | 20:+79 21:+171 22:+73 23:+81 24:+66 25:+88 26:+105 | SOL +128 ZEC +132 NEAR +86 ADA +120 GALA +161 ARB +37
+FIN BB-CORE | bands 1.9 sigma                          +742 DD 33 loseM 34% run 18 win 36% | 20:+87 21:+182 22:+79 23:+95 24:+76 25:+98 26:+124 | SOL +144 ZEC +130 NEAR +103 ADA +145 GALA +174 ARB +44
+FIN BB-CORE | bands 1.8 sigma                          +835 DD 37 loseM 30% run 19 win 36% | 20:+92 21:+204 22:+95 23:+130 24:+88 25:+105 26:+122 | SOL +157 ZEC +134 NEAR +126 ADA +177 GALA +187 ARB +54
+FIN I-CORE | TODAY                                    +697 DD 33 loseM 45% run 16 win 33% | 20:+46 21:+181 22:+34 23:+105 24:+93 25:+143 26:+94 | SOL +138 ZEC +203 NEAR +90 ADA +174 GALA +91
+FIN I-CORE | after +3R lock +1R                       +700 DD 28 loseM 41% run 13 win 36% | 20:+45 21:+171 22:+37 23:+108 24:+94 25:+151 26:+94 | SOL +138 ZEC +200 NEAR +83 ADA +181 GALA +97
+FIN I-CORE | trail 8 ATR                              +872 DD 31 loseM 40% run 15 win 31% | 20:+47 21:+203 22:+40 23:+57 24:+138 25:+296 26:+91 | SOL +132 ZEC +342 NEAR +102 ADA +210 GALA +87
+FIN I-CORE | trail 8 + after +3R lock +1R             +875 DD 29 loseM 40% run 12 win 35% | 20:+35 21:+201 22:+39 23:+61 24:+144 25:+302 26:+92 | SOL +143 ZEC +344 NEAR +91 ADA +203 GALA +94
+FIN T-CORE | TODAY                                   +1081 DD 50 loseM 47% run 27 win 22% | 20:+101 21:+252 22:+25 23:-4 24:+314 25:+252 26:+141 | SOL +212 ZEC +256 NEAR +97 ADA +150 GALA +93 ETH +177 SUI +43 ARB +54
+FIN T-CORE | out if under +1R after 48 candles       +1177 DD 45 loseM 41% run 18 win 37% | 20:+123 21:+274 22:+16 23:+6 24:+382 25:+239 26:+137 | SOL +245 ZEC +291 NEAR +126 ADA +169 GALA +109 ETH +184 SUI +15 ARB +36
+FIN T-CORE | length 30 + out if under +1R after 48   +1191 DD 33 loseM 41% run 14 win 37% | 20:+111 21:+253 22:+14 23:+22 24:+386 25:+262 26:+142 | SOL +242 ZEC +315 NEAR +133 ADA +158 GALA +101 ETH +164 SUI +22 ARB +56

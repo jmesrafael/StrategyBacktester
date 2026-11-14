@@ -1,0 +1,165 @@
+
+=== BB-CORE (costs x1)
+  today      +663 drop  31.2 streak 17 loseM 34% win 36% | 20:+79 21:+171 22:+73 23:+81 24:+66 25:+88 26:+105
+  improved   +742 drop  28.5 streak 14 loseM 33% win 37% | 20:+75 21:+178 22:+80 23:+132 24:+94 25:+68 26:+114
+  neighbours better in all 4: 4/27; more profit 25, smaller drop 16, shorter streak 21, fewer losing months 15
+  -- coins under today rules: base   +663 drop  31.2 streak 17 loseM 34% worstYr +66
+     without SOL     +536 drop  29.9 streak 16 loseM 33% worstYr +43
+     without ZEC     +531 drop  27.4 streak 15 loseM 39% worstYr +34
+     without NEAR    +578 drop  26.3 streak 14 loseM 36% worstYr +47
+     without ADA     +543 drop  26.8 streak 15 loseM 35% worstYr +43
+     without GALA    +503 drop  27.5 streak 16 loseM 34% worstYr +47
+     without ARB     +627 drop  25.5 streak 15 loseM 31% worstYr +66
+     with    BTC     +732 drop  37.9 streak 20 loseM 36% worstYr +65 | alone +69R 4/7 yrs PF 1.30 since 2020-01
+     with    ETH     +764 drop  33.9 streak 20 loseM 31% worstYr +66 | alone +101R 6/7 yrs PF 1.50 since 2020-01
+     with    BNB     +750 drop  35.2 streak 18 loseM 33% worstYr +76 | alone +87R 7/7 yrs PF 1.40 since 2020-01
+     with    XRP     +780 drop  34.5 streak 19 loseM 35% worstYr +60 | alone +117R 6/7 yrs PF 1.54 since 2020-01
+     with    DOGE    +912 drop  40.0 streak 18 loseM 29% worstYr +66 | alone +248R 6/7 yrs PF 2.15 since 2020-01
+     with    LINK    +749 drop  39.5 streak 19 loseM 33% worstYr +74 | alone +86R 6/7 yrs PF 1.44 since 2020-01
+     with    AVAX    +765 drop  37.3 streak 22 loseM 33% worstYr +68 | alone +102R 6/7 yrs PF 1.60 since 2020-10
+     with    DOT     +749 drop  35.1 streak 20 loseM 33% worstYr +71 | alone +86R 6/7 yrs PF 1.52 since 2020-09
+     with    UNI     +692 drop  35.8 streak 19 loseM 37% worstYr +60 | alone +28R 5/7 yrs PF 1.15 since 2020-10
+     with    AAVE    +652 drop  36.7 streak 17 loseM 37% worstYr +69 | alone -12R 3/7 yrs PF 0.94 since 2020-11
+     with    INJ     +677 drop  37.3 streak 19 loseM 36% worstYr +54 | alone +14R 5/7 yrs PF 1.07 since 2020-11
+     with    XLM     +759 drop  32.3 streak 19 loseM 34% worstYr +83 | alone +96R 5/7 yrs PF 1.48 since 2020-01
+     with    HBAR    +714 drop  36.9 streak 18 loseM 36% worstYr +60 | alone +50R 4/7 yrs PF 1.22 since 2020-01
+     with    DASH    +684 drop  32.9 streak 18 loseM 36% worstYr +47 | alone +21R 4/7 yrs PF 1.09 since 2020-01
+     with    ICP     +709 drop  37.0 streak 21 loseM 31% worstYr +62 | alone +46R 3/6 yrs PF 1.32 since 2021-06
+     with    QNT     +725 drop  38.5 streak 18 loseM 37% worstYr +72 | alone +61R 5/6 yrs PF 1.33 since 2021-09
+     with    SUI     +726 drop  35.3 streak 19 loseM 33% worstYr +73 | alone +63R 4/4 yrs PF 1.56 since 2023-06
+     BEST LINEUP: SOL ZEC NEAR ADA GALA ARB ->   +663 drop  31.2 streak 17 loseM 34% (added none)
+  -- coins under improved rules: base   +742 drop  28.5 streak 14 loseM 33% worstYr +68
+     without SOL     +624 drop  28.4 streak 16 loseM 34% worstYr +69
+     without ZEC     +628 drop  29.3 streak 12 loseM 35% worstYr +39
+     without NEAR    +620 drop  30.8 streak 15 loseM 33% worstYr +54
+     without ADA     +575 drop  27.2 streak 16 loseM 31% worstYr +34
+     without GALA    +572 drop  37.3 streak 17 loseM 36% worstYr +52
+     without ARB     +690 drop  27.5 streak 14 loseM 31% worstYr +58
+     with    BTC     +820 drop  39.9 streak 17 loseM 31% worstYr +65 | alone +78R 4/7 yrs PF 1.31 since 2020-01
+     with    ETH     +887 drop  44.1 streak 17 loseM 33% worstYr +84 | alone +145R 7/7 yrs PF 1.68 since 2020-01
+     with    BNB     +808 drop  37.7 streak 19 loseM 36% worstYr +76 | alone +66R 6/7 yrs PF 1.26 since 2020-01
+     with    XRP     +870 drop  39.9 streak 19 loseM 30% worstYr +86 | alone +128R 6/7 yrs PF 1.57 since 2020-01
+     with    DOGE   +1001 drop  41.1 streak 17 loseM 34% worstYr +93 | alone +259R 6/7 yrs PF 2.10 since 2020-01
+     with    LINK    +846 drop  40.5 streak 16 loseM 30% worstYr +74 | alone +104R 6/7 yrs PF 1.48 since 2020-01
+     with    AVAX    +859 drop  35.9 streak 17 loseM 33% worstYr +73 | alone +117R 6/7 yrs PF 1.59 since 2020-10
+     with    DOT     +841 drop  37.1 streak 17 loseM 34% worstYr +78 | alone +100R 7/7 yrs PF 1.53 since 2020-09
+     with    UNI     +774 drop  39.5 streak 17 loseM 33% worstYr +77 | alone +32R 5/7 yrs PF 1.15 since 2020-10
+     with    AAVE    +745 drop  38.0 streak 18 loseM 31% worstYr +67 | alone +3R 2/7 yrs PF 1.01 since 2020-11
+     with    INJ     +748 drop  43.4 streak 17 loseM 34% worstYr +71 | alone +6R 4/7 yrs PF 1.03 since 2020-11
+     with    XLM     +836 drop  37.5 streak 17 loseM 34% worstYr +84 | alone +94R 6/7 yrs PF 1.41 since 2020-01
+     with    HBAR    +810 drop  40.9 streak 18 loseM 35% worstYr +66 | alone +68R 4/7 yrs PF 1.27 since 2020-01
+     with    DASH    +756 drop  39.5 streak 17 loseM 35% worstYr +75 | alone +14R 5/7 yrs PF 1.06 since 2020-01
+     with    ICP     +769 drop  37.9 streak 17 loseM 33% worstYr +66 | alone +27R 3/6 yrs PF 1.15 since 2021-06
+     with    QNT     +786 drop  49.0 streak 16 loseM 31% worstYr +75 | alone +44R 4/6 yrs PF 1.21 since 2021-09
+     with    SUI     +818 drop  34.1 streak 16 loseM 33% worstYr +75 | alone +76R 4/4 yrs PF 1.68 since 2023-06
+     BEST LINEUP: SOL ZEC NEAR ADA GALA ARB ->   +742 drop  28.5 streak 14 loseM 33% (added none)
+
+=== I-CORE (costs x1)
+  today      +697 drop  32.9 streak 16 loseM 45% win 33% | 20:+46 21:+181 22:+34 23:+105 24:+93 25:+143 26:+94
+  improved   +822 drop  25.4 streak 14 loseM 41% win 33% | 20:+52 21:+198 22:+46 23:+135 24:+104 25:+175 26:+112
+  neighbours better in all 4: 3/12; more profit 12, smaller drop 12, shorter streak 3, fewer losing months 11
+  -- coins under today rules: base   +697 drop  32.9 streak 16 loseM 45% worstYr +34
+     without SOL     +559 drop  24.7 streak 16 loseM 43% worstYr +29
+     without ZEC     +494 drop  24.1 streak 15 loseM 43% worstYr +9
+     without NEAR    +606 drop  39.3 streak 15 loseM 41% worstYr +21
+     without ADA     +523 drop  28.4 streak 12 loseM 45% worstYr +14
+     without GALA    +606 drop  33.9 streak 13 loseM 46% worstYr +27
+     with    BTC     +814 drop  49.2 streak 17 loseM 41% worstYr +32 | alone +118R 6/7 yrs PF 1.94 since 2020-01
+     with    ETH     +791 drop  37.9 streak 16 loseM 42% worstYr +54 | alone +94R 5/7 yrs PF 1.70 since 2020-01
+     with    BNB     +815 drop  38.2 streak 18 loseM 40% worstYr +43 | alone +118R 6/7 yrs PF 1.87 since 2020-01
+     with    XRP     +830 drop  39.8 streak 20 loseM 42% worstYr +35 | alone +133R 7/7 yrs PF 1.96 since 2020-01
+     with    DOGE    +840 drop  51.2 streak 20 loseM 40% worstYr +22 | alone +143R 4/7 yrs PF 2.10 since 2020-01
+     with    LINK    +725 drop  50.0 streak 20 loseM 41% worstYr +33 | alone +28R 4/7 yrs PF 1.22 since 2020-01
+     with    AVAX    +713 drop  41.1 streak 22 loseM 43% worstYr +33 | alone +16R 3/7 yrs PF 1.14 since 2020-10
+     with    DOT     +723 drop  37.7 streak 20 loseM 45% worstYr +35 | alone +26R 4/7 yrs PF 1.23 since 2020-09
+     with    UNI     +753 drop  44.7 streak 18 loseM 43% worstYr +34 | alone +56R 5/7 yrs PF 1.48 since 2020-10
+     with    AAVE    +737 drop  44.2 streak 17 loseM 43% worstYr +40 | alone +41R 5/7 yrs PF 1.39 since 2020-11
+     with    INJ     +742 drop  27.9 streak 15 loseM 43% worstYr +27  ALL4 | alone +45R 4/6 yrs PF 1.37 since 2020-11
+     with    XLM     +849 drop  42.7 streak 20 loseM 45% worstYr +32 | alone +153R 4/7 yrs PF 2.22 since 2020-01
+     with    HBAR    +734 drop  38.3 streak 19 loseM 43% worstYr +41 | alone +37R 5/7 yrs PF 1.29 since 2020-01
+     with    DASH    +721 drop  42.5 streak 18 loseM 41% worstYr +35 | alone +24R 5/7 yrs PF 1.18 since 2020-01
+     with    ICP     +749 drop  35.7 streak 22 loseM 41% worstYr +30 | alone +52R 3/6 yrs PF 1.53 since 2021-06
+     with    QNT     +761 drop  34.9 streak 18 loseM 45% worstYr +46 | alone +65R 4/6 yrs PF 1.64 since 2021-09
+     with    SUI     +705 drop  32.9 streak 15 loseM 42% worstYr +34 | alone +9R 3/4 yrs PF 1.14 since 2023-06
+     with    ARB     +710 drop  32.9 streak 18 loseM 43% worstYr +34 | alone +13R 2/4 yrs PF 1.20 since 2023-04
+     BEST LINEUP: SOL ZEC NEAR ADA GALA INJ ->   +742 drop  27.9 streak 15 loseM 43% (added INJ)
+  -- coins under improved rules: base   +822 drop  25.4 streak 14 loseM 41% worstYr +46
+     without SOL     +673 drop  20.5 streak 13 loseM 39% worstYr +37
+     without ZEC     +584 drop  22.9 streak 13 loseM 40% worstYr +24
+     without NEAR    +726 drop  22.7 streak 11 loseM 36% worstYr +31
+     without ADA     +596 drop  24.3 streak 16 loseM 41% worstYr +12
+     without GALA    +707 drop  26.7 streak 13 loseM 45% worstYr +35
+     with    BTC     +954 drop  31.2 streak 18 loseM 36% worstYr +41 | alone +133R 5/7 yrs PF 1.89 since 2020-01
+     with    ETH     +952 drop  28.1 streak 17 loseM 36% worstYr +69 | alone +131R 6/7 yrs PF 1.90 since 2020-01
+     with    BNB     +950 drop  36.1 streak 19 loseM 41% worstYr +52 | alone +129R 6/7 yrs PF 1.87 since 2020-01
+     with    XRP     +969 drop  33.9 streak 17 loseM 39% worstYr +47 | alone +148R 7/7 yrs PF 1.92 since 2020-01
+     with    DOGE    +990 drop  34.7 streak 19 loseM 36% worstYr +38 | alone +168R 4/7 yrs PF 2.15 since 2020-01
+     with    LINK    +867 drop  37.7 streak 20 loseM 40% worstYr +46 | alone +45R 5/7 yrs PF 1.33 since 2020-01
+     with    AVAX    +841 drop  40.9 streak 20 loseM 42% worstYr +46 | alone +20R 4/7 yrs PF 1.15 since 2020-10
+     with    DOT     +846 drop  36.1 streak 17 loseM 45% worstYr +41 | alone +24R 3/7 yrs PF 1.19 since 2020-09
+     with    UNI     +877 drop  37.3 streak 18 loseM 40% worstYr +45 | alone +55R 4/7 yrs PF 1.39 since 2020-10
+     with    AAVE    +833 drop  37.1 streak 19 loseM 42% worstYr +49 | alone +11R 4/7 yrs PF 1.09 since 2020-11
+     with    INJ     +885 drop  29.4 streak 18 loseM 39% worstYr +37 | alone +63R 4/6 yrs PF 1.47 since 2020-11
+     with    XLM    +1008 drop  39.9 streak 21 loseM 40% worstYr +41 | alone +186R 4/7 yrs PF 2.36 since 2020-01
+     with    HBAR    +885 drop  38.0 streak 21 loseM 40% worstYr +56 | alone +63R 4/7 yrs PF 1.44 since 2020-01
+     with    DASH    +855 drop  40.5 streak 17 loseM 37% worstYr +43 | alone +34R 4/7 yrs PF 1.24 since 2020-01
+     with    ICP     +878 drop  34.4 streak 19 loseM 42% worstYr +43 | alone +56R 2/6 yrs PF 1.49 since 2021-06
+     with    QNT     +904 drop  30.8 streak 19 loseM 41% worstYr +52 | alone +83R 4/6 yrs PF 1.77 since 2021-09
+     with    SUI     +830 drop  32.7 streak 16 loseM 40% worstYr +46 | alone +9R 2/4 yrs PF 1.13 since 2023-06
+     with    ARB     +838 drop  30.5 streak 16 loseM 42% worstYr +46 | alone +17R 2/4 yrs PF 1.22 since 2023-04
+     BEST LINEUP: SOL ZEC NEAR ADA GALA ->   +822 drop  25.4 streak 14 loseM 41% (added none)
+
+=== T-CORE (costs x1)
+  today     +1081 drop  50.1 streak 27 loseM 47% win 22% | 20:+101 21:+252 22:+25 23:-4 24:+314 25:+252 26:+141
+  improved  +1191 drop  32.9 streak 14 loseM 41% win 37% | 20:+111 21:+253 22:+14 23:+22 24:+386 25:+262 26:+142
+  neighbours better in all 4: 17/20; more profit 20, smaller drop 20, shorter streak 20, fewer losing months 17
+  -- coins under today rules: base  +1081 drop  50.1 streak 27 loseM 47% worstYr -4
+     without SOL     +870 drop  44.7 streak 31 loseM 46% worstYr -5
+     without ZEC     +826 drop  39.9 streak 26 loseM 43% worstYr +23
+     without NEAR    +984 drop  51.6 streak 29 loseM 51% worstYr -21
+     without ADA     +932 drop  44.1 streak 23 loseM 46% worstYr -6
+     without GALA    +988 drop  45.9 streak 24 loseM 49% worstYr -16
+     without ETH     +904 drop  42.2 streak 29 loseM 48% worstYr -6
+     without SUI    +1038 drop  46.7 streak 35 loseM 49% worstYr -1
+     without ARB    +1027 drop  44.1 streak 24 loseM 46% worstYr +2
+     with    BTC    +1353 drop  55.3 streak 29 loseM 49% worstYr +18 | alone +271R 6/7 yrs PF 3.47 since 2020-01
+     with    BNB    +1237 drop  56.2 streak 32 loseM 49% worstYr -9 | alone +156R 6/7 yrs PF 2.25 since 2020-01
+     with    XRP    +1163 drop  53.9 streak 29 loseM 48% worstYr -13 | alone +82R 4/7 yrs PF 1.56 since 2020-01
+     with    DOGE   +1297 drop  59.0 streak 33 loseM 45% worstYr -18 | alone +215R 5/7 yrs PF 2.84 since 2020-01
+     with    LINK   +1168 drop  52.5 streak 36 loseM 48% worstYr -5 | alone +87R 3/7 yrs PF 1.71 since 2020-01
+     with    AVAX   +1246 drop  49.6 streak 27 loseM 45% worstYr -1 | alone +165R 6/7 yrs PF 2.72 since 2020-10
+     with    DOT    +1178 drop  53.6 streak 32 loseM 43% worstYr +8 | alone +97R 5/7 yrs PF 2.15 since 2020-09
+     with    UNI    +1158 drop  43.6 streak 29 loseM 43% worstYr +0 | alone +76R 5/7 yrs PF 1.81 since 2020-10
+     with    AAVE   +1111 drop  51.0 streak 26 loseM 45% worstYr -0 | alone +29R 5/6 yrs PF 1.29 since 2020-11
+     with    INJ    +1240 drop  52.6 streak 30 loseM 48% worstYr +10 | alone +159R 4/6 yrs PF 2.38 since 2020-11
+     with    XLM    +1178 drop  52.5 streak 29 loseM 43% worstYr +1 | alone +97R 4/7 yrs PF 1.75 since 2020-01
+     with    HBAR   +1247 drop  50.4 streak 34 loseM 48% worstYr +9 | alone +166R 7/7 yrs PF 2.51 since 2020-01
+     with    DASH   +1150 drop  51.9 streak 31 loseM 48% worstYr -2 | alone +68R 6/7 yrs PF 1.51 since 2020-01
+     with    ICP    +1129 drop  57.4 streak 33 loseM 45% worstYr -2 | alone +48R 4/6 yrs PF 1.52 since 2021-06
+     with    QNT    +1108 drop  69.5 streak 30 loseM 46% worstYr -22 | alone +27R 3/6 yrs PF 1.25 since 2021-09
+     BEST LINEUP: SOL ZEC NEAR ADA GALA ETH SUI ARB AVAX ->  +1246 drop  49.6 streak 27 loseM 45% (added AVAX)
+  -- coins under improved rules: base  +1191 drop  32.9 streak 14 loseM 41% worstYr +14
+     without SOL     +949 drop  29.8 streak 18 loseM 42% worstYr +11
+     without ZEC     +876 drop  31.4 streak 16 loseM 42% worstYr +17
+     without NEAR   +1058 drop  33.8 streak 17 loseM 45% worstYr +7
+     without ADA    +1033 drop  25.2 streak 13 loseM 42% worstYr +19
+     without GALA   +1090 drop  32.0 streak 12 loseM 43% worstYr -1
+     without ETH    +1027 drop  30.2 streak 13 loseM 47% worstYr +6
+     without SUI    +1169 drop  32.9 streak 13 loseM 47% worstYr +14
+     without ARB    +1135 drop  32.9 streak 13 loseM 45% worstYr +14
+     with    BTC    +1474 drop  45.6 streak 15 loseM 49% worstYr +13 | alone +283R 5/7 yrs PF 3.57 since 2020-01
+     with    BNB    +1470 drop  35.5 streak 16 loseM 43% worstYr +8 | alone +279R 5/7 yrs PF 2.98 since 2020-01
+     with    XRP    +1313 drop  42.4 streak 17 loseM 47% worstYr +16 | alone +122R 4/7 yrs PF 1.85 since 2020-01
+     with    DOGE   +1406 drop  40.5 streak 18 loseM 42% worstYr +6 | alone +215R 5/7 yrs PF 2.71 since 2020-01
+     with    LINK   +1293 drop  45.8 streak 15 loseM 41% worstYr +11 | alone +102R 5/7 yrs PF 1.89 since 2020-01
+     with    AVAX   +1366 drop  39.0 streak 18 loseM 40% worstYr +8 | alone +175R 5/7 yrs PF 2.82 since 2020-10
+     with    DOT    +1300 drop  36.6 streak 17 loseM 40% worstYr +25 | alone +109R 4/7 yrs PF 2.11 since 2020-09
+     with    UNI    +1272 drop  39.2 streak 17 loseM 40% worstYr +14 | alone +81R 4/7 yrs PF 1.72 since 2020-10
+     with    AAVE   +1223 drop  41.2 streak 15 loseM 42% worstYr +5 | alone +32R 5/7 yrs PF 1.28 since 2020-11
+     with    INJ    +1353 drop  40.4 streak 15 loseM 49% worstYr +6 | alone +162R 3/7 yrs PF 2.33 since 2020-11
+     with    XLM    +1301 drop  45.4 streak 16 loseM 40% worstYr -6 | alone +110R 4/7 yrs PF 1.76 since 2020-01
+     with    HBAR   +1339 drop  43.0 streak 17 loseM 46% worstYr +7 | alone +148R 6/7 yrs PF 2.05 since 2020-01
+     with    DASH   +1275 drop  45.8 streak 17 loseM 45% worstYr +3 | alone +84R 6/7 yrs PF 1.59 since 2020-01
+     with    ICP    +1245 drop  37.8 streak 17 loseM 47% worstYr +21 | alone +54R 3/6 yrs PF 1.59 since 2021-06
+     with    QNT    +1201 drop  50.2 streak 17 loseM 47% worstYr +1 | alone +10R 2/6 yrs PF 1.07 since 2021-09
+     BEST LINEUP: SOL ZEC NEAR ADA GALA ETH SUI ARB ->  +1191 drop  32.9 streak 14 loseM 41% (added none)
