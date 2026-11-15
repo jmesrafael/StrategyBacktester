@@ -8,7 +8,7 @@
 | Code / state + keys | `/opt/tcore` (root-owned) / `/var/lib/tcore` (`mexc-keys.json`, journal, state) |
 | Dashboard tag | `tcore` ("T-CORE" in the bot selector, live) |
 | Ledger wallet | `tcore` (closed trades and wallet reports count in the pool) |
-| Telegram label | `[CORE 3]` |
+| Telegram label | `[T-CORE]` |
 | Size | about $40, 2.5% risk per trade (about $1), steps 2.5 / 2 / 1.5% at $0 / $500 / $1000, $500 cap, halt at -45R |
 | Build | `bash build-tcore-live.sh` → `dist/tcore-live.tar.gz` (a patched copy of this folder; the paper source is never changed) |
 
@@ -88,7 +88,7 @@ It refuses without keys, without the ledger wallet key, without the passed test,
 - `sudo bash /opt/tcore/deploy-tcore/status.sh` : service active, balance about $40, flat.
 - Dashboard: bot selector shows **T-CORE** (live). The paper lab stays as **T-CORE lab**.
 - `tail /var/log/ledger-wallet-tcore.log` : "wallet snapshot (tcore): sent".
-- First trade: Telegram `[CORE 3]`, dashboard Trades tab with MEXC's dollar figure.
+- First trade: Telegram `[T-CORE]`, dashboard Trades tab with MEXC's dollar figure.
 
 ## Stop / undo
 
