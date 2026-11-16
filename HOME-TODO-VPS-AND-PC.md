@@ -4,7 +4,7 @@
 > - **News Lab REMOVED (owner's order, Nov 16).** The paper bots `newsbb`, `newsic`, `newstc` were stopped and deleted from the VPS (services, `/opt/news*`, `/var/lib/news*`, `/etc/news*.env`, users). Backup: `/opt/backups/news-labs-20261116.tar.gz`. Their 205 dashboard rows were deleted and the News Lab tab is gone. **Do NOT run Part 1 or Part 2 below: they are history only.** The code in `news-gate/` and `news-lab-bots/` stays in the repo, untouched.
 > - **Rules v3 are LIVE on all three bots (Nov 14).** BB-CORE: bands 1.8, time exit 42 candles, 3-candle wait after a loss. I-CORE: first stop 1.75 ATR, stop to +1R once +4R ahead, ETH on. T-CORE: Bollinger 30, out if under +1R after 48 candles. **BNB was dropped** (never went live). Backup + rollback: `/opt/backups/pre-rules-v3-20261114`. The paper labs (`bbtrail`, `lucidio-1h`) still run the OLD rules on purpose.
 > - **Part 8 DONE:** the T-CORE live Telegram label `[T-CORE]` is already on the VPS (checked Nov 16).
-> - **Still open, needs you:** Part 3 (Vercel: `/api/monthly-report` still answers 503, so `CRON_SECRET` + Telegram variables are not set) and Part 5 (backup key is created in the app). Part 7 optional.
+> - **Part 3 DONE Nov 16** (dry run for 2026-10 returns the report and matches the database). **Part 5 DONE Nov 16.** Nothing else is left except confirming the Vercel cron (Settings > Cron Jobs) and the 0.54 gap. Part 7 optional.
 > - Part 3 note: the monthly report lists live bots only, so the removed news bots no longer matter there.
 
 > **DONE Nov 12, 2026: SUI + ARB.** T-CORE trades SUI live since 15:14 UTC; ARB went live on BB-CORE and T-CORE too (owner decided, though it fails the stability rule). Record: `archive-done/DONE-SUI-ARB-LIVE.md`. ZEC is back on every bot (MEXC cancelled the delisting).
@@ -13,7 +13,7 @@
 > - Part 0 DONE. Part 1 DONE: `newsbb`, `newsic`, `newstc` installed (hash `6fbcb712…` matched, "live bots' start times unchanged: YES", dashboard lines added, no Telegram setting, all three running with 0 errors). The first dashboard heartbeat comes after the 16:00Z candle.
 > - Part 4 DONE: both VPS `perf-watch.js` are byte-identical to the new repo file, 0 "digest", `--dry` runs fine.
 > - Part 2: check the News Lab tab after the first heartbeat (not verifiable without your login).
-> - **STILL OPEN, needs you:** Part 3 (Vercel is not reachable from my tools; `/api/monthly-report` answers 503 "CRON_SECRET is not set", so add the 3 variables and redeploy), Part 5 (backup key is created in the app), Part 7 (optional). Part 6 (old SSH key) is left to the owner.
+> - **STILL OPEN, needs you:** Part 3 (Vercel is not reachable from my tools; `/api/monthly-report` answers 503 "CRON_SECRET is not set", so add the 3 variables and redeploy), Part 5 (backup key is created in the app), Part 6 (old SSH key) is left to the owner.
 > - Once Part 3 and 5 are done, rename this file to start with `DONE-`.
 
 Written **Nov 11, 2026**. This is the one list. Do the parts in order; each part says whether it touches the running bots (only Part 4 does, and it doesn't restart them).
@@ -28,7 +28,6 @@ Rule for the whole session: **never edit, restart or reinstall a live bot** (`lu
 | 4 | Monthly report: remove the weekly digest on the VPS | VPS | `perf-watch.js` only, no restart | 10 min |
 | 5 | Daily books-vs-MEXC check + nightly backup | PC | no (read-only) | 10 min |
 | 6 | Security cleanup: remove the old temporary SSH key | VPS | no | 2 min |
-| 7 | Optional: Pulse site extras (Upstash, domain) | Vercel | no | 10 min |
 | 8 | T-CORE live Telegram label `[T-CORE]` | VPS | **DONE, verified Nov 16** | n/a |
 
 ---
@@ -219,14 +218,6 @@ If either is already gone, that's fine. Then confirm you can still log in with y
 
 ---
 
-## Part 7 — Optional: the Pulse news site (https://cryptobai.vercel.app)
-
-- **Upstash Redis (free):** Vercel project → Storage → connect Upstash Redis, redeploy. The site then keeps a 3-day news history for first-time visitors (`/api/news` shows `"persistent": true`).
-- **Domain:** Settings → Domains.
-- **GitHub Actions:** make sure Actions can write to the repo (Settings → Actions → Workflow permissions), or the daily 07:00 PHT brief can't save. The first manual run already succeeded; to publish now: Actions → "Pulse highlights" → Run workflow.
-
----
-
 ## Part 8 — T-CORE live: Telegram label `[T-CORE]` — DONE (verified on the VPS Nov 16, nothing to do)
 
 Repo change `31adf78` (Nov 16): `bb-trail/apply-tcore-live-patch.js` now writes `const CORE = 'T-CORE'` into `telegram.js` (was `'CORE 3'`), and `TCORE-LIVE-GO.md` says `[T-CORE]`. Only the message label changes; no trading logic.
@@ -250,10 +241,9 @@ grep -n "const CORE" /opt/tcore/telegram.js        # 'CORE 3' = not updated yet;
 - [x] Part 0: all six services active, start times written down, memory OK
 - [x] Part 1: hash matches `6fbcb712…`, installer ends with "start times unchanged: YES", no `TELEGRAM` in the three env files
 - [x] Part 1 + Part 2: News Lab installed Nov 11, then REMOVED Nov 16 by the owner (nothing left to do)
-- [ ] Part 3: Vercel variables set, cron visible, dry run matches the dashboard
+- [x] Part 3: variables set, October dry run matches the database (Nov 16: BB-CORE 5 trades -5.1R -$21.09; I-CORE and T-CORE 0). Still to confirm: cron visible in Vercel; optional real send
 - [x] Part 4: no "digest" in either `perf-watch.js`
-- [ ] Part 5: backup key created, recon check scheduled
-- [ ] Part 7 (optional): Upstash connected
+- [x] Part 5: DONE Nov 16: key in backup.config.json, nightly backup 02:30 (silent, copied to G:/My Drive/Lucidio-backups). Owner chose NO daily books check/Telegram; run `node scripts/recon-check.mjs --no-telegram` by hand. Open: books gap -0.54 USDT (tolerance 0.5), check after Update Pool
 - [x] Part 8: `tcore` label is `[T-CORE]` on the VPS (checked Nov 16: `const CORE = 'T-CORE'`, backup `/opt/backups/pre-tg-label-20261116`, restarted Nov 15 16:12 UTC with the other two live bots)
 
 ## Things I could not verify from this PC (so check them at home)
