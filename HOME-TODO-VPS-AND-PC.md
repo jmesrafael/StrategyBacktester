@@ -1,5 +1,12 @@
 # HOME TODO — everything not applied yet (VPS, Vercel, PC)
 
+> **UPDATE Nov 16, 2026 (after the latest pull, commits up to `31adf78`)**
+> - **News Lab REMOVED (owner's order, Nov 16).** The paper bots `newsbb`, `newsic`, `newstc` were stopped and deleted from the VPS (services, `/opt/news*`, `/var/lib/news*`, `/etc/news*.env`, users). Backup: `/opt/backups/news-labs-20261116.tar.gz`. Their 205 dashboard rows were deleted and the News Lab tab is gone. **Do NOT run Part 1 or Part 2 below: they are history only.** The code in `news-gate/` and `news-lab-bots/` stays in the repo, untouched.
+> - **Rules v3 are LIVE on all three bots (Nov 14).** BB-CORE: bands 1.8, time exit 42 candles, 3-candle wait after a loss. I-CORE: first stop 1.75 ATR, stop to +1R once +4R ahead, ETH on. T-CORE: Bollinger 30, out if under +1R after 48 candles. **BNB was dropped** (never went live). Backup + rollback: `/opt/backups/pre-rules-v3-20261114`. The paper labs (`bbtrail`, `lucidio-1h`) still run the OLD rules on purpose.
+> - **Part 8 DONE:** the T-CORE live Telegram label `[T-CORE]` is already on the VPS (checked Nov 16).
+> - **Still open, needs you:** Part 3 (Vercel: `/api/monthly-report` still answers 503, so `CRON_SECRET` + Telegram variables are not set) and Part 5 (backup key is created in the app). Part 7 optional.
+> - Part 3 note: the monthly report lists live bots only, so the removed news bots no longer matter there.
+
 > **DONE Nov 12, 2026: SUI + ARB.** T-CORE trades SUI live since 15:14 UTC; ARB went live on BB-CORE and T-CORE too (owner decided, though it fails the stability rule). Record: `archive-done/DONE-SUI-ARB-LIVE.md`. ZEC is back on every bot (MEXC cancelled the delisting).
 
 > **STATUS Nov 11, 2026 (done by Claude over SSH, verified on the VPS)**
@@ -15,13 +22,14 @@ Rule for the whole session: **never edit, restart or reinstall a live bot** (`lu
 | # | What | Where | Touches running bots? | Time |
 |---|---|---|---|---|
 | 0 | Safety check before anything | VPS | no (read-only) | 3 min |
-| 1 | **News Lab paper bots** (`newsbb`, `newsic`, `newstc`) | VPS | no, new services only | 20 min |
-| 2 | Check the News Lab on the dashboard | browser | no | 5 min |
+| 1 | ~~News Lab paper bots~~ **REMOVED Nov 16, do not install** | VPS | n/a | n/a |
+| 2 | ~~Check the News Lab on the dashboard~~ **tab removed** | browser | n/a | n/a |
 | 3 | Monthly Telegram report: Vercel settings + dry run | Vercel + PC | no | 15 min |
 | 4 | Monthly report: remove the weekly digest on the VPS | VPS | `perf-watch.js` only, no restart | 10 min |
 | 5 | Daily books-vs-MEXC check + nightly backup | PC | no (read-only) | 10 min |
 | 6 | Security cleanup: remove the old temporary SSH key | VPS | no | 2 min |
 | 7 | Optional: Pulse site extras (Upstash, domain) | Vercel | no | 10 min |
+| 8 | T-CORE live Telegram label `[T-CORE]` | VPS | **DONE, verified Nov 16** | n/a |
 
 ---
 
@@ -50,7 +58,9 @@ If any live bot is not `active`, **stop** and fix that first; do not install any
 
 ---
 
-## Part 1 — Install the News Lab paper bots (VPS)
+## Part 1 — ~~Install the News Lab paper bots (VPS)~~ — REMOVED Nov 16, 2026, DO NOT RUN
+
+> The owner ordered the news labs stopped and deleted on Nov 16. Everything below is kept only as a record of what was installed. To bring them back, reinstall from `news-lab-bots/NEWS-LAB-INSTALL.md` (code) and restore records from `/opt/backups/news-labs-20261116.tar.gz`; the dashboard tab and bot tags would need restoring too (the server still accepts the `bbn`/`icn`/`tcn` tags).
 
 **What it installs:** three paper services, $100 simulated each, public MEXC data only, no keys, **Telegram removed from the code**.
 
@@ -129,7 +139,9 @@ cd /tmp/newslab && sudo bash deploy/install-news-lab.sh --uninstall          # a
 
 ---
 
-## Part 2 — Check the News Lab on the dashboard (browser)
+## Part 2 — ~~Check the News Lab on the dashboard (browser)~~ — tab removed Nov 16, 2026, SKIP
+
+> The News Lab tab, its three panels and its backtest file were removed from the dashboard (ledger commits `8f56409`, `1c3c83f`). Nothing to check. Text below is history.
 
 1. Open `https://lucidio.vercel.app/bot-dashboard/`, press **R** (hard refresh once, the version changed).
 2. **Research Lab → News Lab** (or open `#lab/tcn/news`).
@@ -215,16 +227,34 @@ If either is already gone, that's fine. Then confirm you can still log in with y
 
 ---
 
+## Part 8 — T-CORE live: Telegram label `[T-CORE]` — DONE (verified on the VPS Nov 16, nothing to do)
+
+Repo change `31adf78` (Nov 16): `bb-trail/apply-tcore-live-patch.js` now writes `const CORE = 'T-CORE'` into `telegram.js` (was `'CORE 3'`), and `TCORE-LIVE-GO.md` says `[T-CORE]`. Only the message label changes; no trading logic.
+The live `tcore` was installed Nov 6-7, so check what it says now:
+```bash
+grep -n "const CORE" /opt/tcore/telegram.js        # 'CORE 3' = not updated yet; 'T-CORE' = done
+```
+- If it already says `'T-CORE'`: nothing to do, tick the box.
+- If it says `'CORE 3'`: it is cosmetic. **Do not restart `tcore` while a trade is open or a candle close is within ~10 minutes.** Best time: right after a 4h close (00/04/08/12/16/20 UTC +10 min) when it is flat or the open trades are noted. Then:
+  1. Back up `/opt/tcore/telegram.js` (e.g. to `/opt/backups/tcore-label-DATE/`).
+  2. Change that one line (root-owned folder, so `sudo`), keep the rest byte-identical.
+  3. `sudo systemctl restart tcore`, then `sudo bash /opt/tcore/deploy-tcore/status.sh`: active, open positions and stops the same as before.
+  4. Check the next Telegram message starts with `[T-CORE]`.
+- Rules v3 files on the VPS were already verified equal to the repo on Nov 14. Do not re-apply the whole live patch; it would overwrite `bot-config.json`.
+- The paper lab `bbtrail` is unaffected.
+
+---
+
 ## Final checklist (tick when done)
 
 - [x] Part 0: all six services active, start times written down, memory OK
 - [x] Part 1: hash matches `6fbcb712…`, installer ends with "start times unchanged: YES", no `TELEGRAM` in the three env files
-- [ ] Part 2: News Lab tab shows heartbeats for `bbn`, `icn`, `tcn`
+- [x] Part 1 + Part 2: News Lab installed Nov 11, then REMOVED Nov 16 by the owner (nothing left to do)
 - [ ] Part 3: Vercel variables set, cron visible, dry run matches the dashboard
 - [x] Part 4: no "digest" in either `perf-watch.js`
 - [ ] Part 5: backup key created, recon check scheduled
-- [ ] Part 6: old SSH key and sudoers rule removed
 - [ ] Part 7 (optional): Upstash connected
+- [x] Part 8: `tcore` label is `[T-CORE]` on the VPS (checked Nov 16: `const CORE = 'T-CORE'`, backup `/opt/backups/pre-tg-label-20261116`, restarted Nov 15 16:12 UTC with the other two live bots)
 
 ## Things I could not verify from this PC (so check them at home)
 
