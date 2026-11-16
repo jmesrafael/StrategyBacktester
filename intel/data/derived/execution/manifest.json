@@ -1,0 +1,115 @@
+{
+ "dataset": "derived/execution",
+ "schema_version": 1,
+ "status": "ok",
+ "built_at": "2026-11-16T05:48:47.547Z",
+ "generator": "engines/execution",
+ "source": null,
+ "inputs": [
+  {
+   "dataset": "trades",
+   "built_at": "2026-11-16T05:48:40.127Z",
+   "manifest_sha256": "8837263eb3b2f5da3d77870e5d4f32c08955b718ad5a8ba83c08c60a8672c89a"
+  },
+  {
+   "dataset": "market",
+   "built_at": "2026-11-16T05:48:40.085Z",
+   "manifest_sha256": "6e0f796735324cb216d3c61e0551f55e7e0063fd1f066ab8d1c5e2e2ae8f5bed"
+  }
+ ],
+ "files": {
+  "entry_quality.csv": {
+   "rows": 20,
+   "sha256": "7b062c833a3c86cc3ade8198f4193ab86d6fe1e6ec7ee25180b0c569bc7db181",
+   "bytes": 1155,
+   "schema": {
+    "bot": "string",
+    "coin": "string",
+    "n": "int",
+    "median_slip_r": "number?",
+    "mean_slip_r": "number?",
+    "worst_slip_r": "number?",
+    "median_delay_s": "number?",
+    "p90_delay_s": "number?",
+    "n_bp": "int",
+    "median_slip_bp": "number?",
+    "mean_slip_bp": "number?"
+   }
+  },
+  "stop_quality.csv": {
+   "rows": 3,
+   "sha256": "2a74d62292f9192f7c0d88a4737ce6022bf1949bd31d68c1184ae58259abd10c",
+   "bytes": 147,
+   "schema": {
+    "bot": "string",
+    "n": "int",
+    "median_overshoot_r": "number?",
+    "p90_overshoot_r": "number?",
+    "worst_overshoot_r": "number?"
+   }
+  },
+  "costs.csv": {
+   "rows": 3,
+   "sha256": "68e5930825fe8dab2a0a192fd0d7e3c06fa4128b495937211026b8494d654fcb",
+   "bytes": 218,
+   "schema": {
+    "bot": "string",
+    "n_closed": "int",
+    "fees_usd": "number",
+    "funding_usd": "number",
+    "realized_usd": "number",
+    "fees_share_of_gross": "number?",
+    "n_cost_r": "int",
+    "avg_cost_r": "number?"
+   }
+  },
+  "liquidity.csv": {
+   "rows": 8,
+   "sha256": "89c1bedc2f82fd7e4dbfb186d1fb2c801ed0a21b7d493b8035ce0cb2dd113c5d",
+   "bytes": 483,
+   "schema": {
+    "coin": "string",
+    "n_bars_30d": "int",
+    "n_bars_180d": "int",
+    "median_usd_30d": "number?",
+    "median_usd_180d": "number?",
+    "ratio_30d_180d": "number?",
+    "falling": "bool",
+    "median_range_bp_30d": "number?"
+   }
+  },
+  "capacity.csv": {
+   "rows": 17,
+   "sha256": "5b9786d207591c4abac8d52015743d06d9305de366d47ff08eb7aad0a7194280",
+   "bytes": 907,
+   "schema": {
+    "bot": "string",
+    "coin": "string",
+    "n_trades": "int",
+    "n_sized": "int",
+    "notional_usd": "number?",
+    "median_hour_usd_30d": "number?",
+    "participation": "number?",
+    "max_notional_1pct_usd": "number?",
+    "headroom_x": "number?"
+   }
+  }
+ },
+ "checks": [
+  {
+   "name": "trades loaded",
+   "ok": true,
+   "detail": "39 live trades as of 2026-11-16 05:00 UTC"
+  },
+  {
+   "name": "liquidity rows",
+   "ok": true,
+   "detail": "8 coins"
+  }
+ ],
+ "notes": [
+  "order-book capacity is waiting for the recorder pull",
+  "capacity is an estimate from Binance volume, not MEXC order-book data",
+  "cost in R is an estimate: fees plus paid funding divided by the dollar value of 1R"
+ ]
+}

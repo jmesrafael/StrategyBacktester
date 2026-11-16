@@ -1,0 +1,4 @@
+bot,n_closed,fees_usd,funding_usd,realized_usd,fees_share_of_gross,n_cost_r,avg_cost_r
+bbcore,16,-2.35,0.66,-10.81,0.0243,16,-0.0323
+icore,3,-0.07,-0.01,-3.02,0.0248,3,-0.0308
+tcore,3,-0.26,0.01,-8.31,0.0317,3,-0.0331

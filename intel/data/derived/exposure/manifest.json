@@ -1,0 +1,85 @@
+{
+ "dataset": "derived/exposure",
+ "schema_version": 1,
+ "status": "ok",
+ "built_at": "2026-11-16T05:48:48.615Z",
+ "generator": "engines/exposure",
+ "source": null,
+ "inputs": [
+  {
+   "dataset": "trades",
+   "built_at": "2026-11-16T05:48:40.127Z",
+   "manifest_sha256": "8837263eb3b2f5da3d77870e5d4f32c08955b718ad5a8ba83c08c60a8672c89a"
+  },
+  {
+   "dataset": "market",
+   "built_at": "2026-11-16T05:48:40.085Z",
+   "manifest_sha256": "6e0f796735324cb216d3c61e0551f55e7e0063fd1f066ab8d1c5e2e2ae8f5bed"
+  },
+  {
+   "dataset": "derived/correlation",
+   "built_at": "2026-11-16T05:48:47.382Z",
+   "manifest_sha256": "90c66a69d3e53dcf34fd70eda765b0842749fba6c58c0a429e27d502f1823bec"
+  }
+ ],
+ "files": {
+  "history.csv": {
+   "rows": 134,
+   "sha256": "f96dfd6f27b71abd0d30d5c39eae5645133a6d82b9bf4cb68f7ba52da7f8e08b",
+   "bytes": 9785,
+   "schema": {
+    "t": "int",
+    "n_open": "int",
+    "gross_risk_usd": "number",
+    "net_risk_usd": "number",
+    "long_share": "number?",
+    "effective_bets": "number?",
+    "open_net_r": "number",
+    "top_coin": "string?",
+    "top_coin_share": "number?",
+    "alert": "string?"
+   }
+  },
+  "now.json": {
+   "rows": null,
+   "sha256": "258325b97727c36afb125cd7157a0f3188c63b46c22ea9170e81e3c0b29db223",
+   "bytes": 2551,
+   "schema": null
+  },
+  "stress.csv": {
+   "rows": 68,
+   "sha256": "0e46ccc1a2ad5b7a2f58f56d5ba76605328d9029d1c01aade2f425d766b5f58e",
+   "bytes": 2900,
+   "schema": {
+    "scenario": "string",
+    "bot": "string",
+    "coin": "string",
+    "side": "string",
+    "move_pct": "number",
+    "loss_r": "number",
+    "loss_usd": "number"
+   }
+  },
+  "alerts.csv": {
+   "rows": 93,
+   "sha256": "988d10c856e6073de98adfff6faab95bf91c1ec9f9629158bea0257bcb930a1d",
+   "bytes": 5631,
+   "schema": {
+    "t": "int",
+    "kind": "string",
+    "detail": "string"
+   }
+  }
+ },
+ "checks": [
+  {
+   "name": "exposure history built",
+   "ok": true,
+   "detail": "134 points, 93 alert points"
+  }
+ ],
+ "notes": [
+  "observation and alerts only: no output of this engine is read by any bot",
+  "risk_usd = risk fraction x bot equity at entry; open R is valued from Binance prices (estimate)"
+ ]
+}

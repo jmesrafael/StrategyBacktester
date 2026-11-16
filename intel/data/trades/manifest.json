@@ -1,0 +1,155 @@
+{
+ "dataset": "trades",
+ "schema_version": 1,
+ "status": "ok",
+ "built_at": "2026-11-16T05:48:40.127Z",
+ "generator": "ingest/trades.js",
+ "source": {
+  "kind": "dashboard database (Supabase project \"Backtester\")",
+  "tables": [
+   "bot_events (entry, exit, signal, compare)",
+   "closed_trades",
+   "wallet_snapshots"
+  ],
+  "export_file": "inputs/db-export/export-2026-11-16.json",
+  "export_sha256": "4d2b4ac088fe638421e1565f679bcd830d18e7977bc165896e66a1968a8b1051",
+  "exported_at": "2026-11-15T23:34:27.018397+00:00",
+  "method": "manual seed export, 2026-11-16"
+ },
+ "inputs": [],
+ "files": {
+  "trades.csv": {
+   "rows": 56,
+   "sha256": "f018d0f32b0f19d3c7c66fe4720282e8a0eed33b3be992ccb05eb6c1bc0d3a6b",
+   "bytes": 16448,
+   "schema": {
+    "trade_key": "string",
+    "mode": "string",
+    "bot": "string",
+    "coin": "string",
+    "symbol": "string",
+    "side": "string",
+    "dir": "int",
+    "signal_candle_s": "int?",
+    "entry_s": "int",
+    "entry_price": "number",
+    "stop_price": "number",
+    "one_r": "number",
+    "risk_pct": "number?",
+    "qty": "number?",
+    "intended_price": "number?",
+    "entry_slippage_r": "number?",
+    "entry_delay_s": "number?",
+    "costs_kind": "string?",
+    "status": "string",
+    "exit_s": "int?",
+    "exit_price": "number?",
+    "r": "number?",
+    "reason": "string?",
+    "mfe_r": "number?",
+    "mae_r": "number?",
+    "bars": "int?",
+    "hold_s": "number?",
+    "stop_at_exit_r": "number?",
+    "entry_event_id": "string",
+    "exit_event_id": "string?"
+   }
+  },
+  "signals.csv": {
+   "rows": 409,
+   "sha256": "491084f5ac4430bbbd7ef02c86df0e5d524a7906dbdd24912d2a8390ce2b706d",
+   "bytes": 58950,
+   "schema": {
+    "event_id": "string",
+    "ts_s": "int",
+    "mode": "string",
+    "bot": "string",
+    "symbol": "string?",
+    "side": "string?",
+    "decision": "string?",
+    "reason": "string?",
+    "detail": "string?",
+    "signal_candle_s": "int?"
+   }
+  },
+  "exchange_closed.csv": {
+   "rows": 22,
+   "sha256": "408f346ff8f9b194d4a38d55543c145b3cae02dbbce77211b4d4a5a928909246",
+   "bytes": 1822,
+   "schema": {
+    "wallet": "string",
+    "position_id": "string",
+    "symbol": "string",
+    "coin": "string",
+    "side": "string",
+    "closed_s": "int",
+    "realized_usd": "number",
+    "fees_usd": "number?",
+    "funding_usd": "number?",
+    "r_result": "number?"
+   }
+  },
+  "wallets.csv": {
+   "rows": 13188,
+   "sha256": "d7c7678b061479904fcd901f8de960e4a5f0e7004a1d368ddb42d6874e96fd94",
+   "bytes": 573174,
+   "schema": {
+    "wallet": "string",
+    "t": "int",
+    "equity_usdt": "number",
+    "unrealized_usdt": "number?",
+    "open_positions": "int?",
+    "suspect": "bool"
+   }
+  },
+  "compares.csv": {
+   "rows": 61,
+   "sha256": "86ae7f024619eba24fd7ca49a9e324960b6714322655d99eb1cb1ff3aaf1d6b0",
+   "bytes": 5713,
+   "schema": {
+    "event_id": "string",
+    "ts_s": "int",
+    "mode": "string",
+    "bot": "string",
+    "match": "bool?",
+    "matched": "int?",
+    "live_only": "int?",
+    "backtest_only": "int?",
+    "mismatches": "int?",
+    "skipped_signals": "int?",
+    "window_from_s": "int?",
+    "window_to_s": "int?"
+   }
+  }
+ },
+ "checks": [
+  {
+   "name": "export parsed",
+   "ok": true,
+   "detail": "555 events, 56 trades, 13188 wallet snapshots"
+  },
+  {
+   "name": "row counts match the database",
+   "ok": true,
+   "detail": "events 555/555, closed 22/22, snapshots 13188/13188 (snapshots arrive every few minutes, a small difference is the time between the two queries)"
+  },
+  {
+   "name": "no duplicate trades",
+   "ok": true,
+   "detail": "none"
+  },
+  {
+   "name": "every exit has an entry",
+   "ok": true,
+   "detail": "none"
+  },
+  {
+   "name": "prices and stops valid",
+   "ok": true,
+   "detail": "entry, stop and 1R are positive and the stop is on the losing side"
+  }
+ ],
+ "notes": [
+  "no read-only database key configured: built from the newest export file (see intel/README.md, \"Trade exporter key\")"
+ ]
+}

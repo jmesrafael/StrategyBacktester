@@ -1,0 +1,12 @@
+{
+ "coin": "BTC",
+ "autocorr_abs_return": {
+  "lag_1h": 0.295,
+  "lag_24h": 0.168,
+  "lag_168h": 0.134
+ },
+ "next_day_move_after_calm_day": 5.35,
+ "next_day_move_after_wild_day": 15.49,
+ "ratio": 2.9,
+ "note": "next_day_move = sum of absolute hourly moves over the following 24h, in percent. calm / wild = the quietest / most active fifth of days."
+}

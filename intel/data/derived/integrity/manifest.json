@@ -1,0 +1,30 @@
+{
+ "dataset": "derived/integrity",
+ "schema_version": 1,
+ "status": "ok",
+ "built_at": "2026-11-16T05:48:49.213Z",
+ "generator": "integrity/monitor.js",
+ "source": null,
+ "inputs": [],
+ "files": {
+  "status.csv": {
+   "rows": 28,
+   "sha256": "48fca9980d27107774f6503d25e2ed648e0e95660cf92ebfcc2efe8f50b7158e",
+   "bytes": 3296,
+   "schema": {
+    "area": "string",
+    "check": "string",
+    "status": "string",
+    "detail": "string"
+   }
+  }
+ },
+ "checks": [
+  {
+   "name": "monitor ran",
+   "ok": true,
+   "detail": "28 checks: 0 fault(s), 1 blocked"
+  }
+ ],
+ "notes": []
+}

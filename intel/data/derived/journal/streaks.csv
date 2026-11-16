@@ -1,0 +1,8 @@
+bot,kind,from,to,days,total_r,btc_pct,phases,avg_range_x,shock_days,tags
+ALL,loss,2026-10-28,2026-10-30,3,-3.021,-4.4,sideways/down,1.39,1,Binance $6.3B hack
+ALL,profit,2026-11-10,2026-11-14,5,38.434,-14.86,down,1.93,4,Hot US CPI; Nvidia CEO resigns
+bbcore,loss,2026-10-28,2026-10-31,4,-4.226,-4.14,sideways/down,1.13,1,Binance $6.3B hack
+bbcore,profit,2026-11-10,2026-11-12,3,5.011,-5.18,down,1.35,2,Hot US CPI; Nvidia CEO resigns
+icore,profit,2026-10-31,2026-11-02,3,1.376,-0.67,down/sideways,0.68,0,
+icore,profit,2026-11-10,2026-11-14,5,13.149,-14.86,down,1.93,4,Hot US CPI; Nvidia CEO resigns
+tcore,profit,2026-11-10,2026-11-12,3,3.052,-5.18,down,1.35,2,Hot US CPI; Nvidia CEO resigns

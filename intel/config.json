@@ -1,0 +1,93 @@
+{
+  "note": "Paths are relative to the intel folder. No secrets belong in this file. Credentials come from environment variables or intel/secrets.local.json (never committed).",
+  "candleLibrary": "../candles",
+  "pulseBriefs": "../../crypto-news/data/briefs",
+  "pulseEvents": "../../crypto-news/data/events-history.json",
+  "recorderData": "../../recorder-data/lucidio-recorder",
+  "dbExportDir": "inputs/db-export",
+  "ownerTags": "inputs/owner-tags.csv",
+  "backupDir": "backups",
+  "backupCopyTo": null,
+  "bots": {
+    "bbcore": {
+      "label": "BB-CORE",
+      "strategy": "bbcore",
+      "coins": [
+        "SOL",
+        "ZEC",
+        "NEAR",
+        "ADA",
+        "GALA",
+        "ARB"
+      ]
+    },
+    "icore": {
+      "label": "I-CORE",
+      "strategy": "icore",
+      "coins": [
+        "SOL",
+        "ZEC",
+        "NEAR",
+        "ADA",
+        "GALA"
+      ]
+    },
+    "tcore": {
+      "label": "T-CORE",
+      "strategy": "tcore",
+      "coins": [
+        "SOL",
+        "ZEC",
+        "NEAR",
+        "ADA",
+        "GALA",
+        "ETH",
+        "SUI",
+        "ARB"
+      ]
+    }
+  },
+  "marketCoins": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "ZEC",
+    "NEAR",
+    "ADA",
+    "GALA",
+    "SUI",
+    "ARB",
+    "BNB",
+    "XRP",
+    "DOGE",
+    "AVAX",
+    "LINK",
+    "DOT"
+  ],
+  "shock": {
+    "lookbackBars": 720,
+    "minZ": 3,
+    "minVolRatio": 2
+  },
+  "exposure": {
+    "corrWindowHours": 168,
+    "alertEffectiveBets": 2,
+    "alertNetR": 8
+  },
+  "health": {
+    "alertPercentile": 5
+  },
+  "freshness": {
+    "marketHours": 30,
+    "tradesHours": 30,
+    "headlinesHours": 48
+  },
+  "coinStart": {
+    "note": "Rollout date of coins added after a bot went live (UTC). Approximate: from the owner decisions recorded in StrategyBacktester/CLAUDE.md (Nov 12 2026). Used only to start the parity backtest at the right moment.",
+    "ARB": "2026-11-12T15:00:00Z",
+    "SUI": "2026-11-12T15:00:00Z",
+    "ETH": "2026-11-12T15:00:00Z"
+  },
+  "mexcSamples": "../../bb-core/data",
+  "adminReportsDir": "../../ledger/reports"
+}

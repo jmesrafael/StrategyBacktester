@@ -1,0 +1,5 @@
+bot,window_days,live_total_r,live_closed_r,n_live,bt_windows,bt_median_r,bt_p5,bt_p95,percentile,alert
+bbcore,24,3.93,-2.14,22,2119,3.24,-11.11,38.26,51.5,false
+icore,19,14.2,-3.19,7,2117,0.41,-7.16,38.79,87.6,false
+tcore,9,7.73,-3.12,10,2130,-0.93,-5.6,25.89,86.7,false
+ALL,24,25.86,-8.45,39,2119,6.59,-24.31,147.89,68.1,false

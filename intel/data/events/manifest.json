@@ -1,0 +1,65 @@
+{
+ "dataset": "events",
+ "schema_version": 1,
+ "status": "ok",
+ "built_at": "2026-11-16T05:48:42.177Z",
+ "generator": "engines/events (buildLedger)",
+ "source": {
+  "kind": "derived from candles + Pulse calendar + owner tags + headline archive"
+ },
+ "inputs": [
+  {
+   "dataset": "market",
+   "built_at": "2026-11-16T05:48:40.085Z",
+   "manifest_sha256": "6e0f796735324cb216d3c61e0551f55e7e0063fd1f066ab8d1c5e2e2ae8f5bed"
+  },
+  {
+   "dataset": "headlines",
+   "built_at": "2026-11-16T05:48:40.135Z",
+   "manifest_sha256": "3ee055d5760bf25d491014a3480a68eea1db25eb2671742933ac7ee32d82c56f"
+  }
+ ],
+ "files": {
+  "events.jsonl": {
+   "rows": 13677,
+   "sha256": "2b7539a35eebae48756c76c181ab4907234002ef8399e1223fa99bbc705630ec",
+   "bytes": 9027462,
+   "schema": {
+    "event_id": "string",
+    "kind": "string",
+    "subtype": "string?",
+    "asset": "string",
+    "title": "string",
+    "direction": "string?",
+    "event_time": "int?",
+    "published_at": "int?",
+    "first_seen_at": "int",
+    "usable_at": "int",
+    "recorded_at": "int",
+    "backfilled": "bool",
+    "time_precision": "string?",
+    "magnitude": "json",
+    "episode_id": "string?",
+    "episode_first": "bool?",
+    "source": "string?",
+    "link": "string?",
+    "note": "string?",
+    "seq": "int",
+    "prev_hash": "string",
+    "row_hash": "string"
+   }
+  }
+ },
+ "checks": [
+  {
+   "name": "ledger intact (hash chain)",
+   "ok": true,
+   "detail": "13677 stored rows verified"
+  }
+ ],
+ "notes": [
+  "0 new events appended",
+  "by kind: {\"price_shock\":13585,\"scheduled\":77,\"owner_tag\":5,\"headline\":10}",
+  "rows with backfilled=true were written after the fact; rows recorded live from now on have backfilled=false"
+ ]
+}

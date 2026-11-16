@@ -1,0 +1,37 @@
+{
+ "as_of": 1794805200,
+ "bots": {
+  "ALL": {
+   "closed_n": 22,
+   "closed_won": 5,
+   "closed_r": -8.4536,
+   "open_n": 17,
+   "open_r": 34.3136,
+   "total_r": 25.86
+  },
+  "bbcore": {
+   "closed_n": 16,
+   "closed_won": 5,
+   "closed_r": -2.1386,
+   "open_n": 6,
+   "open_r": 6.0728,
+   "total_r": 3.9342
+  },
+  "icore": {
+   "closed_n": 3,
+   "closed_won": 0,
+   "closed_r": -3.1943,
+   "open_n": 4,
+   "open_r": 17.3902,
+   "total_r": 14.1958
+  },
+  "tcore": {
+   "closed_n": 3,
+   "closed_won": 0,
+   "closed_r": -3.1207,
+   "open_n": 7,
+   "open_r": 10.8507,
+   "total_r": 7.73
+  }
+ }
+}

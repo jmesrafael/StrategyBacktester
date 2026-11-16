@@ -1,0 +1,59 @@
+{
+ "as_of": 1794805200,
+ "parity": {
+  "bbcore": {
+   "live": 22,
+   "matched": 17,
+   "live_only": 5,
+   "backtest_only": 2,
+   "mean_r_diff": -0.018,
+   "max_abs_r_diff": 0.042,
+   "closed_compared": 12
+  },
+  "icore": {
+   "live": 7,
+   "matched": 6,
+   "live_only": 1,
+   "backtest_only": 2,
+   "mean_r_diff": -0.053,
+   "max_abs_r_diff": 0.076,
+   "closed_compared": 2
+  },
+  "tcore": {
+   "live": 10,
+   "matched": 8,
+   "live_only": 2,
+   "backtest_only": 3,
+   "mean_r_diff": -0.012,
+   "max_abs_r_diff": 0.012,
+   "closed_compared": 2
+  }
+ },
+ "losing_runs": {
+  "bbcore": {
+   "live_current_losing_run": 0,
+   "backtest_longest_losing_run": 14,
+   "share": 0
+  },
+  "icore": {
+   "live_current_losing_run": 3,
+   "backtest_longest_losing_run": 17,
+   "share": 0.18
+  },
+  "tcore": {
+   "live_current_losing_run": 3,
+   "backtest_longest_losing_run": 15,
+   "share": 0.2
+  },
+  "ALL": {
+   "live_current_losing_run": 1,
+   "backtest_longest_losing_run": 31,
+   "share": 0.03
+  }
+ },
+ "alerts": [
+  "bbcore: parity: 5 live-only entries, largest R difference 0.042",
+  "icore: parity: 1 live-only entries, largest R difference 0.076",
+  "tcore: parity: 2 live-only entries, largest R difference 0.012"
+ ]
+}

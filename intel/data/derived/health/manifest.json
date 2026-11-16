@@ -1,0 +1,76 @@
+{
+ "dataset": "derived/health",
+ "schema_version": 1,
+ "status": "ok",
+ "built_at": "2026-11-16T05:48:48.813Z",
+ "generator": "engines/health",
+ "source": null,
+ "inputs": [
+  {
+   "dataset": "trades",
+   "built_at": "2026-11-16T05:48:40.127Z",
+   "manifest_sha256": "8837263eb3b2f5da3d77870e5d4f32c08955b718ad5a8ba83c08c60a8672c89a"
+  },
+  {
+   "dataset": "market",
+   "built_at": "2026-11-16T05:48:40.085Z",
+   "manifest_sha256": "6e0f796735324cb216d3c61e0551f55e7e0063fd1f066ab8d1c5e2e2ae8f5bed"
+  },
+  {
+   "dataset": "derived/reference-trades",
+   "built_at": "2026-11-16T05:48:44.321Z",
+   "manifest_sha256": "66c978bd4d0cc8da503b5ffe4c524b89b4783c7c66b5ca373f98e131282f006d"
+  }
+ ],
+ "files": {
+  "parity.csv": {
+   "rows": 31,
+   "sha256": "bcf53015c2a9d0e3163a30d80ec97cbe14e740e62ed3fa4499ee4c98e6006058",
+   "bytes": 2069,
+   "schema": {
+    "bot": "string",
+    "coin": "string",
+    "kind": "string",
+    "entry_s": "int",
+    "side": "string",
+    "live_r": "number?",
+    "bt_r": "number?",
+    "detail": "string?"
+   }
+  },
+  "decay.csv": {
+   "rows": 4,
+   "sha256": "ee6149ef430a3b4e714d6840c1605694f7cf5f77dac6dd96664d552f76283109",
+   "bytes": 328,
+   "schema": {
+    "bot": "string",
+    "window_days": "int",
+    "live_total_r": "number",
+    "live_closed_r": "number",
+    "n_live": "int",
+    "bt_windows": "int",
+    "bt_median_r": "number",
+    "bt_p5": "number",
+    "bt_p95": "number",
+    "percentile": "number",
+    "alert": "bool"
+   }
+  },
+  "daily.json": {
+   "rows": null,
+   "sha256": "0c86f6065fb3739ea0d24288326c5b054f8a9150f02fb0ce08b188a3367b9df9",
+   "bytes": 1214,
+   "schema": null
+  }
+ },
+ "checks": [
+  {
+   "name": "health built",
+   "ok": true,
+   "detail": "4 decay rows, 31 parity rows"
+  }
+ ],
+ "notes": [
+  "information only: no output of this engine is read by any bot"
+ ]
+}

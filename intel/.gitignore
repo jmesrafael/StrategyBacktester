@@ -1,0 +1,5 @@
+secrets.local.json
+backups/
+data/mexc/raw/
+*.tmp
+logs/

@@ -1,0 +1,53 @@
+{
+ "dataset": "market",
+ "schema_version": 1,
+ "status": "ok",
+ "built_at": "2026-11-16T05:48:40.085Z",
+ "generator": "ingest/candles.js",
+ "source": {
+  "kind": "local candle library",
+  "path": "../candles",
+  "origin": "Binance USDT-M perpetual futures public API (fapi.binance.com), closed bars only",
+  "updater": "candles/update.js"
+ },
+ "inputs": [],
+ "files": {
+  "registry.json": {
+   "rows": null,
+   "sha256": "78d99d61262fddb9fff61a9a0648ec0c26f2794e8fa91d5c0a11541c01462f00",
+   "bytes": 64780,
+   "schema": null
+  }
+ },
+ "checks": [
+  {
+   "name": "series found",
+   "ok": true,
+   "detail": "270 series"
+  },
+  {
+   "name": "required coins present",
+   "ok": true,
+   "detail": "all present"
+  },
+  {
+   "name": "required coins clean",
+   "ok": true,
+   "detail": "no faults"
+  },
+  {
+   "name": "history unchanged",
+   "ok": true,
+   "detail": "no old row changed"
+  },
+  {
+   "name": "required coins are current",
+   "ok": true,
+   "detail": "all end with BTC"
+  }
+ ],
+ "notes": [
+  "faulty series excluded from use: KNC/1h",
+  "last BTC 1h bar opens 2026-11-16 04:00 UTC"
+ ]
+}

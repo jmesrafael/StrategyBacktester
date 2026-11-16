@@ -1,0 +1,66 @@
+{
+ "as_of": 1794805200,
+ "validated_as_signal": false,
+ "tests": [
+  {
+   "bot": "bbcore",
+   "label": "coin_state",
+   "verdict": "not validated",
+   "best_before_2024": "quiet, trending_up",
+   "worst_before_2024": "volatile, trending_down",
+   "spread_before_2024": 0.516,
+   "spread_from_2024": 0.216,
+   "p_value": 0.191
+  },
+  {
+   "bot": "bbcore",
+   "label": "market_state",
+   "verdict": "not validated",
+   "best_before_2024": "choppy, trending_up",
+   "worst_before_2024": "trending_down, mixed",
+   "spread_before_2024": 0.477,
+   "spread_from_2024": 0.075,
+   "p_value": 0.392
+  },
+  {
+   "bot": "icore",
+   "label": "coin_state",
+   "verdict": "not validated",
+   "best_before_2024": "trending_up, ranging",
+   "worst_before_2024": "trending_down, volatile",
+   "spread_before_2024": 1.612,
+   "spread_from_2024": 1.241,
+   "p_value": 0.117
+  },
+  {
+   "bot": "icore",
+   "label": "market_state",
+   "verdict": "not validated",
+   "best_before_2024": "choppy",
+   "worst_before_2024": "mixed",
+   "spread_before_2024": 1.239,
+   "spread_from_2024": -5.021,
+   "p_value": 0.95
+  },
+  {
+   "bot": "tcore",
+   "label": "coin_state",
+   "verdict": "not validated",
+   "best_before_2024": "trending_up, ranging",
+   "worst_before_2024": "volatile, trending_down",
+   "spread_before_2024": 1.894,
+   "spread_from_2024": 1.095,
+   "p_value": 0.083
+  },
+  {
+   "bot": "tcore",
+   "label": "market_state",
+   "verdict": "not validated",
+   "best_before_2024": "trending_up, choppy",
+   "worst_before_2024": "mixed, trending_down",
+   "spread_before_2024": 1.518,
+   "spread_from_2024": 0.909,
+   "p_value": 0.102
+  }
+ ]
+}

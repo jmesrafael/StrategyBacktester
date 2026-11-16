@@ -1,0 +1,410 @@
+event_id,ts_s,mode,bot,symbol,side,decision,reason,detail,signal_candle_s
+b1b46cc7-377d-46a8-8055-970102598ec8,1792805431,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+e9945d8f-192c-4035-b46b-8d6673e00fc4,1792805435,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+802dc780-5c2e-4bfc-864d-9d4b36d49e9d,1792807344,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+a48723ed-1f50-4bc2-a067-a1b0fe5b3f0d,1792807345,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+5b28b93a-555b-4778-b5d0-8ef7d11764c9,1792842376,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+caa24d27-5c5c-4a67-83b6-43cb43f18d73,1792842376,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+636aac18-798f-4313-b6f1-389e71375c83,1792842967,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+66def006-2271-4d4a-a0d0-3f72dbb5d9dd,1792842967,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+1fcf4c2d-95a7-4022-b730-ae907d2d9d10,1792844983,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+b3b4e55a-0af0-44a9-838a-bf815e9326d4,1792844983,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+0eaebed9-b13c-4488-8575-451c96150c06,1792853650,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+b953bc67-0ffe-4b24-88b8-14d0d77eb60d,1792853651,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+d72fde69-a68d-4567-9946-2e141bfc0979,1792855103,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+14099a39-68c6-4c9c-badc-e8276f81b2f6,1792855104,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+40d6fd3c-86b2-4b7f-a939-21347b340baf,1792856169,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+6ec4217f-b275-49bc-a468-638cbee1fe4e,1792856169,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+e4075ba4-ad3b-4b9f-9426-4be7396cd8c5,1792857150,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+c499c9a9-79d1-42f8-91d5-16da7dbac322,1792857150,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+71cc31ba-a24e-4bee-b790-add4d1abf443:sig,1792857610,live,bbcore,SOL_USDT,SHORT,entered,,,1792843200
+c0727605-c0bb-4d75-92ee-68adbe21fd97,1793018679,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+75c661bc-bce8-4736-8d6f-722c74245747,1793018679,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+abadd759-f6db-41fa-99aa-0c6294957245,1793018679,paper,unknown,NEAR_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 682s after the close,1792569600
+b9c19a0e-a8aa-4d05-9bba-aeb68c45cbba,1793018679,paper,unknown,ADA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 722s after the close,1792569600
+3e86a17a-0436-40fc-b7eb-e0d4003226d6:sig,1793131211,live,bbcore,ZEC_USDT,LONG,entered,,,1793116800
+53750f9c-63d2-4db8-ab9b-2f78a919eb7c:sig,1793246410,live,bbcore,ADA_USDT,SHORT,entered,,,1793232000
+ac361160-dee2-479e-a1b1-734473e7b7c3:sig,1793260812,live,bbcore,NEAR_USDT,SHORT,entered,,,1793246400
+b9ac0bd5-dbb0-47a8-a259-3ebea8cf11ab,1793270243,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+14265f71-af32-47c7-b76e-f20d4121e2b4,1793270243,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+ca577aaa-92b0-4e30-80f0-0d597accfdd3,1793270243,paper,unknown,NEAR_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 682s after the close,1792569600
+98fe1bed-ff4b-46e1-9385-ed66209f869a,1793270243,paper,unknown,ADA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 722s after the close,1792569600
+3f07de12-0c2d-4a6f-b12a-9f258281c521,1793270243,paper,unknown,GALA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 762s after the close,1792569600
+480be982-0398-42b5-8df3-d6a84486e72f,1793277455,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+fa81a41a-0e67-4540-9c34-b054a13d45c2,1793277455,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+bd3779d3-4695-41c0-8c38-cca574456280,1793277455,paper,unknown,NEAR_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 682s after the close,1792569600
+acd63b16-771b-4cf9-b98a-00c5e321e761,1793277455,paper,unknown,ADA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 722s after the close,1792569600
+4398aeb7-69b5-406f-945f-b6a6d1f96b87,1793277455,paper,unknown,GALA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 762s after the close,1792569600
+ic|5013232d-be6e-429a-b857-3d939ea1c80a:sig,1793304010,live,icore,SOL_USDT,SHORT,entered,,,1793289600
+5a07d3e4-e839-4398-a237-5916e62cac5a:sig,1793318411,live,bbcore,NEAR_USDT,SHORT,entered,,,1793304000
+1b05f9a5-137b-4bd3-a878-fd7c49982a4d:sig,1793318413,live,bbcore,ADA_USDT,SHORT,entered,,,1793304000
+512b73e6-28d7-463b-86cc-6b2ad12cfa3c:sig,1793318415,live,bbcore,GALA_USDT,SHORT,entered,,,1793304000
+2e809f59-bc23-4f37-a4ff-2d1e53f96245,1793418835,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+c1f870ec-04fe-46cd-a9b1-3ed632a6e401,1793418835,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+ca431208-f129-4eee-b963-0b47b7600398,1793418835,paper,unknown,NEAR_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 682s after the close,1792569600
+1a856f2d-def5-4c45-b7b4-2e3893a2792d,1793418835,paper,unknown,ADA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 722s after the close,1792569600
+3354763a-5c24-4c39-8ce9-f7f8117fc09e,1793418835,paper,unknown,GALA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 762s after the close,1792569600
+ic|678d5151-8cce-4b54-8eb7-846677110229,1793548811,live,icore,ZEC_USDT,SHORT,skipped,entry_refused,entry order not filled: BLOCKED: MEXC /api/v1/private/order/create code 6002: Your futures position-opening has been restricted. Please check your email or in-app message for details.,1793534400
+ic|a39bd971-257a-492e-844e-35cf560410bc,1793592009,live,icore,ZEC_USDT,LONG,skipped,entry_refused,entry order not filled: BLOCKED: MEXC /api/v1/private/order/create code 6002: Your futures position-opening has been restricted. Please check your email or in-app message for details.,1793577600
+28b80513-c782-45a9-9c9a-c639907da5a1,1793606411,live,bbcore,NEAR_USDT,SHORT,skipped,entry_refused,entry order not filled: BLOCKED: MEXC /api/v1/private/order/create code 6002: Your futures position-opening has been restricted. Please check your email or in-app message for details.,1793592000
+10a471aa-5d9e-4cf7-a4b8-eed31139297e,1793606412,live,bbcore,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1793592000
+7836d54f-d07f-418f-b5a8-bc8e5697822d:sig,1793620811,live,bbcore,NEAR_USDT,SHORT,entered,,,1793606400
+3d5fec14-8c3b-4c6e-b7b6-e5aed677ae1b:sig,1793635212,live,bbcore,SOL_USDT,SHORT,entered,,,1793620800
+579a5ce5-81fc-4e31-bbdb-35dcf4b89fc0,1793635214,live,bbcore,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1793620800
+b5a4d495-d092-4cb8-9065-82e19cec9521,1793635215,live,bbcore,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1793620800
+cec1bf0a-f0ae-4858-8753-a690d3addbc4,1793649608,live,bbcore,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1793635200
+ic|9dfec368-b702-4873-8087-cad864fb2b30:sig,1793649608,live,icore,ZEC_USDT,SHORT,entered,,,1793635200
+14d0fa04-3b3c-4115-bb24-77ffa587f4d9:sig,1793649610,live,bbcore,ZEC_USDT,SHORT,entered,,,1793635200
+6151ca55-1348-4394-a040-bacb38ecfcbd,1793649611,live,bbcore,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1793635200
+ee67239e-b1e7-48a2-918e-726781a92819,1793649613,live,bbcore,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1793635200
+2f88d696-add8-4f49-8570-8ab580b3f805:sig,1793649615,live,bbcore,GALA_USDT,SHORT,entered,,,1793635200
+a0443f72-d2f0-4b8c-8a13-927ecdbda6b3,1793664005,live,bbcore,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1793649600
+6b437d75-3a9c-4b0e-9a07-fd9481006e67,1793664006,live,bbcore,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1793649600
+71fb9361-07d3-4ad6-b1f5-6b0002c90d25,1793664007,live,bbcore,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1793649600
+d2add61e-4318-46f5-98ec-2efd0fa58373,1793664009,live,bbcore,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1793649600
+e6b2ccc5-a095-4bcf-bf2c-8b8553f1b9ef,1793678408,live,bbcore,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1793664000
+b511befb-e9ca-4355-b107-d2b86b78aaa6,1793678409,live,bbcore,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1793664000
+ic|b5092684-161d-4736-a7d5-938811158eaf:sig,1793736012,live,icore,GALA_USDT,SHORT,entered,,,1793721600
+b5297073-420b-47df-a5fa-0bae9eba41aa,1793743447,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+c522b86f-a54c-4b00-b8df-2f2d92a842ef,1793743447,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+d32824a7-e954-4e59-a215-72a178107746,1793743447,paper,unknown,NEAR_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 682s after the close,1792569600
+195ca8d4-6f21-45a6-9d54-3f979c98fefb,1793743447,paper,unknown,ADA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 722s after the close,1792569600
+bb8fab5b-7264-4ef9-b210-2cc4d091dfb0,1793743447,paper,unknown,GALA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 762s after the close,1792569600
+26956e15-db51-4e4c-90e0-b7473a14efe3,1793764813,live,bbcore,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1793750400
+ic|3dc02d29-8abd-4e10-bf31-6d76235829db:sig,1793793608,live,icore,ZEC_USDT,LONG,entered,,,1793779200
+ic|c1892b1d-322e-4204-8d0e-df663b9dff98:sig,1793865616,live,icore,GALA_USDT,SHORT,entered,,,1793851200
+bb1h|4267f645-7618-4cfe-b0a8-04d1e180443c:sig,1793890808,paper,bb1h,GALA_USDT,SHORT,entered,,,1793887200
+bb1h|88f46382-b1f1-491b-9965-7161fd529adf:sig,1793894403,paper,bb1h,SOL_USDT,SHORT,entered,,,1793890800
+bb1h|4f3a3ef2-2b08-41f5-b9a3-7f5b854b2306:sig,1793894403,paper,bb1h,NEAR_USDT,SHORT,entered,,,1793890800
+bb1h|836581cc-925b-4763-825f-d1acba2a349b:sig,1793894404,paper,bb1h,ADA_USDT,SHORT,entered,,,1793890800
+edce6fa6-5f75-48e6-9278-0dcb974f51fa,1793894407,live,bbcore,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1793880000
+ic|6328ef4e-25cc-4fd9-8b78-2d5ee5b81935:sig,1793894410,live,icore,ADA_USDT,SHORT,entered,,,1793880000
+bb1h|48301cb9-7411-4172-8727-7347539e4fba,1793894412,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1793890800
+86febb3f-ce75-49f8-9f93-0ba79133ea09:sig,1793894413,live,bbcore,GALA_USDT,SHORT,entered,,,1793880000
+bb1h|898cd58b-770a-4807-a7db-b76333d01710,1793898009,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1793894400
+bb1h|97e89fdb-d139-464d-8389-fc12831e0ae5,1793898010,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1793894400
+bb1h|989fdb66-59d6-4bf3-978d-81fc0d6cfe53,1793901603,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1793898000
+bb1h|b88716c6-43d1-4495-810b-b9be71adba12,1793901604,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1793898000
+bb1h|2d44eebf-1f47-4794-9715-413eea7e6558,1793901604,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1793898000
+bb1h|b25dbdb1-bed7-4ba9-890e-4295dc258ea2,1793901608,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1793898000
+bb1h|fc964666-e694-4e3d-be76-1cbd1ac5e2d9,1793905203,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1793901600
+bb1h|4b87bdeb-7da4-4ea1-9fa3-6251bac5662c,1793905204,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1793901600
+bb1h|96054f35-7915-4bd7-8c9d-3186f8bd5fc6,1793905206,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1793901600
+bb1h|96bbab1c-7d3a-46e5-a0f6-7ecacd684520,1793908813,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1793905200
+bb1h|da83ff44-2e7a-4c08-a611-ef487f3b9e4d,1793912413,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1793908800
+bb1h|5081f10f-9e70-4deb-a9cf-a72683a5d6f5,1793916008,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1793912400
+bb1h|6d301531-eb26-4ce1-90a0-ea5a18bb883c,1793916008,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1793912400
+bb1h|7495d46a-7d93-443d-ba3e-8040b962b965,1793919612,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1793916000
+bb1h|f32b7053-7478-43e2-9233-de90a880dd0b,1793919612,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1793916000
+bb1h|5802a342-c75e-4fbf-8a81-12e25115ed32,1793923218,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1793919600
+bb1h|6c77b8fd-4d3e-449c-bd9c-fb2f2ef245b3,1793923218,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1793919600
+2ace7d79-8ce3-4e19-8711-69210f696d2b,1793923219,live,bbcore,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1793908800
+bb1h|af2704b0-02c8-491a-bafc-857cccd66a28:sig,1793984407,paper,bb1h,ZEC_USDT,LONG,entered,,,1793980800
+bbtr|ab4e1d5c-6d83-4198-8bc6-6ae9c2620888:sig,1794168006,paper,bbtr,NEAR_USDT,SHORT,entered,,,1794153600
+ba4d9f03-a9d1-405a-bdc2-c1c82d21cf9b,1794168008,live,bbcore,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794153600
+tcore|5f72a546-61a1-4a2c-9efc-c10761c9d4e0:sig,1794168014,live,tcore,NEAR_USDT,SHORT,entered,,,1794153600
+bb1h|d334ff0d-5b1f-45d4-8216-775a4c6f88e6,1794175203,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794171600
+bb1h|094b04f1-f778-461d-9d60-29f8a66304d3:sig,1794175203,paper,bb1h,ZEC_USDT,SHORT,entered,,,1794171600
+bb1h|3ba9fe41-cd2e-47c1-9510-f31bf784d12c,1794175203,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794171600
+bb1h|1cd365d9-b1a3-41a6-9031-375c2ca097cd,1794175204,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794171600
+bb1h|9be2e3f8-a9cd-4415-a4a4-ca6dba256263,1794175204,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794171600
+bb1h|ad03f82b-dc8c-4ccc-9c8b-ca883943744b,1794178803,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794175200
+bb1h|9913a610-3ced-4ed3-aeb0-860c23d7f01b,1794178803,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794175200
+bb1h|24ecfcb7-794b-4fa7-bc35-de774f034806,1794178803,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794175200
+bb1h|9f6d7be7-7449-4aec-8c28-c6dbfce058d2,1794178804,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794175200
+bb1h|dd4e3bf4-1afd-4d37-a0d8-61acb5321129,1794178804,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794175200
+bb1h|ecc125fc-48ae-41d3-ba2a-3fc6ea9155df,1794182403,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794178800
+bbtr|f47f6be0-a5fb-4e57-8b32-1cfa18824809:sig,1794182403,paper,bbtr,SOL_USDT,SHORT,entered,,,1794168000
+bbtr|be4094d6-6055-45ef-b5a1-a0b2ab1f06dd:sig,1794182405,paper,bbtr,ZEC_USDT,SHORT,entered,,,1794168000
+bb1h|7f07e46a-70eb-4055-a947-b2288ef95325,1794182405,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794178800
+tcore|6cce3d06-285c-42df-97a9-c7719be8f001,1794182406,live,tcore,SOL_USDT,SHORT,skipped,blocked,MEXC holds 1 SOL position(s) the bot did not open — no new SOL entries until they are closed,1794168000
+bb1h|a2308513-fed7-4209-afbb-3b3d430b16a2,1794182409,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794178800
+75b3ff15-ce37-4589-b718-85df6d9ae6c6:sig,1794182409,live,bbcore,SOL_USDT,SHORT,entered,,,1794168000
+bb1h|7b6220f0-a788-47c9-9c40-843c90840b8f,1794182410,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794178800
+bbtr|2fa184d9-2976-489e-801f-d365ad9b7aff:sig,1794182410,paper,bbtr,ADA_USDT,SHORT,entered,,,1794168000
+bbtr|2ef00743-ea93-40ee-8922-a53fb80f3e59:sig,1794182411,paper,bbtr,GALA_USDT,SHORT,entered,,,1794168000
+tcore|d20ca945-a7ce-43c9-9bd3-59ce6c7fcf3c:sig,1794182412,live,tcore,ZEC_USDT,SHORT,entered,,,1794168000
+07b4a491-e8ce-48ab-a1b0-155068309b18:sig,1794182413,live,bbcore,ZEC_USDT,SHORT,entered,,,1794168000
+f842dac4-8a3e-498b-8298-28ddd2e6a0ac,1794182414,live,bbcore,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794168000
+ic|0a3456d5-0126-431c-b1cc-e0c400b7e910:sig,1794182415,live,icore,ZEC_USDT,SHORT,entered,,,1794168000
+tcore|fadf67ac-3e67-4114-8a59-97fa615240e9:sig,1794182416,live,tcore,ADA_USDT,SHORT,entered,,,1794168000
+91717e6e-ac56-49e7-87bb-d417185a0c80:sig,1794182417,live,bbcore,ADA_USDT,SHORT,entered,,,1794168000
+9693c606-bb41-48e0-8891-2a354a2c00f1,1794182418,live,bbcore,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794168000
+tcore|25134455-62c5-4123-928f-6666e39d4761:sig,1794182418,live,tcore,GALA_USDT,SHORT,entered,,,1794168000
+bb1h|4e0c005a-ddf0-47bd-95be-9e66315514b5,1794186003,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794182400
+bb1h|54b1ebe4-1436-4698-bf90-c929134cb705,1794189603,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794186000
+bb1h|4588923b-e93f-4642-a8c7-c881d390aa5a,1794196805,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794193200
+4ce386d2-8734-4028-88fe-ba152ee2f1ce,1794196806,live,bbcore,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794182400
+tcore|00523654-0bb8-4ee8-95b6-ef4d93f6ec84,1794196808,live,tcore,SOL_USDT,SHORT,skipped,blocked,MEXC holds 1 SOL position(s) the bot did not open — no new SOL entries until they are closed,1794182400
+bb1h|78f8d0a7-670d-49f9-8a99-e335ed6f2cf1,1794200408,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794196800
+bb1h|8f2459cf-c365-4c8c-91a0-99077bcf5834,1794204003,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794200400
+bb1h|8b0ec2f9-5580-4bc1-b453-a24b57a85981,1794204011,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794200400
+bb1h|6b7cbfe5-60d9-4995-9992-2b7342f1d766,1794204011,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794200400
+bb1h|7878c28f-6285-432e-855d-ed46ec3fc6a4,1794207603,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794204000
+bb1h|163a9099-27c8-433c-8178-2d07df7fb0b8,1794207603,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794204000
+bb1h|2eeaab5f-f695-421b-ab47-46ce161b07d2,1794207604,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794204000
+bb1h|bcbe2414-cc04-4908-909d-ca16ec5e5d37,1794211203,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794207600
+bb1h|e204c78c-98d9-41b6-b7ea-10d1657758d7,1794211203,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794207600
+tcore|a42d021d-266e-4d06-ba45-ab0c655127c0,1794211206,live,tcore,SOL_USDT,SHORT,skipped,blocked,MEXC holds 1 SOL position(s) the bot did not open — no new SOL entries until they are closed,1794196800
+bb1h|1e31a055-fd3b-4b9f-a8a7-755b561d343d,1794211207,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794207600
+957b5657-bfbd-4078-bbe3-56f22af22cd2,1794211208,live,bbcore,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794196800
+2a1b17b8-d9f8-4e52-9bb7-99d918201090,1794211209,live,bbcore,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794196800
+78ad7edd-35ed-4228-8bf7-95df7e7b4620,1794211210,live,bbcore,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794196800
+bb1h|5ec9b08a-f648-4472-a470-ad9f7b9a9647,1794211213,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794207600
+bb1h|5f0f9de5-ba79-445c-be15-99e298679700,1794211213,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794207600
+a5940e52-d41b-48e6-a128-304376cf5fc7,1794211215,live,bbcore,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794196800
+640b0f75-157a-484f-a9e2-cf1a14c9d603,1794211216,live,bbcore,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794196800
+bb1h|1c0ee1f4-84bf-47da-99e9-2e918495bdab,1794214803,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794211200
+bb1h|dec681b9-b360-42bd-9b2f-5a67ea4d56b4,1794214811,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794211200
+bb1h|db8fa250-b83a-491f-8ee8-5000a719ea8c,1794218403,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794214800
+bb1h|c9609e69-fe42-4a61-8e42-c209f5ce5bdf,1794218414,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794214800
+bb1h|bd0ef872-f8ac-453c-873c-48292798c8b0,1794222003,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794218400
+bb1h|13f4ebd5-5158-4d88-8d07-8b6868d737a4,1794222004,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794218400
+bb1h|ece05653-88df-499d-bf40-e58803dba0cd,1794225603,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794222000
+bb1h|f0415d70-70ef-4a04-938f-424965f75a52,1794225606,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794222000
+tcore|073df7f4-b99e-4e5a-8a8c-873345860ef6,1794225608,live,tcore,SOL_USDT,SHORT,skipped,blocked,MEXC holds 1 SOL position(s) the bot did not open — no new SOL entries until they are closed,1794211200
+f8285e52-26e6-48e0-bf52-2036a8ea3ab7,1794225609,live,bbcore,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794211200
+58440650-2d60-415f-801a-0010d1cb51be,1794225612,live,bbcore,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794211200
+bb1h|f73c2bdb-f909-49dd-9244-fe7f4a416863,1794247203,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794243600
+bb1h|c0b9b764-9e23-4334-8825-6fa3356ba534,1794250809,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794247200
+bb1h|ac652eac-fdd5-41ee-9be2-3053a085fb9c,1794308403,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794304800
+bb1h|d33420a4-e47b-4251-ad19-c3fda0f5deaf,1794312003,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794308400
+bb1h|41c8870b-7434-47a4-a237-eb67bae73456,1794319203,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794315600
+bb1h|ec1900a1-6c12-443e-b5fc-766e089fae28,1794322803,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794319200
+bb1h|2ba36af4-114a-4f1c-b8db-92f1bb0a4c56,1794326405,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794322800
+bb1h|61030a1c-adaf-45b0-9c44-899cc0b3bb77,1794326405,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794322800
+bb1h|8afa965c-8ddb-4ea1-a413-6804744fdbbf,1794326406,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794322800
+tcore|2f13bb10-6fa1-47d7-9b36-5ac8168bd3d2,1794326406,live,tcore,SOL_USDT,SHORT,skipped,blocked,MEXC holds 1 SOL position(s) the bot did not open — no new SOL entries until they are closed,1794312000
+4c1419c9-ae0d-42f4-ae89-d42b806fb8fd,1794326407,live,bbcore,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794312000
+b8aa48b0-f56c-4280-b483-d0d690ccaa24,1794326408,live,bbcore,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794312000
+bb1h|7733dc21-df47-4053-a1c7-ec911ed08e0d,1794330003,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794326400
+bb1h|e97d8fcd-64a2-45ca-9157-e1b4b6f33b5b,1794330003,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794326400
+bb1h|2c31ef64-5831-4c22-9c9f-a1753f12b253,1794330003,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794326400
+bb1h|ede9fb88-2103-4b40-92fc-b12d75c5fe79,1794330004,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794326400
+bb1h|78ba022d-95c1-4a03-8675-da96f5f935ad,1794330006,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794326400
+bb1h|27bb968a-f226-4f47-bc3a-3db698bedb0b,1794333603,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794330000
+bb1h|d8f1bef1-7356-4a77-a563-3a87f64e27cd,1794333603,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794330000
+bb1h|c59e7e1e-615b-4656-af69-309334cbe86b,1794333615,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794330000
+bb1h|5588e8fa-1615-461e-bed2-6fe5e4316477,1794337203,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794333600
+bb1h|70b15530-c2af-4b26-a9b8-6b39c680c5f3,1794337203,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794333600
+bb1h|c1d13c95-03d7-47f4-a478-08e077ba7c4c,1794340803,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794337200
+bb1h|5a05054a-5751-4489-9f0e-ae1bdc306ed0,1794340803,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794337200
+c1ece11b-a12e-4170-949c-aaa05407addf,1794340811,live,bbcore,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794326400
+bb1h|64494742-12d7-4d7c-bf62-ce22db4c7886,1794344403,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794340800
+bb1h|52d0727f-ee04-44ed-ad66-de4da20d5c4c,1794348007,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794344400
+bb1h|922e2b93-0e7c-4621-b765-95f30efcfe4a,1794351603,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794348000
+bb1h|23264fa5-52be-4d87-952a-39e9ec615fcb,1794355203,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794351600
+7341be20-ded0-43bd-aee2-73445734a733,1794355208,live,bbcore,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794340800
+bb1h|c755d64f-43e3-4397-9d77-340d2c73daba,1794358807,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794355200
+bb1h|80221538-8dca-48dd-8165-04a555fe662f,1794362403,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794358800
+bb1h|9e791c23-73f6-4a24-8a09-47a1bd7dd088,1794366005,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794362400
+bb1h|9549b592-490d-46c7-b3df-86a425fdcd9d,1794369610,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794366000
+bb1h|ced2043e-a4dd-460f-b34f-4dd5df92012a,1794373203,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794369600
+bb1h|0ab1a69e-9380-4bf3-a56a-d33f046474d4,1794376805,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794373200
+bb1h|d54a67f5-5630-4997-9009-f2c8e69fed66,1794380403,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794376800
+bb1h|6217bd37-aa3e-4186-bec7-6c7e1ffacc42,1794384005,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794380400
+bb1h|1234104b-68d6-4eae-ab84-d698cc220c3b,1794387605,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794384000
+bb1h|8b3e9aeb-2dc3-4499-b1c3-4761197a687f,1794391203,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794387600
+8f2f5267-cc47-4aa7-ad37-e47d19d92675,1794432828,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+53437dd7-88bc-464c-a12c-9faa2bac5231,1794432829,paper,unknown,NEAR_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+87840933-5121-4399-86b2-09044ce1f376,1794432829,paper,unknown,ADA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 682s after the close,1792569600
+e2eef210-3407-45b0-97b4-95313e0ccf95,1794432829,paper,unknown,GALA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 722s after the close,1792569600
+bb1h|acfb9c64-43e4-49ab-91a7-485f9b6dd2f9,1794438015,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794434400
+bb1h|417d2db4-0f6d-4e83-b5cc-096d26199ab2,1794448806,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794445200
+bb1h|f3389182-ba65-49c3-aa3b-e4f93292a62b,1794474005,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794470400
+bb1h|f43428bc-c6b8-4a20-8b01-a31d0fcfe0a3,1794484811,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794481200
+bb1h|c301dcd3-1785-4fb2-9479-5626abb41a4d,1794488409,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794484800
+bb1h|3a8050ec-48b9-4dec-ab19-657eff4f7633,1794488410,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794484800
+bb1h|3ee564f2-9b78-403c-a2db-eac6692c0e10,1794492005,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794488400
+bb1h|5253ddb7-6d8e-4fbd-b566-3bcd49187a80,1794492006,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794488400
+bb1h|fd58f30b-865b-41d5-bc23-a8d44b0a63b8,1794492006,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794488400
+bb1h|443efdc5-f094-4967-9589-ffbcd715132e,1794495607,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794492000
+bb1h|38479950-a7f2-470b-a2d4-7b516081bdae,1794495607,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794492000
+bb1h|a45e57a9-8a2c-494b-946f-04fbddffc019,1794495608,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794492000
+bb1h|d42b6957-69e9-4887-803a-47962b08b423,1794499205,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794495600
+b51013ba-e1b7-476d-b21a-0228c125df5a:sig,1794499212,live,bbcore,NEAR_USDT,SHORT,entered,,,1794484800
+bb1h|714617f2-5af5-4a11-b0df-dd52bdb1c629,1794499215,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794495600
+bb1h|5436a64f-92f2-49a5-ab20-b33fd64aa33a,1794499215,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794495600
+tcore|73394e85-0eea-4173-a884-cacad66c9dac:sig,1794499219,live,tcore,SUI_USDT,SHORT,entered,,,1794484800
+d642bfd8-126e-4f02-889f-ef53541fabb3,1794502148,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+4d37bc0b-98a3-4d02-bcfb-ba0a45e806e8,1794502148,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+073f49c8-1372-43b4-9547-81a11778eba9,1794502148,paper,unknown,NEAR_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 682s after the close,1792569600
+6d55f9a8-6c07-4b4e-8fa8-f44f9f96ba19,1794502148,paper,unknown,ADA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 722s after the close,1792569600
+1f29c3fe-d422-4de1-9ca2-8cbe0bf00f69,1794502148,paper,unknown,GALA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 762s after the close,1792569600
+9052a944-fa71-49db-965a-e4fd477bf6f2,1794502148,paper,unknown,ARB_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 802s after the close,1792569600
+bb1h|a860558f-cad3-4620-a893-a8687c710790,1794502803,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794499200
+bb1h|d3a55cc2-a159-4222-8730-927a1929c3b3,1794506409,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794502800
+bb1h|6f006438-ddda-45f6-af84-e14876b1bec6,1794538803,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794535200
+bb1h|e092ab83-977d-4652-85fc-6545a5b7512a,1794542403,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794538800
+0e119dd7-2b83-40d1-a88b-ef8906733872,1794542407,live,bbcore,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794528000
+bb1h|819e529a-54a3-496f-b1b3-00b195352f2d,1794542407,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794538800
+bb1h|5346eedc-47ac-4455-9512-faedf12b6fa3,1794542407,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794538800
+bbtr|555db2f3-3817-433c-a44e-3de7b0a25cdd:sig,1794542408,paper,bbtr,ADA_USDT,SHORT,entered,,,1794528000
+bb1h|add17cf7-bcfc-47f1-8965-9e8814cd106b,1794542408,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794538800
+tcore|7c22a0bd-db84-4106-9788-5bdd37df67d3,1794542408,live,tcore,SOL_USDT,SHORT,skipped,blocked,MEXC holds 1 SOL position(s) the bot did not open — no new SOL entries until they are closed,1794528000
+bbtr|9ed40fb8-fe06-4c98-89fc-f1c505a1897f:sig,1794542409,paper,bbtr,GALA_USDT,SHORT,entered,,,1794528000
+97421339-2eea-4601-ad39-332f1abf4483,1794542409,live,bbcore,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794528000
+1c609c84-ef0e-4935-a82f-7cf5780bf5d2:sig,1794542412,live,bbcore,ADA_USDT,SHORT,entered,,,1794528000
+tcore|e0f13c6a-107e-46aa-8cef-282fb3ea49c3:sig,1794542413,live,tcore,ADA_USDT,SHORT,entered,,,1794528000
+aff4a75d-9a31-4f3f-b1fd-cf06268e899e,1794542413,live,bbcore,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794528000
+tcore|696e71c1-0dcb-4b42-8690-8ee386adc6d7:sig,1794542415,live,tcore,GALA_USDT,SHORT,entered,,,1794528000
+tcore|04a2b11b-1753-4266-932f-cbf35260c30f:sig,1794542417,live,tcore,ETH_USDT,SHORT,entered,,,1794528000
+bb1h|be2bce56-32e2-4de6-8336-d12415017691,1794546003,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794542400
+bb1h|25f6baca-e955-4ab1-8d4d-0c519297219b,1794546005,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794542400
+bb1h|445bc001-ec8e-44ec-ab77-1e43a4dacc20,1794546006,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794542400
+bb1h|ac8bbf79-4ae3-44e2-aa9c-f10392c3492f,1794546008,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794542400
+bb1h|efb6bc88-dbf9-4878-9cef-fb88d74e3391,1794549603,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794546000
+bb1h|5d07df22-510e-4958-a1b5-604a66a85c40,1794549609,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794546000
+bb1h|53f724af-fb56-4cca-91a2-81b1fe11c532,1794549610,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794546000
+fa8be4de-b31b-4ef0-8d2a-ecfb212f02d0,1794585996,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+cd7fd6e1-3189-4e30-ba48-809784fcaef6,1794585996,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+2f6a7f45-8ad7-40cc-b45b-d118ad032cb0,1794585996,paper,unknown,NEAR_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 682s after the close,1792569600
+e5f030ed-35f6-4f38-af8e-0337925b00d7,1794585996,paper,unknown,ADA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 722s after the close,1792569600
+f21bbc2c-14c8-416b-a68c-8e481e6c4fe8,1794585996,paper,unknown,GALA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 762s after the close,1792569600
+8f18cba7-a963-48e7-a812-d516e097e3c7,1794585996,paper,unknown,ARB_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 802s after the close,1792569600
+59118571-9294-4ed7-ab77-2f47b51a756b,1794586458,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+75c031a5-597e-4005-b512-5da0267f9a4b,1794586458,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+4c4436ce-fcef-4536-b136-1d1ff1bd70ef,1794586458,paper,unknown,NEAR_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 682s after the close,1792569600
+82fa9ef1-f82f-4f9c-98cc-fa65c6f385c2,1794586458,paper,unknown,ADA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 722s after the close,1792569600
+3247fb2e-de78-4a06-a879-69c0043b44d4,1794586458,paper,unknown,GALA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 762s after the close,1792569600
+ddf1cd1b-4882-44c0-81e8-1efd7c7958da,1794586458,paper,unknown,ARB_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 802s after the close,1792569600
+37321fbc-784c-4395-b982-b19afc2adceb,1794586888,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+8e065ce8-0c3b-4ae1-9d87-03c3e0a25165,1794586888,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+629132cc-5d03-4019-8343-5bd92cc22ef8,1794586888,paper,unknown,NEAR_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 682s after the close,1792569600
+e02f96eb-0821-402e-8fcc-da950270d5c9,1794586888,paper,unknown,ADA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 722s after the close,1792569600
+10e1b6e8-3130-4c1b-ab87-0ee7426db79f,1794586888,paper,unknown,GALA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 762s after the close,1792569600
+da2b0519-afb6-45c5-aad4-5a3fc5d3de3c,1794586888,paper,unknown,ARB_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 802s after the close,1792569600
+83aac5b6-ca57-40f0-8713-f03e2872c63f,1794587269,paper,unknown,SOL_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 602s after the close,1792569600
+35c0f742-31dd-4220-a977-a9644e7b4cba,1794587269,paper,unknown,ZEC_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 642s after the close,1792569600
+c2f71d66-385c-4176-acef-c78a0353dce0,1794587269,paper,unknown,NEAR_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 682s after the close,1792569600
+93831892-49d5-4064-b04d-973a24076c95,1794587269,paper,unknown,ADA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 722s after the close,1792569600
+77202782-9069-4de4-9f50-c272e8425fd4,1794587269,paper,unknown,GALA_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 762s after the close,1792569600
+d6d80fd2-0c5c-4cc7-881c-c75fa602b914,1794587269,paper,unknown,ARB_USDT,,skipped,missing_candle,no 4h candle 2026-10-21 08:00Z 802s after the close,1792569600
+bb1h|63d50399-41ea-4cfd-96cd-07ec35eb9ed0:sig,1794607208,paper,bb1h,SOL_USDT,SHORT,entered,,,1794603600
+bb1h|54db458e-00ca-44fa-94ae-32a578decd9a,1794610803,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794607200
+bb1h|8cd968e5-11a1-4904-9ad7-fcc5ba0e9ca9:sig,1794610809,paper,bb1h,ADA_USDT,SHORT,entered,,,1794607200
+bb1h|d3430e9f-d947-44f9-9e04-461908c576f3,1794614403,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794610800
+782665d1-b753-4262-b8c1-7a2fc754bf3f,1794614407,live,bbcore,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794600000
+tcore|d3eee9dd-4cd1-4c16-b380-5b110c1c0351,1794614407,live,tcore,SOL_USDT,SHORT,skipped,blocked,MEXC holds 1 SOL position(s) the bot did not open — no new SOL entries until they are closed,1794600000
+bb1h|e63a243b-86b2-4972-abff-cbe00f3226e8,1794618003,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794614400
+bb1h|4dccceb6-32b6-4e0d-a3f6-e05748d281bd,1794621603,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794618000
+bb1h|41d9602a-3c16-4f0c-9239-5a72c5a1e203,1794621609,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794618000
+bb1h|641bc311-62cb-4595-863e-5ced4298bec9,1794625203,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794621600
+bb1h|ac30e742-c9a7-4399-891b-734cd85f424d,1794625209,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794621600
+bb1h|bd0ebf41-f8c5-44b0-9e0f-acc2692c9277,1794628803,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794625200
+bb1h|2396f322-bff9-456a-9e3d-7e2d364a6b34,1794628803,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794625200
+bb1h|c2a055e3-ac9a-424d-887e-2f80c8ff7f7e,1794628804,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794625200
+tcore|f56d1db6-a4ed-4886-93d3-0bef04fc75a2,1794628808,live,tcore,SOL_USDT,SHORT,skipped,blocked,MEXC holds 1 SOL position(s) the bot did not open — no new SOL entries until they are closed,1794614400
+a0e8d665-9bc6-465d-891b-02299109bc68,1794628809,live,bbcore,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794614400
+e8b7b25d-7e73-40a4-a1f6-7084afef541e:sig,1794628811,live,bbcore,ZEC_USDT,SHORT,entered,,,1794614400
+be10fd6b-aa67-4fe7-b375-3f00ec0928d8:sig,1794628814,live,bbcore,ADA_USDT,SHORT,entered,,,1794614400
+bb1h|47238d29-7368-4674-b053-ce591807488f,1794632411,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794628800
+bb1h|eb69e812-ab2f-4853-a0c6-11f9cd204caf,1794632412,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794628800
+bb1h|5a38727a-afec-4c39-bfc4-926c47073df9,1794636003,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794632400
+bb1h|a8b4c7ec-da67-4929-abbf-53b760255094,1794636005,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794632400
+bb1h|3f39782c-ff50-4fc2-af3e-0749938e364c,1794639603,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794636000
+bb1h|36dc9ae6-809f-48a3-a35c-7ad434716d7f,1794639613,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794636000
+bb1h|85da833e-8209-450d-960e-d74654949d38,1794643205,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794639600
+bb1h|3a513aff-b0b3-4d90-9ff1-2f02226c4ded,1794643208,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794639600
+tcore|9c921d57-686b-4113-941c-0d51c3446569,1794643209,live,tcore,SOL_USDT,SHORT,skipped,blocked,MEXC holds 1 SOL position(s) the bot did not open — no new SOL entries until they are closed,1794628800
+acaacc3e-23bd-4aba-b2e0-18f4c1c9f027,1794643209,live,bbcore,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794628800
+a1943cee-bed7-4a7b-abd7-62c44544deac,1794643212,live,bbcore,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794628800
+bb1h|df1b6d60-eaae-4535-a2cd-a66a2bd28b6d,1794646806,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794643200
+bb1h|4f854888-3ebb-4e10-916e-fdf17266ed29,1794646807,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794643200
+bb1h|a88a2900-7ec8-489f-a1b8-d0318391c3d8,1794646811,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794643200
+bb1h|79d13713-9403-4f72-b7ff-d8c454bfabbe,1794650406,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794646800
+bb1h|fb8ddd83-a502-40e6-8080-93f76ac994ed,1794654011,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794650400
+7da2493e-fc27-4ffe-9863-a059273c6323,1794657609,live,bbcore,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794643200
+7fc169e1-9d93-4754-a9bd-ad816d73b194,1794657611,live,bbcore,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794643200
+bb1h|8bd4a6e9-65d1-494a-8782-24aa36b78bca,1794661203,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794657600
+bb1h|d72f3280-9252-44e6-b232-445ad7edac48,1794661206,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794657600
+bb1h|7b311155-f11e-400e-93c1-c656caa4c598:sig,1794661215,paper,bb1h,GALA_USDT,SHORT,entered,,,1794657600
+bb1h|e08d9632-9e17-4851-98a9-45ea1470027c,1794664809,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794661200
+bb1h|b58ae207-e5dc-4c54-8bf0-30e2280aaf08,1794664809,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794661200
+bb1h|b7ea8d39-1ae2-4dd6-9f6d-8a3533aa1947,1794664810,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794661200
+bb1h|a0ba4e82-4e54-4db2-88b2-cfb205cb96cb,1794668403,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794664800
+bb1h|0b9df6ca-0c46-4acc-af3e-650f6c720832,1794668403,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794664800
+bb1h|0c561da9-ba7a-4fd7-976a-cb154072d89a:sig,1794668405,paper,bb1h,NEAR_USDT,SHORT,entered,,,1794664800
+bb1h|9f9499c8-4f62-43d7-bb28-953327806d72,1794668407,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794664800
+bb1h|1409ed58-d00f-49f2-9a31-4a5264bd6c37,1794668408,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794664800
+bb1h|045d21f9-aa63-4901-a034-b15b3495c166,1794672003,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794668400
+bb1h|8b77c953-4bcf-41f1-b2bd-2c5232a7b9e1,1794672003,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794668400
+ead1ee3e-b2f8-43d8-b256-33134a67b859,1794672007,live,bbcore,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794657600
+bb1h|15f28b8a-c33a-4b56-ae88-c0ad258591b1,1794672007,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794668400
+bb1h|5d6328a2-a4e2-4b2c-a868-330bf07e8031,1794672008,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794668400
+bb1h|7daecaa5-d92d-447a-8a3a-15d58277ac37,1794672008,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794668400
+e1846ec3-6fc7-4cf3-8a6b-27a6b591d76b,1794672008,live,bbcore,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794657600
+tcore|11b74550-dfcc-4d6b-b7ce-3f855ee620bc,1794672008,live,tcore,SOL_USDT,SHORT,skipped,blocked,MEXC holds 1 SOL position(s) the bot did not open — no new SOL entries until they are closed,1794657600
+2c120774-547c-4193-80a4-b859b0b14dc0:sig,1794672012,live,bbcore,NEAR_USDT,SHORT,entered,,,1794657600
+63fe3cc1-5a41-4794-b946-21414e1af972,1794672014,live,bbcore,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794657600
+tcore|dd0714c9-48de-4b22-8df2-e6da37479266:sig,1794672016,live,tcore,GALA_USDT,SHORT,entered,,,1794657600
+b045a803-6982-4805-b861-6c810ccc9426:sig,1794672016,live,bbcore,GALA_USDT,SHORT,entered,,,1794657600
+bb1h|70f75791-dbea-470b-b0c5-e14fab9fa3f3,1794675603,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794672000
+bb1h|f2ea1f48-2a86-4314-b8b2-87811be251bb,1794675603,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794672000
+bb1h|493c401d-8f0f-4a46-bbd5-60b8581437c1,1794675607,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794672000
+bb1h|52919328-e1a0-4c51-b043-61d935232ec3,1794675607,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794672000
+bb1h|e01ecf21-f3c6-4714-b55d-1021b0e0a813,1794675608,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794672000
+bb1h|b2755002-bc91-4a18-9fdd-5a216c56b2ce,1794679203,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794675600
+bb1h|90ab3650-bcd3-46b9-aff4-0f8fd40c9535,1794679203,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794675600
+bb1h|bd9beef4-7b6f-488a-824b-66a4e257b87d,1794679207,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794675600
+bb1h|1187bcf9-4ce9-4ebc-baca-53e47ef4fe7c,1794679207,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794675600
+bb1h|3d5e9cba-9be4-4a8f-9398-d780a380cbed,1794679208,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794675600
+bb1h|cb3bf7fa-9b97-4923-b697-20e0c459525d,1794682803,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794679200
+bb1h|2ade66ac-89c0-414a-99f9-3f3a18cec36d,1794682803,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794679200
+bb1h|07f20fe3-21c5-4ed2-8ff7-b629b4f762bd,1794682803,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794679200
+bb1h|f8b203bc-5c58-4ad0-b75d-d75c7cb258f6,1794682804,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794679200
+bb1h|062d8d40-4fe4-4c45-8df2-aab17b8acbaa,1794682806,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794679200
+bb1h|fe86831f-d1a8-473f-b562-32739f0a3473,1794686403,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794682800
+bb1h|571dcc0b-74d4-40f6-bdbd-8357923dfe12,1794686403,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794682800
+bb1h|5797970c-8f42-4121-93ff-e75784c96059,1794686403,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794682800
+tcore|a810d96d-4837-4801-9eab-215c1ff411d0,1794686408,live,tcore,SOL_USDT,SHORT,skipped,blocked,MEXC holds 1 SOL position(s) the bot did not open — no new SOL entries until they are closed,1794672000
+fdc4b1ee-4f41-44f7-8cd4-f61cc42001dd,1794686409,live,bbcore,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794672000
+bb1h|a9dfa8ac-f19c-4fef-8f8b-a09995b5fd93,1794686409,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794682800
+bb1h|f4aba6c2-535f-4dc5-9eb5-b49fb341f6f5,1794686410,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794682800
+e50cd090-2723-469b-9534-2d5a37c3653d,1794686410,live,bbcore,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794672000
+b9e3511f-6f98-4635-957e-5623424dab7b,1794686411,live,bbcore,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794672000
+806433c2-232f-4f39-860e-4b17f4736f6a,1794686413,live,bbcore,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794672000
+f95ca44b-59b8-49ea-96f0-3361fb3e3a65,1794686414,live,bbcore,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794672000
+abf1246b-e1e3-4183-9b39-8090a0f4f91e:sig,1794686417,live,bbcore,ARB_USDT,SHORT,entered,,,1794672000
+tcore|4bcc6554-2d02-4a73-965f-d726c8b7e48d:sig,1794686418,live,tcore,ARB_USDT,SHORT,entered,,,1794672000
+bb1h|c7df7812-96f0-43f8-b0b0-a675c6b85d1d,1794690003,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794686400
+bb1h|f9aa3346-15fb-4301-8117-69be6658ee20,1794690003,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794686400
+bb1h|1b5820b6-8cbe-43c0-ae08-70e80c8bbae4,1794690003,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794686400
+bb1h|63f1eff0-7aba-43e6-a131-a60c41c7bcfb,1794690006,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794686400
+bb1h|982f27ee-d3de-480a-ab08-594060e5fec3,1794690011,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794686400
+bb1h|affca47b-40ed-4b55-8584-1a5426a0ace6,1794693603,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794690000
+bb1h|4b85abdf-932d-45b5-9f0e-4e32ea2360c4,1794693603,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794690000
+bb1h|515ca3c8-7f0d-46ea-a962-131150f49fc2,1794693607,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794690000
+bb1h|2b39e962-1573-4d31-a0af-e409265a49e5,1794693607,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794690000
+bb1h|18de0f36-cb03-4f38-82a3-d990b3590fa2,1794693608,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794690000
+bb1h|39364242-6033-484a-8439-ced1c5d271f8,1794697203,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794693600
+bb1h|fefff0ef-2120-4744-be6d-b2cf84f31bda,1794697203,paper,bb1h,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794693600
+bb1h|66ef7371-5fca-457b-ac5a-b01e214ca6c1,1794697205,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794693600
+bb1h|c7d0f3d0-a61b-40d8-813f-004e35986b9a,1794697206,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794693600
+bb1h|57fafd17-595a-4cb3-a1bd-7d3900b80edd,1794697206,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794693600
+bb1h|c4ccb0f7-b876-47b7-aa70-2e77f6002709,1794700803,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794697200
+bb1h|e59c21d2-5b87-43bf-89f5-e1ff7f5fdff7,1794700806,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794697200
+bb1h|1442ebf4-9ae4-49c0-8645-c0466eef2663,1794700806,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794697200
+bb1h|1c56c6d8-b27b-4bab-9028-e5b257300315,1794700806,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794697200
+tcore|73183a6b-c4c2-4f55-b241-e45c8ce95352,1794700807,live,tcore,SOL_USDT,SHORT,skipped,blocked,MEXC holds 1 SOL position(s) the bot did not open — no new SOL entries until they are closed,1794686400
+6c0b485b-9ff5-45d7-9f0a-055a69e40d25,1794700809,live,bbcore,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794686400
+0f3063d1-bb5e-4bd5-a413-dcb38dec9962,1794700810,live,bbcore,ZEC_USDT,SHORT,skipped,position_open,a trade on ZEC was already open,1794686400
+ab29265b-a03d-4fe0-8320-2f5da5027d4d,1794700812,live,bbcore,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794686400
+c2974b9e-0cdb-42cc-acba-dd7a0ba6cbce,1794700813,live,bbcore,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794686400
+590337be-d6f2-4711-8f71-6b9cd0e7c8c2,1794700814,live,bbcore,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794686400
+1aabc39c-650d-498d-bc79-18ae858504ff,1794700816,live,bbcore,ARB_USDT,SHORT,skipped,position_open,a trade on ARB was already open,1794686400
+bb1h|2e060e3a-9a15-4145-9bc8-fa868999a988,1794704403,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794700800
+bb1h|3cddd52a-946d-43f4-a2c7-551f2bac0175,1794704403,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794700800
+bb1h|a0921d24-22e7-472a-9f85-62b0ee6663a1,1794704411,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794700800
+bb1h|7d5bd385-1ca9-4c5f-beae-c54de8283514,1794704411,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794700800
+bb1h|7817e65a-7aee-46c8-b909-348963b71a40,1794708003,paper,bb1h,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794704400
+bb1h|ec21ed5b-21af-4ca0-bd2c-0e347d8bc2a4,1794708010,paper,bb1h,NEAR_USDT,SHORT,skipped,position_open,a trade on NEAR was already open,1794704400
+bb1h|842bb543-1353-4be5-b1b1-22ab09ae6d71,1794708010,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794704400
+bb1h|89d9f919-f08a-497c-a0fd-530fccc43fa9,1794708010,paper,bb1h,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794704400
+bb1h|33a1c1c2-4b0d-4987-81cd-bc727d7b42bb,1794711604,paper,bb1h,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794708000
+tcore|59d90676-949c-47bc-9876-4ca9a552b398,1794715207,live,tcore,SOL_USDT,SHORT,skipped,blocked,MEXC holds 1 SOL position(s) the bot did not open — no new SOL entries until they are closed,1794700800
+51b15c8e-bc4c-4f43-93bb-ac4b7bea9a24,1794715212,live,bbcore,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794700800
+243170aa-ebd5-477d-8e3a-54030f3fba37,1794729607,live,bbcore,SOL_USDT,SHORT,skipped,position_open,a trade on SOL was already open,1794715200
+tcore|cfd230d7-582e-4c40-97a3-64332632b5cf,1794729608,live,tcore,SOL_USDT,SHORT,skipped,blocked,MEXC holds 1 SOL position(s) the bot did not open — no new SOL entries until they are closed,1794715200
+0cd7aa14-9b96-42b0-81da-7fa2ac007687,1794729610,live,bbcore,ADA_USDT,SHORT,skipped,position_open,a trade on ADA was already open,1794715200
+43b99b63-b2a1-4d90-94cc-b986bdca58e9,1794729611,live,bbcore,GALA_USDT,SHORT,skipped,position_open,a trade on GALA was already open,1794715200

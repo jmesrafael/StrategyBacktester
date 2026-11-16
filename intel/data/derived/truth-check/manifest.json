@@ -1,0 +1,39 @@
+{
+ "dataset": "derived/truth-check",
+ "schema_version": 1,
+ "status": "ok",
+ "built_at": "2026-11-16T05:48:47.502Z",
+ "generator": "integrity/truthcheck.js",
+ "source": null,
+ "inputs": [
+  {
+   "dataset": "trades",
+   "built_at": "2026-11-16T05:48:40.127Z",
+   "manifest_sha256": "8837263eb3b2f5da3d77870e5d4f32c08955b718ad5a8ba83c08c60a8672c89a"
+  }
+ ],
+ "files": {
+  "findings.csv": {
+   "rows": 11,
+   "sha256": "09dd0c8890437076d70870829d3d461470fd264f744e71fedff4ee38cb53c60d",
+   "bytes": 2034,
+   "schema": {
+    "bot": "string",
+    "check": "string",
+    "status": "string",
+    "detail": "string",
+    "at_s": "int?"
+   }
+  }
+ },
+ "checks": [
+  {
+   "name": "truth check ran",
+   "ok": true,
+   "detail": "11 findings, 4 need review"
+  }
+ ],
+ "notes": [
+  "status \"review\" is a disagreement between records for the owner to look at; it does not make this dataset fail"
+ ]
+}

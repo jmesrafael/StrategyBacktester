@@ -1,0 +1,525 @@
+{
+ "states": {
+  "quiet": {
+   "hours": 94400,
+   "stays": 2317,
+   "share": 0.215,
+   "avg_stay_hours": 40.7
+  },
+  "trending_up": {
+   "hours": 23312,
+   "stays": 1987,
+   "share": 0.053,
+   "avg_stay_hours": 11.7
+  },
+  "ranging": {
+   "hours": 229148,
+   "stays": 5428,
+   "share": 0.523,
+   "avg_stay_hours": 42.2
+  },
+  "trending_down": {
+   "hours": 26948,
+   "stays": 2439,
+   "share": 0.061,
+   "avg_stay_hours": 11
+  },
+  "volatile": {
+   "hours": 64384,
+   "stays": 2564,
+   "share": 0.147,
+   "avg_stay_hours": 25.1
+  }
+ },
+ "matrix": {
+  "quiet": {
+   "trending_up": 225,
+   "ranging": 1713,
+   "trending_down": 379
+  },
+  "trending_up": {
+   "ranging": 886,
+   "quiet": 46,
+   "volatile": 961,
+   "trending_down": 94
+  },
+  "ranging": {
+   "trending_up": 1150,
+   "quiet": 2183,
+   "trending_down": 1466,
+   "volatile": 625
+  },
+  "trending_down": {
+   "ranging": 1269,
+   "quiet": 85,
+   "volatile": 976,
+   "trending_up": 109
+  },
+  "volatile": {
+   "trending_up": 503,
+   "ranging": 1557,
+   "trending_down": 499
+  }
+ },
+ "current": {
+  "BTC": {
+   "state": "volatile",
+   "hours_in_state": 28,
+   "since": 1794715200
+  },
+  "SOL": {
+   "state": "volatile",
+   "hours_in_state": 20,
+   "since": 1794744000
+  },
+  "ZEC": {
+   "state": "ranging",
+   "hours_in_state": 60,
+   "since": 1794600000
+  },
+  "NEAR": {
+   "state": "ranging",
+   "hours_in_state": 88,
+   "since": 1794499200
+  },
+  "ADA": {
+   "state": "volatile",
+   "hours_in_state": 20,
+   "since": 1794744000
+  },
+  "GALA": {
+   "state": "ranging",
+   "hours_in_state": 28,
+   "since": 1794715200
+  },
+  "ARB": {
+   "state": "ranging",
+   "hours_in_state": 28,
+   "since": 1794715200
+  },
+  "ETH": {
+   "state": "volatile",
+   "hours_in_state": 28,
+   "since": 1794715200
+  },
+  "SUI": {
+   "state": "volatile",
+   "hours_in_state": 28,
+   "since": 1794715200
+  }
+ },
+ "changes_7d": [
+  {
+   "coin": "BTC",
+   "t": 1794211200,
+   "from": "quiet",
+   "to": "trending_down"
+  },
+  {
+   "coin": "BTC",
+   "t": 1794225600,
+   "from": "trending_down",
+   "to": "ranging"
+  },
+  {
+   "coin": "BTC",
+   "t": 1794542400,
+   "from": "ranging",
+   "to": "trending_down"
+  },
+  {
+   "coin": "BTC",
+   "t": 1794715200,
+   "from": "trending_down",
+   "to": "volatile"
+  },
+  {
+   "coin": "SOL",
+   "t": 1794326400,
+   "from": "ranging",
+   "to": "trending_down"
+  },
+  {
+   "coin": "SOL",
+   "t": 1794340800,
+   "from": "trending_down",
+   "to": "ranging"
+  },
+  {
+   "coin": "SOL",
+   "t": 1794369600,
+   "from": "ranging",
+   "to": "volatile"
+  },
+  {
+   "coin": "SOL",
+   "t": 1794412800,
+   "from": "volatile",
+   "to": "ranging"
+  },
+  {
+   "coin": "SOL",
+   "t": 1794628800,
+   "from": "ranging",
+   "to": "trending_down"
+  },
+  {
+   "coin": "SOL",
+   "t": 1794657600,
+   "from": "trending_down",
+   "to": "volatile"
+  },
+  {
+   "coin": "SOL",
+   "t": 1794672000,
+   "from": "volatile",
+   "to": "trending_down"
+  },
+  {
+   "coin": "SOL",
+   "t": 1794715200,
+   "from": "trending_down",
+   "to": "volatile"
+  },
+  {
+   "coin": "SOL",
+   "t": 1794729600,
+   "from": "volatile",
+   "to": "trending_down"
+  },
+  {
+   "coin": "SOL",
+   "t": 1794744000,
+   "from": "trending_down",
+   "to": "volatile"
+  },
+  {
+   "coin": "ZEC",
+   "t": 1794211200,
+   "from": "ranging",
+   "to": "trending_down"
+  },
+  {
+   "coin": "ZEC",
+   "t": 1794225600,
+   "from": "trending_down",
+   "to": "ranging"
+  },
+  {
+   "coin": "ZEC",
+   "t": 1794340800,
+   "from": "ranging",
+   "to": "trending_down"
+  },
+  {
+   "coin": "ZEC",
+   "t": 1794427200,
+   "from": "trending_down",
+   "to": "volatile"
+  },
+  {
+   "coin": "ZEC",
+   "t": 1794441600,
+   "from": "volatile",
+   "to": "trending_down"
+  },
+  {
+   "coin": "ZEC",
+   "t": 1794456000,
+   "from": "trending_down",
+   "to": "volatile"
+  },
+  {
+   "coin": "ZEC",
+   "t": 1794600000,
+   "from": "volatile",
+   "to": "ranging"
+  },
+  {
+   "coin": "NEAR",
+   "t": 1794499200,
+   "from": "quiet",
+   "to": "ranging"
+  },
+  {
+   "coin": "ADA",
+   "t": 1794211200,
+   "from": "ranging",
+   "to": "trending_down"
+  },
+  {
+   "coin": "ADA",
+   "t": 1794225600,
+   "from": "trending_down",
+   "to": "ranging"
+  },
+  {
+   "coin": "ADA",
+   "t": 1794412800,
+   "from": "ranging",
+   "to": "quiet"
+  },
+  {
+   "coin": "ADA",
+   "t": 1794484800,
+   "from": "quiet",
+   "to": "ranging"
+  },
+  {
+   "coin": "ADA",
+   "t": 1794686400,
+   "from": "ranging",
+   "to": "trending_down"
+  },
+  {
+   "coin": "ADA",
+   "t": 1794715200,
+   "from": "trending_down",
+   "to": "volatile"
+  },
+  {
+   "coin": "ADA",
+   "t": 1794729600,
+   "from": "volatile",
+   "to": "trending_down"
+  },
+  {
+   "coin": "ADA",
+   "t": 1794744000,
+   "from": "trending_down",
+   "to": "volatile"
+  },
+  {
+   "coin": "GALA",
+   "t": 1794297600,
+   "from": "ranging",
+   "to": "quiet"
+  },
+  {
+   "coin": "GALA",
+   "t": 1794499200,
+   "from": "quiet",
+   "to": "ranging"
+  },
+  {
+   "coin": "GALA",
+   "t": 1794542400,
+   "from": "ranging",
+   "to": "trending_down"
+  },
+  {
+   "coin": "GALA",
+   "t": 1794556800,
+   "from": "trending_down",
+   "to": "ranging"
+  },
+  {
+   "coin": "GALA",
+   "t": 1794585600,
+   "from": "ranging",
+   "to": "quiet"
+  },
+  {
+   "coin": "GALA",
+   "t": 1794672000,
+   "from": "quiet",
+   "to": "ranging"
+  },
+  {
+   "coin": "GALA",
+   "t": 1794700800,
+   "from": "ranging",
+   "to": "trending_down"
+  },
+  {
+   "coin": "GALA",
+   "t": 1794715200,
+   "from": "trending_down",
+   "to": "ranging"
+  },
+  {
+   "coin": "ARB",
+   "t": 1794240000,
+   "from": "quiet",
+   "to": "ranging"
+  },
+  {
+   "coin": "ARB",
+   "t": 1794398400,
+   "from": "ranging",
+   "to": "trending_down"
+  },
+  {
+   "coin": "ARB",
+   "t": 1794427200,
+   "from": "trending_down",
+   "to": "ranging"
+  },
+  {
+   "coin": "ARB",
+   "t": 1794441600,
+   "from": "ranging",
+   "to": "trending_down"
+  },
+  {
+   "coin": "ARB",
+   "t": 1794456000,
+   "from": "trending_down",
+   "to": "ranging"
+  },
+  {
+   "coin": "ARB",
+   "t": 1794470400,
+   "from": "ranging",
+   "to": "trending_down"
+  },
+  {
+   "coin": "ARB",
+   "t": 1794484800,
+   "from": "trending_down",
+   "to": "volatile"
+  },
+  {
+   "coin": "ARB",
+   "t": 1794542400,
+   "from": "volatile",
+   "to": "trending_down"
+  },
+  {
+   "coin": "ARB",
+   "t": 1794556800,
+   "from": "trending_down",
+   "to": "ranging"
+  },
+  {
+   "coin": "ARB",
+   "t": 1794686400,
+   "from": "ranging",
+   "to": "trending_down"
+  },
+  {
+   "coin": "ARB",
+   "t": 1794715200,
+   "from": "trending_down",
+   "to": "ranging"
+  },
+  {
+   "coin": "ETH",
+   "t": 1794240000,
+   "from": "trending_down",
+   "to": "volatile"
+  },
+  {
+   "coin": "ETH",
+   "t": 1794283200,
+   "from": "volatile",
+   "to": "trending_down"
+  },
+  {
+   "coin": "ETH",
+   "t": 1794355200,
+   "from": "trending_down",
+   "to": "volatile"
+  },
+  {
+   "coin": "ETH",
+   "t": 1794456000,
+   "from": "volatile",
+   "to": "ranging"
+  },
+  {
+   "coin": "ETH",
+   "t": 1794542400,
+   "from": "ranging",
+   "to": "trending_down"
+  },
+  {
+   "coin": "ETH",
+   "t": 1794571200,
+   "from": "trending_down",
+   "to": "volatile"
+  },
+  {
+   "coin": "ETH",
+   "t": 1794585600,
+   "from": "volatile",
+   "to": "trending_down"
+  },
+  {
+   "coin": "ETH",
+   "t": 1794657600,
+   "from": "trending_down",
+   "to": "volatile"
+  },
+  {
+   "coin": "ETH",
+   "t": 1794672000,
+   "from": "volatile",
+   "to": "trending_down"
+  },
+  {
+   "coin": "ETH",
+   "t": 1794715200,
+   "from": "trending_down",
+   "to": "volatile"
+  },
+  {
+   "coin": "SUI",
+   "t": 1794211200,
+   "from": "quiet",
+   "to": "trending_down"
+  },
+  {
+   "coin": "SUI",
+   "t": 1794225600,
+   "from": "trending_down",
+   "to": "ranging"
+  },
+  {
+   "coin": "SUI",
+   "t": 1794326400,
+   "from": "ranging",
+   "to": "quiet"
+  },
+  {
+   "coin": "SUI",
+   "t": 1794340800,
+   "from": "quiet",
+   "to": "ranging"
+  },
+  {
+   "coin": "SUI",
+   "t": 1794412800,
+   "from": "ranging",
+   "to": "quiet"
+  },
+  {
+   "coin": "SUI",
+   "t": 1794484800,
+   "from": "quiet",
+   "to": "ranging"
+  },
+  {
+   "coin": "SUI",
+   "t": 1794700800,
+   "from": "ranging",
+   "to": "trending_down"
+  },
+  {
+   "coin": "SUI",
+   "t": 1794715200,
+   "from": "trending_down",
+   "to": "volatile"
+  }
+ ],
+ "market_now": {
+  "t": 1794801600,
+  "n": 5,
+  "trending_n": 0,
+  "up_n": 0,
+  "down_n": 0,
+  "breadth_up_pct": 0,
+  "avg_corr_7d": 0.78,
+  "market_state": "choppy"
+ }
+}

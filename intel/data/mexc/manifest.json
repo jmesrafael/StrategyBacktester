@@ -1,0 +1,21 @@
+{
+ "dataset": "mexc",
+ "schema_version": 1,
+ "status": "failed",
+ "built_at": "2026-11-16T05:48:40.137Z",
+ "generator": "ingest/recorder.js",
+ "source": {
+  "kind": "VPS recorder (lucidio-recorder), MEXC public data",
+  "path": "../../recorder-data/lucidio-recorder"
+ },
+ "inputs": [],
+ "files": {},
+ "checks": [
+  {
+   "name": "recorder data pulled",
+   "ok": false,
+   "detail": "folder not found: D:\\testing\\Strat\\recorder-data\\lucidio-recorder. Run lucidio-recorder\\pull-recorder-data.cmd YOUR-VPS (needs the VPS ssh login), then run this job again."
+  }
+ ],
+ "notes": []
+}

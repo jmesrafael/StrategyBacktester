@@ -42,3 +42,8 @@ Raw candle caches (cache-1m, data*, funding) are intentionally not indexed.
 - Already installed and connected to the dashboard; do not reinstall. Check with `sudo bash /opt/bbtrail/deploy-trail/status.sh [report|compare]`. Plan record: `archive-done/DONE-T-CORE-INSTALL-WHEN-HOME.md`. Paper only.
 - Going live later: `bb-trail/LIVE-READINESS-TCORE.md` (plan and gates only).
 - Names: TRI-CORE = BB-CORE + I-CORE + T-CORE (50/25/25). Report: `../ledger/reports/live-pair-vs-three-bot.html`.
+
+## Intelligence System (built Nov 16, 2026, read-only research and risk system)
+
+- Lives in `intel/` (`node run.js all`). **If the owner says "continue the home setup", "intel", or "do the home task", read `intel/CLAUDE-HOME-TASK.md` first** and follow it step by step (it lists what to ask the owner before each outward step).
+- Rules: read-only; never change the bots, the VPS or production records; ask before any ssh, commit, push, deploy or key; never show or ask for a secret in chat; no Artifact pages. Overview: `intel/README.md`; status: `intel/IMPLEMENTATION-STATUS.md`.
