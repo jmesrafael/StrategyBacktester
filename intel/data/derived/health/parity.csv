@@ -1,0 +1,32 @@
+bot,coin,kind,entry_s,side,live_r,bt_r,detail
+bbcore,SOL,backtest_only,1793318400,SHORT,,1.086,no skip recorded by the bot
+bbcore,ZEC,matched,1793131211,LONG,-1.029,-1.022,
+bbcore,ZEC,matched,1793649610,SHORT,-1.015,-1.01,
+bbcore,NEAR,matched,1793260812,SHORT,-1.037,-1.021,
+bbcore,NEAR,matched,1793318411,SHORT,-1.013,-1.007,
+bbcore,NEAR,backtest_only,1793606400,SHORT,,2.361,bot skipped: skipped (entry_refused)
+bbcore,NEAR,matched,1794499212,SHORT,-1.034,-1.017,
+bbcore,ADA,matched,1793246410,SHORT,-1.044,-1.034,
+bbcore,ADA,matched,1793318413,SHORT,0.455,0.475,
+bbcore,ADA,matched,1794182417,SHORT,-1.049,-1.028,
+bbcore,ADA,matched,1794542412,SHORT,-1.062,-1.033,
+bbcore,GALA,matched,1793318415,SHORT,-1.026,-1.02,
+bbcore,GALA,matched,1793649615,SHORT,-1.07,-1.028,
+bbcore,GALA,matched,1793894413,SHORT,0.298,0.338,
+bbcore,SOL,live_only,1792857610,SHORT,1.207,,the backtest has no entry on this candle
+bbcore,NEAR,live_only,1793620811,SHORT,2.974,,the backtest has no entry on this candle
+bbcore,SOL,live_only,1793635212,SHORT,-1.064,,the backtest has no entry on this candle
+bbcore,ZEC,live_only,1794628811,SHORT,,,the backtest has no entry on this candle
+bbcore,ADA,live_only,1794628814,SHORT,,,the backtest has no entry on this candle
+icore,ZEC,backtest_only,1793548800,SHORT,,-1.037,bot skipped: skipped (entry_refused)
+icore,ZEC,matched,1793793608,LONG,-1.067,-1.037,
+icore,NEAR,backtest_only,1793246400,SHORT,,,no skip recorded by the bot
+icore,GALA,matched,1793736012,SHORT,-1.11,-1.034,
+icore,ZEC,live_only,1793649608,SHORT,-1.018,,the backtest has no entry on this candle
+tcore,SOL,backtest_only,1794182400,SHORT,,,bot skipped: skipped (blocked)
+tcore,ADA,matched,1794182416,SHORT,-1.049,-1.037,
+tcore,GALA,matched,1794182418,SHORT,-1.042,-1.029,
+tcore,SUI,backtest_only,1794542400,SHORT,,-1.029,no skip recorded by the bot
+tcore,SUI,backtest_only,1794628800,SHORT,,,no skip recorded by the bot
+tcore,SUI,live_only,1794499219,SHORT,,,the backtest has no entry on this candle
+tcore,GALA,live_only,1794672016,SHORT,,,the backtest has no entry on this candle

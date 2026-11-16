@@ -231,3 +231,9 @@ If either is already gone, that's fine. Then confirm you can still log in with y
 - I never connected to the VPS. Service names, paths and memory figures come from the install files and the repo's notes. Part 0 and the installer's own pre-flight checks exist to catch any difference.
 - I could not open `lucidio.vercel.app/bot-dashboard/` logged in, so the News Lab tab was tested by automated tests (528 pass) and by checking the deployed files load, not by looking at it with real data.
 - Whether the monthly report cron and Telegram variables are already set in Vercel is unknown to me; Part 3 says to check rather than assume.
+
+---
+## Added Nov 16, 2026: Intelligence System (research side, nothing on the VPS yet)
+- Built in `StrategyBacktester/intel/` (run `node run.js all`). Admin report with charts: `ledger/reports/intel-system.html` (added to `ledger/reports/index.json`; **not deployed to Vercel yet**, deploy is the owner's step).
+- When home, in this order: (1) `lucidio-recorder\pull-recorder-data.cmd YOUR-VPS`, (2) create a read-only Supabase key, (3) commit `intel/`, (4) decide the VPS watcher: see `intel/VPS-MONITORING-PLAN.md` (Option A first). Status and limits: `intel/IMPLEMENTATION-STATUS.md`.
+- Intel on the home PC: tell Claude "do the intel home task" (it reads `intel/CLAUDE-HOME-TASK.md`); human guide: `intel/HOME-SETUP.md` (daily task is OFF on the work PC; install it at home with `scripts\daily-task.ps1 -Install`).

@@ -1,0 +1,8 @@
+first_entry_s,entries,bots,coins,sides,btc_72h,shocks_72h,tags_72h,live_r,live_won,live_lost
+1793318411,3,bbcore,NEAR ADA GALA,SHORT,-2.69,"down,up,down,down",Binance $6.3B hack,-1.584,1,2
+1793635212,3,bbcore icore,SOL ZEC,SHORT,-0.12,,,-3.097,0,3
+1793890808,6,bb1h icore bbcore,GALA SOL NEAR ADA,SHORT,0.55,"down,up,up,up,down","US midterms, Democrats win",3.075,2,0
+1794168006,5,bbtr tcore bb1h,NEAR ZEC SOL,SHORT,-0.58,,,2.308,1,0
+1794182409,9,bbcore bbtr tcore icore,SOL ADA GALA ZEC,SHORT,-1.61,down,,13.086,4,3
+1794542408,6,bbtr bbcore tcore,ADA GALA ETH,SHORT,-7.52,"down,down,down",Hot US CPI; Nvidia CEO resigns,1.244,2,2
+1794661215,5,bb1h bbcore tcore,GALA NEAR,SHORT,-9.32,"down,down,up,down",,0.336,3,0

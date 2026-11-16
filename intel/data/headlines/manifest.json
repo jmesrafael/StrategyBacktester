@@ -1,0 +1,69 @@
+{
+ "dataset": "headlines",
+ "schema_version": 1,
+ "status": "ok",
+ "built_at": "2026-11-16T05:48:40.135Z",
+ "generator": "ingest/headlines.js",
+ "source": {
+  "kind": "Pulse daily briefs (crypto-news repo)",
+  "path": "../../crypto-news/data/briefs",
+  "labels": "keyword scoring by Pulse (lib/highlights.js), no AI"
+ },
+ "inputs": [],
+ "files": {
+  "headlines.jsonl": {
+   "rows": 60,
+   "sha256": "b7d4caea552d3304562ce48283716cf249c88a6863f207126e8659d92f353b8e",
+   "bytes": 56600,
+   "schema": {
+    "key": "string",
+    "id": "string",
+    "brief_date": "string",
+    "brief_generated_at": "int",
+    "title": "string",
+    "source": "string?",
+    "link": "string?",
+    "category": "string?",
+    "event_time": "int?",
+    "published_at": "int?",
+    "first_seen_at": "int",
+    "last_seen_at": "int?",
+    "archived_at": "int",
+    "bias": "string",
+    "strength": "number",
+    "impact": "bool",
+    "story_count": "int?",
+    "score": "number?",
+    "assets": "json",
+    "keywords": "json",
+    "seq": "int",
+    "prev_hash": "string",
+    "row_hash": "string"
+   }
+  },
+  "coverage.json": {
+   "rows": null,
+   "sha256": "13349d03961dfa569e9fe0f2917314289dde8bc005658f4410e947d01c9c50ed",
+   "bytes": 161,
+   "schema": null
+  }
+ },
+ "checks": [
+  {
+   "name": "archive intact (hash chain)",
+   "ok": true,
+   "detail": "60 stored rows verified"
+  },
+  {
+   "name": "source folder found",
+   "ok": true,
+   "detail": "5 briefs read from ../../crypto-news/data/briefs"
+  }
+ ],
+ "notes": [
+  "0 new rows appended",
+  "brief dates 2026-11-11 to 2026-11-15",
+  "no brief date missing inside the range",
+  "coverage starts when Pulse began saving briefs; nothing earlier can be recovered with honest first-seen times"
+ ]
+}

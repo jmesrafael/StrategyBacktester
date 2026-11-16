@@ -1,0 +1,105 @@
+{
+ "dataset": "derived/correlation",
+ "schema_version": 1,
+ "status": "ok",
+ "built_at": "2026-11-16T05:48:47.382Z",
+ "generator": "engines/correlation",
+ "source": null,
+ "inputs": [
+  {
+   "dataset": "market",
+   "built_at": "2026-11-16T05:48:40.085Z",
+   "manifest_sha256": "6e0f796735324cb216d3c61e0551f55e7e0063fd1f066ab8d1c5e2e2ae8f5bed"
+  },
+  {
+   "dataset": "events",
+   "built_at": "2026-11-16T05:48:42.177Z",
+   "manifest_sha256": "b474c5f660fe67792cbd086622b1c3f9098e74de4d38766cd88435a2ff638509"
+  }
+ ],
+ "files": {
+  "daily.csv": {
+   "rows": 2474,
+   "sha256": "a21958acd11eb93a25f0186731e9183bffb8eacc82282772fb872a6841cb76d4",
+   "bytes": 124025,
+   "schema": {
+    "day": "string",
+    "t": "int",
+    "n_coins": "int",
+    "avg_pair_corr": "number",
+    "avg_corr_to_btc": "number?",
+    "min_pair_corr": "number",
+    "pctile_1y": "number?"
+   }
+  },
+  "matrix.json": {
+   "rows": null,
+   "sha256": "cad0bdcce61952f3a58824aec575a42c1e6ff15b46f34225013e90bbf0c5bed4",
+   "bytes": 3274,
+   "schema": null
+  },
+  "contagion.csv": {
+   "rows": 112,
+   "sha256": "cde39d1421afc746a01a85369b2d50bd7dc8dc9ad56453cfb50b5b8eac0b1fb1",
+   "bytes": 7390,
+   "schema": {
+    "direction": "string",
+    "coin": "string",
+    "window": "string",
+    "n": "int",
+    "btc_median_pct": "number?",
+    "coin_median_pct": "number?",
+    "ratio": "number?",
+    "same_direction_share": "number?",
+    "n_before_2024": "int",
+    "ratio_before_2024": "number?",
+    "n_from_2024": "int",
+    "ratio_from_2024": "number?"
+   }
+  },
+  "leadlag.csv": {
+   "rows": 98,
+   "sha256": "5017c8b3ef1e29643dfefad77b8ba372c6c18180802aa125bb74ffe79a97eccb",
+   "bytes": 1881,
+   "schema": {
+    "coin": "string",
+    "lag_h": "int",
+    "corr": "number?",
+    "n": "int"
+   }
+  },
+  "tail.csv": {
+   "rows": 14,
+   "sha256": "278d1eec3656d27083fb8a5f765700234bdbbe69c63f82b27f6ac5081f04d8d7",
+   "bytes": 837,
+   "schema": {
+    "coin": "string",
+    "n_btc_tail_hours": "int",
+    "p_down_together": "number?",
+    "p_up_together": "number?",
+    "baseline": "number",
+    "n_before_2024": "int",
+    "p_down_before_2024": "number?",
+    "n_from_2024": "int",
+    "p_down_from_2024": "number?"
+   }
+  }
+ },
+ "checks": [
+  {
+   "name": "at least 5 coins usable",
+   "ok": true,
+   "detail": "15 coins: BTC ETH SOL ZEC NEAR ADA GALA SUI ARB BNB XRP DOGE AVAX LINK DOT"
+  },
+  {
+   "name": "daily rows built",
+   "ok": true,
+   "detail": "2474 days as of 2026-11-16 05:00 UTC"
+  }
+ ],
+ "notes": [
+  "1h log returns, close over previous close; pair-hours with a missing bar are skipped",
+  "rolling window 168 hours, sampled at 00:00 UTC; correlation is population (divide by n)",
+  "BTC shocks used: 542 (episode_first only)"
+ ]
+}

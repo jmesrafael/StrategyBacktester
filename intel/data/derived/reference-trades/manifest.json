@@ -1,0 +1,58 @@
+{
+ "dataset": "derived/reference-trades",
+ "schema_version": 1,
+ "status": "ok",
+ "built_at": "2026-11-16T05:48:44.321Z",
+ "generator": "engines/backtest",
+ "source": null,
+ "inputs": [
+  {
+   "dataset": "market",
+   "built_at": "2026-11-16T05:48:40.085Z",
+   "manifest_sha256": "6e0f796735324cb216d3c61e0551f55e7e0063fd1f066ab8d1c5e2e2ae8f5bed"
+  }
+ ],
+ "files": {
+  "trades.csv": {
+   "rows": 13665,
+   "sha256": "1559dee9aa46417de5e1635355f4a0b4a223bbf1078e1cddd469310e52ffba65",
+   "bytes": 1141283,
+   "schema": {
+    "bot": "string",
+    "version": "string",
+    "cost": "string",
+    "coin": "string",
+    "dir": "int",
+    "sig_t": "int",
+    "t": "int",
+    "t_exit": "int",
+    "r": "number",
+    "why": "string",
+    "bars": "int",
+    "mfe_r": "number"
+   }
+  },
+  "summary.json": {
+   "rows": null,
+   "sha256": "44af9126372b4721b2418fa68ccc058bef8463336e598178f9031802a45ebba6",
+   "bytes": 3840,
+   "schema": null
+  }
+ },
+ "checks": [
+  {
+   "name": "reference backtests built",
+   "ok": true,
+   "detail": "13665 trades"
+  },
+  {
+   "name": "all bot coins available",
+   "ok": true,
+   "detail": "yes"
+  }
+ ],
+ "notes": [
+  "R is after costs. cost=standard: 0.05% fee and 0.02% slippage per side, real settled funding. cost=native: the bot's own model.",
+  "Coins are today's live coin lists (config.json), over each coin's whole Binance history."
+ ]
+}

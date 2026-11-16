@@ -1,0 +1,133 @@
+{
+ "dataset": "derived/journal",
+ "schema_version": 1,
+ "status": "ok",
+ "built_at": "2026-11-16T05:48:47.461Z",
+ "generator": "engines/journal",
+ "source": null,
+ "inputs": [
+  {
+   "dataset": "trades",
+   "built_at": "2026-11-16T05:48:40.127Z",
+   "manifest_sha256": "8837263eb3b2f5da3d77870e5d4f32c08955b718ad5a8ba83c08c60a8672c89a"
+  },
+  {
+   "dataset": "market",
+   "built_at": "2026-11-16T05:48:40.085Z",
+   "manifest_sha256": "6e0f796735324cb216d3c61e0551f55e7e0063fd1f066ab8d1c5e2e2ae8f5bed"
+  },
+  {
+   "dataset": "events",
+   "built_at": "2026-11-16T05:48:42.177Z",
+   "manifest_sha256": "b474c5f660fe67792cbd086622b1c3f9098e74de4d38766cd88435a2ff638509"
+  },
+  {
+   "dataset": "headlines",
+   "built_at": "2026-11-16T05:48:40.135Z",
+   "manifest_sha256": "3ee055d5760bf25d491014a3480a68eea1db25eb2671742933ac7ee32d82c56f"
+  }
+ ],
+ "files": {
+  "days.csv": {
+   "rows": 96,
+   "sha256": "fdc4b181bf77700a014e44b3dfef8dcb8cc3419c06ed898350f17938bb5a25a1",
+   "bytes": 6691,
+   "schema": {
+    "day": "string",
+    "bot": "string",
+    "day_r": "number",
+    "realized_r": "number",
+    "open_n": "int",
+    "entries_n": "int",
+    "btc_day": "number?",
+    "btc_7d": "number?",
+    "phase": "string",
+    "range_x": "number?",
+    "shocks_down": "int",
+    "shocks_up": "int",
+    "mood": "number?",
+    "mood_hindsight": "number?",
+    "tags": "string?"
+   }
+  },
+  "stamps.csv": {
+   "rows": 39,
+   "sha256": "f7ded377891da7a9126b8f21a749b0d16e59c22b58dd5611be6c605a90e56563",
+   "bytes": 4876,
+   "schema": {
+    "trade_key": "string",
+    "bot": "string",
+    "coin": "string",
+    "side": "string",
+    "entry_s": "int",
+    "btc_24h": "number?",
+    "btc_72h": "number?",
+    "context": "string",
+    "mood": "number?",
+    "mood_hindsight": "number?",
+    "tags": "string?",
+    "r_now": "number",
+    "status": "string",
+    "reason": "string?"
+   }
+  },
+  "streaks.csv": {
+   "rows": 7,
+   "sha256": "c87765382667399639cd06d9c26ac1282719f896f160b0479625698a533f4652",
+   "bytes": 689,
+   "schema": {
+    "bot": "string",
+    "kind": "string",
+    "from": "string",
+    "to": "string",
+    "days": "int",
+    "total_r": "number",
+    "btc_pct": "number?",
+    "phases": "string",
+    "avg_range_x": "number?",
+    "shock_days": "int",
+    "tags": "string?"
+   }
+  },
+  "clusters.csv": {
+   "rows": 7,
+   "sha256": "f43659d7cae9124a584d47b33e14529de39f149038261fadc2fab738df094173",
+   "bytes": 715,
+   "schema": {
+    "first_entry_s": "int",
+    "entries": "int",
+    "bots": "string",
+    "coins": "string",
+    "sides": "string",
+    "btc_72h": "number?",
+    "shocks_72h": "string?",
+    "tags_72h": "string?",
+    "live_r": "number",
+    "live_won": "int",
+    "live_lost": "int"
+   }
+  },
+  "summary.json": {
+   "rows": null,
+   "sha256": "85a8b407ff8d669a8662a74dca98fb3a93a4896787abac755efe9cf6f5cd10d1",
+   "bytes": 594,
+   "schema": null
+  }
+ },
+ "checks": [
+  {
+   "name": "prices available for every traded coin",
+   "ok": true,
+   "detail": "all coins priced"
+  },
+  {
+   "name": "journal built",
+   "ok": true,
+   "detail": "24 days as of 2026-11-16 05:00 UTC"
+  }
+ ],
+ "notes": [
+  "open trades are valued from Binance prices with the first stop as 1R; the bots trade on MEXC, so open R is an estimate",
+  "mood = strict (labels known at the time); mood_hindsight also uses labels computed later and is for comparison only"
+ ]
+}

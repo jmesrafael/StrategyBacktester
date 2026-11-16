@@ -1,0 +1,62 @@
+{
+ "dataset": "derived/event-study",
+ "schema_version": 1,
+ "status": "ok",
+ "built_at": "2026-11-16T05:48:43.054Z",
+ "generator": "engines/events (buildStudy)",
+ "source": null,
+ "inputs": [
+  {
+   "dataset": "derived/event-reactions",
+   "built_at": "2026-11-16T05:48:42.522Z",
+   "manifest_sha256": "07238decb6958944089b472e6b2626a38d7ff0ae20ad7d3ca26a63393342831a"
+  },
+  {
+   "dataset": "market",
+   "built_at": "2026-11-16T05:48:40.085Z",
+   "manifest_sha256": "6e0f796735324cb216d3c61e0551f55e7e0063fd1f066ab8d1c5e2e2ae8f5bed"
+  }
+ ],
+ "files": {
+  "study.csv": {
+   "rows": 68,
+   "sha256": "2d0ae8c7b0b02eacc71240dd9518c678ab77c5d27c93678d70d71ac4b6e3f575",
+   "bytes": 10564,
+   "schema": {
+    "group": "string",
+    "measured": "string",
+    "horizon": "string",
+    "n": "int",
+    "n_nonoverlap": "int",
+    "mean": "number",
+    "median": "number",
+    "p10": "number",
+    "p90": "number",
+    "share_down": "number",
+    "mean_abs": "number",
+    "base_mean": "number",
+    "base_mean_abs": "number",
+    "diff_mean": "number",
+    "diff_ci_lo": "number",
+    "diff_ci_hi": "number",
+    "n_before_2024": "int",
+    "mean_before_2024": "number?",
+    "n_from_2024": "int",
+    "mean_from_2024": "number?",
+    "verdict": "string"
+   }
+  }
+ },
+ "checks": [
+  {
+   "name": "study built",
+   "ok": true,
+   "detail": "68 group x horizon rows"
+  }
+ ],
+ "notes": [
+  "diff_mean = group mean minus the baseline mean (every hour of that coin). The interval is a 95% bootstrap interval (1,000 resamples, fixed seed).",
+  "Events closer together than the horizon overlap and are not independent: n_nonoverlap counts the ones that do not overlap.",
+  "A verdict needs at least 30 non-overlapping samples."
+ ]
+}

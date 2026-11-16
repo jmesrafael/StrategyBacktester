@@ -1,0 +1,40 @@
+trade_key,bot,coin,side,entry_s,btc_24h,btc_72h,context,mood,mood_hindsight,tags,r_now,status,reason
+bbcore|live|SOL_USDT|SHORT|1792843200000,bbcore,SOL,SHORT,1792857610,-2.31,-5.61,quiet,,,,1.2068,closed,time
+bbcore|live|ZEC_USDT|LONG|1793116800000,bbcore,ZEC,LONG,1793131211,0.98,0.4,quiet,,,,-1.0293,closed,stop
+bbcore|live|ADA_USDT|SHORT|1793232000000,bbcore,ADA,SHORT,1793246410,-1.6,0.31,after down-shock,,,,-1.0444,closed,stop
+bbcore|live|NEAR_USDT|SHORT|1793246400000,bbcore,NEAR,SHORT,1793260812,-1.52,-0.23,after down-shock,,,,-1.0368,closed,stop
+icore|live|SOL_USDT|SHORT|1793289600000,icore,SOL,SHORT,1793304010,-0.9,1.02,after both,,,Binance $6.3B hack,7.8039,open,
+bbcore|live|NEAR_USDT|SHORT|1793304000000,bbcore,NEAR,SHORT,1793318411,-4.12,-2.69,after both,,,Binance $6.3B hack,-1.0128,closed,stop
+bbcore|live|ADA_USDT|SHORT|1793304000000,bbcore,ADA,SHORT,1793318413,-4.12,-2.69,after both,,,Binance $6.3B hack,0.4552,closed,time
+bbcore|live|GALA_USDT|SHORT|1793304000000,bbcore,GALA,SHORT,1793318415,-4.12,-2.69,after both,,,Binance $6.3B hack,-1.0262,closed,stop
+bbcore|live|NEAR_USDT|SHORT|1793606400000,bbcore,NEAR,SHORT,1793620811,-0.08,0.67,quiet,,,,2.9737,closed,time
+bbcore|live|SOL_USDT|SHORT|1793620800000,bbcore,SOL,SHORT,1793635212,-0.6,-0.12,quiet,,,,-1.0643,closed,stop
+icore|live|ZEC_USDT|SHORT|1793635200000,icore,ZEC,SHORT,1793649608,-0.9,0.23,quiet,,,,-1.0177,closed,stop
+bbcore|live|ZEC_USDT|SHORT|1793635200000,bbcore,ZEC,SHORT,1793649610,-0.9,0.23,quiet,,,,-1.0154,closed,stop
+bbcore|live|GALA_USDT|SHORT|1793635200000,bbcore,GALA,SHORT,1793649615,-0.9,0.23,quiet,,,,-1.0701,closed,stop
+icore|live|GALA_USDT|SHORT|1793721600000,icore,GALA,SHORT,1793736012,0.67,0.06,quiet,,,,-1.1101,closed,stop
+icore|live|ZEC_USDT|LONG|1793779200000,icore,ZEC,LONG,1793793608,1.78,0.67,after both,,,"US midterms, Democrats win",-1.0666,closed,stop
+icore|live|GALA_USDT|SHORT|1793851200000,icore,GALA,SHORT,1793865616,2.87,2.92,after both,,,"US midterms, Democrats win",3.2308,open,
+icore|live|ADA_USDT|SHORT|1793880000000,icore,ADA,SHORT,1793894410,-5.32,-1.9,after both,,,"US midterms, Democrats win",2.7767,open,
+bbcore|live|GALA_USDT|SHORT|1793880000000,bbcore,GALA,SHORT,1793894413,-5.32,-1.9,after both,,,"US midterms, Democrats win",0.298,closed,time
+tcore|live|NEAR_USDT|SHORT|1794153600000,tcore,NEAR,SHORT,1794168014,0.16,-0.58,quiet,,0,,2.3085,open,
+bbcore|live|SOL_USDT|SHORT|1794168000000,bbcore,SOL,SHORT,1794182409,-1.34,-1.61,after down-shock,,0,,4.7129,open,
+tcore|live|ZEC_USDT|SHORT|1794168000000,tcore,ZEC,SHORT,1794182412,-1.34,-1.61,after down-shock,,0,,3.5626,open,
+bbcore|live|ZEC_USDT|SHORT|1794168000000,bbcore,ZEC,SHORT,1794182413,-1.34,-1.61,after down-shock,,0,,4.3714,closed,stop
+icore|live|ZEC_USDT|SHORT|1794168000000,icore,ZEC,SHORT,1794182415,-1.34,-1.61,after down-shock,,0,,3.5788,open,
+tcore|live|ADA_USDT|SHORT|1794168000000,tcore,ADA,SHORT,1794182416,-1.34,-1.61,after down-shock,,0,,-1.0489,closed,stop
+bbcore|live|ADA_USDT|SHORT|1794168000000,bbcore,ADA,SHORT,1794182417,-1.34,-1.61,after down-shock,,0,,-1.0488,closed,stop
+tcore|live|GALA_USDT|SHORT|1794168000000,tcore,GALA,SHORT,1794182418,-1.34,-1.61,after down-shock,,0,,-1.0418,closed,stop
+bbcore|live|NEAR_USDT|SHORT|1794484800000,bbcore,NEAR,SHORT,1794499212,-3.08,-5.06,after down-shock,0,0,Hot US CPI; Nvidia CEO resigns,-1.0335,closed,stop
+tcore|live|SUI_USDT|SHORT|1794484800000,tcore,SUI,SHORT,1794499219,-3.08,-5.06,after down-shock,0,0,Hot US CPI; Nvidia CEO resigns,1.7924,open,
+bbcore|live|ADA_USDT|SHORT|1794528000000,bbcore,ADA,SHORT,1794542412,-6.56,-7.52,after down-shock,0,0,Hot US CPI; Nvidia CEO resigns,-1.0621,closed,stop
+tcore|live|ADA_USDT|SHORT|1794528000000,tcore,ADA,SHORT,1794542413,-6.56,-7.52,after down-shock,0,0,Hot US CPI; Nvidia CEO resigns,1.8415,open,
+tcore|live|GALA_USDT|SHORT|1794528000000,tcore,GALA,SHORT,1794542415,-6.56,-7.52,after down-shock,0,0,Hot US CPI; Nvidia CEO resigns,-1.0299,closed,stop
+tcore|live|ETH_USDT|SHORT|1794528000000,tcore,ETH,SHORT,1794542417,-6.56,-7.52,after down-shock,0,0,Hot US CPI; Nvidia CEO resigns,1.4948,open,
+bbcore|live|ZEC_USDT|SHORT|1794614400000,bbcore,ZEC,SHORT,1794628811,-3.2,-9.51,after both,0,0,,0.224,open,
+bbcore|live|ADA_USDT|SHORT|1794614400000,bbcore,ADA,SHORT,1794628814,-3.2,-9.51,after both,0,0,,1.0532,open,
+bbcore|live|NEAR_USDT|SHORT|1794657600000,bbcore,NEAR,SHORT,1794672012,-4.58,-11.14,after both,0,0,,0.1685,open,
+tcore|live|GALA_USDT|SHORT|1794657600000,tcore,GALA,SHORT,1794672016,-4.58,-11.14,after both,0,0,,0.0886,open,
+bbcore|live|GALA_USDT|SHORT|1794657600000,bbcore,GALA,SHORT,1794672016,-4.58,-11.14,after both,0,0,,0.0789,open,
+bbcore|live|ARB_USDT|SHORT|1794672000000,bbcore,ARB,SHORT,1794686417,-4.84,-11.68,after both,0,0,,-0.1649,open,
+tcore|live|ARB_USDT|SHORT|1794672000000,tcore,ARB,SHORT,1794686418,-4.84,-11.68,after both,0,0,,-0.2376,open,

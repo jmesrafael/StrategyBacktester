@@ -1,0 +1,58 @@
+{
+ "dataset": "derived/event-reactions",
+ "schema_version": 1,
+ "status": "ok",
+ "built_at": "2026-11-16T05:48:42.522Z",
+ "generator": "engines/events (buildReactions)",
+ "source": null,
+ "inputs": [
+  {
+   "dataset": "events",
+   "built_at": "2026-11-16T05:48:42.177Z",
+   "manifest_sha256": "b474c5f660fe67792cbd086622b1c3f9098e74de4d38766cd88435a2ff638509"
+  },
+  {
+   "dataset": "market",
+   "built_at": "2026-11-16T05:48:40.085Z",
+   "manifest_sha256": "6e0f796735324cb216d3c61e0551f55e7e0063fd1f066ab8d1c5e2e2ae8f5bed"
+  }
+ ],
+ "files": {
+  "reactions.csv": {
+   "rows": 26025,
+   "sha256": "1f1583cc81dd2c7e46915d25e64af838b3e0d2f08fffd8d26e550b0d2f36ae91",
+   "bytes": 3740823,
+   "schema": {
+    "event_id": "string",
+    "kind": "string",
+    "subtype": "string?",
+    "asset": "string",
+    "measured": "string",
+    "direction": "string?",
+    "first_seen_at": "int",
+    "base_t": "int",
+    "base_price": "number",
+    "pre_24h": "number?",
+    "pre_72h": "number?",
+    "r_1h": "number?",
+    "r_24h": "number?",
+    "r_72h": "number?",
+    "r_7d": "number?",
+    "episode_first": "bool?",
+    "z": "number?",
+    "vol_ratio": "number?"
+   }
+  }
+ },
+ "checks": [
+  {
+   "name": "reactions measured",
+   "ok": true,
+   "detail": "26025 rows as of 2026-11-16 05:00 UTC"
+  }
+ ],
+ "notes": [
+  "returns are in percent, from the last closed 1h bar at or before first_seen_at",
+  "a horizon that had not finished at the as-of time is empty"
+ ]
+}

@@ -1,0 +1,24 @@
+# Truth check: bot events against exchange records
+
+Built 2026-11-16T05:48 UTC from the trades dataset (export 2026-11-15T23:34:27.018397+00:00).
+
+4 item(s) need review.
+
+| Bot | Check | Status | Detail |
+|---|---|---|---|
+| bbcore | closed trades reconciled | ok | 16 matched; 16 exit events; 16 exchange closes |
+| bbcore | exit reporting lag | info | exit events arrive a median 78 min after the exchange close (longest 198 min): a stopped position stays on the dashboard that long |
+| bbcore | open positions now | ok | wallet 6 at 2026-11-15 23:30; events imply 6 (SOL SHORT since 2026-11-09 00:00, ZEC SHORT since 2026-11-14 04:00, ADA SHORT since 2026-11-14 04:00, NEAR SHORT since 2026-11-14 16:00, GALA SHORT since 2026-11-14 16:00, ARB SHORT since 2026-11-14 20:00) |
+| icore | closed trades reconciled | ok | 3 matched; 3 exit events; 3 exchange closes |
+| icore | exit reporting lag | info | exit events arrive a median 125 min after the exchange close (longest 162 min): a stopped position stays on the dashboard that long |
+| icore | open positions agree | review | 2026-11-02 11:30 to now: wallet 0 open, events imply 1 (wallet has 1 fewer: a position closed with no exit event, or an entry event without a fill). Events within 3h of the start: none |
+| icore | open positions now | review | wallet 3 at 2026-11-15 23:30; events imply 4 (SOL SHORT since 2026-10-29 20:00, GALA SHORT since 2026-11-05 08:00, ADA SHORT since 2026-11-05 16:00, ZEC SHORT since 2026-11-09 00:00) |
+| tcore | closed trades reconciled | ok | 3 matched; 3 exit events; 3 exchange closes |
+| tcore | exit reporting lag | info | exit events arrive a median 19 min after the exchange close (longest 231 min): a stopped position stays on the dashboard that long |
+| tcore | open positions agree | review | 2026-11-07 03:31 to now: wallet 1 open, events imply 0 (wallet has 1 more: a position with no entry event). Events within 3h of the start: none |
+| tcore | open positions now | review | wallet 8 at 2026-11-15 23:30; events imply 7 (NEAR SHORT since 2026-11-08 20:00, ZEC SHORT since 2026-11-09 00:00, SUI SHORT since 2026-11-12 16:00, ADA SHORT since 2026-11-13 04:00, ETH SHORT since 2026-11-13 04:00, GALA SHORT since 2026-11-14 16:00, ARB SHORT since 2026-11-14 20:00) |
+
+## How to read it
+
+- "review" on open positions means the wallet and the events disagree on how many positions are open. The interval start tells you where to look in the bot log and on the exchange.
+- This tool reads only. It changes nothing in the database, the bots or the exchange.

@@ -1,0 +1,94 @@
+{
+ "dataset": "derived/regime",
+ "schema_version": 1,
+ "status": "ok",
+ "built_at": "2026-11-16T05:48:46.751Z",
+ "generator": "engines/regime",
+ "source": null,
+ "inputs": [
+  {
+   "dataset": "market",
+   "built_at": "2026-11-16T05:48:40.085Z",
+   "manifest_sha256": "6e0f796735324cb216d3c61e0551f55e7e0063fd1f066ab8d1c5e2e2ae8f5bed"
+  },
+  {
+   "dataset": "derived/reference-trades",
+   "built_at": "2026-11-16T05:48:44.321Z",
+   "manifest_sha256": "66c978bd4d0cc8da503b5ffe4c524b89b4783c7c66b5ca373f98e131282f006d"
+  }
+ ],
+ "files": {
+  "history.csv": {
+   "rows": 109548,
+   "sha256": "de86ddc86e5c91251c5a6d74beab2765176e4bc10122d3852c597677963a0ddd",
+   "bytes": 5031043,
+   "schema": {
+    "t": "int",
+    "coin": "string",
+    "state": "string",
+    "er48": "number?",
+    "bbw_pctile": "number?",
+    "trend_pct": "number?",
+    "rv7d": "number?"
+   }
+  },
+  "market.csv": {
+   "rows": 13323,
+   "sha256": "58068e89599b81507fd5e2a348b0a0605ab33093c9347fdbf541be20e13e0571",
+   "bytes": 455271,
+   "schema": {
+    "t": "int",
+    "market_state": "string",
+    "n": "int",
+    "trending_n": "int",
+    "up_n": "int",
+    "down_n": "int",
+    "breadth_up_pct": "number?",
+    "avg_corr_7d": "number?"
+   }
+  },
+  "transitions.json": {
+   "rows": null,
+   "sha256": "b125c72754b4f5aac9a0a7c3d30b553abb6ce3d0887b34852187cac248d08846",
+   "bytes": 8246,
+   "schema": null
+  },
+  "volatility.json": {
+   "rows": null,
+   "sha256": "d9773da332962cef9a48d983a4ae92c4bacb40dbd6b32cdc1fd5bcd7a4bb9cbd",
+   "bytes": 351,
+   "schema": null
+  },
+  "validation.csv": {
+   "rows": 26,
+   "sha256": "c68ccac97f426626a04c7b7a0fbd1ffa1036ba0bba2b3e50fcfafae2e72603ce",
+   "bytes": 1285,
+   "schema": {
+    "bot": "string",
+    "label": "string",
+    "state": "string",
+    "n_before_2024": "int",
+    "avg_r_before_2024": "number?",
+    "n_from_2024": "int",
+    "avg_r_from_2024": "number?"
+   }
+  },
+  "verdict.json": {
+   "rows": null,
+   "sha256": "79cf530f3951e59676956f3fd45e2391db49899d62dd710a7bffd7b08b2222e7",
+   "bytes": 1627,
+   "schema": null
+  }
+ },
+ "checks": [
+  {
+   "name": "regime history built",
+   "ok": true,
+   "detail": "109548 coin rows, 13323 market rows, 9 coins"
+  }
+ ],
+ "notes": [
+  "validation: 0 of 6 bot x label tests passed on data from 2024 on",
+  "the regime label is context only: it must not be used as a trading filter"
+ ]
+}
