@@ -4,7 +4,7 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 
 
 ## .
-- HOME-TODO-VPS-AND-PC.md — HOME TODO — everything not applied yet (VPS, Vercel, PC) (2026-11-16)
+- HOME-TODO-VPS-AND-PC.md — HOME TODO — everything not applied yet (VPS, Vercel, PC) (2026-11-17)
 - INFRASTRUCTURE-PLAN.md — Research and risk infrastructure: audit, architecture and phased plan (2026-11-16)
 
 ## LEDGER
@@ -471,7 +471,7 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - bot-config.json — bot-config.json (2026-11-11)
 
 ## research
-- TESTED-STRATEGIES.md — Tested strategies: registry (read before testing anything new) (2026-11-16)
+- TESTED-STRATEGIES.md — Tested strategies: registry (read before testing anything new) (2026-11-17)
 
 ## research/bb-core-v2
 - BIMONTHLY-2.5.md — Merged strategy, 2.5% risk compounding, % result of every 2-month block (MEXC, trades counted when they close; data to 21 Oct 2026) (2026-10-27)
@@ -911,6 +911,10 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - RESULTS.md — Profit-cause simulation, Oct 24 to Nov 15 2026 (2026-11-16)
 - events.json — events.json (2026-11-16)
 - results.json — results.json (2026-11-16)
+
+## research/sell-too-soon
+- giveback.md — From "gave back profit on a bounce": close now or hold? (2026-11-17)
+- results.md — T-CORE (SOL ZEC NEAR ADA GALA ETH SUI ARB) (2026-11-17)
 
 ## research/settlement-frequency
 - RESULTS.md — How often should the Ledger settle? (Nov 15 2026) (2026-11-16)
