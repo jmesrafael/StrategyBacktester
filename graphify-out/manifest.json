@@ -5424,9 +5424,9 @@
     "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1794526060.5800686,
-    "seen": 1794784703.9019976,
-    "ast_hash": "1086f2a4e99d3bfe483dc9d5cabf5fc2",
+    "mtime": 1794808191.9772944,
+    "seen": 1794887166.9475718,
+    "ast_hash": "a924dbaf1a290ea01b1497959db7b732",
     "semantic_hash": ""
   },
   "TRADING_MATH.txt": {
@@ -5448,9 +5448,9 @@
     "semantic_hash": ""
   },
   "report-index/INDEX.md": {
-    "mtime": 1794807109.1775405,
-    "seen": 1794807136.4665728,
-    "ast_hash": "848669e1e15261eb44d4c34983d40847",
+    "mtime": 1794887131.5175724,
+    "seen": 1794887166.9506805,
+    "ast_hash": "6b9b2acf15a94f90a73d82848d6d03fd",
     "semantic_hash": ""
   },
   "research/bb-core/hold-time/out-no-target.txt": {
@@ -7344,177 +7344,177 @@
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ADA.json": {
-    "mtime": 1794785708.833284,
-    "seen": 1794806123.7341793,
-    "ast_hash": "1aa04634d543f275323e551216272b02",
+    "mtime": 1794807641.4379768,
+    "seen": 1794887166.8311756,
+    "ast_hash": "5c81ba809ac6a6f281922a4e62dd1eb9",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/AVAX.json": {
-    "mtime": 1794785716.0730455,
-    "seen": 1794806123.7341793,
-    "ast_hash": "dd44eb99b34c7c63592eb98c8a5c5b82",
+    "mtime": 1794807648.5984042,
+    "seen": 1794887166.8311756,
+    "ast_hash": "9e7548bea6d263a18872341d2014c2ed",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/BNB.json": {
-    "mtime": 1794785713.6728382,
-    "seen": 1794806123.7341793,
-    "ast_hash": "b58565bb0d5eb11b288142a96f3601ad",
+    "mtime": 1794807646.227668,
+    "seen": 1794887166.8311756,
+    "ast_hash": "18512e5a81e910a1ddd896b93715cb79",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/BTC.json": {
-    "mtime": 1794785712.0590143,
-    "seen": 1794806123.7341793,
-    "ast_hash": "600b81eab5ef28546953e34f4d39ea05",
+    "mtime": 1794807644.6201975,
+    "seen": 1794887166.8311756,
+    "ast_hash": "9c37dec6cf535a2030eeb46f455cda1e",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/DOGE.json": {
-    "mtime": 1794785715.2757945,
-    "seen": 1794806123.7341793,
-    "ast_hash": "c7805376ed8a354915173b78220d3890",
+    "mtime": 1794807647.8145936,
+    "seen": 1794887166.8311756,
+    "ast_hash": "7de2aaf686acfec524028d8a0870cbaf",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/DOT.json": {
-    "mtime": 1794785717.6609848,
-    "seen": 1794806123.7341793,
-    "ast_hash": "edfa0b2ae17484dbc0589d9289cdb63e",
+    "mtime": 1794807650.2030065,
+    "seen": 1794887166.8311756,
+    "ast_hash": "c707ec8448e8b6a7e113f574a24c6d4f",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ETH.json": {
-    "mtime": 1794785712.8767366,
-    "seen": 1794806123.7341793,
-    "ast_hash": "a9b3fab88895bbfc9cdf9067ece6db08",
+    "mtime": 1794807645.4376106,
+    "seen": 1794887166.8311756,
+    "ast_hash": "a8a4a170decd699e287dcec554ffb985",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/GALA.json": {
-    "mtime": 1794785710.4480531,
-    "seen": 1794806123.7341793,
-    "ast_hash": "0b88e165484cb0a96d9dfa808351a25f",
+    "mtime": 1794807643.0281026,
+    "seen": 1794887166.8311756,
+    "ast_hash": "9fa36c45f3b9decbd3d3f52fe1a31794",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/LINK.json": {
-    "mtime": 1794785716.8606398,
-    "seen": 1794806123.7341793,
-    "ast_hash": "5c6ea12eaac443e8ce7e0ddd8b789b9c",
+    "mtime": 1794807649.3984632,
+    "seen": 1794887166.8311756,
+    "ast_hash": "58c73b06a03a9b34bc48a0f44fa2f7fd",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/NEAR.json": {
-    "mtime": 1794785709.6374395,
-    "seen": 1794806123.7341793,
-    "ast_hash": "c8750cc1c6af6acf8eeb0d19714d658c",
+    "mtime": 1794807642.2269237,
+    "seen": 1794887166.8311756,
+    "ast_hash": "037babbeaebf78ddafd9510cd5afd952",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/SOL.json": {
-    "mtime": 1794785708.0382595,
-    "seen": 1794806123.7341793,
-    "ast_hash": "e18cfad42330cf185fd060cf1d876050",
+    "mtime": 1794807640.6409311,
+    "seen": 1794887166.8311756,
+    "ast_hash": "5c803240bed3554be7e6de623a7535d7",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/SUI.json": {
-    "mtime": 1794785718.4762876,
-    "seen": 1794806123.7341793,
-    "ast_hash": "31b6494fbbea8c21e7ca437c943a022a",
+    "mtime": 1794807650.9886074,
+    "seen": 1794887166.8311756,
+    "ast_hash": "a88d8e68a2815c5012fb5410b013a869",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/XRP.json": {
-    "mtime": 1794785714.488439,
-    "seen": 1794806123.7341793,
-    "ast_hash": "3c06575620741fa786ab2d1c02c1baa6",
+    "mtime": 1794807647.0144408,
+    "seen": 1794887166.8311756,
+    "ast_hash": "18e8db70f938cfdb1cd6e0f24bb2c276",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ZEC.json": {
-    "mtime": 1794785711.259228,
-    "seen": 1794806123.7341793,
-    "ast_hash": "7f668126044cfdc593ff649e4ada92de",
+    "mtime": 1794807643.924886,
+    "seen": 1794887166.8311756,
+    "ast_hash": "0fb1822958e19573c8081e14e4a0308f",
     "semantic_hash": ""
   },
   "candles/binance-futures/MANIFEST.json": {
-    "mtime": 1794786440.7521055,
-    "seen": 1794806123.7341793,
-    "ast_hash": "a51d8ef38c9e3d08cfb44f117b71a5f2",
+    "mtime": 1794807711.9897735,
+    "seen": 1794887166.8311756,
+    "ast_hash": "608a590270119efbc5858efb15f9e0d3",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ADA.json": {
-    "mtime": 1794785709.1018806,
-    "seen": 1794806123.7341793,
-    "ast_hash": "e3c39302e8e36e981f6e467e88df8a3c",
+    "mtime": 1794807641.802083,
+    "seen": 1794887166.8311756,
+    "ast_hash": "d66e32ffdfc7c3afd5e9a437d4e49973",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/AVAX.json": {
-    "mtime": 1794785716.3575943,
-    "seen": 1794806123.7341793,
-    "ast_hash": "3fb8e0c4ee5d7206f6fe83c50783ae40",
+    "mtime": 1794807648.8559246,
+    "seen": 1794887166.8311756,
+    "ast_hash": "4352a6b6e91677b84db958815653bb44",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/BNB.json": {
-    "mtime": 1794785713.9324331,
-    "seen": 1794806123.7341793,
-    "ast_hash": "183faba42e9a9f2da91b1d0a690c10a0",
+    "mtime": 1794807646.482337,
+    "seen": 1794887166.8311756,
+    "ast_hash": "6d7c333f908dd829893af244c741b5ce",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/BTC.json": {
-    "mtime": 1794785712.3395703,
-    "seen": 1794806123.7341793,
-    "ast_hash": "76518b66264149ef821dcf4ba7f97009",
+    "mtime": 1794807644.989164,
+    "seen": 1794887166.8311756,
+    "ast_hash": "1bb0fd7197c1c928f2d40805c365a45a",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/DOGE.json": {
-    "mtime": 1794785715.5346446,
-    "seen": 1794806123.7341793,
-    "ast_hash": "bd99fdf5022610827bc6b7ca546ab494",
+    "mtime": 1794807648.0799692,
+    "seen": 1794887166.8311756,
+    "ast_hash": "2aeb0910cea0ad124e6ef3e608542155",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/DOT.json": {
-    "mtime": 1794785717.9317987,
-    "seen": 1794806123.7341793,
-    "ast_hash": "d7d2867539001d4b4fc1f82ad58413b5",
+    "mtime": 1794807650.455834,
+    "seen": 1794887166.8311756,
+    "ast_hash": "f2243d38e2919b5eed85e2e3f35b735f",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ETH.json": {
-    "mtime": 1794785713.1261382,
-    "seen": 1794806123.7341793,
-    "ast_hash": "bc93a2702bf9363b88cd72829b893da3",
+    "mtime": 1794807645.6950724,
+    "seen": 1794887166.8311756,
+    "ast_hash": "ad2a58e1c4e5c4b5e8e54926c027686e",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/GALA.json": {
-    "mtime": 1794785710.711415,
-    "seen": 1794806123.7341793,
-    "ast_hash": "32416d7c795cdec3edb51d4b3322f8c5",
+    "mtime": 1794807643.2969086,
+    "seen": 1794887166.8311756,
+    "ast_hash": "5804e3521fdcf1fd57fd7e4514d523b1",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/LINK.json": {
-    "mtime": 1794785717.1273282,
-    "seen": 1794806123.7341793,
-    "ast_hash": "a86bd8b64349c5fa2e7800eda4dd894b",
+    "mtime": 1794807649.6574488,
+    "seen": 1794887166.8311756,
+    "ast_hash": "8e2fbe9affa2053fe52a36f0d28e4db0",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/NEAR.json": {
-    "mtime": 1794785709.886788,
-    "seen": 1794806123.7341793,
-    "ast_hash": "9b8c9406435338c25dcc922a52972645",
+    "mtime": 1794807642.5933578,
+    "seen": 1794887166.8311756,
+    "ast_hash": "61c66f4b54b119637c3925d6407af91a",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/SOL.json": {
-    "mtime": 1794785708.2850394,
-    "seen": 1794806123.7341793,
-    "ast_hash": "79107cac61ac35bec0a3742747a2ec47",
+    "mtime": 1794807640.9066715,
+    "seen": 1794887166.8311756,
+    "ast_hash": "b83ddc501316cbc6d6fe1fe91d0709bf",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/SUI.json": {
-    "mtime": 1794785718.7268653,
-    "seen": 1794806123.7341793,
-    "ast_hash": "3e050d51780474fa1cc4ab9cfa048938",
+    "mtime": 1794807651.2960117,
+    "seen": 1794887166.8311756,
+    "ast_hash": "3c68ea60b0e99f7ef1d287f4751d08f1",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/XRP.json": {
-    "mtime": 1794785714.7265272,
-    "seen": 1794806123.7341793,
-    "ast_hash": "9c91eae9f25167c2fb07ffca990e2071",
+    "mtime": 1794807647.2760868,
+    "seen": 1794887166.8311756,
+    "ast_hash": "b8ed4bb69efd678bfaee8112f0061113",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ZEC.json": {
-    "mtime": 1794785711.5160227,
-    "seen": 1794806123.7341793,
-    "ast_hash": "8b914f9359677b98b908e85d6facf8d5",
+    "mtime": 1794807644.1880677,
+    "seen": 1794887166.8311756,
+    "ast_hash": "77351890aebd206ae3e7e56e31f793b6",
     "semantic_hash": ""
   },
   "candles/candles.js": {
@@ -9402,9 +9402,9 @@
     "semantic_hash": ""
   },
   "HOME-TODO-VPS-AND-PC.md": {
-    "mtime": 1794807005.315896,
-    "seen": 1794807136.4533005,
-    "ast_hash": "395bcb7a32a86bffef6dee6128cd4213",
+    "mtime": 1794879465.1062725,
+    "seen": 1794887166.9475718,
+    "ast_hash": "bd01fb827bbb384ed1d1b69ce60f7a9f",
     "semantic_hash": ""
   },
   "MONTHLY-REPORT-INSTALL-WHEN-HOME.md": {
@@ -9582,9 +9582,9 @@
     "semantic_hash": "94d5d89a7d716bdff241fa75b01e3837"
   },
   "research/TESTED-STRATEGIES.md": {
-    "mtime": 1794805629.0304525,
-    "seen": 1794806123.8674712,
-    "ast_hash": "7e42900d9f86a093132d8426352af4dc",
+    "mtime": 1794887129.930892,
+    "seen": 1794887166.9506805,
+    "ast_hash": "9d3785d5d7b303084b28e369917e6a97",
     "semantic_hash": ""
   },
   "research/orb-sol/compare-bots.txt": {
@@ -9762,903 +9762,903 @@
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/1000SHIB.json": {
-    "mtime": 1794785767.3100061,
-    "seen": 1794806123.7341793,
-    "ast_hash": "372789d4d3207f7506b716b7f8bfa6dd",
+    "mtime": 1794807700.5497005,
+    "seen": 1794887166.8311756,
+    "ast_hash": "5cf5b303cc20af382e561ae3a70acf04",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/1000XEC.json": {
-    "mtime": 1794785772.1109734,
-    "seen": 1794806123.7341793,
-    "ast_hash": "46b3ac730419788d08cecd03a63eaf8f",
+    "mtime": 1794807705.3478677,
+    "seen": 1794887166.8311756,
+    "ast_hash": "a0f312fcc497ee3e9ac7b4aa3c02a2e9",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/1INCH.json": {
-    "mtime": 1794785753.7073088,
-    "seen": 1794806123.7341793,
-    "ast_hash": "ec97efdf737496ccd9a537ae35fcf3db",
+    "mtime": 1794807686.9737613,
+    "seen": 1794887166.8311756,
+    "ast_hash": "1589739312d3b759f2e25e2a8a76a54a",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/AAVE.json": {
-    "mtime": 1794785748.9059575,
-    "seen": 1794806123.7341793,
-    "ast_hash": "769c4cc2bbf1cc6e07f13453439a49ea",
+    "mtime": 1794807682.1918092,
+    "seen": 1794887166.8311756,
+    "ast_hash": "e6b1c4bc2ce2065b35001c330a7bfbc5",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ALGO.json": {
-    "mtime": 1794785732.8968253,
-    "seen": 1794806123.7341793,
-    "ast_hash": "6ed74c16604515545813c1d6edf1d3ec",
+    "mtime": 1794807666.2072363,
+    "seen": 1794887166.8311756,
+    "ast_hash": "896b23c6bd5fdb3eff12f979317b3b1d",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ALICE.json": {
-    "mtime": 1794785760.9016216,
-    "seen": 1794806123.7341793,
-    "ast_hash": "6dc5c0b2b8a673788fbcc24a6d3321b2",
+    "mtime": 1794807694.1568153,
+    "seen": 1794887166.8311756,
+    "ast_hash": "18ef35c92f1ce471589bbab512a718c9",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ANKR.json": {
-    "mtime": 1794785756.1082375,
-    "seen": 1794806123.7341793,
-    "ast_hash": "197b38439652c2b6c9dc65f78874daca",
+    "mtime": 1794807689.3870175,
+    "seen": 1794887166.8311756,
+    "ast_hash": "40483e2b97959dbf44779bbcf799e5b0",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/AR.json": {
-    "mtime": 1794785773.7132053,
-    "seen": 1794806123.7341793,
-    "ast_hash": "8567193217173dceca01864547233450",
+    "mtime": 1794807706.9296436,
+    "seen": 1794887166.8311756,
+    "ast_hash": "0180c7501e75a1416159e9c46578bbf4",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ARPA.json": {
-    "mtime": 1794785774.5148654,
-    "seen": 1794806123.7341793,
-    "ast_hash": "387813dedca0daec9d435d3e4fbaf8a5",
+    "mtime": 1794807707.7253542,
+    "seen": 1794887166.8311756,
+    "ast_hash": "c1af58a4218e4c6f748de6318e48fc7f",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ATOM.json": {
-    "mtime": 1794785725.6752472,
-    "seen": 1794806123.7341793,
-    "ast_hash": "65d0f07a985162eec2774a9d864446f0",
+    "mtime": 1794807658.9900117,
+    "seen": 1794887166.8311756,
+    "ast_hash": "faf06f1fe2961011c8744941bd9986c6",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/AXS.json": {
-    "mtime": 1794785751.3518,
-    "seen": 1794806123.7341793,
-    "ast_hash": "0521583792fbbf7378c6e501c0ba7483",
+    "mtime": 1794807684.6929133,
+    "seen": 1794887166.8311756,
+    "ast_hash": "7f733e919f1598105a96d6eb1937a280",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/BAND.json": {
-    "mtime": 1794785737.7051911,
-    "seen": 1794806123.7341793,
-    "ast_hash": "b14a8d3331eef456b6ac6d9d213d34e7",
+    "mtime": 1794807671.0111785,
+    "seen": 1794887166.8311756,
+    "ast_hash": "a1cff69d56cc60d9bfd37db403e8cf36",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/BAT.json": {
-    "mtime": 1794785728.0889401,
-    "seen": 1794806123.7341793,
-    "ast_hash": "d71066be0b76f51eb265df7a8053e5cf",
+    "mtime": 1794807661.4078763,
+    "seen": 1794887166.8311756,
+    "ast_hash": "59f3854e118a902d91a232f9ade486f7",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/BCH.json": {
-    "mtime": 1794785719.2751918,
-    "seen": 1794806123.7341793,
-    "ast_hash": "1918a4571652ad45e4c4a9c2609f77c6",
+    "mtime": 1794807652.605985,
+    "seen": 1794887166.8311756,
+    "ast_hash": "0d756a80205d343b11614a54572c909a",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/BEL.json": {
-    "mtime": 1794785750.5038393,
-    "seen": 1794806123.7341793,
-    "ast_hash": "8fd4ee94f5362e82c5524bb0d0733206",
+    "mtime": 1794807683.7918885,
+    "seen": 1794887166.8311756,
+    "ast_hash": "0699f25c54a8dce4203cc941ddd1a44f",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/C98.json": {
-    "mtime": 1794785770.510677,
-    "seen": 1794806123.7341793,
-    "ast_hash": "66e785642c34f2ec3e01655a28f5aded",
+    "mtime": 1794807703.745476,
+    "seen": 1794887166.8311756,
+    "ast_hash": "e2a7ba78921e4045f2e2ad8e52a0e2e2",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/CELO.json": {
-    "mtime": 1794785772.9104605,
-    "seen": 1794806123.7341793,
-    "ast_hash": "2738febec31d13cc6f4c94729da10629",
+    "mtime": 1794807706.1189075,
+    "seen": 1794887166.8311756,
+    "ast_hash": "143a8e8bbdc927175b3a701768e0b306",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/CELR.json": {
-    "mtime": 1794785764.104316,
-    "seen": 1794806123.7341793,
-    "ast_hash": "8e9eaa0d7139668c57c554e7f4a096bb",
+    "mtime": 1794807697.3500388,
+    "seen": 1794887166.8311756,
+    "ast_hash": "0bff85d1ccd7a5f9dbc8800c8b964006",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/CHR.json": {
-    "mtime": 1794785759.3113434,
-    "seen": 1794806123.7341793,
-    "ast_hash": "f19c29c137d0bb6cecad60697375972a",
+    "mtime": 1794807692.5576713,
+    "seen": 1794887166.8311756,
+    "ast_hash": "2caceddbf8d715f799701769d9f27724",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/CHZ.json": {
-    "mtime": 1794785755.3078375,
-    "seen": 1794806123.7341793,
-    "ast_hash": "40a618769fd8b487ea068c94f430a5da",
+    "mtime": 1794807688.5589993,
+    "seen": 1794887166.8311756,
+    "ast_hash": "c5ef8b1f79fe23ff3245bf13978d2496",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/COMP.json": {
-    "mtime": 1794785736.1043725,
-    "seen": 1794806123.7341793,
-    "ast_hash": "26e6b4faba08efc9c76121b2b3e76cc4",
+    "mtime": 1794807669.4041023,
+    "seen": 1794887166.8311756,
+    "ast_hash": "7924a0e35032167442e01ff1593a0a81",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/COTI.json": {
-    "mtime": 1794785758.5077422,
-    "seen": 1794806123.7341793,
-    "ast_hash": "bf2a4a06d107c8aea9ae59beae423d74",
+    "mtime": 1794807691.7562032,
+    "seen": 1794887166.8311756,
+    "ast_hash": "71e4a5a51a708cebd4def7762bcc5c48",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/CRV.json": {
-    "mtime": 1794785741.7068183,
-    "seen": 1794806123.7341793,
-    "ast_hash": "6c14bb199dfc032a3e2f288916353e86",
+    "mtime": 1794807675.0073383,
+    "seen": 1794887166.8311756,
+    "ast_hash": "a627d54716ab9f20e0e60eac564cb4dd",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/CTSI.json": {
-    "mtime": 1794785775.319438,
-    "seen": 1794806123.7341793,
-    "ast_hash": "73ebc914b2f69b631bb81e3d1978e6ce",
+    "mtime": 1794807708.5321352,
+    "seen": 1794887166.8311756,
+    "ast_hash": "36b99ad5dda612f9dec83f7a77b9eb4a",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/DASH.json": {
-    "mtime": 1794785724.0720596,
-    "seen": 1794806123.7341793,
-    "ast_hash": "7595bf0a174e9cd2ba83d1d8e7c5fe48",
+    "mtime": 1794807657.404013,
+    "seen": 1794887166.8311756,
+    "ast_hash": "391ec94eb3cdfb69ec234fdcc2dbf745",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/DYDX.json": {
-    "mtime": 1794785771.3110874,
-    "seen": 1794806123.7341793,
-    "ast_hash": "430503a7286d8b629d8ff6611cd57f85",
+    "mtime": 1794807704.5322263,
+    "seen": 1794887166.8311756,
+    "ast_hash": "8b95787f23c67e9835c22948fac1987a",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/EGLD.json": {
-    "mtime": 1794785744.905241,
-    "seen": 1794806123.7341793,
-    "ast_hash": "9ae366d671f229f5ec236acf21dac56b",
+    "mtime": 1794807678.2064877,
+    "seen": 1794887166.8311756,
+    "ast_hash": "5282096d7fda693fa925c8e62db34e92",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ENJ.json": {
-    "mtime": 1794785746.5694199,
-    "seen": 1794806123.7341793,
-    "ast_hash": "3da9be0997dbd3b875bf5942991982cf",
+    "mtime": 1794807679.804827,
+    "seen": 1794887166.8311756,
+    "ast_hash": "bae5d5340c6b67a253e861bc2020e0cc",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ENS.json": {
-    "mtime": 1794785776.9432538,
-    "seen": 1794806123.7341793,
-    "ast_hash": "27d3cca9a9a598377257d7e27bb7db43",
+    "mtime": 1794807710.1296482,
+    "seen": 1794887166.8311756,
+    "ast_hash": "99fe739577267ab5108ba3f7ef38ad6d",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ETC.json": {
-    "mtime": 1794785721.6729052,
-    "seen": 1794806123.7341793,
-    "ast_hash": "1d8ac0aef12c293884ad24fa487d8769",
+    "mtime": 1794807655.0201511,
+    "seen": 1794887166.8311756,
+    "ast_hash": "67a6e9fd06703ab68e1c46dde24a5ba8",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/FIL.json": {
-    "mtime": 1794785748.1061332,
-    "seen": 1794806123.7341793,
-    "ast_hash": "3e33a29bafdfbaf66a746879acbf53b9",
+    "mtime": 1794807681.395048,
+    "seen": 1794887166.8311756,
+    "ast_hash": "4f98c610ddae4dd53fd0696b1847372d",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/GRT.json": {
-    "mtime": 1794785752.9072177,
-    "seen": 1794806123.7341793,
-    "ast_hash": "aa9c7b6b4fd4fb4775e828281e1c6b1a",
+    "mtime": 1794807686.163456,
+    "seen": 1794887166.8311756,
+    "ast_hash": "d8db7ff84ac5052480be035b42dfe7b0",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/GTC.json": {
-    "mtime": 1794785761.7086089,
-    "seen": 1794806123.7341793,
-    "ast_hash": "6e664cbc7086c2368b8c2c49167ec1b6",
+    "mtime": 1794807694.9694023,
+    "seen": 1794887166.8311756,
+    "ast_hash": "e685842eef8193eae018681a87f6efe4",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/HBAR.json": {
-    "mtime": 1794785762.5089824,
-    "seen": 1794806123.7341793,
-    "ast_hash": "ab3f1963a426a7b27b524034b4c90abd",
+    "mtime": 1794807695.7436745,
+    "seen": 1794887166.8311756,
+    "ast_hash": "f199864b78545763b39f589d4fc12913",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/HOT.json": {
-    "mtime": 1794785764.9099264,
-    "seen": 1794806123.7341793,
-    "ast_hash": "c9007fb16945bb81595c3420a0f14f64",
+    "mtime": 1794807698.158241,
+    "seen": 1794887166.8311756,
+    "ast_hash": "cea357996b2e75cb5400eb578ab5684b",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ICP.json": {
-    "mtime": 1794785768.917907,
-    "seen": 1794806123.7341793,
-    "ast_hash": "3d1bc927f96267f68bee08cb9e816759",
+    "mtime": 1794807702.1525338,
+    "seen": 1794887166.8311756,
+    "ast_hash": "920957da74a7d42a98c911a81f36725f",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/IOST.json": {
-    "mtime": 1794785731.3031242,
-    "seen": 1794806123.7341793,
-    "ast_hash": "5f23c242609aede36c44a81a8c1c0ae8",
+    "mtime": 1794807664.5879734,
+    "seen": 1794887166.8311756,
+    "ast_hash": "0844a8ca75b330d01c1dc5903a799fcc",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/IOTA.json": {
-    "mtime": 1794785727.2762134,
-    "seen": 1794806123.7341793,
-    "ast_hash": "474f3b57d2162e17397903f3ca5afc9b",
+    "mtime": 1794807660.5945368,
+    "seen": 1794887166.8311756,
+    "ast_hash": "50effd8974f1420d8759a90458eb578e",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/IOTX.json": {
-    "mtime": 1794785769.7110443,
-    "seen": 1794806123.7341793,
-    "ast_hash": "b75f037b57fc0986be4fbab2e22056a7",
+    "mtime": 1794807702.9529178,
+    "seen": 1794887166.8311756,
+    "ast_hash": "329b279886670ba2632e81a3d2e6483f",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/KAVA.json": {
-    "mtime": 1794785736.9041328,
-    "seen": 1794806123.7341793,
-    "ast_hash": "04e62a6698280f0f50de7f78de01b172",
+    "mtime": 1794807670.1925268,
+    "seen": 1794887166.8311756,
+    "ast_hash": "b08496c0bf67ee9d42b1227b00008833",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/KNC.json": {
-    "mtime": 1794785734.5063527,
-    "seen": 1794806123.7341793,
-    "ast_hash": "b85183f264567ae55c31cd73d5b6a8fc",
+    "mtime": 1794807667.7932744,
+    "seen": 1794887166.8311756,
+    "ast_hash": "c1489b48d68db27df5af49f0e301f927",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/KSM.json": {
-    "mtime": 1794785747.305237,
-    "seen": 1794806123.7341793,
-    "ast_hash": "54af6e2ba3e99d98f085d17bd78640e1",
+    "mtime": 1794807680.5830824,
+    "seen": 1794887166.8311756,
+    "ast_hash": "d0859ac36d80cb9ba48789b3c76bfd84",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/LPT.json": {
-    "mtime": 1794785776.1183646,
-    "seen": 1794806123.7341793,
-    "ast_hash": "152a500edd51e8297ff5c3d6263791f0",
+    "mtime": 1794807709.3190167,
+    "seen": 1794887166.8311756,
+    "ast_hash": "1a1c3ee7ee8112c3f8afa206febc6bcc",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/LTC.json": {
-    "mtime": 1794785720.0710711,
-    "seen": 1794806123.7341793,
-    "ast_hash": "a9c3c2e2e6bf4f522fb017a472f9f69c",
+    "mtime": 1794807653.4205189,
+    "seen": 1794887166.8311756,
+    "ast_hash": "465347846804287a0b2636bab00c433a",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/MANA.json": {
-    "mtime": 1794785760.1094737,
-    "seen": 1794806123.7341793,
-    "ast_hash": "83595ec778e97d1415fa20d2a35d761a",
+    "mtime": 1794807693.3603733,
+    "seen": 1794887166.8311756,
+    "ast_hash": "2080450f5a0b303997440bb016729de5",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/MASK.json": {
-    "mtime": 1794785768.1028695,
-    "seen": 1794806123.7341793,
-    "ast_hash": "5590f67eff7c19b8b0e33bf0ece63fbf",
+    "mtime": 1794807701.359557,
+    "seen": 1794887166.8311756,
+    "ast_hash": "7f5dc9471a667815b2e66056b1f44630",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/MTL.json": {
-    "mtime": 1794785765.7099926,
-    "seen": 1794806123.7341793,
-    "ast_hash": "5ef27fa3df0aaab552c0d59ff7c513cd",
+    "mtime": 1794807698.9545703,
+    "seen": 1794887166.8311756,
+    "ast_hash": "eef0b661388d275f14269af417ebd9ab",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/NEO.json": {
-    "mtime": 1794785729.7045524,
-    "seen": 1794806123.7341793,
-    "ast_hash": "567184c2a315ed3a955fc55186fe1983",
+    "mtime": 1794807662.982,
+    "seen": 1794887166.8311756,
+    "ast_hash": "5aebb592cf4499120d2c2a3b68dd3a14",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/OGN.json": {
-    "mtime": 1794785766.5132883,
-    "seen": 1794806123.7341793,
-    "ast_hash": "b6f2741d14e473d980578fd52b2c263c",
+    "mtime": 1794807699.7507286,
+    "seen": 1794887166.8311756,
+    "ast_hash": "c591efd95f8b38935d5f144900e4335e",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ONE.json": {
-    "mtime": 1794785763.3091192,
-    "seen": 1794806123.7341793,
-    "ast_hash": "81aa5b5d20d19df1518f681d85e690bd",
+    "mtime": 1794807696.551344,
+    "seen": 1794887166.8311756,
+    "ast_hash": "112245184ae24c9e717afd746d558124",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ONT.json": {
-    "mtime": 1794785726.4779253,
-    "seen": 1794806123.7341793,
-    "ast_hash": "2a5867d0d23953ac32e5c8c3954c56e6",
+    "mtime": 1794807659.8052354,
+    "seen": 1794887166.8311756,
+    "ast_hash": "458de2ed2c2afb63113fa15789257325",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/PEOPLE.json": {
-    "mtime": 1794785777.711627,
-    "seen": 1794806123.7341793,
-    "ast_hash": "1151bd98172bb2cd0244fd2bf3869fd5",
+    "mtime": 1794807710.9373572,
+    "seen": 1794887166.8311756,
+    "ast_hash": "cc983601ba1f2afd5d15fee4ecafe507",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/QTUM.json": {
-    "mtime": 1794785730.5032058,
-    "seen": 1794806123.7341793,
-    "ast_hash": "ee8000ff660d965c2ba178dd0f13b56f",
+    "mtime": 1794807663.7909186,
+    "seen": 1794887166.8311756,
+    "ast_hash": "ac7de4c1969d6a6f54d754940608f513",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/RLC.json": {
-    "mtime": 1794785738.5045233,
-    "seen": 1794806123.7341793,
-    "ast_hash": "cc4b3e75e8a46b8d089b8116c3c36273",
+    "mtime": 1794807671.808386,
+    "seen": 1794887166.8311756,
+    "ast_hash": "0661a01e55a5a6edb5a4fab58ee7f6ae",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ROSE.json": {
-    "mtime": 1794785778.5119853,
-    "seen": 1794806123.7341793,
-    "ast_hash": "b91cc91cea2871f1bcaf5fe337913cc7",
+    "mtime": 1794807711.7273383,
+    "seen": 1794887166.8311756,
+    "ast_hash": "c294b0e7a084aacb857c2fe2cde58e12",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/RSR.json": {
-    "mtime": 1794785749.7471437,
-    "seen": 1794806123.7341793,
-    "ast_hash": "7dc102ca136ab52c1e96ef137de9d5ce",
+    "mtime": 1794807682.983225,
+    "seen": 1794887166.8311756,
+    "ast_hash": "c8fd55c0973468871997cf3836a01595",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/RUNE.json": {
-    "mtime": 1794785744.1054761,
-    "seen": 1794806123.7341793,
-    "ast_hash": "e0030dc4611722ef52924ddcc95976f9",
+    "mtime": 1794807677.3990614,
+    "seen": 1794887166.8311756,
+    "ast_hash": "eeb9c1a438300ba0d8fab532766364bc",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/RVN.json": {
-    "mtime": 1794785756.907678,
-    "seen": 1794806123.7341793,
-    "ast_hash": "baf15da965857316b26245d14ae58e52",
+    "mtime": 1794807690.1654184,
+    "seen": 1794887166.8311756,
+    "ast_hash": "e5a1b706a2ef2bbfe4a276d6efde5b99",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/SAND.json": {
-    "mtime": 1794785754.5001059,
-    "seen": 1794806123.7341793,
-    "ast_hash": "8b571f5351cb65011285aeb0e8097dec",
+    "mtime": 1794807687.7641232,
+    "seen": 1794887166.8311756,
+    "ast_hash": "75f7f723b35de7f36d7a49dff4480144",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/SFP.json": {
-    "mtime": 1794785757.707738,
-    "seen": 1794806123.7341793,
-    "ast_hash": "4f12c31e1cff9ab88d3c3fd988b32bd7",
+    "mtime": 1794807690.9696405,
+    "seen": 1794887166.8311756,
+    "ast_hash": "20db4632befcf0cb3a6e05142a9fe7f4",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/SKL.json": {
-    "mtime": 1794785740.106495,
-    "seen": 1794806123.7341793,
-    "ast_hash": "5661c6e8655571a95c3a2aa6e402d482",
+    "mtime": 1794807673.4212296,
+    "seen": 1794887166.8311756,
+    "ast_hash": "484ed8614ef81704aa8706b549ae151f",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/SNX.json": {
-    "mtime": 1794785739.3058693,
-    "seen": 1794806123.7341793,
-    "ast_hash": "8d4feaff1b52d8d5c701e59c4396ebab",
+    "mtime": 1794807672.602912,
+    "seen": 1794887166.8311756,
+    "ast_hash": "7c77fc269212c2dfbe3e7ac0a3263629",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/SUSHI.json": {
-    "mtime": 1794785743.3057177,
-    "seen": 1794806123.7341793,
-    "ast_hash": "4e964236812ed120890969e8c9d920aa",
+    "mtime": 1794807676.6205256,
+    "seen": 1794887166.8311756,
+    "ast_hash": "7434bb9d06bf1830221533bbaa992ff3",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/THETA.json": {
-    "mtime": 1794785732.109074,
-    "seen": 1794806123.7341793,
-    "ast_hash": "fb7f88a9b2037947f135fb0e6ce09874",
+    "mtime": 1794807665.3966546,
+    "seen": 1794887166.8311756,
+    "ast_hash": "703d156cc9095016c950e8f67478dc6f",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/TRB.json": {
-    "mtime": 1794785742.5047636,
-    "seen": 1794806123.7341793,
-    "ast_hash": "941d4a11c868459dc9994ad3f1323bce",
+    "mtime": 1794807675.8208716,
+    "seen": 1794887166.8311756,
+    "ast_hash": "3ba4bdfc040b4fd8211fef474dfb3d0e",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/TRX.json": {
-    "mtime": 1794785720.8804262,
-    "seen": 1794806123.7341793,
-    "ast_hash": "8e804f6a4ba9a256dd9ee445234a9c7b",
+    "mtime": 1794807654.2243447,
+    "seen": 1794887166.8311756,
+    "ast_hash": "51de60ea906f3f142b969b8034e5bdac",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/UNI.json": {
-    "mtime": 1794785745.7084126,
-    "seen": 1794806123.7341793,
-    "ast_hash": "2cba6c6f3ff6129d62d15682e328b029",
+    "mtime": 1794807679.015508,
+    "seen": 1794887166.8311756,
+    "ast_hash": "fbe862b2453fddf0a5142cd1b5361c04",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/VET.json": {
-    "mtime": 1794785728.9027038,
-    "seen": 1794806123.7341793,
-    "ast_hash": "939539bd7a65eb0efa18eab016688b8a",
+    "mtime": 1794807662.1777852,
+    "seen": 1794887166.8311756,
+    "ast_hash": "627c73a0cb576356cd1415960a5eade7",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/XLM.json": {
-    "mtime": 1794785722.476417,
-    "seen": 1794806123.7341793,
-    "ast_hash": "51d22225981283948cc515c06385dffc",
+    "mtime": 1794807655.803226,
+    "seen": 1794887166.8311756,
+    "ast_hash": "18f19aab0a82dc3075514d7337064587",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/XMR.json": {
-    "mtime": 1794785723.2743824,
-    "seen": 1794806123.7341793,
-    "ast_hash": "a350bd37f1c208964a38bdf2b0a1de8e",
+    "mtime": 1794807656.6179914,
+    "seen": 1794887166.8311756,
+    "ast_hash": "ce6b4f78475d40c14f01f15065721172",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/XTZ.json": {
-    "mtime": 1794785724.8756802,
-    "seen": 1794806123.7341793,
-    "ast_hash": "7273c90287bacd72d06a239d9f81f6a8",
+    "mtime": 1794807658.1916697,
+    "seen": 1794887166.8311756,
+    "ast_hash": "61a0254485ee4b7797a52689b4662b23",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/YFI.json": {
-    "mtime": 1794785740.904847,
-    "seen": 1794806123.7341793,
-    "ast_hash": "ce80d9e85b783c2077ba72874dfa3641",
+    "mtime": 1794807674.2168202,
+    "seen": 1794887166.8311756,
+    "ast_hash": "01cb4e8d9ab2d60c5d90860991a8b6b2",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ZEN.json": {
-    "mtime": 1794785752.1099272,
-    "seen": 1794806123.7341793,
-    "ast_hash": "abeed1af9c77ba862287e573e63a04b3",
+    "mtime": 1794807685.357871,
+    "seen": 1794887166.8311756,
+    "ast_hash": "bd3a614a2c99ac9457834460605226ae",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ZIL.json": {
-    "mtime": 1794785733.703707,
-    "seen": 1794806123.7341793,
-    "ast_hash": "da89f817fe8a2a2cf628e60fe58ea5e8",
+    "mtime": 1794807666.9921188,
+    "seen": 1794887166.8311756,
+    "ast_hash": "6b7ab4f01edaa63d2fd6b03616670d53",
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ZRX.json": {
-    "mtime": 1794785735.3110197,
-    "seen": 1794806123.7341793,
-    "ast_hash": "22eda00110c4f06b5ddcd2d3524c3fcf",
+    "mtime": 1794807668.5925522,
+    "seen": 1794887166.8311756,
+    "ast_hash": "c591458aca1372d63a39951c7953d087",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/1000SHIB.json": {
-    "mtime": 1794785767.568547,
-    "seen": 1794806123.7341793,
-    "ast_hash": "d7eb3ab05f2f627dec20e1a3da24d6b6",
+    "mtime": 1794807700.8219233,
+    "seen": 1794887166.8311756,
+    "ast_hash": "ac976d347fd1d0c532c498c5750c8a76",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/1000XEC.json": {
-    "mtime": 1794785772.392386,
-    "seen": 1794806123.7341793,
-    "ast_hash": "acb49e9c7f7dc4ab8df0549fb225949f",
+    "mtime": 1794807705.590042,
+    "seen": 1794887166.8311756,
+    "ast_hash": "0ee34553e4b111844029fe572b5f8bf6",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/1INCH.json": {
-    "mtime": 1794785753.966123,
-    "seen": 1794806123.7341793,
-    "ast_hash": "26376255a7763dd2bba4ad17ab3273c6",
+    "mtime": 1794807687.232191,
+    "seen": 1794887166.8311756,
+    "ast_hash": "4f2f884ba8307af3d1146189365b2c8e",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/AAVE.json": {
-    "mtime": 1794785749.1705582,
-    "seen": 1794806123.7341793,
-    "ast_hash": "c8bc0db0521a0b569a8131acff695649",
+    "mtime": 1794807682.4500458,
+    "seen": 1794887166.8311756,
+    "ast_hash": "b86239c35a305533f26070c03c687421",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ALGO.json": {
-    "mtime": 1794785733.165675,
-    "seen": 1794806123.7341793,
-    "ast_hash": "60dc03ea632c7f0e7b4cc0d513698385",
+    "mtime": 1794807666.4967458,
+    "seen": 1794887166.8311756,
+    "ast_hash": "38a822d21476138c1b60f22a81b6d185",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ALICE.json": {
-    "mtime": 1794785761.177613,
-    "seen": 1794806123.7341793,
-    "ast_hash": "6b5eb543ac54224a856f557d6170cb6f",
+    "mtime": 1794807694.4237018,
+    "seen": 1794887166.8311756,
+    "ast_hash": "5999954848828b1117d70fbe1c3867cb",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ANKR.json": {
-    "mtime": 1794785756.368698,
-    "seen": 1794806123.7341793,
-    "ast_hash": "a32cc3f2f6089f98f6acf0aa11ce57f3",
+    "mtime": 1794807689.6225026,
+    "seen": 1794887166.8311756,
+    "ast_hash": "f2b82c6fbd99326b2b3c11aad3eac431",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/AR.json": {
-    "mtime": 1794785773.9870336,
-    "seen": 1794806123.7341793,
-    "ast_hash": "401bd06c863b5741c699077ab4bdfb30",
+    "mtime": 1794807707.1961503,
+    "seen": 1794887166.8311756,
+    "ast_hash": "8f3efce8180784898ed4ab07f1c3ab9e",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ARPA.json": {
-    "mtime": 1794785774.7908776,
-    "seen": 1794806123.7341793,
-    "ast_hash": "0eafe6ac4135a9628e23fc7007473d63",
+    "mtime": 1794807707.9866736,
+    "seen": 1794887166.8311756,
+    "ast_hash": "3fbbb75cd900f3b2a442e63774edad6d",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ATOM.json": {
-    "mtime": 1794785725.9369686,
-    "seen": 1794806123.7341793,
-    "ast_hash": "0401ff17e244780dd5c6b6b358c4b64f",
+    "mtime": 1794807659.2573495,
+    "seen": 1794887166.8311756,
+    "ast_hash": "c891bf1873961ba48212f5e5dd112307",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/AXS.json": {
-    "mtime": 1794785751.5701652,
-    "seen": 1794806123.7341793,
-    "ast_hash": "72a45c21f63686ddb6540f32196b507b",
+    "mtime": 1794807684.840984,
+    "seen": 1794887166.8311756,
+    "ast_hash": "b879f092bd4ca3cb732274009ce76a90",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/BAND.json": {
-    "mtime": 1794785737.9624927,
-    "seen": 1794806123.7341793,
-    "ast_hash": "058779994a548c565ec819580c5aa313",
+    "mtime": 1794807671.268999,
+    "seen": 1794887166.8311756,
+    "ast_hash": "3c01d3d6b0a41b0a9aabc24143fcf0ae",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/BAT.json": {
-    "mtime": 1794785728.343099,
-    "seen": 1794806123.7341793,
-    "ast_hash": "795baa4782f336b7d4d04fb4fbc99150",
+    "mtime": 1794807661.6572173,
+    "seen": 1794887166.8311756,
+    "ast_hash": "2219ae668e044430abc492ca475745aa",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/BCH.json": {
-    "mtime": 1794785719.5379632,
-    "seen": 1794806123.7341793,
-    "ast_hash": "5a21024bc264c575c107a3ca5ca9261c",
+    "mtime": 1794807652.8618672,
+    "seen": 1794887166.8311756,
+    "ast_hash": "2a607b79e843859ce01233eda6cea885",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/BEL.json": {
-    "mtime": 1794785750.7666926,
-    "seen": 1794806123.7341793,
-    "ast_hash": "e29bf64183737e6100b0146da7934a54",
+    "mtime": 1794807684.061631,
+    "seen": 1794887166.8311756,
+    "ast_hash": "ea31bf856b9a02acf485adc595dcfb8a",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/C98.json": {
-    "mtime": 1794785770.7883205,
-    "seen": 1794806123.7341793,
-    "ast_hash": "5217f4e09b0cd671eff45eea02dd0bf4",
+    "mtime": 1794807703.9986594,
+    "seen": 1794887166.8311756,
+    "ast_hash": "b382accdbf71774f08ca1ea878051e56",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/CELO.json": {
-    "mtime": 1794785773.1782155,
-    "seen": 1794806123.7341793,
-    "ast_hash": "6df259b0c8e7203d8c433fbc6e820ac1",
+    "mtime": 1794807706.386286,
+    "seen": 1794887166.8311756,
+    "ast_hash": "17790c8294e842a21151fd380cabec57",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/CELR.json": {
-    "mtime": 1794785764.3693993,
-    "seen": 1794806123.7341793,
-    "ast_hash": "6d1b2b2f39ce61c81b6047ce1d61acb8",
+    "mtime": 1794807697.6116977,
+    "seen": 1794887166.8311756,
+    "ast_hash": "70a2aef94499bbc55f14bbfe62014d0e",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/CHR.json": {
-    "mtime": 1794785759.5630631,
-    "seen": 1794806123.7341793,
-    "ast_hash": "9164b23010f43af86bc7cdd4d12b47f0",
+    "mtime": 1794807692.8303487,
+    "seen": 1794887166.8311756,
+    "ast_hash": "a8982316fe6425619af839969bf55d23",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/CHZ.json": {
-    "mtime": 1794785755.5687294,
-    "seen": 1794806123.7341793,
-    "ast_hash": "2e6d9275b96d3a5f5a2bb23d6bd98a7e",
+    "mtime": 1794807688.827051,
+    "seen": 1794887166.8311756,
+    "ast_hash": "77b3882246d91e7c5c4eacbeeb2d0ec4",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/COMP.json": {
-    "mtime": 1794785736.363929,
-    "seen": 1794806123.7341793,
-    "ast_hash": "222c533d29cf6f24de9bdc2cffbe6cc5",
+    "mtime": 1794807669.7074096,
+    "seen": 1794887166.8311756,
+    "ast_hash": "b0582e72ab08cfa9512c03a8610c1a22",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/COTI.json": {
-    "mtime": 1794785758.7713661,
-    "seen": 1794806123.7341793,
-    "ast_hash": "dc6a2093c001ab096bc77128344bc480",
+    "mtime": 1794807692.0279615,
+    "seen": 1794887166.8311756,
+    "ast_hash": "590eb1306d7dd29189df28c743ab4d0d",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/CRV.json": {
-    "mtime": 1794785741.9652686,
-    "seen": 1794806123.7341793,
-    "ast_hash": "3246b390a54d6d578667a7dbeb6b2fe4",
+    "mtime": 1794807675.274583,
+    "seen": 1794887166.8311756,
+    "ast_hash": "6ec2fb4a7624b5069bff29c3bb1ebb1d",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/CTSI.json": {
-    "mtime": 1794785775.6850855,
-    "seen": 1794806123.7341793,
-    "ast_hash": "6b6477a7aed5dd5b97208ae1c528758c",
+    "mtime": 1794807708.8032289,
+    "seen": 1794887166.8311756,
+    "ast_hash": "59120bbf9a1254647f214c2f72783a2f",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/DASH.json": {
-    "mtime": 1794785724.335875,
-    "seen": 1794806123.7341793,
-    "ast_hash": "b8c4fdf13690518a51f73ee71ad4d72c",
+    "mtime": 1794807657.657543,
+    "seen": 1794887166.8311756,
+    "ast_hash": "7a2389dd6e52f568e8f6f9cff69dae37",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/DYDX.json": {
-    "mtime": 1794785771.5777235,
-    "seen": 1794806123.7341793,
-    "ast_hash": "7f66d4df58191169f8d362a8d55908ba",
+    "mtime": 1794807704.7988038,
+    "seen": 1794887166.8311756,
+    "ast_hash": "dee8f7b1be41e998c14bce918208b983",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/EGLD.json": {
-    "mtime": 1794785745.172744,
-    "seen": 1794806123.7341793,
-    "ast_hash": "685dca25a7a7e5f7b1f1122049948667",
+    "mtime": 1794807678.465456,
+    "seen": 1794887166.8311756,
+    "ast_hash": "63ae31a8a825a61a6899ef9a84d2f372",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ENJ.json": {
-    "mtime": 1794785746.766164,
-    "seen": 1794806123.7341793,
-    "ast_hash": "c4962dc979daf04a6b6614f45b3ac2b4",
+    "mtime": 1794807680.0620909,
+    "seen": 1794887166.8311756,
+    "ast_hash": "5b8f6b126e43ef65116e1a7fe965ea44",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ENS.json": {
-    "mtime": 1794785777.178225,
-    "seen": 1794806123.7341793,
-    "ast_hash": "1306d597d37ca841f3042befe6016cb6",
+    "mtime": 1794807710.3864367,
+    "seen": 1794887166.8311756,
+    "ast_hash": "60c4d2f5f52bf67e88bbf243009194be",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ETC.json": {
-    "mtime": 1794785721.9301064,
-    "seen": 1794806123.7341793,
-    "ast_hash": "c668657e22cd07fe2c581ce9b48c7912",
+    "mtime": 1794807655.2774987,
+    "seen": 1794887166.8311756,
+    "ast_hash": "40f90fe70090373ea4d0a96949f7d309",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/FIL.json": {
-    "mtime": 1794785748.373255,
-    "seen": 1794806123.7341793,
-    "ast_hash": "10286ca5873b58ef0a540ac130e12fa3",
+    "mtime": 1794807681.6484358,
+    "seen": 1794887166.8311756,
+    "ast_hash": "786111be282d519dd2a59a527277e145",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/GRT.json": {
-    "mtime": 1794785753.1647193,
-    "seen": 1794806123.7341793,
-    "ast_hash": "5bc4217f3ac19b9681540d12dc42b366",
+    "mtime": 1794807686.4237766,
+    "seen": 1794887166.8311756,
+    "ast_hash": "4d7f27b7e728bbea60cd43a3d5761c6a",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/GTC.json": {
-    "mtime": 1794785761.9712813,
-    "seen": 1794806123.7341793,
-    "ast_hash": "f18f9dc8147c4976beaacfb26aa46804",
+    "mtime": 1794807695.2238212,
+    "seen": 1794887166.8311756,
+    "ast_hash": "f023d4b6d499248bbddc02298a0ea722",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/HBAR.json": {
-    "mtime": 1794785762.7698815,
-    "seen": 1794806123.7341793,
-    "ast_hash": "244d7b02bf7396544697d695dcf56f08",
+    "mtime": 1794807696.0179915,
+    "seen": 1794887166.8311756,
+    "ast_hash": "1bd21e061fe4661966d7792ef537e37d",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/HOT.json": {
-    "mtime": 1794785765.163828,
-    "seen": 1794806123.7341793,
-    "ast_hash": "941942d4b4aa87319d6a61667cfe3984",
+    "mtime": 1794807698.4192,
+    "seen": 1794887166.8311756,
+    "ast_hash": "d7fb98f464613ff2663daea7deca7bad",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ICP.json": {
-    "mtime": 1794785769.1733263,
-    "seen": 1794806123.7341793,
-    "ast_hash": "3650eabb4bfe9e328fce22f2f5b25b17",
+    "mtime": 1794807702.421342,
+    "seen": 1794887166.8311756,
+    "ast_hash": "56085ed2997a7abc315c1d653be8b58a",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/IOST.json": {
-    "mtime": 1794785731.5609488,
-    "seen": 1794806123.7341793,
-    "ast_hash": "eededc93f038901d1b7b66311409fd55",
+    "mtime": 1794807664.8589234,
+    "seen": 1794887166.8311756,
+    "ast_hash": "e6c88dd403502d875707de0d5dab3613",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/IOTA.json": {
-    "mtime": 1794785727.5600877,
-    "seen": 1794806123.7341793,
-    "ast_hash": "5fc673e2ecdea3e63f81db811f9f28db",
+    "mtime": 1794807660.8580902,
+    "seen": 1794887166.8311756,
+    "ast_hash": "1d6ee6bb9d264e9addae1f0505ca46e4",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/IOTX.json": {
-    "mtime": 1794785769.9842732,
-    "seen": 1794806123.7341793,
-    "ast_hash": "a949dacbfc869c852543f932a6472a4b",
+    "mtime": 1794807703.2159705,
+    "seen": 1794887166.8311756,
+    "ast_hash": "d663ec224e504524bb444467bf7a4f3a",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/KAVA.json": {
-    "mtime": 1794785737.1657426,
-    "seen": 1794806123.7341793,
-    "ast_hash": "eca2080b6db18f7efd68e35863cd62e4",
+    "mtime": 1794807670.459704,
+    "seen": 1794887166.8311756,
+    "ast_hash": "98445350d18e6b54ec24719800fdcd85",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/KNC.json": {
-    "mtime": 1794785734.7700274,
-    "seen": 1794806123.7341793,
-    "ast_hash": "9549d379d3f7180ebcedb4bc4056cf5a",
+    "mtime": 1794807668.0644097,
+    "seen": 1794887166.8311756,
+    "ast_hash": "b7b531a644eed2048c5757e7c38facf1",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/KSM.json": {
-    "mtime": 1794785747.5670047,
-    "seen": 1794806123.7341793,
-    "ast_hash": "e75a2ec431e05b043fa70debaa9341e5",
+    "mtime": 1794807680.8585997,
+    "seen": 1794887166.8311756,
+    "ast_hash": "20812a4bad61244a7825ef4e679928fb",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/LPT.json": {
-    "mtime": 1794785776.3885882,
-    "seen": 1794806123.7341793,
-    "ast_hash": "85731138f7a5e93f707e151e81e5d782",
+    "mtime": 1794807709.5863473,
+    "seen": 1794887166.8311756,
+    "ast_hash": "8047b335eb68503000cf0ec3dc381e20",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/LTC.json": {
-    "mtime": 1794785720.3277276,
-    "seen": 1794806123.7341793,
-    "ast_hash": "a0fe954375b6b0a0d846749733e27168",
+    "mtime": 1794807653.666522,
+    "seen": 1794887166.8311756,
+    "ast_hash": "4b848ea2e893382ec303e793b55cfa58",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/MANA.json": {
-    "mtime": 1794785760.3687413,
-    "seen": 1794806123.7341793,
-    "ast_hash": "72c5644744270ab3df8429d331da9a2d",
+    "mtime": 1794807693.6233814,
+    "seen": 1794887166.8311756,
+    "ast_hash": "33bde036c85f9c239c7913662ffec0ff",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/MASK.json": {
-    "mtime": 1794785768.3719664,
-    "seen": 1794806123.7341793,
-    "ast_hash": "594c5097b5b2d35cbf9cf3aa5a0c2e20",
+    "mtime": 1794807701.6182158,
+    "seen": 1794887166.8311756,
+    "ast_hash": "abb88f6be9841acaf1554da1fcfcb794",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/MTL.json": {
-    "mtime": 1794785765.9674888,
-    "seen": 1794806123.7341793,
-    "ast_hash": "4b828a2588ad881502fc7c0bf7294a7f",
+    "mtime": 1794807699.223576,
+    "seen": 1794887166.8311756,
+    "ast_hash": "c216ae74b2402a49999d74ad5eceeff4",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/NEO.json": {
-    "mtime": 1794785729.970564,
-    "seen": 1794806123.7341793,
-    "ast_hash": "8436eaa6d561372196911334d59bb7a3",
+    "mtime": 1794807663.248144,
+    "seen": 1794887166.8311756,
+    "ast_hash": "9a4cdcdf1d465ed08e68374da834ff90",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/OGN.json": {
-    "mtime": 1794785766.7671263,
-    "seen": 1794806123.7341793,
-    "ast_hash": "9403a5b34c896366bf34eedb3c5bd905",
+    "mtime": 1794807700.0154963,
+    "seen": 1794887166.8311756,
+    "ast_hash": "028777fd700e7c963ab60210d8f5c38d",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ONE.json": {
-    "mtime": 1794785763.570286,
-    "seen": 1794806123.7341793,
-    "ast_hash": "7a5479af4c8a859aac52e8143369baa8",
+    "mtime": 1794807696.8203592,
+    "seen": 1794887166.8311756,
+    "ast_hash": "a37023cac988ab6f32982a2ede0bc112",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ONT.json": {
-    "mtime": 1794785726.7426996,
-    "seen": 1794806123.7341793,
-    "ast_hash": "f1db156ece3ca5ba8495687b482226e7",
+    "mtime": 1794807660.0668836,
+    "seen": 1794887166.8311756,
+    "ast_hash": "c3aa7dba3f654de98004a5b741b00a8a",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/PEOPLE.json": {
-    "mtime": 1794785777.9783535,
-    "seen": 1794806123.7341793,
-    "ast_hash": "1a905ddeaf8e472ea620764b30247fa6",
+    "mtime": 1794807711.1866534,
+    "seen": 1794887166.8311756,
+    "ast_hash": "fc22fab077e1d22013ae4d34838d1940",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/QTUM.json": {
-    "mtime": 1794785730.7666821,
-    "seen": 1794806123.7341793,
-    "ast_hash": "5eefec653b3d21db467c3ffe2e27b0ed",
+    "mtime": 1794807664.0509715,
+    "seen": 1794887166.8311756,
+    "ast_hash": "2b2d0fa0db0908cfd3161eaf9155c41e",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/RLC.json": {
-    "mtime": 1794785738.7666855,
-    "seen": 1794806123.7341793,
-    "ast_hash": "67d7968bd131220d7f2b090c47fb4fac",
+    "mtime": 1794807672.0749812,
+    "seen": 1794887166.8311756,
+    "ast_hash": "8eac5969497922db7fba2c20b0308942",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ROSE.json": {
-    "mtime": 1794785778.7793143,
-    "seen": 1794806123.7341793,
-    "ast_hash": "1d5aefae3e71dcf73c3d21969c68ed50",
+    "mtime": 1794807711.9897735,
+    "seen": 1794887166.8311756,
+    "ast_hash": "f224a0fd4577471f262d3a5bd5014474",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/RSR.json": {
-    "mtime": 1794785749.9718459,
-    "seen": 1794806123.7341793,
-    "ast_hash": "b24eb227b0bb9a7525111055234f9264",
+    "mtime": 1794807683.2569652,
+    "seen": 1794887166.8311756,
+    "ast_hash": "9f87ba5b015116608a5429573e79c176",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/RUNE.json": {
-    "mtime": 1794785744.3692393,
-    "seen": 1794806123.7341793,
-    "ast_hash": "ac9e0609d7ab8443ba52f4f5f80b997e",
+    "mtime": 1794807677.6804528,
+    "seen": 1794887166.8311756,
+    "ast_hash": "5fa7f6eb49fae1eddb98cd5e28663c52",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/RVN.json": {
-    "mtime": 1794785757.1696365,
-    "seen": 1794806123.7341793,
-    "ast_hash": "b74066c46dd8d73598ec99d87b849c09",
+    "mtime": 1794807690.4239893,
+    "seen": 1794887166.8311756,
+    "ast_hash": "c7aa07ad1d5bda9f2c37f1149a4b2b13",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/SAND.json": {
-    "mtime": 1794785754.766378,
-    "seen": 1794806123.7341793,
-    "ast_hash": "4e7ce40fee1e735ba585416c8bd41354",
+    "mtime": 1794807688.0275562,
+    "seen": 1794887166.8311756,
+    "ast_hash": "3bb0cbd15944b1609fbc0f913341dfd8",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/SFP.json": {
-    "mtime": 1794785757.9742923,
-    "seen": 1794806123.7341793,
-    "ast_hash": "7b261b33298e950a30980a3570e70b64",
+    "mtime": 1794807691.230355,
+    "seen": 1794887166.8311756,
+    "ast_hash": "6105486f96db08fe143d950f332b7527",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/SKL.json": {
-    "mtime": 1794785740.3630195,
-    "seen": 1794806123.7341793,
-    "ast_hash": "5ba1d63cedd008ee00073d43e74db3e3",
+    "mtime": 1794807673.676551,
+    "seen": 1794887166.8311756,
+    "ast_hash": "fd32b81517a82120f427b8744239526e",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/SNX.json": {
-    "mtime": 1794785739.5665712,
-    "seen": 1794806123.7341793,
-    "ast_hash": "6a21320f184b66326cd1453084e58fb8",
+    "mtime": 1794807672.865941,
+    "seen": 1794887166.8311756,
+    "ast_hash": "d872c1ef9af9a9b3ab3c01a12b5e336c",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/SUSHI.json": {
-    "mtime": 1794785743.572548,
-    "seen": 1794806123.7341793,
-    "ast_hash": "b9b36529a1cac5974e5f35595cf00b53",
+    "mtime": 1794807676.8825452,
+    "seen": 1794887166.8311756,
+    "ast_hash": "ec12ea9c6741b30ba176e5961de3e57d",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/THETA.json": {
-    "mtime": 1794785732.3655913,
-    "seen": 1794806123.7341793,
-    "ast_hash": "5933b922eb7aaa34f78377b61496c091",
+    "mtime": 1794807665.6599102,
+    "seen": 1794887166.8311756,
+    "ast_hash": "df9b8d7a5ab80bf5b900ca52eb11dee9",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/TRB.json": {
-    "mtime": 1794785742.7710223,
-    "seen": 1794806123.7341793,
-    "ast_hash": "ad37255f0691458d6d34272d01d8300d",
+    "mtime": 1794807676.082536,
+    "seen": 1794887166.8311756,
+    "ast_hash": "bd842daec6e10a9e5cc39448f19684bb",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/TRX.json": {
-    "mtime": 1794785721.129598,
-    "seen": 1794806123.7341793,
-    "ast_hash": "e4509df54b508da4f49f3833e0c68ad5",
+    "mtime": 1794807654.475142,
+    "seen": 1794887166.8311756,
+    "ast_hash": "d74203e10e9360de59dacafac1392214",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/UNI.json": {
-    "mtime": 1794785745.9586945,
-    "seen": 1794806123.7341793,
-    "ast_hash": "c9359c5edd419c2652981f1aed3ba347",
+    "mtime": 1794807679.2612343,
+    "seen": 1794887166.8311756,
+    "ast_hash": "87afc437dca0cbe36daf8aa73d9ae1b0",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/VET.json": {
-    "mtime": 1794785729.170612,
-    "seen": 1794806123.7341793,
-    "ast_hash": "73b5ba851a86d8359cccb3dbdf550227",
+    "mtime": 1794807662.4443614,
+    "seen": 1794887166.8311756,
+    "ast_hash": "71b00bafb989cb0aa00d37cde115871c",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/XLM.json": {
-    "mtime": 1794785722.767676,
-    "seen": 1794806123.7341793,
-    "ast_hash": "dedddaebc748e0719f5284cac083df9b",
+    "mtime": 1794807656.0714505,
+    "seen": 1794887166.8311756,
+    "ast_hash": "fadaae8deff8edae31fcc99d6e47dc63",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/XMR.json": {
-    "mtime": 1794785723.538494,
-    "seen": 1794806123.7341793,
-    "ast_hash": "6e748c4368b2d8af70ca9b45da43aae8",
+    "mtime": 1794807656.8784957,
+    "seen": 1794887166.8311756,
+    "ast_hash": "90dfa14bd24e4e81c7c62087484cdb42",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/XTZ.json": {
-    "mtime": 1794785725.137389,
-    "seen": 1794806123.7341793,
-    "ast_hash": "1dc16e20aac9e331d6fe0f016aa52d3f",
+    "mtime": 1794807658.4582815,
+    "seen": 1794887166.8311756,
+    "ast_hash": "cfab8fe807377841f4ad927d95e96f5e",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/YFI.json": {
-    "mtime": 1794785741.167786,
-    "seen": 1794806123.7341793,
-    "ast_hash": "43798c68e6688195faad78a34ec8b122",
+    "mtime": 1794807674.484148,
+    "seen": 1794887166.8311756,
+    "ast_hash": "6861ea9ba63990d87d0e8583a5cb9417",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ZEN.json": {
-    "mtime": 1794785752.3682728,
-    "seen": 1794806123.7341793,
-    "ast_hash": "9b63ee103a42788365a33951a99c18eb",
+    "mtime": 1794807685.6269305,
+    "seen": 1794887166.8311756,
+    "ast_hash": "d07081774ee9cde3575716345d127ae3",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ZIL.json": {
-    "mtime": 1794785733.9648392,
-    "seen": 1794806123.7341793,
-    "ast_hash": "ddd42066e3059a7d3af099753684b2ce",
+    "mtime": 1794807667.2702136,
+    "seen": 1794887166.8311756,
+    "ast_hash": "ae1a34d9e5b3398937a6c4583f15f91c",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ZRX.json": {
-    "mtime": 1794785735.565229,
-    "seen": 1794806123.7341793,
-    "ast_hash": "17264df0f4984d1cc837893092a740ac",
+    "mtime": 1794807668.8649032,
+    "seen": 1794887166.8311756,
+    "ast_hash": "fd606fd5d793afc5a42acf369fbbb16b",
     "semantic_hash": ""
   },
   "coin-lab-bots/build-coin-lab.sh": {
@@ -10806,15 +10806,15 @@
     "semantic_hash": ""
   },
   "candles/binance-futures/4h/ARB.json": {
-    "mtime": 1794786440.4818983,
-    "seen": 1794806123.7341793,
-    "ast_hash": "47a8fc2a1277185141fce3992ea2071e",
+    "mtime": 1794807651.7895484,
+    "seen": 1794887166.8311756,
+    "ast_hash": "517e614169e18fa9cd7c8d4439f4ad77",
     "semantic_hash": ""
   },
   "candles/binance-futures/funding/ARB.json": {
-    "mtime": 1794786440.7521055,
-    "seen": 1794806123.7341793,
-    "ast_hash": "b9301268c1e9ae524bf93e1d3919e5e6",
+    "mtime": 1794807652.0481474,
+    "seen": 1794887166.8311756,
+    "ast_hash": "984f4a976dba20bd990705d3b0bc481a",
     "semantic_hash": ""
   },
   "research/long-history/bystrat.js": {
@@ -11166,9 +11166,9 @@
     "semantic_hash": ""
   },
   "intel/backup/backup.js": {
-    "mtime": 1794805998.2848876,
-    "seen": 1794806123.7341793,
-    "ast_hash": "5db56e1719e8aa424ecbf5a5ec3aec6b",
+    "mtime": 1794808009.3803725,
+    "seen": 1794887166.8311756,
+    "ast_hash": "0205f79bc15bbbfd5e684c712e12b117",
     "semantic_hash": ""
   },
   "intel/config.json": {
@@ -11178,159 +11178,159 @@
     "semantic_hash": ""
   },
   "intel/data/derived/correlation/manifest.json": {
-    "mtime": 1794806719.682201,
-    "seen": 1794807136.3308837,
-    "ast_hash": "c08c849c844785fc1f99ffc798189cd6",
+    "mtime": 1794808127.3830175,
+    "seen": 1794887166.8311756,
+    "ast_hash": "a2d83a43f058193237512444de3d1440",
     "semantic_hash": ""
   },
   "intel/data/derived/correlation/matrix.json": {
-    "mtime": 1794806719.6796327,
-    "seen": 1794807136.3308837,
-    "ast_hash": "f0690efb877c6b3791b29a8dad86456c",
+    "mtime": 1794808127.3735397,
+    "seen": 1794887166.8311756,
+    "ast_hash": "02375bbcc3092e5fe55847d77c2fb62f",
     "semantic_hash": ""
   },
   "intel/data/derived/event-reactions/manifest.json": {
-    "mtime": 1794806714.3422534,
-    "seen": 1794807136.3308837,
-    "ast_hash": "82de8a956c18720e4fed4de066fa1e6d",
+    "mtime": 1794808122.5232458,
+    "seen": 1794887166.8311756,
+    "ast_hash": "bf66fb39576d7e38efccf8a882cfe0d1",
     "semantic_hash": ""
   },
   "intel/data/derived/event-study/manifest.json": {
-    "mtime": 1794806714.854691,
-    "seen": 1794807136.3308837,
-    "ast_hash": "9faa1e1ed1be678b3a231ec8b9b6e9a7",
+    "mtime": 1794808123.0528078,
+    "seen": 1794887166.8311756,
+    "ast_hash": "d768252a4ef01c915f8ee264a97e35cd",
     "semantic_hash": ""
   },
   "intel/data/derived/execution/manifest.json": {
-    "mtime": 1794806719.8828316,
-    "seen": 1794807136.3308837,
-    "ast_hash": "c4fea4036e17e039b38ad9a2b5be1a51",
+    "mtime": 1794808127.5463154,
+    "seen": 1794887166.8311756,
+    "ast_hash": "4057aa7a05b23c58414bc8aced9f43b4",
     "semantic_hash": ""
   },
   "intel/data/derived/exposure/manifest.json": {
-    "mtime": 1794806720.9397378,
-    "seen": 1794807136.3308837,
-    "ast_hash": "4971b23e556b8100f12adf056d3e7433",
+    "mtime": 1794808128.6159904,
+    "seen": 1794887166.8311756,
+    "ast_hash": "133c7312e0d939ad49a3969ec1318d91",
     "semantic_hash": ""
   },
   "intel/data/derived/exposure/now.json": {
-    "mtime": 1794806720.938821,
-    "seen": 1794807136.3308837,
-    "ast_hash": "7d3f465c8081bd7e65e3d3834973f25a",
+    "mtime": 1794808128.6114485,
+    "seen": 1794887166.8311756,
+    "ast_hash": "d88143d4504fd08b8abe404d64303f37",
     "semantic_hash": ""
   },
   "intel/data/derived/health/daily.json": {
-    "mtime": 1794806721.143826,
-    "seen": 1794807136.3308837,
-    "ast_hash": "859a2e1f6f0cd8704dfb13422493ed41",
+    "mtime": 1794808128.8139157,
+    "seen": 1794887166.8311756,
+    "ast_hash": "056a9dcef42b102d8b3baeb1abf722fd",
     "semantic_hash": ""
   },
   "intel/data/derived/health/manifest.json": {
-    "mtime": 1794806721.143826,
-    "seen": 1794807136.3308837,
-    "ast_hash": "ee4497650fdc73b976ca74cf1e65651a",
+    "mtime": 1794808128.8139157,
+    "seen": 1794887166.8311756,
+    "ast_hash": "50209e06a475cd714c15823fc1685b85",
     "semantic_hash": ""
   },
   "intel/data/derived/integrity/manifest.json": {
-    "mtime": 1794806721.6496594,
-    "seen": 1794807136.3308837,
-    "ast_hash": "6eaab024eb9fb90fbf967e4a657d28c6",
+    "mtime": 1794808129.2117884,
+    "seen": 1794887166.8311756,
+    "ast_hash": "46ac00445aaa8d48f751a7d1a3101355",
     "semantic_hash": ""
   },
   "intel/data/derived/journal/manifest.json": {
-    "mtime": 1794806719.7940128,
-    "seen": 1794807136.3308837,
-    "ast_hash": "1933bceba0e45b186c7440d798e18b98",
+    "mtime": 1794808127.453707,
+    "seen": 1794887166.8311756,
+    "ast_hash": "53909082fdc33f95d4ce0b7a33bba078",
     "semantic_hash": ""
   },
   "intel/data/derived/journal/summary.json": {
-    "mtime": 1794806719.79301,
-    "seen": 1794807136.3308837,
-    "ast_hash": "7487edd8c6d227cb0672d81eccb468d7",
+    "mtime": 1794808127.453707,
+    "seen": 1794887166.8311756,
+    "ast_hash": "fc62236b368bf1c14723c352fc1ffbfb",
     "semantic_hash": ""
   },
   "intel/data/derived/reference-trades/manifest.json": {
-    "mtime": 1794806716.2825983,
-    "seen": 1794807136.3308837,
-    "ast_hash": "d16b6abb310f3af42055900c6cef8574",
+    "mtime": 1794808124.3174503,
+    "seen": 1794887166.8311756,
+    "ast_hash": "fb775b1d356e861189ad605f84a56512",
     "semantic_hash": ""
   },
   "intel/data/derived/reference-trades/summary.json": {
-    "mtime": 1794806716.2825983,
-    "seen": 1794807136.3308837,
+    "mtime": 1794808124.3174503,
+    "seen": 1794887166.8311756,
     "ast_hash": "9eed79e4ec21fcc03a98c3aaf00553f7",
     "semantic_hash": ""
   },
   "intel/data/derived/regime/manifest.json": {
-    "mtime": 1794806719.0411239,
-    "seen": 1794807136.3308837,
-    "ast_hash": "f79db374bc50eb5867fdb99d782a56a2",
+    "mtime": 1794808126.7523508,
+    "seen": 1794887166.8311756,
+    "ast_hash": "e10a7154f1168697d9cb14b8d7aba338",
     "semantic_hash": ""
   },
   "intel/data/derived/regime/transitions.json": {
-    "mtime": 1794806719.033837,
-    "seen": 1794807136.3308837,
-    "ast_hash": "13367b29deffa509b0d794d2c4d42edf",
+    "mtime": 1794808126.7509654,
+    "seen": 1794887166.8311756,
+    "ast_hash": "e83d1bb62e2cf8cefa633758edd07ef5",
     "semantic_hash": ""
   },
   "intel/data/derived/regime/verdict.json": {
-    "mtime": 1794806719.0411239,
-    "seen": 1794807136.3308837,
-    "ast_hash": "a814d9010829a28b615ee6a690dbec28",
+    "mtime": 1794808126.7523508,
+    "seen": 1794887166.8311756,
+    "ast_hash": "b7e3d10ede556ece39904d9baa024592",
     "semantic_hash": ""
   },
   "intel/data/derived/regime/volatility.json": {
-    "mtime": 1794806719.033837,
-    "seen": 1794807136.3308837,
+    "mtime": 1794808126.7509654,
+    "seen": 1794887166.8311756,
     "ast_hash": "357a8ea17732c16b7dec51282ddc0ce5",
     "semantic_hash": ""
   },
   "intel/data/derived/truth-check/manifest.json": {
-    "mtime": 1794806719.8328736,
-    "seen": 1794807136.3308837,
-    "ast_hash": "de4bf89b182210c9b8a323dc1039f24e",
+    "mtime": 1794808127.495989,
+    "seen": 1794887166.8311756,
+    "ast_hash": "b692970ab6d1f7c938e8892984251410",
     "semantic_hash": ""
   },
   "intel/data/events/manifest.json": {
-    "mtime": 1794806714.0011444,
-    "seen": 1794807136.3308837,
-    "ast_hash": "8eee068503f64cbc0f1498ed360f46ce",
+    "mtime": 1794808122.1705632,
+    "seen": 1794887166.8311756,
+    "ast_hash": "9c4e262d9ab77acdc3d14dc717f43437",
     "semantic_hash": ""
   },
   "intel/data/headlines/coverage.json": {
-    "mtime": 1794806728.4763174,
-    "seen": 1794807136.3308837,
+    "mtime": 1794808120.1328907,
+    "seen": 1794887166.8311756,
     "ast_hash": "1bd6ec5bab224cdd0b7a2e36deb0ec7e",
     "semantic_hash": ""
   },
   "intel/data/headlines/manifest.json": {
-    "mtime": 1794806728.4763174,
-    "seen": 1794807136.3308837,
-    "ast_hash": "80414abd83a032a899ea4a4607bb23ea",
+    "mtime": 1794808120.1328907,
+    "seen": 1794887166.8311756,
+    "ast_hash": "7816864b5baefaf00ddff3e58e762460",
     "semantic_hash": ""
   },
   "intel/data/market/manifest.json": {
-    "mtime": 1794806728.425407,
-    "seen": 1794807136.3308837,
-    "ast_hash": "bbfa2c2345d2faddddbb81c18c11814b",
+    "mtime": 1794808120.080608,
+    "seen": 1794887166.8311756,
+    "ast_hash": "46f0c0bae3e566f3028a4f6da97c2f57",
     "semantic_hash": ""
   },
   "intel/data/market/registry.json": {
-    "mtime": 1794806728.4244094,
-    "seen": 1794807136.3308837,
-    "ast_hash": "3e2c74d764fd0afb2921bb8d4f5de3fa",
+    "mtime": 1794808120.080608,
+    "seen": 1794887166.8311756,
+    "ast_hash": "84e22858d28f53f1af5b38f3f11cea26",
     "semantic_hash": ""
   },
   "intel/data/mexc/manifest.json": {
-    "mtime": 1794806728.4783175,
-    "seen": 1794807136.3308837,
-    "ast_hash": "dc91e0698376413a588a508830d733ae",
+    "mtime": 1794808120.1377306,
+    "seen": 1794887166.8311756,
+    "ast_hash": "17d5426e8834db7c3b2071d5bc7d58ac",
     "semantic_hash": ""
   },
   "intel/data/trades/manifest.json": {
-    "mtime": 1794806728.4662168,
-    "seen": 1794807136.3308837,
-    "ast_hash": "39cc4260d77becd351d988e2d7b92270",
+    "mtime": 1794808120.1263394,
+    "seen": 1794887166.8311756,
+    "ast_hash": "0e5ed643c8b944f97c4eec9aba9d5757",
     "semantic_hash": ""
   },
   "intel/engines/backtest/engine.js": {
@@ -11424,9 +11424,9 @@
     "semantic_hash": ""
   },
   "intel/inputs/db-export/export-2026-11-16.json": {
-    "mtime": 1794785689.1007342,
-    "seen": 1794806123.7341793,
-    "ast_hash": "5e2e3d93d5ebd1885bcbe84289812ecb",
+    "mtime": 1794808113.5984552,
+    "seen": 1794887166.8441236,
+    "ast_hash": "07045b4a8be8050b63982b865d3af6f9",
     "semantic_hash": ""
   },
   "intel/integrity/monitor.js": {
@@ -11616,9 +11616,9 @@
     "semantic_hash": ""
   },
   "intel/FILES.md": {
-    "mtime": 1794807099.5551863,
-    "seen": 1794807136.4637523,
-    "ast_hash": "817ec7422a97f81680a6ed41b3b30216",
+    "mtime": 1794808192.205351,
+    "seen": 1794887166.9506805,
+    "ast_hash": "8b808bda6ef58f8cea35eeb2cfb1097b",
     "semantic_hash": ""
   },
   "intel/IMPLEMENTATION-STATUS.md": {
@@ -11628,9 +11628,9 @@
     "semantic_hash": ""
   },
   "intel/OPERATING-MANUAL.md": {
-    "mtime": 1794806045.1804166,
-    "seen": 1794806123.8650134,
-    "ast_hash": "2219de44fdb5f09159ea2d95196e2c2e",
+    "mtime": 1794807998.7068925,
+    "seen": 1794887166.9506805,
+    "ast_hash": "4bdd212720972cd8ec5da4e3cb122f7d",
     "semantic_hash": ""
   },
   "intel/PHASE0-AUDIT.md": {
@@ -11724,69 +11724,69 @@
     "semantic_hash": ""
   },
   "intel/reports/INDEX.md": {
-    "mtime": 1794806721.6529398,
-    "seen": 1794807136.465599,
-    "ast_hash": "bd9eea3437ebe8cc77fad005db5c75f3",
+    "mtime": 1794808129.2117884,
+    "seen": 1794887166.9506805,
+    "ast_hash": "f2317683e0e7ba9fbcfd6386a9c07ec2",
     "semantic_hash": ""
   },
   "intel/reports/backtest.md": {
-    "mtime": 1794806716.2926338,
-    "seen": 1794807136.465599,
-    "ast_hash": "b405367c48b25393da63eaf313583caf",
+    "mtime": 1794808124.3174503,
+    "seen": 1794887166.9506805,
+    "ast_hash": "96e86cc26012760205396d4041afd0dc",
     "semantic_hash": ""
   },
   "intel/reports/correlation.md": {
-    "mtime": 1794806719.683663,
-    "seen": 1794807136.465599,
-    "ast_hash": "88d3d50a92aabc507d3cec62bbd2b028",
+    "mtime": 1794808127.3842897,
+    "seen": 1794887166.9506805,
+    "ast_hash": "3bb9cc5a413bb34fee21b01a26e3e179",
     "semantic_hash": ""
   },
   "intel/reports/events.md": {
-    "mtime": 1794806715.2064075,
-    "seen": 1794807136.465599,
-    "ast_hash": "07c1c013952190caf427a49c4c179b1f",
+    "mtime": 1794808123.4022155,
+    "seen": 1794887166.9506805,
+    "ast_hash": "93ebef7fb6e24841b65cdcd98f3f0887",
     "semantic_hash": ""
   },
   "intel/reports/execution.md": {
-    "mtime": 1794806719.9355924,
-    "seen": 1794807136.465599,
-    "ast_hash": "68b4e18d46317501803c382bee95b38e",
+    "mtime": 1794808127.5582602,
+    "seen": 1794887166.9506805,
+    "ast_hash": "e5f0f5ca171313bc32de1aff30e1b3a3",
     "semantic_hash": ""
   },
   "intel/reports/exposure.md": {
-    "mtime": 1794806720.9408174,
-    "seen": 1794807136.465599,
-    "ast_hash": "597876e564d22bbab99d2438ed4deee0",
+    "mtime": 1794808128.6159904,
+    "seen": 1794887166.9506805,
+    "ast_hash": "bb74dc9a6fe583607b4a3583229b181a",
     "semantic_hash": ""
   },
   "intel/reports/health.md": {
-    "mtime": 1794806721.1448257,
-    "seen": 1794807136.465599,
-    "ast_hash": "299fd1a11bd5b4f36fef291f0a407444",
+    "mtime": 1794808128.8148012,
+    "seen": 1794887166.9506805,
+    "ast_hash": "da10696a28e9c83eee0c7044636660d0",
     "semantic_hash": ""
   },
   "intel/reports/integrity.md": {
-    "mtime": 1794806721.6496594,
-    "seen": 1794807136.465599,
-    "ast_hash": "7bcb8008d3cf180ada808deb05f9d2b1",
+    "mtime": 1794808129.2117884,
+    "seen": 1794887166.9506805,
+    "ast_hash": "57ac6abe2280eed399074f3cf20dff0b",
     "semantic_hash": ""
   },
   "intel/reports/journal.md": {
-    "mtime": 1794806719.795011,
-    "seen": 1794807136.465599,
-    "ast_hash": "2c124088d3494d2aa240d9e95a0e2bc6",
+    "mtime": 1794808127.4643333,
+    "seen": 1794887166.9506805,
+    "ast_hash": "30f514699b1385c384ee06a1f74af353",
     "semantic_hash": ""
   },
   "intel/reports/regime.md": {
-    "mtime": 1794806719.0421357,
-    "seen": 1794807136.465599,
-    "ast_hash": "f7dac0cf479b2dd1f924483a268348ad",
+    "mtime": 1794808126.7537053,
+    "seen": 1794887166.9506805,
+    "ast_hash": "6c7ca63350478c079371b5619d303a01",
     "semantic_hash": ""
   },
   "intel/reports/truth-check.md": {
-    "mtime": 1794806719.8328736,
-    "seen": 1794807136.465599,
-    "ast_hash": "9982b7f26c90561c0c944ee78d05bb35",
+    "mtime": 1794808127.495989,
+    "seen": 1794887166.9506805,
+    "ast_hash": "e06ab191634083c1244e7f0d846a8985",
     "semantic_hash": ""
   },
   "intel/reports/validation/bbFade.md": {
@@ -11841,6 +11841,48 @@
     "mtime": 1794807005.2975397,
     "seen": 1794807136.4637523,
     "ast_hash": "f1c1f11fd7843bccdf7d0ea5939d7fb1",
+    "semantic_hash": ""
+  },
+  "intel/scripts/daily-task.ps1": {
+    "mtime": 1794807963.9687202,
+    "seen": 1794887166.8452215,
+    "ast_hash": "f79ebb1070c30e6b71170aa39fcd4b30",
+    "semantic_hash": ""
+  },
+  "intel/scripts/make-export.js": {
+    "mtime": 1794808137.9431574,
+    "seen": 1794887166.8452215,
+    "ast_hash": "3eefd4fbc6b8a12cfbfd8ee7e1caff89",
+    "semantic_hash": ""
+  },
+  "intel/test/make-export.test.js": {
+    "mtime": 1794808113.3156326,
+    "seen": 1794887166.846827,
+    "ast_hash": "ac0df572e818095cca0a7c299d990bb7",
+    "semantic_hash": ""
+  },
+  "research/sell-too-soon/run.js": {
+    "mtime": 1794887104.4814775,
+    "seen": 1794887166.897469,
+    "ast_hash": "fc1283e52ba63501328db2b81d4e2e24",
+    "semantic_hash": ""
+  },
+  "intel/CLAUDE-HOME-TASK.md": {
+    "mtime": 1794808186.7153769,
+    "seen": 1794887166.9506805,
+    "ast_hash": "266276bed6af438dd48502f6188b7d27",
+    "semantic_hash": ""
+  },
+  "intel/HOME-SETUP.md": {
+    "mtime": 1794807998.5968735,
+    "seen": 1794887166.9506805,
+    "ast_hash": "933521ee011444d2961cefdd646b78de",
+    "semantic_hash": ""
+  },
+  "research/sell-too-soon/results.md": {
+    "mtime": 1794887112.2608497,
+    "seen": 1794887166.9773328,
+    "ast_hash": "deb394113831408170fad20c49c40e91",
     "semantic_hash": ""
   },
   "LEDGER/package-lock.json": {
