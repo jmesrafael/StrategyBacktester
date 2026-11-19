@@ -2,7 +2,7 @@
  "dataset": "trades",
  "schema_version": 1,
  "status": "ok",
- "built_at": "2026-11-19T03:11:41.061Z",
+ "built_at": "2026-11-19T09:38:50.438Z",
  "generator": "ingest/trades.js",
  "source": {
   "kind": "dashboard database (Supabase project \"Backtester\")",

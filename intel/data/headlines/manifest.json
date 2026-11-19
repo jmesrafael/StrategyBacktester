@@ -2,7 +2,7 @@
  "dataset": "headlines",
  "schema_version": 1,
  "status": "ok",
- "built_at": "2026-11-19T03:11:41.081Z",
+ "built_at": "2026-11-19T09:38:50.455Z",
  "generator": "ingest/headlines.js",
  "source": {
   "kind": "Pulse daily briefs (crypto-news repo)",
@@ -12,9 +12,9 @@
  "inputs": [],
  "files": {
   "headlines.jsonl": {
-   "rows": 96,
-   "sha256": "00374508a990803cfab2342979c2f7db410427b396dd763a469c210e041d2e44",
-   "bytes": 91403,
+   "rows": 108,
+   "sha256": "268ca3428219624e0eb28be91914aa040c5bbb044b26e1f459288067003609e8",
+   "bytes": 102709,
    "schema": {
     "key": "string",
     "id": "string",
@@ -43,8 +43,8 @@
   },
   "coverage.json": {
    "rows": null,
-   "sha256": "f63be8f5b9a0cc99bada65a00366caa3fb14f2a2745bb41ecbdbdc51bfbb3624",
-   "bytes": 209,
+   "sha256": "3947bbdcdd1551799d13ef4652a23d20820ab07a330e3b2d183384fbff3108af",
+   "bytes": 225,
    "schema": null
   }
  },
@@ -57,12 +57,12 @@
   {
    "name": "source folder found",
    "ok": true,
-   "detail": "8 briefs read from ../../crypto-news/data/briefs"
+   "detail": "9 briefs read from ../../crypto-news/data/briefs"
   }
  ],
  "notes": [
-  "0 new rows appended",
-  "brief dates 2026-11-11 to 2026-11-18",
+  "12 new rows appended",
+  "brief dates 2026-11-11 to 2026-11-19",
   "no brief date missing inside the range",
   "coverage starts when Pulse began saving briefs; nothing earlier can be recovered with honest first-seen times"
  ]
