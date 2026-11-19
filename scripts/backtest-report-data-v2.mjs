@@ -53,14 +53,15 @@ export function run({ from, until, end, risk = RISK, fee = true, start = START }
   }
   ev.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
   const acct = WEIGHTS.map((w) => start * w), amt = new Map(), pts = [[from, start]], fees = [];
+  const sys = [[from, acct.slice()]];   // each system's own balance after every change (the split is set once at the start and never rebalanced)
   let hwm = start;
   for (const [t, typ, k, tr] of ev) {
     if (typ === 2) { amt.set(tr, acct[k] * risk); continue; }
-    if (typ === 0) { acct[k] += tr.R * amt.get(tr); pts.push([t, acct.reduce((a, b) => a + b, 0)]); continue; }
+    if (typ === 0) { acct[k] += tr.R * amt.get(tr); pts.push([t, acct.reduce((a, b) => a + b, 0)]); sys.push([t, acct.slice()]); continue; }
     const bal = acct.reduce((a, b) => a + b, 0);
-    if (bal > hwm) { const f = FEE * (bal - hwm), s = (bal - f) / bal; for (let j = 0; j < acct.length; j++) acct[j] *= s; hwm = bal - f; fees.push([t, f]); pts.push([t, bal - f]); }
+    if (bal > hwm) { const f = FEE * (bal - hwm), s = (bal - f) / bal; for (let j = 0; j < acct.length; j++) acct[j] *= s; hwm = bal - f; fees.push([t, f]); pts.push([t, bal - f]); sys.push([t, acct.slice()]); }
   }
-  return { pts, fees, from, until, end, closed: ev.filter((x) => x[1] === 0).map((x) => x[3]) };
+  return { pts, sys, fees, from, until, end, closed: ev.filter((x) => x[1] === 0).map((x) => x[3]) };
 }
 export const at = (pts, t) => { let lo = 0, hi = pts.length - 1; if (t < pts[0][0]) return pts[0][1]; while (lo < hi) { const m = (lo + hi + 1) >> 1; if (pts[m][0] <= t) lo = m; else hi = m - 1; } return pts[lo][1]; };
 

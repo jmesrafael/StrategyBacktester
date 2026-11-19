@@ -165,20 +165,21 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - ZRX.json — ZRX.json (2026-11-19)
 
 ## candles/binance-futures/1m
-- ADA.json — ADA.json (2026-11-12)
-- AVAX.json — AVAX.json (2026-11-12)
-- BNB.json — BNB.json (2026-11-12)
-- BTC.json — BTC.json (2026-11-12)
-- DOGE.json — DOGE.json (2026-11-12)
-- DOT.json — DOT.json (2026-11-12)
-- ETH.json — ETH.json (2026-11-12)
-- GALA.json — GALA.json (2026-11-12)
-- LINK.json — LINK.json (2026-11-12)
-- NEAR.json — NEAR.json (2026-11-12)
-- SOL.json — SOL.json (2026-11-12)
-- SUI.json — SUI.json (2026-11-12)
-- XRP.json — XRP.json (2026-11-12)
-- ZEC.json — ZEC.json (2026-11-12)
+- ADA.json — ADA.json (2026-11-19)
+- ARB.json — ARB.json (2026-11-19)
+- AVAX.json — AVAX.json (2026-11-19)
+- BNB.json — BNB.json (2026-11-19)
+- BTC.json — BTC.json (2026-11-19)
+- DOGE.json — DOGE.json (2026-11-19)
+- DOT.json — DOT.json (2026-11-19)
+- ETH.json — ETH.json (2026-11-19)
+- GALA.json — GALA.json (2026-11-19)
+- LINK.json — LINK.json (2026-11-19)
+- NEAR.json — NEAR.json (2026-11-19)
+- SOL.json — SOL.json (2026-11-19)
+- SUI.json — SUI.json (2026-11-19)
+- XRP.json — XRP.json (2026-11-19)
+- ZEC.json — ZEC.json (2026-11-19)
 
 ## candles/binance-futures/4h
 - 1000SHIB.json — 1000SHIB.json (2026-11-19)
@@ -428,6 +429,7 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - 2026-11-17-fomc-anthropic-week.md — Event watch: Nov 17-20, 2026 (FOMC minutes, Nvidia, Anthropic IPO) and what it did to the live shorts (2026-11-19)
 - 2026-11-18-manual-actions-log.md — Manual actions log, Nov 17-18, 2026 (for records) (2026-11-18)
 - 2026-11-18-performance-since-start.md — Pool performance since start (Oct 23 to Nov 17 23:50 UTC, 2026) (2026-11-18)
+- README.md — Event watch: what it is and how to use it (2026-11-19)
 
 ## intel/integrity
 - README.md — integrity: monitor and truth check (2026-11-16)
@@ -701,6 +703,11 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - results-year-2022.md — 2022 — monthly, $5 risk per trade (2026-10-20)
 - results-yearly-compare.md — Year by year on SOL / DOGE / ZEC — $5 risk per trade (whole dollars) (2026-10-20)
 - results-yearly-dd.md — BB Breakout (4h) vs NY SMC v7 (15m) — every year on SOL / DOGE / ZEC, $5 risk per trade (2026-10-20)
+
+## research/capital-split
+- REPORT.md — Self-compounding vs rebalancing the three bots (Nov 19, 2026) (2026-11-19)
+- RESULTS.md — How to share the money between the three bots: self-compounding vs rebalancing (Nov 19, 2026) (2026-11-19)
+- results.json — results.json (2026-11-19)
 
 ## research/coin-history-nov13
 - history.json — history.json (2026-11-16)
@@ -985,6 +992,7 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - trades.json — trades.json (2026-11-06)
 
 ## research/streak-cause
+- MONTHLY.md — TRI-CORE month by month (Jan 2020 to Oct 2026) (2026-11-19)
 - REPORT.md — Why TRI-CORE loses in streaks, and where it makes its money (Nov 19, 2026) (2026-11-19)
 - RESULTS.md — Why we lose in streaks, and where we make the money (2026-11-19)
 - results.json — results.json (2026-11-19)

@@ -100,7 +100,7 @@ page(`<div class="cover-band">
 <div class="kpis">${kpi('₱1,000', 'Starting balance')}${kpi(peso(final), 'Final balance, after the 20% fee', 'pos')}${kpi('×' + n0(final / 1000), 'Growth of the starting balance', 'pos')}${kpi(`${yearsUp} / ${years.length}`, 'Profitable years')}</div>
 <div class="kpis" style="margin-top:0">${kpi(pct0(cagr), 'Average per year (compounded)')}${kpi(`${greenM} / ${nM}`, 'Profitable months')}${kpi(MIN + (uw.dd * 100).toFixed(1) + '%', 'Worst drop from a high', 'neg')}${kpi(n0(stat.n), 'Trades taken')}</div>
 <h2>How it works, in plain words</h2>
-<p class="sub">The pool runs three systems, each a set of fixed rules run by a computer. They watch liquid markets around the clock and only act when their conditions are met. No guessing and no emotions. Half of the money is with the first system and a quarter with each of the other two.</p>
+<p class="sub">The pool runs three systems, each a set of fixed rules run by a computer. They watch liquid markets around the clock and only act when their conditions are met. No guessing and no emotions. The starting money is split once: half to the first system and a quarter to each of the other two. After that, each system keeps and re-invests its own profit and loss. Money is not moved between them, so the split changes over time (page 11).</p>
 <div class="steps">
   <div class="step"><div class="n">1</div><b>You join the pool</b><p>Your ₱1,000 buys a slice of one shared trading pool. When the pool grows or shrinks, your slice moves by the same percent as everyone else's.</p></div>
   <div class="step"><div class="n">2</div><b>The loss is limited before every trade</b><p>Every trade has an exit point for a loss, set before the trade is opened. Each trade puts <b>2.5% of its system's money</b> at risk.</p></div>
@@ -213,12 +213,30 @@ page(`<h2>Patterns: which months and quarters are weaker?</h2>
 <table class="cal"><tr><th></th>${years.map((y) => `<th>${y.y}</th>`).join('')}</tr>${[0, 1, 2, 3].map((q) => `<tr><td class="yr">Q${q + 1}</td>${years.map((y) => calCell(qy(y.y, q))).join('')}</tr>`).join('')}</table>
 <p class="sub" style="margin-top:6px;font-size:11px">${m0 > 0 ? `2020 starts in ${firstMon}, so its Q1 is only ${MONL.slice(m0, 3).join(' and ')}. ` : `2020 starts with the first trade on ${dateL(FIRST)}. `}Q4 2026 only covers 1 October to ${endL}.</p>`);
 
+// 11 the split over time (each system compounds on its own; never rebalanced)
+const sysAt = (t) => { const S = all.sys; let lo = 0, hi = S.length - 1; if (t < S[0][0]) return S[0][1]; while (lo < hi) { const m = (lo + hi + 1) >> 1; if (S[m][0] <= t) lo = m; else hi = m - 1; } return S[lo][1]; };
+const SYSN = ['System 1', 'System 2', 'System 3'], START_SPLIT = ['half', 'a quarter', 'a quarter'];
+const splitRows = []; for (let y = 2020; y <= 2026; y++) splitRows.push({ label: '1 Jan ' + y, t: Date.UTC(y, 0, 1) / 1000 - 1 }); splitRows.push({ label: endL, t: END });
+const yrSys = []; for (let y = 2020; y <= 2026; y++) { const a = sysAt(Date.UTC(y, 0, 1) / 1000 - 1), b = sysAt(y === 2026 ? END : Date.UTC(y + 1, 0, 1) / 1000 - 1); yrSys.push({ y, r: a.map((v, j) => b[j] / v - 1), part: y === 2026 }); }
+// the most recent month where the pool lost but a smaller system had a big gain: shows why the biggest system decides the month
+const monSys = months.map((m) => { const a = sysAt(Date.UTC(m.y, m.m, 1) / 1000 - 1), b = sysAt(Math.min(Date.UTC(m.y, m.m + 1, 1) / 1000, END + 1) - 1), tot = a.reduce((q, v) => q + v, 0); return { m, share: a.map((v) => v / tot), r: a.map((v, j) => b[j] / v - 1) }; });
+const ex = [...monSys].reverse().find((x) => x.m.ret < 0 && x.r.some((r, j) => r > 0.2 && x.share[j] < 0.3));
+const big = ex ? ex.share.indexOf(Math.max(...ex.share)) : 0, gain = ex ? ex.r.indexOf(Math.max(...ex.r)) : 0;
+const endS = sysAt(END), endTot = endS.reduce((q, v) => q + v, 0);
+page(`<h2>How the money is split between the three systems</h2>
+<p class="sub">The starting ₱1,000 is split once: ₱500 to System 1, ₱250 to System 2 and ₱250 to System 3. From then on, each system keeps its own balance and re-invests its own profit and loss. Money is not moved from one system to another. This keeps things simple, but the systems grow at different speeds, so their shares of the pool change over time.</p>
+<h3>Each system's balance, and its share of the pool</h3>
+<table><tr><th>Date</th>${SYSN.map((n) => `<th>${n}</th>`).join('')}<th>Pool</th></tr>${splitRows.map((r) => { const v = sysAt(r.t), tot = v.reduce((q, x) => q + x, 0); return `<tr><td><b>${r.label}</b></td>${v.map((x) => `<td>${peso(x)} <span style="color:#64748b">(${Math.round(100 * x / tot)}%)</span></td>`).join('')}<td>${peso(tot)}</td></tr>`; }).join('')}</table>
+<h3>Each system's own return, year by year</h3>
+<table><tr><th>Year</th>${SYSN.map((n) => `<th>${n}</th>`).join('')}</tr>${yrSys.map((y) => `<tr><td><b>${y.y}${y.part ? ' (to ' + endL + ')' : ''}</b></td>${y.r.map((r) => `<td class="${cls(r)}">${pct0(r)}</td>`).join('')}</tr>`).join('')}</table>
+<div class="note"><b>What this means for you.</b> The system that holds the most money decides most of the pool's result. On ${endL}, System ${big + 1} held <b>${Math.round(100 * endS[big] / endTot)}%</b> of the pool, so the pool's months now look mostly like that system's months.${ex ? ` For example, in ${mName(ex.m)} System ${gain + 1} gained <b class="pos">${pct0(ex.r[gain])}</b>, but it held only ${Math.round(100 * ex.share[gain])}% of the money. System ${big + 1}, holding ${Math.round(100 * ex.share[big])}%, had a <b class="${cls(ex.r[big])}">${pct0(ex.r[big])}</b> month, and the pool ended the month <b class="neg">${pct(ex.m.ret)}</b>.` : ''} A system that falls behind still keeps trading. It re-invests its own result, and a strong run lets it catch up again.</div>`);
+
 // 11 method
 page(`<h2>How these numbers were made, and what they leave out</h2>
 <div class="card"><b style="font-size:13px">Method</b>
 <ul style="margin:6px 0 0;padding-left:18px">
 <li><b>The trades.</b> The trading rules of the three systems exactly as they run today, unchanged, replayed on stored 4-hour price candles for ${NUMW[nCoins] || nCoins} liquid markets from 2020 to ${endL}. Markets that started trading later join the test from their first day. Exchange fees, slippage and funding charges are already inside every trade's result.</li>
-<li><b>The money.</b> The ₱1,000 is split between the three systems: half to the first, a quarter to each of the other two. Each trade puts 2.5% of its own system's balance at risk when it opens, and the profit or loss is booked when the trade closes. Trades from all markets share the system's balance, and are processed in time order.</li>
+<li><b>The money.</b> The ₱1,000 is split once, at the start: half to the first system, a quarter to each of the other two. Each system then compounds on its own; money is never moved between systems, so the split drifts as they grow at different speeds. Each trade puts 2.5% of its own system's balance at risk when it opens, and the profit or loss is booked when the trade closes. Trades from all markets share the system's balance, and are processed in time order.</li>
 <li><b>The fee.</b> 20% of profit above the investor's best level so far, taken at the end of every even month, and on the last day of data for the last partial month. A loss means no fee, and the best level only moves up.</li>
 <li><b>Calendar.</b> A month counts the trades that closed in it. Year tables use a calendar year and carry the balance over. Trades still open at the end of the data are not counted.</li>
 </ul></div>
