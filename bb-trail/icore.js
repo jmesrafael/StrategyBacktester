@@ -52,10 +52,18 @@ function reloadConfig() {
 const liveAllowed = () => false; // BB-TRAIL PAPER LAB: real trading is impossible here, whatever the config, flags or environment say
 const S = { ...DEFAULTS }, COST = DEFAULTS.cost, IV = 14400;
 // risk for the next trade: % of the balance from the risk steps (by the highest balance so far, kept in acct.peakBalance) or riskPct; maxRiskUsd 0 = no $ cap
-const riskPctNow = (acct) => config.riskPctFor(CFG, Math.max(acct.peakBalance || 0, acct.balance || 0));
+// TRI-CORE shared sizing (Nov 20, 2026, see shared-sizing.js): in live mode with bot-config.json "sharedSizing" on, the trade is sized from
+// (this wallet + the other live wallets) x this bot's weight, and the risk steps go by that base's highest value (acct.peakShared).
+// Off, invalid, or any other wallet's reading missing/stale -> sized from this wallet's own balance exactly as before.
+const sharedSizing = require('./shared-sizing.js');
+const sizingBase = (acct) => (CFG.mode === 'live' ? sharedSizing.base(CFG, acct.balance) : { shared: false, base: acct.balance, why: null });
+const riskPctNow = (acct, b) => config.riskPctFor(CFG, b && b.shared ? Math.max(acct.peakShared || 0, b.base) : Math.max(acct.peakBalance || 0, acct.balance || 0));
 const riskFor = (acct) => {
   acct.peakBalance = Math.max(acct.peakBalance || 0, acct.balance || 0);
-  const pct = riskPctNow(acct), r = pct > 0 ? acct.balance * pct : CFG.riskUsd;
+  const b = sizingBase(acct);
+  if (b.shared) acct.peakShared = Math.max(acct.peakShared || 0, b.base);
+  Object.defineProperty(acct, 'lastSizing', { value: b, enumerable: false, configurable: true, writable: true });   // for the ENTER line, never saved
+  const pct = riskPctNow(acct, b), r = pct > 0 ? b.base * pct : CFG.riskUsd;
   return CFG.maxRiskUsd > 0 ? Math.min(CFG.maxRiskUsd, r) : r;
 };
 const riskText = (acct) => (CFG.riskTiers && CFG.riskTiers.length ? `risk ${+(riskPctNow(acct) * 100).toFixed(2)}% of balance/trade (steps ${CFG.riskTiers.map(([a, p]) => `$${a}+ ${+(p * 100).toFixed(2)}%`).join(', ')}, by the highest balance $${Math.round(Math.max(acct.peakBalance || 0, acct.balance || 0))})` : `risk ${CFG.riskPct * 100}% of balance/trade`) + (CFG.maxRiskUsd > 0 ? `, max $${CFG.maxRiskUsd}` : ', no $ cap');
@@ -178,7 +186,7 @@ async function processCoin(coin, B, st, exec, opt = {}) {
             st.pos = p; p.sigTime = p.sigTime ?? c.time;       // the signal candle: with the side it forms the journal's match key
             p.stop0 = p.stop0 ?? p.stop; p.ext = p.ext ?? p.entry;
             if (!opt.replay) { p.entryDelaySec = Math.round(now - next.time); p.slipR = +(p.dir * (p.entry - next.open) / Math.abs(next.open - p.stop)).toFixed(4); }
-            ev.push(`ENTER ${coin} ${p.dir === 1 ? 'LONG' : 'SHORT'} @ ${p.entry.toPrecision(6)}  stop ${p.stop.toPrecision(6)}  (trails ${S.kTrail} ATR behind the best price, no target)  qty ${p.qty.toPrecision(4)}${p.vol ? ` (${p.vol} contracts, ${p.lev}x isolated)` : ''} (risk ${usd(p.riskUsd)} of balance ${usd(acct.balance)})${p.slipR != null ? ` · ${p.entryDelaySec}s after the open, price ${p.slipR >= 0 ? '+' : ''}${p.slipR.toFixed(3)}R from it` : ''}`);
+            ev.push(`ENTER ${coin} ${p.dir === 1 ? 'LONG' : 'SHORT'} @ ${p.entry.toPrecision(6)}  stop ${p.stop.toPrecision(6)}  (trails ${S.kTrail} ATR behind the best price, no target)  qty ${p.qty.toPrecision(4)}${p.vol ? ` (${p.vol} contracts, ${p.lev}x isolated)` : ''} (risk ${usd(p.riskUsd)} of balance ${usd(acct.balance)}${acct.lastSizing && (acct.lastSizing.shared || acct.lastSizing.why) ? ' · sized on ' + sharedSizing.text(acct.lastSizing, usd) : ''})${p.slipR != null ? ` · ${p.entryDelaySec}s after the open, price ${p.slipR >= 0 ? '+' : ''}${p.slipR.toFixed(3)}R from it` : ''}`);
             emit('entry', { symbol: SYM, coin, dir: p.dir, sigTime: c.time, sigCandle: c, indicators: indAt(i), decisionSec: now, intended: fillPx, fill: p.entry, nextOpenSec: next.time, nextOpen: next.open, delaySec: p.entryDelaySec, slipR: p.slipR,
               stop: p.stop, trailAtr: S.kTrail, qty: p.qty, vol: p.vol, lev: p.lev, positionId: p.positionId, oid: p.oid, riskUsd: p.riskUsd, balance: acct.balance, oneR: Math.abs(p.entry - p.stop), live: !!p.live, costs: entryCosts(p) });
             if (r.warn) ev.push(`ERROR ${coin}: ${r.warn}`);

@@ -60,7 +60,7 @@ case "${1:-}" in
 esac
 
 step "1. checks before anything changes"
-FILES="icore.js icore-core.js realpaper.js live.js mexc.js config.js envfile.js telegram.js journal.js dashboard-push.js ledger-sync.js keyinfo.js matchkey.js compare-live-vs-backtest.js lab-report.js bot-config.json README-TRAIL.md"
+FILES="icore.js icore-core.js realpaper.js live.js mexc.js config.js envfile.js shared-sizing.js telegram.js journal.js dashboard-push.js ledger-sync.js keyinfo.js matchkey.js compare-live-vs-backtest.js lab-report.js bot-config.json README-TRAIL.md"
 for f in $FILES deploy-tcore/tcore.service deploy-tcore/tcore-compare.service deploy-tcore/tcore-compare.timer deploy-tcore/status.sh deploy-tcore/make-keys.sh deploy-tcore/track-old-position.js; do [ -f "$SRC/$f" ] || die "missing in the bundle: $f"; done
 for c in SOL ZEC NEAR ADA GALA; do [ -f "$SRC/data/$c.json" ] || die "missing in the bundle: data/$c.json"; done
 [ ! -e "$SRC/mexc-keys.json" ] && [ ! -e "$SRC/.env" ] || die "the bundle holds keys or an .env file: refusing"

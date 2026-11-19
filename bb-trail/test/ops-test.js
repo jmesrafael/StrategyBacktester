@@ -7,7 +7,7 @@ const fs = require('fs'), os = require('os'), path = require('path');
 const ROOT = path.join(__dirname, '..');
 const FAKE_TOKEN = '123456789' + ':' + 'FAKE_TOKEN_' + 'FOR_TEST_ONLY_0123456789';   // built in pieces so deploy/package.sh's secret scan has nothing to match
 const BOX = fs.mkdtempSync(path.join(os.tmpdir(), 'icore-ops-')), STATE = path.join(BOX, 'state');
-for (const f of ['icore.js', 'icore-core.js', 'realpaper.js', 'live.js', 'mexc.js', 'config.js', 'ledger-sync.js', 'telegram.js', 'journal.js', 'dashboard-push.js', 'envfile.js', 'keyinfo.js']) fs.copyFileSync(path.join(ROOT, f), path.join(BOX, f));
+for (const f of ['icore.js', 'icore-core.js', 'realpaper.js', 'live.js', 'mexc.js', 'config.js', 'ledger-sync.js', 'telegram.js', 'journal.js', 'dashboard-push.js', 'envfile.js', 'shared-sizing.js', 'keyinfo.js']) fs.copyFileSync(path.join(ROOT, f), path.join(BOX, f));
 fs.mkdirSync(path.join(BOX, 'deploy'));
 fs.copyFileSync(path.join(ROOT, 'deploy', 'watchdog.js'), path.join(BOX, 'deploy', 'watchdog.js'));
 fs.writeFileSync(path.join(BOX, 'mexc-keys.json'), JSON.stringify({ telegramToken: FAKE_TOKEN, telegramChatId: '42' }));
