@@ -2,7 +2,7 @@
  "dataset": "mexc",
  "schema_version": 1,
  "status": "failed",
- "built_at": "2026-11-16T05:48:40.137Z",
+ "built_at": "2026-11-19T09:38:50.460Z",
  "generator": "ingest/recorder.js",
  "source": {
   "kind": "VPS recorder (lucidio-recorder), MEXC public data",
