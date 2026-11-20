@@ -7,6 +7,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { makeResponsive } from './responsive-report.mjs';
 import { build, RISK, FIRST, END, at, COINS, WEIGHTS } from './backtest-report-data-v2.mjs';
 
 const app = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -269,5 +270,5 @@ const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta n
 <title>What ₱1,000 Could Have Become · Lucid'io</title><style>${css}</style></head><body><a class="dlbtn" href="backtest-data.pdf" download>Download PDF</a>
 ${pages.map((p, i) => `<div class="page" id="p${i + 1}">\n${p}\n${foot(i)}</div>`).join('\n')}
 </body></html>`;
-writeFileSync(OUT, html);
+writeFileSync(OUT, makeResponsive(html));   // phone-friendly layer (screens only; print / PDF unchanged)
 console.log(`wrote ${OUT} · ${pages.length} pages · ${(html.length / 1024).toFixed(0)} KB`);
