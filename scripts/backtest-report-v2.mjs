@@ -2,7 +2,7 @@
 // the three live bots, live coins, today's (v3) rules, to the last candle in the library.
 //   node candles/update.js && node intel/run.js ingest      (fresh candles first)
 //   node scripts/backtest-report-v2.mjs
-// The page names no bot and no coin: it speaks of "three trading systems". Layout and CSS are those of v1 (reports/backtest-data-v1.html).
+// The page names no bot and no coin: it speaks of "three strategies" and never says how trades are placed. Layout and CSS are those of v1 (reports/backtest-data-v1.html).
 // v1 (two systems, to Oct 20 2026) is archived as reports/backtest-data-v1.html; its generator is backtest-report.mjs.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -95,27 +95,27 @@ const kpi = (v, k, c = '') => `<div class="kpi"><div class="v ${c}">${v}</div><d
 page(`<div class="cover-band">
   <div class="tag">Past-price test · Investor report</div>
   <h1>What ₱1,000 could have become</h1>
-  <p class="sub" style="font-size:14px;margin:0">Automated trading, run as one pool and tested on real market data from ${startL} to ${endL}, about ${yearsTxt}. Every peso figure is after the 20% fee, as a Filipino investor starting with ₱1,000 would have kept it.</p>
-  <p class="sub" style="font-size:12px;margin:10px 0 0">Researched and backtested by <b>Bugimann</b> · Est. Oct 20, 2026 · Market data: Binance and MEXC futures</p>
+  <p class="sub" style="font-size:14px;margin:0">One shared trading pool, tested on real market data from ${startL} to ${endL}, about ${yearsTxt}. Every peso figure is after the 20% fee, as a Filipino investor starting with ₱1,000 would have kept it.</p>
+  <p class="sub" style="font-size:12px;margin:10px 0 0">Researched and backtested by <b>James Rafael Boroy</b> · Est. Oct 20, 2026 · Market data: Binance and MEXC futures</p>
 </div>
 <div class="kpis">${kpi('₱1,000', 'Starting balance')}${kpi(peso(final), 'Final balance, after the 20% fee', 'pos')}${kpi('×' + n0(final / 1000), 'Growth of the starting balance', 'pos')}${kpi(`${yearsUp} / ${years.length}`, 'Profitable years')}</div>
 <div class="kpis" style="margin-top:0">${kpi(pct0(cagr), 'Average per year (compounded)')}${kpi(`${greenM} / ${nM}`, 'Profitable months')}${kpi(MIN + (uw.dd * 100).toFixed(1) + '%', 'Worst drop from a high', 'neg')}${kpi(n0(stat.n), 'Trades taken')}</div>
 <h2>How it works, in plain words</h2>
-<p class="sub">The pool runs three systems, each a set of fixed rules run by a computer. They watch liquid markets around the clock and only act when their conditions are met. No guessing and no emotions. The starting money is split once: half to the first system and a quarter to each of the other two. After that, each system keeps and re-invests its own profit and loss. Money is not moved between them, so the split changes over time (page 11).</p>
+<p class="sub">The pool runs three strategies, each with its own fixed set of rules. They trade liquid markets and only act when their conditions are met. No guessing and no emotions. The starting money is split once: half to the first strategy and a quarter to each of the other two. After that, each strategy keeps and re-invests its own profit and loss. Money is not moved between them, so the split changes over time (page 11).</p>
 <div class="steps">
   <div class="step"><div class="n">1</div><b>You join the pool</b><p>Your ₱1,000 buys a slice of one shared trading pool. When the pool grows or shrinks, your slice moves by the same percent as everyone else's.</p></div>
-  <div class="step"><div class="n">2</div><b>The loss is limited before every trade</b><p>Every trade has an exit point for a loss, set before the trade is opened. Each trade puts <b>2.5% of its system's money</b> at risk.</p></div>
+  <div class="step"><div class="n">2</div><b>The loss is limited before every trade</b><p>Every trade has an exit point for a loss, set before the trade is opened. Each trade puts <b>2.5% of its strategy's money</b> at risk.</p></div>
   <div class="step"><div class="n">3</div><b>The 20% fee on new profit only</b><p>Every two months, <b>20% of new profit</b> above your best level so far is the fee. A loss means no fee, and a fee is never charged twice on the same profit.</p></div>
 </div>
 <h3>What to expect</h3>
 <ul style="margin:4px 0 0;padding-left:18px">
   <li><b>Most trades are small losses.</b> Only about ${winPct}% of trades win. Money is made because the wins are much bigger than the losses.</li>
-  <li><b>Some months are red, sometimes several in a row.</b> That is normal for this kind of system. Page 9 shows the bad stretches.</li>
+  <li><b>Some months are red, sometimes several in a row.</b> That is normal for this kind of strategy. Page 9 shows the bad stretches.</li>
   <li><b>The swings are big.</b> With 2.5% put at risk per trade, an investor's balance once fell <b>${MIN}${(uw.dd * 100).toFixed(0)}%</b> from its high before recovering, and the worst single month lost ${(Math.abs(worstM.ret) * 100).toFixed(0)}%.</li>
   <li><b>It does best when markets move strongly</b> (big rallies or big sell-offs) and slowly gives back a little when prices drift sideways.</li>
   <li><b>All trading costs are included:</b> exchange fees, slippage (getting a slightly worse price than planned), funding charges and other costs. The 20% fee is on top and already taken out of every peso figure here.</li>
 </ul>
-<div class="note"><b>How the compounding works.</b> We start with ₱1,000 on 1 January 2020 (the first trade came in ${startL}). Each system keeps its own balance, and <b>every trade puts 2.5% of that balance at risk</b>, measured when the trade opens. Wins make the next trade a little bigger and losses make it smaller, so profit is <b>re-invested trade by trade</b>. The 20% fee is taken every two months (end of February, April, June, August, October and December) from profit above your best level so far. The last, partial month is settled on the last day of data.</div>`);
+<div class="note"><b>How the compounding works.</b> We start with ₱1,000 on 1 January 2020 (the first trade came in ${startL}). Each strategy keeps its own balance, and <b>every trade puts 2.5% of that balance at risk</b>, measured when the trade opens. Wins make the next trade a little bigger and losses make it smaller, so profit is <b>re-invested trade by trade</b>. The 20% fee is taken every two months (end of February, April, June, August, October and December) from profit above your best level so far. The last, partial month is settled on the last day of data.</div>`);
 
 // 2 growth
 page(`<h2>Growth of ₱1,000</h2>
@@ -132,7 +132,7 @@ ${years.map((y) => `<tr><td><b>${y.y}</b>${y.first && m0 > 0 ? ' from ' + MON[m0
 
 // 3 lower risk
 page(`<h2>What if each trade risked less?</h2>
-<p class="sub">The exact same trades, with a smaller part of each system's money put at risk per trade. The only thing that changes is the risk size. All figures are <b>after the 20% fee</b>, starting from ₱1,000.</p>
+<p class="sub">The exact same trades, with a smaller part of each strategy's money put at risk per trade. The only thing that changes is the risk size. All figures are <b>after the 20% fee</b>, starting from ₱1,000.</p>
 <div class="two" style="margin-top:10px;grid-template-columns:repeat(3,1fr)">
 ${riskRows.map((r, i) => `<div class="card" style="${i === 0 ? 'border-color:#1d4ed8' : ''};margin-bottom:0"><b style="font-size:12px">${(r.risk * 100).toFixed(r.risk < 0.01 ? 1 : (r.risk === 0.025 ? 1 : 0))}% per trade${i === 0 ? ' · used in this report' : ''}</b><div class="big" style="font-size:22px;font-weight:700;margin:6px 0">${peso(r.final)}</div><div style="font-size:11px;color:#475569;line-height:1.7">Biggest drop from a high: <b class="neg">${MIN}${(r.dd * 100).toFixed(1)}%</b><br>Worst single month: <b class="neg">${pct0(r.worstMonth)}</b><br>Profitable months: <b>${r.green} / ${r.months}</b><br>Profitable years: <b>${r.yearsUp} / ${years.length}</b></div></div>`).join('')}
 </div>
@@ -164,7 +164,7 @@ ${monthBars(ms, y.y)}
 <table><tr><th>Month</th><th>Trades</th><th>Fee paid</th><th>Profit / loss</th><th>Month return</th><th>Balance at month end</th></tr>
 ${ms.map((m) => `<tr><td>${MONL[m.m]}${m.partial ? ` (to ${lastDay})` : ''}</td><td>${m.n}</td><td>${m.fee ? peso(m.fee) : '–'}</td><td class="${cls(m.profit)}">${spos(m.profit)}</td><td class="${cls(m.ret)}">${pct(m.ret)}</td><td>${peso(m.end)}</td></tr>`).join('')}
 <tr class="tot"><td>${y.y} total</td><td>${y.n}</td><td>${peso(y.fee)}</td><td>${spos(y.profit)}</td><td>${pct(y.ret)}</td><td>${peso(y.end)}</td></tr></table>
-<p class="sub" style="margin:4px 0 0;font-size:10.5px">${y.first ? `The first trade came on ${dateL(FIRST)}. The biggest system, with half of the pool, put about ${peso(1000 * WEIGHTS[0] * RISK)} at risk on a trade at the start (2.5%), more as the balance grew.` : `The biggest system, with half of the pool, started the year with ${peso(y.start * WEIGHTS[0])}, so one of its trades put about ${peso(y.start * WEIGHTS[0] * RISK)} at risk at the start (2.5%), more as the balance grew.`}${y.partial ? ` The test ends on ${endL}.` : y.first ? '' : ` ${peso(y.end)} carries over to ${y.y + 1}.`}</p></div>`; };
+<p class="sub" style="margin:4px 0 0;font-size:10.5px">${y.first ? `The first trade came on ${dateL(FIRST)}. The biggest strategy, with half of the pool, put about ${peso(1000 * WEIGHTS[0] * RISK)} at risk on a trade at the start (2.5%), more as the balance grew.` : `The biggest strategy, with half of the pool, started the year with ${peso(y.start * WEIGHTS[0])}, so one of its trades put about ${peso(y.start * WEIGHTS[0] * RISK)} at risk at the start (2.5%), more as the balance grew.`}${y.partial ? ` The test ends on ${endL}.` : y.first ? '' : ` ${peso(y.end)} carries over to ${y.y + 1}.`}</p></div>`; };
 const yp = [[0, 1], [2, 3], [4, 5], [6]];
 yp.forEach((ix, n) => page((n === 0 ? `<h2>Year by year, month by month</h2><p class="sub">Each year starts from the previous year's final balance (compounding). Bars show the % gain or loss of each month, after the 20% fee. The bar scale changes from year to year.</p>` : '') + ix.map((i) => yearCard(years[i])).join('')));
 
@@ -216,7 +216,7 @@ page(`<h2>Patterns: which months and quarters are weaker?</h2>
 
 // 11 the split over time (each system compounds on its own; never rebalanced)
 const sysAt = (t) => { const S = all.sys; let lo = 0, hi = S.length - 1; if (t < S[0][0]) return S[0][1]; while (lo < hi) { const m = (lo + hi + 1) >> 1; if (S[m][0] <= t) lo = m; else hi = m - 1; } return S[lo][1]; };
-const SYSN = ['System 1', 'System 2', 'System 3'], START_SPLIT = ['half', 'a quarter', 'a quarter'];
+const SYSN = ['Strategy 1', 'Strategy 2', 'Strategy 3'], START_SPLIT = ['half', 'a quarter', 'a quarter'];
 const splitRows = []; for (let y = 2020; y <= 2026; y++) splitRows.push({ label: '1 Jan ' + y, t: Date.UTC(y, 0, 1) / 1000 - 1 }); splitRows.push({ label: endL, t: END });
 const yrSys = []; for (let y = 2020; y <= 2026; y++) { const a = sysAt(Date.UTC(y, 0, 1) / 1000 - 1), b = sysAt(y === 2026 ? END : Date.UTC(y + 1, 0, 1) / 1000 - 1); yrSys.push({ y, r: a.map((v, j) => b[j] / v - 1), part: y === 2026 }); }
 // the most recent month where the pool lost but a smaller system had a big gain: shows why the biggest system decides the month
@@ -224,20 +224,20 @@ const monSys = months.map((m) => { const a = sysAt(Date.UTC(m.y, m.m, 1) / 1000 
 const ex = [...monSys].reverse().find((x) => x.m.ret < 0 && x.r.some((r, j) => r > 0.2 && x.share[j] < 0.3));
 const big = ex ? ex.share.indexOf(Math.max(...ex.share)) : 0, gain = ex ? ex.r.indexOf(Math.max(...ex.r)) : 0;
 const endS = sysAt(END), endTot = endS.reduce((q, v) => q + v, 0);
-page(`<h2>How the money is split between the three systems</h2>
-<p class="sub">The starting ₱1,000 is split once: ₱500 to System 1, ₱250 to System 2 and ₱250 to System 3. From then on, each system keeps its own balance and re-invests its own profit and loss. Money is not moved from one system to another. This keeps things simple, but the systems grow at different speeds, so their shares of the pool change over time.</p>
-<h3>Each system's balance, and its share of the pool</h3>
+page(`<h2>How the money is split between the three strategies</h2>
+<p class="sub">The starting ₱1,000 is split once: ₱500 to Strategy 1, ₱250 to Strategy 2 and ₱250 to Strategy 3. From then on, each strategy keeps its own balance and re-invests its own profit and loss. Money is not moved from one strategy to another. This keeps things simple, but the strategies grow at different speeds, so their shares of the pool change over time.</p>
+<h3>Each strategy's balance, and its share of the pool</h3>
 <table><tr><th>Date</th>${SYSN.map((n) => `<th>${n}</th>`).join('')}<th>Pool</th></tr>${splitRows.map((r) => { const v = sysAt(r.t), tot = v.reduce((q, x) => q + x, 0); return `<tr><td><b>${r.label}</b></td>${v.map((x) => `<td>${peso(x)} <span style="color:#64748b">(${Math.round(100 * x / tot)}%)</span></td>`).join('')}<td>${peso(tot)}</td></tr>`; }).join('')}</table>
-<h3>Each system's own return, year by year</h3>
+<h3>Each strategy's own return, year by year</h3>
 <table><tr><th>Year</th>${SYSN.map((n) => `<th>${n}</th>`).join('')}</tr>${yrSys.map((y) => `<tr><td><b>${y.y}${y.part ? ' (to ' + endL + ')' : ''}</b></td>${y.r.map((r) => `<td class="${cls(r)}">${pct0(r)}</td>`).join('')}</tr>`).join('')}</table>
-<div class="note"><b>What this means for you.</b> The system that holds the most money decides most of the pool's result. On ${endL}, System ${big + 1} held <b>${Math.round(100 * endS[big] / endTot)}%</b> of the pool, so the pool's months now look mostly like that system's months.${ex ? ` For example, in ${mName(ex.m)} System ${gain + 1} gained <b class="pos">${pct0(ex.r[gain])}</b>, but it held only ${Math.round(100 * ex.share[gain])}% of the money. System ${big + 1}, holding ${Math.round(100 * ex.share[big])}%, had a <b class="${cls(ex.r[big])}">${pct0(ex.r[big])}</b> month, and the pool ended the month <b class="neg">${pct(ex.m.ret)}</b>.` : ''} A system that falls behind still keeps trading. It re-invests its own result, and a strong run lets it catch up again.</div>`);
+<div class="note"><b>What this means for you.</b> The strategy that holds the most money decides most of the pool's result. On ${endL}, Strategy ${big + 1} held <b>${Math.round(100 * endS[big] / endTot)}%</b> of the pool, so the pool's months now look mostly like that strategy's months.${ex ? ` For example, in ${mName(ex.m)} Strategy ${gain + 1} gained <b class="pos">${pct0(ex.r[gain])}</b>, but it held only ${Math.round(100 * ex.share[gain])}% of the money. Strategy ${big + 1}, holding ${Math.round(100 * ex.share[big])}%, had a <b class="${cls(ex.r[big])}">${pct0(ex.r[big])}</b> month, and the pool ended the month <b class="neg">${pct(ex.m.ret)}</b>.` : ''} A strategy that falls behind still keeps trading. It re-invests its own result, and a strong run lets it catch up again.</div>`);
 
 // 11 method
 page(`<h2>How these numbers were made, and what they leave out</h2>
 <div class="card"><b style="font-size:13px">Method</b>
 <ul style="margin:6px 0 0;padding-left:18px">
-<li><b>The trades.</b> The trading rules of the three systems exactly as they run today, unchanged, replayed on stored 4-hour price candles for ${NUMW[nCoins] || nCoins} liquid markets from 2020 to ${endL}. Markets that started trading later join the test from their first day. Exchange fees, slippage and funding charges are already inside every trade's result.</li>
-<li><b>The money.</b> The ₱1,000 is split once, at the start: half to the first system, a quarter to each of the other two. Each system then compounds on its own; money is never moved between systems, so the split drifts as they grow at different speeds. Each trade puts 2.5% of its own system's balance at risk when it opens, and the profit or loss is booked when the trade closes. Trades from all markets share the system's balance, and are processed in time order.</li>
+<li><b>The trades.</b> The trading rules of the three strategies exactly as they run today, unchanged, replayed on stored 4-hour price candles for ${NUMW[nCoins] || nCoins} liquid markets from 2020 to ${endL}. Markets that started trading later join the test from their first day. Exchange fees, slippage and funding charges are already inside every trade's result.</li>
+<li><b>The money.</b> The ₱1,000 is split once, at the start: half to the first strategy, a quarter to each of the other two. Each strategy then compounds on its own; money is never moved between strategies, so the split drifts as they grow at different speeds. Each trade puts 2.5% of its own strategy's balance at risk when it opens, and the profit or loss is booked when the trade closes. Trades from all markets share the strategy's balance, and are processed in time order.</li>
 <li><b>The fee.</b> 20% of profit above the investor's best level so far, taken at the end of every even month, and on the last day of data for the last partial month. A loss means no fee, and the best level only moves up.</li>
 <li><b>Calendar.</b> A month counts the trades that closed in it. Year tables use a calendar year and carry the balance over. Trades still open at the end of the data are not counted.</li>
 </ul></div>
@@ -247,8 +247,8 @@ page(`<h2>How these numbers were made, and what they leave out</h2>
 <li><b>No ceiling on trade size.</b> The test lets each trade grow with the balance. In real trading a cap on how much is risked per trade, and the room that the markets have to take larger orders, would slow growth once the balance is large. The big late-year pesos here would not be reached in the same way.</li>
 <li><b>Small accounts.</b> Exchanges sell whole contracts. A ₱1,000 slice of the pool is not traded on its own; it buys part of one pool. The pool's early trades would have been lumpier than shown.</li>
 <li><b>Trades open together.</b> Several trades can be open at once and are sized from the same balance, so a real run can fall a little further than shown.</li>
-<li><b>Late or skipped trades.</b> Trades the live system skips because margin is short, or enters late, are not modelled.</li>
-<li><b>Three systems, one story.</b> A few giant winning trades carry a large part of the result. Take them out and the totals look much smaller.</li>
+<li><b>Late or skipped trades.</b> Trades the live strategy skips because margin is short, or enters late, are not modelled.</li>
+<li><b>Three strategies, one story.</b> A few giant winning trades carry a large part of the result. Take them out and the totals look much smaller.</li>
 </ul></div>
 <h3>The same trades, two ways to read the years</h3>
 <div class="two">
