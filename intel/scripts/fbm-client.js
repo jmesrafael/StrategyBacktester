@@ -61,7 +61,7 @@ async function chat({ messages, maxTokens = 900, temperature = 0.2, timeoutMs = 
         tried.push({ round, model: main, used, status: r.status, ms: Date.now() - t0, ok: !!text });
         const why = (!r.ok || !text) ? ' ' + String((j && j.error && (j.error.message || JSON.stringify(j.error))) || (j && j.choices && j.choices[0] && JSON.stringify({ finish: j.choices[0].finish_reason, reasoning: !!(j.choices[0].message || {}).reasoning })) || raw).replace(/\s+/g, ' ').slice(0, 140) : '';
         log(`round ${round} ${main}: HTTP ${r.status} ${((Date.now() - t0) / 1000).toFixed(1)}s ${text ? 'ok (' + used + ')' : 'no text'}${why}`);
-        if (r.status === 400) throw Object.assign(new Error('request rejected (HTTP 400):' + why), { fatal: true });   // a bad request fails on every model: stop, do not burn quota
+        if (r.status === 400 && !/reasoning/i.test(why)) throw Object.assign(new Error('request rejected (HTTP 400):' + why), { fatal: true });   // a bad request fails on every model: stop, do not burn quota
         if (r.ok && text) return { text, model: used, account: r.headers.get('x-freeapibyme-account'), tried };
         if (r.status === 503) await sleep(3000);          // no account free right now: give the cooldowns a moment
       } catch (e) {
