@@ -1,0 +1,22 @@
+{
+  "as_of": "2026-11-17 01:00 UTC (ledger: bot_events entries + wallet_snapshots)",
+  "note": "Open live shorts. stop = bot's current stop where known (T-CORE trail state); null = not in the ledger snapshot.",
+  "positions": [
+    { "bot": "BB-Core", "coin": "SOL",  "qty": 1.6,    "entry": 86.48,    "stop": null },
+    { "bot": "BB-Core", "coin": "ADA",  "qty": 620,    "entry": 0.1632,   "stop": null },
+    { "bot": "BB-Core", "coin": "NEAR", "qty": 31,     "entry": 3.218,    "stop": null },
+    { "bot": "BB-Core", "coin": "GALA", "qty": 112280, "entry": 0.001386, "stop": null },
+    { "bot": "BB-Core", "coin": "ARB",  "qty": 573,    "entry": 0.13149,  "stop": null },
+    { "bot": "BB-Core", "coin": "ZEC",  "qty": 0.09,   "entry": 903.84,   "stop": null },
+    { "bot": "T-CORE",  "coin": "ZEC",  "qty": 0.03,   "entry": 1210.98,  "stop": 1301.36 },
+    { "bot": "T-CORE",  "coin": "ADA",  "qty": 325,    "entry": 0.1684,   "stop": 0.1766 },
+    { "bot": "T-CORE",  "coin": "ETH",  "qty": 0.04,   "entry": 1933.43,  "stop": 2010.92 },
+    { "bot": "T-CORE",  "coin": "SUI",  "qty": 66,     "entry": 0.7949,   "stop": 0.8344 },
+    { "bot": "T-CORE",  "coin": "NEAR", "qty": 12,     "entry": 3.637,    "stop": 3.838 },
+    { "bot": "T-CORE",  "coin": "GALA", "qty": 54530,  "entry": 0.001387, "stop": 0.001466 },
+    { "bot": "T-CORE",  "coin": "ARB",  "qty": 419,    "entry": 0.13149,  "stop": 0.14201 },
+    { "bot": "I-CORE",  "coin": "SOL",  "qty": 0.4,    "entry": 99.79,    "stop": null },
+    { "bot": "I-CORE",  "coin": "ADA",  "qty": 95,     "entry": 0.1819,   "stop": null },
+    { "bot": "I-CORE",  "coin": "GALA", "qty": 10630,  "entry": 0.001674, "stop": null }
+  ]
+}

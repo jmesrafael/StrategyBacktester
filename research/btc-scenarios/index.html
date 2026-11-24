@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BTC Scenario Chart</title>
+<script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+<style>
+:root{
+  --bg:#f7f7f5; --card:#fff; --ink:#1c1c1a; --mute:#6b6b66; --line:#e3e2dc;
+  --up:#2f9e63; --down:#c8453b;
+  --A:#3b6fb6; --B:#d9822b; --C:#2f9e63; --D:#c8453b; --U:#8a5cc7;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#141413; --card:#1e1e1c; --ink:#ecebe6; --mute:#9a9992; --line:#33332f;
+  --A:#6a9be0; --B:#f0a050; --C:#4cc084; --D:#ec6a5f; --U:#b08ae8;}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif}
+main{max-width:1200px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:1.5rem;margin:0}
+h2{font-size:1.1rem;margin:28px 0 8px}
+.sub{color:var(--mute);margin:2px 0 14px;font-size:.9rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin:10px 0}
+#chart{height:520px;width:100%}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button{font:inherit;font-size:.88rem;padding:6px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+#status{font-size:.85rem;color:var(--mute)}
+.scen-desc{font-size:.92rem;margin-top:10px;min-height:44px}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th,td{text-align:right;padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}
+th{color:var(--mute);font-weight:600;font-size:.75rem;text-transform:uppercase}
+.tablewrap{overflow-x:auto}
+.pos{color:var(--up)} .neg{color:var(--down)} .stopped{font-weight:700;color:var(--down)}
+.grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.sc{border-left:5px solid var(--line)}
+.sc b{font-size:1.15rem}
+.small{font-size:.82rem;color:var(--mute)}
+input[type=range]{width:100%}
+.slidehead{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
+.big{font-size:1.4rem;font-weight:700}
+#err{display:none;background:#fde8e6;color:#7a1d16;padding:12px;border-radius:8px;margin:10px 0}
+</style>
+</head>
+<body>
+<main>
+  <h1>BTC scenario chart</h1>
+  <p class="sub">Real Binance USDT-M perp 4h candles. The colored lines are the four scenarios projected out 14 days from the last candle. Below the chart: what each scenario does to the 16 open bot shorts.</p>
+  <div id="err"></div>
+
+  <div class="card">
+    <div class="bar" id="btns"></div>
+    <div class="scen-desc" id="desc"></div>
+    <div id="chart"></div>
+    <div id="status">Loading…</div>
+  </div>
+
+  <h2>What each scenario does to the bot shorts</h2>
+  <div class="grid" id="cards"></div>
+  <p class="small">Each coin's move is projected from BTC using its beta to BTC over the last 90 days of 4h returns. A position is "stopped" if its projected price crosses its stop along the path (known for T-CORE only; BB-Core and I-CORE stops aren't in the ledger snapshot, so they are never stopped here). That understates the risk on those two.</p>
+
+  <h2>Try any BTC price</h2>
+  <div class="card">
+    <div class="slidehead">
+      <div>BTC at <span class="big" id="btcv"></span> <span class="small" id="btcchg"></span></div>
+      <div>Open P&amp;L on shorts: <span class="big" id="totv"></span></div>
+    </div>
+    <input type="range" id="slider" min="52000" max="82000" step="250">
+    <div class="tablewrap">
+      <table id="ptable"><thead><tr><th>Bot</th><th>Coin</th><th>Qty</th><th>Entry</th><th>Stop</th><th>Beta</th><th>Now</th><th>Projected</th><th>P&amp;L now</th><th>P&amp;L projected</th></tr></thead><tbody></tbody></table>
+    </div>
+    <p class="small">"Projected" is an instant move to that BTC price, not a path: no stop logic, except that a stop already crossed is shown as a stopped loss.</p>
+  </div>
+
+  <p class="small" id="foot"></p>
+</main>
+
+<script>
+(async function () {
+  const COINS = ['BTC','ETH','SOL','ADA','NEAR','GALA','ZEC','SUI','ARB'];
+  const DAY = 86400, STEP = 4 * 3600;
+
+  // Scenario anchors: [days from last candle, BTC price]. Day 0 = last close (added at runtime).
+  const SCEN = {
+    A: { name: 'A · Chop + sweep', w: '~45%', pts: [[1,66000],[2,63000],[3,61500],[5,65000],[7,67000],[9,63500],[11,66000],[14,65000]],
+         desc: 'Range $60–68K. One more probe of $60–62K takes the stops, then a bounce. Lower highs under $68K.' },
+    B: { name: 'B · Squeeze, rejected', w: '~30%', pts: [[2,68000],[4,70500],[6,72500],[8,69000],[11,65000],[14,63000]],
+         desc: 'Negative funding fuels a run to $72.5K, capped by the 200-day MA near $73K, then it rolls over. The dangerous one for shorts.' },
+    C: { name: 'C · Capitulation', w: '~15%', pts: [[1,62000],[3,60000],[5,57500],[7,59500],[10,58500],[14,61000]],
+         desc: '$62K breaks, then $60K, then a cascade into the $57.5K summer low, then a bounce. Best case for shorts.' },
+    D: { name: 'D · Reclaim and run', w: '~10%', pts: [[2,63000],[4,67000],[7,71000],[9,74000],[14,77000]],
+         desc: 'Daily close above $73K breaks the bear thesis and shorts squeeze. The loss case.' },
+  };
+  const LEVELS = [[73000,'200-day MA'],[68000,'200-week MA'],[62000,'weekend low'],[60000,'round number'],[57500,'summer low']];
+
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const err = m => { const e = document.getElementById('err'); e.style.display = 'block'; e.textContent = m; };
+
+  if (location.protocol === 'file:') {
+    err('This page loads its data with fetch(), which browsers block on file://. Open it with VS Code Live Server (right-click index.html → "Open with Live Server").');
+    return;
+  }
+  if (!window.LightweightCharts) { err('Chart library did not load (needs internet for unpkg.com).'); return; }
+
+  // ---- data: local library first, then top up with live Binance bars ----
+  const bars = {}; let liveOK = 0;
+  for (const c of COINS) {
+    const r = await fetch('data/' + c + '.json');
+    if (!r.ok) { err('Missing data/' + c + '.json. Run: node build-data.js'); return; }
+    bars[c] = (await r.json()).map(b => ({ time: b[0], open: b[1], high: b[2], low: b[3], close: b[4] }));
+  }
+  await Promise.all(COINS.map(async c => {
+    try {
+      const r = await fetch(`https://fapi.binance.com/fapi/v1/klines?symbol=${c}USDT&interval=4h&limit=60`);
+      if (!r.ok) return;
+      const live = (await r.json()).map(k => ({ time: k[0] / 1000, open: +k[1], high: +k[2], low: +k[3], close: +k[4] }));
+      const arr = bars[c], last = arr[arr.length - 1].time;
+      for (const b of live) {
+        if (b.time === last) arr[arr.length - 1] = b;          // refresh the last bar
+        else if (b.time > arr[arr.length - 1].time) arr.push(b); // append new bars (incl. the forming one)
+      }
+      liveOK++;
+    } catch (e) { /* offline: keep local data */ }
+  }));
+
+  const pos = await (await fetch('data/positions.json')).json();
+
+  // ---- beta of each coin to BTC (last 90 days of 4h log returns) ----
+  function beta(c) {
+    if (c === 'BTC') return 1;
+    const map = new Map(bars.BTC.map(b => [b.time, b.close]));
+    const pairs = [];
+    const a = bars[c].slice(-90 * 6 - 1);
+    for (let i = 1; i < a.length; i++) {
+      const b0 = map.get(a[i - 1].time), b1 = map.get(a[i].time);
+      if (b0 && b1) pairs.push([Math.log(b1 / b0), Math.log(a[i].close / a[i - 1].close)]);
+    }
+    const mx = pairs.reduce((s, p) => s + p[0], 0) / pairs.length;
+    const my = pairs.reduce((s, p) => s + p[1], 0) / pairs.length;
+    let cov = 0, vx = 0;
+    for (const [x, y] of pairs) { cov += (x - mx) * (y - my); vx += (x - mx) ** 2; }
+    return cov / vx;
+  }
+  const BETA = {}; COINS.forEach(c => BETA[c] = beta(c));
+  const now = c => bars[c][bars[c].length - 1].close;
+  const btc0 = now('BTC');
+  const t0 = bars.BTC[bars.BTC.length - 1].time;
+  const proj = (c, btcPrice) => now(c) * Math.pow(btcPrice / btc0, BETA[c]);
+
+  // ---- scenario paths on a 4h grid ----
+  function path(key) {
+    const anchors = [[0, btc0], ...SCEN[key].pts];
+    const out = [];
+    for (let i = 0; i < anchors.length - 1; i++) {
+      const [d0, p0] = anchors[i], [d1, p1] = anchors[i + 1];
+      const n = Math.round((d1 - d0) * 6);
+      for (let k = (i === 0 ? 0 : 1); k <= n; k++) {
+        out.push({ time: t0 + Math.round((d0 + (d1 - d0) * k / n) * DAY / STEP) * STEP, value: p0 + (p1 - p0) * k / n });
+      }
+    }
+    return out;
+  }
+  const PATHS = {}; Object.keys(SCEN).forEach(k => PATHS[k] = path(k));
+
+  // ---- run positions along a path ----
+  function runPath(key) {
+    const p = PATHS[key];
+    let total = 0, worst = Infinity, worstAt = null, stopped = [];
+    const state = pos.positions.map(x => ({ ...x, done: null }));
+    for (const pt of p) {
+      let open = 0;
+      for (const s of state) {
+        if (s.done !== null) { open += s.done; continue; }
+        const px = proj(s.coin, pt.value);
+        if (s.stop && px >= s.stop) { s.done = (s.entry - s.stop) * s.qty; stopped.push(s.bot + ' ' + s.coin); open += s.done; continue; }
+        open += (s.entry - px) * s.qty;
+      }
+      if (open < worst) { worst = open; worstAt = pt; }
+      total = open;
+    }
+    const maxBtc = Math.max(...p.map(x => x.value)), minBtc = Math.min(...p.map(x => x.value));
+    return { end: total, worst, worstAt, stopped, maxBtc, minBtc, endBtc: p[p.length - 1].value };
+  }
+
+  // ---- chart ----
+  const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+  const el = document.getElementById('chart');
+  const chart = LightweightCharts.createChart(el, {
+    autoSize: true,
+    layout: { background: { color: css('--card') }, textColor: css('--mute') },
+    grid: { vertLines: { color: css('--line') }, horzLines: { color: css('--line') } },
+    rightPriceScale: { borderColor: css('--line') },
+    timeScale: { borderColor: css('--line'), timeVisible: true, rightOffset: 4 },
+    crosshair: { mode: 0 },
+  });
+  const candles = chart.addCandlestickSeries({
+    upColor: css('--up'), downColor: css('--down'), wickUpColor: css('--up'), wickDownColor: css('--down'), borderVisible: false,
+  });
+  candles.setData(bars.BTC);
+  for (const [p, t] of LEVELS) candles.createPriceLine({ price: p, color: dark ? '#77756e' : '#9a988f', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: t });
+
+  const lines = {};
+  for (const k of Object.keys(SCEN)) {
+    lines[k] = chart.addLineSeries({ color: css('--' + k), lineWidth: 3, lineStyle: k === 'D' ? 1 : 0, priceLineVisible: false, lastValueVisible: true, title: k });
+    lines[k].setData(PATHS[k]);
+  }
+  const custom = chart.addLineSeries({ color: css('--U'), lineWidth: 2, lineStyle: 2, priceLineVisible: false, lastValueVisible: true, title: 'you' });
+
+  chart.timeScale().setVisibleRange({ from: t0 - 45 * DAY, to: t0 + 15 * DAY });
+
+  // ---- scenario buttons ----
+  const btns = document.getElementById('btns');
+  const desc = document.getElementById('desc');
+  const keys = ['ALL', ...Object.keys(SCEN)];
+  function select(sel) {
+    for (const k of Object.keys(SCEN)) lines[k].applyOptions({ visible: sel === 'ALL' || sel === k });
+    [...btns.children].forEach(b => b.classList.toggle('on', b.dataset.k === sel));
+    desc.innerHTML = sel === 'ALL'
+      ? 'All four paths. Weights are judgment, not model output: A ~45%, B ~30%, C ~15%, D ~10%.'
+      : `<b>${SCEN[sel].name}</b> (${SCEN[sel].w}): ${SCEN[sel].desc}`;
+  }
+  for (const k of keys) {
+    const b = document.createElement('button');
+    b.dataset.k = k;
+    b.innerHTML = k === 'ALL' ? 'All scenarios' : `<span class="dot" style="background:${css('--' + k)}"></span>${SCEN[k].name}`;
+    b.onclick = () => select(k);
+    btns.appendChild(b);
+  }
+  select('ALL');
+
+  // ---- formatting ----
+  const fp = v => v >= 1000 ? v.toLocaleString(undefined, { maximumFractionDigits: 0 }) : v >= 1 ? v.toFixed(3) : v >= 0.01 ? v.toFixed(4) : v.toFixed(6);
+  const fu = v => (v >= 0 ? '+$' : '−$') + Math.abs(v).toFixed(2);
+  const cls = v => v >= 0 ? 'pos' : 'neg';
+  const openNow = pos.positions.reduce((s, x) => s + (x.entry - now(x.coin)) * x.qty, 0);
+
+  // ---- scenario cards ----
+  const cards = document.getElementById('cards');
+  for (const k of Object.keys(SCEN)) {
+    const r = runPath(k);
+    const d = document.createElement('div');
+    d.className = 'card sc'; d.style.borderLeftColor = css('--' + k);
+    d.innerHTML = `<div style="color:${css('--' + k)};font-weight:700">${SCEN[k].name} <span class="small">${SCEN[k].w}</span></div>
+      <div class="small">BTC range on path $${fp(r.minBtc)} – $${fp(r.maxBtc)}, ends $${fp(r.endBtc)}</div>
+      <div style="margin-top:6px">P&amp;L at day 14: <b class="${cls(r.end)}">${fu(r.end)}</b> <span class="small">(now ${fu(openNow)})</span></div>
+      <div>Worst point: <b class="${cls(r.worst)}">${fu(r.worst)}</b> <span class="small">BTC $${fp(r.worstAt.value)}</span></div>
+      <div class="small" style="margin-top:4px">${r.stopped.length ? 'Stops hit: ' + r.stopped.join(', ') : 'No known stops hit'}</div>`;
+    cards.appendChild(d);
+  }
+
+  // ---- slider table ----
+  const slider = document.getElementById('slider');
+  slider.value = Math.round(btc0 / 250) * 250;
+  const tbody = document.querySelector('#ptable tbody');
+  function update() {
+    const b = +slider.value;
+    document.getElementById('btcv').textContent = '$' + fp(b);
+    const ch = (b / btc0 - 1) * 100;
+    document.getElementById('btcchg').textContent = (ch >= 0 ? '+' : '') + ch.toFixed(1) + '% vs now';
+    let tot = 0, rows = '';
+    for (const x of pos.positions) {
+      const n = now(x.coin), p = proj(x.coin, b);
+      const hit = x.stop && p >= x.stop;
+      const pl = hit ? (x.entry - x.stop) * x.qty : (x.entry - p) * x.qty;
+      const pn = (x.entry - n) * x.qty;
+      tot += pl;
+      rows += `<tr><td>${x.bot}</td><td>${x.coin}</td><td>${x.qty}</td><td>${fp(x.entry)}</td><td>${x.stop ? fp(x.stop) : '—'}</td><td>${BETA[x.coin].toFixed(2)}</td>
+        <td>${fp(n)}</td><td>${fp(p)}</td><td class="${cls(pn)}">${fu(pn)}</td>
+        <td class="${hit ? 'stopped' : cls(pl)}">${fu(pl)}${hit ? ' stopped' : ''}</td></tr>`;
+    }
+    tbody.innerHTML = rows;
+    const tv = document.getElementById('totv'); tv.textContent = fu(tot); tv.className = 'big ' + cls(tot);
+    custom.setData([{ time: t0, value: btc0 }, { time: t0 + 14 * DAY, value: b }]);
+  }
+  slider.oninput = update; update();
+
+  // ---- status ----
+  const lastT = new Date(t0 * 1000).toISOString().replace('T', ' ').slice(0, 16);
+  document.getElementById('status').textContent =
+    `BTC last 4h bar ${lastT} UTC · close $${fp(btc0)} · ` +
+    (liveOK ? `live Binance top-up OK for ${liveOK}/${COINS.length} coins` : 'offline: using local candle library only (run node build-data.js to refresh)');
+  document.getElementById('foot').textContent =
+    `Positions: ${pos.as_of}. Betas (90d): ` + COINS.filter(c => c !== 'BTC').map(c => `${c} ${BETA[c].toFixed(2)}`).join(', ') +
+    '. Scenario paths are illustrative, not forecasts. Not financial advice.';
+})();
+</script>
+</body>
+</html>

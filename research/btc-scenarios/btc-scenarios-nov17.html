@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BTC Scenarios Nov 17 – Dec 1</title>
+<style>
+:root{
+  --bg:#f7f7f5; --card:#ffffff; --ink:#1c1c1a; --mute:#6b6b66; --line:#e3e2dc;
+  --a:#3b6fb6; --b:#d9822b; --c:#2f9e63; --d:#c8453b; --warn:#fff4e0;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#141413; --card:#1e1e1c; --ink:#ecebe6; --mute:#9a9992; --line:#33332f;
+  --a:#6a9be0; --b:#f0a050; --c:#4cc084; --d:#ec6a5f; --warn:#2c2417;}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,Segoe UI,Roboto,sans-serif}
+main{max-width:980px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:1.7rem;margin:0 0 4px}
+h2{font-size:1.2rem;margin:36px 0 10px}
+.sub{color:var(--mute);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin:12px 0}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.kpi b{display:block;font-size:1.3rem}
+.kpi span{color:var(--mute);font-size:.85rem}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mute);font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.03em}
+.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:.78rem;font-weight:600;color:#fff}
+.A{background:var(--a)}.B{background:var(--b)}.C{background:var(--c)}.D{background:var(--d)}
+.scen{border-left:5px solid var(--line)}
+.scen.A{border-left-color:var(--a);background:var(--card)}
+.scen.B{border-left-color:var(--b);background:var(--card)}
+.scen.C{border-left-color:var(--c);background:var(--card)}
+.scen.D{border-left-color:var(--d);background:var(--card)}
+.scen h3{margin:0 0 4px;font-size:1.05rem}
+.scen ul{margin:6px 0 0;padding-left:18px}
+.warn{background:var(--warn);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:.92rem}
+svg{width:100%;height:auto;display:block}
+svg text{fill:var(--mute);font-size:11px;font-family:inherit}
+.small{font-size:.85rem;color:var(--mute)}
+.step{display:flex;gap:12px;margin:10px 0}
+.step .n{flex:0 0 28px;height:28px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:700;font-size:.85rem}
+</style>
+</head>
+<body>
+<main>
+<h1>BTC scenarios: this week and next</h1>
+<p class="sub">Written Nov 17, 2026 · horizon Nov 17 – Dec 1 · for the bot shorts on MEXC (BB-Core, T-CORE, I-CORE)</p>
+
+<div class="grid">
+  <div class="card kpi"><b>~$64–65K</b><span>BTC now (low was $62K on Sat Nov 14–15)</span></div>
+  <div class="card kpi"><b>6 red weeks</b><span>in a row; 200-day MA (~$73K) lost</span></div>
+  <div class="card kpi"><b>−$2.35B</b><span>US spot ETF outflows over two weeks</span></div>
+  <div class="card kpi"><b>+$97.5 (~14%)</b><span>unrealized on 17 open bot shorts (ledger, 01:00 UTC)</span></div>
+</div>
+
+<h2>1. The short answer</h2>
+<div class="card">
+  <p><b>Too early to call a sustained rally.</b> Only the first liquidity pool ($62K) has been swept. Price needs a daily close above ~$68–70K and ETF flows turning positive before the trend argument flips. The most likely path is a range of $60–68K with one more probe of $60–62K. The biggest risk to the shorts is a <b>fast relief squeeze</b>, because funding is negative and shorts are crowded.</p>
+  <p class="small">Probabilities below are my own judgment from news and analyst commentary, not a model output. Treat them as rough weights.</p>
+</div>
+
+<h2>2. Four paths for the next two weeks</h2>
+<div class="card">
+<svg viewBox="0 0 820 380" role="img" aria-label="Four BTC price paths from 64.5K over 14 days with key levels">
+  <!-- level lines -->
+  <g stroke="currentColor" style="color:var(--line)" stroke-width="1">
+    <line x1="60" y1="65.7" x2="760" y2="65.7"/>
+    <line x1="60" y1="142" x2="760" y2="142"/>
+    <line x1="60" y1="233.5" x2="760" y2="233.5"/>
+    <line x1="60" y1="264" x2="760" y2="264"/>
+    <line x1="60" y1="302" x2="760" y2="302"/>
+  </g>
+  <text x="764" y="69">$73K 200-day MA</text>
+  <text x="764" y="146">$68K 200-week</text>
+  <text x="764" y="237">$62K weekend low</text>
+  <text x="764" y="268">$60K round</text>
+  <text x="764" y="306">$57.5K summer low</text>
+  <!-- x axis labels -->
+  <text x="52" y="362">Nov 17</text><text x="205" y="362">Nov 20</text><text x="355" y="362">Nov 24</text><text x="505" y="362">Nov 27</text><text x="720" y="362">Dec 1</text>
+  <!-- A chop + sweep -->
+  <polyline fill="none" stroke="var(--a)" stroke-width="2.5" points="60,195 110,173 160,218 210,241 310,188 410,157 510,211 610,173 760,188"/>
+  <text x="212" y="256" style="fill:var(--a);font-weight:700">A sweep $61.5K</text>
+  <!-- B squeeze rejected -->
+  <polyline fill="none" stroke="var(--b)" stroke-width="2.5" stroke-dasharray="7 4" points="60,195 160,142 260,104 360,73 460,127 610,188 760,218"/>
+  <text x="318" y="64" style="fill:var(--b);font-weight:700">B squeeze, rejected</text>
+  <!-- C capitulation -->
+  <polyline fill="none" stroke="var(--c)" stroke-width="2.5" points="60,195 110,233 210,264 310,302 410,272 560,287 760,249"/>
+  <text x="312" y="320" style="fill:var(--c);font-weight:700">C capitulation $57.5K</text>
+  <!-- D V reversal -->
+  <polyline fill="none" stroke="var(--d)" stroke-width="2.5" stroke-dasharray="2 4" points="60,195 160,218 260,157 410,96 510,50 760,28"/>
+  <text x="520" y="42" style="fill:var(--d);font-weight:700">D reclaim and run</text>
+  <circle cx="60" cy="195" r="4" fill="var(--ink)"/>
+</svg>
+<p class="small">Illustrative paths, not forecasts of exact prices.</p>
+</div>
+
+<div class="card scen A">
+  <h3><span class="tag A">A</span> Chop with one more sweep &nbsp;·&nbsp; ~45%</h3>
+  <ul>
+    <li>Range $60–68K. A probe of $60–62K to take stops and liquidations, then a bounce. Several analysts expect $62–67.7K this week.</li>
+    <li><b>Shorts:</b> mostly flat to slightly better. Open profit holds. Good window to take partial profit near $60–62K.</li>
+    <li><b>Signal:</b> lower highs under $68K, ETF flows still negative.</li>
+  </ul>
+</div>
+<div class="card scen B">
+  <h3><span class="tag B">B</span> Relief squeeze, then rejection &nbsp;·&nbsp; ~30%</h3>
+  <ul>
+    <li>Negative funding after a $1.64B flush fuels a run to $68–72K. The 200-day MA near $73K caps it, and price rolls over again.</li>
+    <li><b>Shorts:</b> the dangerous one. Alts can bounce 10–15%, and untrailed stops would hand back much of the open profit (see section 4).</li>
+    <li><b>Signal:</b> daily close above $68K with rising ETF inflows.</li>
+  </ul>
+</div>
+<div class="card scen C">
+  <h3><span class="tag C">C</span> Capitulation to the summer low &nbsp;·&nbsp; ~15%</h3>
+  <ul>
+    <li>$62K breaks on a daily close, then $60K, then $57.5K with a final liquidation cascade. The macro and flow headwinds (IPO cash demand, outflows) keep pressing.</li>
+    <li><b>Shorts:</b> best case. This is where the largest gains show up, and also where a reversal is most violent. Don't hold everything into the low.</li>
+    <li><b>Signal:</b> daily close below $62K, volume spike, funding flipping extreme.</li>
+  </ul>
+</div>
+<div class="card scen D">
+  <h3><span class="tag D">D</span> Reclaim and run &nbsp;·&nbsp; ~10%</h3>
+  <ul>
+    <li>BTC reclaims $73K, the 200-day MA, on strong flows or a macro catalyst. The bear thesis is broken and shorts squeeze toward $76–82K.</li>
+    <li><b>Shorts:</b> the loss scenario. This is the one the stops exist for.</li>
+    <li><b>Signal:</b> daily close above $73K.</li>
+  </ul>
+</div>
+
+<h2>3. What "ideal" looks like for your shorts</h2>
+<div class="card">
+  <div class="step"><div class="n">1</div><div><b>Bank some profit at the liquidity targets.</b> Take a third to a half at $60–62K, where the stops being swept create the best fill. Don't plan on selling the exact $57.5K low.</div></div>
+  <div class="step"><div class="n">2</div><div><b>Stop the winners from round-tripping.</b> The T-CORE trails haven't moved, so the stop is still at the original level. Locking +1R on the five big winners (table below) turns an open gain into a protected one. Backtest this before changing live settings.</div></div>
+  <div class="step"><div class="n">3</div><div><b>Treat 17 shorts as one position.</b> Same direction, same trigger. Do not add new shorts after a flush into support. Wait for a bounce to $67–68K, the better risk/reward.</div></div>
+  <div class="step"><div class="n">4</div><div><b>Hard exit rule.</b> A daily close above $68K means cut size. A daily close above $73K means exit the rest.</div></div>
+</div>
+
+<h2>4. T-CORE: where a +1R lock would sit</h2>
+<div class="card">
+<table>
+  <tr><th>Coin</th><th>Entry</th><th>Price (00:00 UTC)</th><th>Current R</th><th>Original stop</th><th>+1R lock stop</th></tr>
+  <tr><td>ZEC</td><td>1210.98</td><td>904</td><td>~3.4R</td><td>1301.36</td><td><b>1120.6</b></td></tr>
+  <tr><td>NEAR</td><td>3.637</td><td>3.16</td><td>~2.4R</td><td>3.838</td><td><b>3.436</b></td></tr>
+  <tr><td>SUI</td><td>0.7949</td><td>0.7196</td><td>~1.9R</td><td>0.8344</td><td><b>0.7554</b></td></tr>
+  <tr><td>ADA</td><td>0.1684</td><td>0.153</td><td>~1.9R</td><td>0.1766</td><td><b>0.1602</b></td></tr>
+  <tr><td>ETH</td><td>1933.43</td><td>1820.4</td><td>~1.5R</td><td>2010.92</td><td><b>1855.9</b></td></tr>
+  <tr><td>GALA, ARB</td><td colspan="5">Current profit is under 1R (about 0.2R and 0R). A +1R lock would sit below the price, so it can't be set.</td></tr>
+</table>
+<p class="small">R = distance from entry to original stop. These are suggested levels only. Nothing was changed on the bots.</p>
+</div>
+
+<h2>5. Trigger map</h2>
+<div class="card">
+<table>
+  <tr><th>BTC does this</th><th>Meaning</th><th>Action for shorts</th></tr>
+  <tr><td>Daily close below $62K</td><td>Path C opens ($60K, $57.5K)</td><td>Take partial profit at $60K; trail the rest</td></tr>
+  <tr><td>Holds $62K and prints higher lows</td><td>Base forming (A, then B)</td><td>Lock +1R stops; don't add</td></tr>
+  <tr><td>Daily close above $68K</td><td>Squeeze underway (B)</td><td>Cut size by about half</td></tr>
+  <tr><td>Rejection at $70–73K</td><td>B fails, shorts back in favor</td><td>Re-add only with a tight stop</td></tr>
+  <tr><td>Daily close above $73K</td><td>Trend flip (D)</td><td>Exit the rest</td></tr>
+</table>
+</div>
+
+<h2>6. Watch list</h2>
+<div class="card">
+  <ul>
+    <li><b>US spot ETF daily flows.</b> The two-week −$2.35B outflow needs to reverse for any real rally.</li>
+    <li><b>Stablecoin supply.</b> Five weeks of contraction means less buying power.</li>
+    <li><b>Nvidia earnings (Nov 17)</b> and general equity risk appetite.</li>
+    <li><b>Anthropic IPO headlines.</b> Linked by some analysts to cash raising.</li>
+    <li><b>Funding rate and short liquidation clusters.</b> Check Coinglass for the current heatmap; I couldn't pull it.</li>
+  </ul>
+</div>
+
+<div class="warn">
+  <b>Caveats.</b> Market levels come from news and analyst write-ups and vary by source. The scenario weights are my judgment. Bot numbers come from the ledger database at about 01:00 UTC on Nov 17, and per-position profit is estimated from the last heartbeat price. Heartbeat prices for alts are not the same instrument as BTC, so the BTC triggers are a guide, not a guarantee of how each alt moves. This is analysis, not financial advice, and live-bot changes are your decision.
+</div>
+</main>
+</body>
+</html>
