@@ -134,7 +134,7 @@ const f = (v, d = 0) => (v >= 0 ? '+' : '') + v.toFixed(d), pc = (v) => (v * 100
 const out = { generated: '2026-11-13', bots: {} };
 
 // used as a library by search.js / build-report.js: stop here when required
-if (require.main !== module) { module.exports = { load, tradesOf, signalsOf, measure, LINEUP, BASE, MONTHS, START, END, SPLIT, KX }; return; }
+if (require.main !== module) { module.exports = { loadCut, bbSig, ichiSig, btcReg, FEE, SLIP, IV, load, tradesOf, signalsOf, measure, LINEUP, BASE, MONTHS, START, END, SPLIT, KX }; return; }
 
 // ============ 1. weaknesses of the bots as they run today
 console.log('================ WEAKNESSES (live rules, live coins) ================');
