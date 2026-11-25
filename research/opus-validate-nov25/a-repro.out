@@ -1,0 +1,31 @@
+SOL: candles 13571 sim 13571  max |ADX diff| 4.97e-14  max |II diff| 6.94e-15
+ZEC: candles 14902 sim 14902  max |ADX diff| 5.68e-14  max |II diff| 6.55e-15
+NEAR: candles 13384 sim 13384  max |ADX diff| 4.26e-14  max |II diff| 2.60e-15
+ADA: candles 14932 sim 14932  max |ADX diff| 5.68e-14  max |II diff| 1.86e-15
+GALA: candles 11358 sim 11358  max |ADX diff| 4.97e-14  max |II diff| 2.96e-15
+ARB: candles 8049 sim 8049  max |ADX diff| 4.26e-14  max |II diff| 3.22e-15
+
+Per bot, 2020 to Nov 24 2026 (trades exiting after 2020-01-01), unweighted
+BB live                                    n  1708 R   +707.5 DDc   27.2 DDo   45.4 avgW 1.000 R/DDo 15.60
+BB II-short only                           n  1623 R   +683.1 DDc   25.6 DDo   32.2 avgW 1.000 R/DDo 21.25
+BB ADX>27 half only                        n  1708 R   +708.2 DDc   28.3 DDo   34.7 avgW 0.874 R/DDo 20.40
+BB tweak 1.00x                             n  1623 R   +677.4 DDc   25.3 DDo   31.4 avgW 0.870 R/DDo 21.60
+BB tweak 1.05x                             n  1623 R   +711.3 DDc   26.5 DDo   32.9 avgW 0.913 R/DDo 21.60
+BB tweak 1.15x                             n  1623 R   +779.0 DDc   29.0 DDo   36.1 avgW 1.000 R/DDo 21.60
+I-CORE                                     n   816 R   +806.1 DDc   27.6 DDo   89.4 avgW 1.000 R/DDo 9.01
+T-CORE 14                                  n  1150 R  +1105.0 DDc   30.9 DDo  148.2 avgW 1.000 R/DDo 7.46
+T-CORE 12                                  n  1220 R  +1197.5 DDc   28.5 DDo  157.4 avgW 1.000 R/DDo 7.61
+
+TRI-CORE weighted
+Current                                    n  3674 R   +831.5 DDc   21.9 DDo   65.7 avgW 0.366 R/DDo 12.66
++ II short filter                          n  3589 R   +819.3 DDc   21.7 DDo   64.0 avgW 0.363 R/DDo 12.80
++ ADX half                                 n  3674 R   +831.9 DDc   19.9 DDo   65.1 avgW 0.337 R/DDo 12.79
++ both (1.00x)                             n  3589 R   +816.5 DDc   20.0 DDo   63.4 avgW 0.334 R/DDo 12.88
++ both 1.05x                               n  3589 R   +833.4 DDc   20.5 DDo   63.8 avgW 0.343 R/DDo 13.07
+Current + T12 only                         n  3744 R   +854.6 DDc   22.4 DDo   68.0 avgW 0.364 R/DDo 12.57
+NEW (both 1.05x + T12)                     n  3659 R   +856.5 DDc   21.0 DDo   66.1 avgW 0.342 R/DDo 12.97
+both 1.00x + T12                           n  3659 R   +839.6 DDc   20.5 DDo   65.7 avgW 0.332 R/DDo 12.78
+
+BB New average risk multiplier per trade 0.913
+Current, BB risk x avgW(New)               n  3674 R   +800.8 DDc   20.8 DDo   64.8 avgW 0.346 R/DDo 12.35
+Current, BB risk x avgW, T12               n  3744 R   +823.9 DDc   21.3 DDo   67.1 avgW 0.344 R/DDo 12.28

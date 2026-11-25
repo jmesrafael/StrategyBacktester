@@ -1,0 +1,8 @@
+| Account | Half-risk trades | skipped (1 contract > 1.5x half target) | of them would be taken at full risk | real risk / intended, half trades (median, range) | real risk / intended, full trades (median) | half trades whose real risk >= 0.75 of full target |
+|---|---|---|---|---|---|---|
+| PHP 1,000 total (BB base $8.6, 2.5%) | 134 | 49 (37%) | 12 | 1.00 (0.68 to 1.43) | 1.00 | 0 (0%) |
+| $394 total, Nov 10 live (BB base $197, 2.5%) | 134 | 0 (0%) | 0 | 1.00 (0.84 to 1.32) | 1.00 | 0 (0%) |
+| $1,000 total (BB base $500, 2%) | 134 | 0 (0%) | 0 | 1.00 (0.88 to 1.12) | 1.00 | 0 (0%) |
+| $4,000 total (BB base $2,000, 1.5%) | 134 | 0 (0%) | 0 | 1.00 (0.96 to 1.03) | 1.00 | 0 (0%) |
+| Total (4 account sizes) | 536 | 49 | 12 | - | - | - |
+BB trades in the window: 540; half-risk share 24.8%

@@ -4,7 +4,8 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 
 
 ## .
-- HOME-TODO-VPS-AND-PC.md — HOME TODO — everything not applied yet (VPS, Vercel, PC) (2026-11-17)
+- BBCORE-V4-INSTALL-WHEN-HOME.md — HOME: put the new BB-Core rules (v4, 1.05x) on the VPS (2026-11-25)
+- HOME-TODO-VPS-AND-PC.md — HOME TODO — everything not applied yet (VPS, Vercel, PC) (2026-11-25)
 - INFRASTRUCTURE-PLAN.md — Research and risk infrastructure: audit, architecture and phased plan (2026-11-16)
 
 ## LEDGER
@@ -70,6 +71,48 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - TRADING_MATH.txt — THE MATHEMATICS NEEDED FOR TRADING (2026-11-03)
 - TRADING_SURVIVAL_EDGE.txt — TRADING MATHEMATICS — SURVIVAL, RISK & EDGE (2026-11-03)
 
+## _old-copies/bb-core-1h
+- HOME-VPS-INSTRUCTIONS.md — bb-core 1h paper bot: VPS instructions for later (2026-11-06)
+- README-1H.md — bb-core 1h, PAPER ONLY (2026-11-06)
+- VPS-1H-PAPER.md — Putting the 1h paper bot on the VPS (2026-11-06)
+- bot-config.json — bot-config.json (2026-11-06)
+
+## _old-copies/bb-trail
+- HANDOFF-HOME.md — HANDOFF: install the BB-Trail paper lab (for Claude Code, from home) (2026-11-06)
+- LIVE-READINESS-TCORE.md — T-CORE: path from paper to live (plan only, nothing here enables live) (2026-11-06)
+- README-TRAIL.md — BB-Trail paper lab (2026-11-06)
+- T-CORE-INSTALL-WHEN-HOME.md — T-CORE paper lab: install on the VPS (prepared Nov 6, 2026, to run when the owner is home) (2026-11-06)
+- VPS-TRAIL-INSTALL.md — BB-Trail paper lab on the VPS (2026-11-06)
+- VPS-TRAIL-INSTALL.template.md — BB-Trail paper lab on the VPS (2026-11-06)
+- bot-config.json — bot-config.json (2026-11-06)
+
+## _old-copies/ledger-monthly-proposed/artifacts/live-suite
+- spec.log — ✔ AR1 a deposit shows the pesos put in, nothing else: +₱5,000 (no conversion in the transactions) (1.1905ms) (2026-11-24)
+- stderr.log — stderr.log (2026-11-24)
+- summary.json — summary.json (2026-11-24)
+
+## _old-copies/ledger-monthly-proposed/artifacts/package
+- spec.log — ✔ A1 backfill, login changes and a new login (4470.7471ms) (2026-11-24)
+
+## _old-copies/ledger-monthly-proposed/docs
+- ACCOUNTING-DECISIONS-AND-EXCEPTIONS.md — Accounting decisions and exceptions (append-only log) (2026-11-24)
+- HOME-CHECKLIST.md — Home checklist: VPS watcher and Telegram (no secret is ever written in a file of the repository) (2026-11-24)
+- IMPLEMENTATION-CHANGELOG.md — Implementation changelog (append-only; newest last) (2026-11-24)
+- IMPLEMENTATION-REPORT.md — Monthly settlement with the 30-day fee rule: implementation report (2026-11-24)
+- INVESTOR-LIFECYCLE-SCENARIOS.md — Investor lifecycle scenario register (2026-11-24)
+- NAV-COVERAGE-INVESTIGATION.md — NAV coverage investigation (read-only, 2026-11-24) (2026-11-24)
+- OPERATIONS-AND-RECOVERY-RUNBOOK.md — Operations and recovery runbook (monthly settlement) (2026-11-24)
+- PROJECT-STATUS-AND-IMPLEMENTATION.md — Monthly settlement and the 30-day fee rule: master project record (2026-11-24)
+
+## _old-copies/ledger-monthly-proposed/integration
+- 9-first-attempt.log — calendar before boundary: {"o_state":"missed","o_end":"2026-09-30T16:00:00.000Z"} (2026-11-24)
+- README.md — Real-PostgreSQL integration tests for the proposed monthly settlement (2026-11-24)
+- full-run-10.log — 15:59 {"s":"missed","e":"2026-10-31T16:00:00.000Z","we":"2026-11-07T16:00:00.000Z","st":"before_monthly_start","r":"none"} (2026-11-24)
+- full-run-5-7-rerun.log — STATE {"label":"start","price":1.1,"ledger":1500,"pool":1500,"us":500,"ur":0,"vs":550,"vr":0,"hs":500,"hr":0,"pendingKept":50,"neg":0,"dLedgerPool":0} (2026-11-24)
+- full-run-5-7.log — == T5 (final run, loss scenario not producible) == (2026-11-24)
+- full-run-final.log — applied   20261225000000_monthly_foundation.sql (2026-11-24)
+- full-run.log — applied   20261225000000_monthly_foundation.sql (2026-11-24)
+
 ## archive-done
 - DONE-HANDOFF-HOME.md — DONE - HANDOFF: install the BB-Trail paper lab (for Claude Code, from home) (2026-11-12)
 - DONE-HOME-VPS-INSTRUCTIONS-1h.md — bb-core 1h paper bot: VPS instructions for later (2026-11-12)
@@ -93,6 +136,19 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - README-1H.md — bb-core 1h, PAPER ONLY (2026-11-12)
 - VPS-1H-PAPER.md — Putting the 1h paper bot on the VPS (2026-11-06)
 - bot-config.json — bot-config.json (2026-11-06)
+
+## bb-core-1h/dist
+- VPS-1H-PAPER.md — Putting the 1h paper bot on the VPS (2026-11-05)
+
+## bb-core-1h/journal
+- snapshots.jsonl — snapshots.jsonl (2026-11-05)
+- trades.jsonl — trades.jsonl (2026-11-05)
+
+## bb-core-1h/state
+- bot.log — [2026-11-05T08:19:53.611Z] started loop · PAPER · pid 8572 · coins SOL, ZEC, NEAR, ADA, GALA · risk 2.5% of balance/trade (steps $0+ 2.5%, $500+ 2%, $ (2026-11-05)
+- events.jsonl — events.jsonl (2026-11-05)
+- runs.jsonl — runs.jsonl (2026-11-05)
+- state.json — state.json (2026-11-05)
 
 ## bb-trail
 - LIVE-READINESS-TCORE.md — T-CORE: path from paper to live (plan only, nothing here enables live) (2026-11-12)
@@ -125,7 +181,7 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - BCH.json — BCH.json (2026-11-24)
 - BEL.json — BEL.json (2026-11-24)
 - BNB.json — BNB.json (2026-11-24)
-- BTC.json — BTC.json (2026-11-24)
+- BTC.json — BTC.json (2026-11-25)
 - C98.json — C98.json (2026-11-24)
 - CELO.json — CELO.json (2026-11-24)
 - CELR.json — CELR.json (2026-11-24)
@@ -143,7 +199,7 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - ENJ.json — ENJ.json (2026-11-24)
 - ENS.json — ENS.json (2026-11-24)
 - ETC.json — ETC.json (2026-11-24)
-- ETH.json — ETH.json (2026-11-24)
+- ETH.json — ETH.json (2026-11-25)
 - FIL.json — FIL.json (2026-11-24)
 - GALA.json — GALA.json (2026-11-24)
 - GRT.json — GRT.json (2026-11-24)
@@ -202,10 +258,10 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - ARB.json — ARB.json (2026-11-19)
 - AVAX.json — AVAX.json (2026-11-19)
 - BNB.json — BNB.json (2026-11-19)
-- BTC.json — BTC.json (2026-11-19)
+- BTC.json — BTC.json (2026-11-25)
 - DOGE.json — DOGE.json (2026-11-19)
 - DOT.json — DOT.json (2026-11-19)
-- ETH.json — ETH.json (2026-11-19)
+- ETH.json — ETH.json (2026-11-25)
 - GALA.json — GALA.json (2026-11-19)
 - LINK.json — LINK.json (2026-11-19)
 - NEAR.json — NEAR.json (2026-11-19)
@@ -234,7 +290,7 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - BCH.json — BCH.json (2026-11-24)
 - BEL.json — BEL.json (2026-11-24)
 - BNB.json — BNB.json (2026-11-24)
-- BTC.json — BTC.json (2026-11-24)
+- BTC.json — BTC.json (2026-11-25)
 - C98.json — C98.json (2026-11-24)
 - CELO.json — CELO.json (2026-11-24)
 - CELR.json — CELR.json (2026-11-24)
@@ -252,7 +308,7 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - ENJ.json — ENJ.json (2026-11-24)
 - ENS.json — ENS.json (2026-11-24)
 - ETC.json — ETC.json (2026-11-24)
-- ETH.json — ETH.json (2026-11-24)
+- ETH.json — ETH.json (2026-11-25)
 - FIL.json — FIL.json (2026-11-24)
 - GALA.json — GALA.json (2026-11-24)
 - GRT.json — GRT.json (2026-11-24)
@@ -307,7 +363,7 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - ZRX.json — ZRX.json (2026-11-24)
 
 ## candles/binance-futures
-- MANIFEST.json — MANIFEST.json (2026-11-24)
+- MANIFEST.json — MANIFEST.json (2026-11-25)
 
 ## candles
 - coins.json — coins.json (2026-11-16)
@@ -513,7 +569,15 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - bot-config.json — bot-config.json (2026-11-11)
 
 ## research
-- TESTED-STRATEGIES.md — Tested strategies: registry (read before testing anything new) (2026-11-24)
+- TESTED-STRATEGIES.md — Tested strategies: registry (read before testing anything new) (2026-11-25)
+
+## research/bb-book-nov25
+- BOOK-NOTES.md — Study notes: "Bollinger Bands, the methods" (bollinger_band.pdf), compared with BB-CORE (Nov 25, 2026) (2026-11-25)
+- PLAN.md — Can an idea from the book beat BB-CORE? Rules fixed before running (Nov 25, 2026) (2026-11-25)
+- REPORT.md — Can the Bollinger book beat BB-CORE? (Nov 25, 2026) (2026-11-25)
+- RESULTS.md — Results: book ideas against BB-CORE v3 (2026-11-25)
+- ROUND2.md — Round 2 (post-hoc): sizing ideas suggested by round 1 (2026-11-25)
+- results.json — results.json (2026-11-25)
 
 ## research/bb-core-v2
 - BIMONTHLY-2.5.md — Merged strategy, 2.5% risk compounding, % result of every 2-month block (MEXC, trades counted when they close; data to 21 Oct 2026) (2026-10-27)
@@ -665,6 +729,15 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 
 ## research/bb-core/targets
 - out-targets.txt — BB-Core fixed target sweep, time exit locked at 48 (held 49 candles). 5 coins, Binance 4h, real funding, costs in. (2026-11-03)
+
+## research/bb-tweak-nov25
+- COMPARE.md — Live bots and candidates, one basis (to Nov 24 2026) (2026-11-25)
+- REPORT.md — BB-CORE tweaks: more profit with a smaller drawdown? (Nov 25, 2026) (2026-11-25)
+- RESULTS.md — Results: tweaks to BB-CORE (candles to 2026-11-24, live coins SOL ZEC NEAR ADA GALA ARB) (2026-11-25)
+- VALIDATE.md — Validation of the two candidates (Nov 25, 2026) (2026-11-25)
+- YEARLY.md — Year by year, every version (2020 to Nov 24 2026; 6 live coins; fees, slippage, funding) (2026-11-25)
+- locked.json — locked.json (2026-11-25)
+- results.json — results.json (2026-11-25)
 
 ## research/big-swings
 - RESULTS-5coins-tuned.md — Frozen strategies on SOL · ZEC · NEAR · ADA · GALA — Binance USDT-M 4h, 2020 → Oct 2026 (2026-10-27)
@@ -866,8 +939,15 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - sweep.json — sweep.json (2026-11-12)
 
 ## research/news-lab
+- NEWS-TRADING-PDF-NOTES.md — Study notes: NEWS-TRADING-BY-infotrading.pdf (2026-11-25)
 - REPORT.md — News-layer backtest — TRI-CORE (BB-CORE, I-CORE, T-CORE) (2026-11-11)
 - results.json — results.json (2026-11-11)
+
+## research/news-reaction
+- PLAN.md — News reaction study: rules fixed before running (Nov 25, 2026) (2026-11-25)
+- REPORT.md — News reaction study (Nov 25, 2026) (2026-11-25)
+- RESULTS.md — News reaction study: raw results (2026-11-25)
+- results.json — results.json (2026-11-25)
 
 ## research/ny-smc-iterations
 - ITERATION-LOG.md — NY-session SMC strategy: iteration log (15m, SOL + ETH) (2026-10-21)
@@ -935,6 +1015,10 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - validation_C.json — validation_C.json (2026-10-19)
 - validation_C.md — Validation Check C — intrabar-ordering audit for v7 (2026-10-19)
 
+## research/opus-validate-nov25
+- REPORT.md — Independent validation of "New" TRI-CORE (Opus, Nov 25, 2026) (2026-11-25)
+- d-tswitch.json — d-tswitch.json (2026-11-25)
+
 ## research/orb-sol
 - REPORT.md — ORB (Opening Range Breakout) on SOL, 1h and 4h: live replay (Nov 12, 2026, CORRECTED) (2026-11-12)
 - compare-bots.txt — Window Oct 20 2020 - Nov 10 2026. R = risk units, each bot 1R per trade on its own coins. (2026-11-12)
@@ -972,6 +1056,16 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - events.json — events.json (2026-11-16)
 - results.json — results.json (2026-11-16)
 
+## research/replace-nov25
+- 2025-then.md — 2025: PHP 1,000 started 1 January, current TRI-CORE against New (2026-11-25)
+- 2025.md — 2025: PHP 1,000 started 1 January, current TRI-CORE against New (2026-11-25)
+- 2026-then.md — 2026: PHP 1,000 started 1 January, current TRI-CORE against New (2026-11-25)
+- 2026.md — 2026: PHP 1,000 started 1 January, current TRI-CORE against New (2026-11-25)
+- PLAN.md — Should BB tweak 1.05x and T-CORE trail 12 replace the live bots? Rules fixed before running (Nov 25, 2026) (2026-11-25)
+- REPORT.md — Replace the live bots with BB tweak / T-CORE trail 12? (Nov 25, 2026) (2026-11-25)
+- RESULTS.md — Results: replace the live bots? (candles to 2026-11-24) (2026-11-25)
+- TRICORE-7Y.md — Current TRI-CORE against New TRI-CORE (Jan 2020 to Nov 24 2026) (2026-11-25)
+
 ## research/sell-too-soon
 - giveback.md — From "gave back profit on a bounce": close now or hold? (2026-11-17)
 - results.md — T-CORE (SOL ZEC NEAR ADA GALA ETH SUI ARB) (2026-11-17)
@@ -979,6 +1073,11 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 ## research/settlement-frequency
 - RESULTS.md — How often should the Ledger settle? (Nov 15 2026) (2026-11-16)
 - freq.json — freq.json (2026-11-16)
+
+## research/situational-exits-nov24
+- random.json — random.json (2026-11-25)
+- results.md — Situational early / late closes (Nov 24 2026) (2026-11-25)
+- sim.json — sim.json (2026-11-25)
 
 ## research/sol-ny-smc
 - MANIFEST.json — MANIFEST.json (2026-10-19)
@@ -1113,6 +1212,10 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - top100.json — top100.json (2026-11-12)
 - trades.json — trades.json (2026-11-12)
 - universe.json — universe.json (2026-11-12)
+
+## trade-ids
+- README.md — Trade IDs (2026-11-24)
+- REGISTER.md — Live trade register (Oct 24 to Nov 24 2026, 43 trades; read from Supabase bot_events + closed_trades, nothing changed) (2026-11-24)
 
 ## vps-lab
 - VPS-LAB-INSTALL.md — Lab on the VPS: data recorder + 1h paper bot with real costs (2026-11-06)

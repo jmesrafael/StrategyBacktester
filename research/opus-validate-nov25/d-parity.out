@@ -1,0 +1,10 @@
+| Coin | Signals (500-candle check) | ADX>27 differs | II<0 differs | max ADX diff | max ATR rel diff | Signals with MEXC copy | ADX>27 differs (MEXC) | II<0 differs (MEXC) | of them short signals |
+| SOL | 345 | 0 | 0 | 4.7e-13 | 8.9e-16 | 339 | 6 (1.8%) | 27 (8.0%) | 19 of 183 |
+| ZEC | 366 | 0 | 0 | 4.3e-13 | 6.7e-16 | 334 | 4 (1.2%) | 49 (14.7%) | 29 of 188 |
+| NEAR | 310 | 0 | 0 | 7.2e-13 | 6.7e-16 | 307 | 5 (1.6%) | 37 (12.1%) | 25 of 171 |
+| ADA | 359 | 0 | 0 | 5.7e-13 | 6.7e-16 | 322 | 10 (3.1%) | 37 (11.5%) | 28 of 188 |
+| GALA | 274 | 0 | 0 | 6.9e-13 | 1.1e-15 | 268 | 4 (1.5%) | 36 (13.4%) | 27 of 176 |
+| ARB | 187 | 0 | 0 | 5.4e-13 | 6.7e-16 | 0 | 0 (-%) | 0 (-%) | 0 of 0 |
+| Total | 1841 | 0 | 0 | 7.2e-13 | 1.1e-15 | 1570 | 29 (1.8%) | 186 (11.8%) | 128 of 906 |
+signals with Binance ADX within 1 of 27: 93; |II| < 0.02: 236 (of 1841)
+MEXC vs Binance |ADX diff| median 0.35 p90 1.52 max 16.17; |II diff| median 0.032 p90 0.089; ATR rel diff median 2.11% p90 5.15%

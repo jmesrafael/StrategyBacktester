@@ -1,0 +1,110 @@
+{
+ "picks": [
+  {
+   "y": 2022,
+   "C": "(nothing qualified: today's rules)",
+   "D": "II(10)>0.05 half",
+   "passed": 0
+  },
+  {
+   "y": 2023,
+   "C": "time exit 48 + max 4 per direction",
+   "D": "II(21)>-0.05 half + time exit 48 + max 4 per direction",
+   "passed": 8
+  },
+  {
+   "y": 2024,
+   "C": "ADX>27 half",
+   "D": "II(21)>0 S only skip + ADX>27 half",
+   "passed": 3
+  },
+  {
+   "y": 2025,
+   "C": "(nothing qualified: today's rules)",
+   "D": "II(21)>0 S only skip",
+   "passed": 0
+  },
+  {
+   "y": 2026,
+   "C": "ADX>27 half + same-direction size 0.15",
+   "D": "II(21)>-0.05 half + ADX>27 half + same-direction size 0.15",
+   "passed": 9
+  }
+ ],
+ "versions": [
+  {
+   "id": "A",
+   "name": "BB-CORE today",
+   "cfg": {},
+   "k": 1
+  },
+  {
+   "id": "B",
+   "name": "Intensity filter alone",
+   "cfg": {
+    "ii": {
+     "len": 21,
+     "th": 0,
+     "lo": 0
+    }
+   },
+   "k": 1
+  },
+  {
+   "id": "C",
+   "name": "ADX>27 half (picked by the procedure)",
+   "cfg": {
+    "adx": {
+     "max": 27,
+     "lo": 0.5
+    }
+   },
+   "k": 1.1373626373626373
+  },
+  {
+   "id": "D",
+   "name": "II(21)>0 S only skip + ADX>27 half (best with Intensity)",
+   "cfg": {
+    "adx": {
+     "max": 27,
+     "lo": 0.5
+    },
+    "ii": {
+     "len": 21,
+     "th": 0,
+     "lo": 0,
+     "side": "S"
+    }
+   },
+   "k": 1.1451612903225807
+  },
+  {
+   "id": "C1",
+   "name": "C without raising risk (never above today's risk)",
+   "cfg": {
+    "adx": {
+     "max": 27,
+     "lo": 0.5
+    }
+   },
+   "k": 1
+  },
+  {
+   "id": "D1",
+   "name": "D without raising risk",
+   "cfg": {
+    "adx": {
+     "max": 27,
+     "lo": 0.5
+    },
+    "ii": {
+     "len": 21,
+     "th": 0,
+     "lo": 0,
+     "side": "S"
+    }
+   },
+   "k": 1
+  }
+ ]
+}

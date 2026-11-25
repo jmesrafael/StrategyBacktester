@@ -1,5 +1,7 @@
 # HOME TODO — everything not applied yet (VPS, Vercel, PC)
 
+> **NEXT (added Nov 25, 2026): put BB-Core rules v4 (1.05x) on the VPS.** Not done yet; BB-Core still runs v3. Follow **`BBCORE-V4-INSTALL-WHEN-HOME.md`** (6 steps, about 15 minutes). This is a planned change to the live `lucidio` bot, approved by the owner, so the "never reinstall a live bot" rule below does not apply to it.
+
 > **UPDATE Nov 16, 2026 (after the latest pull, commits up to `31adf78`)**
 > - **News Lab REMOVED (owner's order, Nov 16).** The paper bots `newsbb`, `newsic`, `newstc` were stopped and deleted from the VPS (services, `/opt/news*`, `/var/lib/news*`, `/etc/news*.env`, users). Backup: `/opt/backups/news-labs-20261116.tar.gz`. Their 205 dashboard rows were deleted and the News Lab tab is gone. **Do NOT run Part 1 or Part 2 below: they are history only.** The code in `news-gate/` and `news-lab-bots/` stays in the repo, untouched.
 > - **Rules v3 are LIVE on all three bots (Nov 14).** BB-CORE: bands 1.8, time exit 42 candles, 3-candle wait after a loss. I-CORE: first stop 1.75 ATR, stop to +1R once +4R ahead, ETH on. T-CORE: Bollinger 30, out if under +1R after 48 candles. **BNB was dropped** (never went live). Backup + rollback: `/opt/backups/pre-rules-v3-20261114`. The paper labs (`bbtrail`, `lucidio-1h`) still run the OLD rules on purpose.

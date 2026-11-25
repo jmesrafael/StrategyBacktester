@@ -1,0 +1,10 @@
+parity trail 14: mine 1150 engine 1150 different 0
+parity trail 12: mine 1220 engine 1220 different 0
+
+300 switch dates; dates with T-CORE trades open: 298; open trades total 1607
+open trades closed within 2 candles of the switch: 55 (3.4%)
+open trades that end worse after the switch: 170 (10.6%)
+R of the open trades: keep 14 total 13585.1  switch 14179.7  per date mean diff 1.98R  median diff 1.05  worst -10.9  best 17.3
+next 180 days R (unweighted, 8 coins): mean keep14 83.3  switch 91.1  pure12 89.0; switch beats keep14 on 239/300 dates
+to the end R: mean keep14 618.7  switch 660.3  pure12 658.2; switch beats keep14 on 274/300
+per-date effect on the trades open at the switch: {"< -10R":6,"-10..-3R":17,"-3..-0.01R":34,"about 0":21,"> 0":222}
