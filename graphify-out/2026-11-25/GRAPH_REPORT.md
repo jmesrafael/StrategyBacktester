@@ -1,13 +1,13 @@
 # Graph Report - StrategyBacktester  (2026-11-25)
 
 ## Corpus Check
-- 2334 files · ~2,476,547 words
+- 2335 files · ~2,477,395 words
 - Verdict: corpus is large enough that graph structure adds value.
-- Unclassified: 95 file(s) not represented in the graph (top: .csv 37, (none) 15, .service 11)
+- Unclassified: 96 file(s) not represented in the graph (top: .csv 37, (none) 15, .service 11)
 
 ## Summary
-- 15111 nodes · 21585 edges · 985 communities (831 shown, 154 thin omitted)
-- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 1404 edges (avg confidence: 0.86)
+- 15127 nodes · 21603 edges · 974 communities (822 shown, 152 thin omitted)
+- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 1405 edges (avg confidence: 0.86)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
@@ -104,7 +104,7 @@
 - yearly-reset-5v2.js
 - bb-trail/journal.js
 - backtest.js
-- ref_child_process
+- coin-lab-bots/build.js
 - sndk-live.js
 - review-2026-11-04.js
 - best4.js
@@ -206,7 +206,7 @@
 - stability.js
 - keyinfo.js
 - update.js
-- bb-tweak-nov25/compare.js
+- health/index.js
 - coin-walkforward/monthly.js
 - drive-pool.mjs
 - regime-history.js
@@ -229,7 +229,7 @@
 - journal-test.js
 - zec-replacement/deep.js
 - sim2.js
-- closed-trades.test.mjs
+- rehearse-cleanup.mjs
 - returns.test.mjs
 - recorder-test.js
 - bb-core v2 research — binance candles, costs x1, coins SOL ZEC NEAR ADA GALA
@@ -245,16 +245,16 @@
 - schema
 - w
 - landing-data-v2.mjs
-- ref_bb_core_lucidio_core_js
+- _remediation.mjs
 - no-target/lib.js
-- zec-replacement/deep.js
+- targets/sweep.js
 - allaspects.js
 - ema100.js
 - charts.js
 - rr4m.js
 - test-frozen.js
 - schema
-- eth-yearly/compare.js
+- pre2020.js
 - ETH on the three TRI-CORE bots — year by year
 - final2.js
 - export-dash.js
@@ -263,7 +263,7 @@
 - bb-trail/package.json
 - tiers.js
 - build_pdf.py
-- sw.js
+- yearly-compare.js
 - admin-report.js
 - contenders-2026.js
 - mexc-primary.js
@@ -284,12 +284,12 @@
 - c-robust.js
 - compound-peso-per-year.js
 - rank.js
-- bot-dashboard-revamp.test.mjs
+- store.js
 - coin-history-nov13/build-report.js
 - big-swings/report.js
 - big-swings/robust.js
 - robust2.js
-- mc-zec.js
+- f-bbonly.js
 - txt
 - bollinger/lib.js
 - deep.js
@@ -358,7 +358,7 @@
 - BB Breakout — what a LATE entry costs (SOL, ZEC)
 - long-history/yearly.js
 - split250-php.js
-- hwm.test.mjs
+- ref_node_fs
 - ny-smc-iterations/validate-app.js
 - ORB G vs Live Bots
 - orb-universe/validate.js
@@ -396,7 +396,7 @@
 - BB-CORE
 - UPGRADE GUIDE: BB-Core (no target) + I-Core Tandem
 - five-years.js
-- ref_node_fs
+- build-auto-settlement.mjs
 - six-2026.js
 - package.json
 - setup-supabase.mjs
@@ -465,10 +465,10 @@
 - v7 validation rules (pre-registered 2026-10-19, before any validation run — do not edit this section)
 - Validation Check C — intrabar-ordering audit for v7
 - ref_path
-- strat-hunt-nov6/analyze.js
+- Independent audit: 4h Bollinger breakout, SOL + ZEC (Lucid'io)
 - fvg-pullback-strategy.js
 - ny-smc-v7-strategy.js
-- last12.js
+- rr4.js
 - bbcore-core.js
 - install-coin-lab.sh
 - poolupdate.js
@@ -482,7 +482,7 @@
 - schema
 - Coins that do NOT suit BB Breakout 4h (1:4) — park these for other strategies
 - make-deploy.js
-- risk-fixes.test.mjs
+- ref_node_path
 - SOL + ZEC + BTC + NEAR + ADA — yearly and monthly (realistic fees + real funding, $5 risk, BB Breakout 4h 1:4)
 - v7 and BB Breakout per coin — yearly then monthly, targets 1:3 / 1:4 / 1:5
 - v7 and BB Breakout per coin — yearly then monthly, targets 1:3 / 1:4 / 1:5
@@ -523,7 +523,7 @@
 - 2026 on MEXC candles — bb-core vs EMA 20/100 vs merged (side by side, 1R each)
 - Per-coin results ($5 risked per trade; R = one risk unit)
 - yearstart-compound-peso.js
-- health: live against backtest
+- intel/README.md
 - usd
 - BB Breakout — is the backtest the same as live execution?
 - BB Breakout on MEXC — SOL / DOGE / ZEC, 4h
@@ -538,7 +538,7 @@
 - Validation Check B — random-entry control for v7
 - bb-tweak-nov25/engine.js
 - ORB Live-Replay Engine
-- ctx
+- newsgate-test.js
 - oos.js
 - 5th coin per bot (Nov 12, 2026)
 - shared-sizing-test.js
@@ -677,7 +677,7 @@
 - 2. TRI-CORE account configs, month by month (Jun 10 2023 - Nov 11 2026, the window of SUI-ARB.md section 5)
 - fetch-events.js
 - v7-years.js
-- _world.mjs
+- eth-vs-coins.js
 - 1. Year by year, each coin on each bot (R, full history)
 - ADA
 - ARB
@@ -687,7 +687,7 @@
 - SOL
 - SUI
 - extend-hold.test.mjs
-- pair-ex10.js
+- capped-b2.js
 - Coin lab bots (BB-CORE on ARB, T-CORE on SUI + ARB), PAPER ONLY
 - Monthly and yearly R: every coin on every bot, and the TRI-CORE account configs
 - coin-lab-bots/deploy/status.sh
@@ -716,7 +716,7 @@
 - integrity/manifest.json
 - Profit-cause simulation: what the recorder would have shown, Oct 24 to Nov 15 2026
 - market/manifest.json
-- api/data.js
+- rebalance.js
 - SUI, ARB, GRT, ONE, ENJ: every year on every bot (R / worst drop inside the year)
 - 2026 month by month: SUI / ARB against the six long-history coins (ENJ, ONE, GRT, KSM, UNI, ANKR)
 - no-target/validate.js
@@ -736,7 +736,7 @@
 - Daily journal and streaks
 - mexc/manifest.json
 - files
-- call
+- coin-lab-bots/test/run-original-suites.js
 - truthcheck.test.js
 - yearstart-deposit-peso.js
 - sndk-live.js
@@ -748,7 +748,7 @@
 - schema
 - split.cjs
 - live-before-after.js
-- mp
+- news-lab-bots/build.js
 - correlation/manifest.json
 - execution/manifest.json
 - schema
@@ -757,12 +757,12 @@
 - journal/manifest.json
 - regime/manifest.json
 - ledger-watch.yml
-- cnt
+- news-lab-bots/test/run-original-suites.js
 - schema
 - fetch-coin.js
 - monthly-year.js
 - rr4c.js
-- sim-check.mjs
+- st
 - ctx
 - capital-split/study.js
 - files
@@ -778,7 +778,7 @@
 - Implementation status (2026-11-16)
 - Correlation, contagion and lead-lag
 - Execution quality and capacity
-- streak-cause/monthly.js
+- backup: snapshots and restore
 - stress.js
 - Setting up the intelligence system on the home PC
 - long-history/screen.js
@@ -801,10 +801,10 @@
 - Strategy health (information only)
 - Market regime
 - w
-- Commands, all in one place
+- backtest/strategies.js
 - event-scan.js
 - Can an idea from the book beat BB-CORE? Rules fixed before running (Nov 25, 2026)
-- analyze-1h.js
+- js/icore-core.js
 - test-no-lookahead.js
 - replace-nov25/sim.js
 - matrix.json
@@ -840,10 +840,10 @@
 - FILES.md
 - Last run
 - Truth check: bot events against exchange records
-- test-fvg.js
+- bot-sync.test.mjs
 - sol-ny-smc/robust.js
 - Manual actions log, Nov 17-18, 2026 (for records)
-- Execution engine
+- news-lab.test.mjs
 - parity.js
 - contribution.js
 - Reverse engineering: "3M peso trend system" OKX screenshot (Nov 19 2026)
@@ -854,15 +854,15 @@
 - close-all-peak/sim.js
 - livefund.js
 - news-ai.js
-- rehearse-cleanup.mjs
+- ref_child_process
 - Admission spread: crediting pesos at a slightly higher rate, surplus stays the manager's
 - PHP contributions: pesos paid, USDT received, and the reference rate
 - app-binance-monthly.js
 - Year by year, every version (2020 to Nov 24 2026; 6 live coins; fees, slippage, funding)
 - Automatic two-month settlement
 - record-help.test.mjs
-- schema.js
-- Plan: monitoring profit and loss catalysts on the VPS (do this when home)
+- bot-symbols.test.mjs
+- events.test.js
 - event-add.js
 - Live NAV: the price follows MEXC, and your routine is four steps
 - Performance-fee policy: decision pack (owner decision; nothing is selected or applied)
@@ -894,7 +894,7 @@
 - d-tswitch.js
 - backtest-strategies.test.js
 - Least-privilege permission matrix (proposed)
-- settlement-workflow.test.mjs
+- rowsTable
 - yearRows
 - Close-all-when-open-profit-is-big (account level, 4h closes)
 - bb-tweak-nov25/compare.js
@@ -917,54 +917,44 @@
 - yearly-pesos.md
 - trade-ids/README.md
 - REGISTER.md
-- sync-icore-core.mjs
+- selfcheck
 - Free AI on the bot dashboard (through the FreeAPIByMe gateway): bot summary, news analysis and performance analysis
 - rebalance.test.mjs
 - capped-1h.js
 - Confirmed-gain performance fee (`fee_timing = 'confirmed'`)
 - regime.test.js
-- sync-tcore-core.mjs
-- bollinger/monthly.js
+- TASK FOR CLAUDE: finish the Intelligence System setup on the home PC
+- build-rollback-live-nav.mjs
 - BB-CORE tweaks: more profit with a smaller drawdown? (Nov 25, 2026)
-- analysis-check.mjs
-- concurrency.docker.mjs
+- bb-deep-risk.js
+- acct
 - tweak-lab-nov13/search.js
-- units-from-manager.test.mjs
+- trades
 - exp6.js
 - fromJournal
 - Rollback: how to undo each phase
 - Fable task: clean up the ledger accounting
 - fetchmexc.js
 - Live bots and candidates, one basis (to Nov 24 2026)
-- rank-ex10.js
+- matrend-core.js
 - zec-replacement/fetch.js
 - intel/README.md
-- f
 - orb-sol/analyze.js
 - dataq.js
 - orb-sol/sweep.js
-- ref_node_path
+- pool-update.test.mjs
 - walkforward.js
 - orb-sol/yearly.js
 - backup.js
 - Production verification audit (read-only), 2026-11-23
-- intel/run.js
-- load
-- dump-core-trades.js
 - Replace the live bots with BB tweak / T-CORE trail 12? (Nov 25, 2026)
-- growthCard
-- integrity: monitor and truth check
 - matrix2.js
 - Correlation engine
 - dailySeries
 - mean
 - pollOnce
 - events: event ledger, reactions, event study
-- validator: the rule gatekeeper
 - Should BB tweak 1.05x and T-CORE trail 12 replace the live bots? Rules fixed before running (Nov 25, 2026)
-- make-export.js
-- w
-- lib: shared code
 - 2025: PHP 1,000 started 1 January, current TRI-CORE against New
 - 2025: PHP 1,000 started 1 January, current TRI-CORE against New
 - 2026: PHP 1,000 started 1 January, current TRI-CORE against New
@@ -973,7 +963,6 @@
 - a-repro.js
 - d-parity.js
 - Independent validation of "New" TRI-CORE (Opus, Nov 25, 2026)
-- bb-core-1h/envfile.js
 - Inputs to the system
 - Current TRI-CORE against New TRI-CORE (Jan 2020 to Nov 24 2026)
 
@@ -994,10 +983,10 @@
   intel/engines/health/README.md → LEDGER/bot-dashboard/app.js
 - `market (built by `ingest/candles.js`)` --references--> `missing()`  [INFERRED]
   intel/DATA-DICTIONARY.md → bb-trail/test/journal-test.js
+- `Rules for the session` --references--> `icore()`  [INFERRED]
+  archive-done/DONE-SUI-ARB-LIVE.md → intel/engines/backtest/strategies.js
 - `By phase` --references--> `icore()`  [INFERRED]
   archive-done/DONE-UPGRADE-GUIDE-oct29/04-ROLLBACK.md → intel/engines/backtest/strategies.js
-- `VPS: pin the risk (Phase 3). Repeat with `icore` for I-Core.` --references--> `icore()`  [INFERRED]
-  archive-done/DONE-UPGRADE-GUIDE-oct29/06-COMMANDS.md → intel/engines/backtest/strategies.js
 - `Bot keys` --references--> `icore()`  [INFERRED]
   LEDGER/README.md → intel/engines/backtest/strategies.js
 
@@ -1014,7 +1003,7 @@
 - **TRI-CORE three-bot account (BB 50 / I 25 / T 25)** — research_tested_strategies_tri_core, research_tested_strategies_bb_core, research_tested_strategies_i_core, research_tested_strategies_t_core [EXTRACTED 1.00]
 - **TRI-CORE live bot set (BB-CORE, I-CORE, T-CORE 50/25/25)** — research_tested_strategies_tri_core, research_tested_strategies_bb_core, research_tested_strategies_i_core, research_tested_strategies_t_core [INFERRED 0.95]
 
-## Communities (985 total, 154 thin omitted)
+## Communities (974 total, 152 thin omitted)
 
 ### Community 0 - "runMerged"
 Cohesion: 0.03
@@ -1030,7 +1019,7 @@ Nodes (18): APP, APPCOST, bot(), COINS, fs, FUND, iso(), med() (+10 more)
 
 ### Community 3 - "build-four-coin-report.js"
 Cohesion: 0.03
-Nodes (48): all12, allLose, APP, APPCOST, bands, bestS, C, C25 (+40 more)
+Nodes (53): all12, allLose, allM, APP, APPCOST, bands, bestS, C (+45 more)
 
 ### Community 4 - "bb-trail/dashboard-push.js"
 Cohesion: 0.07
@@ -1038,15 +1027,15 @@ Nodes (60): allowedSymbol(), askPollSec(), backfill(), baseUrl(), compareEvent()
 
 ### Community 5 - "ref_node_assert"
 Cohesion: 0.02
-Nodes (71): assert, missing, NEED, test, assert, M2, test, assert (+63 more)
+Nodes (82): assert, missing, NEED, test, assert, M2, test, assert (+74 more)
 
 ### Community 6 - "compare-frozen.js"
 Cohesion: 0.04
 Nodes (35): args, cost, D, res, V, venue, years, run() (+27 more)
 
 ### Community 7 - "bb-trail/keyinfo.js"
-Cohesion: 0.05
-Nodes (56): DONE, dry, FILE, fs, path, APP, check(), fs (+48 more)
+Cohesion: 0.06
+Nodes (51): APP, check(), fs, KEY_ALERTS, KEY_EVENT, keyAlerts(), lastRunMs(), MARK (+43 more)
 
 ### Community 8 - "Report index (auto-generated by rq.py — do not edit)"
 Cohesion: 0.01
@@ -1090,7 +1079,7 @@ Nodes (33): appl, args, BT, cA, cC, cD, COINS, DEPOSITS (+25 more)
 
 ### Community 18 - "ref_fs"
 Cohesion: 0.04
-Nodes (39): fs, CRNL, fs, NL, edit(), fs, applyGate(), cfg (+31 more)
+Nodes (40): fs, CRNL, fs, NL, edit(), fs, applyGate(), cfg (+32 more)
 
 ### Community 19 - "no-target/build-report.js"
 Cohesion: 0.05
@@ -1113,12 +1102,12 @@ Cohesion: 0.05
 Nodes (36): acct(), all(), bs, cache, candles(), cov, d, f() (+28 more)
 
 ### Community 24 - "_tvworld.mjs"
-Cohesion: 0.02
-Nodes (83): base(), C, MIG, RB, TVUI, booksOk(), END, feeNet() (+75 more)
+Cohesion: 0.03
+Nodes (67): base(), C, MIG, RB, TVUI, booksOk(), END, feeNet() (+59 more)
 
 ### Community 25 - "shadow-recorder.js"
-Cohesion: 0.08
-Nodes (45): 0. Verdict, 10. Smallest additional information needed to finish the audit, 11. Second pass, 2026-10-23: results of the eight follow-up items, 1. Defects and risks, prioritized, 2. What I verified is CLEAN, 3. Year-by-year results (R units; 1R = amount risked per trade; closed in that year; no compounding), 4. Is it statistically and economically credible?, 5. Costs and risk model review (+37 more)
+Cohesion: 0.20
+Nodes (23): append(), binance, clock, closedOnly(), COINS, collectMinutes(), cycle(), fs (+15 more)
 
 ### Community 26 - "test-fvg.js"
 Cohesion: 0.05
@@ -1126,7 +1115,7 @@ Nodes (37): cfgs, COINS, END, BASE, COINS, END, line(), SWEEP (+29 more)
 
 ### Community 27 - "build-1h-reports.js"
 Cohesion: 0.04
-Nodes (68): A, ACC, ACCd, acct(), all(), B, bs, byInd (+60 more)
+Nodes (38): A, ACCd, B, bs, byInd, cc, css0, dd (+30 more)
 
 ### Community 28 - "mtf-confluence/deep.js"
 Cohesion: 0.06
@@ -1141,8 +1130,8 @@ Cohesion: 0.11
 Nodes (50): appendJsonl(), balance(), check(), entryCosts(), event(), excursionOf(), exitCosts(), fetchCandles() (+42 more)
 
 ### Community 31 - "batch2.js"
-Cohesion: 0.07
-Nodes (33): eventsFor(), fs, run(), atrN(), CFG, ema(), eventsFor(), fs (+25 more)
+Cohesion: 0.09
+Nodes (21): CFG, eventsFor(), fs, run(), atrN(), CFG, ema(), fs (+13 more)
 
 ### Community 32 - "candidates-report.js"
 Cohesion: 0.06
@@ -1157,8 +1146,8 @@ Cohesion: 0.05
 Nodes (42): 1. Six-year headline, 2.1 SOL, 2.2 ZEC, 2.3 NEAR, 2.4 ADA, 2.5 GALA, 3. Comparing the coins, 4. Which market conditions help or hurt — the evidence (+34 more)
 
 ### Community 35 - "account"
-Cohesion: 0.06
-Nodes (28): base, best, by, fs, line(), P(), res, row() (+20 more)
+Cohesion: 0.09
+Nodes (24): base, best, by, fs, line(), P(), res, row() (+16 more)
 
 ### Community 36 - "analysis-core.js"
 Cohesion: 0.09
@@ -1194,7 +1183,7 @@ Nodes (37): created, frozenConfig, allHours, fill, funding, fvgWindow, makerFee,
 
 ### Community 44 - "telegram.js"
 Cohesion: 0.11
-Nodes (33): call(), coinOf(), configured(), creds(), decimalsFor(), dist(), dur(), esc() (+25 more)
+Nodes (32): call(), coinOf(), configured(), creds(), decimalsFor(), dist(), dur(), esc() (+24 more)
 
 ### Community 45 - "four-coin-5pct.js"
 Cohesion: 0.05
@@ -1241,8 +1230,8 @@ Cohesion: 0.12
 Nodes (30): call(), coinOf(), configured(), creds(), decimalsFor(), dur(), esc(), fmtEntry() (+22 more)
 
 ### Community 56 - "LEDGER/js/app.js"
-Cohesion: 0.07
-Nodes (34): activityRows(), auditCard(), auditText(), backupCard(), contactCard(), deskView(), dropCard(), feesCard() (+26 more)
+Cohesion: 0.05
+Nodes (51): activityRows(), applyHash(), applyTheme(), auditCard(), auditText(), backupCard(), contactBlock(), contactCard() (+43 more)
 
 ### Community 57 - "recorder.js"
 Cohesion: 0.12
@@ -1341,8 +1330,8 @@ Cohesion: 0.13
 Nodes (26): appendRecord(), appendSnapshot(), avg(), base(), CODE_FILES, codeHash(), configHash(), cp (+18 more)
 
 ### Community 81 - "helpers.js"
-Cohesion: 0.08
-Nodes (20): fs, JDIR, path, STATE, coins, fs, path, STATE (+12 more)
+Cohesion: 0.06
+Nodes (24): fs, JDIR, path, STATE, coins, fs, path, STATE (+16 more)
 
 ### Community 83 - "ema-scan.js"
 Cohesion: 0.08
@@ -1364,13 +1353,13 @@ Nodes (24): appendRecord(), appendSnapshot(), base(), CODE_FILES, codeHash(), co
 Cohesion: 0.08
 Nodes (21): BLACKOUT_NAMES, COIN_CHAIN, COIN_NAME, DEFAULTS, gate(), lowerBound(), BOTS, btc (+13 more)
 
-### Community 88 - "ref_child_process"
-Cohesion: 0.04
-Nodes (34): BOTS, build-coin-lab.sh script, cp, DATA, fs, path, STRAT, BOTS (+26 more)
+### Community 88 - "coin-lab-bots/build.js"
+Cohesion: 0.20
+Nodes (7): BOTS, build-coin-lab.sh script, cp, DATA, fs, path, STRAT
 
 ### Community 89 - "sndk-live.js"
 Cohesion: 0.06
-Nodes (24): APP, ctx, fs, out, path, sum, SYS, v7p (+16 more)
+Nodes (27): APP, BB, cache, COINS, ctx, fs, FVG, MONTHS (+19 more)
 
 ### Community 90 - "review-2026-11-04.js"
 Cohesion: 0.08
@@ -1406,7 +1395,7 @@ Nodes (17): label(), BASE, COINS, fs, out, summary, t0, TFS (+9 more)
 
 ### Community 98 - "fam.js"
 Cohesion: 0.05
-Nodes (24): BASE, COINS, END, SWEEP, COINS, END, rows, allTrades (+16 more)
+Nodes (26): BASE, COINS, END, SWEEP, all, B, fs, MON (+18 more)
 
 ### Community 99 - "mexc-parity3.js"
 Cohesion: 0.07
@@ -1453,8 +1442,8 @@ Cohesion: 0.10
 Nodes (19): ALLOWED_SYMBOLS, COINS, coinToSymbol(), ConfigError, DEFAULTS, FIELDS, FILE, fs (+11 more)
 
 ### Community 110 - "command.js"
-Cohesion: 0.10
-Nodes (31): limiter, makeHandler(), summaryOf(), limiter, cached(), limiter, makeHandler(), memo (+23 more)
+Cohesion: 0.07
+Nodes (40): limiter, makeHandler(), summaryOf(), limiter, aiLimiter, limiter, quotaLimiter, crypto (+32 more)
 
 ### Community 111 - "verify-4coins.js"
 Cohesion: 0.08
@@ -1485,8 +1474,8 @@ Cohesion: 0.09
 Nodes (14): actions(), card(), summary(), tradeStatus(), app, appl, dir, FILES (+6 more)
 
 ### Community 118 - "aggregate.js"
-Cohesion: 0.08
-Nodes (44): build(), activity(), aggregate(), applyBooked(), botOfEv(), botView(), capital(), comparesOf() (+36 more)
+Cohesion: 0.16
+Nodes (32): build(), activity(), aggregate(), applyBooked(), botOfEv(), botView(), capital(), comparesOf() (+24 more)
 
 ### Community 119 - "vs-sui-arb.js"
 Cohesion: 0.08
@@ -1522,7 +1511,7 @@ Nodes (21): bots, _c, cfg, E, fs, INTEL, M, M0 (+13 more)
 
 ### Community 127 - "bb-trail/mexc.js"
 Cohesion: 0.11
-Nodes (18): client, createClient(), get(), http(), pickKey(), crypto, currentKeys(), keyCache (+10 more)
+Nodes (19): DONE, dry, FILE, fs, path, client, createClient(), get() (+11 more)
 
 ### Community 128 - "execdiag.js"
 Cohesion: 0.09
@@ -1553,16 +1542,16 @@ Cohesion: 0.20
 Nodes (18): _cacheEntry(), _cacheKey(), _cacheSet(), _candleCache, clearCandleCache(), fetchCandles(), _fetchPages(), hydrateCandles() (+10 more)
 
 ### Community 135 - "onClick"
-Cohesion: 0.18
-Nodes (21): DataPage, act(), applyTheme(), backToManager(), backupDownload(), closeModal(), download(), holdDelete() (+13 more)
+Cohesion: 0.15
+Nodes (31): DataPage, act(), backToManager(), backupDownload(), call(), closeModal(), depPrev(), deskPrev() (+23 more)
 
 ### Community 136 - "replace-nov25/y2026.js"
 Cohesion: 0.10
 Nodes (19): A, at(), frictions(), fs, g(), gain(), M, mc (+11 more)
 
 ### Community 137 - "ref_os"
-Cohesion: 0.05
-Nodes (26): assert, fs, os, path, test, assert, fs, os (+18 more)
+Cohesion: 0.04
+Nodes (32): assert, fs, os, path, test, assert, fs, os (+24 more)
 
 ### Community 138 - "coin-walkforward/recent3.js"
 Cohesion: 0.10
@@ -1581,8 +1570,8 @@ Cohesion: 0.18
 Nodes (11): Backups, Consequences of the window, missed periods and backdating, Deploying: order, checks, rollback and recovery, Not covered by code, Rehearsal on a copy of the production data (2026-10-23), Restoring (staging only), Security finding: internal helpers were callable by anyone (found 2026-10-23), Settlement controls and backups (+3 more)
 
 ### Community 142 - "ledger.test.mjs"
-Cohesion: 0.07
-Nodes (27): call(), CORRECTIONS, FEE_10, feeValue(), HARDEN, HIDE_POOL, holder(), LATER (+19 more)
+Cohesion: 0.13
+Nodes (18): call(), CORRECTIONS, FEE_10, feeValue(), HARDEN, HIDE_POOL, holder(), LATER (+10 more)
 
 ### Community 143 - "explore.js"
 Cohesion: 0.11
@@ -1601,8 +1590,8 @@ Cohesion: 0.10
 Nodes (15): ALL, anyBot, BOT, bots, BT, data, fs, LIB (+7 more)
 
 ### Community 147 - "monthly-v7.js"
-Cohesion: 0.07
-Nodes (21): atrSeries(), backtest(), lo(), fs, T, fs, rows, V7 (+13 more)
+Cohesion: 0.09
+Nodes (16): fs, rows, V7, VARS, A, B, C, fs (+8 more)
 
 ### Community 148 - "ny-smc-iterations/binance.js"
 Cohesion: 0.11
@@ -1621,8 +1610,8 @@ Cohesion: 0.16
 Nodes (17): args(), buildReport(), downloadCandles(), fs, iso(), main(), openFromState(), path (+9 more)
 
 ### Community 152 - "confirmed-fee.test.mjs"
-Cohesion: 0.14
-Nodes (11): appl, compare(), dir, F8(), FILES, INV, Model, near() (+3 more)
+Cohesion: 0.13
+Nodes (12): appl, compare(), dir, F8(), FILES, INV, Model, near() (+4 more)
 
 ### Community 153 - "Features"
 Cohesion: 0.09
@@ -1729,8 +1718,8 @@ Cohesion: 0.11
 Nodes (15): bt, C, c0, ex, g, get(), nb, nt (+7 more)
 
 ### Community 179 - "3. Steps (in this order)"
-Cohesion: 0.10
-Nodes (20): 0. What this is, 1. Rules (the owner's, do not break them), 2. State at hand-over (2026-11-16), 3. Steps (in this order), 5. If something goes wrong, 6. Final report to the owner (short, plain words), Step 10. Second backup copy [ASK for the folder], Step 11. Admin report (+12 more)
+Cohesion: 0.14
+Nodes (14): 3. Steps (in this order), Step 10. Second backup copy [ASK for the folder], Step 11. Admin report, Step 12. VPS watcher: present the options, do not install, Step 13. Save notes, Step 1. Find the files and check the PC, Step 2. Tests and first run, Step 3. Daily task [ASK the time; default 09:00 PC time] (+6 more)
 
 ### Community 180 - "gala-mexc-parity.js"
 Cohesion: 0.11
@@ -1772,9 +1761,9 @@ Nodes (16): activeOf(), addReserve(), alerts(), candidates(), daysLeft(), descri
 Cohesion: 0.12
 Nodes (22): all1m, args, cfg, check(), COINS, dedupe(), fillGaps, fs (+14 more)
 
-### Community 190 - "bb-tweak-nov25/compare.js"
-Cohesion: 0.08
-Nodes (23): bot(), LEGACY, MAKE, assert, COINS, CORES, fs, path (+15 more)
+### Community 190 - "health/index.js"
+Cohesion: 0.38
+Nodes (6): DECAY, fs, PARITY, path, run(), parity()
 
 ### Community 191 - "coin-walkforward/monthly.js"
 Cohesion: 0.10
@@ -1813,8 +1802,8 @@ Cohesion: 0.12
 Nodes (13): a, b, BB, C, fs, g, get(), IC (+5 more)
 
 ### Community 200 - "spine.js"
-Cohesion: 0.12
-Nodes (23): Column types, File formats, Hash chain rule (append-only logs), manifest.json format, Rules that apply to every dataset, Method in plain words, cast(), CHAIN (+15 more)
+Cohesion: 0.05
+Nodes (47): Column types, File formats, Hash chain rule (append-only logs), manifest.json format, Rules that apply to every dataset, bars(), cache, candles() (+39 more)
 
 ### Community 201 - "search5.js"
 Cohesion: 0.13
@@ -1853,8 +1842,8 @@ Cohesion: 0.17
 Nodes (14): client, createClient(), get(), http(), pickKey(), crypto, currentKeys(), keyCache (+6 more)
 
 ### Community 210 - "journal-test.js"
-Cohesion: 0.12
-Nodes (14): crypto, fs, get(), JDIR, missing(), path, STATE, Combined NAV (`_wallet_nav`) (+6 more)
+Cohesion: 0.20
+Nodes (8): crypto, fs, get(), JDIR, missing(), path, STATE, Combined NAV (`_wallet_nav`)
 
 ### Community 211 - "zec-replacement/deep.js"
 Cohesion: 0.12
@@ -1864,13 +1853,13 @@ Nodes (16): CAND, curve(), fs, GALA_START, KEEP, keepM, keepTr, month() (+8 more
 Cohesion: 0.11
 Nodes (11): _c, cfg, E, fs, INTEL, M, M0, out (+3 more)
 
-### Community 213 - "closed-trades.test.mjs"
-Cohesion: 0.05
-Nodes (30): hash, key, hash, key, name, [wallet, label], f(), pend() (+22 more)
+### Community 213 - "rehearse-cleanup.mjs"
+Cohesion: 0.04
+Nodes (35): derived/truth-check (`integrity/truthcheck.js`), hash, key, hash, key, name, [wallet, label], docker() (+27 more)
 
 ### Community 214 - "returns.test.mjs"
-Cohesion: 0.22
-Nodes (13): addMoney(), call(), fundRows(), holder(), mexcTotal(), mig(), MIGRATIONS, R (+5 more)
+Cohesion: 0.10
+Nodes (15): addMoney(), call(), fundRows(), holder(), mexcTotal(), mig(), MIGRATIONS, R (+7 more)
 
 ### Community 215 - "recorder-test.js"
 Cohesion: 0.12
@@ -1921,24 +1910,24 @@ Cohesion: 0.04
 Nodes (46): built_at, checks, bytes, rows, schema, sha256, dataset, files (+38 more)
 
 ### Community 227 - "w"
-Cohesion: 0.15
-Nodes (3): t(), w, pos()
+Cohesion: 0.07
+Nodes (12): assert, short, test, t(), w, pos(), appl, dir (+4 more)
 
 ### Community 228 - "landing-data-v2.mjs"
 Cohesion: 0.06
 Nodes (40): A, app, at(), BB, CFG, days, dips, drop() (+32 more)
 
-### Community 229 - "ref_bb_core_lucidio_core_js"
-Cohesion: 0.15
-Nodes (8): D, fs, path, B, bin, F, fs, own
+### Community 229 - "_remediation.mjs"
+Cohesion: 0.08
+Nodes (22): APPLIED, END, books(), feeNet(), Nov30, settlements(), fund(), M (+14 more)
 
 ### Community 230 - "no-target/lib.js"
 Cohesion: 0.13
 Nodes (8): bb, byYear(), fs, gen(), ic, ROOT, SIG, yr()
 
-### Community 231 - "zec-replacement/deep.js"
-Cohesion: 0.14
-Nodes (12): bb, coins, D, fs, HOLDS, path, ROOT, rows (+4 more)
+### Community 231 - "targets/sweep.js"
+Cohesion: 0.05
+Nodes (33): bb, coins, D, fs, HOLDS, path, ROOT, rows (+25 more)
 
 ### Community 232 - "allaspects.js"
 Cohesion: 0.13
@@ -1964,9 +1953,9 @@ Nodes (13): A, ALL, B, FRESH, fs, INF, long, out (+5 more)
 Cohesion: 0.05
 Nodes (43): built_at, checks, bytes, rows, schema, sha256, dataset, bytes (+35 more)
 
-### Community 238 - "eth-yearly/compare.js"
-Cohesion: 0.14
-Nodes (10): A, analyse(), BOTS, COINS, fs, KEYS, lbl(), mi() (+2 more)
+### Community 238 - "pre2020.js"
+Cohesion: 0.11
+Nodes (12): base, by, fs, ok, res, eventsFor(), run(), pick() (+4 more)
 
 ### Community 239 - "ETH on the three TRI-CORE bots — year by year"
 Cohesion: 0.12
@@ -2000,9 +1989,9 @@ Nodes (5): D, five, RULES, S3, Y
 Cohesion: 0.13
 Nodes (6): box(), draw_svg(), footer(), header(), image(), step_page()
 
-### Community 247 - "sw.js"
-Cohesion: 0.50
-Nodes (3): req(), CDN_HOSTS, SHELL
+### Community 247 - "yearly-compare.js"
+Cohesion: 0.12
+Nodes (13): APP, BB, COINS, ctx, fs, FVG, out, path (+5 more)
 
 ### Community 248 - "admin-report.js"
 Cohesion: 0.16
@@ -2057,8 +2046,8 @@ Cohesion: 0.08
 Nodes (30): A, A1, ALL, base, blocks, BS, C, cagr() (+22 more)
 
 ### Community 261 - "lib/monthly.js"
-Cohesion: 0.11
-Nodes (29): aiLimiter, limiter, quotaLimiter, build(), crypto, sendTelegram(), viewsOf(), balanceAt() (+21 more)
+Cohesion: 0.12
+Nodes (26): build(), crypto, sendTelegram(), viewsOf(), balanceAt(), BOTS, dd(), ddu() (+18 more)
 
 ### Community 262 - "SUI and ARB against ENJ, ONE, GRT, KSM, UNI and ANKR (same window, same data)"
 Cohesion: 0.12
@@ -2084,9 +2073,9 @@ Nodes (10): { backtest }, coins, DATA, fs, out, path, read(), run() (+2 more)
 Cohesion: 0.14
 Nodes (9): D, five, mon, other, pairs, ry, S3, Y (+1 more)
 
-### Community 268 - "bot-dashboard-revamp.test.mjs"
-Cohesion: 0.09
-Nodes (23): assert, fs, os, path, test, TMP, ts(), app (+15 more)
+### Community 268 - "store.js"
+Cohesion: 0.08
+Nodes (23): ts(), botQuery(), createMemoryStore(), TAGGED, TRADE_TYPES, app, beats(), css (+15 more)
 
 ### Community 269 - "coin-history-nov13/build-report.js"
 Cohesion: 0.10
@@ -2104,17 +2093,17 @@ Nodes (11): bbT, cache, CAND, COINS, fs, get(), OTHER, path (+3 more)
 Cohesion: 0.16
 Nodes (9): bbT, cache, CAND, COINS, fs, get(), path, runC() (+1 more)
 
-### Community 273 - "mc-zec.js"
-Cohesion: 0.15
-Nodes (11): all, b, bot(), FD, FEE, fs, m, path (+3 more)
+### Community 273 - "f-bbonly.js"
+Cohesion: 0.13
+Nodes (11): ac, bw, bw2, live, m(), opts, qs, sd() (+3 more)
 
 ### Community 274 - "txt"
 Cohesion: 0.27
 Nodes (14): bar(), barChart(), esc(), groupedBars(), hbar(), hbars(), heatmap(), histogram() (+6 more)
 
 ### Community 275 - "bollinger/lib.js"
-Cohesion: 0.07
-Nodes (15): _bars, COST, ctx, DATA, fs, _htf, _ind, o (+7 more)
+Cohesion: 0.06
+Nodes (18): COINS, END, rows, _bars, COST, ctx, DATA, fs (+10 more)
 
 ### Community 276 - "deep.js"
 Cohesion: 0.20
@@ -2165,8 +2154,8 @@ Cohesion: 0.22
 Nodes (11): cache, coins(), fs, funding(), load(), path, read(), ROOT (+3 more)
 
 ### Community 288 - "backtest/strategies.js"
-Cohesion: 0.04
-Nodes (62): Rules, Final line-up (owner, Nov 12, 2026): same 2.5% risk per trade for every coin, no special size for any coin, Not needed any more?, Rollback, Rules for the session, Step 0: read-only checks (VPS), Step 1: database (already applied Nov 12, only re-check), Step 2: BB-CORE + ARB (+54 more)
+Cohesion: 0.06
+Nodes (32): Final line-up (owner, Nov 12, 2026): same 2.5% risk per trade for every coin, no special size for any coin, Not needed any more?, Rollback, Rules for the session, Step 0: read-only checks (VPS), Step 1: database (already applied Nov 12, only re-check), Step 2: BB-CORE + ARB, Step 3: T-CORE + SUI + ARB (+24 more)
 
 ### Community 289 - "backtest-report-data-v2.mjs"
 Cohesion: 0.09
@@ -2205,8 +2194,8 @@ Cohesion: 0.15
 Nodes (9): BB, coins, data, fs, modes, path, res, {signalFrom,stats,DEFAULTS} (+1 more)
 
 ### Community 298 - "recon-check.mjs"
-Cohesion: 0.13
-Nodes (21): args, cfgFile, flag(), load(), opt(), outDir, ROOT, sendTelegram() (+13 more)
+Cohesion: 0.12
+Nodes (23): viewUsers(), args, cfgFile, flag(), load(), opt(), outDir, ROOT (+15 more)
 
 ### Community 299 - "history.js"
 Cohesion: 0.14
@@ -2230,7 +2219,7 @@ Nodes (13): barChart(), gridHTML(), heat(), logChart(), N0(), PES(), riskRows(),
 
 ### Community 304 - "@electric-sql/pglite"
 Cohesion: 0.03
-Nodes (38): description, devDependencies, @electric-sql/pglite@0.5.10, name, private, scripts, rehearse, test (+30 more)
+Nodes (43): description, devDependencies, @electric-sql/pglite@0.5.10, name, private, scripts, rehearse, test (+35 more)
 
 ### Community 305 - "diag.js"
 Cohesion: 0.19
@@ -2253,8 +2242,8 @@ Cohesion: 0.17
 Nodes (8): DEFAULT_CONF, FILTERS, fs, path, run(), SMC, summarize(), vm
 
 ### Community 310 - "combos.js"
-Cohesion: 0.18
-Nodes (10): b0, bm, cands, f1(), fs, line(), month(), monthly() (+2 more)
+Cohesion: 0.05
+Nodes (27): fs, T, boot(), COINS, fs, keys, rnd(), T (+19 more)
 
 ### Community 311 - "Can anything beat bb-core or I-Core? 27 indicator strategies, 5 coins, 4h and 1h, 2020 to Nov 5 2026"
 Cohesion: 0.15
@@ -2369,12 +2358,12 @@ Cohesion: 0.15
 Nodes (12): BOTS, cell(), f(), fs, H, out, path, { run, COST } (+4 more)
 
 ### Community 341 - "split250-php.js"
-Cohesion: 0.15
-Nodes (12): atrSeries(), backtest(), cloudAt(), gapInWindow(), indicators(), mid(), signalAt(), C (+4 more)
+Cohesion: 0.20
+Nodes (5): C, fs, S, sim(), tier()
 
-### Community 342 - "hwm.test.mjs"
-Cohesion: 0.21
-Nodes (10): at(), close(), closeAt(), join(), pendIn(), post(), recv(), setPrice() (+2 more)
+### Community 342 - "ref_node_fs"
+Cohesion: 0.07
+Nodes (29): m1107, m1108, root, world(), freshDb(), mig(), num(), one() (+21 more)
 
 ### Community 343 - "ny-smc-iterations/validate-app.js"
 Cohesion: 0.18
@@ -2478,7 +2467,7 @@ Nodes (9): 0. How this was tested (and why it cannot repaint or peek), 1. Benchm
 
 ### Community 368 - "ref_path"
 Cohesion: 0.03
-Nodes (41): COINS, fs, path, COINS, fs, COINS, fs, OUT (+33 more)
+Nodes (47): fs, load(), parse(), path, build(), fs, path, scrub() (+39 more)
 
 ### Community 369 - "v7 on Binance USDT-M futures (15m) — $1 risk per trade"
 Cohesion: 0.20
@@ -2524,9 +2513,9 @@ Nodes (8): FIRST STEP, Legend used in the steps, PARKED: do not forget (the ledg
 Cohesion: 0.11
 Nodes (14): BOTS, COINS, first(), fs, H, J, out, path (+6 more)
 
-### Community 380 - "ref_node_fs"
-Cohesion: 0.04
-Nodes (32): A, core, nav, orig, P, root, tv, wrapOrig (+24 more)
+### Community 380 - "build-auto-settlement.mjs"
+Cohesion: 0.18
+Nodes (8): A, core, nav, orig, P, root, tv, wrapOrig
 
 ### Community 381 - "six-2026.js"
 Cohesion: 0.12
@@ -2697,8 +2686,8 @@ Cohesion: 0.29
 Nodes (6): Access I need (the one thing blocking the VPS steps today), 🤖 What I can do (given the access in the next section), ⛔ What I do only after a fresh, explicit "go" from you, even with admin access, ❌ What I will not do, with or without access, 🧑 What only you can do, Who does what
 
 ### Community 423 - "lib/config.js"
-Cohesion: 0.07
-Nodes (30): build(), fs, path, run(), SCHEMA, DECAY, fs, PARITY (+22 more)
+Cohesion: 0.08
+Nodes (20): build(), fs, path, run(), SCHEMA, fs, path, ROW (+12 more)
 
 ### Community 424 - "install-1h-paper.sh"
 Cohesion: 0.52
@@ -2725,8 +2714,8 @@ Cohesion: 0.29
 Nodes (3): lab, out, Y
 
 ### Community 431 - "ingest-headlines.test.js"
-Cohesion: 0.08
-Nodes (30): build(), CLUSTERS, DAYS, fs, path, rAt(), report(), ret() (+22 more)
+Cohesion: 0.09
+Nodes (26): build(), CLUSTERS, DAYS, fs, path, rAt(), report(), ret() (+18 more)
 
 ### Community 432 - "vercel.json"
 Cohesion: 0.18
@@ -2800,9 +2789,9 @@ Nodes (6): 0. Harness check, 1. Exposure — trades with at least one ambiguous 
 Cohesion: 0.33
 Nodes (5): F, fs, jget(), path, sleep()
 
-### Community 450 - "strat-hunt-nov6/analyze.js"
-Cohesion: 0.20
-Nodes (6): boot(), COINS, fs, keys, rnd(), T
+### Community 450 - "Independent audit: 4h Bollinger breakout, SOL + ZEC (Lucid'io)"
+Cohesion: 0.13
+Nodes (14): 0. Verdict, 10. Smallest additional information needed to finish the audit, 1. Defects and risks, prioritized, 2. What I verified is CLEAN, 3. Year-by-year results (R units; 1R = amount risked per trade; closed in that year; no compounding), 4. Is it statistically and economically credible?, 5. Costs and risk model review, 6. Reproducible tests (all in `🔴BB-Core/audit/`) (+6 more)
 
 ### Community 451 - "fvg-pullback-strategy.js"
 Cohesion: 0.19
@@ -2812,9 +2801,9 @@ Nodes (10): 5. Settlement reliability findings, 1. Wallet report age: 30 -> 15 m
 Cohesion: 0.43
 Nodes (4): nthSundayUTC(), nyOpen(), onCandle(), usDST()
 
-### Community 453 - "last12.js"
-Cohesion: 0.12
-Nodes (13): APP, BB, cache, COINS, ctx, fs, FVG, MONTHS (+5 more)
+### Community 453 - "rr4.js"
+Cohesion: 0.13
+Nodes (10): APP, ctx, fs, out, path, sum, SYS, v7p (+2 more)
 
 ### Community 455 - "install-coin-lab.sh"
 Cohesion: 0.33
@@ -2864,9 +2853,9 @@ Nodes (5): Coins that do NOT suit BB Breakout 4h (1:4) — park these for other 
 Cohesion: 0.20
 Nodes (8): bbSvc, fs, N, O, path, st, tcPairs, tcSrc
 
-### Community 467 - "risk-fixes.test.mjs"
-Cohesion: 0.14
-Nodes (12): buildRestoreSql(), KEYED, OPTIONAL, RESTORE_ORDER, splitTopLevel(), appl, APPLIED, dir (+4 more)
+### Community 467 - "ref_node_path"
+Cohesion: 0.03
+Nodes (48): buildRestoreSql(), KEYED, OPTIONAL, RESTORE_ORDER, splitTopLevel(), appl, APPLIED, dir (+40 more)
 
 ### Community 468 - "SOL + ZEC + BTC + NEAR + ADA — yearly and monthly (realistic fees + real funding, $5 risk, BB Breakout 4h 1:4)"
 Cohesion: 0.33
@@ -2966,7 +2955,7 @@ Nodes (3): apply(), closeSheet(), relocate()
 
 ### Community 495 - "execution/index.js"
 Cohesion: 0.12
-Nodes (32): derived/execution (`engines/execution`), avg(), BOOK_CAPACITY, build(), CAPACITY, costR(), COSTS, ENTRY_QUALITY (+24 more)
+Nodes (30): derived/event-study (`engines/events`, `buildStudy`), avg(), BOOK_CAPACITY, build(), CAPACITY, costR(), COSTS, ENTRY_QUALITY (+22 more)
 
 ### Community 496 - "bb-core vs v2-A (maxBars 96, nothing else changed) — binance candles, real fees/slippage/funding, $5 per trade"
 Cohesion: 0.40
@@ -3020,9 +3009,9 @@ Nodes (4): bb-core (4h BB breakout, 1:4), Donchian 20, 5-ATR trail, +SMA200, Kel
 Cohesion: 0.18
 Nodes (11): { backtest }, coins, DATA, fs, out, path, read(), run() (+3 more)
 
-### Community 509 - "health: live against backtest"
-Cohesion: 0.29
-Nodes (7): health: live against backtest, How to run, Inputs, Limits, Outputs, Parity cold-start rule, Tests
+### Community 509 - "intel/README.md"
+Cohesion: 0.05
+Nodes (34): Execution engine, How to run, Inputs, Limits, Method in plain words, What it answers, health: live against backtest, How to run (+26 more)
 
 ### Community 510 - "usd"
 Cohesion: 0.40
@@ -3079,6 +3068,10 @@ Nodes (13): adxArr(), BASE, btcSide(), CACHE, iiArr(), LIVE, load(), memo() (+5 
 ### Community 523 - "ORB Live-Replay Engine"
 Cohesion: 0.40
 Nodes (4): COINS, fs, res, SET
+
+### Community 524 - "newsgate-test.js"
+Cohesion: 0.18
+Nodes (9): decide(), fetchSignal(), unavailable(), Commands, News lab bots (BB-CORE, I-CORE, T-CORE + news gate), PAPER ONLY, assert, NOW, test (+1 more)
 
 ### Community 525 - "oos.js"
 Cohesion: 0.40
@@ -3240,9 +3233,9 @@ Nodes (6): fs, MON, month(), OUT, path, sleep()
 Cohesion: 0.15
 Nodes (9): bin, bin2, byb, D0(), firstTrade, fs, inY(), L (+1 more)
 
-### Community 683 - "_world.mjs"
-Cohesion: 0.16
-Nodes (7): world(), hwmWorld(), john1000(), BOT_KEY, build(), near(), r6()
+### Community 683 - "eth-vs-coins.js"
+Cohesion: 0.15
+Nodes (8): BOTS, COINS, fs, MONTHS, out, path, ROWS, T
 
 ### Community 684 - "1. Year by year, each coin on each bot (R, full history)"
 Cohesion: 0.40
@@ -3277,12 +3270,12 @@ Cohesion: 0.40
 Nodes (5): SUI, SUI on BB-CORE (not in this bot now), SUI on I-CORE (not in this bot now), SUI on T-CORE (not in this bot now), SUI, TRI mix
 
 ### Community 692 - "extend-hold.test.mjs"
-Cohesion: 0.15
-Nodes (20): CMD_COINS, EXTEND_MODES, handleAsk(), handleCommand(), handlePoll(), parseExtend(), resp(), handleIngest() (+12 more)
+Cohesion: 0.07
+Nodes (36): Reconciliation, CMD_COINS, EXTEND_MODES, handleAsk(), handleCommand(), handlePoll(), parseExtend(), resp() (+28 more)
 
-### Community 693 - "pair-ex10.js"
-Cohesion: 0.29
-Nodes (4): fs, ks, out, T
+### Community 693 - "capped-b2.js"
+Cohesion: 0.24
+Nodes (9): FIVE, fs, out, P(), row(), S, sim(), tier() (+1 more)
 
 ### Community 694 - "Coin lab bots (BB-CORE on ARB, T-CORE on SUI + ARB), PAPER ONLY"
 Cohesion: 0.50
@@ -3317,8 +3310,8 @@ Cohesion: 0.16
 Nodes (12): adv(), appl, dir, FILES, lumpWorld(), ready(), rolling(), SCRIPT (+4 more)
 
 ### Community 706 - "events/index.js"
-Cohesion: 0.10
-Nodes (30): derived/event-reactions (`engines/events`, `buildReactions`), baseCache, baseline(), buildLedger(), buildReactions(), buildStudy(), candidates(), detectShocks() (+22 more)
+Cohesion: 0.16
+Nodes (20): derived/event-reactions (`engines/events`, `buildReactions`), baseCache, baseline(), buildLedger(), buildReactions(), buildStudy(), fs, groupStat() (+12 more)
 
 ### Community 707 - "schema"
 Cohesion: 0.08
@@ -3345,8 +3338,8 @@ Cohesion: 0.50
 Nodes (3): BB-CORE (current: SOL, NEAR, ADA, GALA; live pick ARB), Replacements for SUI and ARB with a long history, T-CORE (current: SOL, NEAR, ADA, GALA, ETH; live pick SUI + ARB)
 
 ### Community 714 - "backup.test.js"
-Cohesion: 0.11
-Nodes (18): Restore on a different computer, restore(), verify(), backup: snapshots and restore, How to run, Limits, Method in plain words, Outputs (+10 more)
+Cohesion: 0.20
+Nodes (8): assert, FILES, fs, os, path, test, TMP, d2()
 
 ### Community 715 - "truth-check/manifest.json"
 Cohesion: 0.10
@@ -3357,8 +3350,8 @@ Cohesion: 0.14
 Nodes (10): CAND, f(), fs, IDEAS, IMPROVED, L(), NEIGH, out (+2 more)
 
 ### Community 717 - "viewHome"
-Cohesion: 0.14
-Nodes (15): derived/integrity (`integrity/monitor.js`), area(), chart(), contactBlock(), donut(), glanceCard(), lastClose(), liveCard() (+7 more)
+Cohesion: 0.12
+Nodes (19): derived/integrity (`integrity/monitor.js`), area(), chart(), chartMarks(), donut(), equityStrip(), glanceCard(), growthCard() (+11 more)
 
 ### Community 718 - "bottotal.test.mjs"
 Cohesion: 0.20
@@ -3376,9 +3369,9 @@ Nodes (6): Findings, Inputs, Limits, Method, Profit-cause simulation: what the r
 Cohesion: 0.10
 Nodes (19): built_at, checks, dataset, files, registry.json, generator, inputs, notes (+11 more)
 
-### Community 722 - "api/data.js"
-Cohesion: 0.09
-Nodes (10): crypto, memo, respCache, trades, TTL, banner(), keyOf(), plan() (+2 more)
+### Community 722 - "rebalance.js"
+Cohesion: 0.32
+Nodes (4): banner(), keyOf(), plan(), prevDue()
 
 ### Community 723 - "SUI, ARB, GRT, ONE, ENJ: every year on every bot (R / worst drop inside the year)"
 Cohesion: 0.33
@@ -3429,12 +3422,12 @@ Cohesion: 0.18
 Nodes (8): cfg, E, fs, INTEL, M, out, path, S
 
 ### Community 736 - "Derived datasets"
-Cohesion: 0.10
-Nodes (19): Derived datasets, derived/event-study (`engines/events`, `buildStudy`), derived/exposure (`engines/exposure`), derived/health (`engines/health`), derived/journal (`engines/journal`), derived/regime (`engines/regime`), events (built by `engines/events`, `buildLedger`), Outputs (+11 more)
+Cohesion: 0.15
+Nodes (14): Derived datasets, derived/execution (`engines/execution`), derived/exposure (`engines/exposure`), derived/health (`engines/health`), derived/journal (`engines/journal`), derived/regime (`engines/regime`), events (built by `engines/events`, `buildLedger`), participation() (+6 more)
 
 ### Community 737 - "replay-1m.js"
-Cohesion: 0.12
-Nodes (9): bad, byYear, cand, cnt, D, fs, path, rows (+1 more)
+Cohesion: 0.05
+Nodes (23): D, fs, path, D, fs, harsh, OUT, path (+15 more)
 
 ### Community 738 - "OPERATING-MANUAL.md"
 Cohesion: 0.23
@@ -3452,9 +3445,9 @@ Nodes (12): built_at, checks, dataset, files, generator, inputs, notes, schema_v
 Cohesion: 0.15
 Nodes (13): bytes, rows, sha256, bytes, rows, sha256, files, compares.csv (+5 more)
 
-### Community 742 - "call"
-Cohesion: 0.18
-Nodes (16): call(), depPrev(), depUsdt(), deskPrev(), eqPrev(), exactMove(), loadPreview(), moneyCall() (+8 more)
+### Community 742 - "coin-lab-bots/test/run-original-suites.js"
+Cohesion: 0.20
+Nodes (7): BOTS, cp, fs, os, path, STRAT, summary
 
 ### Community 743 - "truthcheck.test.js"
 Cohesion: 0.20
@@ -3500,9 +3493,9 @@ Nodes (8): bb, C, E, IC, {loadCoin}, path, R, Y
 Cohesion: 0.17
 Nodes (11): LINEUP, BOTS, f(), L(), out, path, pc(), ROOT (+3 more)
 
-### Community 754 - "mp"
-Cohesion: 0.67
-Nodes (3): allM, mp(), mv
+### Community 754 - "news-lab-bots/build.js"
+Cohesion: 0.20
+Nodes (7): BOTS, COINS, cp, fs, build-news-lab.sh script, path, STRAT
 
 ### Community 755 - "correlation/manifest.json"
 Cohesion: 0.20
@@ -3536,6 +3529,10 @@ Nodes (9): built_at, checks, dataset, generator, inputs, notes, schema_version, 
 Cohesion: 0.09
 Nodes (22): default, description, type, ALERT_URL, CRON_SECRET, DRY, dry, jobs (+14 more)
 
+### Community 763 - "news-lab-bots/test/run-original-suites.js"
+Cohesion: 0.20
+Nodes (7): BOTS, cp, fs, os, path, STRAT, summary
+
 ### Community 764 - "schema"
 Cohesion: 0.20
 Nodes (10): schema, closed_s, coin, fees_usd, funding_usd, position_id, r_result, realized_usd (+2 more)
@@ -3552,9 +3549,9 @@ Nodes (13): APP, BB, cache, COINS, ctx, fs, FVG, MONTHS (+5 more)
 Cohesion: 0.12
 Nodes (12): APP, C4, ctx, fs, G, MON, out, path (+4 more)
 
-### Community 768 - "sim-check.mjs"
+### Community 768 - "st"
 Cohesion: 0.20
-Nodes (11): A, app, base, BB, fx, load(), nt, peso() (+3 more)
+Nodes (10): COMP(), COSTS, G, IND, med(), MXY, NB, st() (+2 more)
 
 ### Community 770 - "capital-split/study.js"
 Cohesion: 0.10
@@ -3612,9 +3609,9 @@ Nodes (9): BTC shock down, BTC shock up, Correlation, contagion and lead-lag, Ea
 Cohesion: 0.22
 Nodes (9): A. Entry quality, B. Stop quality, C. Cost per trade (exchange records), D. Liquidity and its trend (Binance 1h bars), E. Capacity estimate (estimate from Binance volume, because MEXC order-book data is not available yet), Execution quality and capacity, F. Order-book capacity, Limits (+1 more)
 
-### Community 784 - "streak-cause/monthly.js"
-Cohesion: 0.18
-Nodes (6): fs, J, M, md, path, s
+### Community 784 - "backup: snapshots and restore"
+Cohesion: 0.25
+Nodes (9): restore(), verify(), backup: snapshots and restore, How to run, Limits, Method in plain words, Outputs, Tests (+1 more)
 
 ### Community 785 - "stress.js"
 Cohesion: 0.16
@@ -3665,8 +3662,8 @@ Cohesion: 0.20
 Nodes (18): makeBBX(), arrow(), box(), calendarDays(), closeCalendar(), dayKey(), dec(), deepLink() (+10 more)
 
 ### Community 797 - "LEDGER/README.md"
-Cohesion: 0.13
-Nodes (9): Archive, Daily books-vs-MEXC check (and getting the backup running), Known limits, Set up (about 10 minutes, on any computer that stays on), Decision needed from you, Full exit and rounding: the edge, what was established, and the decision still needed, The edge, What was investigated (+1 more)
+Cohesion: 0.09
+Nodes (15): Archive, Daily books-vs-MEXC check (and getting the backup running), Known limits, Set up (about 10 minutes, on any computer that stays on), Decision needed from you, Full exit and rounding: the edge, what was established, and the decision still needed, The edge, What was investigated (+7 more)
 
 ### Community 798 - "openrouter-free.test.mjs"
 Cohesion: 0.18
@@ -3681,8 +3678,8 @@ Cohesion: 0.29
 Nodes (7): schema, bbw_pctile, coin, er48, rv7d, t, trend_pct
 
 ### Community 801 - "concurrency-settlement.docker.mjs"
-Cohesion: 0.20
-Nodes (19): derived/correlation (`engines/correlation`), appl, booksOk(), clock(), dir, END, FILES, fund() (+11 more)
+Cohesion: 0.18
+Nodes (21): ratio(), derived/correlation (`engines/correlation`), Outputs, appl, booksOk(), clock(), dir, END (+13 more)
 
 ### Community 802 - "source"
 Cohesion: 0.29
@@ -3700,9 +3697,9 @@ Nodes (7): 1. Does the backtest make the same entries as the live bot?, 2. Live 
 Cohesion: 0.29
 Nodes (7): Changes in the last 7 days, Does the regime label explain bot results on unseen data?, How long each state lasts (all coins, since mid-2020), Limits, Market regime, Now, Volatility clustering (BTC)
 
-### Community 807 - "Commands, all in one place"
-Cohesion: 0.18
-Nodes (10): Commands, all in one place, Emergency, Ledger / Vercel (Phase 8, PC), PC: test and build (Phase 1), PC to VPS, then on the VPS: upgrade BB-Core (Phase 4), PC to VPS, then on the VPS: upgrade I-Core (Phase 6), The 4-hour candle clock, VPS: pin the risk (Phase 3). Repeat with `icore` for I-Core. (+2 more)
+### Community 807 - "backtest/strategies.js"
+Cohesion: 0.07
+Nodes (42): Rules, Rules (do not break), Commands, all in one place, Emergency, Ledger / Vercel (Phase 8, PC), PC: test and build (Phase 1), PC to VPS, then on the VPS: upgrade BB-Core (Phase 4), PC to VPS, then on the VPS: upgrade I-Core (Phase 6) (+34 more)
 
 ### Community 808 - "event-scan.js"
 Cohesion: 0.14
@@ -3712,9 +3709,9 @@ Nodes (15): dates, dir, fs, items, known, lines, path, seen (+7 more)
 Cohesion: 0.25
 Nodes (7): Baseline, Can an idea from the book beat BB-CORE? Rules fixed before running (Nov 25, 2026), Candidates (one change at a time; "n" = neighbour setting, reported but not eligible to be picked), Coin sets, Pass mark (all must hold to say "beats BB-CORE"), Size tilt (second way to use a confirmation), Windows
 
-### Community 810 - "analyze-1h.js"
-Cohesion: 0.33
-Nodes (5): by, fs, line(), P(), res
+### Community 810 - "js/icore-core.js"
+Cohesion: 0.44
+Nodes (7): atrSeries(), backtest(), cloudAt(), gapInWindow(), indicators(), mid(), signalAt()
 
 ### Community 811 - "test-no-lookahead.js"
 Cohesion: 0.22
@@ -3844,9 +3841,9 @@ Nodes (3): Limits, Validation: tcore, Verdict: PASSES
 Cohesion: 0.25
 Nodes (7): Baseline: our live shorts at Nov 17 08:15 UTC (BTC 64,338 at 08:41), Before the events (what the owner and the web said, NOT verified), Event watch: Nov 17-20, 2026 (FOMC minutes, Nvidia, Anthropic IPO) and what it did to the live shorts, How to read it later, Result log (fill in after each event; ask for "record the event"), Scoreboard (read this first; updated Nov 19, 2026 about 02:00 UTC), Upcoming watch list (added Nov 19, 2026; rows also in owner-tags.csv and ledger/lib/market-events.js, direction blank until known)
 
-### Community 847 - "test-fvg.js"
-Cohesion: 0.12
-Nodes (13): FOCUS, FROZEN, fs, have(), INF, LABEL, MODES, OTHERS (+5 more)
+### Community 847 - "bot-sync.test.mjs"
+Cohesion: 0.25
+Nodes (5): CHAIN, HASH, KEY, mig(), world()
 
 ### Community 848 - "sol-ny-smc/robust.js"
 Cohesion: 0.22
@@ -3856,9 +3853,9 @@ Nodes (6): B, fs, means, R, split, T
 Cohesion: 0.33
 Nodes (5): 1. BB-Core time-exit extensions (owner, via dashboard commands), 2. Manually closed or stopped BB-Core trades, 3. I-Core SOL short left in the T-Core MEXC account, 4. Other facts for the record, Manual actions log, Nov 17-18, 2026 (for records)
 
-### Community 850 - "Execution engine"
-Cohesion: 0.29
-Nodes (6): Execution engine, How to run, Inputs, Limits, Method in plain words, What it answers
+### Community 850 - "news-lab.test.mjs"
+Cohesion: 0.44
+Nodes (8): entry(), exit(), hb(), NEWS, pre(), require, skip(), tagOf()
 
 ### Community 851 - "parity.js"
 Cohesion: 0.22
@@ -3900,9 +3897,9 @@ Nodes (6): adjusted(), inRange(), placeFlows(), svg(), timeAxis(), view()
 Cohesion: 0.21
 Nodes (13): analyzeNews(), BIAS, cache, CATS, fetchHeadlines(), IMPACT, mergeAnalyses(), normBias() (+5 more)
 
-### Community 861 - "rehearse-cleanup.mjs"
-Cohesion: 0.15
-Nodes (9): derived/truth-check (`integrity/truthcheck.js`), docker(), info(), KEYS, psql(), results, sb, [schemaFile, dataFile] (+1 more)
+### Community 861 - "ref_child_process"
+Cohesion: 0.25
+Nodes (6): dl(), { execFileSync }, fs, OUT, path, sleep()
 
 ### Community 862 - "Admission spread: crediting pesos at a slightly higher rate, surplus stays the manager's"
 Cohesion: 0.14
@@ -3928,13 +3925,13 @@ Nodes (11): Automatic two-month settlement, How to apply it and how to roll it b
 Cohesion: 0.18
 Nodes (8): app, css, html, idx(), inOrder(), pu, RH, wf
 
-### Community 868 - "schema.js"
-Cohesion: 0.07
-Nodes (26): Reconciliation, ALLOWED_SYMBOLS, BOTS, DATA, ENVELOPE_KEYS, mismatch(), NEEDS_SYMBOL, num() (+18 more)
+### Community 868 - "bot-symbols.test.mjs"
+Cohesion: 0.25
+Nodes (7): ALL_SYMBOLS, ETH_SYMBOLS, fresh(), GALA_SYMBOLS, NEW_SYMBOLS, require, sql()
 
-### Community 869 - "Plan: monitoring profit and loss catalysts on the VPS (do this when home)"
-Cohesion: 0.29
-Nodes (6): Also useful before the VPS step, Goal, Plan: monitoring profit and loss catalysts on the VPS (do this when home), Safety rules for any VPS step, Steps when home, What the VPS can carry
+### Community 869 - "events.test.js"
+Cohesion: 0.13
+Nodes (16): candidates(), detectShocks(), schedType(), slug(), withEpisodes(), Tests, assert, DOWN (+8 more)
 
 ### Community 870 - "event-add.js"
 Cohesion: 0.18
@@ -4052,9 +4049,9 @@ Nodes (4): assert, bb(), fadeSeries(), test
 Cohesion: 0.33
 Nodes (5): Functions (service_role EXECUTE), Least-privilege permission matrix (proposed), Sequences, Tables, What stays outside this matrix
 
-### Community 901 - "settlement-workflow.test.mjs"
-Cohesion: 0.29
-Nodes (5): appl, dir, FILES, fresh(), world()
+### Community 901 - "rowsTable"
+Cohesion: 0.25
+Nodes (9): cell(), cls(), N(), P(), pc(), rowsTable(), Rr(), th() (+1 more)
 
 ### Community 902 - "yearRows"
 Cohesion: 0.40
@@ -4065,8 +4062,8 @@ Cohesion: 0.33
 Nodes (5): BB-CORE (SOL ZEC NEAR ADA GALA ARB), 1708 trades, Close-all-when-open-profit-is-big (account level, 4h closes), I-CORE (SOL ZEC NEAR ADA GALA), 816 trades, Live check (Supabase wallet_snapshots + closed_trades, Nov 24 2026), T-CORE (SOL ZEC NEAR ADA GALA ETH SUI ARB), 1150 trades
 
 ### Community 904 - "bb-tweak-nov25/compare.js"
-Cohesion: 0.09
-Nodes (14): f, fs, full, K, md, old, path, fs (+6 more)
+Cohesion: 0.05
+Nodes (28): bot(), noFuture(), bb, BBt(), fromIntel(), fromReplay(), fs, GROUPS (+20 more)
 
 ### Community 905 - "truevalue-ui.js"
 Cohesion: 0.70
@@ -4116,9 +4113,9 @@ Nodes (4): BB-CORE: 76 peaks, bot total today +707.5R, Close-all near the open-p
 Cohesion: 0.40
 Nodes (4): makeResponsive(), RESP_CSS, RESP_JS, RESP_MARK
 
-### Community 926 - "sync-icore-core.mjs"
-Cohesion: 0.18
-Nodes (7): app, args, check, here, out, text, want
+### Community 926 - "selfcheck"
+Cohesion: 0.32
+Nodes (8): 11. Second pass, 2026-10-23: results of the eight follow-up items, 8. Shadow-trading (live parity) test design (rewritten 2026-10-23), Paper-trading acceptance checklist (statistically sized), atrSeries(), bookStats(), decide(), httpGet(), selfcheck()
 
 ### Community 927 - "Free AI on the bot dashboard (through the FreeAPIByMe gateway): bot summary, news analysis and performance analysis"
 Cohesion: 0.20
@@ -4126,11 +4123,11 @@ Nodes (9): Analyze news, Free AI on the bot dashboard (through the FreeAPIByMe g
 
 ### Community 928 - "rebalance.test.mjs"
 Cohesion: 0.22
-Nodes (7): app, call(), login, mkRes(), require, vercel, W
+Nodes (8): app, call(), login, mkRes(), parts(), require, vercel, W
 
 ### Community 929 - "capped-1h.js"
-Cohesion: 0.18
-Nodes (11): CFG, ALL, bots(), FIVE, fs, load(), pick(), S (+3 more)
+Cohesion: 0.22
+Nodes (9): ALL, bots(), FIVE, fs, load(), S, sim(), tier() (+1 more)
 
 ### Community 930 - "Confirmed-gain performance fee (`fee_timing = 'confirmed'`)"
 Cohesion: 0.22
@@ -4140,33 +4137,33 @@ Nodes (9): Accrued fee and the settlement preview (in 1127), Confirmed-gain perf
 Cohesion: 0.38
 Nodes (5): assert, row(), test, uptrend(), zigzag()
 
-### Community 932 - "sync-tcore-core.mjs"
-Cohesion: 0.18
-Nodes (7): app, args, check, here, out, text, want
+### Community 932 - "TASK FOR CLAUDE: finish the Intelligence System setup on the home PC"
+Cohesion: 0.29
+Nodes (6): 0. What this is, 1. Rules (the owner's, do not break them), 2. State at hand-over (2026-11-16), 5. If something goes wrong, 6. Final report to the owner (short, plain words), TASK FOR CLAUDE: finish the Intelligence System setup on the home PC
 
-### Community 933 - "bollinger/monthly.js"
-Cohesion: 0.25
-Nodes (5): all, B, fs, MON, out
+### Community 933 - "build-rollback-live-nav.mjs"
+Cohesion: 0.47
+Nodes (5): bodies, fn(), read(), root, src
 
 ### Community 934 - "BB-CORE tweaks: more profit with a smaller drawdown? (Nov 25, 2026)"
 Cohesion: 0.22
 Nodes (8): BB-CORE tweaks: more profit with a smaller drawdown? (Nov 25, 2026), How it was tested, In its favour, Reasons for caution, Recommendation, Results, The tweak ("D1"), Year by year (R / worst closed-trade drawdown)
 
-### Community 935 - "analysis-check.mjs"
-Cohesion: 0.17
-Nodes (10): A, app, co, fr, ic, m, n, nt (+2 more)
-
-### Community 936 - "concurrency.docker.mjs"
+### Community 935 - "bb-deep-risk.js"
 Cohesion: 0.33
-Nodes (9): freshDb(), mig(), num(), one(), psql(), race(), INTEGRITY, LATER (+1 more)
+Nodes (4): fs, head, m, src
+
+### Community 936 - "acct"
+Cohesion: 0.33
+Nodes (6): ACC, acct(), d23, hiT, loT, tier()
 
 ### Community 937 - "tweak-lab-nov13/search.js"
 Cohesion: 0.25
 Nodes (4): fs, GRID, out, path
 
-### Community 938 - "units-from-manager.test.mjs"
-Cohesion: 0.33
-Nodes (5): appl, dir, FILES, seeded(), world()
+### Community 938 - "trades"
+Cohesion: 0.40
+Nodes (5): all(), candles(), fund(), IC4, trades()
 
 ### Community 939 - "exp6.js"
 Cohesion: 0.29
@@ -4192,21 +4189,13 @@ Nodes (4): fs, get(), path, sleep()
 Cohesion: 0.33
 Nodes (5): BB-CORE family (6 coins), I-CORE (5 coins), Live bots and candidates, one basis (to Nov 24 2026), T-CORE family (8 coins), Whole account, TRI-CORE 50 / 25 / 25
 
-### Community 945 - "rank-ex10.js"
-Cohesion: 0.40
-Nodes (4): dd(), fs, rows, T
-
 ### Community 946 - "zec-replacement/fetch.js"
 Cohesion: 0.47
 Nodes (5): fs, funding(), j(), klines(), U
 
 ### Community 947 - "intel/README.md"
-Cohesion: 0.20
-Nodes (6): Backup and restore, Commands, Optional second copy, Verify the restore, What a snapshot contains, What is deliberately not backed up
-
-### Community 948 - "f"
-Cohesion: 0.33
-Nodes (3): fs, T, f()
+Cohesion: 0.29
+Nodes (7): Backup and restore, Commands, Optional second copy, Restore on a different computer, Verify the restore, What a snapshot contains, What is deliberately not backed up
 
 ### Community 949 - "orb-sol/analyze.js"
 Cohesion: 0.40
@@ -4220,9 +4209,9 @@ Nodes (9): A, [file, rawFile], flags, fs, gaps, med(), months, out (+1 more)
 Cohesion: 0.40
 Nodes (4): coin, fs, rows, t0
 
-### Community 952 - "ref_node_path"
-Cohesion: 0.06
-Nodes (22): appl, db, files, mig, port, repo, TYPES, here (+14 more)
+### Community 952 - "pool-update.test.mjs"
+Cohesion: 0.10
+Nodes (20): f(), pend(), say(), snap(), appl, db, files, mig (+12 more)
 
 ### Community 953 - "walkforward.js"
 Cohesion: 0.18
@@ -4236,29 +4225,9 @@ Nodes (9): CODE, fs, list(), path, plan(), root(), snapshot(), TOP() (+1 more)
 Cohesion: 0.20
 Nodes (9): 0. Correction to the first audit, B. Applied vs unapplied migrations, C. Live workflows (traced from code and verified against production function sets), D. Findings from the first audit: status in production, E. Security findings (§7 of your brief), F. Critical risks needing attention now, G. Recommended changes, in priority order (none applied), H. Extra read-only queries for certainty (+1 more)
 
-### Community 957 - "intel/run.js"
-Cohesion: 0.31
-Nodes (8): fs, main(), path, runSteps(), { spawnSync }, status(), STEPS, writeSummary()
-
-### Community 958 - "load"
-Cohesion: 0.22
-Nodes (9): applyHash(), fromHash(), load(), loadFund(), loadFx(), loadLive(), loadReports(), rpc() (+1 more)
-
-### Community 959 - "dump-core-trades.js"
-Cohesion: 0.25
-Nodes (6): D, fs, harsh, OUT, path, SCEN
-
 ### Community 960 - "Replace the live bots with BB tweak / T-CORE trail 12? (Nov 25, 2026)"
 Cohesion: 0.22
 Nodes (8): Bot stats, history 2020 to Nov 24 2026 (R), Coin toss (200 runs each, same exits), Does it work whatever the market does?, PHP 1,000 on TRI-CORE, Realism and limits, Recommendation, Replace the live bots with BB tweak / T-CORE trail 12? (Nov 25, 2026), Verdict
-
-### Community 961 - "growthCard"
-Cohesion: 0.28
-Nodes (8): chartMarks(), equityStrip(), growthCard(), netHistory(), poolShareData(), series(), shareData(), shareSheet()
-
-### Community 962 - "integrity: monitor and truth check"
-Cohesion: 0.29
-Nodes (6): How to run, integrity: monitor and truth check, Limits, Monitor: inputs and method, Tests, Truth check: inputs and method
 
 ### Community 963 - "matrix2.js"
 Cohesion: 0.25
@@ -4284,21 +4253,9 @@ Nodes (6): baseUrl(), pollOnce(), post(), reachable(), sign(), withTimeout()
 Cohesion: 0.33
 Nodes (5): events: event ledger, reactions, event study, How to run, Inputs, Limits, Method in plain words
 
-### Community 969 - "validator: the rule gatekeeper"
-Cohesion: 0.33
-Nodes (5): Inputs, Limits, Outputs, The 11 checks, validator: the rule gatekeeper
-
 ### Community 970 - "Should BB tweak 1.05x and T-CORE trail 12 replace the live bots? Rules fixed before running (Nov 25, 2026)"
 Cohesion: 0.33
 Nodes (5): Owner's priority, Pass mark to say "replace the live bot", Should BB tweak 1.05x and T-CORE trail 12 replace the live bots? Rules fixed before running (Nov 25, 2026), Tests, Versions
-
-### Community 971 - "make-export.js"
-Cohesion: 0.40
-Nodes (4): build(), fs, path, scrub()
-
-### Community 973 - "lib: shared code"
-Cohesion: 0.33
-Nodes (5): Files, Inputs and outputs, lib: shared code, Limits, Tests
 
 ### Community 974 - "2025: PHP 1,000 started 1 January, current TRI-CORE against New"
 Cohesion: 0.33
@@ -4332,33 +4289,29 @@ Nodes (3): fs, per, tot
 Cohesion: 0.33
 Nodes (5): Conditions, Findings, Independent validation of "New" TRI-CORE (Opus, Nov 25, 2026), Not checked, Verdict
 
-### Community 982 - "bb-core-1h/envfile.js"
-Cohesion: 0.50
-Nodes (4): fs, load(), parse(), path
-
 ### Community 983 - "Inputs to the system"
 Cohesion: 0.40
 Nodes (4): Data dictionary, experiments (built by `engines/validator`), Inputs to the system, market (built by `ingest/candles.js`)
 
 ## Knowledge Gaps
 - **49 isolated node(s):** `RFC-4180`, `Exit P7: 2 ATR(4h) stop + 7 ATR trail (I-CORE exit)`, `BB-CORE 1h (band 80, trend 800, time exit 192; PAPER bb1h; DD -31R past -26R line)`, `bb-core v2 / v3 contenders (INFO)`, `Big swings: frozen swing strategies, bb-core + Ichimoku blends (INFO)` (+44 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 9836 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **154 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 9848 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **152 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Folder map` connect `extend-hold.test.mjs` to `Lucid'io Ledger`, `bot-dashboard/app.js`?**
-  _High betweenness centrality (0.015) - this node is a cross-community bridge._
+- **Why does `icore()` connect `backtest/strategies.js` to `backtest/strategies.js`, `Lucid'io Ledger`, `Rollback: how to undo each phase`?**
+  _High betweenness centrality (0.017) - this node is a cross-community bridge._
 - **What connects `RFC-4180`, `Exit P7: 2 ATR(4h) stop + 7 ATR trail (I-CORE exit)`, `BB-CORE 1h (band 80, trend 800, time exit 192; PAPER bb1h; DD -31R past -26R line)` to the rest of the system?**
   _49 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `runMerged` be split into smaller, more focused modules?**
   _Cohesion score 0.025974025974025976 - nodes in this community are weakly interconnected._
-- **Why does `health()` connect `bot-dashboard/app.js` to `extend-hold.test.mjs`, `health: live against backtest`?**
-  _High betweenness centrality (0.013) - this node is a cross-community bridge._
+- **Why does `Folder map` connect `extend-hold.test.mjs` to `Lucid'io Ledger`, `bot-dashboard/app.js`?**
+  _High betweenness centrality (0.015) - this node is a cross-community bridge._
 - **Should `coins` be split into smaller, more focused modules?**
   _Cohesion score 0.09157509157509157 - nodes in this community are weakly interconnected._
 - **Should `worst-30k.js` be split into smaller, more focused modules?**
   _Cohesion score 0.08045977011494253 - nodes in this community are weakly interconnected._
 - **Should `build-four-coin-report.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.030303030303030304 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.02937625754527163 - nodes in this community are weakly interconnected._

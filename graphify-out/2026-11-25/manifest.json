@@ -5442,8 +5442,8 @@
     "semantic_hash": ""
   },
   "report-index/INDEX.md": {
-    "mtime": 1795579793.24164,
-    "seen": 1795579823.6679788,
+    "mtime": 1795587707.9460282,
+    "seen": 1795587757.335055,
     "ast_hash": "15e737e2aee8cdfa0b9070f90e1a78e5",
     "semantic_hash": ""
   },
@@ -9564,9 +9564,9 @@
     "semantic_hash": "94d5d89a7d716bdff241fa75b01e3837"
   },
   "research/TESTED-STRATEGIES.md": {
-    "mtime": 1795579786.583012,
-    "seen": 1795579823.6679788,
-    "ast_hash": "ebc04b53de49cdba751d2bc806c4505e",
+    "mtime": 1795587706.436067,
+    "seen": 1795587757.335055,
+    "ast_hash": "83b48700c4fe6e9d1294f26d5309dd74",
     "semantic_hash": ""
   },
   "research/orb-sol/compare-bots.txt": {
@@ -13431,6 +13431,12 @@
     "mtime": 1795579783.3929932,
     "seen": 1795579823.692183,
     "ast_hash": "36696466d8ea9c7a2ce1ce1b70464425",
+    "semantic_hash": ""
+  },
+  "research/opus-validate-nov25/f-bbonly.js": {
+    "mtime": 1795583129.455071,
+    "seen": 1795587757.2579174,
+    "ast_hash": "d4bd7b3897ea804964194c8c47b80785",
     "semantic_hash": ""
   },
   "LEDGER/package-lock.json": {
