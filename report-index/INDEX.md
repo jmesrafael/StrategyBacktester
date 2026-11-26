@@ -625,6 +625,10 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - trades.json — trades.json (2026-11-12)
 - verdict.json — verdict.json (2026-11-12)
 
+## research/four-bot-nov26
+- RESULTS.md — 3 live bots vs 4 new strategies, and a 4th bot at 25% each (Nov 26, 2026) (2026-11-26)
+- results.json — results.json (2026-11-26)
+
 ## research/hunt-1h-nov26
 - METRICS-COPY.txt — STRATEGY PERFORMANCE: 6 live coins (SOL NEAR ADA GALA ZEC ARB), Binance perp data (2026-11-26)
 - REPORT.md — 1h hunt: a strategy positive in every year 2020 to Nov 2026 (Nov 26, 2026) (2026-11-26)
