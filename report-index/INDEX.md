@@ -333,13 +333,17 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 ## lucidio-recorder
 - README.md — Lucid'io data recorder (2026-11-06)
 
+## new-strat-lab
+- README.md — New strategy lab: BB-1H-WIDE and ICHI-X4, PAPER ONLY (Nov 26, 2026) (2026-11-26)
+- VPS-INSTALL.md — Putting the two new paper bots on the VPS (2026-11-26)
+
 ## news-lab-bots
 - NEWS-LAB-INSTALL.md — News lab on the VPS: three paper bots with the news gate (2026-11-11)
 - NEWS-LAB-INSTALL.template.md — News lab on the VPS: three paper bots with the news gate (2026-11-11)
 - README.md — News lab bots (BB-CORE, I-CORE, T-CORE + news gate), PAPER ONLY (2026-11-11)
 
 ## research
-- TESTED-STRATEGIES.md — Tested strategies: registry (read before testing anything new) (2026-11-26)
+- TESTED-STRATEGIES.md — Tested strategies: registry (read before testing anything new) (2026-11-27)
 
 ## research/bb-book-nov25
 - BOOK-NOTES.md — Study notes: "Bollinger Bands, the methods" (bollinger_band.pdf), compared with BB-CORE (Nov 25, 2026) (2026-11-26)
@@ -509,6 +513,11 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - locked.json — locked.json (2026-11-26)
 - results.json — results.json (2026-11-26)
 
+## research/bb-versions-nov26
+- RESULTS.md — BB-CORE 4H vs 1H: every version side by side, and with I-CORE + T-CORE (Nov 26, 2026) (2026-11-26)
+- results.json — results.json (2026-11-26)
+- verdict.json — verdict.json (2026-11-26)
+
 ## research/big-swings
 - RESULTS-5coins-tuned.md — Frozen strategies on SOL · ZEC · NEAR · ADA · GALA — Binance USDT-M 4h, 2020 → Oct 2026 (2026-10-28)
 - RESULTS-5coins.md — Frozen strategies on SOL · ZEC · NEAR · ADA · GALA — Binance USDT-M 4h, 2020 → Oct 2026 (2026-10-28)
@@ -573,6 +582,10 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - results-yearly-compare.md — Year by year on SOL / DOGE / ZEC — $5 risk per trade (whole dollars) (2026-10-20)
 - results-yearly-dd.md — BB Breakout (4h) vs NY SMC v7 (15m) — every year on SOL / DOGE / ZEC, $5 risk per trade (2026-10-20)
 
+## research/capital-race-nov26
+- RESULTS.md — Every strategy, one identical setup: ending capital (Nov 26, 2026) (2026-11-26)
+- results.json — results.json (2026-11-26)
+
 ## research/capital-split
 - REPORT.md — Self-compounding vs rebalancing the three bots (Nov 19, 2026) (2026-11-19)
 - RESULTS.md — How to share the money between the three bots: self-compounding vs rebalancing (Nov 19, 2026) (2026-11-19)
@@ -584,6 +597,10 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - peaks.md — Close-all near the open-profit peak, every year since 2020 (2026-11-24)
 - results.md — Close-all-when-open-profit-is-big (account level, 4h closes) (2026-11-24)
 - yearly-pesos.md — TRI-CORE (50/25/25) per year: bot as is vs a human closing everything near each top (2026-11-24)
+
+## research/coin-fit-nov27
+- RESULTS.md — Which coins suit each strategy (Nov 27, 2026) (2026-11-27)
+- results.json — results.json (2026-11-27)
 
 ## research/coin-history-nov13
 - history.json — history.json (2026-11-13)

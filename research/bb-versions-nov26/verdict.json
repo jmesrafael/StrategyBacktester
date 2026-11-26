@@ -1,0 +1,18 @@
+{
+  "verdict": [
+    "<b>Best BB version alone: live 4H v4 and 1H WIDE, near tie.</b> Average rank 1.8 (WIDE) and 1.9 (v4), then 1H 2.6 and old 4H 3.4. v4 earns the most at the same fall (+198% middle year at the same typical fall, 245% a year at the same 40% worst fall, vs WIDE +195% / 226% and 1H +188% / 194%). WIDE falls least (35% vs 39%).",
+    "<b>BB 1H makes the most raw R (+815 vs +711) but only because it takes more risk:</b> worst fall 49% vs 39%, deepest 12-month fall 58% vs 43%. At equal fall it is behind v4. On the 12 hold-out coins it lost in 2025 (-44R).",
+    "<b>Nothing beats v4 clearly.</b> The old 4H rules are last on the 6 live coins but best on the 12 hold-out coins (R per R of fall 5.0 vs v4 4.7, 7/7 positive years vs 6/7), a sign that part of v4's lead over the old rules is fitted to the coins it was tuned on.",
+    "<b>Adding a BB bot to the 3 live bots: small gain at best.</b> Matched to today's typical fall: today +648%, + 1H +666%, + WIDE +675%, + 1H + WIDE (5 bots) +705%. Matched to today's single worst fall: today 558% a year, 5 bots 571%, + WIDE 548%, + 1H 535%. Only the 5-bot mix is ahead on both, by 2 to 9%, inside the noise of 7 overlapping years.",
+    "<b>Swapping v4 out is worse:</b> 1H instead of v4 grows faster at live risk (339% vs 308% a year) but falls deeper (12-month deepest 59% vs 53%) and earns less at the same worst fall (500% vs 558%). WIDE instead of v4: 514%. Old 4H instead: 427%.",
+    "<b>Suggestion:</b> keep 50/25/25 with v4. The extra BB bots move almost exactly like v4 month by month (link 0.84 to 0.91, 1.00 = identical), so they add copies, not variety. Let the BB 1H (bb1h) paper bot and the WIDE paper test run and decide at the late-February 2027 v4 review."
+  ],
+  "caveats": [
+    "Growth percentages are backtest compounding with perfect fills at any size. Far above what to expect live. Use them only to compare lines.",
+    "Every BB version trades the same 6 coins (SOL, ZEC, NEAR, ADA, GALA, ARB). In the 4- and 5-bot mixes two BB bots often hold the same coin and side at once; this assumes each bot has its own MEXC sub-account.",
+    "The 5-bot mix gives the BB family 60% of the money instead of 50%, so part of its gain is just more BB. Splitting today's 50% three ways (v4/1H/WIDE) gives +675% at the same typical fall and 532% at the same worst fall: no clear gain.",
+    "v4 rules were chosen in November 2026 on this same history; 1H and WIDE were picked on 12 main coins and screened on the 12 hold-out coins. No version has a clean out-of-sample test.",
+    "The 71 twelve-month runs overlap (about 7 separate years), so gaps of a few percent are noise.",
+    "Binance candles and funding, fee 0.05% + slippage 0.02% per side. MEXC fills differ. Trades still open on Nov 24 2026 are not counted."
+  ]
+}

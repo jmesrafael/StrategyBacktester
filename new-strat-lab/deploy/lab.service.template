@@ -1,0 +1,52 @@
+# __NAME__ PAPER LAB bot (simulated money, no orders, no Telegram, no dashboard), next to the live bots, sharing nothing with them.
+# Installed by deploy/install-strat-lab.sh. Its own user, code in /opt/__SVC__ (owned by root), data in /var/lib/__SVC__.
+#   sudo systemctl status __SVC__      sudo journalctl -u __SVC__ -f      sudo bash /opt/__SVC__/deploy/status.sh
+[Unit]
+Description=__NAME__ PAPER LAB bot (simulated, no orders)
+After=network-online.target time-sync.target
+Wants=network-online.target
+StartLimitIntervalSec=600
+StartLimitBurst=20
+
+[Service]
+Type=simple
+User=__SVC__
+Group=__SVC__
+WorkingDirectory=/opt/__SVC__
+ExecStart=/usr/bin/node /opt/__SVC__/__MAIN__ loop
+Restart=always
+RestartSec=15
+KillSignal=SIGTERM
+TimeoutStopSec=30
+SyslogIdentifier=__SVC__
+Environment=NODE_ENV=production
+Environment=TZ=UTC
+Environment=__ENVP___STATE_DIR=/var/lib/__SVC__
+# no key file or env file exists at these paths: the bot can never read an account or sign a request
+Environment=__ENVP___KEYS=/var/lib/__SVC__/no-keys.json
+Environment=__ENVP___ENV_FILE=/var/lib/__SVC__/no-env-file
+Environment=__ENVP___NO_NOTIFY=1
+Environment=DASHBOARD_ASK_POLL_SEC=0
+# measured slippage written by the data recorder (read only); absent = the bot uses the live order book instead
+Environment=LUCIDIO_RECORDER_SUMMARY=/var/lib/lucidio-recorder/summary/slippage.json
+# it must never compete with the live bots
+MemoryHigh=150M
+MemoryMax=250M
+Nice=10
+CPUQuota=25%
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectHome=true
+ProtectSystem=strict
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6
+CapabilityBoundingSet=
+ReadWritePaths=/var/lib/__SVC__
+InaccessiblePaths=-/opt/lucidio -/opt/icore -/opt/tcore -/etc/lucidio -/etc/icore -/etc/tcore -/var/backups -/opt/backups
+
+[Install]
+WantedBy=multi-user.target
