@@ -20,6 +20,31 @@
 |---|---|---|---|---|---|---|---|
 | 33.9M | -39% | +646% | +147% | -58% (2023) | -38% | 22 | 36% |
 
+## Standard metrics (live coins, PHP 1,000 from Jan 2020, net of fees, slippage, funding, MEXC minimum orders)
+| Metric | Value |
+|---|---|
+| Max drawdown, peak to trough (open trades marked hourly) | -48.1% (Mar 10 - Apr 12 2023) |
+| Max drawdown, closed trades only | -39.1% |
+| Profit factor | 1.65 |
+| Sharpe ratio (daily, annualised) | 2.09 |
+| Sortino ratio (daily, annualised) | 3.84 |
+| Total trades | 1,783 |
+| Win rate | 35.6% |
+| Trades skipped (MEXC minimum order / margin) | 0 |
+| PHP 1,000 grows to (net) | PHP 32.76M |
+| Yearly growth (CAGR) | 352% |
+
+**Recent test: fresh PHP 1,000 from Jan 1 2026**
+| Metric | Value |
+|---|---|
+| Max drawdown, peak to trough (Sep 23 - Nov 4 2026) | -51.3% |
+| Profit factor | 1.55 |
+| Sharpe / Sortino | 2.72 / 5.27 |
+| Trades / win rate | 286 / 36.4% |
+| PHP 1,000 -> Nov 25 2026 (net) | PHP 12,970 (+1,197%) |
+
+Source: `metrics.md`, `metrics-2026.md` (script `../../metrics.js`).
+
 ## Verdict
 - Most money of all: best year in 5 of 7 and the biggest compounding result.
 - Bigger falls than BB-1H-WIDE, and it lost 2025 on unseen coins: the edge depends more on which coins it trades.
@@ -27,6 +52,9 @@
 ## Files in this folder
 - `months-core1h.md`
 - `compare3.md`
+- `metrics.md`
+- `metrics-2026.md`
+- `METRICS-COPY.txt`
 - `validate.txt`
 
 These are copies. The scripts are two folders up (`../../`) and share `lib.js`; re-running one rewrites its output there.

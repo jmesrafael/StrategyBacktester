@@ -10,6 +10,31 @@
 |---|---|---|---|---|---|---|---|
 | 4.9M | -38% | +433% | +105% | -56% (2026) | -48% (Oct 2026) | 19 | 37% |
 
+## Standard metrics (live coins, PHP 1,000 from Jan 2020, net of fees, slippage, funding, MEXC minimum orders)
+| Metric | Value |
+|---|---|
+| Max drawdown, peak to trough (open trades marked hourly) | -43.4% (Mar 10 - May 3 2023) |
+| Max drawdown, closed trades only | -38.0% |
+| Profit factor | 1.48 |
+| Sharpe ratio (daily, annualised) | 1.90 |
+| Sortino ratio (daily, annualised) | 3.46 |
+| Total trades | 1,514 |
+| Win rate | 36.7% |
+| Trades skipped (MEXC minimum order / margin) | 0 |
+| PHP 1,000 grows to (net) | PHP 5.03M |
+| Yearly growth (CAGR) | 244% |
+
+**Recent test: fresh PHP 1,000 from Jan 1 2026**
+| Metric | Value |
+|---|---|
+| Max drawdown, peak to trough (Sep 23 - Nov 4 2026) | -57.6% |
+| Profit factor | 1.37 |
+| Sharpe / Sortino | 2.24 / 4.35 |
+| Trades / win rate | 249 / 36.9% |
+| PHP 1,000 -> Nov 25 2026 (net) | PHP 5,959 (+496%) |
+
+Source: `metrics.md`, `metrics-2026.md` (script `../../metrics.js`).
+
 ## Verdict
 - Middle on return and the worst on risk of the three Bollinger bots here: deepest single month (-48%).
 - The 1h versions beat it in most years (BB-CORE 1h in 6 of 7, BB-1H-WIDE in 5).
@@ -17,5 +42,8 @@
 
 ## Files in this folder
 - `compare3.md`
+- `metrics.md`
+- `metrics-2026.md`
+- `METRICS-COPY.txt`
 
 These are copies. The scripts are two folders up (`../../`) and share `lib.js`; re-running one rewrites its output there.

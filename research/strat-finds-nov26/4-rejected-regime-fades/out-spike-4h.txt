@@ -1,0 +1,13 @@
+fam=spike TF=14400 configs=72 IS4/4 positive=0
+1/4 ISR=1 {"ma":50,"N":6,"k":6,"s":3,"shortOnly":true} {"maxBars":30,"sigExit":true,"kInit":0,"kTrail":0} n=3 R=2 exp=0.815 pf=3.41 dd=1 r/dd=2.4 yrs=2/7 worst=-1 ex10=0 coins+=2 | 20:0 21:0 22:0 23:1 24:-1 25:0 26:2
+1/4 ISR=1 {"ma":50,"N":6,"k":6,"s":3,"shortOnly":false} {"maxBars":30,"sigExit":true,"kInit":0,"kTrail":0} n=3 R=2 exp=0.815 pf=3.41 dd=1 r/dd=2.4 yrs=2/7 worst=-1 ex10=0 coins+=2 | 20:0 21:0 22:0 23:1 24:-1 25:0 26:2
+1/4 ISR=1 {"ma":50,"N":6,"k":6,"s":5,"shortOnly":true} {"maxBars":30,"sigExit":true,"kInit":0,"kTrail":0} n=3 R=2 exp=0.815 pf=3.41 dd=1 r/dd=2.4 yrs=2/7 worst=-1 ex10=0 coins+=2 | 20:0 21:0 22:0 23:1 24:-1 25:0 26:2
+1/4 ISR=1 {"ma":50,"N":6,"k":6,"s":5,"shortOnly":false} {"maxBars":30,"sigExit":true,"kInit":0,"kTrail":0} n=3 R=2 exp=0.815 pf=3.41 dd=1 r/dd=2.4 yrs=2/7 worst=-1 ex10=0 coins+=2 | 20:0 21:0 22:0 23:1 24:-1 25:0 26:2
+1/4 ISR=1 {"ma":50,"N":6,"k":6,"s":3,"shortOnly":true} {"maxBars":12,"sigExit":true,"kInit":0,"kTrail":0} n=3 R=2 exp=0.585 pf=2.73 dd=1 r/dd=1.7 yrs=2/7 worst=-1 ex10=-0 coins+=2 | 20:0 21:0 22:0 23:1 24:-1 25:0 26:2
+1/4 ISR=1 {"ma":50,"N":6,"k":6,"s":3,"shortOnly":false} {"maxBars":12,"sigExit":true,"kInit":0,"kTrail":0} n=3 R=2 exp=0.585 pf=2.73 dd=1 r/dd=1.7 yrs=2/7 worst=-1 ex10=-0 coins+=2 | 20:0 21:0 22:0 23:1 24:-1 25:0 26:2
+1/4 ISR=1 {"ma":50,"N":6,"k":6,"s":5,"shortOnly":true} {"maxBars":12,"sigExit":true,"kInit":0,"kTrail":0} n=3 R=2 exp=0.585 pf=2.73 dd=1 r/dd=1.7 yrs=2/7 worst=-1 ex10=-0 coins+=2 | 20:0 21:0 22:0 23:1 24:-1 25:0 26:2
+1/4 ISR=1 {"ma":50,"N":6,"k":6,"s":5,"shortOnly":false} {"maxBars":12,"sigExit":true,"kInit":0,"kTrail":0} n=3 R=2 exp=0.585 pf=2.73 dd=1 r/dd=1.7 yrs=2/7 worst=-1 ex10=-0 coins+=2 | 20:0 21:0 22:0 23:1 24:-1 25:0 26:2
+1/4 ISR=0 {"ma":50,"N":24,"k":8,"s":3,"shortOnly":true} {"maxBars":12,"sigExit":true,"kInit":0,"kTrail":0} n=26 R=-9 exp=-0.360 pf=0.40 dd=11 r/dd=-0.9 yrs=2/7 worst=-6 ex10=-15 coins+=4 | 20:0 21:-1 22:-0 23:1 24:-6 25:-4 26:0
+1/4 ISR=0 {"ma":50,"N":24,"k":8,"s":5,"shortOnly":true} {"maxBars":12,"sigExit":true,"kInit":0,"kTrail":0} n=25 R=-8 exp=-0.331 pf=0.43 dd=10 r/dd=-0.9 yrs=2/7 worst=-6 ex10=-14 coins+=4 | 20:0 21:-1 22:-0 23:1 24:-6 25:-3 26:0
+1/4 ISR=-3 {"ma":50,"N":24,"k":8,"s":3,"shortOnly":true} {"maxBars":30,"sigExit":true,"kInit":0,"kTrail":0} n=26 R=-11 exp=-0.428 pf=0.44 dd=14 r/dd=-0.8 yrs=2/7 worst=-6 ex10=-17 coins+=3 | 20:0 21:-2 22:1 23:-2 24:-6 25:-3 26:1
+1/4 ISR=-3 {"ma":50,"N":24,"k":8,"s":5,"shortOnly":true} {"maxBars":30,"sigExit":true,"kInit":0,"kTrail":0} n=25 R=-10 exp=-0.402 pf=0.46 dd=13 r/dd=-0.8 yrs=2/7 worst=-6 ex10=-16 coins+=3 | 20:0 21:-2 22:1 23:-2 24:-6 25:-2 26:1

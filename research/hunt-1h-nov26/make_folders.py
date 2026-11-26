@@ -13,6 +13,28 @@ def peso(c, f, avg, wy, wf, wm, tpm, wr):
             f'| {c} | {f} | {avg} | {wy} | {wf} | {wm} | {tpm} | {wr} |')
 
 
+MET = {
+ '01-BB-1H-WIDE': ['-34.9% (Mar 12 - Jun 15 2021)', '-27.3%', '1.68', '2.05', '3.71', '1,316', '39.2%', '0', 'PHP 4.40M', '238%', '-43.7%', '1.60', '2.48 / 5.02', '212 / 39.6%', 'PHP 7,210 (+621%)'],
+ '02-BB-CORE-1h': ['-48.1% (Mar 10 - Apr 12 2023)', '-39.1%', '1.65', '2.09', '3.84', '1,783', '35.6%', '0', 'PHP 32.76M', '352%', '-51.3%', '1.55', '2.72 / 5.27', '286 / 36.4%', 'PHP 12,970 (+1,197%)'],
+ '03-BB-CORE-4h-live': ['-43.4% (Mar 10 - May 3 2023)', '-38.0%', '1.48', '1.90', '3.46', '1,514', '36.7%', '0', 'PHP 5.03M', '244%', '-57.6%', '1.37', '2.24 / 4.35', '249 / 36.9%', 'PHP 5,959 (+496%)'],
+}
+MLAB = ['Max drawdown, peak to trough (open trades marked hourly)', 'Max drawdown, closed trades only', 'Profit factor', 'Sharpe ratio (daily, annualised)', 'Sortino ratio (daily, annualised)',
+        'Total trades', 'Win rate', 'Trades skipped (MEXC minimum order / margin)', 'PHP 1,000 grows to (net)', 'Yearly growth (CAGR)']
+MLAB26 = ['Max drawdown, peak to trough (Sep 23 - Nov 4 2026)', 'Profit factor', 'Sharpe / Sortino', 'Trades / win rate', 'PHP 1,000 -> Nov 25 2026 (net)']
+
+
+def metrics_block(folder):
+    m = MET.get(folder)
+    if not m:
+        return ''
+    t = ('\n## Standard metrics (live coins, PHP 1,000 from Jan 2020, net of fees, slippage, funding, MEXC minimum orders)\n'
+         '| Metric | Value |\n|---|---|\n')
+    t += ''.join(f'| {a} | {b} |\n' for a, b in zip(MLAB, m[:10]))
+    t += '\n**Recent test: fresh PHP 1,000 from Jan 1 2026**\n| Metric | Value |\n|---|---|\n'
+    t += ''.join(f'| {a} | {b} |\n' for a, b in zip(MLAB26, m[10:]))
+    return t + '\nSource: `metrics.md`, `metrics-2026.md` (script `../../metrics.js`).\n'
+
+
 def w(folder, title, status, rules, rows, peso_txt, verdict, files, notes=''):
     d = os.path.join(S, folder)
     os.makedirs(d, exist_ok=True)
@@ -23,6 +45,7 @@ def w(folder, title, status, rules, rows, peso_txt, verdict, files, notes=''):
             t += '| ' + ' | '.join(str(x) for x in r) + ' |\n'
     if peso_txt:
         t += '\n## PHP 1,000 (live coins SOL NEAR ADA GALA ZEC ARB, live risk steps 2.5% / 2% / 1.5%)\n' + peso_txt + '\n'
+    t += metrics_block(folder)
     t += f'\n## Verdict\n{verdict}\n'
     if notes:
         t += f'\n## Notes\n{notes}\n'
@@ -49,7 +72,7 @@ w('01-BB-1H-WIDE', 'BB-1H-WIDE (1h, Bollinger 80 / 2.6 sigma)',
   '- The only candidate positive every year on coins it never saw (hold-out) and on 24 coins at 3x costs.\n'
   '- Smallest drawdowns of the Bollinger versions. Earns less than BB-CORE 1h.\n'
   '- Same signals as BB-CORE 1h (86% trade overlap, monthly correlation 0.96): run one, not both.',
-  ['validate.txt', 'hold-vol.txt', 'months.md', 'pesos.md', 'compare3.md', 'REPORT.md'],
+  ['validate.txt', 'hold-vol.txt', 'months.md', 'pesos.md', 'compare3.md', 'metrics.md', 'metrics-2026.md', 'METRICS-COPY.txt', 'REPORT.md'],
   '- Look-ahead audit: 0 mismatches in 960 checks.\n'
   '- Plateau: bands 60-120 long, 2.2-2.6 sigma, SMA 800, 192-bar exit are all 7/7 on both baskets.\n'
   '- Weak spot: hold-out 2025 was only +6R. Profit per trade fell from 0.31R (2020-23) to 0.19R (2024-26).\n'
@@ -67,7 +90,7 @@ w('02-BB-CORE-1h', 'BB-CORE 1h (1h, Bollinger 80 / 2.0 sigma, the `bb1h` paper b
   peso('33.9M', '-39%', '+646%', '+147%', '-58% (2023)', '-38%', 22, '36%'),
   '- Most money of all: best year in 5 of 7 and the biggest compounding result.\n'
   '- Bigger falls than BB-1H-WIDE, and it lost 2025 on unseen coins: the edge depends more on which coins it trades.',
-  ['months-core1h.md', 'compare3.md', 'validate.txt'])
+  ['months-core1h.md', 'compare3.md', 'metrics.md', 'metrics-2026.md', 'METRICS-COPY.txt', 'validate.txt'])
 
 w('03-BB-CORE-4h-live', 'BB-CORE 4h (the live bot)', 'LIVE (`bbcore`). Reference for comparison.',
   '- 4h close outside Bollinger(20, 2.0) with SMA(200). Stop = middle band (skip if < 0.3 ATR), 48-candle time exit.',
@@ -76,7 +99,7 @@ w('03-BB-CORE-4h-live', 'BB-CORE 4h (the live bot)', 'LIVE (`bbcore`). Reference
   '- Middle on return and the worst on risk of the three Bollinger bots here: deepest single month (-48%).\n'
   '- The 1h versions beat it in most years (BB-CORE 1h in 6 of 7, BB-1H-WIDE in 5).\n'
   '- Earlier study: +594R, 7/7 years on 4h (`research/strat-hunt-nov6/REPORT.md`). Not tested on the hold-out coins in this study.',
-  ['compare3.md'])
+  ['compare3.md', 'metrics.md', 'metrics-2026.md', 'METRICS-COPY.txt'])
 
 w('04-BB-CORE-1h-hold32d', 'BB-CORE 1h with a 32-day hold (bb-hybrid BBX192)',
   'INFO. Robust on the hold-out coins, but weaker than BB-1H-WIDE.',

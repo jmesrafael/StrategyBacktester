@@ -22,6 +22,31 @@
 |---|---|---|---|---|---|---|---|
 | 4.4M | -27% | +416% | +75% (2020, from March) | -42% | -28% | 16 | 39% |
 
+## Standard metrics (live coins, PHP 1,000 from Jan 2020, net of fees, slippage, funding, MEXC minimum orders)
+| Metric | Value |
+|---|---|
+| Max drawdown, peak to trough (open trades marked hourly) | -34.9% (Mar 12 - Jun 15 2021) |
+| Max drawdown, closed trades only | -27.3% |
+| Profit factor | 1.68 |
+| Sharpe ratio (daily, annualised) | 2.05 |
+| Sortino ratio (daily, annualised) | 3.71 |
+| Total trades | 1,316 |
+| Win rate | 39.2% |
+| Trades skipped (MEXC minimum order / margin) | 0 |
+| PHP 1,000 grows to (net) | PHP 4.40M |
+| Yearly growth (CAGR) | 238% |
+
+**Recent test: fresh PHP 1,000 from Jan 1 2026**
+| Metric | Value |
+|---|---|
+| Max drawdown, peak to trough (Sep 23 - Nov 4 2026) | -43.7% |
+| Profit factor | 1.60 |
+| Sharpe / Sortino | 2.48 / 5.02 |
+| Trades / win rate | 212 / 39.6% |
+| PHP 1,000 -> Nov 25 2026 (net) | PHP 7,210 (+621%) |
+
+Source: `metrics.md`, `metrics-2026.md` (script `../../metrics.js`).
+
 ## Verdict
 - The only candidate positive every year on coins it never saw (hold-out) and on 24 coins at 3x costs.
 - Smallest drawdowns of the Bollinger versions. Earns less than BB-CORE 1h.
@@ -39,6 +64,9 @@
 - `months.md`
 - `pesos.md`
 - `compare3.md`
+- `metrics.md`
+- `metrics-2026.md`
+- `METRICS-COPY.txt`
 - `REPORT.md`
 
 These are copies. The scripts are two folders up (`../../`) and share `lib.js`; re-running one rewrites its output there.

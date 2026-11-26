@@ -46,3 +46,6 @@ One line per strategy. Details, rules and result files: `strategies/<folder>/SUM
 1. Make a folder `strategies/NN-name/`.
 2. Write a `SUMMARY.md` with the same sections (rules, R per year, PHP 1,000, verdict, files).
 3. Add one row to the tables above and one row to `research/TESTED-STRATEGIES.md`.
+
+## Standard metrics
+Sharpe, Sortino, profit factor, hourly-marked max drawdown and MEXC minimum-order results: `metrics.md` (from Jan 2020) and `metrics-2026.md` (fresh PHP 1,000 from Jan 2026), script `metrics.js`. Copy-ready version: `METRICS-COPY.txt`. Each strategy folder 01-03 has its own numbers in `SUMMARY.md`.

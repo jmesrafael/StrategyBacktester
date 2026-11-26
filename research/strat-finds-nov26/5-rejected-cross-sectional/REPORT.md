@@ -1,0 +1,5 @@
+# Cross-sectional hunt (Nov 26, 2026): NONE FOUND
+Backtester xs.js: signals on closed 1h bar, fill next open, 0.05%+0.02% per side on traded notional (drift-aware turnover), real funding, units = % of gross notional per year (long leg 0.5 + short leg 0.5, non-compounded). Truncation test: 0 mismatches (2015 and 2039 decisions).
+Scans (MAIN, IS 2020-23 filter): scan.js (mom/rev/lowvol/funding-carry/beta-adjusted momentum, L 24-1440h, rebalance 24-168h, N 2-4: 324 configs), scan2.js (short-horizon rev/mom, R 4-24h, lowvol, funding both signs: 11 of 264 pass IS, none hold out), scan3.js (rank blends), scan4.js (mom+funding blend, 576 configs).
+Findings: plain momentum / beta-adjusted momentum are 7/7 on MAIN but fail on HOLD (2025-26 -20 to -57). Reversal and low-vol fail IS. Funding carry alone fails 2026. Best blend (mom720 + funding168 x1.5, N=3, rebalance 120h) is 1 of 576 configs passing both baskets 1x, no plateau, and fails 24-coin 2x (2024 -16%) and HOLD 2023 = 0.
+Monthly correlation with BB-CORE 1h / BB-1H-WIDE is 0.18-0.25 (gate met), the edge is just not robust.
