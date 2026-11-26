@@ -1,0 +1,37 @@
+years:                                                2020  2021  2022  2023  2024  2025  2026
+MACD8 sig tr1200 sig(4)      MAIN  1x 7/7   107  312  160  150   76  101   74 | R=980 dd=67 r/dd=14.7 coins+=12
+MACD8 sig tr1200 sig(4)      HOLD  1x 5/7   105  193  116   66  132  -23  -34 | R=555 dd=125 r/dd=4.4 coins+=12
+MACD8 sig tr1200 sig(4)      HOLD  2x 5/7    99  184  104   47  117  -39  -58 | R=455 dd=148 r/dd=3.1 coins+=12
+MACD8 sig tr1200 sig(4)      ALL24 2x 6/7   198  486  251  178  178   46   -2 | R=1336 dd=196 r/dd=6.8 coins+=24 corrBBW=0.68
+  sc6                        MAIN  1x 7/7   171  314  147  155   52  107   52 | R=999 dd=85 r/dd=11.7 coins+=12
+  sc6                        HOLD  1x 5/7    85  142   86   71  101  -17  -35 | R=432 dd=115 r/dd=3.8 coins+=11
+  sc6                        HOLD  2x 5/7    72  128   69   45   79  -38  -62 | R=293 dd=147 r/dd=2.0 coins+=11
+  sc6                        ALL24 2x 6/7   234  426  198  171  114   46  -35 | R=1153 dd=188 r/dd=6.1 coins+=23 corrBBW=0.68
+  tr800                      MAIN  1x 7/7   114  314  166  159  117   91   52 | R=1014 dd=74 r/dd=13.7 coins+=12
+  tr800                      HOLD  1x 5/7   109  208   95   43  132  -22  -20 | R=544 dd=115 r/dd=4.8 coins+=12
+  tr800                      HOLD  2x 5/7   102  199   84   25  118  -39  -44 | R=445 dd=139 r/dd=3.2 coins+=11
+  tr800                      ALL24 2x 6/7   208  504  237  165  219   37   -8 | R=1362 dd=185 r/dd=7.4 coins+=23 corrBBW=0.70
+  tr2400                     MAIN  1x 7/7    98  282  137   85   78   74    1 | R=755 dd=68 r/dd=11.0 coins+=12
+  tr2400                     HOLD  1x 5/7    67  149   86   35  179  -52  -55 | R=409 dd=143 r/dd=2.9 coins+=11
+  tr2400                     HOLD  2x 5/7    62  140   74   16  164  -69  -79 | R=308 dd=179 r/dd=1.7 coins+=11
+  tr2400                     ALL24 2x 5/7   153  411  198   82  226  -11  -97 | R=962 dd=213 r/dd=4.5 coins+=23 corrBBW=0.60
+  kInit3                     MAIN  1x 7/7   153  272  208  192   89  157  106 | R=1176 dd=90 r/dd=13.0 coins+=12
+  kInit3                     HOLD  1x 5/7    87  236  155   87  177  -53  -49 | R=640 dd=164 r/dd=3.9 coins+=12
+  kInit3                     HOLD  2x 5/7    79  224  139   57  159  -78  -72 | R=506 dd=190 r/dd=2.7 coins+=9
+  kInit3                     ALL24 2x 7/7   219  483  325  206  225   58    8 | R=1525 dd=239 r/dd=6.4 coins+=21 corrBBW=0.65
+  kInit5                     MAIN  1x 7/7   102  256  135  126   55   85   54 | R=813 dd=56 r/dd=14.6 coins+=12
+  kInit5                     HOLD  1x 5/7    68  169  100   43  103  -17  -24 | R=442 dd=101 r/dd=4.4 coins+=12
+  kInit5                     HOLD  2x 5/7    63  162   87   28   92  -29  -40 | R=362 dd=115 r/dd=3.1 coins+=12
+  kInit5                     ALL24 2x 6/7   159  410  212  135  134   42   -1 | R=1091 dd=155 r/dd=7.0 coins+=24 corrBBW=0.69
+KC50 x3.5 atr(3,18)          MAIN  1x 7/7   232  712   38  353  324  150  138 | R=1946 dd=129 r/dd=15.0 coins+=12
+KC50 x3.5 atr(3,18)          HOLD  1x 5/7     9  142  -25  171  396 -131   43 | R=604 dd=233 r/dd=2.6 coins+=10
+KC50 x3.5 atr(3,18)          HOLD  2x 4/7    -4  131  -41  147  374 -158   12 | R=461 dd=275 r/dd=1.7 coins+=10
+KC50 x3.5 atr(3,18)          ALL24 2x 5/7   217  832  -18  476  677  -33  123 | R=2274 dd=298 r/dd=7.6 coins+=22 corrBBW=0.40
+KC200 x3.5 atr(4,22)         MAIN  1x 7/7   159  788   86  206  285  332   91 | R=1947 dd=135 r/dd=14.4 coins+=12
+KC200 x3.5 atr(4,22)         HOLD  1x 4/7   -19  241   40  103  336 -112  -58 | R=530 dd=231 r/dd=2.3 coins+=9
+KC200 x3.5 atr(4,22)         HOLD  2x 4/7   -28  234   28   84  317 -127  -75 | R=432 dd=257 r/dd=1.7 coins+=8
+KC200 x3.5 atr(4,22)         ALL24 2x 6/7   123 1016  103  266  588  192   -2 | R=2286 dd=288 r/dd=7.9 coins+=20 corrBBW=0.29
+EMA50/200 er0.2 atr(4,22)    MAIN  1x 7/7    63  484   77  172  182  123   45 | R=1147 dd=84 r/dd=13.7 coins+=11
+EMA50/200 er0.2 atr(4,22)    HOLD  1x 5/7    18   90   -9   45  223 -139    3 | R=231 dd=200 r/dd=1.2 coins+=9
+EMA50/200 er0.2 atr(4,22)    HOLD  2x 4/7    15   87  -18   38  217 -146   -3 | R=190 dd=210 r/dd=0.9 coins+=7
+EMA50/200 er0.2 atr(4,22)    ALL24 2x 6/7    75  566   53  202  391  -29   35 | R=1293 dd=189 r/dd=6.8 coins+=18 corrBBW=0.22

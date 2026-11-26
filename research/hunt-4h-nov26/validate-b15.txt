@@ -1,0 +1,13 @@
+CAND {"fam":"ichi","p":{"t":9,"k":26,"s":52,"mode":"cross"},"trend":0,"exit":{"k":2,"bars":15}} 
+years               2020    2021    2022    2023    2024    2025    2026
+MAIN  1x    42   80   85   50   75   78   50 | R=460 dd=42 r/dd=10.9 exp=0.146 n=3146 7/7 ex10=357 coins+=12/12
+MAIN  2x    35   71   73   29   61   61   32 | R=362 dd=53 r/dd=6.8 exp=0.115 n=3147 7/7 ex10=260 coins+=12/12
+MAIN  3x    28   61   61    8   42   45   14 | R=258 dd=64 r/dd=4.0 exp=0.082 n=3147 7/7 ex10=157 coins+=10/12
+HOLD  1x    40   54   69   32   46   31   30 | R=302 dd=48 r/dd=6.3 exp=0.096 n=3137 7/7 ex10=221 coins+=12/12
+HOLD  2x    32   45   55   13   31   17   11 | R=204 dd=58 r/dd=3.5 exp=0.065 n=3138 7/7 ex10=123 coins+=9/12
+ALL24 1x    82  134  154   82  120  109   80 | R=762 dd=85 r/dd=9.0 exp=0.121 n=6283 7/7 ex10=657 coins+=24/24
+cand  checks=480 mismatches=0  -> NO LOOK-AHEAD
+audit ok = true [[480,0]]
+BB-CORE 4h ALL24   229  517  353  186  203  117  219 R=1824
+overlap (entry within 24h same coin+side): 2500/6283 = 40%; overlap (entry while BB-CORE position open): 4850/6283 = 77%; monthly corr 0.52
+long R 436 short R 326 win 47%
