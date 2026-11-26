@@ -1053,6 +1053,10 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - RESULTS.md — Why we lose in streaks, and where we make the money (2026-11-19)
 - results.json — results.json (2026-11-19)
 
+## research/tri-vs-four-nov27
+- RESULTS.md — TRI-CORE vs 4 bots (+ BB 1H WIDE): ₱1,000 from Jan 2020 (Nov 27, 2026) (2026-11-27)
+- results.json — results.json (2026-11-27)
+
 ## research/tweak-lab-nov13
 - coin-worth.json — coin-worth.json (2026-11-14)
 - combos.json — combos.json (2026-11-13)
@@ -1067,6 +1071,10 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - study.json — study.json (2026-11-13)
 - verify-out.txt — ================ A. REPLAY TEST: bot rerun with only the candles up to a random cut ================ (2026-11-13)
 - verify.json — verify.json (2026-11-13)
+
+## research/wide-coins-nov27
+- RESULTS.md — BB 1H WIDE: add DOT, LINK, ONE, XTZ to GALA SOL ADA NEAR ZEC? (Nov 27, 2026) (2026-11-27)
+- results.json — results.json (2026-11-27)
 
 ## research/zec-replacement-2
 - DEEP.md — 5th coin for BB-CORE and I-CORE — finalists, judged like ETH (Nov 12, 2026) (2026-11-12)
