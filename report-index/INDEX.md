@@ -569,7 +569,7 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - bot-config.json — bot-config.json (2026-11-11)
 
 ## research
-- TESTED-STRATEGIES.md — Tested strategies: registry (read before testing anything new) (2026-11-25)
+- TESTED-STRATEGIES.md — Tested strategies: registry (read before testing anything new) (2026-11-26)
 
 ## research/bb-book-nov25
 - BOOK-NOTES.md — Study notes: "Bollinger Bands, the methods" (bollinger_band.pdf), compared with BB-CORE (Nov 25, 2026) (2026-11-25)
@@ -840,6 +840,16 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 
 ## research/dip-timing
 - REPORT.md — Is it better to add money when the equity curve is down? (Nov 25, 2026) (2026-11-25)
+
+## research/divergence-nov26
+- income.md — Monthly income from a 1,000,000 PHP account (TRI-CORE, trades untouched, to Nov 2026; backtest, not expected income) (2026-11-26)
+- monthclose.md — Month-end clean-out against no interference (all three bots, live coins, v3 rules, to Nov 25 2026) (2026-11-26)
+- partial.md — Partial profit at an open-profit level (all three bots, 50/25/25, 2.5% risk, to Nov 25 2026) (2026-11-26)
+- pnlclose.md — Close everything when open profit reaches X% of the account (all three bots, 50/25/25, 2.5% risk, to Nov 25 2026) (2026-11-26)
+- results.json — results.json (2026-11-26)
+- results.md — Divergence study: refused entries, hand closes and a blocked coin (Nov 26 2026) (2026-11-26)
+- trendline.md — BTC higher-timeframe trendline exit vs no interference (all three bots, live coins, v3 rules, to Nov 25 2026) (2026-11-26)
+- withdraw.md — Withdraw a share of new profit each month, trades untouched (start 50,000 PHP, to Nov 25 2026; backtest, not expected income) (2026-11-26)
 
 ## research/donchian-30
 - COMPARE.md — Donchian top 3 vs TRI-CORE: with and without the biggest wins (2026-11-19)

@@ -75,6 +75,10 @@ function fromJournal(rec) {
     const xc = rec.excursion || {};   // BB-Trail lab: best / worst price, give-back, stop at exit (R of the initial risk), stop moves, candles, real funding and slippage
     Object.assign(data, { mfe_r: numOrNull(xc.mfe_r), mae_r: numOrNull(xc.mae_r), gave_back_r: numOrNull(xc.gave_back_r), stop_at_exit_r: numOrNull(xc.stop_at_exit_r), trail_moves: numOrNull(xc.trail_moves), bars: numOrNull(xc.bars),
       funding_r: numOrNull(c.funding_r), slip_bp: c.slippage_pct != null ? numOrNull(c.slippage_pct * 100) : null });
+    if (c.exit && Array.isArray(c.exit.partials) && c.exit.partials.length) {   // the owner took part of it before the final close (partial.js)
+      const ps = c.exit.partials, last = ps[ps.length - 1], usd = Number.isFinite(Number(last.realised)) && last.realised != null ? Number(last.realised) : ps.reduce((a, x) => a + (Number(x.usd) || 0), 0);
+      data.part_n = ps.length; data.part_usd = numOrNull(Math.round(usd * 1e4) / 1e4);
+    }
     if (share) { data.usd = numOrNull(rec.usd_pnl); data.balance_after = numOrNull(rec.balance_after); }
     return [mk('exit', rec.event_id, rec.ts_ms, mode, key, data)];
   }
@@ -87,11 +91,16 @@ function fromJournal(rec) {
 const lastPrice = {};   // symbol -> { px, candleMs }: public market data, lets the dashboard show the current R of an open position
 const notePrice = (symbol, px, candleMs) => { if (allowedSymbol(symbol) && Number.isFinite(+px)) lastPrice[symbol] = { px: +px, candle_ms: candleMs }; };
 
+// per open trade the owner took part of: { vol, vol0, n, usd } (numbers only, allowed symbols only)
+const partOf = (h) => { const o = {}; for (const [sym, v] of Object.entries(h || {})) if (allowedSymbol(sym) && v) o[sym] = { vol: numOrNull(v.vol) ?? 0, vol0: numOrNull(v.vol0) ?? 0, n: numOrNull(v.n) ?? 0, usd: numOrNull(v.usd) ?? 0 }; return o; };
+// this bot's own tag (what its events carry in `bot`), read from mk(): the patched copies (bbtr paper lab, tcore live) ask for THEIR commands, never another bot's
+const botTag = () => mk('x', 0, 0, 'paper', {}, {}).bot;
 function heartbeatEvent(i, nowMs = Date.now()) {
   const prices = {}; for (const s of config.ALLOWED_SYMBOLS) if (lastPrice[s]) prices[s] = lastPrice[s];
   return mk('heartbeat', `hb:${i.mode}:${Math.floor(nowMs / 1000)}`, nowMs, i.mode, {}, {
     status: strN(i.status || 'running', 20), last_candle_ms: i.lastCandleMs || {}, kill_switch: !!i.kill, drawdown_r: numOrNull(i.drawdownR), halt_r: numOrNull(i.haltR),
     commit: strN(i.commit, 12), version: strN(i.version, 20), uptime_sec: numOrNull(i.uptimeSec), next_wake_ms: numOrNull(i.nextWakeMs), prices, enabled_coins: i.coins || [], ...(i.trail && Object.keys(i.trail).length ? { trail: i.trail } : {}),
+    ...(i.part && Object.keys(i.part).length ? { part: partOf(i.part) } : {}),
   });
 }
 function equityEvent(i, nowMs = Date.now()) {
@@ -202,15 +211,16 @@ const pushCompare = (summary) => safe(() => enqueue([compareEvent(summary)]));
 //   DASHBOARD_ASK_POLL_SEC   seconds between asks, default 0 = never ask (the Ask-bot-now button is BB-Core's; two bots asking would steal each other's requests), minimum 20 (the button then cannot reach the bot)
 const askPollSec = () => { const v = process.env.DASHBOARD_ASK_POLL_SEC; if (v === undefined || v === '') return 0; const n = Number(v); return !Number.isFinite(n) ? 60 : n <= 0 ? 0 : Math.max(20, n); };
 let askTimer = null, askFails = 0, askBusy = false;
-async function pollOnce({ fetchImpl = fetch, now = Date.now() } = {}) {   // -> true (someone asked) | false; throws on network / HTTP errors (the caller counts them)
+async function pollOnce({ fetchImpl = fetch, now = Date.now(), onCommands = null } = {}) {   // -> true (someone asked) | false; throws on network / HTTP errors (the caller counts them)
   const secret = process.env.DASHBOARD_PUSH_SECRET;
-  const res = await withTimeout(fetchImpl(`${baseUrl()}/api/poll`, { method: 'GET', signal: AbortSignal.timeout(TIMEOUT_MS), headers: { 'X-Lucidio-Timestamp': String(now), 'X-Lucidio-Signature': sign(secret, now, '') } }), TIMEOUT_MS);
+  const res = await withTimeout(fetchImpl(`${baseUrl()}/api/poll${onCommands ? '?cmds=' + botTag() : ''}`, { method: 'GET', signal: AbortSignal.timeout(TIMEOUT_MS), headers: { 'X-Lucidio-Timestamp': String(now), 'X-Lucidio-Signature': sign(secret, now, '') } }), TIMEOUT_MS);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const j = await withTimeout(res.json(), TIMEOUT_MS);
+  if (onCommands && j && Array.isArray(j.commands) && j.commands.length) { try { onCommands(j.commands.slice(0, 10)); } catch {} }   // owner requests (partial close); validated by the bot
   return !!(j && j.ask === true);
 }
 // provider() -> the same status object the run-end heartbeat uses; busy() -> true while a run is in progress
-function startAskPoll({ provider, busy = () => false, fetchImpl = fetch } = {}) {
+function startAskPoll({ provider, busy = () => false, fetchImpl = fetch, onCommands = null } = {}) {
   const base = askPollSec();
   if (!enabled() || !base || askTimer) return false;
   const tick = async () => {
@@ -218,7 +228,7 @@ function startAskPoll({ provider, busy = () => false, fetchImpl = fetch } = {}) 
     try {
       if (!askBusy && !busy()) {
         askBusy = true;
-        try { if (await pollOnce({ fetchImpl })) safe(() => pushHeartbeat(provider())); askFails = 0; }
+        try { if (await pollOnce({ fetchImpl, onCommands })) safe(() => pushHeartbeat(provider())); askFails = 0; }
         catch (e) { askFails++; next = base * 1000 * Math.min(10, 2 ** Math.min(askFails, 4)); if (askFails === 3) warn(`ask-poll failing (${(e && e.message) || 'error'}); slowing down`); }
         finally { askBusy = false; }
       }

@@ -14,6 +14,7 @@
 // instead of sending it again.
 'use strict';
 const { assertAllowedSymbol } = require('./config.js');
+const PART = require('./partial.js');   // owner partial closes (the P button): sizes and the whole position's result
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const decimals = (u) => { const s = String(u); return s.includes('e-') ? +s.split('e-')[1] : (s.split('.')[1] || '').length; };
 const roundTo = (v, unit) => +(Math.round(v / unit) * unit).toFixed(decimals(unit));
@@ -78,13 +79,13 @@ function createLiveExecutor({ api, cfg = {}, log = () => {} }) {
   }
   // extra (research only, never read by the trading logic): closedBy = who closed it; decidedPx = the price the bot saw when it sent a market close
   function result(pos, px, why, h, extra = {}) {
-    const pnl = h && h.realised != null ? +h.realised : pos.dir * (px - pos.entry) * pos.qty;
+    const pnl = PART.totalUsd(pos, h, pos.dir * (px - pos.entry) * pos.qty);   // the whole position: MEXC's realised P&L, plus the owner's partial closes if MEXC's record leaves them out
     const trigger = why === 'stop' ? pos.stop : null, ref = trigger ?? extra.decidedPx ?? null, oneR = Math.abs(pos.entry - pos.stop);
     const mexc = h ? Object.fromEntries(MEXC_FIELDS.filter((k) => h[k] !== undefined).map((k) => [k, h[k]])) : null;
     return { px, why, R: pnl / pos.riskUsd, usd: pnl, funding: h ? +h.holdFee || 0 : null, fees: h ? +h.fee || 0 : null,
       trigger_price: trigger, fill_price: px, closed_by: extra.closedBy || 'mexc_trigger',
       exit_slip_r: ref != null && oneR > 0 ? +((pos.dir * (ref - px)) / oneR).toFixed(4) : null,      // positive = the fill was worse than the trigger / the price the bot saw
-      mexc_history: mexc };
+      mexc_history: mexc, ...(pos.partials && pos.partials.length ? { realised_total: pnl, partials: pos.partials } : {}) };
   }
   const classify = () => 'stop';   // the only order MEXC can trigger on its own is the (trailing) stop
 
@@ -144,7 +145,9 @@ function createLiveExecutor({ api, cfg = {}, log = () => {} }) {
     assertAllowedSymbol(symbol, 'live close');
     if (!(await myPositions(pos.coin)).some((p) => String(p.positionId) === String(pos.positionId))) {   // already closed by MEXC
       const h = await findClosed(pos);
-      return result(pos, h ? +h.closeAvgPrice : pos.entry, h ? classify(pos, +h.closeAvgPrice) : why, h);
+      if (!h) return result(pos, pos.entry, why, h);
+      const leg = PART.lastLegPx(pos, h);   // the LAST close only (owner partial closes would average into closeAvgPrice)
+      return result(pos, leg, classify(pos, leg), h);
     }
     const oid = `bx${pos.coin}${Math.floor((api.now ? api.now() : Date.now()) / 1000)}${why === 'time' ? 'T' : 'E'}`.slice(0, 32); // new id per attempt (the position check above prevents double closes)
     let px = pos.entry; try { px = +(await api.ticker(symbol)).lastPrice; } catch {}
@@ -157,7 +160,38 @@ function createLiveExecutor({ api, cfg = {}, log = () => {} }) {
       if (left.length) await api.cancelTpSl(left.map((s) => s.id));
     } catch (e) { log(`${pos.coin} TP/SL cleanup: ${e.message}`); }
     const h = await findClosed(pos);
-    return result(pos, f ? +f.dealAvgPrice : h ? +h.closeAvgPrice : px, why, h, { closedBy: `bot_${why === 'time' ? 'time_exit' : why}`, decidedPx: px });
+    return result(pos, f ? +f.dealAvgPrice : h ? PART.lastLegPx(pos, h) : px, why, h, { closedBy: why === 'manual' ? 'owner_close' : `bot_${why === 'time' ? 'time_exit' : why}`, decidedPx: px });
+  }
+
+  // OWNER PARTIAL CLOSE (the P button, partial.js): close part of the position at the market, then keep the bot's state equal to what MEXC holds.
+  // Sends nothing unless MEXC shows exactly the contracts the bot expects. After the fill the size LEFT is read back from MEXC (never assumed), and the stop is
+  // checked (re-placed for the new size if MEXC dropped it). -> { ok, vol, left, px, usd, protected } | { error, gone? }
+  async function reduce(pos, pct, info = {}) {
+    const symbol = sym(pos.coin);
+    assertAllowedSymbol(symbol, 'live partial close');
+    const spec = specs[pos.coin] || (specs[pos.coin] = await api.contract(symbol));
+    const mine = (await myPositions(pos.coin)).find((p) => String(p.positionId) === String(pos.positionId));
+    if (!mine) return { error: 'MEXC no longer shows this position (it may have just closed): nothing sent', gone: true };
+    if (Math.abs(+mine.holdVol - +pos.vol) > 1e-9) return { error: `MEXC holds ${+mine.holdVol} contracts, the bot expects ${pos.vol}: check the MEXC app, nothing sent` };
+    const plan = PART.planVol(pos.vol, pct);
+    if (plan.error) return { error: plan.error };
+    if (plan.full) return { full: true };
+    const nowMs = api.now ? Math.round(api.now()) : Date.now(), oid = `bp${pos.coin}${Math.floor(nowMs / 1000)}`.slice(0, 32);
+    let px = pos.entry; try { px = +(await api.ticker(symbol)).lastPrice; } catch {}
+    try { await api.createOrder({ symbol, price: px, vol: plan.vol, side: pos.dir === 1 ? 4 : 2, type: 5, openType: 1, positionId: pos.positionId, externalOid: oid }); }
+    catch (e) { log(`${pos.coin} partial close order error: ${e.message} — checking MEXC`); }
+    const f = await waitFill(symbol, oid);
+    const after = (await myPositions(pos.coin)).find((p) => String(p.positionId) === String(pos.positionId));
+    if (!after) return { error: 'the position is gone on MEXC after the partial order: the close check books it', gone: true };
+    const left = +after.holdVol, done = +pos.vol - left;
+    if (!(done > 0)) return { error: `the partial close order did not fill${f ? '' : ' (MEXC has no fill for it)'}: nothing changed` };
+    const fillPx = f && +f.dealAvgPrice > 0 ? +f.dealAvgPrice : px, cs = +spec.contractSize || (pos.qty / pos.vol);
+    pos.vol0 = pos.vol0 ?? pos.vol;
+    pos.vol = left; pos.qty = left * cs;
+    const usd = pos.dir * (fillPx - pos.entry) * done * cs;
+    (pos.partials = pos.partials || []).push({ ts: nowMs, vol: done, px: fillPx, pct, usd: +usd.toFixed(6), realised: after.realised != null && Number.isFinite(+after.realised) ? +after.realised : null, oid, id: info.id || null, source: info.source || null });
+    let prot = false; try { prot = await ensureProtection(pos); } catch (e) { log(`${pos.coin} stop check after the partial close failed: ${e.message}`); }
+    return { ok: true, vol: done, left, px: fillPx, usd, protected: prot };
   }
 
   function buildPos(p, fill) {
@@ -167,7 +201,7 @@ function createLiveExecutor({ api, cfg = {}, log = () => {} }) {
   }
 
   return {
-    sizeOrder, leverageFor, ensureProtection, moveStop, close,
+    sizeOrder, leverageFor, ensureProtection, moveStop, close, reduce,
     async exitNow(pos) { return close(pos, 'stop'); },   // market close because the price already passed the trailing stop
     async beginRun(coins) { for (const c of coins) { assertAllowedSymbol(sym(c), 'live setup'); specs[c] = await api.contract(sym(c)); } },
     spec: (coin) => specs[coin],
@@ -230,7 +264,7 @@ function createLiveExecutor({ api, cfg = {}, log = () => {} }) {
     async checkExit(pos, c) {
       if ((await myPositions(pos.coin)).some((p) => String(p.positionId) === String(pos.positionId))) return null;
       const h = await findClosed(pos);
-      const px = h ? +h.closeAvgPrice : (pos.dir === 1 ? pos.stop : pos.stop);
+      const px = h ? PART.lastLegPx(pos, h) : pos.stop;
       return result(pos, px, classify(pos, px), h);
     },
 

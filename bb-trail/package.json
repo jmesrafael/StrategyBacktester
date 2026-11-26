@@ -11,6 +11,6 @@
     "report": "node lab-report.js",
     "compare": "node compare-live-vs-backtest.js --mode paper --tolerance 0.15 --rel-tolerance 0.05",
     "replay": "node icore.js replay SOL,ZEC,NEAR,ADA,GALA",
-    "test": "node test/trail-parity.js && node test/trail-lab-test.js && node --test test/realpaper-test.js && node test/selftest.js && node test/full-loop-parity.js && node test/journal-test.js && node test/telegram-test.js && node test/ops-test.js && node test/compare-test.js && node test/dashboard-tag-test.js && node test/dashboard-schema-test.js && node test/risk-tiers-test.js && node test/ledger-wallet-test.js"
+    "test": "node test/trail-parity.js && node test/trail-lab-test.js && node --test test/realpaper-test.js && node test/selftest.js && node test/full-loop-parity.js && node test/journal-test.js && node test/telegram-test.js && node test/ops-test.js && node test/compare-test.js && node test/dashboard-tag-test.js && node test/dashboard-schema-test.js && node test/risk-tiers-test.js && node test/ledger-wallet-test.js && node test/partial-test.js"
   }
 }
