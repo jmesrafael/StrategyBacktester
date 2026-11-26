@@ -5442,9 +5442,9 @@
     "semantic_hash": ""
   },
   "report-index/INDEX.md": {
-    "mtime": 1795593795.4993658,
-    "seen": 1795593835.6559443,
-    "ast_hash": "2fed7d9e249aee1c80ce53a899db14ee",
+    "mtime": 1795662536.510348,
+    "seen": 1795664271.6118855,
+    "ast_hash": "16535e5fe594dab772c6fe0b7c8ea38a",
     "semantic_hash": ""
   },
   "research/bb-core/hold-time/out-no-target.txt": {
@@ -6870,15 +6870,15 @@
     "semantic_hash": ""
   },
   "bb-trail/build-tcore-live.sh": {
-    "mtime": 1795396700.4074092,
-    "seen": 1795511785.437268,
-    "ast_hash": "fde4dc0fa952c9b85a83ac76611893ab",
+    "mtime": 1795663976.4186225,
+    "seen": 1795664271.461447,
+    "ast_hash": "c38b9de768cc5e00bf4884753e902767",
     "semantic_hash": ""
   },
   "bb-trail/build-trail-bundle.sh": {
-    "mtime": 1795396700.4108613,
-    "seen": 1795511785.437268,
-    "ast_hash": "654d6ccc4223c6407035e7e7e7c752e1",
+    "mtime": 1795663976.420205,
+    "seen": 1795664271.461447,
+    "ast_hash": "876efc9461ff87265405b65b3d92c147",
     "semantic_hash": ""
   },
   "bb-trail/compare-live-vs-backtest.js": {
@@ -6894,9 +6894,9 @@
     "semantic_hash": ""
   },
   "bb-trail/dashboard-push.js": {
-    "mtime": 1793943941.0,
-    "seen": 1794382287.8459396,
-    "ast_hash": "a182af9facce067b39997d29abccdc3e",
+    "mtime": 1795664001.0836706,
+    "seen": 1795664271.461447,
+    "ast_hash": "de0be9391e7aed0149ad01977609d958",
     "semantic_hash": ""
   },
   "bb-trail/data/ADA.json": {
@@ -6930,9 +6930,9 @@
     "semantic_hash": ""
   },
   "bb-trail/deploy-tcore/install-tcore-live.sh": {
-    "mtime": 1795396700.4129221,
-    "seen": 1795511785.437268,
-    "ast_hash": "a76513bb260357e6fb49a4d074beb96e",
+    "mtime": 1795663976.4212756,
+    "seen": 1795664271.4624467,
+    "ast_hash": "ad2ef12054d7965476b0508d6d5a1f49",
     "semantic_hash": ""
   },
   "bb-trail/deploy-tcore/make-keys.sh": {
@@ -6954,9 +6954,9 @@
     "semantic_hash": ""
   },
   "bb-trail/deploy-trail/install-trail-paper.sh": {
-    "mtime": 1795396700.4129221,
-    "seen": 1795511785.4382675,
-    "ast_hash": "70e3b54c0df5abca5fd1d1b231a710e5",
+    "mtime": 1795663976.4474285,
+    "seen": 1795664271.4624467,
+    "ast_hash": "80471f1d8e5ed022ac631bf03769d230",
     "semantic_hash": ""
   },
   "bb-trail/deploy-trail/status.sh": {
@@ -6984,9 +6984,9 @@
     "semantic_hash": ""
   },
   "bb-trail/icore.js": {
-    "mtime": 1795396700.4151216,
-    "seen": 1795511785.4382675,
-    "ast_hash": "af0ca254211704aa69f5bca87364a7eb",
+    "mtime": 1795664001.0691855,
+    "seen": 1795664271.4624467,
+    "ast_hash": "cc3c3a91bc513ff7414e56f996bcc3ee",
     "semantic_hash": ""
   },
   "bb-trail/journal.js": {
@@ -7008,15 +7008,15 @@
     "semantic_hash": ""
   },
   "bb-trail/ledger-sync.js": {
-    "mtime": 1794526060.5855787,
-    "seen": 1794784703.7615335,
-    "ast_hash": "01235bf3803a5514897a059fe0ae4db0",
+    "mtime": 1795664001.1133082,
+    "seen": 1795664271.4634478,
+    "ast_hash": "d822d2283d3c15fae4db9a1a9fdc9217",
     "semantic_hash": ""
   },
   "bb-trail/live.js": {
-    "mtime": 1793094264.0,
-    "seen": 1794382287.8459396,
-    "ast_hash": "fd280a8070e8e0b249a288e5a96d7479",
+    "mtime": 1795663956.148347,
+    "seen": 1795664271.4634478,
+    "ast_hash": "b0b2fea3ed3bdfbbf3f43a64ff191e33",
     "semantic_hash": ""
   },
   "bb-trail/matchkey.js": {
@@ -7032,9 +7032,9 @@
     "semantic_hash": ""
   },
   "bb-trail/package.json": {
-    "mtime": 1793944055.0,
-    "seen": 1794382287.8459396,
-    "ast_hash": "55bce4c4b527dfdd95b72cc794cb5140",
+    "mtime": 1795664062.0817044,
+    "seen": 1795664271.4634478,
+    "ast_hash": "4964b8a501b62f748812acdf9ffc122a",
     "semantic_hash": ""
   },
   "bb-trail/realpaper.js": {
@@ -7092,9 +7092,9 @@
     "semantic_hash": ""
   },
   "bb-trail/test/ops-test.js": {
-    "mtime": 1795396700.4151216,
-    "seen": 1795511785.4402673,
-    "ast_hash": "2417a0edfb3e487a2b655d33d765e1ec",
+    "mtime": 1795663976.3676295,
+    "seen": 1795664271.4644468,
+    "ast_hash": "de09511ff8765a9c52e6397d08e082fc",
     "semantic_hash": ""
   },
   "bb-trail/test/realpaper-test.js": {
@@ -7110,9 +7110,9 @@
     "semantic_hash": ""
   },
   "bb-trail/test/selftest.js": {
-    "mtime": 1795396700.4185538,
-    "seen": 1795511785.4402673,
-    "ast_hash": "e4469a0c20fe9fa6928fc6e82411a13f",
+    "mtime": 1795663976.3858907,
+    "seen": 1795664271.4644468,
+    "ast_hash": "9b703e2d9388c498098bca1e5c037045",
     "semantic_hash": ""
   },
   "bb-trail/test/telegram-test.js": {
@@ -9564,9 +9564,9 @@
     "semantic_hash": "94d5d89a7d716bdff241fa75b01e3837"
   },
   "research/TESTED-STRATEGIES.md": {
-    "mtime": 1795593784.873818,
-    "seen": 1795593835.6559443,
-    "ast_hash": "02d05319097f5de08df0c934bc0f8a92",
+    "mtime": 1795662536.3319123,
+    "seen": 1795664271.6118855,
+    "ast_hash": "6fc76cb7abdd8e12e13d33a59adc283b",
     "semantic_hash": ""
   },
   "research/orb-sol/compare-bots.txt": {
@@ -13461,6 +13461,114 @@
     "mtime": 1795593784.817191,
     "seen": 1795593835.6780572,
     "ast_hash": "a3e4f9482af416275a6f45966e43bb4e",
+    "semantic_hash": ""
+  },
+  "research/divergence-nov26/money.js": {
+    "mtime": 1795655503.4023755,
+    "seen": 1795655594.2473915,
+    "ast_hash": "09e510f9ebaf431dc210d71907b400ec",
+    "semantic_hash": ""
+  },
+  "research/divergence-nov26/results.json": {
+    "mtime": 1795655537.064888,
+    "seen": 1795655594.2473915,
+    "ast_hash": "6a2e77ea317d2c2918d835e44ea2ed3b",
+    "semantic_hash": ""
+  },
+  "research/divergence-nov26/sim.js": {
+    "mtime": 1795655505.8100748,
+    "seen": 1795655594.2473915,
+    "ast_hash": "32086225aa99bb3282f6951ac748d756",
+    "semantic_hash": ""
+  },
+  "research/divergence-nov26/results.md": {
+    "mtime": 1795655537.064888,
+    "seen": 1795655594.3968494,
+    "ast_hash": "ceeafe4c540deb9b470c4649e637adb3",
+    "semantic_hash": ""
+  },
+  "research/divergence-nov26/monthclose.js": {
+    "mtime": 1795656159.6423233,
+    "seen": 1795656205.9830885,
+    "ast_hash": "f6e90df15d6ee9f2d590507b0e152139",
+    "semantic_hash": ""
+  },
+  "research/divergence-nov26/monthclose.md": {
+    "mtime": 1795656163.5816872,
+    "seen": 1795656206.149201,
+    "ast_hash": "433d95afc87eeedb53bef4731879e805",
+    "semantic_hash": ""
+  },
+  "research/divergence-nov26/trendline.js": {
+    "mtime": 1795657327.782254,
+    "seen": 1795657795.5952156,
+    "ast_hash": "afd46ecf784f9abe0f6f9199cad8c57a",
+    "semantic_hash": ""
+  },
+  "research/divergence-nov26/trendline.md": {
+    "mtime": 1795657748.293198,
+    "seen": 1795657795.6983786,
+    "ast_hash": "ffcf86b75245b31e5bdd82ce6f53765e",
+    "semantic_hash": ""
+  },
+  "bb-trail/partial.js": {
+    "mtime": 1795663956.2157097,
+    "seen": 1795664271.4634478,
+    "ast_hash": "8db1b2a1a711816f9dc47cef2606b311",
+    "semantic_hash": ""
+  },
+  "bb-trail/test/partial-test.js": {
+    "mtime": 1795664050.5236242,
+    "seen": 1795664271.4644468,
+    "ast_hash": "de8b49a477f7de73a74e92a14632481f",
+    "semantic_hash": ""
+  },
+  "research/divergence-nov26/income.js": {
+    "mtime": 1795662535.8872612,
+    "seen": 1795664271.5323944,
+    "ast_hash": "0cddd7b9df55ffe3b61ec854d2d465fa",
+    "semantic_hash": ""
+  },
+  "research/divergence-nov26/partial.js": {
+    "mtime": 1795661148.0709064,
+    "seen": 1795664271.5323944,
+    "ast_hash": "ea98c366b2cdd3e48484952beb4524bd",
+    "semantic_hash": ""
+  },
+  "research/divergence-nov26/pnlclose.js": {
+    "mtime": 1795658008.9851756,
+    "seen": 1795664271.5323944,
+    "ast_hash": "66fe6848947c176730a944dc7ad3014f",
+    "semantic_hash": ""
+  },
+  "research/divergence-nov26/withdraw.js": {
+    "mtime": 1795662449.9171054,
+    "seen": 1795664271.5323944,
+    "ast_hash": "f7ee70c087062e0b1018c6af767a77e0",
+    "semantic_hash": ""
+  },
+  "research/divergence-nov26/income.md": {
+    "mtime": 1795662536.253775,
+    "seen": 1795664271.632941,
+    "ast_hash": "d4d59d084d5a583539d59b5555a5e2a0",
+    "semantic_hash": ""
+  },
+  "research/divergence-nov26/partial.md": {
+    "mtime": 1795661148.4681432,
+    "seen": 1795664271.632941,
+    "ast_hash": "6a4264a7b02ad8fb0c5b8fc3caeea2f4",
+    "semantic_hash": ""
+  },
+  "research/divergence-nov26/pnlclose.md": {
+    "mtime": 1795658016.3667157,
+    "seen": 1795664271.632941,
+    "ast_hash": "f840ad79e8129219be273812a0d2317f",
+    "semantic_hash": ""
+  },
+  "research/divergence-nov26/withdraw.md": {
+    "mtime": 1795662450.358188,
+    "seen": 1795664271.632941,
+    "ast_hash": "978b1eee60a7b985323ee9db9fd151e7",
     "semantic_hash": ""
   },
   "LEDGER/package-lock.json": {

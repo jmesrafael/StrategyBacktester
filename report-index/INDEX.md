@@ -602,6 +602,16 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 ## research/dip-timing
 - REPORT.md — Is it better to add money when the equity curve is down? (Nov 25, 2026) (2026-11-26)
 
+## research/divergence-nov26
+- income.md — Monthly income from a 1,000,000 PHP account (TRI-CORE, trades untouched, to Nov 2026; backtest, not expected income) (2026-11-26)
+- monthclose.md — Month-end clean-out against no interference (all three bots, live coins, v3 rules, to Nov 25 2026) (2026-11-26)
+- partial.md — Partial profit at an open-profit level (all three bots, 50/25/25, 2.5% risk, to Nov 25 2026) (2026-11-26)
+- pnlclose.md — Close everything when open profit reaches X% of the account (all three bots, 50/25/25, 2.5% risk, to Nov 25 2026) (2026-11-26)
+- results.json — results.json (2026-11-26)
+- results.md — Divergence study: refused entries, hand closes and a blocked coin (Nov 26 2026) (2026-11-26)
+- trendline.md — BTC higher-timeframe trendline exit vs no interference (all three bots, live coins, v3 rules, to Nov 25 2026) (2026-11-26)
+- withdraw.md — Withdraw a share of new profit each month, trades untouched (start 50,000 PHP, to Nov 25 2026; backtest, not expected income) (2026-11-26)
+
 ## research/donchian-30
 - COMPARE.md — Donchian top 3 vs TRI-CORE: with and without the biggest wins (2026-11-19)
 - REPORT.md — Donchian-30 multi-coin trend portfolio, 7-year backtest (2026-11-19)
@@ -614,6 +624,70 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - compare.json — compare.json (2026-11-12)
 - trades.json — trades.json (2026-11-12)
 - verdict.json — verdict.json (2026-11-12)
+
+## research/hunt-1h-nov26
+- METRICS-COPY.txt — STRATEGY PERFORMANCE: 6 live coins (SOL NEAR ADA GALA ZEC ARB), Binance perp data (2026-11-26)
+- REPORT.md — 1h hunt: a strategy positive in every year 2020 to Nov 2026 (Nov 26, 2026) (2026-11-26)
+- SCORECARD.md — 1h strategy hunt: scorecard (Nov 26, 2026) (2026-11-26)
+- baseline.json — baseline.json (2026-11-26)
+- baseline.txt — bb-core|BBX            n=4208 R=1594 exp=0.379 pf=1.56 dd=89 r/dd=17.9 yrs=7/7 worst=163 ex10=1198 coins+=12 | 20:163 21:391 22:240 23:170 24:201 25:1 (2026-11-26)
+- compare3.md — Yearly: fresh PHP 1,000 each Jan 1 → year end (worst fall inside the year) (2026-11-26)
+- fam-trend-results.txt — 1 ema{"kind":"ema","fast":100,"slow":400} tr=0 q=adx20 x=sig(4,0) (2026-11-26)
+- fam-vol-results.txt — 1 len80 x2.6 tr800 ms0.3 adx30 | M-trail20  IS: n=1156 R=1102 dd=57 R/DD=19.49  [7/7 @1x] [7/7 @2x] (2026-11-26)
+- hold-trend.txt — years:                                                2020  2021  2022  2023  2024  2025  2026 (2026-11-26)
+- hold-vol.txt — len60 x2.2 tr400 trail16     MAIN 7/7 r/dd=12.1 | HOLD1x 5/7 2x 5/7 coins+=10 r/dd=3.7 :: n=4005 R=724 exp=0.181 pf=1.24 dd=198 r/dd=3.7 yrs=5/7 worst (2026-11-26)
+- metrics-2026.md — No order minimums (ideal sizing) (2026-11-26)
+- metrics.md — No order minimums (ideal sizing) (2026-11-26)
+- months-core1h.md — Trades per year (live coins, closed trades) (2026-11-26)
+- months.md — Trades per year (live coins, closed trades) (2026-11-26)
+- pesos.md — BB-1H-WIDE per coin (R, 1x costs) (2026-11-26)
+- strict-baseline.txt — bb-core|BBX        main1x r/dd=17.9 | main2x 7/7 worst=128 r/dd=14.3 | hold1x 6/7 worst=-44 r/dd=5.9 coins+=10/12 | hold2x 5/7 worst=-69 (2026-11-26)
+- validate.txt — == 1. look-ahead audit (truncation, 12 random cuts on 4 coins) (2026-11-26)
+
+## research/hunt-4h-nov26
+- REPORT.md — 4h hunt (Nov 26, 2026): non-Bollinger strategy positive in every year 2020-2026 (2026-11-26)
+- hold.json — hold.json (2026-11-26)
+- plateau.txt — {"t":9,"k":26,"s":52,"mode":"cross"} k1.5 b8 M7 M2xok H7 Rm=399 Rh=316 worstM2=2 worstH=9 (2026-11-26)
+- scan.json — scan.json (2026-11-26)
+- validate-b12.txt — CAND {"fam":"ichi","p":{"t":9,"k":26,"s":52,"mode":"cross"},"trend":0,"exit":{"k":2,"bars":12}} (2026-11-26)
+- validate-b15.txt — CAND {"fam":"ichi","p":{"t":9,"k":26,"s":52,"mode":"cross"},"trend":0,"exit":{"k":2,"bars":15}} (2026-11-26)
+
+## research/hunt-intraday-nov26
+- REPORT.md — Intraday hunt (2h), Nov 26 2026 (2026-11-26)
+- plateau2.txt — fail kv2.5 kr1 tr300 ki1.5 kt6 M 7 H 6 2x 7 ex10 603/222 Mexp 0.34 Hexp 0.23 Hyrs 150,53,138,9,289,73,-2 (2026-11-26)
+- scan.json — scan.json (2026-11-26)
+- validate.txt — year            2020  2021  2022  2023  2024  2025  2026 (2026-11-26)
+
+## research/hunt-money-nov26
+- money-fullrisk.md — Risk and PHP 1,000 accounts: ICHI-X4, VOL-MOM-2H (+ BB-1H-WIDE reference), Nov 26 2026 (2026-11-26)
+- money-scaled.md — Risk and PHP 1,000 accounts: ICHI-X4, VOL-MOM-2H (+ BB-1H-WIDE reference), Nov 26 2026 (2026-11-26)
+- money.md — Risk and PHP 1,000 accounts: ICHI-X4, VOL-MOM-2H (+ BB-1H-WIDE reference), Nov 26 2026 (2026-11-26)
+
+## research/hunt-regime-nov26
+- REPORT.md — Regime hunt (Nov 26, 2026): NONE FOUND (2026-11-26)
+- bbcore-monthly-14400.json — bbcore-monthly-14400.json (2026-11-26)
+- bbcore-monthly-3600.json — bbcore-monthly-3600.json (2026-11-26)
+- grid-gates.json — grid-gates.json (2026-11-26)
+- out-bb-1h.txt — fam=bb TF=3600 configs=160 IS4/4 positive=0 (2026-11-26)
+- out-bb-4h.txt — fam=bb TF=14400 configs=160 IS4/4 positive=0 (2026-11-26)
+- out-donch-1h.txt — fam=donch TF=3600 configs=120 IS4/4 positive=0 (2026-11-26)
+- out-donch-4h.txt — fam=donch TF=14400 configs=120 IS4/4 positive=0 (2026-11-26)
+- out-rsi-1h.txt — fam=rsi TF=3600 configs=120 IS4/4 positive=0 (2026-11-26)
+- out-rsi-4h.txt — fam=rsi TF=14400 configs=120 IS4/4 positive=0 (2026-11-26)
+- out-spike-1h.txt — fam=spike TF=3600 configs=72 IS4/4 positive=0 (2026-11-26)
+- out-spike-4h.txt — fam=spike TF=14400 configs=72 IS4/4 positive=0 (2026-11-26)
+- out-wk-1h.txt — fam=wk TF=3600 configs=96 IS4/4 positive=3 (2026-11-26)
+- out-wk-4h.txt — fam=wk TF=14400 configs=96 IS4/4 positive=1 (2026-11-26)
+- out-wk2-1h.txt — IS4/4: 60 of 576 (2026-11-26)
+- out-wk2-4h.txt — IS4/4: 57 of 432 (2026-11-26)
+
+## research/hunt-xsec-nov26
+- REPORT.md — Cross-sectional hunt (Nov 26, 2026): NONE FOUND (2026-11-26)
+- scan-main.json — scan-main.json (2026-11-26)
+- scan-main.txt — mom 24 24 2 -74 40 -24 -41 17 -11 -37 IS+ 1 (2026-11-26)
+- scan2.json — scan2.json (2026-11-26)
+- scan3.json — scan3.json (2026-11-26)
+- scan4.json — scan4.json (2026-11-26)
 
 ## research/ichi-ltf
 - REPORT.md — Lower-TF Ichimoku / EMA cross / Darvas box inside a 4h Ichimoku trend (Nov 12, 2026) (2026-11-12)
@@ -864,6 +938,65 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - v3-SOL-15m.txt — SOL 15m | Original rules (2026-10-20)
 - v3-SOL-1m.json — v3-SOL-1m.json (2026-10-20)
 - v3-SOL-1m.txt — SOL 1m | Original rules (2026-10-20)
+
+## research/strat-finds-nov26/1-ICHI-X4-4h
+- README.md — ICHI-X4 (4h Ichimoku cross). Status: LEAD, best new find (2026-11-26)
+- REPORT.md — 4h hunt (Nov 26, 2026): non-Bollinger strategy positive in every year 2020-2026 (2026-11-26)
+- hold.json — hold.json (2026-11-26)
+- plateau.txt — {"t":9,"k":26,"s":52,"mode":"cross"} k1.5 b8 M7 M2xok H7 Rm=399 Rh=316 worstM2=2 worstH=9 (2026-11-26)
+- scan.json — scan.json (2026-11-26)
+- validate-b12.txt — CAND {"fam":"ichi","p":{"t":9,"k":26,"s":52,"mode":"cross"},"trend":0,"exit":{"k":2,"bars":12}} (2026-11-26)
+- validate-b15.txt — CAND {"fam":"ichi","p":{"t":9,"k":26,"s":52,"mode":"cross"},"trend":0,"exit":{"k":2,"bars":15}} (2026-11-26)
+
+## research/strat-finds-nov26/2-VOL-MOM-2H
+- README.md — VOL-MOM-2H (2h volume-surge momentum). Status: LEAD, weak, do not run (2026-11-26)
+- REPORT.md — Intraday hunt (2h), Nov 26 2026 (2026-11-26)
+- plateau2.txt — fail kv2.5 kr1 tr300 ki1.5 kt6 M 7 H 6 2x 7 ex10 603/222 Mexp 0.34 Hexp 0.23 Hyrs 150,53,138,9,289,73,-2 (2026-11-26)
+- scan.json — scan.json (2026-11-26)
+- validate.txt — year            2020  2021  2022  2023  2024  2025  2026 (2026-11-26)
+
+## research/strat-finds-nov26/3-BB-1H-WIDE-reference
+- README.md — BB-1H-WIDE (reference, found earlier the same day) (2026-11-26)
+- REPORT.md — 1h hunt: a strategy positive in every year 2020 to Nov 2026 (Nov 26, 2026) (2026-11-26)
+- hold-vol.txt — len60 x2.2 tr400 trail16     MAIN 7/7 r/dd=12.1 | HOLD1x 5/7 2x 5/7 coins+=10 r/dd=3.7 :: n=4005 R=724 exp=0.181 pf=1.24 dd=198 r/dd=3.7 yrs=5/7 worst (2026-11-26)
+- pesos.md — BB-1H-WIDE per coin (R, 1x costs) (2026-11-26)
+- validate.txt — == 1. look-ahead audit (truncation, 12 random cuts on 4 coins) (2026-11-26)
+
+## research/strat-finds-nov26/4-rejected-regime-fades
+- README.md — Regime / mean-reversion fades. Status: REJECTED (2026-11-26)
+- REPORT.md — Regime hunt (Nov 26, 2026): NONE FOUND (2026-11-26)
+- bbcore-monthly-14400.json — bbcore-monthly-14400.json (2026-11-26)
+- bbcore-monthly-3600.json — bbcore-monthly-3600.json (2026-11-26)
+- grid-gates.json — grid-gates.json (2026-11-26)
+- out-bb-1h.txt — fam=bb TF=3600 configs=160 IS4/4 positive=0 (2026-11-26)
+- out-bb-4h.txt — fam=bb TF=14400 configs=160 IS4/4 positive=0 (2026-11-26)
+- out-donch-1h.txt — fam=donch TF=3600 configs=120 IS4/4 positive=0 (2026-11-26)
+- out-donch-4h.txt — fam=donch TF=14400 configs=120 IS4/4 positive=0 (2026-11-26)
+- out-rsi-1h.txt — fam=rsi TF=3600 configs=120 IS4/4 positive=0 (2026-11-26)
+- out-rsi-4h.txt — fam=rsi TF=14400 configs=120 IS4/4 positive=0 (2026-11-26)
+- out-spike-1h.txt — fam=spike TF=3600 configs=72 IS4/4 positive=0 (2026-11-26)
+- out-spike-4h.txt — fam=spike TF=14400 configs=72 IS4/4 positive=0 (2026-11-26)
+- out-wk-1h.txt — fam=wk TF=3600 configs=96 IS4/4 positive=3 (2026-11-26)
+- out-wk-4h.txt — fam=wk TF=14400 configs=96 IS4/4 positive=1 (2026-11-26)
+- out-wk2-1h.txt — IS4/4: 60 of 576 (2026-11-26)
+- out-wk2-4h.txt — IS4/4: 57 of 432 (2026-11-26)
+
+## research/strat-finds-nov26/5-rejected-cross-sectional
+- README.md — Cross-sectional / market-neutral rotation. Status: REJECTED (2026-11-26)
+- REPORT.md — Cross-sectional hunt (Nov 26, 2026): NONE FOUND (2026-11-26)
+- scan-main.json — scan-main.json (2026-11-26)
+- scan-main.txt — mom 24 24 2 -74 40 -24 -41 17 -11 -37 IS+ 1 (2026-11-26)
+- scan2.json — scan2.json (2026-11-26)
+- scan3.json — scan3.json (2026-11-26)
+- scan4.json — scan4.json (2026-11-26)
+
+## research/strat-finds-nov26
+- SUMMARY.md — Strategy finds, Nov 26, 2026: "positive in every year 2020-2026" (2026-11-26)
+
+## research/strat-finds-nov26/_money-and-risk
+- README.md — Max drawdown, profit factor, Sharpe, Sortino, trade counts, yearly PHP 1,000 accounts (2026-11-26)
+- money-fullrisk.md — Risk and PHP 1,000 accounts: ICHI-X4, VOL-MOM-2H (+ BB-1H-WIDE reference), Nov 26 2026 (2026-11-26)
+- money-scaled.md — Risk and PHP 1,000 accounts: ICHI-X4, VOL-MOM-2H (+ BB-1H-WIDE reference), Nov 26 2026 (2026-11-26)
 
 ## research/strat-hunt-nov6
 - REPORT-FULL-TABLES.md — All 118 variants, full tables (5 coins pooled, R = units of the amount risked per trade) (2026-11-06)

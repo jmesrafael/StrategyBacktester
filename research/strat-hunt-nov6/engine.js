@@ -27,7 +27,7 @@ function run(B, ATR, strat, ex, funding, iv, cost = COST) {
   function exit(px, i, why) {
     const fr = frSum ? frSum(B[pos.i0].time, B[i].time + iv / 2) : 0;
     const R = (pos.dir * (px - pos.entry) / pos.entry - cost.fee - cost.fee - pos.dir * fr) / pos.dist;
-    trades.push({ dir: pos.dir, i0: pos.i0, i1: i, t: B[pos.i0].time, tExit: B[i].time + iv, entry: pos.entry, exit: px, R, why, bars: i - pos.i0 + 1 });
+    trades.push({ dir: pos.dir, i0: pos.i0, i1: i, t: B[pos.i0].time, tExit: B[i].time + iv, entry: pos.entry, exit: px, R, why, bars: i - pos.i0 + 1, dist: pos.dist });
     pos = null;
   }
 

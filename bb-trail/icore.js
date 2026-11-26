@@ -27,6 +27,7 @@ require('./envfile.js').load();                        // the server env file (<
 const tg = require('./telegram.js');
 const journalMod = require('./journal.js');
 const push = require('./dashboard-push.js');
+const PART = require('./partial.js');   // owner partial closes (the dashboard P button, `node icore.js partial ZEC 50`)
 
 const DIR = __dirname;
 const STATE_DIR = process.env.ICORE_STATE_DIR || path.join(DIR, 'state'), STATE_FILE = path.join(STATE_DIR, 'state.json');
@@ -120,7 +121,8 @@ const entryCosts = (p) => (p.fees && !p.live ? { kind: 'modelled (paper)', fee_t
 function exitCosts(p, x) {
   if (!p.live && x.costs) return x.costs;   // realistic paper: the modelled fees, slippage and real funding of this trade
   if (p.live) return { kind: 'actual', fees_usd: x.fees ?? null, funding_usd: x.funding ?? null, slippage_r: p.slipR ?? null,
-    exit: { closed_by: x.closed_by ?? null, trigger_price: x.trigger_price ?? null, fill_price: x.fill_price ?? null, slippage_r: x.exit_slip_r ?? null, mexc_history: x.mexc_history ?? null } };
+    exit: { closed_by: x.closed_by ?? null, trigger_price: x.trigger_price ?? null, fill_price: x.fill_price ?? null, slippage_r: x.exit_slip_r ?? null, mexc_history: x.mexc_history ?? null,
+      ...(p.partials && p.partials.length ? { realised_total: x.realised_total ?? x.usd ?? null, partials: p.partials, vol0: p.vol0 ?? null } : {}) } };   // owner partial closes: the ledger books realised_total (the whole position)
   const bars = Math.max(1, Math.round(((x.exitSec ?? p.t0) - p.t0) / IV));
   return { kind: 'estimate (paper)', fees_pct: 2 * COST.fee * 100, slippage_pct: 2 * COST.slip * 100, fees_r: 2 * COST.fee / p.dist, funding_r: COST.fund * bars / p.dist, funding_note: 'flat estimate per 4h candle held' };
 }
@@ -146,6 +148,27 @@ async function processCoin(coin, B, st, exec, opt = {}) {
   const isV3 = (p) => !!opt.replay || (p.sigTime ?? (p.t0 - IV)) >= core.RULES_V3_FROM;
   const oneROf = (p) => Math.abs(p.entry - (p.stop0 ?? p.stop));
   const stale = (p, c) => S.staleBars > 0 && isV3(p) && (c.time - p.t0) / IV >= S.staleBars && p.dir * (c.close - p.entry) < S.staleR * oneROf(p);
+  // OWNER mode (live, between candle closes): one partial close or a full close the owner asked for (partial.js). Never during a run.
+  if (opt.owner) {
+    const cmd = opt.owner, p = st.pos;
+    if (!p || !p.live || st.pending) { ev.push(`WARNING ${coin}: partial close refused: no open live trade`); return ev; }
+    const plan = PART.planVol(p.vol, cmd.pct);
+    if (plan.error) { ev.push(`WARNING ${coin}: partial close refused: ${plan.error}`); return ev; }
+    if (plan.full) {
+      const x = await exec.close(p, 'manual');
+      if (x) finish({ ...x, closed_by: 'owner_close' }, Math.round(now), Math.floor(now / IV) * IV);
+      else ev.push(`ERROR ${coin}: owner close failed — position still open on MEXC (its stop still protects it); press again or close it in the app`);
+      return ev;
+    }
+    const r = await exec.reduce(p, cmd.pct, cmd);
+    if (r.full) { ev.push(`WARNING ${coin}: partial close refused: that share would close the whole trade; choose 100%`); return ev; }
+    if (r.error) { ev.push(`${r.gone ? 'WARNING' : 'ERROR'} ${coin}: partial close: ${r.error}`); return ev; }
+    const oneR = Math.abs(p.entry - (p.stop0 ?? p.stop));
+    ev.push(`PARTIAL ${coin} ${p.dir === 1 ? 'LONG' : 'SHORT'} closed ${r.vol} of ${r.vol + r.left} contracts (${cmd.pct}%) @ ${r.px.toPrecision(6)}  ${usd(r.usd)}${oneR > 0 ? ` (${(p.dir * (r.px - p.entry) / oneR).toFixed(2)}R on that part)` : ''}  · ${r.left} left, same stop ${p.stop.toPrecision(6)}`);
+    if (!r.protected) ev.push(`ERROR ${coin}: stop not confirmed on MEXC after the partial close — CHECK THE APP`);
+    emit('partial', { symbol: SYM, coin, dir: p.dir, pct: cmd.pct, vol: r.vol, left: r.left, px: r.px, usd: r.usd, entry: p.entry, stop: p.stop, source: cmd.source, protected: r.protected });
+    return ev;
+  }
   if (st.lastTime == null) st.lastTime = n >= 3 ? B[n - 3].time : 0; // fresh start: evaluate only the newest closed candle
   for (let i = 1; i < n - 1; i++) {
     const c = B[i], next = B[i + 1];
@@ -229,8 +252,9 @@ async function processCoin(coin, B, st, exec, opt = {}) {
     acct.totalR = (acct.totalR || 0) + x.R; acct.peakR = Math.max(acct.peakR || 0, acct.totalR);
     const rec = { coin: p.coin, dir: p.dir, t: p.t0, tExit, entry: p.entry, exit: x.px, why: x.why, R: x.R, usd: pnl, balance: acct.balance, entryDelaySec: p.entryDelaySec };
     if (p.live) Object.assign(rec, { live: true, vol: p.vol, riskUsd: p.riskUsd, slipR: p.slipR, fees: x.fees, funding: x.funding, positionId: p.positionId });
+    if (p.partials && p.partials.length) { rec.partials = p.partials; rec.vol0 = p.vol0; }   // the owner took part of it earlier: the result is the whole position
     (st.trades = st.trades || []).push(rec);
-    ev.push(`EXIT  ${p.coin} ${p.dir === 1 ? 'LONG' : 'SHORT'} ${x.why}  ${x.R >= 0 ? '+' : ''}${x.R.toFixed(2)}R  (${usd(pnl)})  total ${st.realizedR.toFixed(2)}R  balance ${usd(acct.balance)}`);
+    ev.push(`EXIT  ${p.coin} ${p.dir === 1 ? 'LONG' : 'SHORT'} ${x.why}${x.closed_by === 'owner_close' ? ' [owner_close]' : ''}${p.partials && p.partials.length ? ` (after ${p.partials.length} partial close${p.partials.length === 1 ? '' : 's'}, whole position)` : ''}  ${x.R >= 0 ? '+' : ''}${x.R.toFixed(2)}R  (${usd(pnl)})  total ${st.realizedR.toFixed(2)}R  balance ${usd(acct.balance)}`);
     emit('exit', { symbol: config.coinToSymbol(p.coin), coin: p.coin, dir: p.dir, sigTime: p.sigTime ?? (p.t0 - IV), why: x.why, exit: x.px, entry: p.entry, stop: p.stop, stop0: p.stop0, t0: p.t0, R: x.R, usd: pnl,
       balanceAfter: acct.balance, exitSec: tExit, exitCandleOpenSec: exitCandleOpen, holdSec: tExit - p.t0, costs: exitCosts(p, { ...x, exitSec: tExit }), excursion: excursionOf(p, { ...x, exitSec: tExit }) });
   }
@@ -298,8 +322,38 @@ function makeHooks() {
     entry(i) { notify(tg.fmtEntry({ symbol: i.symbol, dir: i.dir, mode: CFG.mode, entry: i.fill, stop: i.stop, riskPct: i.balance > 0 ? i.riskUsd / i.balance : 0, sigTime: i.sigTime, riskUsd: i.riskUsd, balance: i.balance, qty: i.qty, vol: i.vol }), true, { html: true }); journalAndPush('entry', i); },
     exit(i) { notify(tg.fmtExit({ symbol: i.symbol, dir: i.dir, mode: CFG.mode, why: i.why, exit: i.exit, entry: i.entry, R: i.R, holdSec: i.holdSec, usd: i.usd, balanceAfter: i.balanceAfter }), true, { html: true }); ledgerSync.postClosedTrade({ enabled: CFG.ledgerWalletSync, trade: { ...i, mode: CFG.mode } }).then((r) => { if (r.status === 'error' || r.status === 'incomplete') log('closed trade not sent to the ledger (the 5-minute sync retries it): ' + r.detail); }).catch(() => {}); journalAndPush('exit', i); },
     skip(i) { if (CFG.mode === 'live' && tg.missedSignal(i)) notify(tg.fmtMissed({ ...i, mode: CFG.mode }), true, { html: true }); journalAndPush('skip', i); },
+    partial(i) { notify(`${i.coin} ${i.dir === 1 ? 'LONG' : 'SHORT'}: you took ${i.pct}% (${i.vol} contracts) at ${i.px} = ${usd(i.usd)}. ${i.left} contracts left, same stop ${i.stop}.${i.protected ? '' : ' STOP NOT CONFIRMED ON MEXC: CHECK THE APP.'}`); },
     session(i) { const rec = jw.session(i); return rec; },
   };
+}
+// per open trade the owner has already taken part of: { vol, vol0, n, usd } (the dashboard shows it next to the P button)
+function partMap(state) {
+  const out = {};
+  for (const [coin, c] of Object.entries((state && state.coins) || {})) { const i = c.pos && config.COINS.includes(coin) ? PART.info(c.pos) : null; if (i) out[config.coinToSymbol(coin)] = i; }
+  return out;
+}
+// apply what is waiting in state/partial-inbox.json (dashboard P button, `node icore.js partial`). LIVE only, between runs (napWork). Returns true if anything changed.
+async function applyPartialInbox(state, why) {
+  let cmds = [];
+  try { cmds = PART.takeInbox(STATE_DIR); } catch (e) { event('warn', 'BOT', `WARNING partial-close requests could not be read: ${e.message}`); return false; }
+  if (!cmds.length) return false;
+  for (const cmd of cmds) {
+    if (cmd.invalid) { event('warn', cmd.coin || 'BOT', `WARNING partial close refused: ${cmd.error}`); continue; }
+    const pre = PART.precheck(state, cmd);
+    if (pre) { if (!pre.dup) { event('warn', cmd.coin, `WARNING partial close refused: ${pre.msg} (${why})`); notify(`partial close refused: ${pre.msg}`); } continue; }
+    if (CFG.mode !== 'live' || !liveAllowed() || !mexc.hasKeys()) { event('warn', cmd.coin, 'WARNING partial close refused: the bot is not trading live on this machine'); continue; }
+    try {
+      saveState(state);   // the request id is recorded BEFORE anything is sent: a crash now never sends it twice
+      const st = state.coins[cmd.coin], exec = getLive();
+      await mexc.client.syncTime().catch(() => {});
+      if (typeof exec.beginRun === 'function') await exec.beginRun([cmd.coin]);
+      const ev = await processCoin(cmd.coin, [], st, exec, { acct: state, now: nowSec(), owner: cmd, hooks: makeHooks(), save: () => saveState(state) });
+      ev.forEach((e) => event(typeOf(e), cmd.coin, e));
+      appendJsonl('partial-log.jsonl', { ts: new Date().toISOString(), id: cmd.id, coin: cmd.coin, pct: cmd.pct, source: cmd.source, why, events: ev });
+    } catch (e) { event('error', cmd.coin, `ERROR partial close failed: ${e.message} — check the MEXC app`); }
+    saveState(state);
+  }
+  return true;
 }
 // what the dashboard banner needs (no secrets, no paths)
 // open trades with their CURRENT trailing stop, for the dashboard heartbeat: { SOL_USDT: { entry, stop0, stop, best, locked_r, best_r, moves } } (numbers only)
@@ -317,7 +371,7 @@ function pushStatus(state) {
   for (const c of CFG.coins) { const t = state.coins && state.coins[c] && state.coins[c].lastTime; if (t) lastCandleMs[config.coinToSymbol(c)] = t * 1000; }
   return { mode: CFG.mode, status: 'running', lastCandleMs, kill: fs.existsSync(path.join(DIR, 'STOP')), drawdownR: (state.peakR || 0) - (state.totalR || 0), haltR: -CFG.haltAtR,
     commit: String(journalMod.provenance(CFG, CFG.mode).git_commit || 'unknown').slice(0, 12), version: journalMod.BOT_VERSION, uptimeSec: Math.round(process.uptime()),
-    nextWakeMs: state.nextWakeAt ? Date.parse(state.nextWakeAt) : null, coins: CFG.coins.map(config.coinToSymbol), trail: trailOf(state) };
+    part: partMap(state), nextWakeMs: state.nextWakeAt ? Date.parse(state.nextWakeAt) : null, coins: CFG.coins.map(config.coinToSymbol), trail: trailOf(state) };
 }
 push.setLogger((m) => log(m));
 
@@ -526,7 +580,7 @@ function status() {
   for (const [coin, st] of Object.entries(s.coins)) {
     console.log(`\n${coin}: realized ${st.realizedR.toFixed(2)}R (${usd((st.trades || []).reduce((a, t) => a + t.usd, 0))}) in ${st.n} trades · last candle ${st.lastTime ? isoAp(st.lastTime) : '—'}`);
     if (st.pending) console.log(`  UNFINISHED ORDER ${st.pending.oid} (resolved on the next run)`);
-    if (st.pos) console.log(`  OPEN ${st.pos.dir === 1 ? 'LONG' : 'SHORT'} entry ${st.pos.entry.toPrecision(6)} stop ${st.pos.stop.toPrecision(6)} (initial ${(st.pos.stop0 ?? st.pos.stop).toPrecision(6)}, best price ${(st.pos.ext ?? st.pos.entry).toPrecision(6)}, no target) since ${isoAp(st.pos.t0)}${st.pos.vol ? ` · ${st.pos.vol} contracts · MEXC position ${st.pos.positionId}` : ''}`);
+    if (st.pos) console.log(`  OPEN ${st.pos.dir === 1 ? 'LONG' : 'SHORT'} entry ${st.pos.entry.toPrecision(6)} stop ${st.pos.stop.toPrecision(6)} (initial ${(st.pos.stop0 ?? st.pos.stop).toPrecision(6)}, best price ${(st.pos.ext ?? st.pos.entry).toPrecision(6)}, no target) since ${isoAp(st.pos.t0)}${st.pos.vol ? ` · ${st.pos.vol} contracts · MEXC position ${st.pos.positionId}` : ''}${st.pos.partials && st.pos.partials.length ? ` · you took part ${st.pos.partials.length}x (${st.pos.vol0} contracts at the start)` : ''}`);
     for (const t of (st.trades || []).slice(-5)) console.log(`  ${iso(t.t)} ${t.dir === 1 ? 'L' : 'S'} ${t.why.padEnd(6)} ${t.R >= 0 ? '+' : ''}${t.R.toFixed(2)}R`);
   }
 }
@@ -542,6 +596,30 @@ async function retryStale() {
 }
 
 let inRun = false;   // true only while runOnce() is executing: the dashboard poll stays quiet then
+let napBusy = false;
+
+// requests the dashboard handed to the bot's poll: only partial_close here (I-Core has no extend). Validated, then queued in the inbox file;
+// applied by the next nap (within a minute). The poll asks `?cmds=<this bot's tag>` (dashboard-push.js).
+function receiveCommands(cmds) {
+  for (const raw of cmds || []) {
+    if (!raw || raw.kind !== 'partial_close') continue;
+    const v = PART.parseCommand({ id: raw.id, coin: raw.coin, pct: raw.pct, ts: raw.ts, sigMs: raw.sig_ms }, { source: 'dashboard' });
+    if (v.ok && config.COINS.includes(v.cmd.coin)) { try { PART.queue(STATE_DIR, [v.cmd]); log(`partial close ${v.cmd.pct}% ${v.cmd.coin} from the dashboard queued`); } catch (e) { event('error', 'BOT', `ERROR could not queue the partial close: ${e.message}`); } }
+    else event('warn', 'BOT', `WARNING dashboard partial close refused: ${v.ok ? v.cmd.coin + ' is not on the allowlist' : v.error}`);
+  }
+}
+
+// work done every minute while the bot sleeps between candle closes (never during a run: only runOnce writes state then). ONLY the owner's partial-close inbox
+// (live only); there is no between-candle close watcher here. The dashboard gets a fresh heartbeat if anything changed.
+async function napWork() {
+  if (inRun || napBusy) return;
+  napBusy = true;
+  try {
+    const state = loadState();
+    if (await applyPartialInbox(state, 'while sleeping')) push.pushHeartbeat(pushStatus(loadState()));
+  } catch (e) { event('warn', 'BOT', `WARNING nap work failed: ${e.message}`); }
+  finally { napBusy = false; }
+}
 async function loop() {
   const PID = path.join(STATE_DIR, 'bot.pid');
   fs.mkdirSync(STATE_DIR, { recursive: true });
@@ -552,7 +630,7 @@ async function loop() {
   process.on('SIGTERM', () => { event('info', 'BOT', 'stopped (service stop)'); process.exit(0); });
   try { makeHooks().session({ coins: CFG.coins, note: 'loop started' }); } catch (e) { event('error', 'BOT', `ERROR journal write failed: ${e.message}`); }
   event('start', 'BOT', `started loop · ${CFG.mode.toUpperCase()} · pid ${process.pid} · coins ${CFG.coins.join(', ')} · ${CFG.riskPct > 0 || (CFG.riskTiers && CFG.riskTiers.length) ? riskText(loadState()) : `risk $${CFG.riskUsd}`}`);
-  push.startAskPoll({ provider: () => pushStatus(loadState()), busy: () => inRun });   // the dashboard's "Ask bot now": asks outbound, answers with a heartbeat, never during a run
+  push.startAskPoll({ provider: () => pushStatus(loadState()), busy: () => inRun, onCommands: (cmds) => receiveCommands(cmds) });   // the dashboard's "Ask bot now": asks outbound, answers with a heartbeat, never during a run
   for (;;) {
     lastRun = null;
     inRun = true;
@@ -561,8 +639,20 @@ async function loop() {
     const wake = (Math.floor(nowSec() / IV) + 1) * IV + CFG.wakeDelaySec;
     try { const s = loadState(); s.nextWakeAt = new Date(wake * 1000).toISOString(); saveState(s); } catch {}
     log(`sleeping until ${iso(wake)} (candle close + ${CFG.wakeDelaySec}s, MEXC time)`);
-    while (nowSec() < wake) { await sleep(Math.min(60000, (wake - nowSec()) * 1000)); if (push.heartbeatDue()) { try { push.pushHeartbeat(pushStatus(loadState())); } catch {} } } // short naps: robust to clock fixes / VM pauses
+    while (nowSec() < wake) { await sleep(Math.min(60000, (wake - nowSec()) * 1000)); await napWork(); if (push.heartbeatDue()) { try { push.pushHeartbeat(pushStatus(loadState())); } catch {} } } // short naps: robust to clock fixes / VM pauses
   }
+}
+
+// node icore.js partial ZEC 50     take 50% of the open ZEC trade (10, 25, 50, 75 or 100 = close it). Queued for the RUNNING bot, which sends it within a minute.
+function partialCli(args) {
+  const [coin, pct] = args.filter((a) => !a.startsWith('--')), v = PART.parseCommand({ coin, pct }, { source: 'cli' });
+  if (!v.ok) return void (console.log(`usage: node icore.js partial COIN PCT   (${v.error})`), process.exitCode = 1);
+  if (!config.COINS.includes(v.cmd.coin)) return void (console.log(`${v.cmd.coin} is not on the allowlist`), process.exitCode = 1);
+  let running = false; try { const pid = JSON.parse(fs.readFileSync(path.join(STATE_DIR, 'bot.pid'), 'utf8')).pid; process.kill(pid, 0); running = true; } catch {}
+  const c = (loadState().coins || {})[v.cmd.coin]; if (!c || !c.pos) return void (console.log(`${v.cmd.coin}: no open trade in state/`), process.exitCode = 1);
+  if (!running) return void (console.log('the bot is not running: start it first (the partial close is sent by the running bot between candle closes)'), process.exitCode = 1);
+  if (c.pos.sigTime != null) v.cmd.sigMs = Math.round(c.pos.sigTime * 1000);
+  PART.queue(STATE_DIR, [v.cmd]); console.log('queued: the running bot sends it within a minute (check with: node icore.js status)');
 }
 
 // ---------------- check: read-only pre-flight (run on the VPS before going live, and any time something looks off) ----------------
@@ -701,6 +791,7 @@ if (cmd === 'lib') {}
 else if (cmd === 'once') runOnce();
 else if (cmd === 'loop') loop();
 else if (cmd === 'status') status();
+else if (cmd === 'partial') partialCli(process.argv.slice(3));
 else if (cmd === 'balance') balance();
 else if (cmd === 'telegram-setup') tg.setup().then((r) => { process.exitCode = r.ok ? 0 : 1; });
 else if (cmd === 'dashboard-backfill') dashboardBackfill();
@@ -709,4 +800,4 @@ else if (cmd === 'ledger-sync') ledgerNow(process.argv.includes('--dry')).catch(
 else if (cmd === 'ledger-wallet-sync') ledgerWalletNow(process.argv.includes('--dry')).catch((e) => { console.log('ledger-wallet-sync failed: ' + e.message); process.exitCode = 1; });
 else if (cmd === 'test-trade') testTrade((process.argv[3] || 'SOL').toUpperCase());
 else if (cmd === 'replay') replay((process.argv[3] || CFG.coins.join(',')).split(','));
-else console.log('usage: node icore.js check | balance | telegram-setup | dashboard-backfill | ledger-sync [--dry] | ledger-wallet-sync [--dry] | test-trade SOL --yes --allow-live | once | loop | status | replay SOL,ZEC,NEAR,ADA,GALA   (live trading also needs --allow-live or ICORE_ALLOW_LIVE=1)');
+else console.log('usage: node icore.js partial ZEC 50 | check | balance | telegram-setup | dashboard-backfill | ledger-sync [--dry] | ledger-wallet-sync [--dry] | test-trade SOL --yes --allow-live | once | loop | status | replay SOL,ZEC,NEAR,ADA,GALA   (live trading also needs --allow-live or ICORE_ALLOW_LIVE=1)');

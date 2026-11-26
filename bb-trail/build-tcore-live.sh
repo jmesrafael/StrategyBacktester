@@ -5,7 +5,7 @@
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")"
 STAGE="$(mktemp -d)"; trap 'rm -rf "$STAGE"' EXIT
-FILES=(icore.js icore-core.js realpaper.js live.js mexc.js config.js envfile.js shared-sizing.js telegram.js journal.js dashboard-push.js ledger-sync.js keyinfo.js matchkey.js compare-live-vs-backtest.js lab-report.js bot-config.json README-TRAIL.md
+FILES=(icore.js icore-core.js realpaper.js live.js partial.js mexc.js config.js envfile.js shared-sizing.js telegram.js journal.js dashboard-push.js ledger-sync.js keyinfo.js matchkey.js compare-live-vs-backtest.js lab-report.js bot-config.json README-TRAIL.md
   deploy-tcore/install-tcore-live.sh deploy-tcore/make-keys.sh deploy-tcore/status.sh deploy-tcore/track-old-position.js deploy-tcore/tcore.service deploy-tcore/tcore-compare.service deploy-tcore/tcore-compare.timer
   data/SOL.json data/ZEC.json data/NEAR.json data/ADA.json data/GALA.json)
 for f in "${FILES[@]}"; do mkdir -p "$STAGE/$(dirname "$f")"; cp "$f" "$STAGE/$f"; done

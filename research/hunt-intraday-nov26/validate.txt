@@ -1,0 +1,16 @@
+year            2020  2021  2022  2023  2024  2025  2026
+MAIN 1x          145   199   146   187   257   177   210  tot 1321 n 2679 exp 0.49 dd 94 r/dd 14.0 ex10 744 coins+ 12/12
+HOLD 1x           36   103    26    15   299    53    41  tot 572 n 2664 exp 0.21 dd 99 r/dd 5.8 ex10 100 coins+ 9/12
+MAIN 2x          136   191   132   159   240   155   187  tot 1200 n 2682 exp 0.45 dd 102 r/dd 11.8 ex10 624 coins+ 12/12
+HOLD 2x           27    94    11    -5   273    37    21  tot 458 n 2670 exp 0.17 dd 123 r/dd 3.7 ex10 -14 coins+ 7/12
+MAIN 3x          125   184   118   134   210   136   166  tot 1073 n 2688 exp 0.40 dd 116 r/dd 9.2 ex10 498 coins+ 12/12
+HOLD 3x           18    83    -2   -25   255    15     0  tot 344 n 2674 exp 0.13 dd 179 r/dd 1.9 ex10 -128 coins+ 7/12
+MAIN long 1156 (1343) short 165 (1336) avgbars 53.4 win 26%
+HOLD long 442 (1272) short 131 (1392) avgbars 49.2 win 25%
+max single trade MAIN 133.9 HOLD 203.9
+trades entered in bad window MAIN: 0
+BB-CORE 1h MAIN ref: 163 391 240 170 201 169 260 tot 1594
+monthly correlation (MAIN, exit months, n=82) = 0.513
+overlap A (BB-CORE same coin+side entry within 24h): 1294/2679 = 48%
+overlap B (holding periods intersect, same coin+side): 2277/2679 = 85%
+audit ok = true checks=960

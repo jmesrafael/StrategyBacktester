@@ -136,7 +136,7 @@ function closedTradeReport(i, creds = keys()) {
   const r = i.r_result != null ? i.r_result : i.R;
   return { wallet: creds.ledgerWallet, body: {
     p_wallet: creds.ledgerWallet, p_position_id: String(h.positionId), p_symbol: String(symbol), p_side: side, p_closed_at: new Date(closedMs).toISOString(),
-    p_realized: r6(h.realised), p_fees: isNum(h.fee) ? r6(h.fee) : null, p_funding: isNum(h.holdFee) ? r6(h.holdFee) : null, p_r: isNum(r) ? Math.round(Number(r) * 1e4) / 1e4 : null } };
+    p_realized: r6(isNum(i.costs.exit.realised_total) ? i.costs.exit.realised_total : h.realised), p_fees: isNum(h.fee) ? r6(h.fee) : null, p_funding: isNum(h.holdFee) ? r6(h.holdFee) : null, p_r: isNum(r) ? Math.round(Number(r) * 1e4) / 1e4 : null } };
 }
 
 // returns { status: 'off'|'incomplete'|'dry'|'sent'|'error', ... }

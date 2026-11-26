@@ -1,0 +1,37 @@
+STRATEGY PERFORMANCE: 6 live coins (SOL NEAR ADA GALA ZEC ARB), Binance perp data
+Start PHP 1,000 on Jan 1 2020, compounding, live risk steps (2.5% / 2% / 1.5% per trade)
+Net of 0.05% fee + 0.02% slippage per side, real funding, MEXC minimum orders and margin
+Period: Jan 2020 - Nov 25 2026   (source: metrics.md, script metrics.js, Nov 26 2026)
+
+| Metric                                  | BB-CORE 4h (live bot)  | BB-CORE 1h (2.0σ)      | BB-1H-WIDE (2.6σ)      |
+|-----------------------------------------|------------------------|------------------------|------------------------|
+| Max drawdown, peak to trough (hourly,   | -43.4%                 | -48.1%                 | -34.9%                 |
+|   open trades included)                 | Mar 10 - May 3 2023    | Mar 10 - Apr 12 2023   | Mar 12 - Jun 15 2021   |
+| Max drawdown, closed trades only        | -38.0%                 | -39.1%                 | -27.3%                 |
+| Profit factor                           | 1.48                   | 1.65                   | 1.68                   |
+| Sharpe ratio (daily, annualised)        | 1.90                   | 2.09                   | 2.05                   |
+| Sortino ratio (daily, annualised)       | 3.46                   | 3.84                   | 3.71                   |
+| Total trades                            | 1,514                  | 1,783                  | 1,316                  |
+| Win rate                                | 36.7%                  | 35.6%                  | 39.2%                  |
+| Trades skipped (MEXC min order/margin)  | 0                      | 0                      | 0                      |
+| PHP 1,000 grows to (net)                | PHP 5.03M              | PHP 32.76M             | PHP 4.40M              |
+| Yearly growth (CAGR)                    | 244%                   | 352%                   | 238%                   |
+
+RECENT TEST: fresh PHP 1,000 on Jan 1 2026 -> Nov 25 2026 (same rules; source: metrics-2026.md)
+
+| Metric                                  | BB-CORE 4h (live bot)  | BB-CORE 1h (2.0σ)      | BB-1H-WIDE (2.6σ)      |
+|-----------------------------------------|------------------------|------------------------|------------------------|
+| Max drawdown, peak to trough (hourly)   | -57.6%                 | -51.3%                 | -43.7%                 |
+|   all three: Sep 23 -> Nov 4 2026       |                        |                        |                        |
+| Profit factor                           | 1.37                   | 1.55                   | 1.60                   |
+| Sharpe / Sortino                        | 2.24 / 4.35            | 2.72 / 5.27            | 2.48 / 5.02            |
+| Trades / win rate                       | 249 / 36.9%            | 286 / 36.4%            | 212 / 39.6%            |
+| Trades skipped (MEXC min order/margin)  | 1                      | 1                      | 0                      |
+| PHP 1,000 -> Nov 25 2026 (net)          | PHP 5,959 (+496%)      | PHP 12,970 (+1,197%)   | PHP 7,210 (+621%)      |
+
+Notes:
+- Drawdown is marked every hour with open trades valued at the 1h close.
+  Peak-to-trough drawdowns are 5-9 points deeper than the closed-trade-only figures (6 for the live bot from 2020, 9 for BB-CORE 1h, 8 for BB-1H-WIDE).
+- MEXC minimum orders do not bind for these coins: one contract is worth $0.01-$7.40,
+  and the middle-band stop is close, so even PHP 1,000 can place every trade.
+- Backtest only; past results are not a forecast. Compounded millions assume unlimited liquidity.
