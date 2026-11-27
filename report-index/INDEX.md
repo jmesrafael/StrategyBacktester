@@ -346,6 +346,7 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - README.md — News lab bots (BB-CORE, I-CORE, T-CORE + news gate), PAPER ONLY (2026-11-26)
 
 ## research
+- LEAD-tcore-trail11.md — Quick look: T-CORE trailing stop 11 ATR (live 14) - Nov 27, 2026 (2026-11-27)
 - TESTED-STRATEGIES.md — Tested strategies: registry (read before testing anything new) (2026-11-27)
 
 ## research/bb-book-nov25
@@ -585,6 +586,22 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - results-yearly-compare.md — Year by year on SOL / DOGE / ZEC — $5 risk per trade (whole dollars) (2026-11-26)
 - results-yearly-dd.md — BB Breakout (4h) vs NY SMC v7 (15m) — every year on SOL / DOGE / ZEC, $5 risk per trade (2026-11-26)
 
+## research/both-nov27
+- PLAN.md — More return AND smaller fall (written Nov 27, 2026 before running) (2026-11-27)
+- RESULTS.md — T-CORE trailing stop 10-11 ATR (live 14): more return, smaller fall? (Nov 27, 2026) (2026-11-27)
+- base.json — base.json (2026-11-27)
+- f1-results.md — F1 exits results (Nov 27, 2026) (2026-11-27)
+- f2-results.md — F2 signal-quality sizing results (2026-11-27)
+- f3-results.md — F3 allocation results (causalF3 engine, reproduces baseline 0/6 exactly) (2026-11-27)
+- f4-results.md — F4 coins results (Nov 27, 2026) (2026-11-27)
+- score-bb.json — score-bb.json (2026-11-27)
+- score-ic.json — score-ic.json (2026-11-27)
+- score-tc.json — score-tc.json (2026-11-27)
+- shuf10.txt — block 1 live      profit 100% median end 894113 p5 end 833971 median fall 15.9 p95 fall 24.9 (2026-11-27)
+- surv-f1.json — surv-f1.json (2026-11-27)
+- surv-f1.txt — T-CORE trail 10: 12-month starts higher return 58/71, smaller fall 62/71, both 52/71; worst 12-month fall 53.5 vs 54.3; losing windows 0 vs 0 (2026-11-27)
+- tc.txt — 1) standalone T-CORE, live 8 coins, flat 1x (2026-11-27)
+
 ## research/capital-race-nov26
 - RESULTS.md — Every strategy, one identical setup: ending capital (Nov 26, 2026) (2026-11-27)
 - results.json — results.json (2026-11-27)
@@ -619,6 +636,37 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - sui-arb-live.json — sui-arb-live.json (2026-11-26)
 - wf.json — wf.json (2026-11-26)
 
+## research/dd-nov27
+- PLAN.md — Smaller fall, still profitable when trades are shuffled (written Nov 27, 2026 before running) (2026-11-27)
+- RESULTS.md — Smaller fall, still profitable when shuffled (Nov 27, 2026) (2026-11-27)
+- famA-results.md — Family A - fall throttle results (2026-11-27)
+- famA-trades.json — famA-trades.json (2026-11-27)
+- famA.log — baseline 782730.1738229202 0.4372087012599847 3791 windows 71 (2026-11-27)
+- famB-results.md — Family B: portfolio heat (results) (2026-11-27)
+- famB-trades.json — famB-trades.json (2026-11-27)
+- famB.log — BASE 782,730 43.7 3791 (2026-11-27)
+- famC-results.md — Family C results (streak / day limits) (2026-11-27)
+- famC-trades.json — famC-trades.json (2026-11-27)
+- famC.log — baseline end 782,730 dd 43.7 trades 3791 (2026-11-27)
+
+## research/dd-nov27/opus
+- REVIEW.md — Independent review of Family B rule S8 (Opus, Nov 27 2026) (2026-11-27)
+- out-BASE.json — out-BASE.json (2026-11-27)
+- out-BASE_itb.json — out-BASE_itb.json (2026-11-27)
+- out-BASE_tib.json — out-BASE_tib.json (2026-11-27)
+- out-COMBO.json — out-COMBO.json (2026-11-27)
+- out-S8.json — out-S8.json (2026-11-27)
+- out-S8_bti.json — out-S8_bti.json (2026-11-27)
+- out-S8_coinrev.json — out-S8_coinrev.json (2026-11-27)
+- out-S8_ibt.json — out-S8_ibt.json (2026-11-27)
+- out-S8_itb.json — out-S8_itb.json (2026-11-27)
+- out-S8_nopend.json — out-S8_nopend.json (2026-11-27)
+- out-S8_tbi.json — out-S8_tbi.json (2026-11-27)
+- out-S8_tib.json — out-S8_tib.json (2026-11-27)
+
+## research/dd-nov27
+- shuffle-results.md — | Setting | Block | Profit in | Median end | 5th pct end | Median fall | 95th pct fall | (2026-11-27)
+
 ## research/dip-timing
 - REPORT.md — Is it better to add money when the equity curve is down? (Nov 25, 2026) (2026-11-26)
 
@@ -648,6 +696,10 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 ## research/four-bot-nov26
 - RESULTS.md — 3 live bots vs 4 new strategies, and a 4th bot at 25% each (Nov 26, 2026) (2026-11-27)
 - results.json — results.json (2026-11-27)
+
+## research/harness-nov27
+- README.md — harness-nov27 (2026-11-27)
+- trials.log.jsonl — trials.log.jsonl (2026-11-27)
 
 ## research/hunt-1h-nov26
 - METRICS-COPY.txt — STRATEGY PERFORMANCE: 6 live coins (SOL NEAR ADA GALA ZEC ARB), Binance perp data (2026-11-26)
@@ -944,6 +996,10 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - RESULTS.md — Profit-cause simulation, Oct 24 to Nov 15 2026 (2026-11-26)
 - events.json — events.json (2026-11-26)
 - results.json — results.json (2026-11-26)
+
+## research/pyramid-nov27
+- PLAN.md — Pyramid add-on: PLAN (written before any run, 2026-11-27) (2026-11-27)
+- RESULTS.md — Pyramid add-on, RESULTS (2026-11-27) (2026-11-27)
 
 ## research/replace-nov25
 - 2025-then.md — 2025: PHP 1,000 started 1 January, current TRI-CORE against New (2026-11-26)

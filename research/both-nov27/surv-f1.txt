@@ -1,0 +1,4 @@
+T-CORE trail 10: 12-month starts higher return 58/71, smaller fall 62/71, both 52/71; worst 12-month fall 53.5 vs 54.3; losing windows 0 vs 0
+   years return/fall (vs live): 2020 103.8/42.9 vs 117.6/43.7 | 2021 1273.3/34.5 vs 1261.8/41.7 | 2022 276.0/35.0 vs 266.5/34.5 | 2023 724.8/50.2 vs 643.5/50.7 | 2024 345.2/47.3 vs 264.3/49.1 | 2025 782.2/41.8 vs 702.2/42.7 | 2026 804.0/48.6 vs 741.3/48.5
+T-CORE trail 11: 12-month starts higher return 49/71, smaller fall 56/71, both 38/71; worst 12-month fall 53.8 vs 54.3; losing windows 0 vs 0
+   years return/fall (vs live): 2020 102.3/43.1 vs 117.6/43.7 | 2021 1250.9/38.1 vs 1261.8/41.7 | 2022 275.4/34.8 vs 266.5/34.5 | 2023 697.3/50.7 vs 643.5/50.7 | 2024 329.6/46.4 vs 264.3/49.1 | 2025 740.9/42.0 vs 702.2/42.7 | 2026 748.8/48.8 vs 741.3/48.5

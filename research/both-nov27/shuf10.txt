@@ -1,0 +1,6 @@
+block 1 live      profit 100% median end 894113 p5 end 833971 median fall 15.9 p95 fall 24.9
+block 1 trail 10  profit 100% median end 974136 p5 end 909043 median fall 15.8 p95 fall 24.1
+block 5 live      profit 100% median end 892643 p5 end 830450 median fall 21.4 p95 fall 32.9
+block 5 trail 10  profit 100% median end 978114 p5 end 894887 median fall 21.4 p95 fall 33.7
+0/6 T-CORE trail 8 (neighbour)         .180.7/44.5  .381.4/50.9  .464.3/52.8  .620.9/57.9  .176.1/45.1  .173.1/47.6
+1/6 T-CORE trail 9 (neighbour)         .183.6/45.6  Y426.9/47.7  .444.7/53.2  .699.0/58.2  .179.8/46.1  .176.7/47.9

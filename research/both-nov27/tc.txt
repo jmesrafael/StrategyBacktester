@@ -1,0 +1,36 @@
+1) standalone T-CORE, live 8 coins, flat 1x
+trail 14  R  1058  fall  78.5  trades 1150  by year 2020:45 2021:221 2022:17 2023:24 2024:336 2025:274 2026:142
+trail 13  R  1099  fall  75.7  trades 1191  by year 2020:52 2021:240 2022:13 2023:25 2024:356 2025:277 2026:136
+trail 12  R  1155  fall  73.6  trades 1220  by year 2020:56 2021:235 2022:30 2023:25 2024:386 2025:277 2026:145
+trail 11  R  1151  fall  71.4  trades 1269  by year 2020:31 2021:232 2022:31 2023:26 2024:375 2025:306 2026:150
+trail 10  R  1230  fall  70.5  trades 1303  by year 2020:32 2021:245 2022:33 2023:27 2024:382 2025:338 2026:173
+trail  9  R  1074  fall  74.7  trades 1385  by year 2020:16 2021:199 2022:41 2023:118 2024:210 2025:339 2026:151
+trail  8  R   986  fall  72.5  trades 1436  by year 2020:24 2021:226 2022:50 2023:113 2024:208 2025:197 2026:168
+
+2) per coin R (live 8), trail 14 -> 11 / 10
+SOL     217 ->   201 /   227
+ZEC     288 ->   320 /   328
+NEAR    117 ->   130 /   138
+ADA     131 ->   136 /   146
+GALA    111 ->   133 /   139
+ETH     137 ->   162 /   180
+SUI      22 ->    27 /    33
+ARB      36 ->    42 /    40
+coins better than 14: trail 11 7/8, trail 10 8/8
+
+3) hold-out coins (not live), flat, 1x and 3x costs
+cost x1 trail 14  R  1127  fall  99.4  by year 2020:82 2021:664 2022:-48 2023:-32 2024:424 2025:-1 2026:39
+cost x1 trail 12  R  1088  fall  99.6  by year 2020:85 2021:611 2022:-51 2023:-11 2024:416 2025:-12 2026:50
+cost x1 trail 11  R  1087  fall  99.2  by year 2020:54 2021:624 2022:-39 2023:2 2024:422 2025:-1 2026:27
+cost x1 trail 10  R   911  fall  98.9  by year 2020:66 2021:494 2022:-43 2023:88 2024:284 2025:-13 2026:34
+cost x1 trail  9  R   904  fall  98.5  by year 2020:78 2021:487 2022:-29 2023:85 2024:254 2025:2 2026:28
+cost x3 trail 14  R   994  fall  99.9  by year 2020:69 2021:654 2022:-69 2023:-57 2024:404 2025:-24 2026:16
+cost x3 trail 12  R   946  fall  99.9  by year 2020:73 2021:600 2022:-73 2023:-37 2024:395 2025:-37 2026:25
+cost x3 trail 11  R   941  fall  99.8  by year 2020:41 2021:613 2022:-62 2023:-24 2024:400 2025:-27 2026:0
+cost x3 trail 10  R   765  fall  99.9  by year 2020:53 2021:482 2022:-61 2023:61 2024:263 2025:-39 2026:7
+cost x3 trail  9  R   755  fall  99.9  by year 2020:67 2021:475 2022:-51 2023:57 2024:232 2025:-24 2026:-0
+
+4) live coins: 3x costs, and without the 10 best trades
+trail 14  3x costs R 986 fall 80.0  | 1x total R 1058, ex-top-10 R 362
+trail 11  3x costs R 1073 fall 77.1  | 1x total R 1151, ex-top-10 R 426
+trail 10  3x costs R 1147 fall 76.8  | 1x total R 1230, ex-top-10 R 471

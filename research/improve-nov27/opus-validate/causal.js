@@ -251,7 +251,7 @@ function run(o = {}) {
           const N = w.slots.reduce((n, z) => n + (z.pos && !z.pos.phantom && z.pos.dir === g.dir && (o.countClosing || !z.pendExit) ? 1 : 0), 0) + pendingDirs.filter((d) => d === g.dir).length;
           const base = equity * w.weight; w.peakBase = Math.max(w.peakBase, base);
           const pct = live ? (w.peakBase >= 1000 ? 0.015 : w.peakBase >= 500 ? 0.02 : 0.025) : 0.025;
-          const mult = o.sizeFn ? o.sizeFn({ bot: w.id, coin: s.coin, t, N, dir: g.dir }) : rule ? rule(N, w.id) : 1;
+          const mult = o.sizeFn ? o.sizeFn({ bot: w.id, coin: s.coin, t, N, dir: g.dir, equity }) : rule ? rule(N, w.id) : 1;
           let target = pct * base * K * (w.id === 'bb' ? g.w * bbMult : 1) * mult;
           if (o.cap > 0) target = Math.min(o.cap, target);
           if (!(target > 0)) continue;
