@@ -742,6 +742,7 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 ## research/improve2-nov27
 - PLAN.md — Second search: more return AND a smaller worst fall, on the strict engine (written Nov 27, 2026 before running) (2026-11-27)
 - RESULTS.md — Second search for more return AND a smaller worst fall (Nov 27, 2026) (2026-11-27)
+- allaspects.json — allaspects.json (2026-11-27)
 - nocap.json — nocap.json (2026-11-27)
 - results.json — results.json (2026-11-27)
 

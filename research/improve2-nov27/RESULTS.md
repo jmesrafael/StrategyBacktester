@@ -46,5 +46,11 @@ Live account, US$600 start, Jan 2020 to Nov 24 2026. TRI-CORE: US$10.6M, worst f
 Still not a pass: all five have a LARGER worst fall than TRI-CORE in the 2020-23 idealised test (rule 1), no rolling 12-month
 or walk-forward check was run without the cap, and the dollar amounts assume perfect fills at any size.
 
+## Every test, no cap (`allaspects.js`)
+7 tests (live full period, live fresh 2020-23 and 2024-26, flat 2020-23 and 2024-26, double costs, fills 1 hour late), each
+needing higher growth AND a smaller worst fall. **None of the 26 passes all 7.** Closest: ICHI-X4 20% x1.2 (6/7; fails flat 2020-23,
+fall 55.8 vs 54.1%) and the four BB-heavier shares at x1.1 (5/7; fail both flat tests on the fall). In 71 rolling 12-month runs
+none is better on both in more than 44% (BB/I/T 70/15/15 x1.1 best); by calendar year none is better on both in more than 3 of 7.
+
 ## Files
-`PLAN.md`, `run.js` -> `results.json`, `nocap.js` -> `nocap.json`.
+`PLAN.md`, `run.js` -> `results.json`, `nocap.js` -> `nocap.json`, `allaspects.js` -> `allaspects.json`.
