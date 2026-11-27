@@ -1,6 +1,11 @@
 # Improve TRI-CORE: more return and a smaller worst fall (Nov 27, 2026)
 
-**Status: LEAD (paper test). One change passed all pre-set rules on the third round. No bot, server or database was changed.**
+**Status: UNPROVEN, shadow log only (independent check, same day). No bot, server or database was changed.**
+
+> **Read `opus-validate/REPORT.md` first.** It corrects this file: the live US$500 per-trade risk cap was not modelled, so the
+> PHP amounts below are not reachable. With the cap the full-period money is about the same as today (worst fall 41.9% vs
+> 43.7% at x1.11). "x1.05 same money, smaller fall" and "x1.11 tie on worst fall" did not hold, a walk-forward never picked
+> this rule, and `engine.js` has two small look-ahead faults.
 
 ## The change
 Each bot makes a new trade smaller when it already holds several trades in the same direction.

@@ -11,6 +11,7 @@ const { run } = require('../research/strat-hunt-nov6/engine.js');
 let fails = 0;
 const ok = (c, m) => { console.log(`${c ? 'ok  ' : 'FAIL'} ${m}`); if (!c) fails++; };
 const NOCOST = { fee: 0, slip: 0 };
+const TAGS = { wide: 'bbw', ichi: 'ichix' };   // the dashboard tag of each lab bot
 
 const outs = Object.fromEntries(Object.keys(BOTS).map((k) => [k, build(k)]));
 const ICHI = { fam: 'ichi', p: { t: 9, k: 26, s: 52, mode: 'cross' }, trend: 0, exit: { k: 2, bars: 12 } };
@@ -47,13 +48,19 @@ console.log('\nC. locks in the built copies');
 for (const [key, b] of Object.entries(BOTS)) {
   const read = (f) => fs.readFileSync(path.join(outs[key], f), 'utf8');
   ok(read(b.main).includes('const liveAllowed = () => false;'), `${key}: live trading is impossible`);
-  const push = require(path.join(outs[key], 'dashboard-push.js'));
+  process.env.DASHBOARD_BOT = 'bbcore'; process.env.DASHBOARD_ASK_POLL_SEC = '60';   // a wrong env file must change nothing
+  const push = require(path.join(outs[key], 'dashboard-push.js')), tag = TAGS[key];
+  const ev = [push.heartbeatEvent({ mode: 'paper', status: 'ok' }), ...push.fromJournal({ type: 'entry', mode: 'paper', symbol: 'ARB_USDT', side: 'LONG', ts_ms: Date.now(), event_id: 'paper:entry:ARB:1', trade_id: 't1', sl: 0.9, match_key: { signal_candle_open_ms: Date.now() }, entry: { fill_price: 1, intended_price: 1 }, position: { qty: 1, contracts: 1 }, risk: { risk_pct: 0.025, one_r_price: 0.1, risk_usd: 5, balance_used: 200 } })];
+  ok(ev.length >= 2 && ev.every((e) => e.bot === tag && e.event_id.startsWith(tag + '|')), `${key}: every dashboard event is tagged ${tag} (${ev.length} checked, ARB included)`);
   process.env.DASHBOARD_URL = 'https://example.invalid'; process.env.DASHBOARD_PUSH_SECRET = 'x';
-  ok(push.status().enabled === false, `${key}: nothing is pushed to the dashboard, even with the settings present`);
+  ok(push.startAskPoll({ provider: () => ({}), busy: () => false }) === false, `${key}: never asks the dashboard for requests`);
   delete process.env.DASHBOARD_URL; delete process.env.DASHBOARD_PUSH_SECRET;
+  ok(push.status().enabled === false, `${key}: pushes nothing until the dashboard address and secret are set`);
+  delete process.env.DASHBOARD_BOT; delete process.env.DASHBOARD_ASK_POLL_SEC;
   ok((read('telegram.js').match(/new strategy lab: Telegram is disabled/g) || []).length === 2, `${key}: Telegram is disabled`);
   const cfg = JSON.parse(read('bot-config.json'));
   ok(cfg.mode === 'paper' && cfg.ledgerSync === false && cfg.ledgerWalletSync === false && cfg.realisticPaper === true && !cfg.sharedSizing, `${key}: paper, realistic costs, no ledger, no shared sizing`);
+  ok(cfg.maxRiskUsd === 0 && cfg.startBalance === 200, `${key}: US$200 paper start, no US$ risk cap`);
 }
 console.log(`\n${fails ? fails + ' FAILED' : 'all checks passed'}`);
 process.exit(fails ? 1 : 0);

@@ -1,0 +1,138 @@
+research conventions {
+ "mine": 3791,
+ "research": 3789,
+ "matchedSameR": 2072,
+ "matchedDiffR": 1697,
+ "maxAbsDiffR": 0.13794392159101276,
+ "sumDiffR": 0.19530796520315613,
+ "diffByWhy": {
+  "stop/stop": 1330,
+  "time/time": 367
+ },
+ "onlyMine": [
+  "tc ZEC 2020-05-10T04 stop R -0.98",
+  "tc ADA 2021-07-26T04 stop R -1.03",
+  "tc NEAR 2022-03-01T16 stop R -1.02",
+  "tc ZEC 2024-06-08T12 time R 0.97",
+  "tc SOL 2024-07-03T00 stop R -1.03",
+  "tc SOL 2024-08-02T20 stop R -1.01",
+  "tc SUI 2024-08-08T20 time R 0.52",
+  "tc ETH 2024-09-20T04 time R 0.72",
+  "tc NEAR 2024-11-10T00 stop R 1.48",
+  "tc ARB 2024-12-19T00 time R 0.89",
+  "tc GALA 2025-01-16T00 stop R -1.02",
+  "tc SOL 2025-01-16T00 time R 0.69",
+  "tc SOL 2025-02-02T00 time R 0.83",
+  "tc GALA 2025-04-21T08 stop R -1.02",
+  "tc GALA 2025-05-31T00 stop R -1.01",
+  "tc NEAR 2025-05-30T08 time R 0.93",
+  "tc SOL 2025-05-31T00 time R 0.77",
+  "tc NEAR 2025-09-26T12 stop R -1.01",
+  "tc NEAR 2025-10-02T04 time R 0.50",
+  "tc GALA 2026-05-16T08 time R 0.56",
+  "tc ADA 2026-10-14T16 time R 0.84",
+  "tc GALA 2026-10-15T04 time R 0.35"
+ ],
+ "onlyResearch": [
+  "tc SOL 2024-08-03T20 stop R -1.01 exit 2024-08-07T08",
+  "tc SOL 2025-01-16T04 stop R 0.90 exit 2025-02-02T04",
+  "tc SOL 2025-02-02T04 time R 0.28 exit 2025-02-10T08",
+  "tc SOL 2025-05-31T04 stop R -1.03 exit 2025-06-03T04",
+  "tc SOL 2025-06-05T20 stop R -1.03 exit 2025-06-08T20",
+  "tc ZEC 2020-05-10T16 stop R -0.99 exit 2020-05-17T04",
+  "tc ZEC 2024-06-08T16 time R 0.98 exit 2024-06-16T20",
+  "tc NEAR 2022-03-01T20 stop R -1.02 exit 2022-03-05T00",
+  "tc NEAR 2024-11-10T04 stop R 1.44 exit 2024-12-19T20",
+  "tc NEAR 2025-05-30T16 time R 0.86 exit 2025-06-07T20",
+  "tc NEAR 2025-09-30T16 stop R -1.02 exit 2025-10-01T12",
+  "tc NEAR 2025-10-01T16 time R 0.07 exit 2025-10-09T20",
+  "tc ADA 2021-07-26T08 stop R -1.02 exit 2021-07-27T00",
+  "tc ADA 2026-10-15T04 time R 0.30 exit 2026-10-23T08",
+  "tc GALA 2025-05-31T04 stop R -1.01 exit 2025-06-03T04",
+  "tc GALA 2026-05-16T12 time R 0.81 exit 2026-05-24T16",
+  "tc GALA 2026-10-18T16 stop R -1.02 exit 2026-10-20T16",
+  "tc ETH 2024-09-20T08 time R 0.77 exit 2024-09-29T08",
+  "tc SUI 2024-08-09T00 time R -0.58 exit 2024-08-17T04",
+  "tc ARB 2024-12-19T04 time R 0.79 exit 2024-12-27T12"
+ ],
+ "openAtEnd": [
+  "bb ZEC 2026-11-20T12",
+  "bb ARB 2026-11-18T16",
+  "ic SOL 2026-11-23T20",
+  "ic ADA 2026-10-22T00",
+  "ic GALA 2026-11-05T08",
+  "tc SOL 2026-10-24T08",
+  "tc ZEC 2026-11-09T08",
+  "tc NEAR 2026-11-12T12",
+  "tc ADA 2026-11-14T04",
+  "tc ETH 2026-11-09T08",
+  "tc SUI 2026-11-14T04",
+  "tc ARB 2026-11-12T00"
+ ]
+}
+strict {
+ "mine": 3789,
+ "research": 3789,
+ "matchedSameR": 1913,
+ "matchedDiffR": 1876,
+ "maxAbsDiffR": 0.13794392159101276,
+ "sumDiffR": 0.19402877361778567,
+ "diffByWhy": {
+  "stop/stop": 1334,
+  "time/time": 542
+ },
+ "onlyMine": [],
+ "onlyResearch": [],
+ "openAtEnd": [
+  "bb ZEC 2026-11-20T12",
+  "bb ARB 2026-11-18T16",
+  "ic SOL 2026-11-23T20",
+  "ic ADA 2026-10-22T00",
+  "ic GALA 2026-11-05T08",
+  "tc SOL 2026-10-24T08",
+  "tc ZEC 2026-11-09T08",
+  "tc NEAR 2026-11-12T12",
+  "tc ADA 2026-11-14T04",
+  "tc ETH 2026-11-09T08",
+  "tc SUI 2026-11-14T04",
+  "tc ARB 2026-11-12T00"
+ ]
+}
+live journal {
+ "liveTrades": 39,
+ "matched": 24,
+ "unmatched": [
+  "ic SOL S sig 2026-10-29T16 (legacy) R 0.00 ",
+  "bb GALA S sig 2026-10-29T20 (legacy) R -1.03 stop",
+  "bb NEAR S sig 2026-11-02T08 (legacy) R 2.97 time",
+  "ic ZEC S sig 2026-11-02T16 (legacy) R -1.02 stop",
+  "ic ADA S sig 2026-11-05T12 (legacy) R 0.00 ",
+  "tc NEAR S sig 2026-11-08T16 (legacy) R 0.00 ",
+  "tc ADA S sig 2026-11-08T20 (legacy) R -1.05 stop",
+  "tc GALA S sig 2026-11-08T20 (legacy) R -1.04 stop",
+  "tc ADA S sig 2026-11-13T00 (legacy) R 0.00 ",
+  "tc GALA S sig 2026-11-13T00 (legacy) R -1.03 stop",
+  "tc ETH S sig 2026-11-13T00 (legacy) R 0.00 ",
+  "bb ZEC S sig 2026-11-14T00 (v3) R 0.00 ",
+  "tc GALA S sig 2026-11-14T12 (v3) R 0.00 ",
+  "bb ARB S sig 2026-11-14T16 (v3) R 0.00 ",
+  "tc ARB S sig 2026-11-14T16 (v3) R 0.00 "
+ ],
+ "engineOnly": [
+  "bb GALA S sig 2026-10-24T12 (legacy)",
+  "bb ARB S sig 2026-11-02T08 (legacy)",
+  "ic ZEC S sig 2026-11-01T12 (legacy)",
+  "tc SUI S sig 2026-11-08T20 (legacy)",
+  "bb ARB L sig 2026-11-09T08 (legacy)",
+  "bb NEAR S sig 2026-11-02T04 (legacy)",
+  "ic ETH S sig 2026-11-05T12 (legacy)",
+  "tc ETH S sig 2026-11-08T20 (legacy)",
+  "bb SOL S sig 2026-11-20T08 (v3)",
+  "bb ZEC S sig 2026-11-20T00 (v3)",
+  "bb ARB S sig 2026-11-18T08 (v3)",
+  "ic SOL S sig 2026-11-23T16 (v3)",
+  "tc ADA S sig 2026-11-14T00 (v3)",
+  "tc SUI S sig 2026-11-14T00 (v3)"
+ ]
+}
+secs 2.5

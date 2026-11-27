@@ -1,0 +1,119 @@
+{
+ "A": {
+  "checks": 11402632,
+  "mismatches": 0,
+  "runs": 240,
+  "examples": []
+ },
+ "B": {
+  "sim.js signals": {
+   "checks": 310338,
+   "mismatches": 0,
+   "examples": []
+  },
+  "sim.js coinTrades (closed by the cut)": {
+   "checks": 53230,
+   "mismatches": 0,
+   "examples": []
+  },
+  "sim.js account equity": {
+   "checks": 260246,
+   "mismatches": 0,
+   "examples": []
+  },
+  "improve-nov27 engine.js live account equity (tri)": {
+   "checks": 1041026,
+   "mismatches": 24001,
+   "examples": [
+    {
+     "c": 1758136706,
+     "mode": "truncate",
+     "firstDiff": "2025-07-08T21:00:00.000Z"
+    },
+    {
+     "c": 1758136706,
+     "mode": "corrupt",
+     "firstDiff": "2025-09-17T17:00:00.000Z"
+    },
+    {
+     "c": 1627690488,
+     "mode": "truncate",
+     "firstDiff": "2021-05-19T13:00:00.000Z"
+    }
+   ],
+   "firstDiffHoursBeforeCut": [
+    1702,
+    2,
+    1739,
+    793,
+    1192,
+    1,
+    912,
+    1,
+    2153,
+    860,
+    1157,
+    1584,
+    1702,
+    999,
+    550,
+    662,
+    612,
+    1593,
+    347,
+    1784,
+    1131,
+    1464,
+    1050,
+    2
+   ]
+  },
+  "improve-nov27 engine.js live account equity (rule)": {
+   "checks": 1041026,
+   "mismatches": 24001,
+   "examples": [
+    {
+     "c": 1758136706,
+     "mode": "truncate",
+     "firstDiff": "2025-07-08T21:00:00.000Z"
+    },
+    {
+     "c": 1758136706,
+     "mode": "corrupt",
+     "firstDiff": "2025-09-17T17:00:00.000Z"
+    },
+    {
+     "c": 1627690488,
+     "mode": "truncate",
+     "firstDiff": "2021-05-19T13:00:00.000Z"
+    }
+   ],
+   "firstDiffHoursBeforeCut": [
+    1702,
+    2,
+    1739,
+    793,
+    1192,
+    1,
+    912,
+    1,
+    2153,
+    860,
+    1157,
+    1584,
+    1702,
+    999,
+    550,
+    662,
+    612,
+    1593,
+    347,
+    1784,
+    1131,
+    1464,
+    1050,
+    2
+   ]
+  }
+ }
+}

@@ -1,4 +1,4 @@
-# __NAME__ PAPER LAB bot (simulated money, no orders, no Telegram, no dashboard), next to the live bots, sharing nothing with them.
+# __NAME__ PAPER LAB bot (simulated money, no orders, no Telegram), next to the live bots, sharing nothing with them.
 # Installed by deploy/install-strat-lab.sh. Its own user, code in /opt/__SVC__ (owned by root), data in /var/lib/__SVC__.
 #   sudo systemctl status __SVC__      sudo journalctl -u __SVC__ -f      sudo bash /opt/__SVC__/deploy/status.sh
 [Unit]
@@ -27,6 +27,8 @@ Environment=__ENVP___KEYS=/var/lib/__SVC__/no-keys.json
 Environment=__ENVP___ENV_FILE=/var/lib/__SVC__/no-env-file
 Environment=__ENVP___NO_NOTIFY=1
 Environment=DASHBOARD_ASK_POLL_SEC=0
+# DASHBOARD_URL and DASHBOARD_PUSH_SECRET come from /etc/__SVC__.env (root only). Without them nothing is pushed and the bot works the same.
+EnvironmentFile=-/etc/__SVC__.env
 # measured slippage written by the data recorder (read only); absent = the bot uses the live order book instead
 Environment=LUCIDIO_RECORDER_SUMMARY=/var/lib/lucidio-recorder/summary/slippage.json
 # it must never compete with the live bots

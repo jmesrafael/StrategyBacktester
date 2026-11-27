@@ -5,6 +5,11 @@ The installer checks the other bots' start times before and after and tells you 
 
 Replace `YOUR-VPS` with the login you normally use for the server.
 
+## Before you start: deploy the dashboard
+
+The ledger must already accept the tags `bbw` and `ichix` (ledger branch `paper-labs-wide-ichi`, merged to `main` so Vercel deploys it).
+If the bots report before that, the dashboard refuses their reports and they wait in each bot's outbox.
+
 ## 0. YOUR PC, Git Bash: build the bundle
 
 ```
@@ -27,6 +32,16 @@ cd /tmp && sha256sum -c stratlab.tar.gz.sha256 && rm -rf /tmp/stratlab-new && mk
 The end of the output must say `other bots' start times unchanged: YES`, and show `labwide: active` and `labichi: active`.
 If a step says `FATAL`, it stopped there and nothing later was changed.
 
+## 3. THE VPS: connect them to the dashboard
+
+Copy the two lines `DASHBOARD_URL=...` and `DASHBOARD_PUSH_SECRET=...` from the env file of a bot that already reports into
+`/etc/labwide.env` and `/etc/labichi.env` (edit with `sudo nano`; never paste the secret into a chat), then:
+
+```
+sudo systemctl restart labwide labichi
+```
+Within a few minutes the dashboard's Research Lab shows **BB 1H WIDE lab** and **ICHI-X4 lab**.
+
 ## Everyday commands (THE VPS)
 
 | What | Command |
@@ -41,4 +56,4 @@ If a step says `FATAL`, it stopped there and nothing later was changed.
 
 - ICHI-X4 decides every 4 hours (12:00am, 4:00am, 8:00am, 12:00pm, 4:00pm, 8:00pm UTC). BB-1H-WIDE decides every hour.
 - A first check made more than 15 minutes after a candle close may log a signal as too late to enter. That is normal.
-- No Telegram messages and nothing on the dashboard: use the commands above.
+- No Telegram messages. Results are on the dashboard's Research Lab, or use the commands above.

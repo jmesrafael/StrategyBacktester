@@ -1,0 +1,8722 @@
+{
+ "generated": "2026-11-27T00:42:45.040Z",
+ "rows": [
+  {
+   "test": "01 baseline",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 5.608851289507647,
+   "dd": 0.5413869632059534,
+   "end": 453021345.55184007,
+   "trades": 3789,
+   "verdict": null
+  },
+  {
+   "test": "01 baseline",
+   "acc": "A",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 5.055501405016514,
+   "dd": 0.47595346569969665,
+   "end": 247863470.41385412,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "01 baseline",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 5.419387428545687,
+   "dd": 0.4948116090898077,
+   "end": 370678610.8448964,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "01 baseline",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 5.866233239615311,
+   "dd": 0.5168267200838461,
+   "end": 589592248.8141341,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "01 baseline",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 6.408743544044139,
+   "dd": 0.5299334121288541,
+   "end": 330629.9728611187,
+   "trades": 1936,
+   "verdict": null
+  },
+  {
+   "test": "01 baseline",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 5.795582996979638,
+   "dd": 0.4595907700237708,
+   "end": 257434.24203010168,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "01 baseline",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 6.214344747424843,
+   "dd": 0.47319063900656766,
+   "end": 306120.7071651702,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "01 baseline",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 6.727015847935998,
+   "dd": 0.48899612684238813,
+   "end": 373470.20062018797,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "01 baseline",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.8296689922123202,
+   "dd": 0.4372087012599847,
+   "end": 782730.1738229202,
+   "trades": 3791,
+   "verdict": null
+  },
+  {
+   "test": "01 baseline",
+   "acc": "B",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 1.798399590320193,
+   "dd": 0.40850448378721826,
+   "end": 724985.8020355689,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "01 baseline",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.812158301232218,
+   "dd": 0.40535828872174307,
+   "end": 749928.0598124176,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "01 baseline",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.8280584110313596,
+   "dd": 0.41888184479076807,
+   "end": 779662.7889443962,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "01 baseline",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 3.9679493298829236,
+   "dd": 0.4912463198094964,
+   "end": 62334.735615448204,
+   "trades": 1933,
+   "verdict": null
+  },
+  {
+   "test": "01 baseline",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 3.732259734826716,
+   "dd": 0.37053949570414413,
+   "end": 54148.449144669685,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "01 baseline",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 3.9004980455587326,
+   "dd": 0.3845175045585123,
+   "end": 59914.63463281316,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "01 baseline",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 4.072352696677201,
+   "dd": 0.3970806485953824,
+   "end": 66205.40681550503,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "02 cost x2",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 4.741790360660938,
+   "dd": 0.5846213943865775,
+   "end": 171743712.21774983,
+   "trades": 3794,
+   "verdict": null
+  },
+  {
+   "test": "02 cost x2",
+   "acc": "A",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 4.380114833508631,
+   "dd": 0.524357969609712,
+   "end": 109650517.39585905,
+   "trades": 3794,
+   "verdict": "fall only"
+  },
+  {
+   "test": "02 cost x2",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 4.671025612727662,
+   "dd": 0.5437226681618131,
+   "end": 157665771.1819128,
+   "trades": 3794,
+   "verdict": "fall only"
+  },
+  {
+   "test": "02 cost x2",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 5.024497604673137,
+   "dd": 0.5661792738009878,
+   "end": 239242326.89982814,
+   "trades": 3794,
+   "verdict": "both better"
+  },
+  {
+   "test": "02 cost x2",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 5.259815635431859,
+   "dd": 0.5541875352419354,
+   "end": 202934.97936693233,
+   "trades": 1938,
+   "verdict": null
+  },
+  {
+   "test": "02 cost x2",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 4.904285879994599,
+   "dd": 0.4663120930745802,
+   "end": 171316.4244471526,
+   "trades": 1938,
+   "verdict": "fall only"
+  },
+  {
+   "test": "02 cost x2",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 5.225037093392831,
+   "dd": 0.48009011545574665,
+   "end": 199686.2631690053,
+   "trades": 1938,
+   "verdict": "fall only"
+  },
+  {
+   "test": "02 cost x2",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 5.612404820920325,
+   "dd": 0.49609500726564704,
+   "end": 237843.33264348505,
+   "trades": 1938,
+   "verdict": "both better"
+  },
+  {
+   "test": "02 cost x2",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.7926252249506,
+   "dd": 0.4416380030368008,
+   "end": 714731.1550843875,
+   "trades": 3795,
+   "verdict": null
+  },
+  {
+   "test": "02 cost x2",
+   "acc": "B",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 1.7612004674038864,
+   "dd": 0.42366730333806013,
+   "end": 661070.2912938382,
+   "trades": 3794,
+   "verdict": "fall only"
+  },
+  {
+   "test": "02 cost x2",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.7758516293080904,
+   "dd": 0.4367630500154498,
+   "end": 685643.3644184239,
+   "trades": 3794,
+   "verdict": "fall only"
+  },
+  {
+   "test": "02 cost x2",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.7914885523870958,
+   "dd": 0.4371419398636106,
+   "end": 712727.2265129751,
+   "trades": 3794,
+   "verdict": "fall only"
+  },
+  {
+   "test": "02 cost x2",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 3.4806097755829573,
+   "dd": 0.5128831180256468,
+   "end": 46221.53947202585,
+   "trades": 1933,
+   "verdict": null
+  },
+  {
+   "test": "02 cost x2",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 3.2796815424004917,
+   "dd": 0.39504343179702406,
+   "end": 40469.402829964405,
+   "trades": 1938,
+   "verdict": "fall only"
+  },
+  {
+   "test": "02 cost x2",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 3.494450347112262,
+   "dd": 0.40693428771357243,
+   "end": 46636.32946367504,
+   "trades": 1938,
+   "verdict": "both better"
+  },
+  {
+   "test": "02 cost x2",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 3.7619695476103523,
+   "dd": 0.4255596113968927,
+   "end": 55139.04299225019,
+   "trades": 1938,
+   "verdict": "both better"
+  },
+  {
+   "test": "03 cost x3",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 3.986507367769966,
+   "dd": 0.6270878869819891,
+   "end": 64931478.54803694,
+   "trades": 3802,
+   "verdict": null
+  },
+  {
+   "test": "03 cost x3",
+   "acc": "A",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 3.772343550929266,
+   "dd": 0.5671113274916526,
+   "end": 47970291.159436904,
+   "trades": 3802,
+   "verdict": "fall only"
+  },
+  {
+   "test": "03 cost x3",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 4.001217008866034,
+   "dd": 0.5867010532513903,
+   "end": 66264010.8743516,
+   "trades": 3802,
+   "verdict": "both better"
+  },
+  {
+   "test": "03 cost x3",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 4.276003198397003,
+   "dd": 0.6092768117950753,
+   "end": 95825772.89827831,
+   "trades": 3802,
+   "verdict": "both better"
+  },
+  {
+   "test": "03 cost x3",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 4.243504259932436,
+   "dd": 0.5856574183381782,
+   "end": 121475.64049714092,
+   "trades": 1944,
+   "verdict": null
+  },
+  {
+   "test": "03 cost x3",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 4.088722724630431,
+   "dd": 0.4729262516013497,
+   "end": 111377.02467467052,
+   "trades": 1944,
+   "verdict": "fall only"
+  },
+  {
+   "test": "03 cost x3",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 4.326278990942737,
+   "dd": 0.4868777046977807,
+   "end": 127113.8909900631,
+   "trades": 1944,
+   "verdict": "both better"
+  },
+  {
+   "test": "03 cost x3",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 4.608525648229626,
+   "dd": 0.5030763889253527,
+   "end": 147621.5362799993,
+   "trades": 1944,
+   "verdict": "both better"
+  },
+  {
+   "test": "03 cost x3",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.7456764485323149,
+   "dd": 0.45226242654125703,
+   "end": 635858.7505815013,
+   "trades": 3803,
+   "verdict": null
+  },
+  {
+   "test": "03 cost x3",
+   "acc": "B",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 1.7214842362936675,
+   "dd": 0.44155137721564985,
+   "end": 598209.2837921174,
+   "trades": 3802,
+   "verdict": "fall only"
+  },
+  {
+   "test": "03 cost x3",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.7364538636011573,
+   "dd": 0.4551179900836493,
+   "end": 621273.8569505578,
+   "trades": 3802,
+   "verdict": "neither"
+  },
+  {
+   "test": "03 cost x3",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.75233909970615,
+   "dd": 0.45412247970313313,
+   "end": 646576.5250000377,
+   "trades": 3802,
+   "verdict": "return only"
+  },
+  {
+   "test": "03 cost x3",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 2.9283042456614243,
+   "dd": 0.5466632006482651,
+   "end": 31575.715674010477,
+   "trades": 1938,
+   "verdict": null
+  },
+  {
+   "test": "03 cost x3",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 2.861171127221675,
+   "dd": 0.42581335152333444,
+   "end": 30037.8412408576,
+   "trades": 1944,
+   "verdict": "fall only"
+  },
+  {
+   "test": "03 cost x3",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 3.020346978095728,
+   "dd": 0.4433775282169492,
+   "end": 33766.72082264211,
+   "trades": 1944,
+   "verdict": "both better"
+  },
+  {
+   "test": "03 cost x3",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 3.1745029832724745,
+   "dd": 0.4594172641764297,
+   "end": 37655.08862220899,
+   "trades": 1943,
+   "verdict": "both better"
+  },
+  {
+   "test": "04 extraSlip 0.001",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 4.279458852267518,
+   "dd": 0.6095616226332212,
+   "end": 96259467.68657258,
+   "trades": 3822,
+   "verdict": null
+  },
+  {
+   "test": "04 extraSlip 0.001",
+   "acc": "A",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 3.9852210481665695,
+   "dd": 0.5511093505356723,
+   "end": 64816049.43211064,
+   "trades": 3822,
+   "verdict": "fall only"
+  },
+  {
+   "test": "04 extraSlip 0.001",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 4.237266807992997,
+   "dd": 0.5704732293872894,
+   "end": 91077403.91851182,
+   "trades": 3822,
+   "verdict": "fall only"
+  },
+  {
+   "test": "04 extraSlip 0.001",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 4.541677412178521,
+   "dd": 0.5928347465654367,
+   "end": 134471574.9633662,
+   "trades": 3822,
+   "verdict": "both better"
+  },
+  {
+   "test": "04 extraSlip 0.001",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 4.6241323584607255,
+   "dd": 0.5748348773688081,
+   "end": 148814.57162620864,
+   "trades": 1955,
+   "verdict": null
+  },
+  {
+   "test": "04 extraSlip 0.001",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 4.362564336314255,
+   "dd": 0.47389697583326706,
+   "end": 129638.52367420854,
+   "trades": 1955,
+   "verdict": "fall only"
+  },
+  {
+   "test": "04 extraSlip 0.001",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 4.629474348386421,
+   "dd": 0.48787971560043464,
+   "end": 149224.37880201545,
+   "trades": 1955,
+   "verdict": "both better"
+  },
+  {
+   "test": "04 extraSlip 0.001",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 4.94906096551365,
+   "dd": 0.5041150283066718,
+   "end": 175106.80322980997,
+   "trades": 1955,
+   "verdict": "both better"
+  },
+  {
+   "test": "04 extraSlip 0.001",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.7637967794522216,
+   "dd": 0.44084715433169475,
+   "end": 665369.1056407,
+   "trades": 3823,
+   "verdict": null
+  },
+  {
+   "test": "04 extraSlip 0.001",
+   "acc": "B",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 1.7354430619883048,
+   "dd": 0.42801987169313616,
+   "end": 619692.8787871478,
+   "trades": 3822,
+   "verdict": "fall only"
+  },
+  {
+   "test": "04 extraSlip 0.001",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.7505951141975888,
+   "dd": 0.4413842066560454,
+   "end": 643756.2753500513,
+   "trades": 3822,
+   "verdict": "neither"
+  },
+  {
+   "test": "04 extraSlip 0.001",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.766483699859997,
+   "dd": 0.43945002195281624,
+   "end": 669843.0881868782,
+   "trades": 3822,
+   "verdict": "both better"
+  },
+  {
+   "test": "04 extraSlip 0.001",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 3.1696234541920925,
+   "dd": 0.5394729206056931,
+   "end": 37527.73516330243,
+   "trades": 1947,
+   "verdict": null
+  },
+  {
+   "test": "04 extraSlip 0.001",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 2.985793703018941,
+   "dd": 0.414837703177945,
+   "end": 32932.914896003436,
+   "trades": 1955,
+   "verdict": "fall only"
+  },
+  {
+   "test": "04 extraSlip 0.001",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 3.1764781195856626,
+   "dd": 0.43020696714574624,
+   "end": 37706.71911419754,
+   "trades": 1955,
+   "verdict": "both better"
+  },
+  {
+   "test": "04 extraSlip 0.001",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 3.317805568294718,
+   "dd": 0.4486191300918939,
+   "end": 41522.51019010134,
+   "trades": 1954,
+   "verdict": "both better"
+  },
+  {
+   "test": "05 delayH 1",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 4.462491322517475,
+   "dd": 0.5827590823825213,
+   "end": 121765185.2547685,
+   "trades": 3813,
+   "verdict": null
+  },
+  {
+   "test": "05 delayH 1",
+   "acc": "A",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 4.181687818687284,
+   "dd": 0.49928700343807897,
+   "end": 84616556.04575588,
+   "trades": 3813,
+   "verdict": "fall only"
+  },
+  {
+   "test": "05 delayH 1",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 4.455295728503412,
+   "dd": 0.5141025484675887,
+   "end": 120663263.82132931,
+   "trades": 3813,
+   "verdict": "fall only"
+  },
+  {
+   "test": "05 delayH 1",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 4.7873134163633155,
+   "dd": 0.5311971100480044,
+   "end": 181356894.7126301,
+   "trades": 3813,
+   "verdict": "both better"
+  },
+  {
+   "test": "05 delayH 1",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 4.55187020377652,
+   "dd": 0.5827590823777722,
+   "end": 143343.24500488854,
+   "trades": 1942,
+   "verdict": null
+  },
+  {
+   "test": "05 delayH 1",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 4.406382548210332,
+   "dd": 0.4774409994322568,
+   "end": 132730.75609669284,
+   "trades": 1942,
+   "verdict": "fall only"
+  },
+  {
+   "test": "05 delayH 1",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 4.6789741118861405,
+   "dd": 0.49385450452335355,
+   "end": 153056.915466829,
+   "trades": 1942,
+   "verdict": "both better"
+  },
+  {
+   "test": "05 delayH 1",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 5.0061558133847885,
+   "dd": 0.5128978903470298,
+   "end": 180019.1947635955,
+   "trades": 1942,
+   "verdict": "both better"
+  },
+  {
+   "test": "05 delayH 1",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.7725665441972271,
+   "dd": 0.49226669659427225,
+   "end": 680066.7381234568,
+   "trades": 3814,
+   "verdict": null
+  },
+  {
+   "test": "05 delayH 1",
+   "acc": "B",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 1.7415445084494103,
+   "dd": 0.4796041071071704,
+   "end": 629288.577809157,
+   "trades": 3812,
+   "verdict": "fall only"
+  },
+  {
+   "test": "05 delayH 1",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.7552766393855093,
+   "dd": 0.4945328042776369,
+   "end": 651350.7898417573,
+   "trades": 3812,
+   "verdict": "neither"
+  },
+  {
+   "test": "05 delayH 1",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.7722792607829057,
+   "dd": 0.5115144550318501,
+   "end": 679580.9069479284,
+   "trades": 3812,
+   "verdict": "neither"
+  },
+  {
+   "test": "05 delayH 1",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 3.177370795682383,
+   "dd": 0.5436194624283102,
+   "end": 37730.06906175991,
+   "trades": 1932,
+   "verdict": null
+  },
+  {
+   "test": "05 delayH 1",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 2.988519360311749,
+   "dd": 0.4427865221886158,
+   "end": 32998.192417387705,
+   "trades": 1942,
+   "verdict": "fall only"
+  },
+  {
+   "test": "05 delayH 1",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 3.167046277219762,
+   "dd": 0.4586864115613436,
+   "end": 37460.58599822673,
+   "trades": 1942,
+   "verdict": "fall only"
+  },
+  {
+   "test": "05 delayH 1",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 3.385406795052881,
+   "dd": 0.47456176089608426,
+   "end": 43433.687421286595,
+   "trades": 1942,
+   "verdict": "both better"
+  },
+  {
+   "test": "06 delayH 2",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 4.546243537009411,
+   "dd": 0.5642380544016363,
+   "end": 135237577.385899,
+   "trades": 3807,
+   "verdict": null
+  },
+  {
+   "test": "06 delayH 2",
+   "acc": "A",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 4.180896605170602,
+   "dd": 0.5065747745282716,
+   "end": 84527488.3472198,
+   "trades": 3807,
+   "verdict": "fall only"
+  },
+  {
+   "test": "06 delayH 2",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 4.452687261105145,
+   "dd": 0.521678675482577,
+   "end": 120265918.66299213,
+   "trades": 3807,
+   "verdict": "fall only"
+  },
+  {
+   "test": "06 delayH 2",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 4.782105402548103,
+   "dd": 0.5391047716274462,
+   "end": 180234320.57521763,
+   "trades": 3807,
+   "verdict": "both better"
+  },
+  {
+   "test": "06 delayH 2",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 4.533649195580073,
+   "dd": 0.5481826329083667,
+   "end": 141984.7647923153,
+   "trades": 1950,
+   "verdict": null
+  },
+  {
+   "test": "06 delayH 2",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 4.162283485970199,
+   "dd": 0.4844940714928345,
+   "end": 116104.91057544913,
+   "trades": 1950,
+   "verdict": "fall only"
+  },
+  {
+   "test": "06 delayH 2",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 4.419119389787654,
+   "dd": 0.49867292748756087,
+   "end": 133638.55961591162,
+   "trades": 1950,
+   "verdict": "fall only"
+  },
+  {
+   "test": "06 delayH 2",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 4.72748804911874,
+   "dd": 0.5151243854491604,
+   "end": 156875.1104489648,
+   "trades": 1950,
+   "verdict": "both better"
+  },
+  {
+   "test": "06 delayH 2",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.789116130015508,
+   "dd": 0.498830346860375,
+   "end": 708560.1700883661,
+   "trades": 3806,
+   "verdict": null
+  },
+  {
+   "test": "06 delayH 2",
+   "acc": "B",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 1.7585938519668858,
+   "dd": 0.4856394035183179,
+   "end": 656778.3276627683,
+   "trades": 3806,
+   "verdict": "fall only"
+  },
+  {
+   "test": "06 delayH 2",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.7716883921518294,
+   "dd": 0.5010211385006814,
+   "end": 678582.6090130592,
+   "trades": 3806,
+   "verdict": "neither"
+  },
+  {
+   "test": "06 delayH 2",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.7882947447054685,
+   "dd": 0.5181952397745317,
+   "end": 707122.3056419829,
+   "trades": 3805,
+   "verdict": "neither"
+  },
+  {
+   "test": "06 delayH 2",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 3.1798766745763425,
+   "dd": 0.5075557323656552,
+   "end": 37795.66653734631,
+   "trades": 1947,
+   "verdict": null
+  },
+  {
+   "test": "06 delayH 2",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 2.880459780849126,
+   "dd": 0.38806510733490074,
+   "end": 30474.560803666147,
+   "trades": 1950,
+   "verdict": "fall only"
+  },
+  {
+   "test": "06 delayH 2",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 3.0530208611837075,
+   "dd": 0.401133543925286,
+   "end": 34567.77879807846,
+   "trades": 1950,
+   "verdict": "fall only"
+  },
+  {
+   "test": "06 delayH 2",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 3.28083236766866,
+   "dd": 0.41814872266873293,
+   "end": 40500.93333432351,
+   "trades": 1950,
+   "verdict": "both better"
+  },
+  {
+   "test": "08 order reverse",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 5.608851289507645,
+   "dd": 0.5413869632059534,
+   "end": 453021345.55183953,
+   "trades": 3789,
+   "verdict": null
+  },
+  {
+   "test": "08 order reverse",
+   "acc": "A",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 5.062515103030271,
+   "dd": 0.4909063339272257,
+   "end": 249850163.33869442,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "08 order reverse",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 5.427313096120488,
+   "dd": 0.5098095172182384,
+   "end": 373846419.4398026,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "08 order reverse",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 5.875342445013458,
+   "dd": 0.5318272477069683,
+   "end": 595007900.5014955,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "08 order reverse",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 6.408743544044137,
+   "dd": 0.5299334121288541,
+   "end": 330629.97286111844,
+   "trades": 1936,
+   "verdict": null
+  },
+  {
+   "test": "08 order reverse",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 5.858812548158488,
+   "dd": 0.4605228192771751,
+   "end": 264433.9667784822,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "08 order reverse",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 6.285723190623758,
+   "dd": 0.4741729590297826,
+   "end": 314976.4727050569,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "08 order reverse",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 6.8089930717202805,
+   "dd": 0.4900364926813977,
+   "end": 385063.15383006097,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "08 order reverse",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.8296689922123202,
+   "dd": 0.43720870125998457,
+   "end": 782730.1738229202,
+   "trades": 3791,
+   "verdict": null
+  },
+  {
+   "test": "08 order reverse",
+   "acc": "B",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 1.7960101553681214,
+   "dd": 0.4090581014601904,
+   "end": 720727.2715366706,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "08 order reverse",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.810196749313489,
+   "dd": 0.4004366116843978,
+   "end": 746327.8770442157,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "08 order reverse",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.8269161086140469,
+   "dd": 0.41351295963722345,
+   "end": 777493.4854725215,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "08 order reverse",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 3.9679493298829236,
+   "dd": 0.4912463198094964,
+   "end": 62334.735615448204,
+   "trades": 1933,
+   "verdict": null
+  },
+  {
+   "test": "08 order reverse",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 3.761531522094721,
+   "dd": 0.37791372594205674,
+   "end": 55124.35272899685,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "08 order reverse",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 3.7528789017063033,
+   "dd": 0.3934022467996088,
+   "end": 54834.69089172472,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "08 order reverse",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 4.06123360041315,
+   "dd": 0.3848968102759466,
+   "end": 65785.89346901697,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "09 order alpha",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 5.608851289507645,
+   "dd": 0.5413869632059534,
+   "end": 453021345.5518394,
+   "trades": 3789,
+   "verdict": null
+  },
+  {
+   "test": "09 order alpha",
+   "acc": "A",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 5.138744539297951,
+   "dd": 0.47946452043348464,
+   "end": 272336502.3197627,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "09 order alpha",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 5.511627444763016,
+   "dd": 0.49835827950109013,
+   "end": 409005222.41482925,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "09 order alpha",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 5.96996884803165,
+   "dd": 0.5204033720603825,
+   "end": 653829770.6930153,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "09 order alpha",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 6.408743544044137,
+   "dd": 0.5299334121288541,
+   "end": 330629.97286111844,
+   "trades": 1936,
+   "verdict": null
+  },
+  {
+   "test": "09 order alpha",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 5.898354621908541,
+   "dd": 0.45906945609709304,
+   "end": 268874.0915808015,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "09 order alpha",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 6.329065281004271,
+   "dd": 0.4726786188670279,
+   "end": 320434.7834540001,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "09 order alpha",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 6.857101240417226,
+   "dd": 0.48849591751952726,
+   "end": 391974.8670813583,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "09 order alpha",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.8296689922123202,
+   "dd": 0.43720870125998457,
+   "end": 782730.1738229202,
+   "trades": 3791,
+   "verdict": null
+  },
+  {
+   "test": "09 order alpha",
+   "acc": "B",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 1.8000273199605905,
+   "dd": 0.4090581014601904,
+   "end": 727899.0995806603,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "09 order alpha",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.8134416865973235,
+   "dd": 0.4004366116843978,
+   "end": 752291.5797056949,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "09 order alpha",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.8306723531209208,
+   "dd": 0.41351295963722345,
+   "end": 784646.3066507088,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "09 order alpha",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 3.9679493298829236,
+   "dd": 0.4912463198094964,
+   "end": 62334.735615448204,
+   "trades": 1933,
+   "verdict": null
+  },
+  {
+   "test": "09 order alpha",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 3.7766873648356256,
+   "dd": 0.3770983995948066,
+   "end": 55634.13244961759,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "09 order alpha",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 3.7724536791635197,
+   "dd": 0.3924889730578325,
+   "end": 55491.41947230162,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "09 order alpha",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 4.091408073056949,
+   "dd": 0.38369005497619346,
+   "end": 66928.4149418019,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "10 countClosing",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 5.608851289507647,
+   "dd": 0.5413869632059534,
+   "end": 453021345.55184007,
+   "trades": 3789,
+   "verdict": null
+  },
+  {
+   "test": "10 countClosing",
+   "acc": "A",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 5.096425916258523,
+   "dd": 0.4738348755709677,
+   "end": 259648929.26452115,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "10 countClosing",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 5.465140914663176,
+   "dd": 0.4926675411920052,
+   "end": 389286726.7678757,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "10 countClosing",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 5.918242300233083,
+   "dd": 0.5146593508991304,
+   "end": 621088614.0591674,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "10 countClosing",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 6.408743544044139,
+   "dd": 0.5299334121288541,
+   "end": 330629.9728611187,
+   "trades": 1936,
+   "verdict": null
+  },
+  {
+   "test": "10 countClosing",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 5.847888532957968,
+   "dd": 0.45605883927185453,
+   "end": 263215.84724635055,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "10 countClosing",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 6.273058386423329,
+   "dd": 0.46956530208743497,
+   "end": 313393.09972336533,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "10 countClosing",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 6.794049557046603,
+   "dd": 0.4852663283367137,
+   "end": 382932.57931323466,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "10 countClosing",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.8296689922123202,
+   "dd": 0.4372087012599847,
+   "end": 782730.1738229202,
+   "trades": 3791,
+   "verdict": null
+  },
+  {
+   "test": "10 countClosing",
+   "acc": "B",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 1.7994474434351684,
+   "dd": 0.40850448378721826,
+   "end": 726860.0955845871,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "10 countClosing",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.8130299422894538,
+   "dd": 0.40535828872174307,
+   "end": 751532.606502196,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "10 countClosing",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.8289295246445922,
+   "dd": 0.41888184479076807,
+   "end": 781320.5640083863,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "10 countClosing",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 3.9679493298829236,
+   "dd": 0.4912463198094964,
+   "end": 62334.735615448204,
+   "trades": 1933,
+   "verdict": null
+  },
+  {
+   "test": "10 countClosing",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 3.6854296864055236,
+   "dd": 0.36648292639862445,
+   "end": 52610.808753865356,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "10 countClosing",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 3.744762284919404,
+   "dd": 0.38102755646067266,
+   "end": 54563.88033161394,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "10 countClosing",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 4.1085782625204,
+   "dd": 0.3970806485953824,
+   "end": 67584.30532671775,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "11 research conventions",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 5.608815948096806,
+   "dd": 0.5413291794716838,
+   "end": 453004638.19823545,
+   "trades": 3789,
+   "verdict": null
+  },
+  {
+   "test": "11 research conventions",
+   "acc": "A",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 5.138762408503006,
+   "dd": 0.47937166683886057,
+   "end": 272341969.62344176,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "11 research conventions",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 5.511646569445712,
+   "dd": 0.49826414301529387,
+   "end": 409013507.08552235,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "11 research conventions",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 5.969989657285426,
+   "dd": 0.5203079963359194,
+   "end": 653843233.3917271,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "11 research conventions",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 6.407627213659001,
+   "dd": 0.5299613761588288,
+   "end": 330485.68699517415,
+   "trades": 1936,
+   "verdict": null
+  },
+  {
+   "test": "11 research conventions",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 5.897953340812903,
+   "dd": 0.45907227915021054,
+   "end": 268828.7889288595,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "11 research conventions",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 6.328615095950866,
+   "dd": 0.4726815390144016,
+   "end": 320377.7732913765,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "11 research conventions",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 6.85658796177473,
+   "dd": 0.4884989455082056,
+   "end": 391900.69890446105,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "11 research conventions",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.8293625207649251,
+   "dd": 0.43712839795248815,
+   "end": 782145.6991119288,
+   "trades": 3787,
+   "verdict": null
+  },
+  {
+   "test": "11 research conventions",
+   "acc": "B",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 1.7999127892738302,
+   "dd": 0.40903743183033847,
+   "end": 727693.7866287817,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "11 research conventions",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.8134412656145642,
+   "dd": 0.40048278626525635,
+   "end": 752290.8033685893,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "11 research conventions",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.8306387931972141,
+   "dd": 0.41357458630033506,
+   "end": 784582.1520127102,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "11 research conventions",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 3.9976680305553476,
+   "dd": 0.49131137938321334,
+   "end": 63421.00958709427,
+   "trades": 1926,
+   "verdict": null
+  },
+  {
+   "test": "11 research conventions",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 3.7766251026247737,
+   "dd": 0.3771133971176098,
+   "end": 55632.03191852147,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "11 research conventions",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 3.7723362578097746,
+   "dd": 0.3924131503673295,
+   "end": 55487.464745335434,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "11 research conventions",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 4.091119291241862,
+   "dd": 0.38369024138854846,
+   "end": 66917.41945257048,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "07 miss 0.1 median",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 5.189143407877398,
+   "dd": 0.5573968577782594,
+   "trades": 3699,
+   "verdict": null
+  },
+  {
+   "test": "07 miss 0.1 median",
+   "acc": "A",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 4.736350056937573,
+   "dd": 0.48320166594387487,
+   "trades": 3699,
+   "verdict": "fall only",
+   "seedShare": {
+    "both better": 0,
+    "return only": 0,
+    "fall only": 1,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07 miss 0.1 median",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 5.070326925528617,
+   "dd": 0.5009043013450907,
+   "trades": 3699,
+   "verdict": "fall only",
+   "seedShare": {
+    "both better": 0.2,
+    "return only": 0,
+    "fall only": 0.8,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07 miss 0.1 median",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 5.479647881861132,
+   "dd": 0.5214898724147735,
+   "trades": 3699,
+   "verdict": "both better",
+   "seedShare": {
+    "both better": 1,
+    "return only": 0,
+    "fall only": 0,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07 miss 0.1 median",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 5.845536884771251,
+   "dd": 0.5267714046012943,
+   "trades": 1890,
+   "verdict": null
+  },
+  {
+   "test": "07 miss 0.1 median",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 5.29558664950488,
+   "dd": 0.4513725934381816,
+   "trades": 1890,
+   "verdict": "fall only",
+   "seedShare": {
+    "both better": 0,
+    "return only": 0,
+    "fall only": 1,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07 miss 0.1 median",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 5.6806374029513345,
+   "dd": 0.46473424802067964,
+   "trades": 1890,
+   "verdict": "fall only",
+   "seedShare": {
+    "both better": 0.35,
+    "return only": 0,
+    "fall only": 0.65,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07 miss 0.1 median",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 6.152741481056781,
+   "dd": 0.4801982111830192,
+   "trades": 1890,
+   "verdict": "both better",
+   "seedShare": {
+    "both better": 1,
+    "return only": 0,
+    "fall only": 0,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07 miss 0.1 median",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.8011133421683891,
+   "dd": 0.4236066317378058,
+   "trades": 3701,
+   "verdict": null
+  },
+  {
+   "test": "07 miss 0.1 median",
+   "acc": "B",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 1.7718892885010615,
+   "dd": 0.4030541747612627,
+   "trades": 3699,
+   "verdict": "fall only",
+   "seedShare": {
+    "both better": 0,
+    "return only": 0,
+    "fall only": 1,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07 miss 0.1 median",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.7865936116068963,
+   "dd": 0.4076661352625274,
+   "trades": 3699,
+   "verdict": "fall only",
+   "seedShare": {
+    "both better": 0.05,
+    "return only": 0,
+    "fall only": 0.75,
+    "neither": 0.2
+   }
+  },
+  {
+   "test": "07 miss 0.1 median",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.8021307786351575,
+   "dd": 0.4153474401302286,
+   "trades": 3699,
+   "verdict": "both better",
+   "seedShare": {
+    "both better": 0.15,
+    "return only": 0.15,
+    "fall only": 0.4,
+    "neither": 0.3
+   }
+  },
+  {
+   "test": "07 miss 0.1 median",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 3.7701116956799874,
+   "dd": 0.48838335747254114,
+   "trades": 1885,
+   "verdict": null
+  },
+  {
+   "test": "07 miss 0.1 median",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 3.4156050260387265,
+   "dd": 0.3674660146403558,
+   "trades": 1890,
+   "verdict": "fall only",
+   "seedShare": {
+    "both better": 0.1,
+    "return only": 0,
+    "fall only": 0.9,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07 miss 0.1 median",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 3.64443352788128,
+   "dd": 0.3808643538240421,
+   "trades": 1890,
+   "verdict": "fall only",
+   "seedShare": {
+    "both better": 0.5,
+    "return only": 0,
+    "fall only": 0.5,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07 miss 0.1 median",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 3.871924753310392,
+   "dd": 0.39596702878583184,
+   "trades": 1890,
+   "verdict": "both better",
+   "seedShare": {
+    "both better": 0.65,
+    "return only": 0,
+    "fall only": 0.35,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07b miss 0.1 paired median",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 5.182776631886558,
+   "dd": 0.5476251036961501,
+   "trades": 3696,
+   "verdict": null
+  },
+  {
+   "test": "07b miss 0.1 paired median",
+   "acc": "A",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 4.753871909522324,
+   "dd": 0.46498893797206187,
+   "trades": 3696,
+   "verdict": "fall only",
+   "seedShare": {
+    "both better": 0,
+    "return only": 0,
+    "fall only": 1,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07b miss 0.1 paired median",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 5.08908722383787,
+   "dd": 0.4799157823996756,
+   "trades": 3696,
+   "verdict": "fall only",
+   "seedShare": {
+    "both better": 0.2,
+    "return only": 0,
+    "fall only": 0.8,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07b miss 0.1 paired median",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 5.499905362781373,
+   "dd": 0.49929934079109234,
+   "trades": 3696,
+   "verdict": "both better",
+   "seedShare": {
+    "both better": 1,
+    "return only": 0,
+    "fall only": 0,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07b miss 0.1 paired median",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 5.975393428617599,
+   "dd": 0.5360225798759979,
+   "trades": 1888.5,
+   "verdict": null
+  },
+  {
+   "test": "07b miss 0.1 paired median",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 5.5009204540945404,
+   "dd": 0.45463932281191255,
+   "trades": 1888.5,
+   "verdict": "fall only",
+   "seedShare": {
+    "both better": 0,
+    "return only": 0,
+    "fall only": 1,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07b miss 0.1 paired median",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 5.891937822911264,
+   "dd": 0.4680947676736967,
+   "trades": 1888.5,
+   "verdict": "fall only",
+   "seedShare": {
+    "both better": 0.3,
+    "return only": 0,
+    "fall only": 0.7,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07b miss 0.1 paired median",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 6.370016675122395,
+   "dd": 0.48373320454190394,
+   "trades": 1888.5,
+   "verdict": "both better",
+   "seedShare": {
+    "both better": 1,
+    "return only": 0,
+    "fall only": 0,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07b miss 0.1 paired median",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.806397776389177,
+   "dd": 0.42404655034165545,
+   "trades": 3698,
+   "verdict": null
+  },
+  {
+   "test": "07b miss 0.1 paired median",
+   "acc": "B",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 1.7770001204196866,
+   "dd": 0.4010001711734803,
+   "trades": 3696,
+   "verdict": "fall only",
+   "seedShare": {
+    "both better": 0,
+    "return only": 0,
+    "fall only": 1,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07b miss 0.1 paired median",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.790046830733293,
+   "dd": 0.40600935227688906,
+   "trades": 3696,
+   "verdict": "fall only",
+   "seedShare": {
+    "both better": 0,
+    "return only": 0,
+    "fall only": 0.9,
+    "neither": 0.1
+   }
+  },
+  {
+   "test": "07b miss 0.1 paired median",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.8056182322419871,
+   "dd": 0.41581887369785253,
+   "trades": 3696,
+   "verdict": "fall only",
+   "seedShare": {
+    "both better": 0.4,
+    "return only": 0.05,
+    "fall only": 0.35,
+    "neither": 0.2
+   }
+  },
+  {
+   "test": "07b miss 0.1 paired median",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 3.7548428952583017,
+   "dd": 0.49527741566993,
+   "trades": 1884.5,
+   "verdict": null
+  },
+  {
+   "test": "07b miss 0.1 paired median",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 3.535333761666971,
+   "dd": 0.3753801151603649,
+   "trades": 1888.5,
+   "verdict": "fall only",
+   "seedShare": {
+    "both better": 0,
+    "return only": 0,
+    "fall only": 1,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07b miss 0.1 paired median",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 3.7128800406603797,
+   "dd": 0.3871768986603906,
+   "trades": 1888.5,
+   "verdict": "fall only",
+   "seedShare": {
+    "both better": 0.3,
+    "return only": 0,
+    "fall only": 0.7,
+    "neither": 0
+   }
+  },
+  {
+   "test": "07b miss 0.1 paired median",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 3.9623417627956132,
+   "dd": 0.39806953194670247,
+   "trades": 1888.5,
+   "verdict": "both better",
+   "seedShare": {
+    "both better": 1,
+    "return only": 0,
+    "fall only": 0,
+    "neither": 0
+   }
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 5.608851289507647,
+   "dd": 0.5413869632059534,
+   "end": 453021345.55184007,
+   "trades": 3789,
+   "verdict": null
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "full",
+   "ver": "ruleOf(1,3,0.25) K1.11",
+   "cagr": 4.875336909123702,
+   "dd": 0.45108913550765284,
+   "end": 201255110.05775508,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "full",
+   "ver": "ruleOf(1,3,0.25) K1.05",
+   "cagr": 4.499718811569213,
+   "dd": 0.4360733339765709,
+   "end": 127604604.73363416,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "full",
+   "ver": "ruleOf(3,3,0.25) K1.11",
+   "cagr": 6.26956178843776,
+   "dd": 0.5507789496539666,
+   "end": 874012045.7989732,
+   "trades": 3789,
+   "verdict": "return only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "full",
+   "ver": "ruleOf(3,3,0.25) K1.05",
+   "cagr": 5.807052343297321,
+   "dd": 0.5277699526202698,
+   "end": 555423291.6107686,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "full",
+   "ver": "ruleOf(2,5,0.25) K1.11",
+   "cagr": 6.094766459154954,
+   "dd": 0.5365557028034675,
+   "end": 738956690.5893087,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "full",
+   "ver": "ruleOf(2,5,0.25) K1.05",
+   "cagr": 5.641957855640488,
+   "dd": 0.5138392179809375,
+   "end": 468905498.7528047,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "full",
+   "ver": "ruleOf(2,3,0.5) K1.11",
+   "cagr": 6.092742123809629,
+   "dd": 0.5367091901940528,
+   "end": 737503789.8211665,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "full",
+   "ver": "ruleOf(2,3,0.5) K1.05",
+   "cagr": 5.6385004468274795,
+   "dd": 0.514063952519654,
+   "end": 467224716.62571263,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "full",
+   "ver": "ruleOf(2,2,0.25) K1.11",
+   "cagr": 5.533800500616753,
+   "dd": 0.5099753912986322,
+   "end": 418707310.69122165,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "full",
+   "ver": "ruleOf(2,2,0.25) K1.05",
+   "cagr": 5.10953277073242,
+   "dd": 0.48853509690836705,
+   "end": 263523302.33220008,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "full",
+   "ver": "ruleOf(2,4,0.25) K1.11",
+   "cagr": 5.994708262619127,
+   "dd": 0.5278207653458071,
+   "end": 670003440.7871827,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "full",
+   "ver": "ruleOf(2,4,0.25) K1.05",
+   "cagr": 5.544578108186671,
+   "dd": 0.5053787467814892,
+   "end": 423493806.0114985,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 6.408743544044139,
+   "dd": 0.5299334121288541,
+   "end": 330629.9728611187,
+   "trades": 1936,
+   "verdict": null
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "ruleOf(1,3,0.25) K1.11",
+   "cagr": 5.6798548690875155,
+   "dd": 0.4510891355076522,
+   "end": 244939.15691583493,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "ruleOf(1,3,0.25) K1.05",
+   "cagr": 5.233792258812647,
+   "dd": 0.43607333397657055,
+   "end": 200500.86456236077,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "ruleOf(3,3,0.25) K1.11",
+   "cagr": 7.024692574701206,
+   "dd": 0.5144724673373583,
+   "end": 416686.12340029766,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "ruleOf(3,3,0.25) K1.05",
+   "cagr": 6.51450623136631,
+   "dd": 0.49471272232402164,
+   "end": 344487.64298921893,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "ruleOf(2,5,0.25) K1.11",
+   "cagr": 6.9431631233570075,
+   "dd": 0.504088480199861,
+   "end": 404541.0874706963,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "ruleOf(2,5,0.25) K1.05",
+   "cagr": 6.432811433631778,
+   "dd": 0.4879535709738445,
+   "end": 333750.7897216175,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "ruleOf(2,3,0.5) K1.11",
+   "cagr": 6.989849958445948,
+   "dd": 0.5074615112222767,
+   "end": 411467.00384569267,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "ruleOf(2,3,0.5) K1.05",
+   "cagr": 6.472271507485346,
+   "dd": 0.4912744927199717,
+   "end": 338909.09414680593,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "ruleOf(2,2,0.25) K1.11",
+   "cagr": 6.402882561910087,
+   "dd": 0.47605603497650684,
+   "end": 329872.9000604809,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "ruleOf(2,2,0.25) K1.05",
+   "cagr": 5.909236135909516,
+   "dd": 0.46051735815755745,
+   "end": 270104.4671129849,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "ruleOf(2,4,0.25) K1.11",
+   "cagr": 6.856044875486011,
+   "dd": 0.49772632720952004,
+   "end": 391822.23356234754,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "ruleOf(2,4,0.25) K1.05",
+   "cagr": 6.343770243271993,
+   "dd": 0.4817432078250492,
+   "end": 322300.63232702046,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.8296689922123202,
+   "dd": 0.4372087012599847,
+   "end": 782730.1738229202,
+   "trades": 3791,
+   "verdict": null
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "full",
+   "ver": "ruleOf(1,3,0.25) K1.11",
+   "cagr": 1.781571826452696,
+   "dd": 0.39655809646891294,
+   "end": 695447.0737658088,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "full",
+   "ver": "ruleOf(1,3,0.25) K1.05",
+   "cagr": 1.7634109430451264,
+   "dd": 0.3832293441161235,
+   "end": 664728.7534158498,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "full",
+   "ver": "ruleOf(3,3,0.25) K1.11",
+   "cagr": 1.847243633823353,
+   "dd": 0.43589556651576933,
+   "end": 816877.8526168859,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "full",
+   "ver": "ruleOf(3,3,0.25) K1.05",
+   "cagr": 1.8309786772881855,
+   "dd": 0.4160419361251204,
+   "end": 785232.0968517925,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "full",
+   "ver": "ruleOf(2,5,0.25) K1.11",
+   "cagr": 1.8415299994235217,
+   "dd": 0.422787121947768,
+   "end": 805639.2010180086,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "full",
+   "ver": "ruleOf(2,5,0.25) K1.05",
+   "cagr": 1.8246448678308473,
+   "dd": 0.4092264026737956,
+   "end": 773195.5851367152,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "full",
+   "ver": "ruleOf(2,3,0.5) K1.11",
+   "cagr": 1.840654837861205,
+   "dd": 0.4222686368051839,
+   "end": 803929.4999643561,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "full",
+   "ver": "ruleOf(2,3,0.5) K1.05",
+   "cagr": 1.8235520233612261,
+   "dd": 0.4086728910389862,
+   "end": 771134.8297359066,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "full",
+   "ver": "ruleOf(2,2,0.25) K1.11",
+   "cagr": 1.8124061700922307,
+   "dd": 0.41372709057688684,
+   "end": 750384.0469725418,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "full",
+   "ver": "ruleOf(2,2,0.25) K1.05",
+   "cagr": 1.7948862170847488,
+   "dd": 0.40048964481692206,
+   "end": 718731.5592067891,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "full",
+   "ver": "ruleOf(2,4,0.25) K1.11",
+   "cagr": 1.8355717202539537,
+   "dd": 0.42133210525349674,
+   "end": 794060.4122866223,
+   "trades": 3789,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "full",
+   "ver": "ruleOf(2,4,0.25) K1.05",
+   "cagr": 1.8190787678269036,
+   "dd": 0.40771096869309764,
+   "end": 762748.5734890358,
+   "trades": 3789,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 3.9679493298829236,
+   "dd": 0.4912463198094964,
+   "end": 62334.735615448204,
+   "trades": 1933,
+   "verdict": null
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "ruleOf(1,3,0.25) K1.11",
+   "cagr": 3.6091645770265925,
+   "dd": 0.3495854047011959,
+   "end": 50168.368134214965,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "ruleOf(1,3,0.25) K1.05",
+   "cagr": 3.3390877208983873,
+   "dd": 0.3326940296084169,
+   "end": 42118.117127011516,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "ruleOf(3,3,0.25) K1.11",
+   "cagr": 4.158917769737847,
+   "dd": 0.45769545911008347,
+   "end": 69531.46492747511,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "ruleOf(3,3,0.25) K1.05",
+   "cagr": 3.9223606954289387,
+   "dd": 0.44113660182445524,
+   "end": 60692.182078544574,
+   "trades": 1938,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "ruleOf(2,5,0.25) K1.11",
+   "cagr": 4.228147973688593,
+   "dd": 0.4171117168188292,
+   "end": 72268.79826250623,
+   "trades": 1937,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "ruleOf(2,5,0.25) K1.05",
+   "cagr": 3.83992185840418,
+   "dd": 0.4334799349127223,
+   "end": 57794.37988678297,
+   "trades": 1938,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "ruleOf(2,3,0.5) K1.11",
+   "cagr": 4.240620904128319,
+   "dd": 0.4148953685632012,
+   "end": 72769.35009944368,
+   "trades": 1937,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "ruleOf(2,3,0.5) K1.05",
+   "cagr": 3.8469738349041362,
+   "dd": 0.42913342290412493,
+   "end": 58038.64052644282,
+   "trades": 1937,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "ruleOf(2,2,0.25) K1.11",
+   "cagr": 4.012661664898337,
+   "dd": 0.3812070645674065,
+   "end": 63973.72689131618,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "ruleOf(2,2,0.25) K1.05",
+   "cagr": 3.779528518565205,
+   "dd": 0.36617295098159397,
+   "end": 55730.03929824634,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "ruleOf(2,4,0.25) K1.11",
+   "cagr": 4.130587040872384,
+   "dd": 0.4090192490085488,
+   "end": 68431.16252226429,
+   "trades": 1936,
+   "verdict": "both better"
+  },
+  {
+   "test": "12 neighbours",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "ruleOf(2,4,0.25) K1.05",
+   "cagr": 3.801390436014505,
+   "dd": 0.4121347523048212,
+   "end": 56471.6403111339,
+   "trades": 1936,
+   "verdict": "fall only"
+  },
+  {
+   "test": "13 drop SOL",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 3.849860979346073,
+   "dd": 0.5407726111684028,
+   "end": 53608327.059554845,
+   "trades": 3185,
+   "verdict": null
+  },
+  {
+   "test": "13 drop SOL",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 3.8438912727213372,
+   "dd": 0.5123857338803225,
+   "end": 53154888.85782325,
+   "trades": 3185,
+   "verdict": "fall only"
+  },
+  {
+   "test": "13 drop SOL",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 4.125722916603979,
+   "dd": 0.5347843390321074,
+   "end": 78510897.5779534,
+   "trades": 3185,
+   "verdict": "both better"
+  },
+  {
+   "test": "13 drop SOL",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.7024313205963444,
+   "dd": 0.42013069065712627,
+   "end": 569915.4039455345,
+   "trades": 3185,
+   "verdict": null
+  },
+  {
+   "test": "13 drop SOL",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.7016330903464394,
+   "dd": 0.40884677752631926,
+   "end": 568755.4422119805,
+   "trades": 3185,
+   "verdict": "fall only"
+  },
+  {
+   "test": "13 drop SOL",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.7205588288930898,
+   "dd": 0.42292494351897625,
+   "end": 596807.8168369614,
+   "trades": 3185,
+   "verdict": "return only"
+  },
+  {
+   "test": "13 drop ZEC",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 3.7971847936703105,
+   "dd": 0.5620896241173314,
+   "end": 49719019.52129489,
+   "trades": 3107,
+   "verdict": null
+  },
+  {
+   "test": "13 drop ZEC",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 3.6609625247440514,
+   "dd": 0.519458107803439,
+   "end": 40760522.10237679,
+   "trades": 3107,
+   "verdict": "fall only"
+  },
+  {
+   "test": "13 drop ZEC",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 3.931151268855154,
+   "dd": 0.540074859527474,
+   "end": 60120057.51740351,
+   "trades": 3107,
+   "verdict": "both better"
+  },
+  {
+   "test": "13 drop ZEC",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.6242407175722469,
+   "dd": 0.3603704435886964,
+   "end": 465448.1287296634,
+   "trades": 3107,
+   "verdict": null
+  },
+  {
+   "test": "13 drop ZEC",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.5988697879968266,
+   "dd": 0.36390411688737456,
+   "end": 435284.6068479329,
+   "trades": 3107,
+   "verdict": "neither"
+  },
+  {
+   "test": "13 drop ZEC",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.623543143123869,
+   "dd": 0.37840951197673955,
+   "end": 464595.5082218585,
+   "trades": 3107,
+   "verdict": "neither"
+  },
+  {
+   "test": "13 drop NEAR",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 4.518198991432628,
+   "dd": 0.5068256089910377,
+   "end": 130591189.24676384,
+   "trades": 3207,
+   "verdict": null
+  },
+  {
+   "test": "13 drop NEAR",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 4.675281085042742,
+   "dd": 0.48134808909851245,
+   "end": 158483524.78160945,
+   "trades": 3207,
+   "verdict": "both better"
+  },
+  {
+   "test": "13 drop NEAR",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 5.047369277407698,
+   "dd": 0.5002077206298071,
+   "end": 245576895.86053035,
+   "trades": 3207,
+   "verdict": "both better"
+  },
+  {
+   "test": "13 drop NEAR",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.763094805429636,
+   "dd": 0.4038337741984075,
+   "end": 664204.4693886485,
+   "trades": 3207,
+   "verdict": null
+  },
+  {
+   "test": "13 drop NEAR",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.7593594593955388,
+   "dd": 0.3996362073968812,
+   "end": 658036.472136322,
+   "trades": 3207,
+   "verdict": "fall only"
+  },
+  {
+   "test": "13 drop NEAR",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.775186645574148,
+   "dd": 0.4126126565372005,
+   "end": 684511.370060459,
+   "trades": 3207,
+   "verdict": "return only"
+  },
+  {
+   "test": "13 drop ADA",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 4.429118993501757,
+   "dd": 0.504674760354177,
+   "end": 116726214.82768677,
+   "trades": 3087,
+   "verdict": null
+  },
+  {
+   "test": "13 drop ADA",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 4.407597559980979,
+   "dd": 0.4660604128494139,
+   "end": 113572113.61564898,
+   "trades": 3087,
+   "verdict": "fall only"
+  },
+  {
+   "test": "13 drop ADA",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 4.774391695579898,
+   "dd": 0.484339328423133,
+   "end": 178582568.9647423,
+   "trades": 3087,
+   "verdict": "both better"
+  },
+  {
+   "test": "13 drop ADA",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.7252293865573654,
+   "dd": 0.36997243029011784,
+   "end": 603909.8365121939,
+   "trades": 3087,
+   "verdict": null
+  },
+  {
+   "test": "13 drop ADA",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.7189363393137365,
+   "dd": 0.3716756081808019,
+   "end": 594357.4411080284,
+   "trades": 3087,
+   "verdict": "neither"
+  },
+  {
+   "test": "13 drop ADA",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.733032843502234,
+   "dd": 0.3880121285902566,
+   "end": 615936.9691575117,
+   "trades": 3087,
+   "verdict": "return only"
+  },
+  {
+   "test": "13 drop GALA",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 4.093429136887016,
+   "dd": 0.502979170977965,
+   "end": 75162225.89321412,
+   "trades": 3293,
+   "verdict": null
+  },
+  {
+   "test": "13 drop GALA",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 4.124658129905091,
+   "dd": 0.48818255647828834,
+   "end": 78398486.42689756,
+   "trades": 3293,
+   "verdict": "both better"
+  },
+  {
+   "test": "13 drop GALA",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 4.43653431464485,
+   "dd": 0.5099594845196056,
+   "end": 117830182.11744872,
+   "trades": 3293,
+   "verdict": "return only"
+  },
+  {
+   "test": "13 drop GALA",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.7285327385382874,
+   "dd": 0.4372087012599847,
+   "end": 608976.4083001739,
+   "trades": 3295,
+   "verdict": null
+  },
+  {
+   "test": "13 drop GALA",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.727588323856585,
+   "dd": 0.40535828872174307,
+   "end": 607524.2003721063,
+   "trades": 3293,
+   "verdict": "fall only"
+  },
+  {
+   "test": "13 drop GALA",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.742828396793794,
+   "dd": 0.41888184479076807,
+   "end": 631323.8356307808,
+   "trades": 3293,
+   "verdict": "both better"
+  },
+  {
+   "test": "13 drop ARB",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 5.124870333079408,
+   "dd": 0.537020949982868,
+   "end": 268119736.41415,
+   "trades": 3521,
+   "verdict": null
+  },
+  {
+   "test": "13 drop ARB",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 5.082472638636618,
+   "dd": 0.48266848918183347,
+   "end": 255577978.46883008,
+   "trades": 3521,
+   "verdict": "fall only"
+  },
+  {
+   "test": "13 drop ARB",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 5.494524958453435,
+   "dd": 0.5014813316413146,
+   "end": 401653740.5677684,
+   "trades": 3521,
+   "verdict": "both better"
+  },
+  {
+   "test": "13 drop ARB",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.8031553936066858,
+   "dd": 0.4372087012599847,
+   "end": 733525.8095804519,
+   "trades": 3521,
+   "verdict": null
+  },
+  {
+   "test": "13 drop ARB",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.7892278981422582,
+   "dd": 0.40535828872174307,
+   "end": 708756.0172875306,
+   "trades": 3521,
+   "verdict": "fall only"
+  },
+  {
+   "test": "13 drop ARB",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.807247028550694,
+   "dd": 0.41888184479076807,
+   "end": 740941.856632368,
+   "trades": 3521,
+   "verdict": "both better"
+  },
+  {
+   "test": "13 drop ETH",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 4.849181511822675,
+   "dd": 0.51262423592915,
+   "end": 195156690.75965175,
+   "trades": 3423,
+   "verdict": null
+  },
+  {
+   "test": "13 drop ETH",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 4.7582907684229685,
+   "dd": 0.4848632117691726,
+   "end": 175176503.8818893,
+   "trades": 3423,
+   "verdict": "fall only"
+  },
+  {
+   "test": "13 drop ETH",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 5.13097364688523,
+   "dd": 0.5038505034976051,
+   "end": 269967777.670373,
+   "trades": 3423,
+   "verdict": "both better"
+  },
+  {
+   "test": "13 drop ETH",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.7682795749200557,
+   "dd": 0.42655687680420584,
+   "end": 672847.713457869,
+   "trades": 3425,
+   "verdict": null
+  },
+  {
+   "test": "13 drop ETH",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.7621201915607845,
+   "dd": 0.4301835121741011,
+   "end": 662590.3899004244,
+   "trades": 3423,
+   "verdict": "neither"
+  },
+  {
+   "test": "13 drop ETH",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.77514901818556,
+   "dd": 0.4466804783266719,
+   "end": 684447.3651742262,
+   "trades": 3423,
+   "verdict": "return only"
+  },
+  {
+   "test": "13 drop SUI",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 5.50664555327139,
+   "dd": 0.5413869632059534,
+   "end": 406851984.5935192,
+   "trades": 3700,
+   "verdict": null
+  },
+  {
+   "test": "13 drop SUI",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 5.363624939487696,
+   "dd": 0.49021025288413544,
+   "end": 349032646.6561142,
+   "trades": 3700,
+   "verdict": "fall only"
+  },
+  {
+   "test": "13 drop SUI",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 5.801208463620097,
+   "dd": 0.5121253941573256,
+   "end": 552143055.595618,
+   "trades": 3700,
+   "verdict": "both better"
+  },
+  {
+   "test": "13 drop SUI",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.8236239272865542,
+   "dd": 0.4372087012599847,
+   "end": 771270.273082354,
+   "trades": 3700,
+   "verdict": null
+  },
+  {
+   "test": "13 drop SUI",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.8063390517002795,
+   "dd": 0.40535828872174307,
+   "end": 739290.6474599267,
+   "trades": 3700,
+   "verdict": "fall only"
+  },
+  {
+   "test": "13 drop SUI",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.8224950908294537,
+   "dd": 0.41888184479076807,
+   "end": 769146.2616818409,
+   "trades": 3700,
+   "verdict": "fall only"
+  },
+  {
+   "test": "14 drop best 10",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 4.691484224756281,
+   "dd": 0.541386963205952,
+   "end": 161630484.69265282,
+   "trades": 3793,
+   "verdict": null
+  },
+  {
+   "test": "14 drop best 10",
+   "acc": "A",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 4.269604322733974,
+   "dd": 0.4759534656996959,
+   "end": 95027104.97642249,
+   "trades": 3793,
+   "verdict": "fall only"
+  },
+  {
+   "test": "14 drop best 10",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 4.573797015602306,
+   "dd": 0.4948116090898097,
+   "end": 139939537.46464413,
+   "trades": 3793,
+   "verdict": "fall only"
+  },
+  {
+   "test": "14 drop best 10",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 4.947030884917942,
+   "dd": 0.5168267200838461,
+   "end": 218813663.88699612,
+   "trades": 3793,
+   "verdict": "both better"
+  },
+  {
+   "test": "14 drop best 10",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 4.785590103959606,
+   "dd": 0.5295915239630764,
+   "end": 161529.33526993866,
+   "trades": 1939,
+   "verdict": null
+  },
+  {
+   "test": "14 drop best 10",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 4.393734045412516,
+   "dd": 0.4607699636442919,
+   "end": 131833.25411178646,
+   "trades": 1939,
+   "verdict": "fall only"
+  },
+  {
+   "test": "14 drop best 10",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 4.706958354599017,
+   "dd": 0.47464403342862893,
+   "end": 155251.84102291992,
+   "trades": 1939,
+   "verdict": "fall only"
+  },
+  {
+   "test": "14 drop best 10",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 5.090027717882119,
+   "dd": 0.4907469906817066,
+   "end": 187397.74992358446,
+   "trades": 1939,
+   "verdict": "both better"
+  },
+  {
+   "test": "14 drop best 10",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.712470663427514,
+   "dd": 0.4372087012599847,
+   "end": 584677.8551771842,
+   "trades": 3795,
+   "verdict": null
+  },
+  {
+   "test": "14 drop best 10",
+   "acc": "B",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 1.673229444280961,
+   "dd": 0.40850448378721826,
+   "end": 528772.7379585439,
+   "trades": 3793,
+   "verdict": "fall only"
+  },
+  {
+   "test": "14 drop best 10",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.6900868481284381,
+   "dd": 0.40535828872174307,
+   "end": 552201.204527842,
+   "trades": 3793,
+   "verdict": "fall only"
+  },
+  {
+   "test": "14 drop best 10",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.709949004602704,
+   "dd": 0.41888184479076807,
+   "end": 580939.4559852037,
+   "trades": 3793,
+   "verdict": "fall only"
+  },
+  {
+   "test": "14 drop best 10",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 2.9510864225487574,
+   "dd": 0.4912463198094964,
+   "end": 32109.08108967612,
+   "trades": 1936,
+   "verdict": null
+  },
+  {
+   "test": "14 drop best 10",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 2.8042980726032916,
+   "dd": 0.37053949570414413,
+   "end": 28774.066609923757,
+   "trades": 1939,
+   "verdict": "fall only"
+  },
+  {
+   "test": "14 drop best 10",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 3.003475801392577,
+   "dd": 0.3845175045585123,
+   "end": 33357.896634599325,
+   "trades": 1939,
+   "verdict": "both better"
+  },
+  {
+   "test": "14 drop best 10",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 3.1300716306197653,
+   "dd": 0.3970806485953824,
+   "end": 36505.84487332351,
+   "trades": 1939,
+   "verdict": "both better"
+  },
+  {
+   "test": "14 drop best 25",
+   "acc": "A",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 4.112062620645576,
+   "dd": 0.5413869632059525,
+   "end": 77079165.09309167,
+   "trades": 3793,
+   "verdict": null
+  },
+  {
+   "test": "14 drop best 25",
+   "acc": "A",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 3.762546647357695,
+   "dd": 0.47595346569969466,
+   "end": 47295235.26230031,
+   "trades": 3793,
+   "verdict": "fall only"
+  },
+  {
+   "test": "14 drop best 25",
+   "acc": "A",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 4.0219268469419776,
+   "dd": 0.49481160908980837,
+   "end": 68179688.20206149,
+   "trades": 3793,
+   "verdict": "fall only"
+  },
+  {
+   "test": "14 drop best 25",
+   "acc": "A",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 4.339139321176563,
+   "dd": 0.5168267200838454,
+   "end": 104018792.50887269,
+   "trades": 3793,
+   "verdict": "both better"
+  },
+  {
+   "test": "14 drop best 25",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 4.314482125572727,
+   "dd": 0.5299935360659931,
+   "end": 126300.08922417887,
+   "trades": 1939,
+   "verdict": null
+  },
+  {
+   "test": "14 drop best 25",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 4.020180642447846,
+   "dd": 0.46126891699537376,
+   "end": 107086.80964439244,
+   "trades": 1939,
+   "verdict": "fall only"
+  },
+  {
+   "test": "14 drop best 25",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 4.300774901409875,
+   "dd": 0.4751398523448547,
+   "end": 125358.79600841252,
+   "trades": 1939,
+   "verdict": "fall only"
+  },
+  {
+   "test": "14 drop best 25",
+   "acc": "A",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 4.643250973830093,
+   "dd": 0.4912382973392888,
+   "end": 150284.65177906427,
+   "trades": 1939,
+   "verdict": "both better"
+  },
+  {
+   "test": "14 drop best 25",
+   "acc": "B",
+   "per": "full",
+   "ver": "TRI",
+   "cagr": 1.6559655030939053,
+   "dd": 0.43698042758232236,
+   "end": 505665.39175441134,
+   "trades": 3796,
+   "verdict": null
+  },
+  {
+   "test": "14 drop best 25",
+   "acc": "B",
+   "per": "full",
+   "ver": "R100",
+   "cagr": 1.6185042728432437,
+   "dd": 0.4083701732027073,
+   "end": 458476.24116139376,
+   "trades": 3793,
+   "verdict": "fall only"
+  },
+  {
+   "test": "14 drop best 25",
+   "acc": "B",
+   "per": "full",
+   "ver": "R105",
+   "cagr": 1.6381161875476908,
+   "dd": 0.4222238030089249,
+   "end": 482687.8043597833,
+   "trades": 3793,
+   "verdict": "fall only"
+  },
+  {
+   "test": "14 drop best 25",
+   "acc": "B",
+   "per": "full",
+   "ver": "R111",
+   "cagr": 1.6557173445442013,
+   "dd": 0.41431062604816205,
+   "end": 505339.63880916074,
+   "trades": 3793,
+   "verdict": "fall only"
+  },
+  {
+   "test": "14 drop best 25",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "TRI",
+   "cagr": 2.651066100587654,
+   "dd": 0.4896293553555814,
+   "end": 25543.59895031007,
+   "trades": 1936,
+   "verdict": null
+  },
+  {
+   "test": "14 drop best 25",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R100",
+   "cagr": 2.5536279549711156,
+   "dd": 0.3702216424104843,
+   "end": 23618.539950248934,
+   "trades": 1939,
+   "verdict": "fall only"
+  },
+  {
+   "test": "14 drop best 25",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R105",
+   "cagr": 2.7133461067272453,
+   "dd": 0.38477859103864664,
+   "end": 26826.256938195136,
+   "trades": 1939,
+   "verdict": "both better"
+  },
+  {
+   "test": "14 drop best 25",
+   "acc": "B",
+   "per": "24-26",
+   "ver": "R111",
+   "cagr": 2.9383088772266697,
+   "dd": 0.3970806485953824,
+   "end": 31809.21899795571,
+   "trades": 1939,
+   "verdict": "both better"
+  }
+ ],
+ "seeds": {
+  "07 miss 0.1|A|full": {
+   "TRI": [
+    {
+     "seed": 1009,
+     "cagr": 5.331225445449059,
+     "dd": 0.5515999914345053,
+     "trades": 3687,
+     "missed": 414
+    },
+    {
+     "seed": 8928,
+     "cagr": 4.672257238090987,
+     "dd": 0.5575317423752562,
+     "trades": 3699,
+     "missed": 438
+    },
+    {
+     "seed": 16847,
+     "cagr": 4.906258454339605,
+     "dd": 0.5572619731812627,
+     "trades": 3703,
+     "missed": 429
+    },
+    {
+     "seed": 24766,
+     "cagr": 5.380704633879068,
+     "dd": 0.5576889087947283,
+     "trades": 3693,
+     "missed": 399
+    },
+    {
+     "seed": 32685,
+     "cagr": 4.83775227590631,
+     "dd": 0.5728937935320244,
+     "trades": 3705,
+     "missed": 431
+    },
+    {
+     "seed": 40604,
+     "cagr": 5.060045132399322,
+     "dd": 0.5606329988963541,
+     "trades": 3705,
+     "missed": 405
+    },
+    {
+     "seed": 48523,
+     "cagr": 5.487353632376434,
+     "dd": 0.5384339138952916,
+     "trades": 3682,
+     "missed": 397
+    },
+    {
+     "seed": 56442,
+     "cagr": 5.189667405112074,
+     "dd": 0.5504948117989859,
+     "trades": 3699,
+     "missed": 451
+    },
+    {
+     "seed": 64361,
+     "cagr": 5.291106906599765,
+     "dd": 0.5452475273060341,
+     "trades": 3680,
+     "missed": 462
+    },
+    {
+     "seed": 72280,
+     "cagr": 5.0800532836754275,
+     "dd": 0.5390810143059972,
+     "trades": 3711,
+     "missed": 393
+    },
+    {
+     "seed": 80199,
+     "cagr": 5.344574752187891,
+     "dd": 0.5534738037415594,
+     "trades": 3691,
+     "missed": 416
+    },
+    {
+     "seed": 88118,
+     "cagr": 5.281214047634381,
+     "dd": 0.5476695135119405,
+     "trades": 3707,
+     "missed": 382
+    },
+    {
+     "seed": 96037,
+     "cagr": 4.534861749868599,
+     "dd": 0.5376092745266656,
+     "trades": 3716,
+     "missed": 443
+    },
+    {
+     "seed": 103956,
+     "cagr": 5.531721630613404,
+     "dd": 0.5707882327172343,
+     "trades": 3699,
+     "missed": 403
+    },
+    {
+     "seed": 111875,
+     "cagr": 5.245067217528135,
+     "dd": 0.5640946679974627,
+     "trades": 3706,
+     "missed": 414
+    },
+    {
+     "seed": 119794,
+     "cagr": 5.019775839665455,
+     "dd": 0.5610932716949362,
+     "trades": 3696,
+     "missed": 405
+    },
+    {
+     "seed": 127713,
+     "cagr": 5.188619410642723,
+     "dd": 0.5752644884429062,
+     "trades": 3704,
+     "missed": 423
+    },
+    {
+     "seed": 135632,
+     "cagr": 5.35554328024531,
+     "dd": 0.5496706553416348,
+     "trades": 3698,
+     "missed": 402
+    },
+    {
+     "seed": 143551,
+     "cagr": 4.774797850104825,
+     "dd": 0.5617233633760229,
+     "trades": 3698,
+     "missed": 410
+    },
+    {
+     "seed": 151470,
+     "cagr": 5.136951191785504,
+     "dd": 0.5702328316750556,
+     "trades": 3712,
+     "missed": 441
+    }
+   ],
+   "R100": [
+    {
+     "seed": 1009,
+     "cagr": 4.79832704200538,
+     "dd": 0.48249399238757806,
+     "trades": 3687,
+     "missed": 414
+    },
+    {
+     "seed": 8928,
+     "cagr": 4.398688051607054,
+     "dd": 0.49450542073934534,
+     "trades": 3699,
+     "missed": 438
+    },
+    {
+     "seed": 16847,
+     "cagr": 4.542105283357998,
+     "dd": 0.4839093395001717,
+     "trades": 3703,
+     "missed": 429
+    },
+    {
+     "seed": 24766,
+     "cagr": 4.82147863759378,
+     "dd": 0.49037749741122383,
+     "trades": 3693,
+     "missed": 399
+    },
+    {
+     "seed": 32685,
+     "cagr": 4.5257804494856195,
+     "dd": 0.49076816503072385,
+     "trades": 3705,
+     "missed": 431
+    },
+    {
+     "seed": 40604,
+     "cagr": 4.622652238914982,
+     "dd": 0.516037440878942,
+     "trades": 3705,
+     "missed": 405
+    },
+    {
+     "seed": 48523,
+     "cagr": 4.883944244104491,
+     "dd": 0.4629853334830508,
+     "trades": 3682,
+     "missed": 397
+    },
+    {
+     "seed": 56442,
+     "cagr": 4.776277123576189,
+     "dd": 0.47515165263792725,
+     "trades": 3699,
+     "missed": 451
+    },
+    {
+     "seed": 64361,
+     "cagr": 4.693684240342951,
+     "dd": 0.447330328041761,
+     "trades": 3680,
+     "missed": 462
+    },
+    {
+     "seed": 72280,
+     "cagr": 4.628361144060175,
+     "dd": 0.4736439563334761,
+     "trades": 3711,
+     "missed": 393
+    },
+    {
+     "seed": 80199,
+     "cagr": 4.94431874216513,
+     "dd": 0.46816276181585037,
+     "trades": 3691,
+     "missed": 416
+    },
+    {
+     "seed": 88118,
+     "cagr": 4.858685452432325,
+     "dd": 0.47476547752121834,
+     "trades": 3707,
+     "missed": 382
+    },
+    {
+     "seed": 96037,
+     "cagr": 4.256697183314485,
+     "dd": 0.4589517193777738,
+     "trades": 3716,
+     "missed": 443
+    },
+    {
+     "seed": 103956,
+     "cagr": 4.9529306754860105,
+     "dd": 0.5195944485194742,
+     "trades": 3699,
+     "missed": 403
+    },
+    {
+     "seed": 111875,
+     "cagr": 4.886475546139344,
+     "dd": 0.4850424424577463,
+     "trades": 3706,
+     "missed": 414
+    },
+    {
+     "seed": 119794,
+     "cagr": 4.581553258334605,
+     "dd": 0.4938919579760669,
+     "trades": 3696,
+     "missed": 405
+    },
+    {
+     "seed": 127713,
+     "cagr": 4.735756237075584,
+     "dd": 0.5194214442577068,
+     "trades": 3704,
+     "missed": 423
+    },
+    {
+     "seed": 135632,
+     "cagr": 4.903826231843685,
+     "dd": 0.48624182447462017,
+     "trades": 3698,
+     "missed": 402
+    },
+    {
+     "seed": 143551,
+     "cagr": 4.47017962939075,
+     "dd": 0.4810144928868558,
+     "trades": 3698,
+     "missed": 410
+    },
+    {
+     "seed": 151470,
+     "cagr": 4.736943876799561,
+     "dd": 0.44831084765200546,
+     "trades": 3712,
+     "missed": 441
+    }
+   ],
+   "R105": [
+    {
+     "seed": 1009,
+     "cagr": 5.139040920359546,
+     "dd": 0.49914574662173417,
+     "trades": 3687,
+     "missed": 414
+    },
+    {
+     "seed": 8928,
+     "cagr": 4.702111413513688,
+     "dd": 0.5112219518949349,
+     "trades": 3699,
+     "missed": 438
+    },
+    {
+     "seed": 16847,
+     "cagr": 4.862108974792309,
+     "dd": 0.5026628560684471,
+     "trades": 3703,
+     "missed": 429
+    },
+    {
+     "seed": 24766,
+     "cagr": 5.162157778945297,
+     "dd": 0.5091357156409759,
+     "trades": 3693,
+     "missed": 399
+    },
+    {
+     "seed": 32685,
+     "cagr": 4.846283896058371,
+     "dd": 0.5096467904692374,
+     "trades": 3705,
+     "missed": 431
+    },
+    {
+     "seed": 40604,
+     "cagr": 4.945784371666554,
+     "dd": 0.5351048340012288,
+     "trades": 3705,
+     "missed": 405
+    },
+    {
+     "seed": 48523,
+     "cagr": 5.232364383931099,
+     "dd": 0.47913491025460464,
+     "trades": 3682,
+     "missed": 397
+    },
+    {
+     "seed": 56442,
+     "cagr": 5.114435457528866,
+     "dd": 0.4914804126127521,
+     "trades": 3699,
+     "missed": 451
+    },
+    {
+     "seed": 64361,
+     "cagr": 5.0270050338191385,
+     "dd": 0.4632400185986978,
+     "trades": 3680,
+     "missed": 462
+    },
+    {
+     "seed": 72280,
+     "cagr": 4.957389711451261,
+     "dd": 0.4900820957168426,
+     "trades": 3711,
+     "missed": 393
+    },
+    {
+     "seed": 80199,
+     "cagr": 5.300592280044622,
+     "dd": 0.48181428929965175,
+     "trades": 3691,
+     "missed": 416
+    },
+    {
+     "seed": 88118,
+     "cagr": 5.205226666606202,
+     "dd": 0.49120598483172484,
+     "trades": 3707,
+     "missed": 382
+    },
+    {
+     "seed": 96037,
+     "cagr": 4.547972275164517,
+     "dd": 0.47333531869690737,
+     "trades": 3716,
+     "missed": 443
+    },
+    {
+     "seed": 103956,
+     "cagr": 5.308592210117771,
+     "dd": 0.5385547570041358,
+     "trades": 3699,
+     "missed": 403
+    },
+    {
+     "seed": 111875,
+     "cagr": 5.236457937125227,
+     "dd": 0.5038600045443791,
+     "trades": 3706,
+     "missed": 414
+    },
+    {
+     "seed": 119794,
+     "cagr": 4.899116781440383,
+     "dd": 0.5126063741170046,
+     "trades": 3696,
+     "missed": 405
+    },
+    {
+     "seed": 127713,
+     "cagr": 5.069328752156395,
+     "dd": 0.5384583135744025,
+     "trades": 3704,
+     "missed": 423
+    },
+    {
+     "seed": 135632,
+     "cagr": 5.255513128341383,
+     "dd": 0.5052055608289461,
+     "trades": 3698,
+     "missed": 402
+    },
+    {
+     "seed": 143551,
+     "cagr": 4.781410087612306,
+     "dd": 0.4974069472496687,
+     "trades": 3698,
+     "missed": 410
+    },
+    {
+     "seed": 151470,
+     "cagr": 5.071325098900839,
+     "dd": 0.4641940430423329,
+     "trades": 3712,
+     "missed": 441
+    }
+   ],
+   "R111": [
+    {
+     "seed": 1009,
+     "cagr": 5.556926668890427,
+     "dd": 0.5184572646001595,
+     "trades": 3687,
+     "missed": 414
+    },
+    {
+     "seed": 8928,
+     "cagr": 5.072867088498291,
+     "dd": 0.5305727378870153,
+     "trades": 3699,
+     "missed": 438
+    },
+    {
+     "seed": 16847,
+     "cagr": 5.254218980699773,
+     "dd": 0.5245224802293875,
+     "trades": 3703,
+     "missed": 429
+    },
+    {
+     "seed": 24766,
+     "cagr": 5.579643159065674,
+     "dd": 0.5309810502837626,
+     "trades": 3693,
+     "missed": 399
+    },
+    {
+     "seed": 32685,
+     "cagr": 5.2393484149633025,
+     "dd": 0.531636538312754,
+     "trades": 3705,
+     "missed": 431
+    },
+    {
+     "seed": 40604,
+     "cagr": 5.34152545503938,
+     "dd": 0.5572314232643865,
+     "trades": 3705,
+     "missed": 405
+    },
+    {
+     "seed": 48523,
+     "cagr": 5.659949503692861,
+     "dd": 0.4978904285219016,
+     "trades": 3682,
+     "missed": 397
+    },
+    {
+     "seed": 56442,
+     "cagr": 5.528928620802571,
+     "dd": 0.5104168105140683,
+     "trades": 3699,
+     "missed": 451
+    },
+    {
+     "seed": 64361,
+     "cagr": 5.436072915739872,
+     "dd": 0.4817463688979956,
+     "trades": 3680,
+     "missed": 462
+    },
+    {
+     "seed": 72280,
+     "cagr": 5.36108319976882,
+     "dd": 0.5103781029759242,
+     "trades": 3711,
+     "missed": 393
+    },
+    {
+     "seed": 80199,
+     "cagr": 5.738342955081496,
+     "dd": 0.4976599471750315,
+     "trades": 3691,
+     "missed": 416
+    },
+    {
+     "seed": 88118,
+     "cagr": 5.630443204425786,
+     "dd": 0.51027981007874,
+     "trades": 3707,
+     "missed": 382
+    },
+    {
+     "seed": 96037,
+     "cagr": 4.903787852143304,
+     "dd": 0.4900157994924562,
+     "trades": 3716,
+     "missed": 443
+    },
+    {
+     "seed": 103956,
+     "cagr": 5.745512087958543,
+     "dd": 0.5605452436381139,
+     "trades": 3699,
+     "missed": 403
+    },
+    {
+     "seed": 111875,
+     "cagr": 5.66622493525507,
+     "dd": 0.5257924160272526,
+     "trades": 3706,
+     "missed": 414
+    },
+    {
+     "seed": 119794,
+     "cagr": 5.287507584465749,
+     "dd": 0.5343895842007264,
+     "trades": 3696,
+     "missed": 405
+    },
+    {
+     "seed": 127713,
+     "cagr": 5.478142163399492,
+     "dd": 0.5605333930002061,
+     "trades": 3704,
+     "missed": 423
+    },
+    {
+     "seed": 135632,
+     "cagr": 5.687502238290295,
+     "dd": 0.527308920168966,
+     "trades": 3698,
+     "missed": 402
+    },
+    {
+     "seed": 143551,
+     "cagr": 5.162213194959123,
+     "dd": 0.5164009459870768,
+     "trades": 3698,
+     "missed": 410
+    },
+    {
+     "seed": 151470,
+     "cagr": 5.481153600322771,
+     "dd": 0.4826691868715567,
+     "trades": 3712,
+     "missed": 441
+    }
+   ]
+  },
+  "07 miss 0.1|A|24-26": {
+   "TRI": [
+    {
+     "seed": 1009,
+     "cagr": 6.541784546141289,
+     "dd": 0.5238663036357076,
+     "trades": 1881,
+     "missed": 228
+    },
+    {
+     "seed": 8928,
+     "cagr": 5.858142763531469,
+     "dd": 0.5475679249654779,
+     "trades": 1887,
+     "missed": 214
+    },
+    {
+     "seed": 16847,
+     "cagr": 6.626548719382114,
+     "dd": 0.5364844337786719,
+     "trades": 1883,
+     "missed": 224
+    },
+    {
+     "seed": 24766,
+     "cagr": 6.152501003858001,
+     "dd": 0.539201366649475,
+     "trades": 1887,
+     "missed": 208
+    },
+    {
+     "seed": 32685,
+     "cagr": 6.718050578945629,
+     "dd": 0.5160663563622703,
+     "trades": 1873,
+     "missed": 224
+    },
+    {
+     "seed": 40604,
+     "cagr": 5.699414019595705,
+     "dd": 0.5180050596167121,
+     "trades": 1898,
+     "missed": 203
+    },
+    {
+     "seed": 48523,
+     "cagr": 6.1562635991598595,
+     "dd": 0.5302015309757816,
+     "trades": 1883,
+     "missed": 216
+    },
+    {
+     "seed": 56442,
+     "cagr": 5.265833591295511,
+     "dd": 0.5402560635323845,
+     "trades": 1890,
+     "missed": 228
+    },
+    {
+     "seed": 64361,
+     "cagr": 5.623363300475517,
+     "dd": 0.5242677696207245,
+     "trades": 1888,
+     "missed": 238
+    },
+    {
+     "seed": 72280,
+     "cagr": 6.6823424100050275,
+     "dd": 0.5318138333687417,
+     "trades": 1889,
+     "missed": 201
+    },
+    {
+     "seed": 80199,
+     "cagr": 5.588251159751808,
+     "dd": 0.5257227918839852,
+     "trades": 1895,
+     "missed": 217
+    },
+    {
+     "seed": 88118,
+     "cagr": 5.8949581583907165,
+     "dd": 0.5226072518379954,
+     "trades": 1896,
+     "missed": 203
+    },
+    {
+     "seed": 96037,
+     "cagr": 5.338418423923876,
+     "dd": 0.5383545472725701,
+     "trades": 1902,
+     "missed": 231
+    },
+    {
+     "seed": 103956,
+     "cagr": 5.8084112686852345,
+     "dd": 0.5319683719064846,
+     "trades": 1897,
+     "missed": 182
+    },
+    {
+     "seed": 111875,
+     "cagr": 6.399499668109183,
+     "dd": 0.5228864961341966,
+     "trades": 1877,
+     "missed": 203
+    },
+    {
+     "seed": 119794,
+     "cagr": 5.832931006011033,
+     "dd": 0.5235430025805564,
+     "trades": 1896,
+     "missed": 206
+    },
+    {
+     "seed": 127713,
+     "cagr": 5.973238451699822,
+     "dd": 0.527153160423423,
+     "trades": 1897,
+     "missed": 217
+    },
+    {
+     "seed": 135632,
+     "cagr": 5.6889793615854405,
+     "dd": 0.5516852282921423,
+     "trades": 1891,
+     "missed": 186
+    },
+    {
+     "seed": 143551,
+     "cagr": 5.458630519378972,
+     "dd": 0.518451388233325,
+     "trades": 1893,
+     "missed": 206
+    },
+    {
+     "seed": 151470,
+     "cagr": 5.612702263986558,
+     "dd": 0.5263896487791658,
+     "trades": 1890,
+     "missed": 240
+    }
+   ],
+   "R100": [
+    {
+     "seed": 1009,
+     "cagr": 5.8734550170501025,
+     "dd": 0.43238459631207316,
+     "trades": 1881,
+     "missed": 228
+    },
+    {
+     "seed": 8928,
+     "cagr": 5.250869987164402,
+     "dd": 0.4476466573096526,
+     "trades": 1887,
+     "missed": 214
+    },
+    {
+     "seed": 16847,
+     "cagr": 6.229784953181403,
+     "dd": 0.44896171514255,
+     "trades": 1883,
+     "missed": 224
+    },
+    {
+     "seed": 24766,
+     "cagr": 5.799077226671912,
+     "dd": 0.4590984598723823,
+     "trades": 1887,
+     "missed": 208
+    },
+    {
+     "seed": 32685,
+     "cagr": 5.837467432052874,
+     "dd": 0.4557369657157151,
+     "trades": 1873,
+     "missed": 224
+    },
+    {
+     "seed": 40604,
+     "cagr": 5.2546306104991265,
+     "dd": 0.44556076603789196,
+     "trades": 1898,
+     "missed": 203
+    },
+    {
+     "seed": 48523,
+     "cagr": 5.626622065149756,
+     "dd": 0.4619121613160061,
+     "trades": 1883,
+     "missed": 216
+    },
+    {
+     "seed": 56442,
+     "cagr": 5.005872754254068,
+     "dd": 0.4713624212786536,
+     "trades": 1890,
+     "missed": 228
+    },
+    {
+     "seed": 64361,
+     "cagr": 5.301560521054674,
+     "dd": 0.45558874179458464,
+     "trades": 1888,
+     "missed": 238
+    },
+    {
+     "seed": 72280,
+     "cagr": 6.116431656222778,
+     "dd": 0.43928813537069433,
+     "trades": 1889,
+     "missed": 201
+    },
+    {
+     "seed": 80199,
+     "cagr": 5.289612777955086,
+     "dd": 0.43606630701748295,
+     "trades": 1895,
+     "missed": 217
+    },
+    {
+     "seed": 88118,
+     "cagr": 5.462687037639857,
+     "dd": 0.44779214766808195,
+     "trades": 1896,
+     "missed": 203
+    },
+    {
+     "seed": 96037,
+     "cagr": 5.020561553221978,
+     "dd": 0.46124883123583815,
+     "trades": 1902,
+     "missed": 231
+    },
+    {
+     "seed": 103956,
+     "cagr": 5.216281148935816,
+     "dd": 0.4515315392847895,
+     "trades": 1897,
+     "missed": 182
+    },
+    {
+     "seed": 111875,
+     "cagr": 5.830087300424171,
+     "dd": 0.43898407569601083,
+     "trades": 1877,
+     "missed": 203
+    },
+    {
+     "seed": 119794,
+     "cagr": 5.260596575634261,
+     "dd": 0.4264533665776694,
+     "trades": 1896,
+     "missed": 206
+    },
+    {
+     "seed": 127713,
+     "cagr": 5.513135357435499,
+     "dd": 0.46132865459837114,
+     "trades": 1897,
+     "missed": 217
+    },
+    {
+     "seed": 135632,
+     "cagr": 5.1637941121676025,
+     "dd": 0.4660044455822373,
+     "trades": 1891,
+     "missed": 186
+    },
+    {
+     "seed": 143551,
+     "cagr": 5.05892597333608,
+     "dd": 0.4512136475915737,
+     "trades": 1893,
+     "missed": 206
+    },
+    {
+     "seed": 151470,
+     "cagr": 5.251408901091646,
+     "dd": 0.45167786955151923,
+     "trades": 1890,
+     "missed": 240
+    }
+   ],
+   "R105": [
+    {
+     "seed": 1009,
+     "cagr": 6.306556067832513,
+     "dd": 0.4452202736243257,
+     "trades": 1881,
+     "missed": 228
+    },
+    {
+     "seed": 8928,
+     "cagr": 5.614073750288872,
+     "dd": 0.460989039039464,
+     "trades": 1887,
+     "missed": 214
+    },
+    {
+     "seed": 16847,
+     "cagr": 6.705218943152978,
+     "dd": 0.4623020719952158,
+     "trades": 1883,
+     "missed": 224
+    },
+    {
+     "seed": 24766,
+     "cagr": 6.226733040794078,
+     "dd": 0.47270749394240186,
+     "trades": 1887,
+     "missed": 208
+    },
+    {
+     "seed": 32685,
+     "cagr": 6.2660520145824625,
+     "dd": 0.4693679189948903,
+     "trades": 1873,
+     "missed": 224
+    },
+    {
+     "seed": 40604,
+     "cagr": 5.63458336137006,
+     "dd": 0.45873964660031785,
+     "trades": 1898,
+     "missed": 203
+    },
+    {
+     "seed": 48523,
+     "cagr": 6.038190697635707,
+     "dd": 0.4759030667812584,
+     "trades": 1883,
+     "missed": 216
+    },
+    {
+     "seed": 56442,
+     "cagr": 5.343210135155078,
+     "dd": 0.4852034982897021,
+     "trades": 1890,
+     "missed": 228
+    },
+    {
+     "seed": 64361,
+     "cagr": 5.687886808185225,
+     "dd": 0.46908429824408726,
+     "trades": 1888,
+     "missed": 238
+    },
+    {
+     "seed": 72280,
+     "cagr": 6.566302353974544,
+     "dd": 0.45235400102861156,
+     "trades": 1889,
+     "missed": 201
+    },
+    {
+     "seed": 80199,
+     "cagr": 5.673387997717444,
+     "dd": 0.4487343294255073,
+     "trades": 1895,
+     "missed": 217
+    },
+    {
+     "seed": 88118,
+     "cagr": 5.849750313813632,
+     "dd": 0.46114930538207544,
+     "trades": 1896,
+     "missed": 203
+    },
+    {
+     "seed": 96037,
+     "cagr": 5.366349602231362,
+     "dd": 0.4748470532181239,
+     "trades": 1902,
+     "missed": 231
+    },
+    {
+     "seed": 103956,
+     "cagr": 5.579216325460399,
+     "dd": 0.46489885459343494,
+     "trades": 1897,
+     "missed": 182
+    },
+    {
+     "seed": 111875,
+     "cagr": 6.2592671897587175,
+     "dd": 0.45202492954830975,
+     "trades": 1877,
+     "missed": 203
+    },
+    {
+     "seed": 119794,
+     "cagr": 5.64730928773083,
+     "dd": 0.43923255717056475,
+     "trades": 1896,
+     "missed": 206
+    },
+    {
+     "seed": 127713,
+     "cagr": 5.9017001206204425,
+     "dd": 0.474952851430661,
+     "trades": 1897,
+     "missed": 217
+    },
+    {
+     "seed": 135632,
+     "cagr": 5.522057618476112,
+     "dd": 0.479789238639064,
+     "trades": 1891,
+     "missed": 186
+    },
+    {
+     "seed": 143551,
+     "cagr": 5.412234196925748,
+     "dd": 0.46456964144792434,
+     "trades": 1893,
+     "missed": 206
+    },
+    {
+     "seed": 151470,
+     "cagr": 5.630872594519697,
+     "dd": 0.4649104045099005,
+     "trades": 1890,
+     "missed": 240
+    }
+   ],
+   "R111": [
+    {
+     "seed": 1009,
+     "cagr": 6.8386601048576505,
+     "dd": 0.46016624307025966,
+     "trades": 1881,
+     "missed": 228
+    },
+    {
+     "seed": 8928,
+     "cagr": 6.056530032869578,
+     "dd": 0.4765110624821649,
+     "trades": 1887,
+     "missed": 214
+    },
+    {
+     "seed": 16847,
+     "cagr": 7.292092206125567,
+     "dd": 0.4778170525539708,
+     "trades": 1883,
+     "missed": 224
+    },
+    {
+     "seed": 24766,
+     "cagr": 6.752429302650861,
+     "dd": 0.4885281560129886,
+     "trades": 1887,
+     "missed": 208
+    },
+    {
+     "seed": 32685,
+     "cagr": 6.79232938718274,
+     "dd": 0.48522106906970996,
+     "trades": 1873,
+     "missed": 224
+    },
+    {
+     "seed": 40604,
+     "cagr": 6.100068057126564,
+     "dd": 0.47406871238764947,
+     "trades": 1898,
+     "missed": 203
+    },
+    {
+     "seed": 48523,
+     "cagr": 6.543386999384353,
+     "dd": 0.4921452079854577,
+     "trades": 1883,
+     "missed": 216
+    },
+    {
+     "seed": 56442,
+     "cagr": 5.752683258232441,
+     "dd": 0.5012681562359325,
+     "trades": 1890,
+     "missed": 228
+    },
+    {
+     "seed": 64361,
+     "cagr": 6.161696019520441,
+     "dd": 0.4847768803314927,
+     "trades": 1888,
+     "missed": 238
+    },
+    {
+     "seed": 72280,
+     "cagr": 7.118520184674779,
+     "dd": 0.467573538150978,
+     "trades": 1889,
+     "missed": 201
+    },
+    {
+     "seed": 80199,
+     "cagr": 6.1437869425931195,
+     "dd": 0.4634729624310032,
+     "trades": 1895,
+     "missed": 217
+    },
+    {
+     "seed": 88118,
+     "cagr": 6.322719431582864,
+     "dd": 0.4766905389300907,
+     "trades": 1896,
+     "missed": 203
+    },
+    {
+     "seed": 96037,
+     "cagr": 5.787683289973904,
+     "dd": 0.49064528649244765,
+     "trades": 1902,
+     "missed": 231
+    },
+    {
+     "seed": 103956,
+     "cagr": 6.021776382777254,
+     "dd": 0.4804412158777762,
+     "trades": 1897,
+     "missed": 182
+    },
+    {
+     "seed": 111875,
+     "cagr": 6.786538097288283,
+     "dd": 0.46719984496776523,
+     "trades": 1877,
+     "missed": 203
+    },
+    {
+     "seed": 119794,
+     "cagr": 6.122651335039705,
+     "dd": 0.45412451687610145,
+     "trades": 1896,
+     "missed": 206
+    },
+    {
+     "seed": 127713,
+     "cagr": 6.376143949210482,
+     "dd": 0.49078902213111875,
+     "trades": 1897,
+     "missed": 217
+    },
+    {
+     "seed": 135632,
+     "cagr": 5.958930663265485,
+     "dd": 0.4957986774915367,
+     "trades": 1891,
+     "missed": 186
+    },
+    {
+     "seed": 143551,
+     "cagr": 5.843655522516319,
+     "dd": 0.4801018254412124,
+     "trades": 1893,
+     "missed": 206
+    },
+    {
+     "seed": 151470,
+     "cagr": 6.095635624253668,
+     "dd": 0.480294596924826,
+     "trades": 1890,
+     "missed": 240
+    }
+   ]
+  },
+  "07 miss 0.1|B|full": {
+   "TRI": [
+    {
+     "seed": 1009,
+     "cagr": 1.815707236524137,
+     "dd": 0.4413509080946435,
+     "trades": 3698,
+     "missed": 416
+    },
+    {
+     "seed": 8928,
+     "cagr": 1.799518256643489,
+     "dd": 0.420402503812799,
+     "trades": 3691,
+     "missed": 438
+    },
+    {
+     "seed": 16847,
+     "cagr": 1.7633813080220744,
+     "dd": 0.44011276656668785,
+     "trades": 3697,
+     "missed": 429
+    },
+    {
+     "seed": 24766,
+     "cagr": 1.7995338321928105,
+     "dd": 0.4259867478026427,
+     "trades": 3709,
+     "missed": 401
+    },
+    {
+     "seed": 32685,
+     "cagr": 1.7526006755387997,
+     "dd": 0.4241535306593093,
+     "trades": 3705,
+     "missed": 433
+    },
+    {
+     "seed": 40604,
+     "cagr": 1.808753510357052,
+     "dd": 0.46819169391274895,
+     "trades": 3699,
+     "missed": 405
+    },
+    {
+     "seed": 48523,
+     "cagr": 1.8192105456184362,
+     "dd": 0.4256838982266673,
+     "trades": 3676,
+     "missed": 397
+    },
+    {
+     "seed": 56442,
+     "cagr": 1.7960229370499983,
+     "dd": 0.3997891193051135,
+     "trades": 3695,
+     "missed": 451
+    },
+    {
+     "seed": 64361,
+     "cagr": 1.8026928521439678,
+     "dd": 0.43647203789634725,
+     "trades": 3705,
+     "missed": 464
+    },
+    {
+     "seed": 72280,
+     "cagr": 1.7798213259321805,
+     "dd": 0.4147186120318881,
+     "trades": 3702,
+     "missed": 393
+    },
+    {
+     "seed": 80199,
+     "cagr": 1.8152808954337316,
+     "dd": 0.40995975172063204,
+     "trades": 3712,
+     "missed": 419
+    },
+    {
+     "seed": 88118,
+     "cagr": 1.7938967250215354,
+     "dd": 0.4109167833291174,
+     "trades": 3697,
+     "missed": 382
+    },
+    {
+     "seed": 96037,
+     "cagr": 1.7872403814680626,
+     "dd": 0.4500185962963108,
+     "trades": 3694,
+     "missed": 442
+    },
+    {
+     "seed": 103956,
+     "cagr": 1.8068133593342237,
+     "dd": 0.415992485510132,
+     "trades": 3722,
+     "missed": 407
+    },
+    {
+     "seed": 111875,
+     "cagr": 1.815527531091913,
+     "dd": 0.4100473357419163,
+     "trades": 3700,
+     "missed": 414
+    },
+    {
+     "seed": 119794,
+     "cagr": 1.7763515078953827,
+     "dd": 0.4399369796219499,
+     "trades": 3710,
+     "missed": 405
+    },
+    {
+     "seed": 127713,
+     "cagr": 1.810690108992174,
+     "dd": 0.4187286092264083,
+     "trades": 3706,
+     "missed": 425
+    },
+    {
+     "seed": 135632,
+     "cagr": 1.8129703686703031,
+     "dd": 0.4230597328163024,
+     "trades": 3705,
+     "missed": 404
+    },
+    {
+     "seed": 143551,
+     "cagr": 1.7600734550170398,
+     "dd": 0.3953725562992768,
+     "trades": 3693,
+     "missed": 410
+    },
+    {
+     "seed": 151470,
+     "cagr": 1.8103493074604309,
+     "dd": 0.43661384249335866,
+     "trades": 3708,
+     "missed": 441
+    }
+   ],
+   "R100": [
+    {
+     "seed": 1009,
+     "cagr": 1.783234763300984,
+     "dd": 0.4274359303191452,
+     "trades": 3687,
+     "missed": 414
+    },
+    {
+     "seed": 8928,
+     "cagr": 1.7295788556701668,
+     "dd": 0.40242466880217576,
+     "trades": 3699,
+     "missed": 438
+    },
+    {
+     "seed": 16847,
+     "cagr": 1.7312078612072574,
+     "dd": 0.4091075895917876,
+     "trades": 3703,
+     "missed": 429
+    },
+    {
+     "seed": 24766,
+     "cagr": 1.7834491722506125,
+     "dd": 0.39770272384017,
+     "trades": 3693,
+     "missed": 399
+    },
+    {
+     "seed": 32685,
+     "cagr": 1.7152338318332818,
+     "dd": 0.40368368072034966,
+     "trades": 3705,
+     "missed": 431
+    },
+    {
+     "seed": 40604,
+     "cagr": 1.7672288254510087,
+     "dd": 0.4622881047977231,
+     "trades": 3705,
+     "missed": 405
+    },
+    {
+     "seed": 48523,
+     "cagr": 1.7797543634775015,
+     "dd": 0.4232076541302038,
+     "trades": 3682,
+     "missed": 397
+    },
+    {
+     "seed": 56442,
+     "cagr": 1.7722769661966384,
+     "dd": 0.3822538890060556,
+     "trades": 3699,
+     "missed": 451
+    },
+    {
+     "seed": 64361,
+     "cagr": 1.7783179358679169,
+     "dd": 0.40756554447385873,
+     "trades": 3680,
+     "missed": 462
+    },
+    {
+     "seed": 72280,
+     "cagr": 1.7433506636040894,
+     "dd": 0.3990084701587019,
+     "trades": 3711,
+     "missed": 393
+    },
+    {
+     "seed": 80199,
+     "cagr": 1.779936856069364,
+     "dd": 0.3930544685349421,
+     "trades": 3691,
+     "missed": 416
+    },
+    {
+     "seed": 88118,
+     "cagr": 1.7752166721368496,
+     "dd": 0.38189937762936654,
+     "trades": 3707,
+     "missed": 382
+    },
+    {
+     "seed": 96037,
+     "cagr": 1.7374561527386643,
+     "dd": 0.4425163770907061,
+     "trades": 3716,
+     "missed": 443
+    },
+    {
+     "seed": 103956,
+     "cagr": 1.7897067892745762,
+     "dd": 0.3993028538593326,
+     "trades": 3699,
+     "missed": 403
+    },
+    {
+     "seed": 111875,
+     "cagr": 1.7842973338088068,
+     "dd": 0.38026638773728016,
+     "trades": 3706,
+     "missed": 414
+    },
+    {
+     "seed": 119794,
+     "cagr": 1.7663517154456811,
+     "dd": 0.4116241648444794,
+     "trades": 3696,
+     "missed": 405
+    },
+    {
+     "seed": 127713,
+     "cagr": 1.7715016108054846,
+     "dd": 0.40904680000557647,
+     "trades": 3704,
+     "missed": 423
+    },
+    {
+     "seed": 135632,
+     "cagr": 1.7810916940752826,
+     "dd": 0.399256879059803,
+     "trades": 3698,
+     "missed": 402
+    },
+    {
+     "seed": 143551,
+     "cagr": 1.721681838816314,
+     "dd": 0.3867345467601673,
+     "trades": 3698,
+     "missed": 410
+    },
+    {
+     "seed": 151470,
+     "cagr": 1.7713678769327728,
+     "dd": 0.4051179563414966,
+     "trades": 3712,
+     "missed": 441
+    }
+   ],
+   "R105": [
+    {
+     "seed": 1009,
+     "cagr": 1.797456796980636,
+     "dd": 0.4271682062036438,
+     "trades": 3687,
+     "missed": 414
+    },
+    {
+     "seed": 8928,
+     "cagr": 1.7458202409752022,
+     "dd": 0.4157223778167133,
+     "trades": 3699,
+     "missed": 438
+    },
+    {
+     "seed": 16847,
+     "cagr": 1.7458927468925287,
+     "dd": 0.42280499787211123,
+     "trades": 3703,
+     "missed": 429
+    },
+    {
+     "seed": 24766,
+     "cagr": 1.796086756155023,
+     "dd": 0.39366934442572965,
+     "trades": 3693,
+     "missed": 399
+    },
+    {
+     "seed": 32685,
+     "cagr": 1.7310241884106627,
+     "dd": 0.4169531085471464,
+     "trades": 3705,
+     "missed": 431
+    },
+    {
+     "seed": 40604,
+     "cagr": 1.7803892945853699,
+     "dd": 0.47670987018473865,
+     "trades": 3705,
+     "missed": 405
+    },
+    {
+     "seed": 48523,
+     "cagr": 1.7944726846867556,
+     "dd": 0.4364068668553721,
+     "trades": 3682,
+     "missed": 397
+    },
+    {
+     "seed": 56442,
+     "cagr": 1.787482371778132,
+     "dd": 0.39314894611214846,
+     "trades": 3699,
+     "missed": 451
+    },
+    {
+     "seed": 64361,
+     "cagr": 1.7920514345442817,
+     "dd": 0.4211236595830272,
+     "trades": 3680,
+     "missed": 462
+    },
+    {
+     "seed": 72280,
+     "cagr": 1.7577084488260355,
+     "dd": 0.3895467644912667,
+     "trades": 3711,
+     "missed": 393
+    },
+    {
+     "seed": 80199,
+     "cagr": 1.7946007655152827,
+     "dd": 0.4044568564410702,
+     "trades": 3691,
+     "missed": 416
+    },
+    {
+     "seed": 88118,
+     "cagr": 1.7902960735399516,
+     "dd": 0.3858954696735576,
+     "trades": 3707,
+     "missed": 382
+    },
+    {
+     "seed": 96037,
+     "cagr": 1.7518769664153973,
+     "dd": 0.45733935788371693,
+     "trades": 3716,
+     "missed": 443
+    },
+    {
+     "seed": 103956,
+     "cagr": 1.8039916222262762,
+     "dd": 0.3932750278200565,
+     "trades": 3699,
+     "missed": 403
+    },
+    {
+     "seed": 111875,
+     "cagr": 1.7988896627196258,
+     "dd": 0.39337134391599593,
+     "trades": 3706,
+     "missed": 414
+    },
+    {
+     "seed": 119794,
+     "cagr": 1.7795946252898478,
+     "dd": 0.4257419527304609,
+     "trades": 3696,
+     "missed": 405
+    },
+    {
+     "seed": 127713,
+     "cagr": 1.7857048514356606,
+     "dd": 0.40364474854028753,
+     "trades": 3704,
+     "missed": 423
+    },
+    {
+     "seed": 135632,
+     "cagr": 1.7939293689298812,
+     "dd": 0.41087541408398454,
+     "trades": 3698,
+     "missed": 402
+    },
+    {
+     "seed": 143551,
+     "cagr": 1.7393198182377487,
+     "dd": 0.39784162659239997,
+     "trades": 3698,
+     "missed": 410
+    },
+    {
+     "seed": 151470,
+     "cagr": 1.7849224381983047,
+     "dd": 0.38829086201782037,
+     "trades": 3712,
+     "missed": 441
+    }
+   ],
+   "R111": [
+    {
+     "seed": 1009,
+     "cagr": 1.8142937002705182,
+     "dd": 0.42643167729660303,
+     "trades": 3687,
+     "missed": 414
+    },
+    {
+     "seed": 8928,
+     "cagr": 1.7637883894119644,
+     "dd": 0.4132409812727448,
+     "trades": 3699,
+     "missed": 438
+    },
+    {
+     "seed": 16847,
+     "cagr": 1.7628473368869564,
+     "dd": 0.43833355712055355,
+     "trades": 3703,
+     "missed": 429
+    },
+    {
+     "seed": 24766,
+     "cagr": 1.8119058613772876,
+     "dd": 0.4089578743109762,
+     "trades": 3693,
+     "missed": 399
+    },
+    {
+     "seed": 32685,
+     "cagr": 1.7480181573722633,
+     "dd": 0.4328684422366049,
+     "trades": 3705,
+     "missed": 431
+    },
+    {
+     "seed": 40604,
+     "cagr": 1.7953764186658083,
+     "dd": 0.47267952376478173,
+     "trades": 3705,
+     "missed": 405
+    },
+    {
+     "seed": 48523,
+     "cagr": 1.81018370011062,
+     "dd": 0.45075500548492053,
+     "trades": 3682,
+     "missed": 397
+    },
+    {
+     "seed": 56442,
+     "cagr": 1.8016814701078419,
+     "dd": 0.4008943590902956,
+     "trades": 3699,
+     "missed": 451
+    },
+    {
+     "seed": 64361,
+     "cagr": 1.8074302808520741,
+     "dd": 0.43683208381504535,
+     "trades": 3680,
+     "missed": 462
+    },
+    {
+     "seed": 72280,
+     "cagr": 1.7748118507299835,
+     "dd": 0.4031465553181697,
+     "trades": 3711,
+     "missed": 393
+    },
+    {
+     "seed": 80199,
+     "cagr": 1.8097868568684317,
+     "dd": 0.41806174455019673,
+     "trades": 3691,
+     "missed": 416
+    },
+    {
+     "seed": 88118,
+     "cagr": 1.8089902629872343,
+     "dd": 0.3998894423074376,
+     "trades": 3707,
+     "missed": 382
+    },
+    {
+     "seed": 96037,
+     "cagr": 1.7688668227532727,
+     "dd": 0.4724316106272225,
+     "trades": 3716,
+     "missed": 443
+    },
+    {
+     "seed": 103956,
+     "cagr": 1.819864959129628,
+     "dd": 0.40605911194866595,
+     "trades": 3699,
+     "missed": 403
+    },
+    {
+     "seed": 111875,
+     "cagr": 1.8120513274956482,
+     "dd": 0.3931705925074658,
+     "trades": 3706,
+     "missed": 414
+    },
+    {
+     "seed": 119794,
+     "cagr": 1.7960408744187366,
+     "dd": 0.44083553733553016,
+     "trades": 3696,
+     "missed": 405
+    },
+    {
+     "seed": 127713,
+     "cagr": 1.802580087162473,
+     "dd": 0.41745389898771246,
+     "trades": 3704,
+     "missed": 423
+    },
+    {
+     "seed": 135632,
+     "cagr": 1.8085578906596491,
+     "dd": 0.4096227522406438,
+     "trades": 3698,
+     "missed": 402
+    },
+    {
+     "seed": 143551,
+     "cagr": 1.7577362928714297,
+     "dd": 0.4122401652701384,
+     "trades": 3698,
+     "missed": 410
+    },
+    {
+     "seed": 151470,
+     "cagr": 1.8015620577301723,
+     "dd": 0.40361974273131807,
+     "trades": 3712,
+     "missed": 441
+    }
+   ]
+  },
+  "07 miss 0.1|B|24-26": {
+   "TRI": [
+    {
+     "seed": 1009,
+     "cagr": 3.8003153898026456,
+     "dd": 0.48285149210039413,
+     "trades": 1885,
+     "missed": 235
+    },
+    {
+     "seed": 8928,
+     "cagr": 3.569570204417893,
+     "dd": 0.5274767214951663,
+     "trades": 1890,
+     "missed": 216
+    },
+    {
+     "seed": 16847,
+     "cagr": 3.8908294176567617,
+     "dd": 0.48495638545535447,
+     "trades": 1885,
+     "missed": 225
+    },
+    {
+     "seed": 24766,
+     "cagr": 3.639052051270106,
+     "dd": 0.49983245387416186,
+     "trades": 1886,
+     "missed": 216
+    },
+    {
+     "seed": 32685,
+     "cagr": 3.3131088088565654,
+     "dd": 0.5140831906408578,
+     "trades": 1880,
+     "missed": 230
+    },
+    {
+     "seed": 40604,
+     "cagr": 3.9355138929838107,
+     "dd": 0.4899776644931233,
+     "trades": 1885,
+     "missed": 206
+    },
+    {
+     "seed": 48523,
+     "cagr": 3.8403658359715314,
+     "dd": 0.5100429907478814,
+     "trades": 1874,
+     "missed": 219
+    },
+    {
+     "seed": 56442,
+     "cagr": 3.868558254579125,
+     "dd": 0.4605214795084456,
+     "trades": 1878,
+     "missed": 232
+    },
+    {
+     "seed": 64361,
+     "cagr": 3.375624823965671,
+     "dd": 0.4777450047474747,
+     "trades": 1882,
+     "missed": 247
+    },
+    {
+     "seed": 72280,
+     "cagr": 3.739908001557329,
+     "dd": 0.5252556478614065,
+     "trades": 1893,
+     "missed": 205
+    },
+    {
+     "seed": 80199,
+     "cagr": 3.881536469176769,
+     "dd": 0.4792194982618001,
+     "trades": 1880,
+     "missed": 219
+    },
+    {
+     "seed": 88118,
+     "cagr": 3.6454045048409878,
+     "dd": 0.4837647091241828,
+     "trades": 1884,
+     "missed": 211
+    },
+    {
+     "seed": 96037,
+     "cagr": 3.7245919642273,
+     "dd": 0.4857247077650677,
+     "trades": 1885,
+     "missed": 237
+    },
+    {
+     "seed": 103956,
+     "cagr": 3.968876043535329,
+     "dd": 0.49372289445876993,
+     "trades": 1880,
+     "missed": 193
+    },
+    {
+     "seed": 111875,
+     "cagr": 3.7157595127092033,
+     "dd": 0.45274557976810603,
+     "trades": 1885,
+     "missed": 206
+    },
+    {
+     "seed": 119794,
+     "cagr": 3.8853250925376637,
+     "dd": 0.5017375330150711,
+     "trades": 1882,
+     "missed": 209
+    },
+    {
+     "seed": 127713,
+     "cagr": 3.6512722371616135,
+     "dd": 0.489393021047806,
+     "trades": 1888,
+     "missed": 226
+    },
+    {
+     "seed": 135632,
+     "cagr": 3.818545997555696,
+     "dd": 0.48737369389727625,
+     "trades": 1888,
+     "missed": 192
+    },
+    {
+     "seed": 143551,
+     "cagr": 3.9952896032008764,
+     "dd": 0.5153602207934606,
+     "trades": 1890,
+     "missed": 211
+    },
+    {
+     "seed": 151470,
+     "cagr": 3.4487274948026254,
+     "dd": 0.4740809403922889,
+     "trades": 1873,
+     "missed": 244
+    }
+   ],
+   "R100": [
+    {
+     "seed": 1009,
+     "cagr": 3.7743682795487334,
+     "dd": 0.368204627180556,
+     "trades": 1881,
+     "missed": 228
+    },
+    {
+     "seed": 8928,
+     "cagr": 3.4609954916431045,
+     "dd": 0.4032160055416728,
+     "trades": 1887,
+     "missed": 214
+    },
+    {
+     "seed": 16847,
+     "cagr": 3.776375603631715,
+     "dd": 0.3850871785900565,
+     "trades": 1883,
+     "missed": 224
+    },
+    {
+     "seed": 24766,
+     "cagr": 3.4978904105865833,
+     "dd": 0.3606850588313869,
+     "trades": 1887,
+     "missed": 208
+    },
+    {
+     "seed": 32685,
+     "cagr": 3.644923807784612,
+     "dd": 0.3536531516771211,
+     "trades": 1873,
+     "missed": 224
+    },
+    {
+     "seed": 40604,
+     "cagr": 3.317782010882852,
+     "dd": 0.3712036278409073,
+     "trades": 1898,
+     "missed": 203
+    },
+    {
+     "seed": 48523,
+     "cagr": 3.6195808338887794,
+     "dd": 0.3652568734701588,
+     "trades": 1883,
+     "missed": 216
+    },
+    {
+     "seed": 56442,
+     "cagr": 3.3648027157827682,
+     "dd": 0.36315004474480117,
+     "trades": 1890,
+     "missed": 228
+    },
+    {
+     "seed": 64361,
+     "cagr": 3.3702145604343485,
+     "dd": 0.3613546869251574,
+     "trades": 1888,
+     "missed": 238
+    },
+    {
+     "seed": 72280,
+     "cagr": 3.6694717470002534,
+     "dd": 0.3658987497061734,
+     "trades": 1889,
+     "missed": 201
+    },
+    {
+     "seed": 80199,
+     "cagr": 3.3440415637811753,
+     "dd": 0.37168619953511417,
+     "trades": 1895,
+     "missed": 217
+    },
+    {
+     "seed": 88118,
+     "cagr": 3.5103351383885677,
+     "dd": 0.3624717234083594,
+     "trades": 1896,
+     "missed": 203
+    },
+    {
+     "seed": 96037,
+     "cagr": 3.209185806788084,
+     "dd": 0.3850153923144226,
+     "trades": 1902,
+     "missed": 231
+    },
+    {
+     "seed": 103956,
+     "cagr": 3.3648100257145357,
+     "dd": 0.36798916584088504,
+     "trades": 1897,
+     "missed": 182
+    },
+    {
+     "seed": 111875,
+     "cagr": 3.715882101299912,
+     "dd": 0.37828257911398055,
+     "trades": 1877,
+     "missed": 203
+    },
+    {
+     "seed": 119794,
+     "cagr": 3.292473414180269,
+     "dd": 0.36590738805323186,
+     "trades": 1896,
+     "missed": 206
+    },
+    {
+     "seed": 127713,
+     "cagr": 3.6167075745564388,
+     "dd": 0.3563842494657803,
+     "trades": 1897,
+     "missed": 217
+    },
+    {
+     "seed": 135632,
+     "cagr": 3.3638095514719293,
+     "dd": 0.3943007968744716,
+     "trades": 1891,
+     "missed": 186
+    },
+    {
+     "seed": 143551,
+     "cagr": 3.291634739128221,
+     "dd": 0.37133264468570526,
+     "trades": 1893,
+     "missed": 206
+    },
+    {
+     "seed": 151470,
+     "cagr": 3.2908781162484075,
+     "dd": 0.3669428634398265,
+     "trades": 1890,
+     "missed": 240
+    }
+   ],
+   "R105": [
+    {
+     "seed": 1009,
+     "cagr": 3.936539099544089,
+     "dd": 0.38123018433099654,
+     "trades": 1881,
+     "missed": 228
+    },
+    {
+     "seed": 8928,
+     "cagr": 3.691877667847142,
+     "dd": 0.41862812805017446,
+     "trades": 1887,
+     "missed": 214
+    },
+    {
+     "seed": 16847,
+     "cagr": 3.8582889294616534,
+     "dd": 0.39720453128222044,
+     "trades": 1883,
+     "missed": 224
+    },
+    {
+     "seed": 24766,
+     "cagr": 3.7188085422961334,
+     "dd": 0.373102927045212,
+     "trades": 1887,
+     "missed": 208
+    },
+    {
+     "seed": 32685,
+     "cagr": 3.7421121092716385,
+     "dd": 0.3670678656674301,
+     "trades": 1873,
+     "missed": 224
+    },
+    {
+     "seed": 40604,
+     "cagr": 3.514683284128166,
+     "dd": 0.38610458647633283,
+     "trades": 1898,
+     "missed": 203
+    },
+    {
+     "seed": 48523,
+     "cagr": 3.801907298625432,
+     "dd": 0.36857570745105606,
+     "trades": 1883,
+     "missed": 216
+    },
+    {
+     "seed": 56442,
+     "cagr": 3.5507623969772517,
+     "dd": 0.3776135171840057,
+     "trades": 1890,
+     "missed": 228
+    },
+    {
+     "seed": 64361,
+     "cagr": 3.415492892186874,
+     "dd": 0.3745391334084721,
+     "trades": 1888,
+     "missed": 238
+    },
+    {
+     "seed": 72280,
+     "cagr": 3.9195911954980964,
+     "dd": 0.3780383776519015,
+     "trades": 1889,
+     "missed": 201
+    },
+    {
+     "seed": 80199,
+     "cagr": 3.559245497959391,
+     "dd": 0.38634346480452497,
+     "trades": 1895,
+     "missed": 217
+    },
+    {
+     "seed": 88118,
+     "cagr": 3.7405145981505665,
+     "dd": 0.37635297489365926,
+     "trades": 1896,
+     "missed": 203
+    },
+    {
+     "seed": 96037,
+     "cagr": 3.429214826125194,
+     "dd": 0.39707459160556957,
+     "trades": 1902,
+     "missed": 231
+    },
+    {
+     "seed": 103956,
+     "cagr": 3.596989387915418,
+     "dd": 0.382658703517203,
+     "trades": 1897,
+     "missed": 182
+    },
+    {
+     "seed": 111875,
+     "cagr": 3.8886230770803882,
+     "dd": 0.3925865489475796,
+     "trades": 1877,
+     "missed": 203
+    },
+    {
+     "seed": 119794,
+     "cagr": 3.502382118832954,
+     "dd": 0.38049852331708767,
+     "trades": 1896,
+     "missed": 206
+    },
+    {
+     "seed": 127713,
+     "cagr": 3.758235830564243,
+     "dd": 0.37205585858508117,
+     "trades": 1897,
+     "missed": 217
+    },
+    {
+     "seed": 135632,
+     "cagr": 3.559704424003324,
+     "dd": 0.4079431207921381,
+     "trades": 1891,
+     "missed": 186
+    },
+    {
+     "seed": 143551,
+     "cagr": 3.493181397770024,
+     "dd": 0.3857231385194161,
+     "trades": 1893,
+     "missed": 206
+    },
+    {
+     "seed": 151470,
+     "cagr": 3.492665257955082,
+     "dd": 0.3802304227484894,
+     "trades": 1890,
+     "missed": 240
+    }
+   ],
+   "R111": [
+    {
+     "seed": 1009,
+     "cagr": 4.05118476057007,
+     "dd": 0.3976992722479551,
+     "trades": 1881,
+     "missed": 228
+    },
+    {
+     "seed": 8928,
+     "cagr": 3.8575000953427745,
+     "dd": 0.43511675334297595,
+     "trades": 1887,
+     "missed": 214
+    },
+    {
+     "seed": 16847,
+     "cagr": 4.183204763246341,
+     "dd": 0.3672774767043062,
+     "trades": 1883,
+     "missed": 224
+    },
+    {
+     "seed": 24766,
+     "cagr": 3.9815966048883356,
+     "dd": 0.3796149012795772,
+     "trades": 1887,
+     "missed": 208
+    },
+    {
+     "seed": 32685,
+     "cagr": 4.067603212881684,
+     "dd": 0.37879509281708645,
+     "trades": 1873,
+     "missed": 224
+    },
+    {
+     "seed": 40604,
+     "cagr": 3.702177094657335,
+     "dd": 0.40294014511285403,
+     "trades": 1898,
+     "missed": 203
+    },
+    {
+     "seed": 48523,
+     "cagr": 4.009616305234788,
+     "dd": 0.3849384997324756,
+     "trades": 1883,
+     "missed": 216
+    },
+    {
+     "seed": 56442,
+     "cagr": 3.603407143808064,
+     "dd": 0.3945239693166084,
+     "trades": 1890,
+     "missed": 228
+    },
+    {
+     "seed": 64361,
+     "cagr": 3.692385256887089,
+     "dd": 0.3897135182531092,
+     "trades": 1888,
+     "missed": 238
+    },
+    {
+     "seed": 72280,
+     "cagr": 4.283438579217274,
+     "dd": 0.3893338514263447,
+     "trades": 1889,
+     "missed": 201
+    },
+    {
+     "seed": 80199,
+     "cagr": 3.8308133057123017,
+     "dd": 0.40088468564349167,
+     "trades": 1895,
+     "missed": 217
+    },
+    {
+     "seed": 88118,
+     "cagr": 4.029455504912305,
+     "dd": 0.39286955502769205,
+     "trades": 1896,
+     "missed": 203
+    },
+    {
+     "seed": 96037,
+     "cagr": 3.670472352211367,
+     "dd": 0.415007636253544,
+     "trades": 1902,
+     "missed": 231
+    },
+    {
+     "seed": 103956,
+     "cagr": 3.906116643274464,
+     "dd": 0.39845741316390193,
+     "trades": 1897,
+     "missed": 182
+    },
+    {
+     "seed": 111875,
+     "cagr": 4.014563285734809,
+     "dd": 0.40864147244332394,
+     "trades": 1877,
+     "missed": 203
+    },
+    {
+     "seed": 119794,
+     "cagr": 3.7781726429906017,
+     "dd": 0.3953118903039674,
+     "trades": 1896,
+     "missed": 206
+    },
+    {
+     "seed": 127713,
+     "cagr": 3.88634941127801,
+     "dd": 0.3859763478808623,
+     "trades": 1897,
+     "missed": 217
+    },
+    {
+     "seed": 135632,
+     "cagr": 3.84569634530048,
+     "dd": 0.4248356100119327,
+     "trades": 1891,
+     "missed": 186
+    },
+    {
+     "seed": 143551,
+     "cagr": 3.7678097328764695,
+     "dd": 0.4009461110791276,
+     "trades": 1893,
+     "missed": 206
+    },
+    {
+     "seed": 151470,
+     "cagr": 3.6930341895967578,
+     "dd": 0.3966221672676963,
+     "trades": 1890,
+     "missed": 240
+    }
+   ]
+  },
+  "07b miss 0.1 paired|A|full": {
+   "TRI": [
+    {
+     "seed": 1009,
+     "cagr": 5.204274802020937,
+     "dd": 0.5426222550962964,
+     "trades": 3708,
+     "missed": 0
+    },
+    {
+     "seed": 8928,
+     "cagr": 5.152130314272541,
+     "dd": 0.5342019009244335,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 16847,
+     "cagr": 5.565536780028443,
+     "dd": 0.5608215537385868,
+     "trades": 3689,
+     "missed": 0
+    },
+    {
+     "seed": 24766,
+     "cagr": 4.642753820570252,
+     "dd": 0.5625672305902465,
+     "trades": 3690,
+     "missed": 0
+    },
+    {
+     "seed": 32685,
+     "cagr": 4.896740488505445,
+     "dd": 0.5535043988934929,
+     "trades": 3708,
+     "missed": 0
+    },
+    {
+     "seed": 40604,
+     "cagr": 5.189952037307756,
+     "dd": 0.5520186395072568,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 48523,
+     "cagr": 4.9769543767380835,
+     "dd": 0.5480390916748028,
+     "trades": 3706,
+     "missed": 0
+    },
+    {
+     "seed": 56442,
+     "cagr": 5.23149196126165,
+     "dd": 0.5405054497217484,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 64361,
+     "cagr": 5.5518405136039375,
+     "dd": 0.5390524651172166,
+     "trades": 3689,
+     "missed": 0
+    },
+    {
+     "seed": 72280,
+     "cagr": 5.737329944069352,
+     "dd": 0.5515754836888549,
+     "trades": 3663,
+     "missed": 0
+    },
+    {
+     "seed": 80199,
+     "cagr": 4.98413914128934,
+     "dd": 0.5498319417453732,
+     "trades": 3705,
+     "missed": 0
+    },
+    {
+     "seed": 88118,
+     "cagr": 5.175601226465361,
+     "dd": 0.5358551425057811,
+     "trades": 3712,
+     "missed": 0
+    },
+    {
+     "seed": 96037,
+     "cagr": 5.315801769558096,
+     "dd": 0.5452092004744472,
+     "trades": 3692,
+     "missed": 0
+    },
+    {
+     "seed": 103956,
+     "cagr": 4.371231769488153,
+     "dd": 0.5707900860234887,
+     "trades": 3699,
+     "missed": 0
+    },
+    {
+     "seed": 111875,
+     "cagr": 5.226234532603856,
+     "dd": 0.5576344067163359,
+     "trades": 3699,
+     "missed": 0
+    },
+    {
+     "seed": 119794,
+     "cagr": 5.377807169638168,
+     "dd": 0.521290945441929,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 127713,
+     "cagr": 5.004277251226758,
+     "dd": 0.5354364265007274,
+     "trades": 3661,
+     "missed": 0
+    },
+    {
+     "seed": 135632,
+     "cagr": 5.087543146292264,
+     "dd": 0.5955373631210702,
+     "trades": 3701,
+     "missed": 0
+    },
+    {
+     "seed": 143551,
+     "cagr": 5.058142129827255,
+     "dd": 0.5300570652098403,
+     "trades": 3701,
+     "missed": 0
+    },
+    {
+     "seed": 151470,
+     "cagr": 5.244942070982197,
+     "dd": 0.5472111157174974,
+     "trades": 3695,
+     "missed": 0
+    }
+   ],
+   "R100": [
+    {
+     "seed": 1009,
+     "cagr": 4.7994299325850385,
+     "dd": 0.4646709773795705,
+     "trades": 3708,
+     "missed": 0
+    },
+    {
+     "seed": 8928,
+     "cagr": 4.746393391140857,
+     "dd": 0.4570903628645172,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 16847,
+     "cagr": 4.936562324840215,
+     "dd": 0.5040743023196879,
+     "trades": 3689,
+     "missed": 0
+    },
+    {
+     "seed": 24766,
+     "cagr": 4.207150959439783,
+     "dd": 0.49701177617088366,
+     "trades": 3690,
+     "missed": 0
+    },
+    {
+     "seed": 32685,
+     "cagr": 4.578846682162652,
+     "dd": 0.46717415296921716,
+     "trades": 3708,
+     "missed": 0
+    },
+    {
+     "seed": 40604,
+     "cagr": 4.761350427903791,
+     "dd": 0.46672363487843205,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 48523,
+     "cagr": 4.667969249397312,
+     "dd": 0.4702258300065677,
+     "trades": 3706,
+     "missed": 0
+    },
+    {
+     "seed": 56442,
+     "cagr": 4.745655144849511,
+     "dd": 0.4623174128174401,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 64361,
+     "cagr": 4.998385950522463,
+     "dd": 0.4610332172129381,
+     "trades": 3689,
+     "missed": 0
+    },
+    {
+     "seed": 72280,
+     "cagr": 5.190810556837557,
+     "dd": 0.44811245190470184,
+     "trades": 3663,
+     "missed": 0
+    },
+    {
+     "seed": 80199,
+     "cagr": 4.558440016785729,
+     "dd": 0.463020026876777,
+     "trades": 3705,
+     "missed": 0
+    },
+    {
+     "seed": 88118,
+     "cagr": 4.844907707531502,
+     "dd": 0.4653068985645532,
+     "trades": 3712,
+     "missed": 0
+    },
+    {
+     "seed": 96037,
+     "cagr": 4.810157458689954,
+     "dd": 0.45983309627722746,
+     "trades": 3692,
+     "missed": 0
+    },
+    {
+     "seed": 103956,
+     "cagr": 3.9185790029642007,
+     "dd": 0.4843314012779104,
+     "trades": 3699,
+     "missed": 0
+    },
+    {
+     "seed": 111875,
+     "cagr": 4.770524938405861,
+     "dd": 0.47871535951208044,
+     "trades": 3699,
+     "missed": 0
+    },
+    {
+     "seed": 119794,
+     "cagr": 4.908602971854823,
+     "dd": 0.45050240513213435,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 127713,
+     "cagr": 4.4970822176429275,
+     "dd": 0.4567158854767013,
+     "trades": 3661,
+     "missed": 0
+    },
+    {
+     "seed": 135632,
+     "cagr": 4.728626210728939,
+     "dd": 0.5399865357361283,
+     "trades": 3701,
+     "missed": 0
+    },
+    {
+     "seed": 143551,
+     "cagr": 4.734727944977774,
+     "dd": 0.4750171862479501,
+     "trades": 3701,
+     "missed": 0
+    },
+    {
+     "seed": 151470,
+     "cagr": 4.85835627151004,
+     "dd": 0.44969135013660366,
+     "trades": 3695,
+     "missed": 0
+    }
+   ],
+   "R105": [
+    {
+     "seed": 1009,
+     "cagr": 5.142490457192769,
+     "dd": 0.48090051308313086,
+     "trades": 3708,
+     "missed": 0
+    },
+    {
+     "seed": 8928,
+     "cagr": 5.080611521084918,
+     "dd": 0.470553064752521,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 16847,
+     "cagr": 5.29290146703295,
+     "dd": 0.5231314180321227,
+     "trades": 3689,
+     "missed": 0
+    },
+    {
+     "seed": 24766,
+     "cagr": 4.49735652932173,
+     "dd": 0.5158774893935458,
+     "trades": 3690,
+     "missed": 0
+    },
+    {
+     "seed": 32685,
+     "cagr": 4.907233819792911,
+     "dd": 0.48334912185707457,
+     "trades": 3708,
+     "missed": 0
+    },
+    {
+     "seed": 40604,
+     "cagr": 5.097562926590822,
+     "dd": 0.48292317103965654,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 48523,
+     "cagr": 4.999461965060221,
+     "dd": 0.48879356866395585,
+     "trades": 3706,
+     "missed": 0
+    },
+    {
+     "seed": 56442,
+     "cagr": 5.078602265726915,
+     "dd": 0.4784430136126182,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 64361,
+     "cagr": 5.36223709924074,
+     "dd": 0.4746959357630022,
+     "trades": 3689,
+     "missed": 0
+    },
+    {
+     "seed": 72280,
+     "cagr": 5.572444082461801,
+     "dd": 0.46446562064621555,
+     "trades": 3663,
+     "missed": 0
+    },
+    {
+     "seed": 80199,
+     "cagr": 4.8747869661135965,
+     "dd": 0.4765138284595931,
+     "trades": 3705,
+     "missed": 0
+    },
+    {
+     "seed": 88118,
+     "cagr": 5.186347188629737,
+     "dd": 0.4789310517162203,
+     "trades": 3712,
+     "missed": 0
+    },
+    {
+     "seed": 96037,
+     "cagr": 5.153394135680447,
+     "dd": 0.4735940036345203,
+     "trades": 3692,
+     "missed": 0
+    },
+    {
+     "seed": 103956,
+     "cagr": 4.179455842278267,
+     "dd": 0.501063190605195,
+     "trades": 3699,
+     "missed": 0
+    },
+    {
+     "seed": 111875,
+     "cagr": 5.106621310079702,
+     "dd": 0.49510399022710816,
+     "trades": 3699,
+     "missed": 0
+    },
+    {
+     "seed": 119794,
+     "cagr": 5.2653362153867365,
+     "dd": 0.46436079366305216,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 127713,
+     "cagr": 4.821433709256807,
+     "dd": 0.47025813550559814,
+     "trades": 3661,
+     "missed": 0
+    },
+    {
+     "seed": 135632,
+     "cagr": 5.061919460518484,
+     "dd": 0.5592056577554729,
+     "trades": 3701,
+     "missed": 0
+    },
+    {
+     "seed": 143551,
+     "cagr": 5.066561627717393,
+     "dd": 0.49400640053982625,
+     "trades": 3701,
+     "missed": 0
+    },
+    {
+     "seed": 151470,
+     "cagr": 5.205001993364672,
+     "dd": 0.4654253371940156,
+     "trades": 3695,
+     "missed": 0
+    }
+   ],
+   "R111": [
+    {
+     "seed": 1009,
+     "cagr": 5.56378149082014,
+     "dd": 0.4997472441972375,
+     "trades": 3708,
+     "missed": 0
+    },
+    {
+     "seed": 8928,
+     "cagr": 5.4901238463230095,
+     "dd": 0.4864320438236057,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 16847,
+     "cagr": 5.730982628622539,
+     "dd": 0.5452836212828756,
+     "trades": 3689,
+     "missed": 0
+    },
+    {
+     "seed": 24766,
+     "cagr": 4.8521348140498555,
+     "dd": 0.537822584390959,
+     "trades": 3690,
+     "missed": 0
+    },
+    {
+     "seed": 32685,
+     "cagr": 5.310570454855108,
+     "dd": 0.5021225988847722,
+     "trades": 3708,
+     "missed": 0
+    },
+    {
+     "seed": 40604,
+     "cagr": 5.509686879239737,
+     "dd": 0.5017279910368705,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 48523,
+     "cagr": 5.40604109750209,
+     "dd": 0.5104779968315709,
+     "trades": 3706,
+     "missed": 0
+    },
+    {
+     "seed": 56442,
+     "cagr": 5.486324893198651,
+     "dd": 0.4988514373849472,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 64361,
+     "cagr": 5.810103245238034,
+     "dd": 0.49616112913152466,
+     "trades": 3689,
+     "missed": 0
+    },
+    {
+     "seed": 72280,
+     "cagr": 6.042710901881791,
+     "dd": 0.4835146037595852,
+     "trades": 3663,
+     "missed": 0
+    },
+    {
+     "seed": 80199,
+     "cagr": 5.261795769592863,
+     "dd": 0.49364084398477914,
+     "trades": 3705,
+     "missed": 0
+    },
+    {
+     "seed": 88118,
+     "cagr": 5.604625247847706,
+     "dd": 0.49538354947817587,
+     "trades": 3712,
+     "missed": 0
+    },
+    {
+     "seed": 96037,
+     "cagr": 5.574822313224608,
+     "dd": 0.4895998837426092,
+     "trades": 3692,
+     "missed": 0
+    },
+    {
+     "seed": 103956,
+     "cagr": 4.497013158287139,
+     "dd": 0.5215904552522741,
+     "trades": 3699,
+     "missed": 0
+    },
+    {
+     "seed": 111875,
+     "cagr": 5.518432255791186,
+     "dd": 0.5162042640155461,
+     "trades": 3699,
+     "missed": 0
+    },
+    {
+     "seed": 119794,
+     "cagr": 5.704256460410555,
+     "dd": 0.4826082489703186,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 127713,
+     "cagr": 5.220301051707436,
+     "dd": 0.48599162121612605,
+     "trades": 3661,
+     "missed": 0
+    },
+    {
+     "seed": 135632,
+     "cagr": 5.470352829605338,
+     "dd": 0.5814349191466781,
+     "trades": 3701,
+     "missed": 0
+    },
+    {
+     "seed": 143551,
+     "cagr": 5.472968489440266,
+     "dd": 0.5161801460231088,
+     "trades": 3701,
+     "missed": 0
+    },
+    {
+     "seed": 151470,
+     "cagr": 5.630415631016879,
+     "dd": 0.48372254448687335,
+     "trades": 3695,
+     "missed": 0
+    }
+   ]
+  },
+  "07b miss 0.1 paired|A|24-26": {
+   "TRI": [
+    {
+     "seed": 1009,
+     "cagr": 6.3328381030117376,
+     "dd": 0.5426222550682791,
+     "trades": 1900,
+     "missed": 0
+    },
+    {
+     "seed": 8928,
+     "cagr": 5.484127057117891,
+     "dd": 0.5342019008844487,
+     "trades": 1899,
+     "missed": 0
+    },
+    {
+     "seed": 16847,
+     "cagr": 6.204423952488629,
+     "dd": 0.5361900172517264,
+     "trades": 1884,
+     "missed": 0
+    },
+    {
+     "seed": 24766,
+     "cagr": 4.762947693421618,
+     "dd": 0.5307622369477352,
+     "trades": 1890,
+     "missed": 0
+    },
+    {
+     "seed": 32685,
+     "cagr": 5.518092720036256,
+     "dd": 0.5230112381327788,
+     "trades": 1898,
+     "missed": 0
+    },
+    {
+     "seed": 40604,
+     "cagr": 5.709388701150475,
+     "dd": 0.5520186394761071,
+     "trades": 1888,
+     "missed": 0
+    },
+    {
+     "seed": 48523,
+     "cagr": 5.340630632581266,
+     "dd": 0.5480390916721463,
+     "trades": 1904,
+     "missed": 0
+    },
+    {
+     "seed": 56442,
+     "cagr": 6.115119486194563,
+     "dd": 0.5251998736595143,
+     "trades": 1885,
+     "missed": 0
+    },
+    {
+     "seed": 64361,
+     "cagr": 6.358938142357108,
+     "dd": 0.5286637637367596,
+     "trades": 1877,
+     "missed": 0
+    },
+    {
+     "seed": 72280,
+     "cagr": 6.668055335244744,
+     "dd": 0.5463675530186627,
+     "trades": 1883,
+     "missed": 0
+    },
+    {
+     "seed": 80199,
+     "cagr": 5.926804600911457,
+     "dd": 0.5498319417093209,
+     "trades": 1891,
+     "missed": 0
+    },
+    {
+     "seed": 88118,
+     "cagr": 5.792263378557884,
+     "dd": 0.5358551425002693,
+     "trades": 1895,
+     "missed": 0
+    },
+    {
+     "seed": 96037,
+     "cagr": 6.211760995713556,
+     "dd": 0.5452092004407588,
+     "trades": 1900,
+     "missed": 0
+    },
+    {
+     "seed": 103956,
+     "cagr": 5.339453424432418,
+     "dd": 0.5495492829914947,
+     "trades": 1879,
+     "missed": 0
+    },
+    {
+     "seed": 111875,
+     "cagr": 6.02398225632374,
+     "dd": 0.5276750265671761,
+     "trades": 1883,
+     "missed": 0
+    },
+    {
+     "seed": 119794,
+     "cagr": 6.699581679257991,
+     "dd": 0.5166692853592418,
+     "trades": 1877,
+     "missed": 0
+    },
+    {
+     "seed": 127713,
+     "cagr": 5.473001475970246,
+     "dd": 0.5354364265007274,
+     "trades": 1866,
+     "missed": 0
+    },
+    {
+     "seed": 135632,
+     "cagr": 6.073733377933744,
+     "dd": 0.5426185235061756,
+     "trades": 1889,
+     "missed": 0
+    },
+    {
+     "seed": 143551,
+     "cagr": 5.50285875361362,
+     "dd": 0.5300570652098404,
+     "trades": 1898,
+     "missed": 0
+    },
+    {
+     "seed": 151470,
+     "cagr": 6.222561939589858,
+     "dd": 0.5472111157272969,
+     "trades": 1883,
+     "missed": 0
+    }
+   ],
+   "R100": [
+    {
+     "seed": 1009,
+     "cagr": 5.763723446463831,
+     "dd": 0.4541230736554098,
+     "trades": 1900,
+     "missed": 0
+    },
+    {
+     "seed": 8928,
+     "cagr": 5.255906350299454,
+     "dd": 0.457090362864517,
+     "trades": 1899,
+     "missed": 0
+    },
+    {
+     "seed": 16847,
+     "cagr": 5.647217647443083,
+     "dd": 0.4712135213122173,
+     "trades": 1884,
+     "missed": 0
+    },
+    {
+     "seed": 24766,
+     "cagr": 4.354724082954675,
+     "dd": 0.44806495529577384,
+     "trades": 1890,
+     "missed": 0
+    },
+    {
+     "seed": 32685,
+     "cagr": 5.275116563318157,
+     "dd": 0.458537978883518,
+     "trades": 1898,
+     "missed": 0
+    },
+    {
+     "seed": 40604,
+     "cagr": 5.273217546684882,
+     "dd": 0.4506714854639535,
+     "trades": 1888,
+     "missed": 0
+    },
+    {
+     "seed": 48523,
+     "cagr": 5.175379395700327,
+     "dd": 0.450450389748708,
+     "trades": 1904,
+     "missed": 0
+    },
+    {
+     "seed": 56442,
+     "cagr": 5.524937122985444,
+     "dd": 0.4522882249558259,
+     "trades": 1885,
+     "missed": 0
+    },
+    {
+     "seed": 64361,
+     "cagr": 5.605548550959037,
+     "dd": 0.46103321721293833,
+     "trades": 1877,
+     "missed": 0
+    },
+    {
+     "seed": 72280,
+     "cagr": 6.117047721127667,
+     "dd": 0.42696785202963783,
+     "trades": 1883,
+     "missed": 0
+    },
+    {
+     "seed": 80199,
+     "cagr": 5.42565812320897,
+     "dd": 0.46302002687677724,
+     "trades": 1891,
+     "missed": 0
+    },
+    {
+     "seed": 88118,
+     "cagr": 5.536857824437741,
+     "dd": 0.4653068985645532,
+     "trades": 1895,
+     "missed": 0
+    },
+    {
+     "seed": 96037,
+     "cagr": 5.6037160446991505,
+     "dd": 0.45983309627722735,
+     "trades": 1900,
+     "missed": 0
+    },
+    {
+     "seed": 103956,
+     "cagr": 4.6591661551599,
+     "dd": 0.44963603394577656,
+     "trades": 1879,
+     "missed": 0
+    },
+    {
+     "seed": 111875,
+     "cagr": 5.476903785203637,
+     "dd": 0.45498161663218417,
+     "trades": 1883,
+     "missed": 0
+    },
+    {
+     "seed": 119794,
+     "cagr": 6.19278968753628,
+     "dd": 0.45050240513213446,
+     "trades": 1877,
+     "missed": 0
+    },
+    {
+     "seed": 127713,
+     "cagr": 5.006252027173346,
+     "dd": 0.4567158854767015,
+     "trades": 1866,
+     "missed": 0
+    },
+    {
+     "seed": 135632,
+     "cagr": 5.71894186169075,
+     "dd": 0.4650033048972997,
+     "trades": 1889,
+     "missed": 0
+    },
+    {
+     "seed": 143551,
+     "cagr": 5.256299602317013,
+     "dd": 0.4542970289916409,
+     "trades": 1898,
+     "missed": 0
+    },
+    {
+     "seed": 151470,
+     "cagr": 5.772079033627768,
+     "dd": 0.44678606690034817,
+     "trades": 1883,
+     "missed": 0
+    }
+   ],
+   "R105": [
+    {
+     "seed": 1009,
+     "cagr": 6.184105568852961,
+     "dd": 0.4675079214768516,
+     "trades": 1900,
+     "missed": 0
+    },
+    {
+     "seed": 8928,
+     "cagr": 5.619491891255969,
+     "dd": 0.4705530647525207,
+     "trades": 1899,
+     "missed": 0
+    },
+    {
+     "seed": 16847,
+     "cagr": 6.05825082728282,
+     "dd": 0.48474416251853103,
+     "trades": 1884,
+     "missed": 0
+    },
+    {
+     "seed": 24766,
+     "cagr": 4.6527060540292045,
+     "dd": 0.4615931369864924,
+     "trades": 1890,
+     "missed": 0
+    },
+    {
+     "seed": 32685,
+     "cagr": 5.66274203119071,
+     "dd": 0.47199064882407193,
+     "trades": 1898,
+     "missed": 0
+    },
+    {
+     "seed": 40604,
+     "cagr": 5.640698254771273,
+     "dd": 0.46403356006940044,
+     "trades": 1888,
+     "missed": 0
+    },
+    {
+     "seed": 48523,
+     "cagr": 5.547322834827773,
+     "dd": 0.463802308553648,
+     "trades": 1904,
+     "missed": 0
+    },
+    {
+     "seed": 56442,
+     "cagr": 5.919101732559301,
+     "dd": 0.46568725571062963,
+     "trades": 1885,
+     "missed": 0
+    },
+    {
+     "seed": 64361,
+     "cagr": 6.016567345613684,
+     "dd": 0.47469593576300195,
+     "trades": 1877,
+     "missed": 0
+    },
+    {
+     "seed": 72280,
+     "cagr": 6.57297882025561,
+     "dd": 0.43988422408757544,
+     "trades": 1883,
+     "missed": 0
+    },
+    {
+     "seed": 80199,
+     "cagr": 5.8029570424196235,
+     "dd": 0.47651382845959334,
+     "trades": 1891,
+     "missed": 0
+    },
+    {
+     "seed": 88118,
+     "cagr": 5.93008333883034,
+     "dd": 0.4789310517162204,
+     "trades": 1895,
+     "missed": 0
+    },
+    {
+     "seed": 96037,
+     "cagr": 6.000834431148866,
+     "dd": 0.47359400363452064,
+     "trades": 1900,
+     "missed": 0
+    },
+    {
+     "seed": 103956,
+     "cagr": 4.97937637710929,
+     "dd": 0.4628620355538561,
+     "trades": 1879,
+     "missed": 0
+    },
+    {
+     "seed": 111875,
+     "cagr": 5.864773913263227,
+     "dd": 0.46845784415322156,
+     "trades": 1883,
+     "missed": 0
+    },
+    {
+     "seed": 119794,
+     "cagr": 6.670281137470233,
+     "dd": 0.4641156439063693,
+     "trades": 1877,
+     "missed": 0
+    },
+    {
+     "seed": 127713,
+     "cagr": 5.367209461079124,
+     "dd": 0.47025813550559825,
+     "trades": 1866,
+     "missed": 0
+    },
+    {
+     "seed": 135632,
+     "cagr": 6.136127815186772,
+     "dd": 0.47888200702166206,
+     "trades": 1889,
+     "missed": 0
+    },
+    {
+     "seed": 143551,
+     "cagr": 5.621204414963349,
+     "dd": 0.4677316911941718,
+     "trades": 1898,
+     "missed": 0
+    },
+    {
+     "seed": 151470,
+     "cagr": 6.191204518951844,
+     "dd": 0.46004209889786585,
+     "trades": 1883,
+     "missed": 0
+    }
+   ],
+   "R111": [
+    {
+     "seed": 1009,
+     "cagr": 6.699775555949396,
+     "dd": 0.4830643315576554,
+     "trades": 1900,
+     "missed": 0
+    },
+    {
+     "seed": 8928,
+     "cagr": 6.062317651297494,
+     "dd": 0.48619644542594154,
+     "trades": 1899,
+     "missed": 0
+    },
+    {
+     "seed": 16847,
+     "cagr": 6.56248547964472,
+     "dd": 0.5004450052754553,
+     "trades": 1884,
+     "missed": 0
+    },
+    {
+     "seed": 24766,
+     "cagr": 5.015404804615536,
+     "dd": 0.4773036031729514,
+     "trades": 1890,
+     "missed": 0
+    },
+    {
+     "seed": 32685,
+     "cagr": 6.138859240513205,
+     "dd": 0.48761625872818926,
+     "trades": 1898,
+     "missed": 0
+    },
+    {
+     "seed": 40604,
+     "cagr": 6.089042045751124,
+     "dd": 0.4795729318537052,
+     "trades": 1888,
+     "missed": 0
+    },
+    {
+     "seed": 48523,
+     "cagr": 6.002679434809577,
+     "dd": 0.47932885285772464,
+     "trades": 1904,
+     "missed": 0
+    },
+    {
+     "seed": 56442,
+     "cagr": 6.401254695225254,
+     "dd": 0.4812671457200347,
+     "trades": 1885,
+     "missed": 0
+    },
+    {
+     "seed": 64361,
+     "cagr": 6.521614651373958,
+     "dd": 0.49056695791885563,
+     "trades": 1877,
+     "missed": 0
+    },
+    {
+     "seed": 72280,
+     "cagr": 7.133897863930592,
+     "dd": 0.4551415618485043,
+     "trades": 1883,
+     "missed": 0
+    },
+    {
+     "seed": 80199,
+     "cagr": 6.262701448676757,
+     "dd": 0.492193285161605,
+     "trades": 1891,
+     "missed": 0
+    },
+    {
+     "seed": 88118,
+     "cagr": 6.410740017847167,
+     "dd": 0.49475673403165854,
+     "trades": 1895,
+     "missed": 0
+    },
+    {
+     "seed": 96037,
+     "cagr": 6.486119000147656,
+     "dd": 0.48959988374260865,
+     "trades": 1900,
+     "missed": 0
+    },
+    {
+     "seed": 103956,
+     "cagr": 5.369085219359695,
+     "dd": 0.47823463356700413,
+     "trades": 1879,
+     "missed": 0
+    },
+    {
+     "seed": 111875,
+     "cagr": 6.338778655019536,
+     "dd": 0.48411735567894376,
+     "trades": 1883,
+     "missed": 0
+    },
+    {
+     "seed": 119794,
+     "cagr": 7.260523975900691,
+     "dd": 0.4799270627643466,
+     "trades": 1877,
+     "missed": 0
+    },
+    {
+     "seed": 127713,
+     "cagr": 5.809614592123872,
+     "dd": 0.48599162121612627,
+     "trades": 1866,
+     "missed": 0
+    },
+    {
+     "seed": 135632,
+     "cagr": 6.648169958214754,
+     "dd": 0.495014791536845,
+     "trades": 1889,
+     "missed": 0
+    },
+    {
+     "seed": 143551,
+     "cagr": 6.066057089843749,
+     "dd": 0.4833490534048641,
+     "trades": 1898,
+     "missed": 0
+    },
+    {
+     "seed": 151470,
+     "cagr": 6.7050079470636295,
+     "dd": 0.47546139279950095,
+     "trades": 1883,
+     "missed": 0
+    }
+   ]
+  },
+  "07b miss 0.1 paired|B|full": {
+   "TRI": [
+    {
+     "seed": 1009,
+     "cagr": 1.804686320679465,
+     "dd": 0.4094776203440208,
+     "trades": 3708,
+     "missed": 0
+    },
+    {
+     "seed": 8928,
+     "cagr": 1.8063003517095693,
+     "dd": 0.4310817010368502,
+     "trades": 3698,
+     "missed": 0
+    },
+    {
+     "seed": 16847,
+     "cagr": 1.8174649609031333,
+     "dd": 0.4091371376771554,
+     "trades": 3691,
+     "missed": 0
+    },
+    {
+     "seed": 24766,
+     "cagr": 1.7291666067830302,
+     "dd": 0.409248036523872,
+     "trades": 3693,
+     "missed": 0
+    },
+    {
+     "seed": 32685,
+     "cagr": 1.7558202730600616,
+     "dd": 0.4532765917320404,
+     "trades": 3710,
+     "missed": 0
+    },
+    {
+     "seed": 40604,
+     "cagr": 1.8101663283102276,
+     "dd": 0.4216861422187844,
+     "trades": 3698,
+     "missed": 0
+    },
+    {
+     "seed": 48523,
+     "cagr": 1.7683148900022485,
+     "dd": 0.41834989384832133,
+     "trades": 3707,
+     "missed": 0
+    },
+    {
+     "seed": 56442,
+     "cagr": 1.8056093887708915,
+     "dd": 0.42865107334582864,
+     "trades": 3692,
+     "missed": 0
+    },
+    {
+     "seed": 64361,
+     "cagr": 1.817100720737932,
+     "dd": 0.4462818861627006,
+     "trades": 3691,
+     "missed": 0
+    },
+    {
+     "seed": 72280,
+     "cagr": 1.8303773573919302,
+     "dd": 0.4076118034678293,
+     "trades": 3665,
+     "missed": 0
+    },
+    {
+     "seed": 80199,
+     "cagr": 1.7994109997457817,
+     "dd": 0.4242602890887289,
+     "trades": 3706,
+     "missed": 0
+    },
+    {
+     "seed": 88118,
+     "cagr": 1.811344292240054,
+     "dd": 0.4265281562585087,
+     "trades": 3714,
+     "missed": 0
+    },
+    {
+     "seed": 96037,
+     "cagr": 1.8148250600857816,
+     "dd": 0.4266635216767374,
+     "trades": 3694,
+     "missed": 0
+    },
+    {
+     "seed": 103956,
+     "cagr": 1.721205930855842,
+     "dd": 0.41773084420166795,
+     "trades": 3698,
+     "missed": 0
+    },
+    {
+     "seed": 111875,
+     "cagr": 1.8116780876636773,
+     "dd": 0.42378129608234627,
+     "trades": 3700,
+     "missed": 0
+    },
+    {
+     "seed": 119794,
+     "cagr": 1.807188930488778,
+     "dd": 0.42383281159458197,
+     "trades": 3697,
+     "missed": 0
+    },
+    {
+     "seed": 127713,
+     "cagr": 1.7590659831395752,
+     "dd": 0.42745440478054353,
+     "trades": 3664,
+     "missed": 0
+    },
+    {
+     "seed": 135632,
+     "cagr": 1.7941682125578216,
+     "dd": 0.41938553522907995,
+     "trades": 3702,
+     "missed": 0
+    },
+    {
+     "seed": 143551,
+     "cagr": 1.8064952010687847,
+     "dd": 0.4414486158466746,
+     "trades": 3703,
+     "missed": 0
+    },
+    {
+     "seed": 151470,
+     "cagr": 1.8134207299797418,
+     "dd": 0.429827782659424,
+     "trades": 3692,
+     "missed": 0
+    }
+   ],
+   "R100": [
+    {
+     "seed": 1009,
+     "cagr": 1.7773000254901232,
+     "dd": 0.3838832871721678,
+     "trades": 3708,
+     "missed": 0
+    },
+    {
+     "seed": 8928,
+     "cagr": 1.7744046494041714,
+     "dd": 0.40023552005539553,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 16847,
+     "cagr": 1.7810019632954277,
+     "dd": 0.39343633963506797,
+     "trades": 3689,
+     "missed": 0
+    },
+    {
+     "seed": 24766,
+     "cagr": 1.687573413511851,
+     "dd": 0.39054945552221754,
+     "trades": 3690,
+     "missed": 0
+    },
+    {
+     "seed": 32685,
+     "cagr": 1.7299581659594936,
+     "dd": 0.4290494785048732,
+     "trades": 3708,
+     "missed": 0
+    },
+    {
+     "seed": 40604,
+     "cagr": 1.7798717376135191,
+     "dd": 0.40365485611401264,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 48523,
+     "cagr": 1.7394274850878477,
+     "dd": 0.39119454422462685,
+     "trades": 3706,
+     "missed": 0
+    },
+    {
+     "seed": 56442,
+     "cagr": 1.7695578048337706,
+     "dd": 0.4029956357172634,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 64361,
+     "cagr": 1.7911384613212382,
+     "dd": 0.41986409861133056,
+     "trades": 3689,
+     "missed": 0
+    },
+    {
+     "seed": 72280,
+     "cagr": 1.8003506244075065,
+     "dd": 0.3962865723382537,
+     "trades": 3663,
+     "missed": 0
+    },
+    {
+     "seed": 80199,
+     "cagr": 1.7713969012391457,
+     "dd": 0.40950122359610264,
+     "trades": 3705,
+     "missed": 0
+    },
+    {
+     "seed": 88118,
+     "cagr": 1.7838048601657301,
+     "dd": 0.415528723760741,
+     "trades": 3712,
+     "missed": 0
+    },
+    {
+     "seed": 96037,
+     "cagr": 1.7843840333689949,
+     "dd": 0.40176482229156507,
+     "trades": 3692,
+     "missed": 0
+    },
+    {
+     "seed": 103956,
+     "cagr": 1.6856436801273875,
+     "dd": 0.38749451169866633,
+     "trades": 3699,
+     "missed": 0
+    },
+    {
+     "seed": 111875,
+     "cagr": 1.78259499987356,
+     "dd": 0.3963238140505525,
+     "trades": 3699,
+     "missed": 0
+    },
+    {
+     "seed": 119794,
+     "cagr": 1.77670021534925,
+     "dd": 0.41564245301200275,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 127713,
+     "cagr": 1.726993861181168,
+     "dd": 0.39683445815195373,
+     "trades": 3661,
+     "missed": 0
+    },
+    {
+     "seed": 135632,
+     "cagr": 1.7684631883464985,
+     "dd": 0.39603777337712565,
+     "trades": 3701,
+     "missed": 0
+    },
+    {
+     "seed": 143551,
+     "cagr": 1.7789711228338536,
+     "dd": 0.41557184591801677,
+     "trades": 3701,
+     "missed": 0
+    },
+    {
+     "seed": 151470,
+     "cagr": 1.7848804053625384,
+     "dd": 0.4040252017120217,
+     "trades": 3695,
+     "missed": 0
+    }
+   ],
+   "R105": [
+    {
+     "seed": 1009,
+     "cagr": 1.790723018514337,
+     "dd": 0.39536567543456624,
+     "trades": 3708,
+     "missed": 0
+    },
+    {
+     "seed": 8928,
+     "cagr": 1.7875847578376876,
+     "dd": 0.39858510422969695,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 16847,
+     "cagr": 1.7959587890422277,
+     "dd": 0.3899984131135993,
+     "trades": 3689,
+     "missed": 0
+    },
+    {
+     "seed": 24766,
+     "cagr": 1.7071065688116214,
+     "dd": 0.4035813167514253,
+     "trades": 3690,
+     "missed": 0
+    },
+    {
+     "seed": 32685,
+     "cagr": 1.7440957799966759,
+     "dd": 0.4252126972328606,
+     "trades": 3708,
+     "missed": 0
+    },
+    {
+     "seed": 40604,
+     "cagr": 1.7941534163208415,
+     "dd": 0.3996480605675915,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 48523,
+     "cagr": 1.7552117134334915,
+     "dd": 0.40436373663191894,
+     "trades": 3706,
+     "missed": 0
+    },
+    {
+     "seed": 56442,
+     "cagr": 1.784063361276281,
+     "dd": 0.4159242151548699,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 64361,
+     "cagr": 1.8048677394637473,
+     "dd": 0.4187550831589134,
+     "trades": 3689,
+     "missed": 0
+    },
+    {
+     "seed": 72280,
+     "cagr": 1.813929211945529,
+     "dd": 0.4076549679218592,
+     "trades": 3663,
+     "missed": 0
+    },
+    {
+     "seed": 80199,
+     "cagr": 1.7853567659616085,
+     "dd": 0.3963873687527153,
+     "trades": 3705,
+     "missed": 0
+    },
+    {
+     "seed": 88118,
+     "cagr": 1.7968737380492246,
+     "dd": 0.42840702825299937,
+     "trades": 3712,
+     "missed": 0
+    },
+    {
+     "seed": 96037,
+     "cagr": 1.7981015897903578,
+     "dd": 0.4138488155241262,
+     "trades": 3692,
+     "missed": 0
+    },
+    {
+     "seed": 103956,
+     "cagr": 1.7023288662283051,
+     "dd": 0.4007085136222457,
+     "trades": 3699,
+     "missed": 0
+    },
+    {
+     "seed": 111875,
+     "cagr": 1.796942000578241,
+     "dd": 0.4083415231505585,
+     "trades": 3699,
+     "missed": 0
+    },
+    {
+     "seed": 119794,
+     "cagr": 1.7893706429522491,
+     "dd": 0.4163349789463364,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 127713,
+     "cagr": 1.7408766161149973,
+     "dd": 0.41034985392823564,
+     "trades": 3661,
+     "missed": 0
+    },
+    {
+     "seed": 135632,
+     "cagr": 1.7815661481492477,
+     "dd": 0.39823363762152797,
+     "trades": 3701,
+     "missed": 0
+    },
+    {
+     "seed": 143551,
+     "cagr": 1.7926032438448551,
+     "dd": 0.4003417549913817,
+     "trades": 3701,
+     "missed": 0
+    },
+    {
+     "seed": 151470,
+     "cagr": 1.7976173438919862,
+     "dd": 0.41762431364269414,
+     "trades": 3695,
+     "missed": 0
+    }
+   ],
+   "R111": [
+    {
+     "seed": 1009,
+     "cagr": 1.8061390482970516,
+     "dd": 0.39606177792645336,
+     "trades": 3708,
+     "missed": 0
+    },
+    {
+     "seed": 8928,
+     "cagr": 1.8033461708750136,
+     "dd": 0.41216042208244974,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 16847,
+     "cagr": 1.8116720682947096,
+     "dd": 0.4029142424796577,
+     "trades": 3689,
+     "missed": 0
+    },
+    {
+     "seed": 24766,
+     "cagr": 1.7265293047380315,
+     "dd": 0.4191846629961079,
+     "trades": 3690,
+     "missed": 0
+    },
+    {
+     "seed": 32685,
+     "cagr": 1.7600179105595104,
+     "dd": 0.44000120858485325,
+     "trades": 3708,
+     "missed": 0
+    },
+    {
+     "seed": 40604,
+     "cagr": 1.810145231609197,
+     "dd": 0.4138075830342922,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 48523,
+     "cagr": 1.771668111184927,
+     "dd": 0.41910366524403897,
+     "trades": 3706,
+     "missed": 0
+    },
+    {
+     "seed": 56442,
+     "cagr": 1.800891978005962,
+     "dd": 0.43178402148921236,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 64361,
+     "cagr": 1.8204447538561879,
+     "dd": 0.41836694156546284,
+     "trades": 3689,
+     "missed": 0
+    },
+    {
+     "seed": 72280,
+     "cagr": 1.829516208313581,
+     "dd": 0.42292754113712405,
+     "trades": 3663,
+     "missed": 0
+    },
+    {
+     "seed": 80199,
+     "cagr": 1.8000040912758801,
+     "dd": 0.41127242673934605,
+     "trades": 3705,
+     "missed": 0
+    },
+    {
+     "seed": 88118,
+     "cagr": 1.8128217620144875,
+     "dd": 0.42634945409059954,
+     "trades": 3712,
+     "missed": 0
+    },
+    {
+     "seed": 96037,
+     "cagr": 1.8136250756589334,
+     "dd": 0.4127796357948348,
+     "trades": 3692,
+     "missed": 0
+    },
+    {
+     "seed": 103956,
+     "cagr": 1.7206874805472143,
+     "dd": 0.41645745417503166,
+     "trades": 3699,
+     "missed": 0
+    },
+    {
+     "seed": 111875,
+     "cagr": 1.8120955078218488,
+     "dd": 0.4218974263286456,
+     "trades": 3699,
+     "missed": 0
+    },
+    {
+     "seed": 119794,
+     "cagr": 1.8050974161869227,
+     "dd": 0.4308388358983356,
+     "trades": 3696,
+     "missed": 0
+    },
+    {
+     "seed": 127713,
+     "cagr": 1.756626937127773,
+     "dd": 0.40790828049301764,
+     "trades": 3661,
+     "missed": 0
+    },
+    {
+     "seed": 135632,
+     "cagr": 1.7965159623750586,
+     "dd": 0.39534168678321413,
+     "trades": 3701,
+     "missed": 0
+    },
+    {
+     "seed": 143551,
+     "cagr": 1.8087596633678502,
+     "dd": 0.4151802932206734,
+     "trades": 3701,
+     "missed": 0
+    },
+    {
+     "seed": 151470,
+     "cagr": 1.8126782226105833,
+     "dd": 0.40535209457180676,
+     "trades": 3695,
+     "missed": 0
+    }
+   ]
+  },
+  "07b miss 0.1 paired|B|24-26": {
+   "TRI": [
+    {
+     "seed": 1009,
+     "cagr": 3.762117754183862,
+     "dd": 0.5042364477560948,
+     "trades": 1895,
+     "missed": 0
+    },
+    {
+     "seed": 8928,
+     "cagr": 3.606193543886791,
+     "dd": 0.4959214650218715,
+     "trades": 1896,
+     "missed": 0
+    },
+    {
+     "seed": 16847,
+     "cagr": 3.70492197915007,
+     "dd": 0.4664452576368807,
+     "trades": 1879,
+     "missed": 0
+    },
+    {
+     "seed": 24766,
+     "cagr": 3.041943587280656,
+     "dd": 0.47990191185690034,
+     "trades": 1888,
+     "missed": 0
+    },
+    {
+     "seed": 32685,
+     "cagr": 3.450790864486824,
+     "dd": 0.48003386735745046,
+     "trades": 1892,
+     "missed": 0
+    },
+    {
+     "seed": 40604,
+     "cagr": 3.7215789893798625,
+     "dd": 0.5140241815068036,
+     "trades": 1885,
+     "missed": 0
+    },
+    {
+     "seed": 48523,
+     "cagr": 3.4267251728776866,
+     "dd": 0.5071021031566771,
+     "trades": 1900,
+     "missed": 0
+    },
+    {
+     "seed": 56442,
+     "cagr": 3.8161287132713158,
+     "dd": 0.48201839587384443,
+     "trades": 1875,
+     "missed": 0
+    },
+    {
+     "seed": 64361,
+     "cagr": 3.9330545880125483,
+     "dd": 0.49012294369896514,
+     "trades": 1874,
+     "missed": 0
+    },
+    {
+     "seed": 72280,
+     "cagr": 4.135081249095921,
+     "dd": 0.5080555117773036,
+     "trades": 1882,
+     "missed": 0
+    },
+    {
+     "seed": 80199,
+     "cagr": 3.767483157767102,
+     "dd": 0.5125168034310806,
+     "trades": 1890,
+     "missed": 0
+    },
+    {
+     "seed": 88118,
+     "cagr": 3.7475680363327415,
+     "dd": 0.49673178582053,
+     "trades": 1891,
+     "missed": 0
+    },
+    {
+     "seed": 96037,
+     "cagr": 3.9639182792428604,
+     "dd": 0.5101499618908232,
+     "trades": 1897,
+     "missed": 0
+    },
+    {
+     "seed": 103956,
+     "cagr": 3.4075947999962164,
+     "dd": 0.5085293606879281,
+     "trades": 1872,
+     "missed": 0
+    },
+    {
+     "seed": 111875,
+     "cagr": 3.8717770044378224,
+     "dd": 0.48758989558989096,
+     "trades": 1877,
+     "missed": 0
+    },
+    {
+     "seed": 119794,
+     "cagr": 3.9109292132540823,
+     "dd": 0.4796105134151383,
+     "trades": 1872,
+     "missed": 0
+    },
+    {
+     "seed": 127713,
+     "cagr": 3.4371113042427144,
+     "dd": 0.46016059378681606,
+     "trades": 1864,
+     "missed": 0
+    },
+    {
+     "seed": 135632,
+     "cagr": 3.766266586315221,
+     "dd": 0.4946333663179885,
+     "trades": 1884,
+     "missed": 0
+    },
+    {
+     "seed": 143551,
+     "cagr": 3.5103486558030292,
+     "dd": 0.487712368686285,
+     "trades": 1893,
+     "missed": 0
+    },
+    {
+     "seed": 151470,
+     "cagr": 4.012636838479038,
+     "dd": 0.5049835302449934,
+     "trades": 1877,
+     "missed": 0
+    }
+   ],
+   "R100": [
+    {
+     "seed": 1009,
+     "cagr": 3.618536312448775,
+     "dd": 0.38600963525078913,
+     "trades": 1900,
+     "missed": 0
+    },
+    {
+     "seed": 8928,
+     "cagr": 3.412960680839385,
+     "dd": 0.3788729431313014,
+     "trades": 1899,
+     "missed": 0
+    },
+    {
+     "seed": 16847,
+     "cagr": 3.5540310010206024,
+     "dd": 0.3620747951458314,
+     "trades": 1884,
+     "missed": 0
+    },
+    {
+     "seed": 24766,
+     "cagr": 2.843392787578054,
+     "dd": 0.3646053559340371,
+     "trades": 1890,
+     "missed": 0
+    },
+    {
+     "seed": 32685,
+     "cagr": 3.2682973908188924,
+     "dd": 0.3633463060180663,
+     "trades": 1898,
+     "missed": 0
+    },
+    {
+     "seed": 40604,
+     "cagr": 3.4711664705686633,
+     "dd": 0.39489937028449007,
+     "trades": 1888,
+     "missed": 0
+    },
+    {
+     "seed": 48523,
+     "cagr": 3.3028477265039875,
+     "dd": 0.37487973819281406,
+     "trades": 1904,
+     "missed": 0
+    },
+    {
+     "seed": 56442,
+     "cagr": 3.5569035749149007,
+     "dd": 0.37278813477946426,
+     "trades": 1885,
+     "missed": 0
+    },
+    {
+     "seed": 64361,
+     "cagr": 3.5401005701156167,
+     "dd": 0.36619081407550036,
+     "trades": 1877,
+     "missed": 0
+    },
+    {
+     "seed": 72280,
+     "cagr": 3.868154886545053,
+     "dd": 0.3864021119767108,
+     "trades": 1883,
+     "missed": 0
+    },
+    {
+     "seed": 80199,
+     "cagr": 3.4952758016776313,
+     "dd": 0.39638721926673093,
+     "trades": 1891,
+     "missed": 0
+    },
+    {
+     "seed": 88118,
+     "cagr": 3.623736842900062,
+     "dd": 0.36530603048519406,
+     "trades": 1895,
+     "missed": 0
+    },
+    {
+     "seed": 96037,
+     "cagr": 3.586007639549667,
+     "dd": 0.3996653485964392,
+     "trades": 1900,
+     "missed": 0
+    },
+    {
+     "seed": 103956,
+     "cagr": 3.0410499421755723,
+     "dd": 0.3919976709932216,
+     "trades": 1879,
+     "missed": 0
+    },
+    {
+     "seed": 111875,
+     "cagr": 3.530566953218325,
+     "dd": 0.37588049212791574,
+     "trades": 1883,
+     "missed": 0
+    },
+    {
+     "seed": 119794,
+     "cagr": 3.629187044521336,
+     "dd": 0.3674092016952558,
+     "trades": 1877,
+     "missed": 0
+    },
+    {
+     "seed": 127713,
+     "cagr": 3.1843565268039473,
+     "dd": 0.36209892143942457,
+     "trades": 1866,
+     "missed": 0
+    },
+    {
+     "seed": 135632,
+     "cagr": 3.612596426955352,
+     "dd": 0.3820804575922152,
+     "trades": 1889,
+     "missed": 0
+    },
+    {
+     "seed": 143551,
+     "cagr": 3.416396817998762,
+     "dd": 0.3635692215754214,
+     "trades": 1898,
+     "missed": 0
+    },
+    {
+     "seed": 151470,
+     "cagr": 3.6950726660196764,
+     "dd": 0.3876282245886772,
+     "trades": 1883,
+     "missed": 0
+    }
+   ],
+   "R105": [
+    {
+     "seed": 1009,
+     "cagr": 3.6908524038336514,
+     "dd": 0.3716390888045412,
+     "trades": 1900,
+     "missed": 0
+    },
+    {
+     "seed": 8928,
+     "cagr": 3.6419033762600623,
+     "dd": 0.3924919632035261,
+     "trades": 1899,
+     "missed": 0
+    },
+    {
+     "seed": 16847,
+     "cagr": 3.6383805967207925,
+     "dd": 0.37530396866836657,
+     "trades": 1884,
+     "missed": 0
+    },
+    {
+     "seed": 24766,
+     "cagr": 3.0190172565275066,
+     "dd": 0.37888686754905143,
+     "trades": 1890,
+     "missed": 0
+    },
+    {
+     "seed": 32685,
+     "cagr": 3.411548087075934,
+     "dd": 0.376113548348065,
+     "trades": 1898,
+     "missed": 0
+    },
+    {
+     "seed": 40604,
+     "cagr": 3.6996522997534225,
+     "dd": 0.4113861011934301,
+     "trades": 1888,
+     "missed": 0
+    },
+    {
+     "seed": 48523,
+     "cagr": 3.558714617739933,
+     "dd": 0.3892378264949279,
+     "trades": 1904,
+     "missed": 0
+    },
+    {
+     "seed": 56442,
+     "cagr": 3.777649216669089,
+     "dd": 0.3853376623026107,
+     "trades": 1885,
+     "missed": 0
+    },
+    {
+     "seed": 64361,
+     "cagr": 3.788432343423187,
+     "dd": 0.37738373675707815,
+     "trades": 1877,
+     "missed": 0
+    },
+    {
+     "seed": 72280,
+     "cagr": 4.148249195365613,
+     "dd": 0.4002832510668538,
+     "trades": 1883,
+     "missed": 0
+    },
+    {
+     "seed": 80199,
+     "cagr": 3.726107781567337,
+     "dd": 0.41201557107932685,
+     "trades": 1891,
+     "missed": 0
+    },
+    {
+     "seed": 88118,
+     "cagr": 3.7572041103739098,
+     "dd": 0.3812789178935818,
+     "trades": 1895,
+     "missed": 0
+    },
+    {
+     "seed": 96037,
+     "cagr": 3.854509213349796,
+     "dd": 0.41246854862941373,
+     "trades": 1900,
+     "missed": 0
+    },
+    {
+     "seed": 103956,
+     "cagr": 3.2438282366705886,
+     "dd": 0.40453518373041786,
+     "trades": 1879,
+     "missed": 0
+    },
+    {
+     "seed": 111875,
+     "cagr": 3.7836280024887428,
+     "dd": 0.38901613501817056,
+     "trades": 1883,
+     "missed": 0
+    },
+    {
+     "seed": 119794,
+     "cagr": 3.866035550796755,
+     "dd": 0.37951352882665257,
+     "trades": 1877,
+     "missed": 0
+    },
+    {
+     "seed": 127713,
+     "cagr": 3.4110225638236846,
+     "dd": 0.373669179705192,
+     "trades": 1866,
+     "missed": 0
+    },
+    {
+     "seed": 135632,
+     "cagr": 3.852990078087868,
+     "dd": 0.3975013566638945,
+     "trades": 1889,
+     "missed": 0
+    },
+    {
+     "seed": 143551,
+     "cagr": 3.6600704483011173,
+     "dd": 0.3782138781502735,
+     "trades": 1898,
+     "missed": 0
+    },
+    {
+     "seed": 151470,
+     "cagr": 3.9658684444084953,
+     "dd": 0.4008788008807468,
+     "trades": 1883,
+     "missed": 0
+    }
+   ],
+   "R111": [
+    {
+     "seed": 1009,
+     "cagr": 3.9294777681339417,
+     "dd": 0.36659359407728453,
+     "trades": 1900,
+     "missed": 0
+    },
+    {
+     "seed": 8928,
+     "cagr": 3.9472636430369423,
+     "dd": 0.41109758427161225,
+     "trades": 1899,
+     "missed": 0
+    },
+    {
+     "seed": 16847,
+     "cagr": 3.971879917528022,
+     "dd": 0.3691914030703881,
+     "trades": 1884,
+     "missed": 0
+    },
+    {
+     "seed": 24766,
+     "cagr": 3.256186631990249,
+     "dd": 0.39239880052190146,
+     "trades": 1890,
+     "missed": 0
+    },
+    {
+     "seed": 32685,
+     "cagr": 3.603751262677612,
+     "dd": 0.38615880035413963,
+     "trades": 1898,
+     "missed": 0
+    },
+    {
+     "seed": 40604,
+     "cagr": 3.934085478005163,
+     "dd": 0.4262373116922118,
+     "trades": 1888,
+     "missed": 0
+    },
+    {
+     "seed": 48523,
+     "cagr": 3.620180843159667,
+     "dd": 0.40459543782876306,
+     "trades": 1904,
+     "missed": 0
+    },
+    {
+     "seed": 56442,
+     "cagr": 4.088033257722463,
+     "dd": 0.4028202889727369,
+     "trades": 1885,
+     "missed": 0
+    },
+    {
+     "seed": 64361,
+     "cagr": 4.081213719133586,
+     "dd": 0.3917250286555519,
+     "trades": 1877,
+     "missed": 0
+    },
+    {
+     "seed": 72280,
+     "cagr": 4.210176872050609,
+     "dd": 0.41639023318361734,
+     "trades": 1883,
+     "missed": 0
+    },
+    {
+     "seed": 80199,
+     "cagr": 4.075120449030847,
+     "dd": 0.42896864354404685,
+     "trades": 1891,
+     "missed": 0
+    },
+    {
+     "seed": 88118,
+     "cagr": 3.906520674678787,
+     "dd": 0.3820787559349045,
+     "trades": 1895,
+     "missed": 0
+    },
+    {
+     "seed": 96037,
+     "cagr": 4.081538889299679,
+     "dd": 0.4291365977287761,
+     "trades": 1900,
+     "missed": 0
+    },
+    {
+     "seed": 103956,
+     "cagr": 3.4952978446644236,
+     "dd": 0.42196272033473825,
+     "trades": 1879,
+     "missed": 0
+    },
+    {
+     "seed": 111875,
+     "cagr": 4.0016481492428095,
+     "dd": 0.40548675333902984,
+     "trades": 1883,
+     "missed": 0
+    },
+    {
+     "seed": 119794,
+     "cagr": 4.178430939050137,
+     "dd": 0.36096571281232903,
+     "trades": 1877,
+     "missed": 0
+    },
+    {
+     "seed": 127713,
+     "cagr": 3.617092123631375,
+     "dd": 0.3874893166512393,
+     "trades": 1866,
+     "missed": 0
+    },
+    {
+     "seed": 135632,
+     "cagr": 4.190297076404214,
+     "dd": 0.4122246256383165,
+     "trades": 1889,
+     "missed": 0
+    },
+    {
+     "seed": 143551,
+     "cagr": 3.9528036080632045,
+     "dd": 0.39232947306749444,
+     "trades": 1898,
+     "missed": 0
+    },
+    {
+     "seed": 151470,
+     "cagr": 4.043222633699341,
+     "dd": 0.393318774920668,
+     "trades": 1883,
+     "missed": 0
+    }
+   ]
+  }
+ },
+ "bootstrap": {
+  "months": 83,
+  "years": 6.896646132785763,
+  "draws": 1000,
+  "versions": {
+   "R105": {
+    "both": 0.322,
+    "higherEnd": 0.322,
+    "smallerFall": 1,
+    "neither": 0,
+    "medCagrDiff": -0.16353239373502304,
+    "medDdDiff": -0.08274860989913213,
+    "medEndRatio": 0.8405176798441629,
+    "medCagr": 5.569684396226816,
+    "medCagrTRI": 5.751207215984547,
+    "medDd": 0.3800061262212635,
+    "medDdTRI": 0.46638574571420577
+   },
+   "R111": {
+    "both": 0.806,
+    "higherEnd": 0.807,
+    "smallerFall": 0.999,
+    "neither": 0,
+    "medCagrDiff": 0.2749666761405001,
+    "medDdDiff": -0.06461818234974098,
+    "medEndRatio": 1.3441422720676117,
+    "medCagr": 6.042436840659412,
+    "medCagrTRI": 5.751207215984547,
+    "medDd": 0.39820331495756706,
+    "medDdTRI": 0.46638574571420577
+   }
+  }
+ },
+ "unseen": {
+  "from": "2026-11-24T00:00:00.000Z",
+  "to": "2026-11-25T06:00:00.000Z",
+  "windowHours": 30,
+  "hoursWithData": 30,
+  "data": {
+   "SOL": {
+    "last1hClose": "2026-11-25T07:00:00.000Z",
+    "last4hClose": "2026-11-25T04:00:00.000Z",
+    "lastFunding": "2026-11-25T00:00:00.000Z",
+    "h1After": 30,
+    "h4After": 7,
+    "t1": 1795590000,
+    "t4": 1795579200
+   },
+   "ZEC": {
+    "last1hClose": "2026-11-25T07:00:00.000Z",
+    "last4hClose": "2026-11-25T04:00:00.000Z",
+    "lastFunding": "2026-11-25T00:00:00.000Z",
+    "h1After": 30,
+    "h4After": 7,
+    "t1": 1795590000,
+    "t4": 1795579200
+   },
+   "NEAR": {
+    "last1hClose": "2026-11-25T07:00:00.000Z",
+    "last4hClose": "2026-11-25T04:00:00.000Z",
+    "lastFunding": "2026-11-25T00:00:00.000Z",
+    "h1After": 30,
+    "h4After": 7,
+    "t1": 1795590000,
+    "t4": 1795579200
+   },
+   "ADA": {
+    "last1hClose": "2026-11-25T07:00:00.000Z",
+    "last4hClose": "2026-11-25T04:00:00.000Z",
+    "lastFunding": "2026-11-25T00:00:00.000Z",
+    "h1After": 30,
+    "h4After": 7,
+    "t1": 1795590000,
+    "t4": 1795579200
+   },
+   "GALA": {
+    "last1hClose": "2026-11-25T07:00:00.000Z",
+    "last4hClose": "2026-11-25T04:00:00.000Z",
+    "lastFunding": "2026-11-25T00:00:00.000Z",
+    "h1After": 30,
+    "h4After": 7,
+    "t1": 1795590000,
+    "t4": 1795579200
+   },
+   "ARB": {
+    "last1hClose": "2026-11-25T07:00:00.000Z",
+    "last4hClose": "2026-11-25T04:00:00.000Z",
+    "lastFunding": "2026-11-25T00:00:00.000Z",
+    "h1After": 30,
+    "h4After": 7,
+    "t1": 1795590000,
+    "t4": 1795579200
+   },
+   "ETH": {
+    "last1hClose": "2026-11-25T07:00:00.000Z",
+    "last4hClose": "2026-11-25T04:00:00.000Z",
+    "lastFunding": "2026-11-25T00:00:00.000Z",
+    "h1After": 30,
+    "h4After": 7,
+    "t1": 1795590000,
+    "t4": 1795579200
+   },
+   "SUI": {
+    "last1hClose": "2026-11-25T07:00:00.000Z",
+    "last4hClose": "2026-11-25T04:00:00.000Z",
+    "lastFunding": "2026-11-25T00:00:00.000Z",
+    "h1After": 30,
+    "h4After": 7,
+    "t1": 1795590000,
+    "t4": 1795579200
+   }
+  },
+  "runs": {
+   "TRI": {
+    "stat": {
+     "signals": 2,
+     "orders": 2,
+     "skipMin": 0,
+     "skipMargin": 0,
+     "skipBad": 0,
+     "missed": 0
+    },
+    "trades": [],
+    "open": [
+     {
+      "bot": "bb",
+      "coin": "ZEC",
+      "dir": -1,
+      "t": 1795536000,
+      "sigT": 1795521600,
+      "i0": 14906,
+      "entry": 712.237524,
+      "stop0": 781.8534999999999,
+      "stop": 781.8534999999999,
+      "dist": 0.09774264013643844,
+      "ext": 704.29,
+      "qty": 0.11,
+      "margin": 19.58653191,
+      "feeIn": 0.03917306382,
+      "fund": 0.0018569556720000001,
+      "fundRate": -0.00002283,
+      "risk": 7.657757359999993,
+      "target": 7.875,
+      "N": 0,
+      "mult": 1,
+      "w": 1
+     },
+     {
+      "bot": "bb",
+      "coin": "ARB",
+      "dir": -1,
+      "t": 1795550400,
+      "sigT": 1795536000,
+      "i0": 8054,
+      "entry": 0.109938008,
+      "stop0": 0.11362400000000002,
+      "stop": 0.11362400000000002,
+      "dist": 0.03352791329455426,
+      "ext": 0.10836,
+      "qty": 1067,
+      "margin": 9.023373425846154,
+      "feeIn": 0.058651927268,
+      "fund": 0.0029035534770000004,
+      "fundRate": -0.00002466,
+      "risk": 3.932953464000014,
+      "target": 3.9316899206561824,
+      "N": 1,
+      "mult": 1,
+      "w": 0.5
+     }
+    ],
+    "events": [
+     "2026-11-24T16:00:00.000Z O bb ZEC 1795536000 -1 7.875 0 1",
+     "2026-11-24T17:00:00.000Z F bb ZEC 1795536000 712.237524 0.11 781.8534999999999",
+     "2026-11-24T20:00:00.000Z O bb ARB 1795550400 -1 3.9316899206561824 1 1",
+     "2026-11-24T21:00:00.000Z F bb ARB 1795550400 0.109938008 1067 0.11362400000000002"
+    ],
+    "start": 600,
+    "end": 597.6294566757631,
+    "dd": 0.006556571358479979
+   },
+   "R111": {
+    "stat": {
+     "signals": 2,
+     "orders": 2,
+     "skipMin": 0,
+     "skipMargin": 0,
+     "skipBad": 0,
+     "missed": 0
+    },
+    "trades": [],
+    "open": [
+     {
+      "bot": "bb",
+      "coin": "ZEC",
+      "dir": -1,
+      "t": 1795536000,
+      "sigT": 1795521600,
+      "i0": 14906,
+      "entry": 712.237524,
+      "stop0": 781.8534999999999,
+      "stop": 781.8534999999999,
+      "dist": 0.09774264013643844,
+      "ext": 704.29,
+      "qty": 0.13,
+      "margin": 23.14771953,
+      "feeIn": 0.046295439060000006,
+      "fund": 0.0021945839760000004,
+      "fundRate": -0.00002283,
+      "risk": 9.050076879999992,
+      "target": 8.74125,
+      "N": 0,
+      "mult": 1,
+      "w": 1
+     },
+     {
+      "bot": "bb",
+      "coin": "ARB",
+      "dir": -1,
+      "t": 1795550400,
+      "sigT": 1795536000,
+      "i0": 8054,
+      "entry": 0.109938008,
+      "stop0": 0.11362400000000002,
+      "stop": 0.11362400000000002,
+      "dist": 0.03352791329455426,
+      "ext": 0.10836,
+      "qty": 1184,
+      "margin": 10.012815497846153,
+      "feeIn": 0.065083300736,
+      "fund": 0.0032219375040000004,
+      "fundRate": -0.00002466,
+      "risk": 4.364214528000016,
+      "target": 4.363003232278973,
+      "N": 1,
+      "mult": 1,
+      "w": 0.5
+     }
+    ],
+    "events": [
+     "2026-11-24T16:00:00.000Z O bb ZEC 1795536000 -1 8.74125 0 1",
+     "2026-11-24T17:00:00.000Z F bb ZEC 1795536000 712.237524 0.13 781.8534999999999",
+     "2026-11-24T20:00:00.000Z O bb ARB 1795550400 -1 4.363003232278973 1 1",
+     "2026-11-24T21:00:00.000Z F bb ARB 1795550400 0.109938008 1184 0.11362400000000002"
+    ],
+    "start": 600,
+    "end": 597.1938043307241,
+    "dd": 0.0076951652463265185
+   }
+  }
+ },
+ "errors": [],
+ "dropped": [
+  {
+   "bot": "tc",
+   "coin": "ZEC",
+   "sigT": 1757174400,
+   "date": "2025-09-06T16:00:00.000Z",
+   "dir": 1,
+   "N": 2,
+   "pnlOverTarget": 255.4936836946434
+  },
+  {
+   "bot": "ic",
+   "coin": "ZEC",
+   "sigT": 1758628800,
+   "date": "2025-09-23T12:00:00.000Z",
+   "dir": 1,
+   "N": 0,
+   "pnlOverTarget": 156.7397152870963
+  },
+  {
+   "bot": "tc",
+   "coin": "SOL",
+   "sigT": 1697428800,
+   "date": "2023-10-16T04:00:00.000Z",
+   "dir": 1,
+   "N": 0,
+   "pnlOverTarget": 94.95219736203506
+  },
+  {
+   "bot": "ic",
+   "coin": "ADA",
+   "sigT": 1609070400,
+   "date": "2020-12-27T12:00:00.000Z",
+   "dir": 1,
+   "N": 1,
+   "pnlOverTarget": 64.5042593683691
+  },
+  {
+   "bot": "ic",
+   "coin": "ADA",
+   "sigT": 1697817600,
+   "date": "2023-10-20T16:00:00.000Z",
+   "dir": 1,
+   "N": 1,
+   "pnlOverTarget": 58.256738491206086
+  },
+  {
+   "bot": "ic",
+   "coin": "GALA",
+   "sigT": 1636934400,
+   "date": "2021-11-15T00:00:00.000Z",
+   "dir": 1,
+   "N": 3,
+   "pnlOverTarget": 58.083322006527645
+  },
+  {
+   "bot": "tc",
+   "coin": "SOL",
+   "sigT": 1609531200,
+   "date": "2021-01-01T20:00:00.000Z",
+   "dir": 1,
+   "N": 3,
+   "pnlOverTarget": 56.33459904150652
+  },
+  {
+   "bot": "ic",
+   "coin": "ZEC",
+   "sigT": 1786939200,
+   "date": "2026-08-17T04:00:00.000Z",
+   "dir": 1,
+   "N": 0,
+   "pnlOverTarget": 54.25315473613373
+  },
+  {
+   "bot": "tc",
+   "coin": "NEAR",
+   "sigT": 1698019200,
+   "date": "2023-10-23T00:00:00.000Z",
+   "dir": 1,
+   "N": 6,
+   "pnlOverTarget": 51.63696090283762
+  },
+  {
+   "bot": "tc",
+   "coin": "ADA",
+   "sigT": 1609185600,
+   "date": "2020-12-28T20:00:00.000Z",
+   "dir": 1,
+   "N": 2,
+   "pnlOverTarget": 46.89118786744897
+  },
+  {
+   "bot": "ic",
+   "coin": "ADA",
+   "sigT": 1730851200,
+   "date": "2024-11-06T00:00:00.000Z",
+   "dir": 1,
+   "N": 2,
+   "pnlOverTarget": 46.16235100792008
+  },
+  {
+   "bot": "bb",
+   "coin": "GALA",
+   "sigT": 1636776000,
+   "date": "2021-11-13T04:00:00.000Z",
+   "dir": 1,
+   "N": 1,
+   "pnlOverTarget": 45.53204188991646
+  },
+  {
+   "bot": "ic",
+   "coin": "SOL",
+   "sigT": 1697443200,
+   "date": "2023-10-16T08:00:00.000Z",
+   "dir": 1,
+   "N": 0,
+   "pnlOverTarget": 44.12523780460907
+  },
+  {
+   "bot": "tc",
+   "coin": "SOL",
+   "sigT": 1627574400,
+   "date": "2021-07-29T16:00:00.000Z",
+   "dir": 1,
+   "N": 0,
+   "pnlOverTarget": 42.17209514866013
+  },
+  {
+   "bot": "tc",
+   "coin": "ETH",
+   "sigT": 1604505600,
+   "date": "2020-11-04T16:00:00.000Z",
+   "dir": 1,
+   "N": 0,
+   "pnlOverTarget": 38.10202662092038
+  },
+  {
+   "bot": "tc",
+   "coin": "ADA",
+   "sigT": 1587628800,
+   "date": "2020-04-23T08:00:00.000Z",
+   "dir": 1,
+   "N": 2,
+   "pnlOverTarget": 37.390117453841164
+  },
+  {
+   "bot": "tc",
+   "coin": "ADA",
+   "sigT": 1697875200,
+   "date": "2023-10-21T08:00:00.000Z",
+   "dir": 1,
+   "N": 2,
+   "pnlOverTarget": 36.96049204185757
+  },
+  {
+   "bot": "tc",
+   "coin": "ZEC",
+   "sigT": 1786939200,
+   "date": "2026-08-17T04:00:00.000Z",
+   "dir": 1,
+   "N": 1,
+   "pnlOverTarget": 35.86829538527741
+  },
+  {
+   "bot": "tc",
+   "coin": "GALA",
+   "sigT": 1636948800,
+   "date": "2021-11-15T04:00:00.000Z",
+   "dir": 1,
+   "N": 4,
+   "pnlOverTarget": 34.48982900391913
+  },
+  {
+   "bot": "tc",
+   "coin": "GALA",
+   "sigT": 1707480000,
+   "date": "2024-02-09T12:00:00.000Z",
+   "dir": 1,
+   "N": 5,
+   "pnlOverTarget": 32.266146058369294
+  },
+  {
+   "bot": "bb",
+   "coin": "ADA",
+   "sigT": 1701504000,
+   "date": "2023-12-02T08:00:00.000Z",
+   "dir": 1,
+   "N": 3,
+   "pnlOverTarget": 28.727213017395197
+  },
+  {
+   "bot": "ic",
+   "coin": "SOL",
+   "sigT": 1611460800,
+   "date": "2021-01-24T04:00:00.000Z",
+   "dir": 1,
+   "N": 3,
+   "pnlOverTarget": 27.659199735711386
+  },
+  {
+   "bot": "ic",
+   "coin": "ETH",
+   "sigT": 1608940800,
+   "date": "2020-12-26T00:00:00.000Z",
+   "dir": 1,
+   "N": 1,
+   "pnlOverTarget": 24.70014121286647
+  },
+  {
+   "bot": "tc",
+   "coin": "ADA",
+   "sigT": 1730937600,
+   "date": "2024-11-07T00:00:00.000Z",
+   "dir": 1,
+   "N": 6,
+   "pnlOverTarget": 24.099866357620467
+  },
+  {
+   "bot": "ic",
+   "coin": "GALA",
+   "sigT": 1730923200,
+   "date": "2024-11-06T20:00:00.000Z",
+   "dir": 1,
+   "N": 4,
+   "pnlOverTarget": 22.87005236937425
+  }
+ ]
+}

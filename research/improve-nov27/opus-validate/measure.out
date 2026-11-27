@@ -1,0 +1,51 @@
+live PHP 1,000 no cap (as the earlier study)   TRI today   end PHP 46,691,813 growth/yr 375.4 worst fall 47.0 trades 3766 skipped (min/margin) 91 22
+live PHP 1,000 no cap (as the earlier study)   rule x1.00  end PHP 26,300,791 growth/yr 337.4 worst fall 45.7 trades 3766 skipped (min/margin) 101 0
+live PHP 1,000 no cap (as the earlier study)   rule x1.05  end PHP 38,361,569 growth/yr 362.0 worst fall 45.6 trades 3776 skipped (min/margin) 40 2
+live PHP 1,000 no cap (as the earlier study)   rule x1.11  end PHP 54,735,523 growth/yr 386.5 worst fall 48.3 trades 3778 skipped (min/margin) 34 5
+live US$600 + US$500 risk cap (live config)    TRI today   end US$ 782,730 growth/yr 183.0 worst fall 43.7 trades 3791 skipped (min/margin) 0 6
+live US$600 + US$500 risk cap (live config)    rule x1.00  end US$ 724,986 growth/yr 179.8 worst fall 40.9 trades 3789 skipped (min/margin) 0 0
+live US$600 + US$500 risk cap (live config)    rule x1.05  end US$ 749,928 growth/yr 181.2 worst fall 40.5 trades 3789 skipped (min/margin) 0 0
+live US$600 + US$500 risk cap (live config)    rule x1.11  end US$ 779,663 growth/yr 182.8 worst fall 41.9 trades 3789 skipped (min/margin) 0 0
+flat 2.5% judging account                      TRI today   end US$ 453,021,346 growth/yr 560.9 worst fall 54.1 trades 3789 skipped (min/margin) 0 0
+flat 2.5% judging account                      rule x1.00  end US$ 247,863,470 growth/yr 505.6 worst fall 47.6 trades 3789 skipped (min/margin) 0 0
+flat 2.5% judging account                      rule x1.05  end US$ 370,678,611 growth/yr 541.9 worst fall 49.5 trades 3789 skipped (min/margin) 0 0
+flat 2.5% judging account                      rule x1.11  end US$ 589,592,249 growth/yr 586.6 worst fall 51.7 trades 3789 skipped (min/margin) 0 0
+halves flat             TRI today   2020-23 503.0%/yr fall 54.1 | 2024-26 640.9%/yr fall 53.0
+halves flat             rule x1.00  2020-23 452.5%/yr fall 47.6 | 2024-26 579.6%/yr fall 46.0
+halves flat             rule x1.05  2020-23 484.4%/yr fall 49.5 | 2024-26 621.4%/yr fall 47.3
+halves flat             rule x1.11  2020-23 523.6%/yr fall 51.7 | 2024-26 672.7%/yr fall 48.9
+halves live US$600 cap  TRI today   2020-23 301.3%/yr fall 43.7 | 2024-26 396.8%/yr fall 49.1
+halves live US$600 cap  rule x1.00  2020-23 271.2%/yr fall 40.9 | 2024-26 373.2%/yr fall 37.1
+halves live US$600 cap  rule x1.05  2020-23 287.7%/yr fall 40.5 | 2024-26 390.0%/yr fall 38.5
+halves live US$600 cap  rule x1.11  2020-23 306.3%/yr fall 41.9 | 2024-26 407.2%/yr fall 39.7
+rolling 12m flat             rule x1.00  n 71 higher return 26.8% smaller fall 100.0% both 26.8% | worst 12m fall 54.2 -> 47.6 | median 12m return 662.6 -> 601.7
+rolling 12m flat             rule x1.05  n 71 higher return 50.7% smaller fall 100.0% both 50.7% | worst 12m fall 54.2 -> 49.5 | median 12m return 662.6 -> 645.5
+rolling 12m flat             rule x1.11  n 71 higher return 80.3% smaller fall 88.7% both 70.4% | worst 12m fall 54.2 -> 51.7 | median 12m return 662.6 -> 699.0
+rolling 12m live US$600 cap  rule x1.00  n 71 higher return 22.5% smaller fall 100.0% both 22.5% | worst 12m fall 54.3 -> 46.8 | median 12m return 579.1 -> 481.9
+rolling 12m live US$600 cap  rule x1.05  n 71 higher return 50.7% smaller fall 98.6% both 50.7% | worst 12m fall 54.3 -> 48.8 | median 12m return 579.1 -> 510.5
+rolling 12m live US$600 cap  rule x1.11  n 71 higher return 76.1% smaller fall 80.3% both 59.2% | worst 12m fall 54.3 -> 50.3 | median 12m return 579.1 -> 562.6
+start-balance / start-month sweep (48 live PHP runs, no cap): {"n":48,"r111MoreMoney":0.9791666666666666,"r111SmallerFall":0.6458333333333334,"r111Both":0.625,"r105MoreMoney":0,"r105SmallerFall":0.9583333333333334,"r105Both":0,"triFallRange":[0.4609580997952768,0.5345648552810105],"r111FallRange":[0.44283121576896933,0.49147402863577494],"medianDdDiff111":-0.013024171861691025,"medianEndRatio111":1.068183305511223}
+years live PHP 1,000 no cap (as the earlier study)
+   2020 TRI today 107.3/47.0 | rule x1.00 112.4/44.5 | rule x1.05 141.3/44.7 | rule x1.11 145.1/46.2
+   2021 TRI today 2033.4/47.0 | rule x1.00 1854.9/45.7 | rule x1.05 2418.4/45.6 | rule x1.11 2760.3/48.3
+   2022 TRI today 221.1/33.9 | rule x1.00 206.5/26.8 | rule x1.05 186.8/27.1 | rule x1.11 180.2/28.4
+   2023 TRI today 414.4/43.7 | rule x1.00 328.1/36.2 | rule x1.05 289.9/37.3 | rule x1.11 316.0/36.2
+   2024 TRI today 168.3/36.3 | rule x1.00 149.1/28.1 | rule x1.05 162.1/28.3 | rule x1.11 174.7/29.5
+   2025 TRI today 381.8/31.7 | rule x1.00 378.5/27.4 | rule x1.05 404.3/27.7 | rule x1.11 436.1/28.9
+   2026 TRI today 394.6/38.8 | rule x1.00 305.1/33.3 | rule x1.05 327.3/34.4 | rule x1.11 354.9/35.6
+years live US$600 + US$500 risk cap (live config)
+   2020 TRI today 117.6/43.7 | rule x1.00 121.4/40.9 | rule x1.05 130.6/40.5 | rule x1.11 139.7/41.9
+   2021 TRI today 1138.3/34.9 | rule x1.00 987.8/29.8 | rule x1.05 1055.6/31.3 | rule x1.11 1170.9/32.5
+   2022 TRI today 128.2/28.8 | rule x1.00 114.8/22.1 | rule x1.05 122.1/23.0 | rule x1.11 130.5/24.1
+   2023 TRI today 321.9/37.4 | rule x1.00 267.0/31.7 | rule x1.05 281.6/33.0 | rule x1.11 288.2/34.4
+   2024 TRI today 82.5/27.0 | rule x1.00 97.4/24.0 | rule x1.05 84.1/23.5 | rule x1.11 70.8/22.4
+   2025 TRI today 99.6/20.6 | rule x1.00 126.5/22.6 | rule x1.05 114.0/21.7 | rule x1.11 101.9/20.7
+   2026 TRI today 38.1/9.4 | rule x1.00 42.4/10.2 | rule x1.05 40.4/9.8 | rule x1.11 38.3/9.5
+years flat 2.5% judging account
+   2020 TRI today 119.8/46.2 | rule x1.00 124.0/43.5 | rule x1.05 131.0/44.9 | rule x1.11 139.5/46.5
+   2021 TRI today 2393.5/50.2 | rule x1.00 2084.7/44.0 | rule x1.05 2321.3/45.5 | rule x1.11 2628.1/47.3
+   2022 TRI today 237.7/43.3 | rule x1.00 218.5/34.0 | rule x1.05 232.6/35.4 | rule x1.11 249.7/37.0
+   2023 TRI today 614.6/54.1 | rule x1.00 498.1/47.6 | rule x1.05 527.1/49.5 | rule x1.11 561.8/51.7
+   2024 TRI today 327.7/52.9 | rule x1.00 309.0/40.4 | rule x1.05 331.5/41.8 | rule x1.11 359.3/43.6
+   2025 TRI today 727.9/45.3 | rule x1.00 763.9/39.0 | rule x1.05 816.9/40.3 | rule x1.11 881.5/41.9
+   2026 TRI today 867.5/53.0 | rule x1.00 652.8/46.0 | rule x1.05 703.1/47.3 | rule x1.11 765.1/48.9

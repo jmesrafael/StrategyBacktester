@@ -334,6 +334,12 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - README.md — New strategy lab: BB-1H-WIDE and ICHI-X4, PAPER ONLY (Nov 26, 2026) (2026-11-27)
 - VPS-INSTALL.md — Putting the two new paper bots on the VPS (2026-11-27)
 
+## new-strat-lab/out/lab-ichi
+- bot-config.json — bot-config.json (2026-11-27)
+
+## new-strat-lab/out/lab-wide
+- bot-config.json — bot-config.json (2026-11-27)
+
 ## news-lab-bots
 - NEWS-LAB-INSTALL.md — News lab on the VPS: three paper bots with the news gate (2026-11-26)
 - NEWS-LAB-INSTALL.template.md — News lab on the VPS: three paper bots with the news gate (2026-11-26)
@@ -717,10 +723,27 @@ Search instead of reading: `python report-index/rq.py search "terms"`. Paths bel
 - PLAN.md — Improve TRI-CORE: more return AND a smaller worst fall (plan, written Nov 27, 2026 before the first run) (2026-11-27)
 - RESULTS.md — Improve TRI-CORE: more return and a smaller worst fall (Nov 27, 2026) (2026-11-27)
 - control.json — control.json (2026-11-27)
+
+## research/improve-nov27/opus-validate
+- REPORT.md — Independent check of the crowded-side rule (Opus, Nov 27, 2026) (2026-11-27)
+- control.json — control.json (2026-11-27)
+- lookahead.json — lookahead.json (2026-11-27)
+- measure.json — measure.json (2026-11-27)
+- parity.json — parity.json (2026-11-27)
+- stress.json — stress.json (2026-11-27)
+- walkforward.json — walkforward.json (2026-11-27)
+
+## research/improve-nov27
 - results-round1.json — results-round1.json (2026-11-27)
 - results-round2.json — results-round2.json (2026-11-27)
 - results-round3.json — results-round3.json (2026-11-27)
 - verify.json — verify.json (2026-11-27)
+
+## research/improve2-nov27
+- PLAN.md — Second search: more return AND a smaller worst fall, on the strict engine (written Nov 27, 2026 before running) (2026-11-27)
+- RESULTS.md — Second search for more return AND a smaller worst fall (Nov 27, 2026) (2026-11-27)
+- nocap.json — nocap.json (2026-11-27)
+- results.json — results.json (2026-11-27)
 
 ## research/indicator-top10
 - REPORT-1H-1000PESOS.md — 1h bb-core (x4 lengths) · 5 bot coins · start ₱1,000 on 1 Jan 2020 (₱63/$1; live risk tiers; ₱3,150 total risk cap per trade) (2026-11-26)

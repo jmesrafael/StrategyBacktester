@@ -1,0 +1,73 @@
+walkforward.js | workers 3 | candidates: 34 distinct rules + no rule (families: ramp 12, step 16, smooth 6; the picked rule X.RULE is ramp a=2 len=3 f=0.25)
+[20s] test 2022 | train 2020-2021 | pick smooth 1/(1+0.9N) K 2.354 | train 1304.8%/yr fall 50.2 vs no rule 639.2%/yr fall 50.2 | eligible 35/35 | X.RULE rank 12 (K 1.211)
+[55s] test 2023 | train 2020-2022 | pick smooth 1/(1+0.9N) K 2.354 | train 800.0%/yr fall 50.2 vs no rule 469.6%/yr fall 50.2 | eligible 35/35 | X.RULE rank 12 (K 1.211)
+[107s] test 2024 | train 2020-2023 | pick smooth 1/(1+0.9N) K 2.469 | train 852.6%/yr fall 54.1 vs no rule 503.0%/yr fall 54.1 | eligible 35/35 | X.RULE rank 12 (K 1.179)
+[170s] test 2025 | train 2020-2024 | pick smooth 1/(1+0.9N) K 2.469 | train 819.1%/yr fall 54.1 vs no rule 462.6%/yr fall 54.1 | eligible 35/35 | X.RULE rank 12 (K 1.179)
+[232s] test 2026 | train 2020-2025 | pick smooth 1/(1+0.9N) K 2.376 | train 858.9%/yr fall 54.1 vs no rule 500.1%/yr fall 54.1 | eligible 35/35 | X.RULE rank 11 (K 1.179)
+
+OUT OF SAMPLE 2022-01-01 -> 2026-11-24, flat account (US$1,000, 2.5% risk)
+  no rule       total    910559.9% | cagr  543.9% | worst fall 54.1 | end US$ 9,106,599 | trades 3076 skipped min/margin 0/0 | years (return/fall) 2022 272.0/43.3  2023 614.6/54.1  2024 327.7/52.9  2025 727.9/45.3  2026 867.5/53.0
+  walk-forward  total   8274439.4% | cagr  910.6% | worst fall 56.6 | end US$ 82,745,394 | trades 3076 skipped min/margin 0/0 | years (return/fall) 2022 387.0/40.0  2023 772.8/52.2  2024 696.7/45.0  2025 1531.0/46.0  2026 1398.2/56.6
+  fixed x1.11   total   1036441.0% | cagr  561.1% | worst fall 51.7 | end US$ 10,365,410 | trades 3076 skipped min/margin 0/0 | years (return/fall) 2022 301.7/37.0  2023 561.8/51.7  2024 359.3/43.6  2025 881.5/41.9  2026 765.1/48.9
+  fixed x1.05   total    756553.4% | cagr  520.0% | worst fall 49.5 | end US$ 7,566,534 | trades 3076 skipped min/margin 0/0 | years (return/fall) 2022 279.7/35.4  2023 527.1/49.5  2024 331.5/41.8  2025 816.9/40.3  2026 703.1/47.3
+
+OUT OF SAMPLE 2022-01-01 -> 2026-11-24, live account (US$600, US$500 risk cap)
+  no rule       total     59428.9% | cagr  268.8% | worst fall 43.8 | end US$ 357,173 | trades 3074 skipped min/margin 0/12 | years (return/fall) 2022 266.5/34.5  2023 414.5/43.8  2024 172.7/36.3  2025 359.5/31.7  2026 151.9/22.3
+  walk-forward  total     78163.3% | cagr  290.0% | worst fall 40.8 | end US$ 469,580 | trades 3074 skipped min/margin 0/49 | years (return/fall) 2022 348.3/29.0  2023 438.6/40.8  2024 286.7/32.4  2025 358.1/29.5  2026 83.0/15.2
+  fixed x1.11   total     57681.5% | cagr  266.6% | worst fall 39.4 | end US$ 346,689 | trades 3076 skipped min/margin 0/1 | years (return/fall) 2022 287.0/29.2  2023 371.3/39.4  2024 171.8/30.0  2025 395.2/28.9  2026 135.3/18.8
+  fixed x1.05   total     52890.6% | cagr  260.2% | worst fall 37.7 | end US$ 317,943 | trades 3076 skipped min/margin 0/0 | years (return/fall) 2022 261.8/27.8  2023 347.6/37.7  2024 159.2/29.0  2025 386.2/27.7  2026 159.7/20.0
+
+[234s] part 2: recording decisions
+[236s] decisions 3826 (full run 3801, extra keys from the fresh 2024-26 run 25) N histogram {"ic":{"0":242,"1":230,"2":206,"3":170,"4":125,"5":48},"tc":{"0":172,"1":193,"2":198,"3":176,"4":171,"5":135,"6":83,"7":50},"bb":{"0":374,"1":414,"2":322,"3":262,"4":185,"5":70}}
+no rule 2020-23 503.0%/yr fall 54.1 -> target fall 52.1 | no rule 2024-26 640.9%/yr fall 53.0
+[309s] 1/41 REAL     pick smooth 1/(1+0.9N)      K 2.351 | 2020-23 792.0%/yr fall 52.1 | 2024-26 1136.5%/yr fall 56.2 | vs no rule cagr +495.6 dd +3.3 pts | fallback 0/0
+[309s] 2/41 placebo  0 pick step N>=6 -> 0.75      K 0.959 | 2020-23 467.3%/yr fall 52.1 | 2024-26 604.6%/yr fall 51.1 | vs no rule cagr -36.3 dd -1.9 pts | fallback 19280/657098
+[310s] 3/41 placebo  1 pick smooth 1/(1+0.9N)      K 2.267 | 2020-23 693.7%/yr fall 52.1 | 2024-26 483.4%/yr fall 58.8 | vs no rule cagr -157.4 dd +5.8 pts | fallback 17830/655868
+[396s] 4/41 placebo  2 pick step N>=6 -> 0.25      K 0.959 | 2020-23 486.7%/yr fall 52.1 | 2024-26 603.6%/yr fall 51.3 | vs no rule cagr -37.2 dd -1.7 pts | fallback 17040/655078
+[397s] 5/41 placebo  3 pick step N>=4 -> 0.75      K 1.004 | 2020-23 467.1%/yr fall 52.1 | 2024-26 550.4%/yr fall 51.8 | vs no rule cagr -90.5 dd -1.1 pts | fallback 17440/655228
+[399s] 6/41 placebo  4 pick step N>=5 -> 0         K 0.986 | 2020-23 505.3%/yr fall 52.1 | 2024-26 633.4%/yr fall 53.4 | vs no rule cagr -7.5 dd +0.4 pts | fallback 17918/655554
+[482s] 7/41 placebo  5 pick step N>=6 -> 0         K 0.954 | 2020-23 477.1%/yr fall 52.1 | 2024-26 601.9%/yr fall 51.6 | vs no rule cagr -39.0 dd -1.4 pts | fallback 17128/654759
+[484s] 8/41 placebo  6 pick step N>=6 -> 0.25      K 0.991 | 2020-23 502.9%/yr fall 52.1 | 2024-26 662.7%/yr fall 52.3 | vs no rule cagr +21.8 dd -0.7 pts | fallback 17000/655208
+[485s] 9/41 placebo  7 pick step N>=5 -> 0         K 0.957 | 2020-23 489.3%/yr fall 52.1 | 2024-26 514.8%/yr fall 52.8 | vs no rule cagr -126.1 dd -0.1 pts | fallback 16722/654847
+[563s] 10/41 placebo  8 pick step N>=3 -> 0.25      K 1.305 | 2020-23 543.8%/yr fall 52.1 | 2024-26 624.5%/yr fall 51.4 | vs no rule cagr -16.3 dd -1.6 pts | fallback 17000/654978
+[565s] 11/41 placebo  9 pick smooth 1/(1+0.9N)      K 1.771 | 2020-23 596.4%/yr fall 52.1 | 2024-26 372.4%/yr fall 52.7 | vs no rule cagr -268.4 dd -0.3 pts | fallback 16090/654208
+[567s] 12/41 placebo 10 pick step N>=5 -> 0         K 1.030 | 2020-23 510.1%/yr fall 52.1 | 2024-26 667.7%/yr fall 53.8 | vs no rule cagr +26.8 dd +0.8 pts | fallback 17444/655439
+[645s] 13/41 placebo 11 pick ramp a=1 len=3 f=0.25  K 1.442 | 2020-23 612.9%/yr fall 52.1 | 2024-26 621.3%/yr fall 53.1 | vs no rule cagr -19.6 dd +0.1 pts | fallback 16500/654608
+[648s] 14/41 placebo 12 pick step N>=3 -> 0.25      K 1.336 | 2020-23 535.4%/yr fall 52.1 | 2024-26 514.1%/yr fall 53.2 | vs no rule cagr -126.8 dd +0.2 pts | fallback 17120/655208
+[649s] 15/41 placebo 13 pick smooth 1/(1+0.1N)      K 1.160 | 2020-23 482.6%/yr fall 52.1 | 2024-26 622.9%/yr fall 52.7 | vs no rule cagr -18.0 dd -0.2 pts | fallback 16380/654448
+[730s] 16/41 placebo 14 pick smooth 1/(1+0.45N)     K 1.713 | 2020-23 559.5%/yr fall 52.1 | 2024-26 612.1%/yr fall 59.7 | vs no rule cagr -28.8 dd +6.8 pts | fallback 16870/655178
+[737s] 17/41 placebo 15 pick smooth 1/(1+0.9N)      K 2.006 | 2020-23 689.0%/yr fall 52.1 | 2024-26 379.6%/yr fall 61.4 | vs no rule cagr -261.3 dd +8.4 pts | fallback 15060/653268
+[737s] 18/41 placebo 16 pick step N>=4 -> 0.25      K 1.220 | 2020-23 567.8%/yr fall 52.1 | 2024-26 678.0%/yr fall 57.8 | vs no rule cagr +37.1 dd +4.8 pts | fallback 16380/654508
+[815s] 19/41 placebo 17 pick step N>=6 -> 0         K 0.964 | 2020-23 476.9%/yr fall 52.1 | 2024-26 601.8%/yr fall 51.3 | vs no rule cagr -39.1 dd -1.7 pts | fallback 17413/655416
+[824s] 20/41 placebo 18 pick smooth 1/(1+0.2N)      K 1.297 | 2020-23 492.3%/yr fall 52.1 | 2024-26 622.9%/yr fall 52.1 | vs no rule cagr -18.0 dd -0.9 pts | fallback 16660/654548
+[825s] 21/41 placebo 19 pick ramp a=3 len=3 f=0.25  K 1.041 | 2020-23 506.4%/yr fall 52.1 | 2024-26 534.2%/yr fall 52.3 | vs no rule cagr -106.6 dd -0.7 pts | fallback 16820/655018
+[898s] 22/41 placebo 20 pick smooth 1/(1+0.6N)      K 1.668 | 2020-23 552.5%/yr fall 52.1 | 2024-26 518.2%/yr fall 53.7 | vs no rule cagr -122.7 dd +0.7 pts | fallback 16490/654448
+[909s] 23/41 placebo 22 pick smooth 1/(1+0.3N)      K 1.563 | 2020-23 519.9%/yr fall 52.1 | 2024-26 667.2%/yr fall 54.1 | vs no rule cagr +26.4 dd +1.1 pts | fallback 17600/655508
+[909s] 24/41 placebo 21 pick step N>=6 -> 0.25      K 0.962 | 2020-23 482.7%/yr fall 52.1 | 2024-26 580.1%/yr fall 51.4 | vs no rule cagr -60.8 dd -1.6 pts | fallback 16480/654598
+[987s] 25/41 placebo 23 pick step N>=5 -> 0.25      K 0.983 | 2020-23 479.3%/yr fall 52.1 | 2024-26 587.9%/yr fall 50.3 | vs no rule cagr -52.9 dd -2.7 pts | fallback 15910/653968
+[999s] 26/41 placebo 24 pick step N>=5 -> 0         K 0.980 | 2020-23 469.1%/yr fall 52.1 | 2024-26 434.1%/yr fall 54.9 | vs no rule cagr -206.8 dd +1.9 pts | fallback 16853/655059
+[1000s] 27/41 placebo 25 pick step N>=4 -> 0.5       K 1.109 | 2020-23 492.9%/yr fall 52.1 | 2024-26 628.8%/yr fall 54.5 | vs no rule cagr -12.0 dd +1.5 pts | fallback 17950/656128
+[1088s] 28/41 placebo 26 pick ramp a=3 len=3 f=0.25  K 1.091 | 2020-23 531.9%/yr fall 52.1 | 2024-26 591.1%/yr fall 54.5 | vs no rule cagr -49.8 dd +1.5 pts | fallback 18210/656258
+[1101s] 29/41 placebo 27 pick step N>=5 -> 0.25      K 1.067 | 2020-23 511.4%/yr fall 52.1 | 2024-26 693.5%/yr fall 57.6 | vs no rule cagr +52.6 dd +4.6 pts | fallback 17100/655168
+[1103s] 30/41 placebo 28 pick step N>=3 -> 0.25      K 1.497 | 2020-23 632.9%/yr fall 52.1 | 2024-26 531.6%/yr fall 61.2 | vs no rule cagr -109.3 dd +8.2 pts | fallback 16370/654428
+[1178s] 31/41 placebo 29 pick smooth 1/(1+0.2N)      K 1.315 | 2020-23 497.2%/yr fall 52.1 | 2024-26 586.0%/yr fall 54.4 | vs no rule cagr -54.9 dd +1.4 pts | fallback 17510/655498
+[1194s] 32/41 placebo 30 pick ramp a=1 len=3 f=0.25  K 1.215 | 2020-23 490.4%/yr fall 52.1 | 2024-26 589.9%/yr fall 51.0 | vs no rule cagr -51.0 dd -2.0 pts | fallback 17350/655548
+[1197s] 33/41 placebo 31 pick smooth 1/(1+0.2N)      K 1.360 | 2020-23 511.8%/yr fall 52.1 | 2024-26 657.3%/yr fall 55.2 | vs no rule cagr +16.4 dd +2.2 pts | fallback 16690/654768
+[1266s] 34/41 placebo 32 pick ramp a=3 len=3 f=0.25  K 1.115 | 2020-23 524.5%/yr fall 52.1 | 2024-26 632.1%/yr fall 54.6 | vs no rule cagr -8.7 dd +1.6 pts | fallback 17280/655118
+[1280s] 35/41 placebo 33 pick ramp a=3 len=3 f=0.5   K 1.049 | 2020-23 497.5%/yr fall 52.1 | 2024-26 596.3%/yr fall 52.8 | vs no rule cagr -44.5 dd -0.1 pts | fallback 16900/655038
+[1283s] 36/41 placebo 34 pick step N>=6 -> 0         K 0.962 | 2020-23 484.0%/yr fall 52.1 | 2024-26 562.0%/yr fall 51.5 | vs no rule cagr -78.9 dd -1.5 pts | fallback 16174/654456
+[1344s] 37/41 placebo 35 pick smooth 1/(1+0.9N)      K 2.077 | 2020-23 547.7%/yr fall 52.1 | 2024-26 495.7%/yr fall 58.9 | vs no rule cagr -145.2 dd +5.9 pts | fallback 17310/655268
+[1360s] 38/41 placebo 36 pick step N>=4 -> 0.5       K 1.054 | 2020-23 487.2%/yr fall 52.1 | 2024-26 577.4%/yr fall 52.9 | vs no rule cagr -63.4 dd -0.1 pts | fallback 17800/655838
+[1363s] 39/41 placebo 37 pick step N>=6 -> 0.75      K 0.949 | 2020-23 464.4%/yr fall 52.1 | 2024-26 569.6%/yr fall 51.3 | vs no rule cagr -71.3 dd -1.7 pts | fallback 15390/653348
+[1418s] 40/41 placebo 38 pick step N>=5 -> 0.5       K 1.004 | 2020-23 470.7%/yr fall 52.1 | 2024-26 597.7%/yr fall 51.9 | vs no rule cagr -43.2 dd -1.1 pts | fallback 17300/655058
+[1428s] 41/41 placebo 39 pick smooth 1/(1+0.9N)      K 1.982 | 2020-23 635.7%/yr fall 52.1 | 2024-26 558.2%/yr fall 58.7 | vs no rule cagr -82.6 dd +5.7 pts | fallback 16540/654278
+
+PLACEBO SUMMARY (40 worlds)
+real pick smooth 1/(1+0.9N) K 2.351 | 2024-26 1136.5%/yr fall 56.2 | no rule 640.9%/yr fall 53.0 | diff cagr +495.6 dd +3.3
+placebo cagr diff (pts/yr): min -268.4 p10 -146.4 p25 -94.5 median -47.2 p75 -17.6 p90 +22.3 max +52.6 mean -61.8
+placebo dd diff (pts, negative = smaller fall): min -2.7 p10 -1.7 p25 -1.2 median -0.0 p75 +1.7 p90 +5.8 max +8.4 mean +1.0
+placebo beats no rule: both 2.5% | cagr 15.0% | smaller fall 50.0%
+real percentile among placebo: cagr diff 100.0 | fall (higher = better) 20.0 | log-growth/fall 100.0 | placebo at least as good as real on both: 0.0%
+placebo pick families {"step":22,"smooth":12,"ramp":6}
+reference: no rule x0.943 (same 2020-23 target fall) 2020-23 465.7%/yr | 2024-26 593.8%/yr fall 51.2
+[1428s] DONE -> \\172.16.0.4\WebDeveloper\Rafael\zettelkasten\nvm\SB\research\improve-nov27\opus-validate\walkforward.json

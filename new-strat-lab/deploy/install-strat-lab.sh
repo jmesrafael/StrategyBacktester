@@ -4,7 +4,8 @@
 #   sudo bash deploy/install-strat-lab.sh                          install or refresh both (keeps their paper records)
 #   sudo bash deploy/install-strat-lab.sh --uninstall [--purge]    stop and remove services and code (--purge: also records and users)
 # Touches:      users labwide/labichi, /opt/lab{wide,ichi}, /var/lib/lab{wide,ichi}, /etc/systemd/system/lab{wide,ichi}.service
-# Never touches: any other bot: its code, keys, state, config or service. No keys, no Telegram, no dashboard, no ledger.
+# Also touches: /etc/lab{wide,ichi}.env (created once, root only: the two dashboard values).
+# Never touches: any other bot: its code, keys, state, config or service. No keys, no Telegram, no ledger.
 set -uo pipefail
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ALL="labwide labichi"
@@ -17,13 +18,14 @@ die()  { echo "FATAL: $*" >&2; exit 1; }
 dir_of()  { case "$1" in labwide) echo lab-wide;; labichi) echo lab-ichi;; esac; }
 main_of() { case "$1" in labwide) echo lucidio.js;; labichi) echo icore.js;; esac; }
 envp_of() { case "$1" in labwide) echo LUCIDIO;; labichi) echo ICORE;; esac; }
+tag_of()  { case "$1" in labwide) echo bbw;; labichi) echo ichix;; esac; }
 
 if [ "${1:-}" = "--uninstall" ]; then
   step "uninstall the new strategy lab (no other bot is touched)"
   for s in $ALL; do
     systemctl disable --now "$s.service" >/dev/null 2>&1 || true
     rm -f "/etc/systemd/system/$s.service"; rm -rf "/opt/$s"
-    if [ "${2:-}" = "--purge" ]; then rm -rf "/var/lib/$s"; userdel "$s" >/dev/null 2>&1 || true; fi
+    if [ "${2:-}" = "--purge" ]; then rm -rf "/var/lib/$s" "/etc/$s.env"; userdel "$s" >/dev/null 2>&1 || true; fi
   done
   systemctl daemon-reload
   if [ "${2:-}" = "--purge" ]; then ok "services, code, paper records and users removed"; else ok "services and code removed, paper records kept in /var/lib/lab*"; fi
@@ -48,9 +50,12 @@ for s in $ALL; do
   grep -q '"mode": "paper"' "$d/bot-config.json"        || die "$s: bot-config.json is not paper: refusing"
   grep -q '"realisticPaper": true' "$d/bot-config.json" || die "$s: realisticPaper is not on: refusing"
   grep -q 'const liveAllowed = () => false;' "$d/$m"    || die "$s: no paper lock in $m: refusing"
-  grep -q 'const enabled = () => false;' "$d/dashboard-push.js" || die "$s: the dashboard push is not switched off: refusing"
+  grep -q "'$(tag_of "$s")|'" "$d/dashboard-push.js"      || die "$s: dashboard-push.js does not report as $(tag_of "$s"): refusing (it would mix into another bot)"
+  grep -q 'const askPollSec = () => 0;' "$d/dashboard-push.js" || die "$s: the bot could take the live bots' dashboard requests: refusing"
+  grep -q '"ledgerSync": false' "$d/bot-config.json"    || die "$s: ledgerSync is not off: refusing"
+  if [ -f "/etc/$s.env" ] && grep -qE '^[[:space:]]*(export[[:space:]]+)?TELEGRAM_' "/etc/$s.env"; then die "/etc/$s.env sets TELEGRAM_*: remove those lines (paper bots send no messages)"; fi
   grep -q 'new strategy lab: Telegram is disabled' "$d/telegram.js" || die "$s: Telegram is not disabled: refusing"
-  ok "$s: paper lock, no keys, no Telegram, no dashboard"
+  ok "$s: paper lock, no keys, no Telegram, dashboard tag $(tag_of "$s")"
 done
 
 for s in $ALL; do
@@ -63,6 +68,12 @@ for s in $ALL; do
   rm -rf "/opt/$s"; mv "/opt/$s.new" "/opt/$s"
   install -d -m 750 -o "$s" -g "$s" "/var/lib/$s"
   ok "code in /opt/$s, paper record in /var/lib/$s"
+  if [ ! -e "/etc/$s.env" ]; then
+    install -m 600 -o root -g root /dev/null "/etc/$s.env"
+    printf '%s\n' "# $s (strategy lab, paper). Dashboard: the same two values as the live bot (it reports as its own bot, tag $(tag_of "$s")). NEVER put TELEGRAM_* here." \
+      '#DASHBOARD_URL=https://YOUR-DASHBOARD-ADDRESS' '#DASHBOARD_PUSH_SECRET=' > "/etc/$s.env"
+    ok "created /etc/$s.env (dashboard values commented out)"
+  else ok "/etc/$s.env kept"; fi
 
   step "3. $s: read-only pre-flight (public MEXC data, no keys)"
   preflight() { PF="$(cd "/opt/$s" && sudo -u "$s" env "${e}_STATE_DIR=/var/lib/$s" "${e}_KEYS=/var/lib/$s/no-keys.json" "${e}_ENV_FILE=/var/lib/$s/no-env-file" "${e}_NO_NOTIFY=1" /usr/bin/node "$m" check 2>&1)"; RC=$?; }
@@ -86,3 +97,4 @@ AFTER="$(other_times)"
 echo "$AFTER" | awk '{print "   "$1": "$2}'
 if [ "$BEFORE" = "$AFTER" ]; then echo "   other bots' start times unchanged: YES"; else echo "   WARNING another bot's state or start time CHANGED, look now:"; diff <(echo "$BEFORE") <(echo "$AFTER"); fi
 for s in $ALL; do echo "   $s: $(systemctl is-active "$s")   results: sudo bash /opt/$s/deploy/status.sh"; done
+echo "   dashboard: put DASHBOARD_URL + DASHBOARD_PUSH_SECRET in /etc/labwide.env and /etc/labichi.env (copy from a live bot), then: sudo systemctl restart labwide labichi"

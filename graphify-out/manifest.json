@@ -4926,9 +4926,9 @@
     "semantic_hash": ""
   },
   "report-index/INDEX.md": {
-    "mtime": 1795736883.480533,
-    "seen": 1795737167.586689,
-    "ast_hash": "f9a26d342815267af57ff4c2377c15d2",
+    "mtime": 1795745819.144793,
+    "seen": 1795746055.7609751,
+    "ast_hash": "1341ca5cd6b1940422867e1edb6d1e5c",
     "semantic_hash": ""
   },
   "research/bb-core/hold-time/out-no-target.txt": {
@@ -8820,9 +8820,9 @@
     "semantic_hash": ""
   },
   "research/TESTED-STRATEGIES.md": {
-    "mtime": 1795736814.997108,
-    "seen": 1795737167.586689,
-    "ast_hash": "a7510ee0e57e4966410786cf1bd313d7",
+    "mtime": 1795745816.240649,
+    "seen": 1795746055.7609751,
+    "ast_hash": "e6a84fa88a6d9d5f1f1b45e6ce9d493a",
     "semantic_hash": ""
   },
   "research/orb-sol/compare-bots.txt": {
@@ -12012,9 +12012,9 @@
     "semantic_hash": ""
   },
   "new-strat-lab/deploy/install-strat-lab.sh": {
-    "mtime": 1795734834.210221,
-    "seen": 1795737167.586689,
-    "ast_hash": "5cbffedc4ee17021b0e47ae776dec86a",
+    "mtime": 1795744632.7926927,
+    "seen": 1795746051.5017233,
+    "ast_hash": "8e07b1e0c0ba81f725283ff556803479",
     "semantic_hash": ""
   },
   "new-strat-lab/deploy/status.sh": {
@@ -12042,15 +12042,15 @@
     "semantic_hash": ""
   },
   "new-strat-lab/patches.js": {
-    "mtime": 1795734834.2468555,
-    "seen": 1795737167.586689,
-    "ast_hash": "f80c49dc0c6c22861f5e1a26f3ed2e01",
+    "mtime": 1795744632.7216475,
+    "seen": 1795746051.518195,
+    "ast_hash": "2740e751a1fc6b230b5bdba1f62264d0",
     "semantic_hash": ""
   },
   "new-strat-lab/test.js": {
-    "mtime": 1795734834.281794,
-    "seen": 1795737167.586689,
-    "ast_hash": "d2e5cbc3c0dd3f335ec185f43d27552e",
+    "mtime": 1795744647.0328956,
+    "seen": 1795746051.518195,
+    "ast_hash": "9159fcb1c1e0923cace08d51b575ee92",
     "semantic_hash": ""
   },
   "research/bb-versions-nov26/report.js": {
@@ -12834,15 +12834,15 @@
     "semantic_hash": ""
   },
   "new-strat-lab/README.md": {
-    "mtime": 1795734834.173367,
-    "seen": 1795737167.586689,
-    "ast_hash": "b0850563e7cc590bf288b3cefcf6164d",
+    "mtime": 1795745816.159592,
+    "seen": 1795746055.7516816,
+    "ast_hash": "45db094896de14dd7302a6833734a605",
     "semantic_hash": ""
   },
   "new-strat-lab/VPS-INSTALL.md": {
-    "mtime": 1795734834.177775,
-    "seen": 1795737167.586689,
-    "ast_hash": "81ad0ea45d43aa5277e0f4170bd22255",
+    "mtime": 1795745816.231064,
+    "seen": 1795746055.7516816,
+    "ast_hash": "e662462976333e0661049d4de27bcd7c",
     "semantic_hash": ""
   },
   "research/bb-versions-nov26/RESULTS.md": {
@@ -13368,9 +13368,9 @@
     "semantic_hash": ""
   },
   "research/improve-nov27/RESULTS.md": {
-    "mtime": 1795736777.1842666,
-    "seen": 1795737167.586689,
-    "ast_hash": "8da5baec0e5c2a2a4b00b02953b09583",
+    "mtime": 1795741191.6899583,
+    "seen": 1795741495.3476355,
+    "ast_hash": "001699e69529795e18858d2e08c58904",
     "semantic_hash": ""
   },
   "research/month-end-close-nov26/RESULTS.md": {
@@ -13611,6 +13611,156 @@
     "mtime": 1795734835.3936827,
     "seen": 1795737167.586689,
     "ast_hash": "8c8677b7075dc580394359d5bba90077",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/causal.js": {
+    "mtime": 1795741004.340014,
+    "seen": 1795741491.4582877,
+    "ast_hash": "dc0e9c3fdc13abdb12e204baefb05a57",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/control.js": {
+    "mtime": 1795739359.9030826,
+    "seen": 1795741491.4582877,
+    "ast_hash": "18b4b2ab916b4cab8d0c7f1dbdfadb09",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/control.json": {
+    "mtime": 1795739630.820299,
+    "seen": 1795741491.4582877,
+    "ast_hash": "a38c69726004718beb9ac77ba27e0e00",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/decompose.js": {
+    "mtime": 1795738959.4003842,
+    "seen": 1795741491.4582877,
+    "ast_hash": "473ba4307d7bf9ab052ff559a5d7a606",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/floor-test.js": {
+    "mtime": 1795739096.7688563,
+    "seen": 1795741491.4582877,
+    "ast_hash": "0719a4377cd8e46a8ce4a256c2cb0f87",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/journal2.js": {
+    "mtime": 1795738872.704827,
+    "seen": 1795741491.4582877,
+    "ast_hash": "07feaa9198f105d8f53dd8b213b4f167",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/la-child.js": {
+    "mtime": 1795739024.8431125,
+    "seen": 1795741491.4582877,
+    "ast_hash": "72b92a393cd895af3be81dbb1338aca2",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/la-debug.js": {
+    "mtime": 1795739324.989609,
+    "seen": 1795741491.4582877,
+    "ast_hash": "56d5ab7610aa9f4e6a3a34f88cae50e5",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/lookahead.js": {
+    "mtime": 1795739050.737442,
+    "seen": 1795741491.4582877,
+    "ast_hash": "d4ac83fe92f1bdfc8690ce6e54947605",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/lookahead.json": {
+    "mtime": 1795739168.7908137,
+    "seen": 1795741491.4582877,
+    "ast_hash": "c105646334b7bc0f83f56ed5084b7f49",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/measure.js": {
+    "mtime": 1795739130.740124,
+    "seen": 1795741491.4582877,
+    "ast_hash": "431e81cbd1458b7428f606120580b908",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/measure.json": {
+    "mtime": 1795739275.3440437,
+    "seen": 1795741491.4582877,
+    "ast_hash": "f48e7d6f3a08378f2a9c67964ea21aed",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/parity.js": {
+    "mtime": 1795738820.1291912,
+    "seen": 1795741491.4582877,
+    "ast_hash": "fd7084855734f746f587d2aa9f24f12e",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/parity.json": {
+    "mtime": 1795738935.6496282,
+    "seen": 1795741491.4582877,
+    "ast_hash": "470fba19bc657ac0c1a10774cda6f850",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/stress.js": {
+    "mtime": 1795740080.122008,
+    "seen": 1795741491.4582877,
+    "ast_hash": "c33738567406531809fb67af0c1bb1d9",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/stress.json": {
+    "mtime": 1795740716.332721,
+    "seen": 1795741491.4582877,
+    "ast_hash": "91fa55af780d6117e74ad4aa9b98b9a7",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/walkforward.js": {
+    "mtime": 1795739501.1536388,
+    "seen": 1795741491.4582877,
+    "ast_hash": "48ca1aa7d814878ef1782c4b75d001cc",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/walkforward.json": {
+    "mtime": 1795740959.6275856,
+    "seen": 1795741491.4582877,
+    "ast_hash": "0cb0cf4fd751119940ca5922836f60e5",
+    "semantic_hash": ""
+  },
+  "research/improve-nov27/opus-validate/REPORT.md": {
+    "mtime": 1795741187.9970844,
+    "seen": 1795741495.3476355,
+    "ast_hash": "5b0253ba5217cc7239ab385f42f3133a",
+    "semantic_hash": ""
+  },
+  "research/improve2-nov27/results.json": {
+    "mtime": 1795743216.4729483,
+    "seen": 1795743505.3346338,
+    "ast_hash": "21912b2539bbb2561196b3e83e334781",
+    "semantic_hash": ""
+  },
+  "research/improve2-nov27/run.js": {
+    "mtime": 1795743032.846082,
+    "seen": 1795743505.3346338,
+    "ast_hash": "fdc1545ebb473d488cb5e1fcd74f9abd",
+    "semantic_hash": ""
+  },
+  "research/improve2-nov27/PLAN.md": {
+    "mtime": 1795743014.9240198,
+    "seen": 1795743508.9455385,
+    "ast_hash": "ade70ca1cef97b619766b686203cdacf",
+    "semantic_hash": ""
+  },
+  "research/improve2-nov27/RESULTS.md": {
+    "mtime": 1795745816.2451632,
+    "seen": 1795746056.6367426,
+    "ast_hash": "3d6f8919b4d9480eb2876a981810e7f9",
+    "semantic_hash": ""
+  },
+  "research/improve2-nov27/nocap.js": {
+    "mtime": 1795745772.2020383,
+    "seen": 1795746053.4017086,
+    "ast_hash": "b9b8e64f04f8343f358f2ff7d72f65fd",
+    "semantic_hash": ""
+  },
+  "research/improve2-nov27/nocap.json": {
+    "mtime": 1795745793.1772878,
+    "seen": 1795746053.4017086,
+    "ast_hash": "ee9690deb6f67e5c2010bb5cbcc9f324",
     "semantic_hash": ""
   },
   "research/zec-replacement-2/package-lock.json": {

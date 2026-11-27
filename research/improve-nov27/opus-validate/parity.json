@@ -1,0 +1,95 @@
+{
+ "research conventions": {
+  "mine": 3789,
+  "research": 3789,
+  "matchedSameR": 2088,
+  "matchedDiffR": 1701,
+  "maxAbsDiffR": 0.13794392159101276,
+  "sumDiffR": 0.195489163238658,
+  "diffByWhy": {
+   "stop/stop": 1334,
+   "time/time": 367
+  },
+  "onlyMine": [],
+  "onlyResearch": [],
+  "openAtEnd": [
+   "bb ZEC 2026-11-20T12",
+   "bb ARB 2026-11-18T16",
+   "ic SOL 2026-11-23T20",
+   "ic ADA 2026-10-22T00",
+   "ic GALA 2026-11-05T08",
+   "tc SOL 2026-10-24T08",
+   "tc ZEC 2026-11-09T08",
+   "tc NEAR 2026-11-12T12",
+   "tc ADA 2026-11-14T04",
+   "tc ETH 2026-11-09T08",
+   "tc SUI 2026-11-14T04",
+   "tc ARB 2026-11-12T00"
+  ]
+ },
+ "strict": {
+  "mine": 3789,
+  "research": 3789,
+  "matchedSameR": 1913,
+  "matchedDiffR": 1876,
+  "maxAbsDiffR": 0.13794392159101276,
+  "sumDiffR": 0.19402877361778567,
+  "diffByWhy": {
+   "stop/stop": 1334,
+   "time/time": 542
+  },
+  "onlyMine": [],
+  "onlyResearch": [],
+  "openAtEnd": [
+   "bb ZEC 2026-11-20T12",
+   "bb ARB 2026-11-18T16",
+   "ic SOL 2026-11-23T20",
+   "ic ADA 2026-10-22T00",
+   "ic GALA 2026-11-05T08",
+   "tc SOL 2026-10-24T08",
+   "tc ZEC 2026-11-09T08",
+   "tc NEAR 2026-11-12T12",
+   "tc ADA 2026-11-14T04",
+   "tc ETH 2026-11-09T08",
+   "tc SUI 2026-11-14T04",
+   "tc ARB 2026-11-12T00"
+  ]
+ },
+ "journal": {
+  "liveTrades": 39,
+  "matched": 24,
+  "unmatched": [
+   "ic SOL S sig 2026-10-29T16 (legacy) R 0.00 ",
+   "bb GALA S sig 2026-10-29T20 (legacy) R -1.03 stop",
+   "bb NEAR S sig 2026-11-02T08 (legacy) R 2.97 time",
+   "ic ZEC S sig 2026-11-02T16 (legacy) R -1.02 stop",
+   "ic ADA S sig 2026-11-05T12 (legacy) R 0.00 ",
+   "tc NEAR S sig 2026-11-08T16 (legacy) R 0.00 ",
+   "tc ADA S sig 2026-11-08T20 (legacy) R -1.05 stop",
+   "tc GALA S sig 2026-11-08T20 (legacy) R -1.04 stop",
+   "tc ADA S sig 2026-11-13T00 (legacy) R 0.00 ",
+   "tc GALA S sig 2026-11-13T00 (legacy) R -1.03 stop",
+   "tc ETH S sig 2026-11-13T00 (legacy) R 0.00 ",
+   "bb ZEC S sig 2026-11-14T00 (v3) R 0.00 ",
+   "tc GALA S sig 2026-11-14T12 (v3) R 0.00 ",
+   "bb ARB S sig 2026-11-14T16 (v3) R 0.00 ",
+   "tc ARB S sig 2026-11-14T16 (v3) R 0.00 "
+  ],
+  "engineOnly": [
+   "bb GALA S sig 2026-10-24T12 (legacy)",
+   "bb ARB S sig 2026-11-02T08 (legacy)",
+   "ic ZEC S sig 2026-11-01T12 (legacy)",
+   "tc SUI S sig 2026-11-08T20 (legacy)",
+   "bb ARB L sig 2026-11-09T08 (legacy)",
+   "bb NEAR S sig 2026-11-02T04 (legacy)",
+   "ic ETH S sig 2026-11-05T12 (legacy)",
+   "tc ETH S sig 2026-11-08T20 (legacy)",
+   "bb SOL S sig 2026-11-20T08 (v3)",
+   "bb ZEC S sig 2026-11-20T00 (v3)",
+   "bb ARB S sig 2026-11-18T08 (v3)",
+   "ic SOL S sig 2026-11-23T16 (v3)",
+   "tc ADA S sig 2026-11-14T00 (v3)",
+   "tc SUI S sig 2026-11-14T00 (v3)"
+  ]
+ }
+}

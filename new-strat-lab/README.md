@@ -8,8 +8,11 @@ so both are watched on paper first. **Nothing here is live, and nothing here cha
 | lab-wide | BB-1H-WIDE: bands 80 / **2.6 sigma**, SMA 800, middle-band stop, out after 192 candles | `bb-core-1h` | 1h | SOL ZEC NEAR ADA GALA ARB | US$200 | `labwide` |
 | lab-ichi | ICHI-X4: 9/26/52 cross with the close outside the cloud, 2 ATR stop, out after 12 candles | `bb-trail` machinery + `ichi/icore-core.js` | 4h | same | US$200 | `labichi` |
 
-US$200 is about a quarter of the pool, what a 4th bot would get. Risk steps as live (2.5% / 2% from $500 / 1.5% from $1,000), realistic
-paper costs (MEXC fees, order book, funding). No keys, no Telegram, no dashboard, no ledger: all switched off in the built code.
+US$200 is about a quarter of the pool, what a 4th bot would get. Risk steps as live (2.5% / 2% from $500 / 1.5% from $1,000), **no US$ cap
+on the risk per trade** (owner, Nov 27), realistic paper costs (MEXC fees, order book, funding). No keys, no Telegram, no ledger money sync.
+
+**Dashboard (Nov 27):** BB-1H-WIDE reports as `bbw`, ICHI-X4 as `ichix`, and both show under Research Lab beside the BB-1h lab (`bb1h`, the
+same 1h rules with normal 2.0 sigma bands). The tag is written into the built code, and neither bot ever polls the dashboard for requests.
 
 ## The test (rules frozen Nov 26, 2026)
 - **Review at the end of February 2027**, together with the BB-CORE v4 review.
@@ -34,4 +37,4 @@ Edit `patches.js` and `ichi/`, never `out/` (generated). Install on the VPS: `VP
 
 ## Not done
 - Not installed on the VPS.
-- Not on the dashboard (it would need new bot tags in the ledger and its database).
+- The dashboard change is built and tested in the ledger repo (branch `paper-labs-wide-ichi`), **not committed or deployed**. No database change is needed.

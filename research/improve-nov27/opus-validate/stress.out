@@ -1,0 +1,1146 @@
+00 patch parity at delay 0 | A | full | TRI | identical true
+00 patch parity at delay 0 | A | full | R111 | identical true
+00 patch parity at delay 0 | A | 24-26 | TRI | identical true
+00 patch parity at delay 0 | A | 24-26 | R111 | identical true
+00 patch parity at delay 0 | B | full | TRI | identical true
+00 patch parity at delay 0 | B | full | R111 | identical true
+00 patch parity at delay 0 | B | 24-26 | TRI | identical true
+00 patch parity at delay 0 | B | 24-26 | R111 | identical true
+# 00 patch parity done in 8.6 s
+01 baseline | A | full | TRI | cagr 560.89% | fall 54.14% | trades 3789
+01 baseline | A | full | R100 | cagr 505.55% | fall 47.60% | trades 3789 | vs TRI: fall only
+01 baseline | A | full | R105 | cagr 541.94% | fall 49.48% | trades 3789 | vs TRI: fall only
+01 baseline | A | full | R111 | cagr 586.62% | fall 51.68% | trades 3789 | vs TRI: both better
+01 baseline | A | 24-26 | TRI | cagr 640.87% | fall 52.99% | trades 1936
+01 baseline | A | 24-26 | R100 | cagr 579.56% | fall 45.96% | trades 1936 | vs TRI: fall only
+01 baseline | A | 24-26 | R105 | cagr 621.43% | fall 47.32% | trades 1936 | vs TRI: fall only
+01 baseline | A | 24-26 | R111 | cagr 672.70% | fall 48.90% | trades 1936 | vs TRI: both better
+01 baseline | B | full | TRI | cagr 182.97% | fall 43.72% | trades 3791
+01 baseline | B | full | R100 | cagr 179.84% | fall 40.85% | trades 3789 | vs TRI: fall only
+01 baseline | B | full | R105 | cagr 181.22% | fall 40.54% | trades 3789 | vs TRI: fall only
+01 baseline | B | full | R111 | cagr 182.81% | fall 41.89% | trades 3789 | vs TRI: fall only
+01 baseline | B | 24-26 | TRI | cagr 396.79% | fall 49.12% | trades 1933
+01 baseline | B | 24-26 | R100 | cagr 373.23% | fall 37.05% | trades 1936 | vs TRI: fall only
+01 baseline | B | 24-26 | R105 | cagr 390.05% | fall 38.45% | trades 1936 | vs TRI: fall only
+01 baseline | B | 24-26 | R111 | cagr 407.24% | fall 39.71% | trades 1936 | vs TRI: both better
+# 01 baseline done in 6.2 s
+02 cost x2 | A | full | TRI | cagr 474.18% | fall 58.46% | trades 3794
+02 cost x2 | A | full | R100 | cagr 438.01% | fall 52.44% | trades 3794 | vs TRI: fall only
+02 cost x2 | A | full | R105 | cagr 467.10% | fall 54.37% | trades 3794 | vs TRI: fall only
+02 cost x2 | A | full | R111 | cagr 502.45% | fall 56.62% | trades 3794 | vs TRI: both better
+02 cost x2 | A | 24-26 | TRI | cagr 525.98% | fall 55.42% | trades 1938
+02 cost x2 | A | 24-26 | R100 | cagr 490.43% | fall 46.63% | trades 1938 | vs TRI: fall only
+02 cost x2 | A | 24-26 | R105 | cagr 522.50% | fall 48.01% | trades 1938 | vs TRI: fall only
+02 cost x2 | A | 24-26 | R111 | cagr 561.24% | fall 49.61% | trades 1938 | vs TRI: both better
+02 cost x2 | B | full | TRI | cagr 179.26% | fall 44.16% | trades 3795
+02 cost x2 | B | full | R100 | cagr 176.12% | fall 42.37% | trades 3794 | vs TRI: fall only
+02 cost x2 | B | full | R105 | cagr 177.59% | fall 43.68% | trades 3794 | vs TRI: fall only
+02 cost x2 | B | full | R111 | cagr 179.15% | fall 43.71% | trades 3794 | vs TRI: fall only
+02 cost x2 | B | 24-26 | TRI | cagr 348.06% | fall 51.29% | trades 1933
+02 cost x2 | B | 24-26 | R100 | cagr 327.97% | fall 39.50% | trades 1938 | vs TRI: fall only
+02 cost x2 | B | 24-26 | R105 | cagr 349.45% | fall 40.69% | trades 1938 | vs TRI: both better
+02 cost x2 | B | 24-26 | R111 | cagr 376.20% | fall 42.56% | trades 1938 | vs TRI: both better
+# 02 cost x2 done in 6.3 s
+03 cost x3 | A | full | TRI | cagr 398.65% | fall 62.71% | trades 3802
+03 cost x3 | A | full | R100 | cagr 377.23% | fall 56.71% | trades 3802 | vs TRI: fall only
+03 cost x3 | A | full | R105 | cagr 400.12% | fall 58.67% | trades 3802 | vs TRI: both better
+03 cost x3 | A | full | R111 | cagr 427.60% | fall 60.93% | trades 3802 | vs TRI: both better
+03 cost x3 | A | 24-26 | TRI | cagr 424.35% | fall 58.57% | trades 1944
+03 cost x3 | A | 24-26 | R100 | cagr 408.87% | fall 47.29% | trades 1944 | vs TRI: fall only
+03 cost x3 | A | 24-26 | R105 | cagr 432.63% | fall 48.69% | trades 1944 | vs TRI: both better
+03 cost x3 | A | 24-26 | R111 | cagr 460.85% | fall 50.31% | trades 1944 | vs TRI: both better
+03 cost x3 | B | full | TRI | cagr 174.57% | fall 45.23% | trades 3803
+03 cost x3 | B | full | R100 | cagr 172.15% | fall 44.16% | trades 3802 | vs TRI: fall only
+03 cost x3 | B | full | R105 | cagr 173.65% | fall 45.51% | trades 3802 | vs TRI: neither
+03 cost x3 | B | full | R111 | cagr 175.23% | fall 45.41% | trades 3802 | vs TRI: return only
+03 cost x3 | B | 24-26 | TRI | cagr 292.83% | fall 54.67% | trades 1938
+03 cost x3 | B | 24-26 | R100 | cagr 286.12% | fall 42.58% | trades 1944 | vs TRI: fall only
+03 cost x3 | B | 24-26 | R105 | cagr 302.03% | fall 44.34% | trades 1944 | vs TRI: both better
+03 cost x3 | B | 24-26 | R111 | cagr 317.45% | fall 45.94% | trades 1943 | vs TRI: both better
+# 03 cost x3 done in 6.2 s
+04 extraSlip 0.001 | A | full | TRI | cagr 427.95% | fall 60.96% | trades 3822
+04 extraSlip 0.001 | A | full | R100 | cagr 398.52% | fall 55.11% | trades 3822 | vs TRI: fall only
+04 extraSlip 0.001 | A | full | R105 | cagr 423.73% | fall 57.05% | trades 3822 | vs TRI: fall only
+04 extraSlip 0.001 | A | full | R111 | cagr 454.17% | fall 59.28% | trades 3822 | vs TRI: both better
+04 extraSlip 0.001 | A | 24-26 | TRI | cagr 462.41% | fall 57.48% | trades 1955
+04 extraSlip 0.001 | A | 24-26 | R100 | cagr 436.26% | fall 47.39% | trades 1955 | vs TRI: fall only
+04 extraSlip 0.001 | A | 24-26 | R105 | cagr 462.95% | fall 48.79% | trades 1955 | vs TRI: both better
+04 extraSlip 0.001 | A | 24-26 | R111 | cagr 494.91% | fall 50.41% | trades 1955 | vs TRI: both better
+04 extraSlip 0.001 | B | full | TRI | cagr 176.38% | fall 44.08% | trades 3823
+04 extraSlip 0.001 | B | full | R100 | cagr 173.54% | fall 42.80% | trades 3822 | vs TRI: fall only
+04 extraSlip 0.001 | B | full | R105 | cagr 175.06% | fall 44.14% | trades 3822 | vs TRI: neither
+04 extraSlip 0.001 | B | full | R111 | cagr 176.65% | fall 43.95% | trades 3822 | vs TRI: both better
+04 extraSlip 0.001 | B | 24-26 | TRI | cagr 316.96% | fall 53.95% | trades 1947
+04 extraSlip 0.001 | B | 24-26 | R100 | cagr 298.58% | fall 41.48% | trades 1955 | vs TRI: fall only
+04 extraSlip 0.001 | B | 24-26 | R105 | cagr 317.65% | fall 43.02% | trades 1955 | vs TRI: both better
+04 extraSlip 0.001 | B | 24-26 | R111 | cagr 331.78% | fall 44.86% | trades 1954 | vs TRI: both better
+# 04 extraSlip 0.001 done in 6.3 s
+05 delayH 1 | A | full | TRI | cagr 446.25% | fall 58.28% | trades 3813
+05 delayH 1 | A | full | R100 | cagr 418.17% | fall 49.93% | trades 3813 | vs TRI: fall only
+05 delayH 1 | A | full | R105 | cagr 445.53% | fall 51.41% | trades 3813 | vs TRI: fall only
+05 delayH 1 | A | full | R111 | cagr 478.73% | fall 53.12% | trades 3813 | vs TRI: both better
+05 delayH 1 | A | 24-26 | TRI | cagr 455.19% | fall 58.28% | trades 1942
+05 delayH 1 | A | 24-26 | R100 | cagr 440.64% | fall 47.74% | trades 1942 | vs TRI: fall only
+05 delayH 1 | A | 24-26 | R105 | cagr 467.90% | fall 49.39% | trades 1942 | vs TRI: both better
+05 delayH 1 | A | 24-26 | R111 | cagr 500.62% | fall 51.29% | trades 1942 | vs TRI: both better
+05 delayH 1 | B | full | TRI | cagr 177.26% | fall 49.23% | trades 3814
+05 delayH 1 | B | full | R100 | cagr 174.15% | fall 47.96% | trades 3812 | vs TRI: fall only
+05 delayH 1 | B | full | R105 | cagr 175.53% | fall 49.45% | trades 3812 | vs TRI: neither
+05 delayH 1 | B | full | R111 | cagr 177.23% | fall 51.15% | trades 3812 | vs TRI: neither
+05 delayH 1 | B | 24-26 | TRI | cagr 317.74% | fall 54.36% | trades 1932
+05 delayH 1 | B | 24-26 | R100 | cagr 298.85% | fall 44.28% | trades 1942 | vs TRI: fall only
+05 delayH 1 | B | 24-26 | R105 | cagr 316.70% | fall 45.87% | trades 1942 | vs TRI: fall only
+05 delayH 1 | B | 24-26 | R111 | cagr 338.54% | fall 47.46% | trades 1942 | vs TRI: both better
+# 05 delayH 1 done in 8.6 s
+06 delayH 2 | A | full | TRI | cagr 454.62% | fall 56.42% | trades 3807
+06 delayH 2 | A | full | R100 | cagr 418.09% | fall 50.66% | trades 3807 | vs TRI: fall only
+06 delayH 2 | A | full | R105 | cagr 445.27% | fall 52.17% | trades 3807 | vs TRI: fall only
+06 delayH 2 | A | full | R111 | cagr 478.21% | fall 53.91% | trades 3807 | vs TRI: both better
+06 delayH 2 | A | 24-26 | TRI | cagr 453.36% | fall 54.82% | trades 1950
+06 delayH 2 | A | 24-26 | R100 | cagr 416.23% | fall 48.45% | trades 1950 | vs TRI: fall only
+06 delayH 2 | A | 24-26 | R105 | cagr 441.91% | fall 49.87% | trades 1950 | vs TRI: fall only
+06 delayH 2 | A | 24-26 | R111 | cagr 472.75% | fall 51.51% | trades 1950 | vs TRI: both better
+06 delayH 2 | B | full | TRI | cagr 178.91% | fall 49.88% | trades 3806
+06 delayH 2 | B | full | R100 | cagr 175.86% | fall 48.56% | trades 3806 | vs TRI: fall only
+06 delayH 2 | B | full | R105 | cagr 177.17% | fall 50.10% | trades 3806 | vs TRI: neither
+06 delayH 2 | B | full | R111 | cagr 178.83% | fall 51.82% | trades 3805 | vs TRI: neither
+06 delayH 2 | B | 24-26 | TRI | cagr 317.99% | fall 50.76% | trades 1947
+06 delayH 2 | B | 24-26 | R100 | cagr 288.05% | fall 38.81% | trades 1950 | vs TRI: fall only
+06 delayH 2 | B | 24-26 | R105 | cagr 305.30% | fall 40.11% | trades 1950 | vs TRI: fall only
+06 delayH 2 | B | 24-26 | R111 | cagr 328.08% | fall 41.81% | trades 1950 | vs TRI: both better
+# 06 delayH 2 done in 7.3 s
+08 order reverse | A | full | TRI | cagr 560.89% | fall 54.14% | trades 3789
+08 order reverse | A | full | R100 | cagr 506.25% | fall 49.09% | trades 3789 | vs TRI: fall only
+08 order reverse | A | full | R105 | cagr 542.73% | fall 50.98% | trades 3789 | vs TRI: fall only
+08 order reverse | A | full | R111 | cagr 587.53% | fall 53.18% | trades 3789 | vs TRI: both better
+08 order reverse | A | 24-26 | TRI | cagr 640.87% | fall 52.99% | trades 1936
+08 order reverse | A | 24-26 | R100 | cagr 585.88% | fall 46.05% | trades 1936 | vs TRI: fall only
+08 order reverse | A | 24-26 | R105 | cagr 628.57% | fall 47.42% | trades 1936 | vs TRI: fall only
+08 order reverse | A | 24-26 | R111 | cagr 680.90% | fall 49.00% | trades 1936 | vs TRI: both better
+08 order reverse | B | full | TRI | cagr 182.97% | fall 43.72% | trades 3791
+08 order reverse | B | full | R100 | cagr 179.60% | fall 40.91% | trades 3789 | vs TRI: fall only
+08 order reverse | B | full | R105 | cagr 181.02% | fall 40.04% | trades 3789 | vs TRI: fall only
+08 order reverse | B | full | R111 | cagr 182.69% | fall 41.35% | trades 3789 | vs TRI: fall only
+08 order reverse | B | 24-26 | TRI | cagr 396.79% | fall 49.12% | trades 1933
+08 order reverse | B | 24-26 | R100 | cagr 376.15% | fall 37.79% | trades 1936 | vs TRI: fall only
+08 order reverse | B | 24-26 | R105 | cagr 375.29% | fall 39.34% | trades 1936 | vs TRI: fall only
+08 order reverse | B | 24-26 | R111 | cagr 406.12% | fall 38.49% | trades 1936 | vs TRI: both better
+# 08 order reverse done in 7.3 s
+09 order alpha | A | full | TRI | cagr 560.89% | fall 54.14% | trades 3789
+09 order alpha | A | full | R100 | cagr 513.87% | fall 47.95% | trades 3789 | vs TRI: fall only
+09 order alpha | A | full | R105 | cagr 551.16% | fall 49.84% | trades 3789 | vs TRI: fall only
+09 order alpha | A | full | R111 | cagr 597.00% | fall 52.04% | trades 3789 | vs TRI: both better
+09 order alpha | A | 24-26 | TRI | cagr 640.87% | fall 52.99% | trades 1936
+09 order alpha | A | 24-26 | R100 | cagr 589.84% | fall 45.91% | trades 1936 | vs TRI: fall only
+09 order alpha | A | 24-26 | R105 | cagr 632.91% | fall 47.27% | trades 1936 | vs TRI: fall only
+09 order alpha | A | 24-26 | R111 | cagr 685.71% | fall 48.85% | trades 1936 | vs TRI: both better
+09 order alpha | B | full | TRI | cagr 182.97% | fall 43.72% | trades 3791
+09 order alpha | B | full | R100 | cagr 180.00% | fall 40.91% | trades 3789 | vs TRI: fall only
+09 order alpha | B | full | R105 | cagr 181.34% | fall 40.04% | trades 3789 | vs TRI: fall only
+09 order alpha | B | full | R111 | cagr 183.07% | fall 41.35% | trades 3789 | vs TRI: both better
+09 order alpha | B | 24-26 | TRI | cagr 396.79% | fall 49.12% | trades 1933
+09 order alpha | B | 24-26 | R100 | cagr 377.67% | fall 37.71% | trades 1936 | vs TRI: fall only
+09 order alpha | B | 24-26 | R105 | cagr 377.25% | fall 39.25% | trades 1936 | vs TRI: fall only
+09 order alpha | B | 24-26 | R111 | cagr 409.14% | fall 38.37% | trades 1936 | vs TRI: both better
+# 09 order alpha done in 7.1 s
+10 countClosing | A | full | TRI | cagr 560.89% | fall 54.14% | trades 3789
+10 countClosing | A | full | R100 | cagr 509.64% | fall 47.38% | trades 3789 | vs TRI: fall only
+10 countClosing | A | full | R105 | cagr 546.51% | fall 49.27% | trades 3789 | vs TRI: fall only
+10 countClosing | A | full | R111 | cagr 591.82% | fall 51.47% | trades 3789 | vs TRI: both better
+10 countClosing | A | 24-26 | TRI | cagr 640.87% | fall 52.99% | trades 1936
+10 countClosing | A | 24-26 | R100 | cagr 584.79% | fall 45.61% | trades 1936 | vs TRI: fall only
+10 countClosing | A | 24-26 | R105 | cagr 627.31% | fall 46.96% | trades 1936 | vs TRI: fall only
+10 countClosing | A | 24-26 | R111 | cagr 679.40% | fall 48.53% | trades 1936 | vs TRI: both better
+10 countClosing | B | full | TRI | cagr 182.97% | fall 43.72% | trades 3791
+10 countClosing | B | full | R100 | cagr 179.94% | fall 40.85% | trades 3789 | vs TRI: fall only
+10 countClosing | B | full | R105 | cagr 181.30% | fall 40.54% | trades 3789 | vs TRI: fall only
+10 countClosing | B | full | R111 | cagr 182.89% | fall 41.89% | trades 3789 | vs TRI: fall only
+10 countClosing | B | 24-26 | TRI | cagr 396.79% | fall 49.12% | trades 1933
+10 countClosing | B | 24-26 | R100 | cagr 368.54% | fall 36.65% | trades 1936 | vs TRI: fall only
+10 countClosing | B | 24-26 | R105 | cagr 374.48% | fall 38.10% | trades 1936 | vs TRI: fall only
+10 countClosing | B | 24-26 | R111 | cagr 410.86% | fall 39.71% | trades 1936 | vs TRI: both better
+# 10 countClosing done in 7.2 s
+11 research conventions | A | full | TRI | cagr 560.88% | fall 54.13% | trades 3789
+11 research conventions | A | full | R100 | cagr 513.88% | fall 47.94% | trades 3789 | vs TRI: fall only
+11 research conventions | A | full | R105 | cagr 551.16% | fall 49.83% | trades 3789 | vs TRI: fall only
+11 research conventions | A | full | R111 | cagr 597.00% | fall 52.03% | trades 3789 | vs TRI: both better
+11 research conventions | A | 24-26 | TRI | cagr 640.76% | fall 53.00% | trades 1936
+11 research conventions | A | 24-26 | R100 | cagr 589.80% | fall 45.91% | trades 1936 | vs TRI: fall only
+11 research conventions | A | 24-26 | R105 | cagr 632.86% | fall 47.27% | trades 1936 | vs TRI: fall only
+11 research conventions | A | 24-26 | R111 | cagr 685.66% | fall 48.85% | trades 1936 | vs TRI: both better
+11 research conventions | B | full | TRI | cagr 182.94% | fall 43.71% | trades 3787
+11 research conventions | B | full | R100 | cagr 179.99% | fall 40.90% | trades 3789 | vs TRI: fall only
+11 research conventions | B | full | R105 | cagr 181.34% | fall 40.05% | trades 3789 | vs TRI: fall only
+11 research conventions | B | full | R111 | cagr 183.06% | fall 41.36% | trades 3789 | vs TRI: both better
+11 research conventions | B | 24-26 | TRI | cagr 399.77% | fall 49.13% | trades 1926
+11 research conventions | B | 24-26 | R100 | cagr 377.66% | fall 37.71% | trades 1936 | vs TRI: fall only
+11 research conventions | B | 24-26 | R105 | cagr 377.23% | fall 39.24% | trades 1936 | vs TRI: fall only
+11 research conventions | B | 24-26 | R111 | cagr 409.11% | fall 38.37% | trades 1936 | vs TRI: both better
+# 11 research conventions done in 8.8 s
+07 miss 0.1 seed 1009 | A | full | TRI | cagr 533.12% | fall 55.16% | trades 3687
+07 miss 0.1 seed 1009 | A | full | R100 | cagr 479.83% | fall 48.25% | trades 3687 | vs TRI: fall only
+07 miss 0.1 seed 1009 | A | full | R105 | cagr 513.90% | fall 49.91% | trades 3687 | vs TRI: fall only
+07 miss 0.1 seed 1009 | A | full | R111 | cagr 555.69% | fall 51.85% | trades 3687 | vs TRI: both better
+07 miss 0.1 seed 8928 | A | full | TRI | cagr 467.23% | fall 55.75% | trades 3699
+07 miss 0.1 seed 8928 | A | full | R100 | cagr 439.87% | fall 49.45% | trades 3699 | vs TRI: fall only
+07 miss 0.1 seed 8928 | A | full | R105 | cagr 470.21% | fall 51.12% | trades 3699 | vs TRI: both better
+07 miss 0.1 seed 8928 | A | full | R111 | cagr 507.29% | fall 53.06% | trades 3699 | vs TRI: both better
+07 miss 0.1 seed 16847 | A | full | TRI | cagr 490.63% | fall 55.73% | trades 3703
+07 miss 0.1 seed 16847 | A | full | R100 | cagr 454.21% | fall 48.39% | trades 3703 | vs TRI: fall only
+07 miss 0.1 seed 16847 | A | full | R105 | cagr 486.21% | fall 50.27% | trades 3703 | vs TRI: fall only
+07 miss 0.1 seed 16847 | A | full | R111 | cagr 525.42% | fall 52.45% | trades 3703 | vs TRI: both better
+07 miss 0.1 seed 24766 | A | full | TRI | cagr 538.07% | fall 55.77% | trades 3693
+07 miss 0.1 seed 24766 | A | full | R100 | cagr 482.15% | fall 49.04% | trades 3693 | vs TRI: fall only
+07 miss 0.1 seed 24766 | A | full | R105 | cagr 516.22% | fall 50.91% | trades 3693 | vs TRI: fall only
+07 miss 0.1 seed 24766 | A | full | R111 | cagr 557.96% | fall 53.10% | trades 3693 | vs TRI: both better
+07 miss 0.1 seed 32685 | A | full | TRI | cagr 483.78% | fall 57.29% | trades 3705
+07 miss 0.1 seed 32685 | A | full | R100 | cagr 452.58% | fall 49.08% | trades 3705 | vs TRI: fall only
+07 miss 0.1 seed 32685 | A | full | R105 | cagr 484.63% | fall 50.96% | trades 3705 | vs TRI: both better
+07 miss 0.1 seed 32685 | A | full | R111 | cagr 523.93% | fall 53.16% | trades 3705 | vs TRI: both better
+07 miss 0.1 seed 40604 | A | full | TRI | cagr 506.00% | fall 56.06% | trades 3705
+07 miss 0.1 seed 40604 | A | full | R100 | cagr 462.27% | fall 51.60% | trades 3705 | vs TRI: fall only
+07 miss 0.1 seed 40604 | A | full | R105 | cagr 494.58% | fall 53.51% | trades 3705 | vs TRI: fall only
+07 miss 0.1 seed 40604 | A | full | R111 | cagr 534.15% | fall 55.72% | trades 3705 | vs TRI: both better
+07 miss 0.1 seed 48523 | A | full | TRI | cagr 548.74% | fall 53.84% | trades 3682
+07 miss 0.1 seed 48523 | A | full | R100 | cagr 488.39% | fall 46.30% | trades 3682 | vs TRI: fall only
+07 miss 0.1 seed 48523 | A | full | R105 | cagr 523.24% | fall 47.91% | trades 3682 | vs TRI: fall only
+07 miss 0.1 seed 48523 | A | full | R111 | cagr 565.99% | fall 49.79% | trades 3682 | vs TRI: both better
+07 miss 0.1 seed 56442 | A | full | TRI | cagr 518.97% | fall 55.05% | trades 3699
+07 miss 0.1 seed 56442 | A | full | R100 | cagr 477.63% | fall 47.52% | trades 3699 | vs TRI: fall only
+07 miss 0.1 seed 56442 | A | full | R105 | cagr 511.44% | fall 49.15% | trades 3699 | vs TRI: fall only
+07 miss 0.1 seed 56442 | A | full | R111 | cagr 552.89% | fall 51.04% | trades 3699 | vs TRI: both better
+07 miss 0.1 seed 64361 | A | full | TRI | cagr 529.11% | fall 54.52% | trades 3680
+07 miss 0.1 seed 64361 | A | full | R100 | cagr 469.37% | fall 44.73% | trades 3680 | vs TRI: fall only
+07 miss 0.1 seed 64361 | A | full | R105 | cagr 502.70% | fall 46.32% | trades 3680 | vs TRI: fall only
+07 miss 0.1 seed 64361 | A | full | R111 | cagr 543.61% | fall 48.17% | trades 3680 | vs TRI: both better
+07 miss 0.1 seed 72280 | A | full | TRI | cagr 508.01% | fall 53.91% | trades 3711
+07 miss 0.1 seed 72280 | A | full | R100 | cagr 462.84% | fall 47.36% | trades 3711 | vs TRI: fall only
+07 miss 0.1 seed 72280 | A | full | R105 | cagr 495.74% | fall 49.01% | trades 3711 | vs TRI: fall only
+07 miss 0.1 seed 72280 | A | full | R111 | cagr 536.11% | fall 51.04% | trades 3711 | vs TRI: both better
+07 miss 0.1 seed 80199 | A | full | TRI | cagr 534.46% | fall 55.35% | trades 3691
+07 miss 0.1 seed 80199 | A | full | R100 | cagr 494.43% | fall 46.82% | trades 3691 | vs TRI: fall only
+07 miss 0.1 seed 80199 | A | full | R105 | cagr 530.06% | fall 48.18% | trades 3691 | vs TRI: fall only
+07 miss 0.1 seed 80199 | A | full | R111 | cagr 573.83% | fall 49.77% | trades 3691 | vs TRI: both better
+07 miss 0.1 seed 88118 | A | full | TRI | cagr 528.12% | fall 54.77% | trades 3707
+07 miss 0.1 seed 88118 | A | full | R100 | cagr 485.87% | fall 47.48% | trades 3707 | vs TRI: fall only
+07 miss 0.1 seed 88118 | A | full | R105 | cagr 520.52% | fall 49.12% | trades 3707 | vs TRI: fall only
+07 miss 0.1 seed 88118 | A | full | R111 | cagr 563.04% | fall 51.03% | trades 3707 | vs TRI: both better
+07 miss 0.1 seed 96037 | A | full | TRI | cagr 453.49% | fall 53.76% | trades 3716
+07 miss 0.1 seed 96037 | A | full | R100 | cagr 425.67% | fall 45.90% | trades 3716 | vs TRI: fall only
+07 miss 0.1 seed 96037 | A | full | R105 | cagr 454.80% | fall 47.33% | trades 3716 | vs TRI: both better
+07 miss 0.1 seed 96037 | A | full | R111 | cagr 490.38% | fall 49.00% | trades 3716 | vs TRI: both better
+07 miss 0.1 seed 103956 | A | full | TRI | cagr 553.17% | fall 57.08% | trades 3699
+07 miss 0.1 seed 103956 | A | full | R100 | cagr 495.29% | fall 51.96% | trades 3699 | vs TRI: fall only
+07 miss 0.1 seed 103956 | A | full | R105 | cagr 530.86% | fall 53.86% | trades 3699 | vs TRI: fall only
+07 miss 0.1 seed 103956 | A | full | R111 | cagr 574.55% | fall 56.05% | trades 3699 | vs TRI: both better
+07 miss 0.1 seed 111875 | A | full | TRI | cagr 524.51% | fall 56.41% | trades 3706
+07 miss 0.1 seed 111875 | A | full | R100 | cagr 488.65% | fall 48.50% | trades 3706 | vs TRI: fall only
+07 miss 0.1 seed 111875 | A | full | R105 | cagr 523.65% | fall 50.39% | trades 3706 | vs TRI: fall only
+07 miss 0.1 seed 111875 | A | full | R111 | cagr 566.62% | fall 52.58% | trades 3706 | vs TRI: both better
+07 miss 0.1 seed 119794 | A | full | TRI | cagr 501.98% | fall 56.11% | trades 3696
+07 miss 0.1 seed 119794 | A | full | R100 | cagr 458.16% | fall 49.39% | trades 3696 | vs TRI: fall only
+07 miss 0.1 seed 119794 | A | full | R105 | cagr 489.91% | fall 51.26% | trades 3696 | vs TRI: fall only
+07 miss 0.1 seed 119794 | A | full | R111 | cagr 528.75% | fall 53.44% | trades 3696 | vs TRI: both better
+07 miss 0.1 seed 127713 | A | full | TRI | cagr 518.86% | fall 57.53% | trades 3704
+07 miss 0.1 seed 127713 | A | full | R100 | cagr 473.58% | fall 51.94% | trades 3704 | vs TRI: fall only
+07 miss 0.1 seed 127713 | A | full | R105 | cagr 506.93% | fall 53.85% | trades 3704 | vs TRI: fall only
+07 miss 0.1 seed 127713 | A | full | R111 | cagr 547.81% | fall 56.05% | trades 3704 | vs TRI: both better
+07 miss 0.1 seed 135632 | A | full | TRI | cagr 535.55% | fall 54.97% | trades 3698
+07 miss 0.1 seed 135632 | A | full | R100 | cagr 490.38% | fall 48.62% | trades 3698 | vs TRI: fall only
+07 miss 0.1 seed 135632 | A | full | R105 | cagr 525.55% | fall 50.52% | trades 3698 | vs TRI: fall only
+07 miss 0.1 seed 135632 | A | full | R111 | cagr 568.75% | fall 52.73% | trades 3698 | vs TRI: both better
+07 miss 0.1 seed 143551 | A | full | TRI | cagr 477.48% | fall 56.17% | trades 3698
+07 miss 0.1 seed 143551 | A | full | R100 | cagr 447.02% | fall 48.10% | trades 3698 | vs TRI: fall only
+07 miss 0.1 seed 143551 | A | full | R105 | cagr 478.14% | fall 49.74% | trades 3698 | vs TRI: both better
+07 miss 0.1 seed 143551 | A | full | R111 | cagr 516.22% | fall 51.64% | trades 3698 | vs TRI: both better
+07 miss 0.1 seed 151470 | A | full | TRI | cagr 513.70% | fall 57.02% | trades 3712
+07 miss 0.1 seed 151470 | A | full | R100 | cagr 473.69% | fall 44.83% | trades 3712 | vs TRI: fall only
+07 miss 0.1 seed 151470 | A | full | R105 | cagr 507.13% | fall 46.42% | trades 3712 | vs TRI: fall only
+07 miss 0.1 seed 151470 | A | full | R111 | cagr 548.12% | fall 48.27% | trades 3712 | vs TRI: both better
+07 miss 0.1 median | A | full | TRI | cagr 518.91% | fall 55.74% | trades 3699
+07 miss 0.1 median | A | full | R100 | cagr 473.64% | fall 48.32% | trades 3699 | vs TRI: fall only
+07 miss 0.1 share | A | full | R100 | both 0.00% | return only 0.00% | fall only 100.00% | neither 0.00%
+07 miss 0.1 median | A | full | R105 | cagr 507.03% | fall 50.09% | trades 3699 | vs TRI: fall only
+07 miss 0.1 share | A | full | R105 | both 20.00% | return only 0.00% | fall only 80.00% | neither 0.00%
+07 miss 0.1 median | A | full | R111 | cagr 547.96% | fall 52.15% | trades 3699 | vs TRI: both better
+07 miss 0.1 share | A | full | R111 | both 100.00% | return only 0.00% | fall only 0.00% | neither 0.00%
+07 miss 0.1 seed 1009 | A | 24-26 | TRI | cagr 654.18% | fall 52.39% | trades 1881
+07 miss 0.1 seed 1009 | A | 24-26 | R100 | cagr 587.35% | fall 43.24% | trades 1881 | vs TRI: fall only
+07 miss 0.1 seed 1009 | A | 24-26 | R105 | cagr 630.66% | fall 44.52% | trades 1881 | vs TRI: fall only
+07 miss 0.1 seed 1009 | A | 24-26 | R111 | cagr 683.87% | fall 46.02% | trades 1881 | vs TRI: both better
+07 miss 0.1 seed 8928 | A | 24-26 | TRI | cagr 585.81% | fall 54.76% | trades 1887
+07 miss 0.1 seed 8928 | A | 24-26 | R100 | cagr 525.09% | fall 44.76% | trades 1887 | vs TRI: fall only
+07 miss 0.1 seed 8928 | A | 24-26 | R105 | cagr 561.41% | fall 46.10% | trades 1887 | vs TRI: fall only
+07 miss 0.1 seed 8928 | A | 24-26 | R111 | cagr 605.65% | fall 47.65% | trades 1887 | vs TRI: both better
+07 miss 0.1 seed 16847 | A | 24-26 | TRI | cagr 662.65% | fall 53.65% | trades 1883
+07 miss 0.1 seed 16847 | A | 24-26 | R100 | cagr 622.98% | fall 44.90% | trades 1883 | vs TRI: fall only
+07 miss 0.1 seed 16847 | A | 24-26 | R105 | cagr 670.52% | fall 46.23% | trades 1883 | vs TRI: both better
+07 miss 0.1 seed 16847 | A | 24-26 | R111 | cagr 729.21% | fall 47.78% | trades 1883 | vs TRI: both better
+07 miss 0.1 seed 24766 | A | 24-26 | TRI | cagr 615.25% | fall 53.92% | trades 1887
+07 miss 0.1 seed 24766 | A | 24-26 | R100 | cagr 579.91% | fall 45.91% | trades 1887 | vs TRI: fall only
+07 miss 0.1 seed 24766 | A | 24-26 | R105 | cagr 622.67% | fall 47.27% | trades 1887 | vs TRI: both better
+07 miss 0.1 seed 24766 | A | 24-26 | R111 | cagr 675.24% | fall 48.85% | trades 1887 | vs TRI: both better
+07 miss 0.1 seed 32685 | A | 24-26 | TRI | cagr 671.81% | fall 51.61% | trades 1873
+07 miss 0.1 seed 32685 | A | 24-26 | R100 | cagr 583.75% | fall 45.57% | trades 1873 | vs TRI: fall only
+07 miss 0.1 seed 32685 | A | 24-26 | R105 | cagr 626.61% | fall 46.94% | trades 1873 | vs TRI: fall only
+07 miss 0.1 seed 32685 | A | 24-26 | R111 | cagr 679.23% | fall 48.52% | trades 1873 | vs TRI: both better
+07 miss 0.1 seed 40604 | A | 24-26 | TRI | cagr 569.94% | fall 51.80% | trades 1898
+07 miss 0.1 seed 40604 | A | 24-26 | R100 | cagr 525.46% | fall 44.56% | trades 1898 | vs TRI: fall only
+07 miss 0.1 seed 40604 | A | 24-26 | R105 | cagr 563.46% | fall 45.87% | trades 1898 | vs TRI: fall only
+07 miss 0.1 seed 40604 | A | 24-26 | R111 | cagr 610.01% | fall 47.41% | trades 1898 | vs TRI: both better
+07 miss 0.1 seed 48523 | A | 24-26 | TRI | cagr 615.63% | fall 53.02% | trades 1883
+07 miss 0.1 seed 48523 | A | 24-26 | R100 | cagr 562.66% | fall 46.19% | trades 1883 | vs TRI: fall only
+07 miss 0.1 seed 48523 | A | 24-26 | R105 | cagr 603.82% | fall 47.59% | trades 1883 | vs TRI: fall only
+07 miss 0.1 seed 48523 | A | 24-26 | R111 | cagr 654.34% | fall 49.21% | trades 1883 | vs TRI: both better
+07 miss 0.1 seed 56442 | A | 24-26 | TRI | cagr 526.58% | fall 54.03% | trades 1890
+07 miss 0.1 seed 56442 | A | 24-26 | R100 | cagr 500.59% | fall 47.14% | trades 1890 | vs TRI: fall only
+07 miss 0.1 seed 56442 | A | 24-26 | R105 | cagr 534.32% | fall 48.52% | trades 1890 | vs TRI: both better
+07 miss 0.1 seed 56442 | A | 24-26 | R111 | cagr 575.27% | fall 50.13% | trades 1890 | vs TRI: both better
+07 miss 0.1 seed 64361 | A | 24-26 | TRI | cagr 562.34% | fall 52.43% | trades 1888
+07 miss 0.1 seed 64361 | A | 24-26 | R100 | cagr 530.16% | fall 45.56% | trades 1888 | vs TRI: fall only
+07 miss 0.1 seed 64361 | A | 24-26 | R105 | cagr 568.79% | fall 46.91% | trades 1888 | vs TRI: both better
+07 miss 0.1 seed 64361 | A | 24-26 | R111 | cagr 616.17% | fall 48.48% | trades 1888 | vs TRI: both better
+07 miss 0.1 seed 72280 | A | 24-26 | TRI | cagr 668.23% | fall 53.18% | trades 1889
+07 miss 0.1 seed 72280 | A | 24-26 | R100 | cagr 611.64% | fall 43.93% | trades 1889 | vs TRI: fall only
+07 miss 0.1 seed 72280 | A | 24-26 | R105 | cagr 656.63% | fall 45.24% | trades 1889 | vs TRI: fall only
+07 miss 0.1 seed 72280 | A | 24-26 | R111 | cagr 711.85% | fall 46.76% | trades 1889 | vs TRI: both better
+07 miss 0.1 seed 80199 | A | 24-26 | TRI | cagr 558.83% | fall 52.57% | trades 1895
+07 miss 0.1 seed 80199 | A | 24-26 | R100 | cagr 528.96% | fall 43.61% | trades 1895 | vs TRI: fall only
+07 miss 0.1 seed 80199 | A | 24-26 | R105 | cagr 567.34% | fall 44.87% | trades 1895 | vs TRI: both better
+07 miss 0.1 seed 80199 | A | 24-26 | R111 | cagr 614.38% | fall 46.35% | trades 1895 | vs TRI: both better
+07 miss 0.1 seed 88118 | A | 24-26 | TRI | cagr 589.50% | fall 52.26% | trades 1896
+07 miss 0.1 seed 88118 | A | 24-26 | R100 | cagr 546.27% | fall 44.78% | trades 1896 | vs TRI: fall only
+07 miss 0.1 seed 88118 | A | 24-26 | R105 | cagr 584.98% | fall 46.11% | trades 1896 | vs TRI: fall only
+07 miss 0.1 seed 88118 | A | 24-26 | R111 | cagr 632.27% | fall 47.67% | trades 1896 | vs TRI: both better
+07 miss 0.1 seed 96037 | A | 24-26 | TRI | cagr 533.84% | fall 53.84% | trades 1902
+07 miss 0.1 seed 96037 | A | 24-26 | R100 | cagr 502.06% | fall 46.12% | trades 1902 | vs TRI: fall only
+07 miss 0.1 seed 96037 | A | 24-26 | R105 | cagr 536.63% | fall 47.48% | trades 1902 | vs TRI: both better
+07 miss 0.1 seed 96037 | A | 24-26 | R111 | cagr 578.77% | fall 49.06% | trades 1902 | vs TRI: both better
+07 miss 0.1 seed 103956 | A | 24-26 | TRI | cagr 580.84% | fall 53.20% | trades 1897
+07 miss 0.1 seed 103956 | A | 24-26 | R100 | cagr 521.63% | fall 45.15% | trades 1897 | vs TRI: fall only
+07 miss 0.1 seed 103956 | A | 24-26 | R105 | cagr 557.92% | fall 46.49% | trades 1897 | vs TRI: fall only
+07 miss 0.1 seed 103956 | A | 24-26 | R111 | cagr 602.18% | fall 48.04% | trades 1897 | vs TRI: both better
+07 miss 0.1 seed 111875 | A | 24-26 | TRI | cagr 639.95% | fall 52.29% | trades 1877
+07 miss 0.1 seed 111875 | A | 24-26 | R100 | cagr 583.01% | fall 43.90% | trades 1877 | vs TRI: fall only
+07 miss 0.1 seed 111875 | A | 24-26 | R105 | cagr 625.93% | fall 45.20% | trades 1877 | vs TRI: fall only
+07 miss 0.1 seed 111875 | A | 24-26 | R111 | cagr 678.65% | fall 46.72% | trades 1877 | vs TRI: both better
+07 miss 0.1 seed 119794 | A | 24-26 | TRI | cagr 583.29% | fall 52.35% | trades 1896
+07 miss 0.1 seed 119794 | A | 24-26 | R100 | cagr 526.06% | fall 42.65% | trades 1896 | vs TRI: fall only
+07 miss 0.1 seed 119794 | A | 24-26 | R105 | cagr 564.73% | fall 43.92% | trades 1896 | vs TRI: fall only
+07 miss 0.1 seed 119794 | A | 24-26 | R111 | cagr 612.27% | fall 45.41% | trades 1896 | vs TRI: both better
+07 miss 0.1 seed 127713 | A | 24-26 | TRI | cagr 597.32% | fall 52.72% | trades 1897
+07 miss 0.1 seed 127713 | A | 24-26 | R100 | cagr 551.31% | fall 46.13% | trades 1897 | vs TRI: fall only
+07 miss 0.1 seed 127713 | A | 24-26 | R105 | cagr 590.17% | fall 47.50% | trades 1897 | vs TRI: fall only
+07 miss 0.1 seed 127713 | A | 24-26 | R111 | cagr 637.61% | fall 49.08% | trades 1897 | vs TRI: both better
+07 miss 0.1 seed 135632 | A | 24-26 | TRI | cagr 568.90% | fall 55.17% | trades 1891
+07 miss 0.1 seed 135632 | A | 24-26 | R100 | cagr 516.38% | fall 46.60% | trades 1891 | vs TRI: fall only
+07 miss 0.1 seed 135632 | A | 24-26 | R105 | cagr 552.21% | fall 47.98% | trades 1891 | vs TRI: fall only
+07 miss 0.1 seed 135632 | A | 24-26 | R111 | cagr 595.89% | fall 49.58% | trades 1891 | vs TRI: both better
+07 miss 0.1 seed 143551 | A | 24-26 | TRI | cagr 545.86% | fall 51.85% | trades 1893
+07 miss 0.1 seed 143551 | A | 24-26 | R100 | cagr 505.89% | fall 45.12% | trades 1893 | vs TRI: fall only
+07 miss 0.1 seed 143551 | A | 24-26 | R105 | cagr 541.22% | fall 46.46% | trades 1893 | vs TRI: fall only
+07 miss 0.1 seed 143551 | A | 24-26 | R111 | cagr 584.37% | fall 48.01% | trades 1893 | vs TRI: both better
+07 miss 0.1 seed 151470 | A | 24-26 | TRI | cagr 561.27% | fall 52.64% | trades 1890
+07 miss 0.1 seed 151470 | A | 24-26 | R100 | cagr 525.14% | fall 45.17% | trades 1890 | vs TRI: fall only
+07 miss 0.1 seed 151470 | A | 24-26 | R105 | cagr 563.09% | fall 46.49% | trades 1890 | vs TRI: both better
+07 miss 0.1 seed 151470 | A | 24-26 | R111 | cagr 609.56% | fall 48.03% | trades 1890 | vs TRI: both better
+07 miss 0.1 median | A | 24-26 | TRI | cagr 584.55% | fall 52.68% | trades 1890
+07 miss 0.1 median | A | 24-26 | R100 | cagr 529.56% | fall 45.14% | trades 1890 | vs TRI: fall only
+07 miss 0.1 share | A | 24-26 | R100 | both 0.00% | return only 0.00% | fall only 100.00% | neither 0.00%
+07 miss 0.1 median | A | 24-26 | R105 | cagr 568.06% | fall 46.47% | trades 1890 | vs TRI: fall only
+07 miss 0.1 share | A | 24-26 | R105 | both 35.00% | return only 0.00% | fall only 65.00% | neither 0.00%
+07 miss 0.1 median | A | 24-26 | R111 | cagr 615.27% | fall 48.02% | trades 1890 | vs TRI: both better
+07 miss 0.1 share | A | 24-26 | R111 | both 100.00% | return only 0.00% | fall only 0.00% | neither 0.00%
+07 miss 0.1 seed 1009 | B | full | TRI | cagr 181.57% | fall 44.14% | trades 3698
+07 miss 0.1 seed 1009 | B | full | R100 | cagr 178.32% | fall 42.74% | trades 3687 | vs TRI: fall only
+07 miss 0.1 seed 1009 | B | full | R105 | cagr 179.75% | fall 42.72% | trades 3687 | vs TRI: fall only
+07 miss 0.1 seed 1009 | B | full | R111 | cagr 181.43% | fall 42.64% | trades 3687 | vs TRI: fall only
+07 miss 0.1 seed 8928 | B | full | TRI | cagr 179.95% | fall 42.04% | trades 3691
+07 miss 0.1 seed 8928 | B | full | R100 | cagr 172.96% | fall 40.24% | trades 3699 | vs TRI: fall only
+07 miss 0.1 seed 8928 | B | full | R105 | cagr 174.58% | fall 41.57% | trades 3699 | vs TRI: fall only
+07 miss 0.1 seed 8928 | B | full | R111 | cagr 176.38% | fall 41.32% | trades 3699 | vs TRI: fall only
+07 miss 0.1 seed 16847 | B | full | TRI | cagr 176.34% | fall 44.01% | trades 3697
+07 miss 0.1 seed 16847 | B | full | R100 | cagr 173.12% | fall 40.91% | trades 3703 | vs TRI: fall only
+07 miss 0.1 seed 16847 | B | full | R105 | cagr 174.59% | fall 42.28% | trades 3703 | vs TRI: fall only
+07 miss 0.1 seed 16847 | B | full | R111 | cagr 176.28% | fall 43.83% | trades 3703 | vs TRI: fall only
+07 miss 0.1 seed 24766 | B | full | TRI | cagr 179.95% | fall 42.60% | trades 3709
+07 miss 0.1 seed 24766 | B | full | R100 | cagr 178.34% | fall 39.77% | trades 3693 | vs TRI: fall only
+07 miss 0.1 seed 24766 | B | full | R105 | cagr 179.61% | fall 39.37% | trades 3693 | vs TRI: fall only
+07 miss 0.1 seed 24766 | B | full | R111 | cagr 181.19% | fall 40.90% | trades 3693 | vs TRI: both better
+07 miss 0.1 seed 32685 | B | full | TRI | cagr 175.26% | fall 42.42% | trades 3705
+07 miss 0.1 seed 32685 | B | full | R100 | cagr 171.52% | fall 40.37% | trades 3705 | vs TRI: fall only
+07 miss 0.1 seed 32685 | B | full | R105 | cagr 173.10% | fall 41.70% | trades 3705 | vs TRI: fall only
+07 miss 0.1 seed 32685 | B | full | R111 | cagr 174.80% | fall 43.29% | trades 3705 | vs TRI: neither
+07 miss 0.1 seed 40604 | B | full | TRI | cagr 180.88% | fall 46.82% | trades 3699
+07 miss 0.1 seed 40604 | B | full | R100 | cagr 176.72% | fall 46.23% | trades 3705 | vs TRI: fall only
+07 miss 0.1 seed 40604 | B | full | R105 | cagr 178.04% | fall 47.67% | trades 3705 | vs TRI: neither
+07 miss 0.1 seed 40604 | B | full | R111 | cagr 179.54% | fall 47.27% | trades 3705 | vs TRI: neither
+07 miss 0.1 seed 48523 | B | full | TRI | cagr 181.92% | fall 42.57% | trades 3676
+07 miss 0.1 seed 48523 | B | full | R100 | cagr 177.98% | fall 42.32% | trades 3682 | vs TRI: fall only
+07 miss 0.1 seed 48523 | B | full | R105 | cagr 179.45% | fall 43.64% | trades 3682 | vs TRI: neither
+07 miss 0.1 seed 48523 | B | full | R111 | cagr 181.02% | fall 45.08% | trades 3682 | vs TRI: neither
+07 miss 0.1 seed 56442 | B | full | TRI | cagr 179.60% | fall 39.98% | trades 3695
+07 miss 0.1 seed 56442 | B | full | R100 | cagr 177.23% | fall 38.23% | trades 3699 | vs TRI: fall only
+07 miss 0.1 seed 56442 | B | full | R105 | cagr 178.75% | fall 39.31% | trades 3699 | vs TRI: fall only
+07 miss 0.1 seed 56442 | B | full | R111 | cagr 180.17% | fall 40.09% | trades 3699 | vs TRI: return only
+07 miss 0.1 seed 64361 | B | full | TRI | cagr 180.27% | fall 43.65% | trades 3705
+07 miss 0.1 seed 64361 | B | full | R100 | cagr 177.83% | fall 40.76% | trades 3680 | vs TRI: fall only
+07 miss 0.1 seed 64361 | B | full | R105 | cagr 179.21% | fall 42.11% | trades 3680 | vs TRI: fall only
+07 miss 0.1 seed 64361 | B | full | R111 | cagr 180.74% | fall 43.68% | trades 3680 | vs TRI: return only
+07 miss 0.1 seed 72280 | B | full | TRI | cagr 177.98% | fall 41.47% | trades 3702
+07 miss 0.1 seed 72280 | B | full | R100 | cagr 174.34% | fall 39.90% | trades 3711 | vs TRI: fall only
+07 miss 0.1 seed 72280 | B | full | R105 | cagr 175.77% | fall 38.95% | trades 3711 | vs TRI: fall only
+07 miss 0.1 seed 72280 | B | full | R111 | cagr 177.48% | fall 40.31% | trades 3711 | vs TRI: fall only
+07 miss 0.1 seed 80199 | B | full | TRI | cagr 181.53% | fall 41.00% | trades 3712
+07 miss 0.1 seed 80199 | B | full | R100 | cagr 177.99% | fall 39.31% | trades 3691 | vs TRI: fall only
+07 miss 0.1 seed 80199 | B | full | R105 | cagr 179.46% | fall 40.45% | trades 3691 | vs TRI: fall only
+07 miss 0.1 seed 80199 | B | full | R111 | cagr 180.98% | fall 41.81% | trades 3691 | vs TRI: neither
+07 miss 0.1 seed 88118 | B | full | TRI | cagr 179.39% | fall 41.09% | trades 3697
+07 miss 0.1 seed 88118 | B | full | R100 | cagr 177.52% | fall 38.19% | trades 3707 | vs TRI: fall only
+07 miss 0.1 seed 88118 | B | full | R105 | cagr 179.03% | fall 38.59% | trades 3707 | vs TRI: fall only
+07 miss 0.1 seed 88118 | B | full | R111 | cagr 180.90% | fall 39.99% | trades 3707 | vs TRI: both better
+07 miss 0.1 seed 96037 | B | full | TRI | cagr 178.72% | fall 45.00% | trades 3694
+07 miss 0.1 seed 96037 | B | full | R100 | cagr 173.75% | fall 44.25% | trades 3716 | vs TRI: fall only
+07 miss 0.1 seed 96037 | B | full | R105 | cagr 175.19% | fall 45.73% | trades 3716 | vs TRI: neither
+07 miss 0.1 seed 96037 | B | full | R111 | cagr 176.89% | fall 47.24% | trades 3716 | vs TRI: neither
+07 miss 0.1 seed 103956 | B | full | TRI | cagr 180.68% | fall 41.60% | trades 3722
+07 miss 0.1 seed 103956 | B | full | R100 | cagr 178.97% | fall 39.93% | trades 3699 | vs TRI: fall only
+07 miss 0.1 seed 103956 | B | full | R105 | cagr 180.40% | fall 39.33% | trades 3699 | vs TRI: fall only
+07 miss 0.1 seed 103956 | B | full | R111 | cagr 181.99% | fall 40.61% | trades 3699 | vs TRI: both better
+07 miss 0.1 seed 111875 | B | full | TRI | cagr 181.55% | fall 41.00% | trades 3700
+07 miss 0.1 seed 111875 | B | full | R100 | cagr 178.43% | fall 38.03% | trades 3706 | vs TRI: fall only
+07 miss 0.1 seed 111875 | B | full | R105 | cagr 179.89% | fall 39.34% | trades 3706 | vs TRI: fall only
+07 miss 0.1 seed 111875 | B | full | R111 | cagr 181.21% | fall 39.32% | trades 3706 | vs TRI: fall only
+07 miss 0.1 seed 119794 | B | full | TRI | cagr 177.64% | fall 43.99% | trades 3710
+07 miss 0.1 seed 119794 | B | full | R100 | cagr 176.64% | fall 41.16% | trades 3696 | vs TRI: fall only
+07 miss 0.1 seed 119794 | B | full | R105 | cagr 177.96% | fall 42.57% | trades 3696 | vs TRI: both better
+07 miss 0.1 seed 119794 | B | full | R111 | cagr 179.60% | fall 44.08% | trades 3696 | vs TRI: return only
+07 miss 0.1 seed 127713 | B | full | TRI | cagr 181.07% | fall 41.87% | trades 3706
+07 miss 0.1 seed 127713 | B | full | R100 | cagr 177.15% | fall 40.90% | trades 3704 | vs TRI: fall only
+07 miss 0.1 seed 127713 | B | full | R105 | cagr 178.57% | fall 40.36% | trades 3704 | vs TRI: fall only
+07 miss 0.1 seed 127713 | B | full | R111 | cagr 180.26% | fall 41.75% | trades 3704 | vs TRI: fall only
+07 miss 0.1 seed 135632 | B | full | TRI | cagr 181.30% | fall 42.31% | trades 3705
+07 miss 0.1 seed 135632 | B | full | R100 | cagr 178.11% | fall 39.93% | trades 3698 | vs TRI: fall only
+07 miss 0.1 seed 135632 | B | full | R105 | cagr 179.39% | fall 41.09% | trades 3698 | vs TRI: fall only
+07 miss 0.1 seed 135632 | B | full | R111 | cagr 180.86% | fall 40.96% | trades 3698 | vs TRI: fall only
+07 miss 0.1 seed 143551 | B | full | TRI | cagr 176.01% | fall 39.54% | trades 3693
+07 miss 0.1 seed 143551 | B | full | R100 | cagr 172.17% | fall 38.67% | trades 3698 | vs TRI: fall only
+07 miss 0.1 seed 143551 | B | full | R105 | cagr 173.93% | fall 39.78% | trades 3698 | vs TRI: neither
+07 miss 0.1 seed 143551 | B | full | R111 | cagr 175.77% | fall 41.22% | trades 3698 | vs TRI: neither
+07 miss 0.1 seed 151470 | B | full | TRI | cagr 181.03% | fall 43.66% | trades 3708
+07 miss 0.1 seed 151470 | B | full | R100 | cagr 177.14% | fall 40.51% | trades 3712 | vs TRI: fall only
+07 miss 0.1 seed 151470 | B | full | R105 | cagr 178.49% | fall 38.83% | trades 3712 | vs TRI: fall only
+07 miss 0.1 seed 151470 | B | full | R111 | cagr 180.16% | fall 40.36% | trades 3712 | vs TRI: fall only
+07 miss 0.1 median | B | full | TRI | cagr 180.11% | fall 42.36% | trades 3701
+07 miss 0.1 median | B | full | R100 | cagr 177.19% | fall 40.31% | trades 3699 | vs TRI: fall only
+07 miss 0.1 share | B | full | R100 | both 0.00% | return only 0.00% | fall only 100.00% | neither 0.00%
+07 miss 0.1 median | B | full | R105 | cagr 178.66% | fall 40.77% | trades 3699 | vs TRI: fall only
+07 miss 0.1 share | B | full | R105 | both 5.00% | return only 0.00% | fall only 75.00% | neither 20.00%
+07 miss 0.1 median | B | full | R111 | cagr 180.21% | fall 41.53% | trades 3699 | vs TRI: both better
+07 miss 0.1 share | B | full | R111 | both 15.00% | return only 15.00% | fall only 40.00% | neither 30.00%
+07 miss 0.1 seed 1009 | B | 24-26 | TRI | cagr 380.03% | fall 48.29% | trades 1885
+07 miss 0.1 seed 1009 | B | 24-26 | R100 | cagr 377.44% | fall 36.82% | trades 1881 | vs TRI: fall only
+07 miss 0.1 seed 1009 | B | 24-26 | R105 | cagr 393.65% | fall 38.12% | trades 1881 | vs TRI: both better
+07 miss 0.1 seed 1009 | B | 24-26 | R111 | cagr 405.12% | fall 39.77% | trades 1881 | vs TRI: both better
+07 miss 0.1 seed 8928 | B | 24-26 | TRI | cagr 356.96% | fall 52.75% | trades 1890
+07 miss 0.1 seed 8928 | B | 24-26 | R100 | cagr 346.10% | fall 40.32% | trades 1887 | vs TRI: fall only
+07 miss 0.1 seed 8928 | B | 24-26 | R105 | cagr 369.19% | fall 41.86% | trades 1887 | vs TRI: both better
+07 miss 0.1 seed 8928 | B | 24-26 | R111 | cagr 385.75% | fall 43.51% | trades 1887 | vs TRI: both better
+07 miss 0.1 seed 16847 | B | 24-26 | TRI | cagr 389.08% | fall 48.50% | trades 1885
+07 miss 0.1 seed 16847 | B | 24-26 | R100 | cagr 377.64% | fall 38.51% | trades 1883 | vs TRI: fall only
+07 miss 0.1 seed 16847 | B | 24-26 | R105 | cagr 385.83% | fall 39.72% | trades 1883 | vs TRI: fall only
+07 miss 0.1 seed 16847 | B | 24-26 | R111 | cagr 418.32% | fall 36.73% | trades 1883 | vs TRI: both better
+07 miss 0.1 seed 24766 | B | 24-26 | TRI | cagr 363.91% | fall 49.98% | trades 1886
+07 miss 0.1 seed 24766 | B | 24-26 | R100 | cagr 349.79% | fall 36.07% | trades 1887 | vs TRI: fall only
+07 miss 0.1 seed 24766 | B | 24-26 | R105 | cagr 371.88% | fall 37.31% | trades 1887 | vs TRI: both better
+07 miss 0.1 seed 24766 | B | 24-26 | R111 | cagr 398.16% | fall 37.96% | trades 1887 | vs TRI: both better
+07 miss 0.1 seed 32685 | B | 24-26 | TRI | cagr 331.31% | fall 51.41% | trades 1880
+07 miss 0.1 seed 32685 | B | 24-26 | R100 | cagr 364.49% | fall 35.37% | trades 1873 | vs TRI: both better
+07 miss 0.1 seed 32685 | B | 24-26 | R105 | cagr 374.21% | fall 36.71% | trades 1873 | vs TRI: both better
+07 miss 0.1 seed 32685 | B | 24-26 | R111 | cagr 406.76% | fall 37.88% | trades 1873 | vs TRI: both better
+07 miss 0.1 seed 40604 | B | 24-26 | TRI | cagr 393.55% | fall 49.00% | trades 1885
+07 miss 0.1 seed 40604 | B | 24-26 | R100 | cagr 331.78% | fall 37.12% | trades 1898 | vs TRI: fall only
+07 miss 0.1 seed 40604 | B | 24-26 | R105 | cagr 351.47% | fall 38.61% | trades 1898 | vs TRI: fall only
+07 miss 0.1 seed 40604 | B | 24-26 | R111 | cagr 370.22% | fall 40.29% | trades 1898 | vs TRI: fall only
+07 miss 0.1 seed 48523 | B | 24-26 | TRI | cagr 384.04% | fall 51.00% | trades 1874
+07 miss 0.1 seed 48523 | B | 24-26 | R100 | cagr 361.96% | fall 36.53% | trades 1883 | vs TRI: fall only
+07 miss 0.1 seed 48523 | B | 24-26 | R105 | cagr 380.19% | fall 36.86% | trades 1883 | vs TRI: fall only
+07 miss 0.1 seed 48523 | B | 24-26 | R111 | cagr 400.96% | fall 38.49% | trades 1883 | vs TRI: both better
+07 miss 0.1 seed 56442 | B | 24-26 | TRI | cagr 386.86% | fall 46.05% | trades 1878
+07 miss 0.1 seed 56442 | B | 24-26 | R100 | cagr 336.48% | fall 36.32% | trades 1890 | vs TRI: fall only
+07 miss 0.1 seed 56442 | B | 24-26 | R105 | cagr 355.08% | fall 37.76% | trades 1890 | vs TRI: fall only
+07 miss 0.1 seed 56442 | B | 24-26 | R111 | cagr 360.34% | fall 39.45% | trades 1890 | vs TRI: fall only
+07 miss 0.1 seed 64361 | B | 24-26 | TRI | cagr 337.56% | fall 47.77% | trades 1882
+07 miss 0.1 seed 64361 | B | 24-26 | R100 | cagr 337.02% | fall 36.14% | trades 1888 | vs TRI: fall only
+07 miss 0.1 seed 64361 | B | 24-26 | R105 | cagr 341.55% | fall 37.45% | trades 1888 | vs TRI: both better
+07 miss 0.1 seed 64361 | B | 24-26 | R111 | cagr 369.24% | fall 38.97% | trades 1888 | vs TRI: both better
+07 miss 0.1 seed 72280 | B | 24-26 | TRI | cagr 373.99% | fall 52.53% | trades 1893
+07 miss 0.1 seed 72280 | B | 24-26 | R100 | cagr 366.95% | fall 36.59% | trades 1889 | vs TRI: fall only
+07 miss 0.1 seed 72280 | B | 24-26 | R105 | cagr 391.96% | fall 37.80% | trades 1889 | vs TRI: both better
+07 miss 0.1 seed 72280 | B | 24-26 | R111 | cagr 428.34% | fall 38.93% | trades 1889 | vs TRI: both better
+07 miss 0.1 seed 80199 | B | 24-26 | TRI | cagr 388.15% | fall 47.92% | trades 1880
+07 miss 0.1 seed 80199 | B | 24-26 | R100 | cagr 334.40% | fall 37.17% | trades 1895 | vs TRI: fall only
+07 miss 0.1 seed 80199 | B | 24-26 | R105 | cagr 355.92% | fall 38.63% | trades 1895 | vs TRI: fall only
+07 miss 0.1 seed 80199 | B | 24-26 | R111 | cagr 383.08% | fall 40.09% | trades 1895 | vs TRI: fall only
+07 miss 0.1 seed 88118 | B | 24-26 | TRI | cagr 364.54% | fall 48.38% | trades 1884
+07 miss 0.1 seed 88118 | B | 24-26 | R100 | cagr 351.03% | fall 36.25% | trades 1896 | vs TRI: fall only
+07 miss 0.1 seed 88118 | B | 24-26 | R105 | cagr 374.05% | fall 37.64% | trades 1896 | vs TRI: both better
+07 miss 0.1 seed 88118 | B | 24-26 | R111 | cagr 402.95% | fall 39.29% | trades 1896 | vs TRI: both better
+07 miss 0.1 seed 96037 | B | 24-26 | TRI | cagr 372.46% | fall 48.57% | trades 1885
+07 miss 0.1 seed 96037 | B | 24-26 | R100 | cagr 320.92% | fall 38.50% | trades 1902 | vs TRI: fall only
+07 miss 0.1 seed 96037 | B | 24-26 | R105 | cagr 342.92% | fall 39.71% | trades 1902 | vs TRI: fall only
+07 miss 0.1 seed 96037 | B | 24-26 | R111 | cagr 367.05% | fall 41.50% | trades 1902 | vs TRI: fall only
+07 miss 0.1 seed 103956 | B | 24-26 | TRI | cagr 396.89% | fall 49.37% | trades 1880
+07 miss 0.1 seed 103956 | B | 24-26 | R100 | cagr 336.48% | fall 36.80% | trades 1897 | vs TRI: fall only
+07 miss 0.1 seed 103956 | B | 24-26 | R105 | cagr 359.70% | fall 38.27% | trades 1897 | vs TRI: fall only
+07 miss 0.1 seed 103956 | B | 24-26 | R111 | cagr 390.61% | fall 39.85% | trades 1897 | vs TRI: fall only
+07 miss 0.1 seed 111875 | B | 24-26 | TRI | cagr 371.58% | fall 45.27% | trades 1885
+07 miss 0.1 seed 111875 | B | 24-26 | R100 | cagr 371.59% | fall 37.83% | trades 1877 | vs TRI: both better
+07 miss 0.1 seed 111875 | B | 24-26 | R105 | cagr 388.86% | fall 39.26% | trades 1877 | vs TRI: both better
+07 miss 0.1 seed 111875 | B | 24-26 | R111 | cagr 401.46% | fall 40.86% | trades 1877 | vs TRI: both better
+07 miss 0.1 seed 119794 | B | 24-26 | TRI | cagr 388.53% | fall 50.17% | trades 1882
+07 miss 0.1 seed 119794 | B | 24-26 | R100 | cagr 329.25% | fall 36.59% | trades 1896 | vs TRI: fall only
+07 miss 0.1 seed 119794 | B | 24-26 | R105 | cagr 350.24% | fall 38.05% | trades 1896 | vs TRI: fall only
+07 miss 0.1 seed 119794 | B | 24-26 | R111 | cagr 377.82% | fall 39.53% | trades 1896 | vs TRI: fall only
+07 miss 0.1 seed 127713 | B | 24-26 | TRI | cagr 365.13% | fall 48.94% | trades 1888
+07 miss 0.1 seed 127713 | B | 24-26 | R100 | cagr 361.67% | fall 35.64% | trades 1897 | vs TRI: fall only
+07 miss 0.1 seed 127713 | B | 24-26 | R105 | cagr 375.82% | fall 37.21% | trades 1897 | vs TRI: both better
+07 miss 0.1 seed 127713 | B | 24-26 | R111 | cagr 388.63% | fall 38.60% | trades 1897 | vs TRI: both better
+07 miss 0.1 seed 135632 | B | 24-26 | TRI | cagr 381.85% | fall 48.74% | trades 1888
+07 miss 0.1 seed 135632 | B | 24-26 | R100 | cagr 336.38% | fall 39.43% | trades 1891 | vs TRI: fall only
+07 miss 0.1 seed 135632 | B | 24-26 | R105 | cagr 355.97% | fall 40.79% | trades 1891 | vs TRI: fall only
+07 miss 0.1 seed 135632 | B | 24-26 | R111 | cagr 384.57% | fall 42.48% | trades 1891 | vs TRI: both better
+07 miss 0.1 seed 143551 | B | 24-26 | TRI | cagr 399.53% | fall 51.54% | trades 1890
+07 miss 0.1 seed 143551 | B | 24-26 | R100 | cagr 329.16% | fall 37.13% | trades 1893 | vs TRI: fall only
+07 miss 0.1 seed 143551 | B | 24-26 | R105 | cagr 349.32% | fall 38.57% | trades 1893 | vs TRI: fall only
+07 miss 0.1 seed 143551 | B | 24-26 | R111 | cagr 376.78% | fall 40.09% | trades 1893 | vs TRI: fall only
+07 miss 0.1 seed 151470 | B | 24-26 | TRI | cagr 344.87% | fall 47.41% | trades 1873
+07 miss 0.1 seed 151470 | B | 24-26 | R100 | cagr 329.09% | fall 36.69% | trades 1890 | vs TRI: fall only
+07 miss 0.1 seed 151470 | B | 24-26 | R105 | cagr 349.27% | fall 38.02% | trades 1890 | vs TRI: both better
+07 miss 0.1 seed 151470 | B | 24-26 | R111 | cagr 369.30% | fall 39.66% | trades 1890 | vs TRI: both better
+07 miss 0.1 median | B | 24-26 | TRI | cagr 377.01% | fall 48.84% | trades 1885
+07 miss 0.1 median | B | 24-26 | R100 | cagr 341.56% | fall 36.75% | trades 1890 | vs TRI: fall only
+07 miss 0.1 share | B | 24-26 | R100 | both 10.00% | return only 0.00% | fall only 90.00% | neither 0.00%
+07 miss 0.1 median | B | 24-26 | R105 | cagr 364.44% | fall 38.09% | trades 1890 | vs TRI: fall only
+07 miss 0.1 share | B | 24-26 | R105 | both 50.00% | return only 0.00% | fall only 50.00% | neither 0.00%
+07 miss 0.1 median | B | 24-26 | R111 | cagr 387.19% | fall 39.60% | trades 1890 | vs TRI: both better
+07 miss 0.1 share | B | 24-26 | R111 | both 65.00% | return only 0.00% | fall only 35.00% | neither 0.00%
+# 07 miss 0.1 done in 184.3 s
+07b miss 0.1 paired seed 1009 | A | full | TRI | cagr 520.43% | fall 54.26% | trades 3708
+07b miss 0.1 paired seed 1009 | A | full | R100 | cagr 479.94% | fall 46.47% | trades 3708 | vs TRI: fall only
+07b miss 0.1 paired seed 1009 | A | full | R105 | cagr 514.25% | fall 48.09% | trades 3708 | vs TRI: fall only
+07b miss 0.1 paired seed 1009 | A | full | R111 | cagr 556.38% | fall 49.97% | trades 3708 | vs TRI: both better
+07b miss 0.1 paired seed 8928 | A | full | TRI | cagr 515.21% | fall 53.42% | trades 3696
+07b miss 0.1 paired seed 8928 | A | full | R100 | cagr 474.64% | fall 45.71% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 8928 | A | full | R105 | cagr 508.06% | fall 47.06% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 8928 | A | full | R111 | cagr 549.01% | fall 48.64% | trades 3696 | vs TRI: both better
+07b miss 0.1 paired seed 16847 | A | full | TRI | cagr 556.55% | fall 56.08% | trades 3689
+07b miss 0.1 paired seed 16847 | A | full | R100 | cagr 493.66% | fall 50.41% | trades 3689 | vs TRI: fall only
+07b miss 0.1 paired seed 16847 | A | full | R105 | cagr 529.29% | fall 52.31% | trades 3689 | vs TRI: fall only
+07b miss 0.1 paired seed 16847 | A | full | R111 | cagr 573.10% | fall 54.53% | trades 3689 | vs TRI: both better
+07b miss 0.1 paired seed 24766 | A | full | TRI | cagr 464.28% | fall 56.26% | trades 3690
+07b miss 0.1 paired seed 24766 | A | full | R100 | cagr 420.72% | fall 49.70% | trades 3690 | vs TRI: fall only
+07b miss 0.1 paired seed 24766 | A | full | R105 | cagr 449.74% | fall 51.59% | trades 3690 | vs TRI: fall only
+07b miss 0.1 paired seed 24766 | A | full | R111 | cagr 485.21% | fall 53.78% | trades 3690 | vs TRI: both better
+07b miss 0.1 paired seed 32685 | A | full | TRI | cagr 489.67% | fall 55.35% | trades 3708
+07b miss 0.1 paired seed 32685 | A | full | R100 | cagr 457.88% | fall 46.72% | trades 3708 | vs TRI: fall only
+07b miss 0.1 paired seed 32685 | A | full | R105 | cagr 490.72% | fall 48.33% | trades 3708 | vs TRI: both better
+07b miss 0.1 paired seed 32685 | A | full | R111 | cagr 531.06% | fall 50.21% | trades 3708 | vs TRI: both better
+07b miss 0.1 paired seed 40604 | A | full | TRI | cagr 519.00% | fall 55.20% | trades 3696
+07b miss 0.1 paired seed 40604 | A | full | R100 | cagr 476.14% | fall 46.67% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 40604 | A | full | R105 | cagr 509.76% | fall 48.29% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 40604 | A | full | R111 | cagr 550.97% | fall 50.17% | trades 3696 | vs TRI: both better
+07b miss 0.1 paired seed 48523 | A | full | TRI | cagr 497.70% | fall 54.80% | trades 3706
+07b miss 0.1 paired seed 48523 | A | full | R100 | cagr 466.80% | fall 47.02% | trades 3706 | vs TRI: fall only
+07b miss 0.1 paired seed 48523 | A | full | R105 | cagr 499.95% | fall 48.88% | trades 3706 | vs TRI: both better
+07b miss 0.1 paired seed 48523 | A | full | R111 | cagr 540.60% | fall 51.05% | trades 3706 | vs TRI: both better
+07b miss 0.1 paired seed 56442 | A | full | TRI | cagr 523.15% | fall 54.05% | trades 3696
+07b miss 0.1 paired seed 56442 | A | full | R100 | cagr 474.57% | fall 46.23% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 56442 | A | full | R105 | cagr 507.86% | fall 47.84% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 56442 | A | full | R111 | cagr 548.63% | fall 49.89% | trades 3696 | vs TRI: both better
+07b miss 0.1 paired seed 64361 | A | full | TRI | cagr 555.18% | fall 53.91% | trades 3689
+07b miss 0.1 paired seed 64361 | A | full | R100 | cagr 499.84% | fall 46.10% | trades 3689 | vs TRI: fall only
+07b miss 0.1 paired seed 64361 | A | full | R105 | cagr 536.22% | fall 47.47% | trades 3689 | vs TRI: fall only
+07b miss 0.1 paired seed 64361 | A | full | R111 | cagr 581.01% | fall 49.62% | trades 3689 | vs TRI: both better
+07b miss 0.1 paired seed 72280 | A | full | TRI | cagr 573.73% | fall 55.16% | trades 3663
+07b miss 0.1 paired seed 72280 | A | full | R100 | cagr 519.08% | fall 44.81% | trades 3663 | vs TRI: fall only
+07b miss 0.1 paired seed 72280 | A | full | R105 | cagr 557.24% | fall 46.45% | trades 3663 | vs TRI: fall only
+07b miss 0.1 paired seed 72280 | A | full | R111 | cagr 604.27% | fall 48.35% | trades 3663 | vs TRI: both better
+07b miss 0.1 paired seed 80199 | A | full | TRI | cagr 498.41% | fall 54.98% | trades 3705
+07b miss 0.1 paired seed 80199 | A | full | R100 | cagr 455.84% | fall 46.30% | trades 3705 | vs TRI: fall only
+07b miss 0.1 paired seed 80199 | A | full | R105 | cagr 487.48% | fall 47.65% | trades 3705 | vs TRI: fall only
+07b miss 0.1 paired seed 80199 | A | full | R111 | cagr 526.18% | fall 49.36% | trades 3705 | vs TRI: both better
+07b miss 0.1 paired seed 88118 | A | full | TRI | cagr 517.56% | fall 53.59% | trades 3712
+07b miss 0.1 paired seed 88118 | A | full | R100 | cagr 484.49% | fall 46.53% | trades 3712 | vs TRI: fall only
+07b miss 0.1 paired seed 88118 | A | full | R105 | cagr 518.63% | fall 47.89% | trades 3712 | vs TRI: both better
+07b miss 0.1 paired seed 88118 | A | full | R111 | cagr 560.46% | fall 49.54% | trades 3712 | vs TRI: both better
+07b miss 0.1 paired seed 96037 | A | full | TRI | cagr 531.58% | fall 54.52% | trades 3692
+07b miss 0.1 paired seed 96037 | A | full | R100 | cagr 481.02% | fall 45.98% | trades 3692 | vs TRI: fall only
+07b miss 0.1 paired seed 96037 | A | full | R105 | cagr 515.34% | fall 47.36% | trades 3692 | vs TRI: fall only
+07b miss 0.1 paired seed 96037 | A | full | R111 | cagr 557.48% | fall 48.96% | trades 3692 | vs TRI: both better
+07b miss 0.1 paired seed 103956 | A | full | TRI | cagr 437.12% | fall 57.08% | trades 3699
+07b miss 0.1 paired seed 103956 | A | full | R100 | cagr 391.86% | fall 48.43% | trades 3699 | vs TRI: fall only
+07b miss 0.1 paired seed 103956 | A | full | R105 | cagr 417.95% | fall 50.11% | trades 3699 | vs TRI: fall only
+07b miss 0.1 paired seed 103956 | A | full | R111 | cagr 449.70% | fall 52.16% | trades 3699 | vs TRI: both better
+07b miss 0.1 paired seed 111875 | A | full | TRI | cagr 522.62% | fall 55.76% | trades 3699
+07b miss 0.1 paired seed 111875 | A | full | R100 | cagr 477.05% | fall 47.87% | trades 3699 | vs TRI: fall only
+07b miss 0.1 paired seed 111875 | A | full | R105 | cagr 510.66% | fall 49.51% | trades 3699 | vs TRI: fall only
+07b miss 0.1 paired seed 111875 | A | full | R111 | cagr 551.84% | fall 51.62% | trades 3699 | vs TRI: both better
+07b miss 0.1 paired seed 119794 | A | full | TRI | cagr 537.78% | fall 52.13% | trades 3696
+07b miss 0.1 paired seed 119794 | A | full | R100 | cagr 490.86% | fall 45.05% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 119794 | A | full | R105 | cagr 526.53% | fall 46.44% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 119794 | A | full | R111 | cagr 570.43% | fall 48.26% | trades 3696 | vs TRI: both better
+07b miss 0.1 paired seed 127713 | A | full | TRI | cagr 500.43% | fall 53.54% | trades 3661
+07b miss 0.1 paired seed 127713 | A | full | R100 | cagr 449.71% | fall 45.67% | trades 3661 | vs TRI: fall only
+07b miss 0.1 paired seed 127713 | A | full | R105 | cagr 482.14% | fall 47.03% | trades 3661 | vs TRI: fall only
+07b miss 0.1 paired seed 127713 | A | full | R111 | cagr 522.03% | fall 48.60% | trades 3661 | vs TRI: both better
+07b miss 0.1 paired seed 135632 | A | full | TRI | cagr 508.75% | fall 59.55% | trades 3701
+07b miss 0.1 paired seed 135632 | A | full | R100 | cagr 472.86% | fall 54.00% | trades 3701 | vs TRI: fall only
+07b miss 0.1 paired seed 135632 | A | full | R105 | cagr 506.19% | fall 55.92% | trades 3701 | vs TRI: fall only
+07b miss 0.1 paired seed 135632 | A | full | R111 | cagr 547.04% | fall 58.14% | trades 3701 | vs TRI: both better
+07b miss 0.1 paired seed 143551 | A | full | TRI | cagr 505.81% | fall 53.01% | trades 3701
+07b miss 0.1 paired seed 143551 | A | full | R100 | cagr 473.47% | fall 47.50% | trades 3701 | vs TRI: fall only
+07b miss 0.1 paired seed 143551 | A | full | R105 | cagr 506.66% | fall 49.40% | trades 3701 | vs TRI: both better
+07b miss 0.1 paired seed 143551 | A | full | R111 | cagr 547.30% | fall 51.62% | trades 3701 | vs TRI: both better
+07b miss 0.1 paired seed 151470 | A | full | TRI | cagr 524.49% | fall 54.72% | trades 3695
+07b miss 0.1 paired seed 151470 | A | full | R100 | cagr 485.84% | fall 44.97% | trades 3695 | vs TRI: fall only
+07b miss 0.1 paired seed 151470 | A | full | R105 | cagr 520.50% | fall 46.54% | trades 3695 | vs TRI: fall only
+07b miss 0.1 paired seed 151470 | A | full | R111 | cagr 563.04% | fall 48.37% | trades 3695 | vs TRI: both better
+07b miss 0.1 paired median | A | full | TRI | cagr 518.28% | fall 54.76% | trades 3696
+07b miss 0.1 paired median | A | full | R100 | cagr 475.39% | fall 46.50% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired share | A | full | R100 | both 0.00% | return only 0.00% | fall only 100.00% | neither 0.00%
+07b miss 0.1 paired median | A | full | R105 | cagr 508.91% | fall 47.99% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired share | A | full | R105 | both 20.00% | return only 0.00% | fall only 80.00% | neither 0.00%
+07b miss 0.1 paired median | A | full | R111 | cagr 549.99% | fall 49.93% | trades 3696 | vs TRI: both better
+07b miss 0.1 paired share | A | full | R111 | both 100.00% | return only 0.00% | fall only 0.00% | neither 0.00%
+07b miss 0.1 paired seed 1009 | A | 24-26 | TRI | cagr 633.28% | fall 54.26% | trades 1900
+07b miss 0.1 paired seed 1009 | A | 24-26 | R100 | cagr 576.37% | fall 45.41% | trades 1900 | vs TRI: fall only
+07b miss 0.1 paired seed 1009 | A | 24-26 | R105 | cagr 618.41% | fall 46.75% | trades 1900 | vs TRI: fall only
+07b miss 0.1 paired seed 1009 | A | 24-26 | R111 | cagr 669.98% | fall 48.31% | trades 1900 | vs TRI: both better
+07b miss 0.1 paired seed 8928 | A | 24-26 | TRI | cagr 548.41% | fall 53.42% | trades 1899
+07b miss 0.1 paired seed 8928 | A | 24-26 | R100 | cagr 525.59% | fall 45.71% | trades 1899 | vs TRI: fall only
+07b miss 0.1 paired seed 8928 | A | 24-26 | R105 | cagr 561.95% | fall 47.06% | trades 1899 | vs TRI: both better
+07b miss 0.1 paired seed 8928 | A | 24-26 | R111 | cagr 606.23% | fall 48.62% | trades 1899 | vs TRI: both better
+07b miss 0.1 paired seed 16847 | A | 24-26 | TRI | cagr 620.44% | fall 53.62% | trades 1884
+07b miss 0.1 paired seed 16847 | A | 24-26 | R100 | cagr 564.72% | fall 47.12% | trades 1884 | vs TRI: fall only
+07b miss 0.1 paired seed 16847 | A | 24-26 | R105 | cagr 605.83% | fall 48.47% | trades 1884 | vs TRI: fall only
+07b miss 0.1 paired seed 16847 | A | 24-26 | R111 | cagr 656.25% | fall 50.04% | trades 1884 | vs TRI: both better
+07b miss 0.1 paired seed 24766 | A | 24-26 | TRI | cagr 476.29% | fall 53.08% | trades 1890
+07b miss 0.1 paired seed 24766 | A | 24-26 | R100 | cagr 435.47% | fall 44.81% | trades 1890 | vs TRI: fall only
+07b miss 0.1 paired seed 24766 | A | 24-26 | R105 | cagr 465.27% | fall 46.16% | trades 1890 | vs TRI: fall only
+07b miss 0.1 paired seed 24766 | A | 24-26 | R111 | cagr 501.54% | fall 47.73% | trades 1890 | vs TRI: both better
+07b miss 0.1 paired seed 32685 | A | 24-26 | TRI | cagr 551.81% | fall 52.30% | trades 1898
+07b miss 0.1 paired seed 32685 | A | 24-26 | R100 | cagr 527.51% | fall 45.85% | trades 1898 | vs TRI: fall only
+07b miss 0.1 paired seed 32685 | A | 24-26 | R105 | cagr 566.27% | fall 47.20% | trades 1898 | vs TRI: both better
+07b miss 0.1 paired seed 32685 | A | 24-26 | R111 | cagr 613.89% | fall 48.76% | trades 1898 | vs TRI: both better
+07b miss 0.1 paired seed 40604 | A | 24-26 | TRI | cagr 570.94% | fall 55.20% | trades 1888
+07b miss 0.1 paired seed 40604 | A | 24-26 | R100 | cagr 527.32% | fall 45.07% | trades 1888 | vs TRI: fall only
+07b miss 0.1 paired seed 40604 | A | 24-26 | R105 | cagr 564.07% | fall 46.40% | trades 1888 | vs TRI: fall only
+07b miss 0.1 paired seed 40604 | A | 24-26 | R111 | cagr 608.90% | fall 47.96% | trades 1888 | vs TRI: both better
+07b miss 0.1 paired seed 48523 | A | 24-26 | TRI | cagr 534.06% | fall 54.80% | trades 1904
+07b miss 0.1 paired seed 48523 | A | 24-26 | R100 | cagr 517.54% | fall 45.05% | trades 1904 | vs TRI: fall only
+07b miss 0.1 paired seed 48523 | A | 24-26 | R105 | cagr 554.73% | fall 46.38% | trades 1904 | vs TRI: both better
+07b miss 0.1 paired seed 48523 | A | 24-26 | R111 | cagr 600.27% | fall 47.93% | trades 1904 | vs TRI: both better
+07b miss 0.1 paired seed 56442 | A | 24-26 | TRI | cagr 611.51% | fall 52.52% | trades 1885
+07b miss 0.1 paired seed 56442 | A | 24-26 | R100 | cagr 552.49% | fall 45.23% | trades 1885 | vs TRI: fall only
+07b miss 0.1 paired seed 56442 | A | 24-26 | R105 | cagr 591.91% | fall 46.57% | trades 1885 | vs TRI: fall only
+07b miss 0.1 paired seed 56442 | A | 24-26 | R111 | cagr 640.13% | fall 48.13% | trades 1885 | vs TRI: both better
+07b miss 0.1 paired seed 64361 | A | 24-26 | TRI | cagr 635.89% | fall 52.87% | trades 1877
+07b miss 0.1 paired seed 64361 | A | 24-26 | R100 | cagr 560.55% | fall 46.10% | trades 1877 | vs TRI: fall only
+07b miss 0.1 paired seed 64361 | A | 24-26 | R105 | cagr 601.66% | fall 47.47% | trades 1877 | vs TRI: fall only
+07b miss 0.1 paired seed 64361 | A | 24-26 | R111 | cagr 652.16% | fall 49.06% | trades 1877 | vs TRI: both better
+07b miss 0.1 paired seed 72280 | A | 24-26 | TRI | cagr 666.81% | fall 54.64% | trades 1883
+07b miss 0.1 paired seed 72280 | A | 24-26 | R100 | cagr 611.70% | fall 42.70% | trades 1883 | vs TRI: fall only
+07b miss 0.1 paired seed 72280 | A | 24-26 | R105 | cagr 657.30% | fall 43.99% | trades 1883 | vs TRI: fall only
+07b miss 0.1 paired seed 72280 | A | 24-26 | R111 | cagr 713.39% | fall 45.51% | trades 1883 | vs TRI: both better
+07b miss 0.1 paired seed 80199 | A | 24-26 | TRI | cagr 592.68% | fall 54.98% | trades 1891
+07b miss 0.1 paired seed 80199 | A | 24-26 | R100 | cagr 542.57% | fall 46.30% | trades 1891 | vs TRI: fall only
+07b miss 0.1 paired seed 80199 | A | 24-26 | R105 | cagr 580.30% | fall 47.65% | trades 1891 | vs TRI: fall only
+07b miss 0.1 paired seed 80199 | A | 24-26 | R111 | cagr 626.27% | fall 49.22% | trades 1891 | vs TRI: both better
+07b miss 0.1 paired seed 88118 | A | 24-26 | TRI | cagr 579.23% | fall 53.59% | trades 1895
+07b miss 0.1 paired seed 88118 | A | 24-26 | R100 | cagr 553.69% | fall 46.53% | trades 1895 | vs TRI: fall only
+07b miss 0.1 paired seed 88118 | A | 24-26 | R105 | cagr 593.01% | fall 47.89% | trades 1895 | vs TRI: both better
+07b miss 0.1 paired seed 88118 | A | 24-26 | R111 | cagr 641.07% | fall 49.48% | trades 1895 | vs TRI: both better
+07b miss 0.1 paired seed 96037 | A | 24-26 | TRI | cagr 621.18% | fall 54.52% | trades 1900
+07b miss 0.1 paired seed 96037 | A | 24-26 | R100 | cagr 560.37% | fall 45.98% | trades 1900 | vs TRI: fall only
+07b miss 0.1 paired seed 96037 | A | 24-26 | R105 | cagr 600.08% | fall 47.36% | trades 1900 | vs TRI: fall only
+07b miss 0.1 paired seed 96037 | A | 24-26 | R111 | cagr 648.61% | fall 48.96% | trades 1900 | vs TRI: both better
+07b miss 0.1 paired seed 103956 | A | 24-26 | TRI | cagr 533.95% | fall 54.95% | trades 1879
+07b miss 0.1 paired seed 103956 | A | 24-26 | R100 | cagr 465.92% | fall 44.96% | trades 1879 | vs TRI: fall only
+07b miss 0.1 paired seed 103956 | A | 24-26 | R105 | cagr 497.94% | fall 46.29% | trades 1879 | vs TRI: fall only
+07b miss 0.1 paired seed 103956 | A | 24-26 | R111 | cagr 536.91% | fall 47.82% | trades 1879 | vs TRI: both better
+07b miss 0.1 paired seed 111875 | A | 24-26 | TRI | cagr 602.40% | fall 52.77% | trades 1883
+07b miss 0.1 paired seed 111875 | A | 24-26 | R100 | cagr 547.69% | fall 45.50% | trades 1883 | vs TRI: fall only
+07b miss 0.1 paired seed 111875 | A | 24-26 | R105 | cagr 586.48% | fall 46.85% | trades 1883 | vs TRI: fall only
+07b miss 0.1 paired seed 111875 | A | 24-26 | R111 | cagr 633.88% | fall 48.41% | trades 1883 | vs TRI: both better
+07b miss 0.1 paired seed 119794 | A | 24-26 | TRI | cagr 669.96% | fall 51.67% | trades 1877
+07b miss 0.1 paired seed 119794 | A | 24-26 | R100 | cagr 619.28% | fall 45.05% | trades 1877 | vs TRI: fall only
+07b miss 0.1 paired seed 119794 | A | 24-26 | R105 | cagr 667.03% | fall 46.41% | trades 1877 | vs TRI: fall only
+07b miss 0.1 paired seed 119794 | A | 24-26 | R111 | cagr 726.05% | fall 47.99% | trades 1877 | vs TRI: both better
+07b miss 0.1 paired seed 127713 | A | 24-26 | TRI | cagr 547.30% | fall 53.54% | trades 1866
+07b miss 0.1 paired seed 127713 | A | 24-26 | R100 | cagr 500.63% | fall 45.67% | trades 1866 | vs TRI: fall only
+07b miss 0.1 paired seed 127713 | A | 24-26 | R105 | cagr 536.72% | fall 47.03% | trades 1866 | vs TRI: fall only
+07b miss 0.1 paired seed 127713 | A | 24-26 | R111 | cagr 580.96% | fall 48.60% | trades 1866 | vs TRI: both better
+07b miss 0.1 paired seed 135632 | A | 24-26 | TRI | cagr 607.37% | fall 54.26% | trades 1889
+07b miss 0.1 paired seed 135632 | A | 24-26 | R100 | cagr 571.89% | fall 46.50% | trades 1889 | vs TRI: fall only
+07b miss 0.1 paired seed 135632 | A | 24-26 | R105 | cagr 613.61% | fall 47.89% | trades 1889 | vs TRI: both better
+07b miss 0.1 paired seed 135632 | A | 24-26 | R111 | cagr 664.82% | fall 49.50% | trades 1889 | vs TRI: both better
+07b miss 0.1 paired seed 143551 | A | 24-26 | TRI | cagr 550.29% | fall 53.01% | trades 1898
+07b miss 0.1 paired seed 143551 | A | 24-26 | R100 | cagr 525.63% | fall 45.43% | trades 1898 | vs TRI: fall only
+07b miss 0.1 paired seed 143551 | A | 24-26 | R105 | cagr 562.12% | fall 46.77% | trades 1898 | vs TRI: both better
+07b miss 0.1 paired seed 143551 | A | 24-26 | R111 | cagr 606.61% | fall 48.33% | trades 1898 | vs TRI: both better
+07b miss 0.1 paired seed 151470 | A | 24-26 | TRI | cagr 622.26% | fall 54.72% | trades 1883
+07b miss 0.1 paired seed 151470 | A | 24-26 | R100 | cagr 577.21% | fall 44.68% | trades 1883 | vs TRI: fall only
+07b miss 0.1 paired seed 151470 | A | 24-26 | R105 | cagr 619.12% | fall 46.00% | trades 1883 | vs TRI: fall only
+07b miss 0.1 paired seed 151470 | A | 24-26 | R111 | cagr 670.50% | fall 47.55% | trades 1883 | vs TRI: both better
+07b miss 0.1 paired median | A | 24-26 | TRI | cagr 597.54% | fall 53.60% | trades 1888.5
+07b miss 0.1 paired median | A | 24-26 | R100 | cagr 550.09% | fall 45.46% | trades 1888.5 | vs TRI: fall only
+07b miss 0.1 paired share | A | 24-26 | R100 | both 0.00% | return only 0.00% | fall only 100.00% | neither 0.00%
+07b miss 0.1 paired median | A | 24-26 | R105 | cagr 589.19% | fall 46.81% | trades 1888.5 | vs TRI: fall only
+07b miss 0.1 paired share | A | 24-26 | R105 | both 30.00% | return only 0.00% | fall only 70.00% | neither 0.00%
+07b miss 0.1 paired median | A | 24-26 | R111 | cagr 637.00% | fall 48.37% | trades 1888.5 | vs TRI: both better
+07b miss 0.1 paired share | A | 24-26 | R111 | both 100.00% | return only 0.00% | fall only 0.00% | neither 0.00%
+07b miss 0.1 paired seed 1009 | B | full | TRI | cagr 180.47% | fall 40.95% | trades 3708
+07b miss 0.1 paired seed 1009 | B | full | R100 | cagr 177.73% | fall 38.39% | trades 3708 | vs TRI: fall only
+07b miss 0.1 paired seed 1009 | B | full | R105 | cagr 179.07% | fall 39.54% | trades 3708 | vs TRI: fall only
+07b miss 0.1 paired seed 1009 | B | full | R111 | cagr 180.61% | fall 39.61% | trades 3708 | vs TRI: both better
+07b miss 0.1 paired seed 8928 | B | full | TRI | cagr 180.63% | fall 43.11% | trades 3698
+07b miss 0.1 paired seed 8928 | B | full | R100 | cagr 177.44% | fall 40.02% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 8928 | B | full | R105 | cagr 178.76% | fall 39.86% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 8928 | B | full | R111 | cagr 180.33% | fall 41.22% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 16847 | B | full | TRI | cagr 181.75% | fall 40.91% | trades 3691
+07b miss 0.1 paired seed 16847 | B | full | R100 | cagr 178.10% | fall 39.34% | trades 3689 | vs TRI: fall only
+07b miss 0.1 paired seed 16847 | B | full | R105 | cagr 179.60% | fall 39.00% | trades 3689 | vs TRI: fall only
+07b miss 0.1 paired seed 16847 | B | full | R111 | cagr 181.17% | fall 40.29% | trades 3689 | vs TRI: fall only
+07b miss 0.1 paired seed 24766 | B | full | TRI | cagr 172.92% | fall 40.92% | trades 3693
+07b miss 0.1 paired seed 24766 | B | full | R100 | cagr 168.76% | fall 39.05% | trades 3690 | vs TRI: fall only
+07b miss 0.1 paired seed 24766 | B | full | R105 | cagr 170.71% | fall 40.36% | trades 3690 | vs TRI: fall only
+07b miss 0.1 paired seed 24766 | B | full | R111 | cagr 172.65% | fall 41.92% | trades 3690 | vs TRI: neither
+07b miss 0.1 paired seed 32685 | B | full | TRI | cagr 175.58% | fall 45.33% | trades 3710
+07b miss 0.1 paired seed 32685 | B | full | R100 | cagr 173.00% | fall 42.90% | trades 3708 | vs TRI: fall only
+07b miss 0.1 paired seed 32685 | B | full | R105 | cagr 174.41% | fall 42.52% | trades 3708 | vs TRI: fall only
+07b miss 0.1 paired seed 32685 | B | full | R111 | cagr 176.00% | fall 44.00% | trades 3708 | vs TRI: both better
+07b miss 0.1 paired seed 40604 | B | full | TRI | cagr 181.02% | fall 42.17% | trades 3698
+07b miss 0.1 paired seed 40604 | B | full | R100 | cagr 177.99% | fall 40.37% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 40604 | B | full | R105 | cagr 179.42% | fall 39.96% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 40604 | B | full | R111 | cagr 181.01% | fall 41.38% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 48523 | B | full | TRI | cagr 176.83% | fall 41.83% | trades 3707
+07b miss 0.1 paired seed 48523 | B | full | R100 | cagr 173.94% | fall 39.12% | trades 3706 | vs TRI: fall only
+07b miss 0.1 paired seed 48523 | B | full | R105 | cagr 175.52% | fall 40.44% | trades 3706 | vs TRI: fall only
+07b miss 0.1 paired seed 48523 | B | full | R111 | cagr 177.17% | fall 41.91% | trades 3706 | vs TRI: return only
+07b miss 0.1 paired seed 56442 | B | full | TRI | cagr 180.56% | fall 42.87% | trades 3692
+07b miss 0.1 paired seed 56442 | B | full | R100 | cagr 176.96% | fall 40.30% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 56442 | B | full | R105 | cagr 178.41% | fall 41.59% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 56442 | B | full | R111 | cagr 180.09% | fall 43.18% | trades 3696 | vs TRI: neither
+07b miss 0.1 paired seed 64361 | B | full | TRI | cagr 181.71% | fall 44.63% | trades 3691
+07b miss 0.1 paired seed 64361 | B | full | R100 | cagr 179.11% | fall 41.99% | trades 3689 | vs TRI: fall only
+07b miss 0.1 paired seed 64361 | B | full | R105 | cagr 180.49% | fall 41.88% | trades 3689 | vs TRI: fall only
+07b miss 0.1 paired seed 64361 | B | full | R111 | cagr 182.04% | fall 41.84% | trades 3689 | vs TRI: both better
+07b miss 0.1 paired seed 72280 | B | full | TRI | cagr 183.04% | fall 40.76% | trades 3665
+07b miss 0.1 paired seed 72280 | B | full | R100 | cagr 180.04% | fall 39.63% | trades 3663 | vs TRI: fall only
+07b miss 0.1 paired seed 72280 | B | full | R105 | cagr 181.39% | fall 40.77% | trades 3663 | vs TRI: neither
+07b miss 0.1 paired seed 72280 | B | full | R111 | cagr 182.95% | fall 42.29% | trades 3663 | vs TRI: neither
+07b miss 0.1 paired seed 80199 | B | full | TRI | cagr 179.94% | fall 42.43% | trades 3706
+07b miss 0.1 paired seed 80199 | B | full | R100 | cagr 177.14% | fall 40.95% | trades 3705 | vs TRI: fall only
+07b miss 0.1 paired seed 80199 | B | full | R105 | cagr 178.54% | fall 39.64% | trades 3705 | vs TRI: fall only
+07b miss 0.1 paired seed 80199 | B | full | R111 | cagr 180.00% | fall 41.13% | trades 3705 | vs TRI: both better
+07b miss 0.1 paired seed 88118 | B | full | TRI | cagr 181.13% | fall 42.65% | trades 3714
+07b miss 0.1 paired seed 88118 | B | full | R100 | cagr 178.38% | fall 41.55% | trades 3712 | vs TRI: fall only
+07b miss 0.1 paired seed 88118 | B | full | R105 | cagr 179.69% | fall 42.84% | trades 3712 | vs TRI: neither
+07b miss 0.1 paired seed 88118 | B | full | R111 | cagr 181.28% | fall 42.63% | trades 3712 | vs TRI: both better
+07b miss 0.1 paired seed 96037 | B | full | TRI | cagr 181.48% | fall 42.67% | trades 3694
+07b miss 0.1 paired seed 96037 | B | full | R100 | cagr 178.44% | fall 40.18% | trades 3692 | vs TRI: fall only
+07b miss 0.1 paired seed 96037 | B | full | R105 | cagr 179.81% | fall 41.38% | trades 3692 | vs TRI: fall only
+07b miss 0.1 paired seed 96037 | B | full | R111 | cagr 181.36% | fall 41.28% | trades 3692 | vs TRI: fall only
+07b miss 0.1 paired seed 103956 | B | full | TRI | cagr 172.12% | fall 41.77% | trades 3698
+07b miss 0.1 paired seed 103956 | B | full | R100 | cagr 168.56% | fall 38.75% | trades 3699 | vs TRI: fall only
+07b miss 0.1 paired seed 103956 | B | full | R105 | cagr 170.23% | fall 40.07% | trades 3699 | vs TRI: fall only
+07b miss 0.1 paired seed 103956 | B | full | R111 | cagr 172.07% | fall 41.65% | trades 3699 | vs TRI: fall only
+07b miss 0.1 paired seed 111875 | B | full | TRI | cagr 181.17% | fall 42.38% | trades 3700
+07b miss 0.1 paired seed 111875 | B | full | R100 | cagr 178.26% | fall 39.63% | trades 3699 | vs TRI: fall only
+07b miss 0.1 paired seed 111875 | B | full | R105 | cagr 179.69% | fall 40.83% | trades 3699 | vs TRI: fall only
+07b miss 0.1 paired seed 111875 | B | full | R111 | cagr 181.21% | fall 42.19% | trades 3699 | vs TRI: both better
+07b miss 0.1 paired seed 119794 | B | full | TRI | cagr 180.72% | fall 42.38% | trades 3697
+07b miss 0.1 paired seed 119794 | B | full | R100 | cagr 177.67% | fall 41.56% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 119794 | B | full | R105 | cagr 178.94% | fall 41.63% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired seed 119794 | B | full | R111 | cagr 180.51% | fall 43.08% | trades 3696 | vs TRI: neither
+07b miss 0.1 paired seed 127713 | B | full | TRI | cagr 175.91% | fall 42.75% | trades 3664
+07b miss 0.1 paired seed 127713 | B | full | R100 | cagr 172.70% | fall 39.68% | trades 3661 | vs TRI: fall only
+07b miss 0.1 paired seed 127713 | B | full | R105 | cagr 174.09% | fall 41.03% | trades 3661 | vs TRI: fall only
+07b miss 0.1 paired seed 127713 | B | full | R111 | cagr 175.66% | fall 40.79% | trades 3661 | vs TRI: fall only
+07b miss 0.1 paired seed 135632 | B | full | TRI | cagr 179.42% | fall 41.94% | trades 3702
+07b miss 0.1 paired seed 135632 | B | full | R100 | cagr 176.85% | fall 39.60% | trades 3701 | vs TRI: fall only
+07b miss 0.1 paired seed 135632 | B | full | R105 | cagr 178.16% | fall 39.82% | trades 3701 | vs TRI: fall only
+07b miss 0.1 paired seed 135632 | B | full | R111 | cagr 179.65% | fall 39.53% | trades 3701 | vs TRI: both better
+07b miss 0.1 paired seed 143551 | B | full | TRI | cagr 180.65% | fall 44.14% | trades 3703
+07b miss 0.1 paired seed 143551 | B | full | R100 | cagr 177.90% | fall 41.56% | trades 3701 | vs TRI: fall only
+07b miss 0.1 paired seed 143551 | B | full | R105 | cagr 179.26% | fall 40.03% | trades 3701 | vs TRI: fall only
+07b miss 0.1 paired seed 143551 | B | full | R111 | cagr 180.88% | fall 41.52% | trades 3701 | vs TRI: both better
+07b miss 0.1 paired seed 151470 | B | full | TRI | cagr 181.34% | fall 42.98% | trades 3692
+07b miss 0.1 paired seed 151470 | B | full | R100 | cagr 178.49% | fall 40.40% | trades 3695 | vs TRI: fall only
+07b miss 0.1 paired seed 151470 | B | full | R105 | cagr 179.76% | fall 41.76% | trades 3695 | vs TRI: fall only
+07b miss 0.1 paired seed 151470 | B | full | R111 | cagr 181.27% | fall 40.54% | trades 3695 | vs TRI: fall only
+07b miss 0.1 paired median | B | full | TRI | cagr 180.64% | fall 42.40% | trades 3698
+07b miss 0.1 paired median | B | full | R100 | cagr 177.70% | fall 40.10% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired share | B | full | R100 | both 0.00% | return only 0.00% | fall only 100.00% | neither 0.00%
+07b miss 0.1 paired median | B | full | R105 | cagr 179.00% | fall 40.60% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired share | B | full | R105 | both 0.00% | return only 0.00% | fall only 90.00% | neither 10.00%
+07b miss 0.1 paired median | B | full | R111 | cagr 180.56% | fall 41.58% | trades 3696 | vs TRI: fall only
+07b miss 0.1 paired share | B | full | R111 | both 40.00% | return only 5.00% | fall only 35.00% | neither 20.00%
+07b miss 0.1 paired seed 1009 | B | 24-26 | TRI | cagr 376.21% | fall 50.42% | trades 1895
+07b miss 0.1 paired seed 1009 | B | 24-26 | R100 | cagr 361.85% | fall 38.60% | trades 1900 | vs TRI: fall only
+07b miss 0.1 paired seed 1009 | B | 24-26 | R105 | cagr 369.09% | fall 37.16% | trades 1900 | vs TRI: fall only
+07b miss 0.1 paired seed 1009 | B | 24-26 | R111 | cagr 392.95% | fall 36.66% | trades 1900 | vs TRI: both better
+07b miss 0.1 paired seed 8928 | B | 24-26 | TRI | cagr 360.62% | fall 49.59% | trades 1896
+07b miss 0.1 paired seed 8928 | B | 24-26 | R100 | cagr 341.30% | fall 37.89% | trades 1899 | vs TRI: fall only
+07b miss 0.1 paired seed 8928 | B | 24-26 | R105 | cagr 364.19% | fall 39.25% | trades 1899 | vs TRI: both better
+07b miss 0.1 paired seed 8928 | B | 24-26 | R111 | cagr 394.73% | fall 41.11% | trades 1899 | vs TRI: both better
+07b miss 0.1 paired seed 16847 | B | 24-26 | TRI | cagr 370.49% | fall 46.64% | trades 1879
+07b miss 0.1 paired seed 16847 | B | 24-26 | R100 | cagr 355.40% | fall 36.21% | trades 1884 | vs TRI: fall only
+07b miss 0.1 paired seed 16847 | B | 24-26 | R105 | cagr 363.84% | fall 37.53% | trades 1884 | vs TRI: fall only
+07b miss 0.1 paired seed 16847 | B | 24-26 | R111 | cagr 397.19% | fall 36.92% | trades 1884 | vs TRI: both better
+07b miss 0.1 paired seed 24766 | B | 24-26 | TRI | cagr 304.19% | fall 47.99% | trades 1888
+07b miss 0.1 paired seed 24766 | B | 24-26 | R100 | cagr 284.34% | fall 36.46% | trades 1890 | vs TRI: fall only
+07b miss 0.1 paired seed 24766 | B | 24-26 | R105 | cagr 301.90% | fall 37.89% | trades 1890 | vs TRI: fall only
+07b miss 0.1 paired seed 24766 | B | 24-26 | R111 | cagr 325.62% | fall 39.24% | trades 1890 | vs TRI: both better
+07b miss 0.1 paired seed 32685 | B | 24-26 | TRI | cagr 345.08% | fall 48.00% | trades 1892
+07b miss 0.1 paired seed 32685 | B | 24-26 | R100 | cagr 326.83% | fall 36.33% | trades 1898 | vs TRI: fall only
+07b miss 0.1 paired seed 32685 | B | 24-26 | R105 | cagr 341.15% | fall 37.61% | trades 1898 | vs TRI: fall only
+07b miss 0.1 paired seed 32685 | B | 24-26 | R111 | cagr 360.38% | fall 38.62% | trades 1898 | vs TRI: both better
+07b miss 0.1 paired seed 40604 | B | 24-26 | TRI | cagr 372.16% | fall 51.40% | trades 1885
+07b miss 0.1 paired seed 40604 | B | 24-26 | R100 | cagr 347.12% | fall 39.49% | trades 1888 | vs TRI: fall only
+07b miss 0.1 paired seed 40604 | B | 24-26 | R105 | cagr 369.97% | fall 41.14% | trades 1888 | vs TRI: fall only
+07b miss 0.1 paired seed 40604 | B | 24-26 | R111 | cagr 393.41% | fall 42.62% | trades 1888 | vs TRI: both better
+07b miss 0.1 paired seed 48523 | B | 24-26 | TRI | cagr 342.67% | fall 50.71% | trades 1900
+07b miss 0.1 paired seed 48523 | B | 24-26 | R100 | cagr 330.28% | fall 37.49% | trades 1904 | vs TRI: fall only
+07b miss 0.1 paired seed 48523 | B | 24-26 | R105 | cagr 355.87% | fall 38.92% | trades 1904 | vs TRI: both better
+07b miss 0.1 paired seed 48523 | B | 24-26 | R111 | cagr 362.02% | fall 40.46% | trades 1904 | vs TRI: both better
+07b miss 0.1 paired seed 56442 | B | 24-26 | TRI | cagr 381.61% | fall 48.20% | trades 1875
+07b miss 0.1 paired seed 56442 | B | 24-26 | R100 | cagr 355.69% | fall 37.28% | trades 1885 | vs TRI: fall only
+07b miss 0.1 paired seed 56442 | B | 24-26 | R105 | cagr 377.76% | fall 38.53% | trades 1885 | vs TRI: fall only
+07b miss 0.1 paired seed 56442 | B | 24-26 | R111 | cagr 408.80% | fall 40.28% | trades 1885 | vs TRI: both better
+07b miss 0.1 paired seed 64361 | B | 24-26 | TRI | cagr 393.31% | fall 49.01% | trades 1874
+07b miss 0.1 paired seed 64361 | B | 24-26 | R100 | cagr 354.01% | fall 36.62% | trades 1877 | vs TRI: fall only
+07b miss 0.1 paired seed 64361 | B | 24-26 | R105 | cagr 378.84% | fall 37.74% | trades 1877 | vs TRI: fall only
+07b miss 0.1 paired seed 64361 | B | 24-26 | R111 | cagr 408.12% | fall 39.17% | trades 1877 | vs TRI: both better
+07b miss 0.1 paired seed 72280 | B | 24-26 | TRI | cagr 413.51% | fall 50.81% | trades 1882
+07b miss 0.1 paired seed 72280 | B | 24-26 | R100 | cagr 386.82% | fall 38.64% | trades 1883 | vs TRI: fall only
+07b miss 0.1 paired seed 72280 | B | 24-26 | R105 | cagr 414.82% | fall 40.03% | trades 1883 | vs TRI: both better
+07b miss 0.1 paired seed 72280 | B | 24-26 | R111 | cagr 421.02% | fall 41.64% | trades 1883 | vs TRI: both better
+07b miss 0.1 paired seed 80199 | B | 24-26 | TRI | cagr 376.75% | fall 51.25% | trades 1890
+07b miss 0.1 paired seed 80199 | B | 24-26 | R100 | cagr 349.53% | fall 39.64% | trades 1891 | vs TRI: fall only
+07b miss 0.1 paired seed 80199 | B | 24-26 | R105 | cagr 372.61% | fall 41.20% | trades 1891 | vs TRI: fall only
+07b miss 0.1 paired seed 80199 | B | 24-26 | R111 | cagr 407.51% | fall 42.90% | trades 1891 | vs TRI: both better
+07b miss 0.1 paired seed 88118 | B | 24-26 | TRI | cagr 374.76% | fall 49.67% | trades 1891
+07b miss 0.1 paired seed 88118 | B | 24-26 | R100 | cagr 362.37% | fall 36.53% | trades 1895 | vs TRI: fall only
+07b miss 0.1 paired seed 88118 | B | 24-26 | R105 | cagr 375.72% | fall 38.13% | trades 1895 | vs TRI: both better
+07b miss 0.1 paired seed 88118 | B | 24-26 | R111 | cagr 390.65% | fall 38.21% | trades 1895 | vs TRI: both better
+07b miss 0.1 paired seed 96037 | B | 24-26 | TRI | cagr 396.39% | fall 51.01% | trades 1897
+07b miss 0.1 paired seed 96037 | B | 24-26 | R100 | cagr 358.60% | fall 39.97% | trades 1900 | vs TRI: fall only
+07b miss 0.1 paired seed 96037 | B | 24-26 | R105 | cagr 385.45% | fall 41.25% | trades 1900 | vs TRI: fall only
+07b miss 0.1 paired seed 96037 | B | 24-26 | R111 | cagr 408.15% | fall 42.91% | trades 1900 | vs TRI: both better
+07b miss 0.1 paired seed 103956 | B | 24-26 | TRI | cagr 340.76% | fall 50.85% | trades 1872
+07b miss 0.1 paired seed 103956 | B | 24-26 | R100 | cagr 304.10% | fall 39.20% | trades 1879 | vs TRI: fall only
+07b miss 0.1 paired seed 103956 | B | 24-26 | R105 | cagr 324.38% | fall 40.45% | trades 1879 | vs TRI: fall only
+07b miss 0.1 paired seed 103956 | B | 24-26 | R111 | cagr 349.53% | fall 42.20% | trades 1879 | vs TRI: both better
+07b miss 0.1 paired seed 111875 | B | 24-26 | TRI | cagr 387.18% | fall 48.76% | trades 1877
+07b miss 0.1 paired seed 111875 | B | 24-26 | R100 | cagr 353.06% | fall 37.59% | trades 1883 | vs TRI: fall only
+07b miss 0.1 paired seed 111875 | B | 24-26 | R105 | cagr 378.36% | fall 38.90% | trades 1883 | vs TRI: fall only
+07b miss 0.1 paired seed 111875 | B | 24-26 | R111 | cagr 400.16% | fall 40.55% | trades 1883 | vs TRI: both better
+07b miss 0.1 paired seed 119794 | B | 24-26 | TRI | cagr 391.09% | fall 47.96% | trades 1872
+07b miss 0.1 paired seed 119794 | B | 24-26 | R100 | cagr 362.92% | fall 36.74% | trades 1877 | vs TRI: fall only
+07b miss 0.1 paired seed 119794 | B | 24-26 | R105 | cagr 386.60% | fall 37.95% | trades 1877 | vs TRI: fall only
+07b miss 0.1 paired seed 119794 | B | 24-26 | R111 | cagr 417.84% | fall 36.10% | trades 1877 | vs TRI: both better
+07b miss 0.1 paired seed 127713 | B | 24-26 | TRI | cagr 343.71% | fall 46.02% | trades 1864
+07b miss 0.1 paired seed 127713 | B | 24-26 | R100 | cagr 318.44% | fall 36.21% | trades 1866 | vs TRI: fall only
+07b miss 0.1 paired seed 127713 | B | 24-26 | R105 | cagr 341.10% | fall 37.37% | trades 1866 | vs TRI: fall only
+07b miss 0.1 paired seed 127713 | B | 24-26 | R111 | cagr 361.71% | fall 38.75% | trades 1866 | vs TRI: both better
+07b miss 0.1 paired seed 135632 | B | 24-26 | TRI | cagr 376.63% | fall 49.46% | trades 1884
+07b miss 0.1 paired seed 135632 | B | 24-26 | R100 | cagr 361.26% | fall 38.21% | trades 1889 | vs TRI: fall only
+07b miss 0.1 paired seed 135632 | B | 24-26 | R105 | cagr 385.30% | fall 39.75% | trades 1889 | vs TRI: both better
+07b miss 0.1 paired seed 135632 | B | 24-26 | R111 | cagr 419.03% | fall 41.22% | trades 1889 | vs TRI: both better
+07b miss 0.1 paired seed 143551 | B | 24-26 | TRI | cagr 351.03% | fall 48.77% | trades 1893
+07b miss 0.1 paired seed 143551 | B | 24-26 | R100 | cagr 341.64% | fall 36.36% | trades 1898 | vs TRI: fall only
+07b miss 0.1 paired seed 143551 | B | 24-26 | R105 | cagr 366.01% | fall 37.82% | trades 1898 | vs TRI: both better
+07b miss 0.1 paired seed 143551 | B | 24-26 | R111 | cagr 395.28% | fall 39.23% | trades 1898 | vs TRI: both better
+07b miss 0.1 paired seed 151470 | B | 24-26 | TRI | cagr 401.26% | fall 50.50% | trades 1877
+07b miss 0.1 paired seed 151470 | B | 24-26 | R100 | cagr 369.51% | fall 38.76% | trades 1883 | vs TRI: fall only
+07b miss 0.1 paired seed 151470 | B | 24-26 | R105 | cagr 396.59% | fall 40.09% | trades 1883 | vs TRI: fall only
+07b miss 0.1 paired seed 151470 | B | 24-26 | R111 | cagr 404.32% | fall 39.33% | trades 1883 | vs TRI: both better
+07b miss 0.1 paired median | B | 24-26 | TRI | cagr 375.48% | fall 49.53% | trades 1884.5
+07b miss 0.1 paired median | B | 24-26 | R100 | cagr 353.53% | fall 37.54% | trades 1888.5 | vs TRI: fall only
+07b miss 0.1 paired share | B | 24-26 | R100 | both 0.00% | return only 0.00% | fall only 100.00% | neither 0.00%
+07b miss 0.1 paired median | B | 24-26 | R105 | cagr 371.29% | fall 38.72% | trades 1888.5 | vs TRI: fall only
+07b miss 0.1 paired share | B | 24-26 | R105 | both 30.00% | return only 0.00% | fall only 70.00% | neither 0.00%
+07b miss 0.1 paired median | B | 24-26 | R111 | cagr 396.23% | fall 39.81% | trades 1888.5 | vs TRI: both better
+07b miss 0.1 paired share | B | 24-26 | R111 | both 100.00% | return only 0.00% | fall only 0.00% | neither 0.00%
+# 07b miss 0.1 paired done in 205.3 s
+12 neighbours | A | full | TRI | cagr 560.89% | fall 54.14% | trades 3789
+12 neighbours | A | full | ruleOf(1,3,0.25) K1.11 | cagr 487.53% | fall 45.11% | trades 3789 | vs TRI: fall only
+12 neighbours | A | full | ruleOf(1,3,0.25) K1.05 | cagr 449.97% | fall 43.61% | trades 3789 | vs TRI: fall only
+12 neighbours | A | full | ruleOf(3,3,0.25) K1.11 | cagr 626.96% | fall 55.08% | trades 3789 | vs TRI: return only
+12 neighbours | A | full | ruleOf(3,3,0.25) K1.05 | cagr 580.71% | fall 52.78% | trades 3789 | vs TRI: both better
+12 neighbours | A | full | ruleOf(2,5,0.25) K1.11 | cagr 609.48% | fall 53.66% | trades 3789 | vs TRI: both better
+12 neighbours | A | full | ruleOf(2,5,0.25) K1.05 | cagr 564.20% | fall 51.38% | trades 3789 | vs TRI: both better
+12 neighbours | A | full | ruleOf(2,3,0.5) K1.11 | cagr 609.27% | fall 53.67% | trades 3789 | vs TRI: both better
+12 neighbours | A | full | ruleOf(2,3,0.5) K1.05 | cagr 563.85% | fall 51.41% | trades 3789 | vs TRI: both better
+12 neighbours | A | full | ruleOf(2,2,0.25) K1.11 | cagr 553.38% | fall 51.00% | trades 3789 | vs TRI: fall only
+12 neighbours | A | full | ruleOf(2,2,0.25) K1.05 | cagr 510.95% | fall 48.85% | trades 3789 | vs TRI: fall only
+12 neighbours | A | full | ruleOf(2,4,0.25) K1.11 | cagr 599.47% | fall 52.78% | trades 3789 | vs TRI: both better
+12 neighbours | A | full | ruleOf(2,4,0.25) K1.05 | cagr 554.46% | fall 50.54% | trades 3789 | vs TRI: fall only
+12 neighbours | A | 24-26 | TRI | cagr 640.87% | fall 52.99% | trades 1936
+12 neighbours | A | 24-26 | ruleOf(1,3,0.25) K1.11 | cagr 567.99% | fall 45.11% | trades 1936 | vs TRI: fall only
+12 neighbours | A | 24-26 | ruleOf(1,3,0.25) K1.05 | cagr 523.38% | fall 43.61% | trades 1936 | vs TRI: fall only
+12 neighbours | A | 24-26 | ruleOf(3,3,0.25) K1.11 | cagr 702.47% | fall 51.45% | trades 1936 | vs TRI: both better
+12 neighbours | A | 24-26 | ruleOf(3,3,0.25) K1.05 | cagr 651.45% | fall 49.47% | trades 1936 | vs TRI: both better
+12 neighbours | A | 24-26 | ruleOf(2,5,0.25) K1.11 | cagr 694.32% | fall 50.41% | trades 1936 | vs TRI: both better
+12 neighbours | A | 24-26 | ruleOf(2,5,0.25) K1.05 | cagr 643.28% | fall 48.80% | trades 1936 | vs TRI: both better
+12 neighbours | A | 24-26 | ruleOf(2,3,0.5) K1.11 | cagr 698.98% | fall 50.75% | trades 1936 | vs TRI: both better
+12 neighbours | A | 24-26 | ruleOf(2,3,0.5) K1.05 | cagr 647.23% | fall 49.13% | trades 1936 | vs TRI: both better
+12 neighbours | A | 24-26 | ruleOf(2,2,0.25) K1.11 | cagr 640.29% | fall 47.61% | trades 1936 | vs TRI: fall only
+12 neighbours | A | 24-26 | ruleOf(2,2,0.25) K1.05 | cagr 590.92% | fall 46.05% | trades 1936 | vs TRI: fall only
+12 neighbours | A | 24-26 | ruleOf(2,4,0.25) K1.11 | cagr 685.60% | fall 49.77% | trades 1936 | vs TRI: both better
+12 neighbours | A | 24-26 | ruleOf(2,4,0.25) K1.05 | cagr 634.38% | fall 48.17% | trades 1936 | vs TRI: fall only
+12 neighbours | B | full | TRI | cagr 182.97% | fall 43.72% | trades 3791
+12 neighbours | B | full | ruleOf(1,3,0.25) K1.11 | cagr 178.16% | fall 39.66% | trades 3789 | vs TRI: fall only
+12 neighbours | B | full | ruleOf(1,3,0.25) K1.05 | cagr 176.34% | fall 38.32% | trades 3789 | vs TRI: fall only
+12 neighbours | B | full | ruleOf(3,3,0.25) K1.11 | cagr 184.72% | fall 43.59% | trades 3789 | vs TRI: both better
+12 neighbours | B | full | ruleOf(3,3,0.25) K1.05 | cagr 183.10% | fall 41.60% | trades 3789 | vs TRI: both better
+12 neighbours | B | full | ruleOf(2,5,0.25) K1.11 | cagr 184.15% | fall 42.28% | trades 3789 | vs TRI: both better
+12 neighbours | B | full | ruleOf(2,5,0.25) K1.05 | cagr 182.46% | fall 40.92% | trades 3789 | vs TRI: fall only
+12 neighbours | B | full | ruleOf(2,3,0.5) K1.11 | cagr 184.07% | fall 42.23% | trades 3789 | vs TRI: both better
+12 neighbours | B | full | ruleOf(2,3,0.5) K1.05 | cagr 182.36% | fall 40.87% | trades 3789 | vs TRI: fall only
+12 neighbours | B | full | ruleOf(2,2,0.25) K1.11 | cagr 181.24% | fall 41.37% | trades 3789 | vs TRI: fall only
+12 neighbours | B | full | ruleOf(2,2,0.25) K1.05 | cagr 179.49% | fall 40.05% | trades 3789 | vs TRI: fall only
+12 neighbours | B | full | ruleOf(2,4,0.25) K1.11 | cagr 183.56% | fall 42.13% | trades 3789 | vs TRI: both better
+12 neighbours | B | full | ruleOf(2,4,0.25) K1.05 | cagr 181.91% | fall 40.77% | trades 3789 | vs TRI: fall only
+12 neighbours | B | 24-26 | TRI | cagr 396.79% | fall 49.12% | trades 1933
+12 neighbours | B | 24-26 | ruleOf(1,3,0.25) K1.11 | cagr 360.92% | fall 34.96% | trades 1936 | vs TRI: fall only
+12 neighbours | B | 24-26 | ruleOf(1,3,0.25) K1.05 | cagr 333.91% | fall 33.27% | trades 1936 | vs TRI: fall only
+12 neighbours | B | 24-26 | ruleOf(3,3,0.25) K1.11 | cagr 415.89% | fall 45.77% | trades 1936 | vs TRI: both better
+12 neighbours | B | 24-26 | ruleOf(3,3,0.25) K1.05 | cagr 392.24% | fall 44.11% | trades 1938 | vs TRI: fall only
+12 neighbours | B | 24-26 | ruleOf(2,5,0.25) K1.11 | cagr 422.81% | fall 41.71% | trades 1937 | vs TRI: both better
+12 neighbours | B | 24-26 | ruleOf(2,5,0.25) K1.05 | cagr 383.99% | fall 43.35% | trades 1938 | vs TRI: fall only
+12 neighbours | B | 24-26 | ruleOf(2,3,0.5) K1.11 | cagr 424.06% | fall 41.49% | trades 1937 | vs TRI: both better
+12 neighbours | B | 24-26 | ruleOf(2,3,0.5) K1.05 | cagr 384.70% | fall 42.91% | trades 1937 | vs TRI: fall only
+12 neighbours | B | 24-26 | ruleOf(2,2,0.25) K1.11 | cagr 401.27% | fall 38.12% | trades 1936 | vs TRI: both better
+12 neighbours | B | 24-26 | ruleOf(2,2,0.25) K1.05 | cagr 377.95% | fall 36.62% | trades 1936 | vs TRI: fall only
+12 neighbours | B | 24-26 | ruleOf(2,4,0.25) K1.11 | cagr 413.06% | fall 40.90% | trades 1936 | vs TRI: both better
+12 neighbours | B | 24-26 | ruleOf(2,4,0.25) K1.05 | cagr 380.14% | fall 41.21% | trades 1936 | vs TRI: fall only
+# 12 neighbours done in 29.9 s
+13 drop SOL | A | full | TRI | cagr 384.99% | fall 54.08% | trades 3185
+13 drop SOL | A | full | R105 | cagr 384.39% | fall 51.24% | trades 3185 | vs TRI: fall only
+13 drop SOL | A | full | R111 | cagr 412.57% | fall 53.48% | trades 3185 | vs TRI: both better
+13 drop SOL | B | full | TRI | cagr 170.24% | fall 42.01% | trades 3185
+13 drop SOL | B | full | R105 | cagr 170.16% | fall 40.88% | trades 3185 | vs TRI: fall only
+13 drop SOL | B | full | R111 | cagr 172.06% | fall 42.29% | trades 3185 | vs TRI: return only
+13 drop ZEC | A | full | TRI | cagr 379.72% | fall 56.21% | trades 3107
+13 drop ZEC | A | full | R105 | cagr 366.10% | fall 51.95% | trades 3107 | vs TRI: fall only
+13 drop ZEC | A | full | R111 | cagr 393.12% | fall 54.01% | trades 3107 | vs TRI: both better
+13 drop ZEC | B | full | TRI | cagr 162.42% | fall 36.04% | trades 3107
+13 drop ZEC | B | full | R105 | cagr 159.89% | fall 36.39% | trades 3107 | vs TRI: neither
+13 drop ZEC | B | full | R111 | cagr 162.35% | fall 37.84% | trades 3107 | vs TRI: neither
+13 drop NEAR | A | full | TRI | cagr 451.82% | fall 50.68% | trades 3207
+13 drop NEAR | A | full | R105 | cagr 467.53% | fall 48.13% | trades 3207 | vs TRI: both better
+13 drop NEAR | A | full | R111 | cagr 504.74% | fall 50.02% | trades 3207 | vs TRI: both better
+13 drop NEAR | B | full | TRI | cagr 176.31% | fall 40.38% | trades 3207
+13 drop NEAR | B | full | R105 | cagr 175.94% | fall 39.96% | trades 3207 | vs TRI: fall only
+13 drop NEAR | B | full | R111 | cagr 177.52% | fall 41.26% | trades 3207 | vs TRI: return only
+13 drop ADA | A | full | TRI | cagr 442.91% | fall 50.47% | trades 3087
+13 drop ADA | A | full | R105 | cagr 440.76% | fall 46.61% | trades 3087 | vs TRI: fall only
+13 drop ADA | A | full | R111 | cagr 477.44% | fall 48.43% | trades 3087 | vs TRI: both better
+13 drop ADA | B | full | TRI | cagr 172.52% | fall 37.00% | trades 3087
+13 drop ADA | B | full | R105 | cagr 171.89% | fall 37.17% | trades 3087 | vs TRI: neither
+13 drop ADA | B | full | R111 | cagr 173.30% | fall 38.80% | trades 3087 | vs TRI: return only
+13 drop GALA | A | full | TRI | cagr 409.34% | fall 50.30% | trades 3293
+13 drop GALA | A | full | R105 | cagr 412.47% | fall 48.82% | trades 3293 | vs TRI: both better
+13 drop GALA | A | full | R111 | cagr 443.65% | fall 51.00% | trades 3293 | vs TRI: return only
+13 drop GALA | B | full | TRI | cagr 172.85% | fall 43.72% | trades 3295
+13 drop GALA | B | full | R105 | cagr 172.76% | fall 40.54% | trades 3293 | vs TRI: fall only
+13 drop GALA | B | full | R111 | cagr 174.28% | fall 41.89% | trades 3293 | vs TRI: both better
+13 drop ARB | A | full | TRI | cagr 512.49% | fall 53.70% | trades 3521
+13 drop ARB | A | full | R105 | cagr 508.25% | fall 48.27% | trades 3521 | vs TRI: fall only
+13 drop ARB | A | full | R111 | cagr 549.45% | fall 50.15% | trades 3521 | vs TRI: both better
+13 drop ARB | B | full | TRI | cagr 180.32% | fall 43.72% | trades 3521
+13 drop ARB | B | full | R105 | cagr 178.92% | fall 40.54% | trades 3521 | vs TRI: fall only
+13 drop ARB | B | full | R111 | cagr 180.72% | fall 41.89% | trades 3521 | vs TRI: both better
+13 drop ETH | A | full | TRI | cagr 484.92% | fall 51.26% | trades 3423
+13 drop ETH | A | full | R105 | cagr 475.83% | fall 48.49% | trades 3423 | vs TRI: fall only
+13 drop ETH | A | full | R111 | cagr 513.10% | fall 50.39% | trades 3423 | vs TRI: both better
+13 drop ETH | B | full | TRI | cagr 176.83% | fall 42.66% | trades 3425
+13 drop ETH | B | full | R105 | cagr 176.21% | fall 43.02% | trades 3423 | vs TRI: neither
+13 drop ETH | B | full | R111 | cagr 177.51% | fall 44.67% | trades 3423 | vs TRI: return only
+13 drop SUI | A | full | TRI | cagr 550.66% | fall 54.14% | trades 3700
+13 drop SUI | A | full | R105 | cagr 536.36% | fall 49.02% | trades 3700 | vs TRI: fall only
+13 drop SUI | A | full | R111 | cagr 580.12% | fall 51.21% | trades 3700 | vs TRI: both better
+13 drop SUI | B | full | TRI | cagr 182.36% | fall 43.72% | trades 3700
+13 drop SUI | B | full | R105 | cagr 180.63% | fall 40.54% | trades 3700 | vs TRI: fall only
+13 drop SUI | B | full | R111 | cagr 182.25% | fall 41.89% | trades 3700 | vs TRI: fall only
+# 13 drop coin done in 25.2 s
+14 best #1 | tc ZEC 2025-09-06T16:00:00.000Z dir 1 N 2 | pnl/target 255.49
+14 best #2 | ic ZEC 2025-09-23T12:00:00.000Z dir 1 N 0 | pnl/target 156.74
+14 best #3 | tc SOL 2023-10-16T04:00:00.000Z dir 1 N 0 | pnl/target 94.95
+14 best #4 | ic ADA 2020-12-27T12:00:00.000Z dir 1 N 1 | pnl/target 64.50
+14 best #5 | ic ADA 2023-10-20T16:00:00.000Z dir 1 N 1 | pnl/target 58.26
+14 best #6 | ic GALA 2021-11-15T00:00:00.000Z dir 1 N 3 | pnl/target 58.08
+14 best #7 | tc SOL 2021-01-01T20:00:00.000Z dir 1 N 3 | pnl/target 56.33
+14 best #8 | ic ZEC 2026-08-17T04:00:00.000Z dir 1 N 0 | pnl/target 54.25
+14 best #9 | tc NEAR 2023-10-23T00:00:00.000Z dir 1 N 6 | pnl/target 51.64
+14 best #10 | tc ADA 2020-12-28T20:00:00.000Z dir 1 N 2 | pnl/target 46.89
+14 best #11 | ic ADA 2024-11-06T00:00:00.000Z dir 1 N 2 | pnl/target 46.16
+14 best #12 | bb GALA 2021-11-13T04:00:00.000Z dir 1 N 1 | pnl/target 45.53
+14 best #13 | ic SOL 2023-10-16T08:00:00.000Z dir 1 N 0 | pnl/target 44.13
+14 best #14 | tc SOL 2021-07-29T16:00:00.000Z dir 1 N 0 | pnl/target 42.17
+14 best #15 | tc ETH 2020-11-04T16:00:00.000Z dir 1 N 0 | pnl/target 38.10
+14 best #16 | tc ADA 2020-04-23T08:00:00.000Z dir 1 N 2 | pnl/target 37.39
+14 best #17 | tc ADA 2023-10-21T08:00:00.000Z dir 1 N 2 | pnl/target 36.96
+14 best #18 | tc ZEC 2026-08-17T04:00:00.000Z dir 1 N 1 | pnl/target 35.87
+14 best #19 | tc GALA 2021-11-15T04:00:00.000Z dir 1 N 4 | pnl/target 34.49
+14 best #20 | tc GALA 2024-02-09T12:00:00.000Z dir 1 N 5 | pnl/target 32.27
+14 best #21 | bb ADA 2023-12-02T08:00:00.000Z dir 1 N 3 | pnl/target 28.73
+14 best #22 | ic SOL 2021-01-24T04:00:00.000Z dir 1 N 3 | pnl/target 27.66
+14 best #23 | ic ETH 2020-12-26T00:00:00.000Z dir 1 N 1 | pnl/target 24.70
+14 best #24 | tc ADA 2024-11-07T00:00:00.000Z dir 1 N 6 | pnl/target 24.10
+14 best #25 | ic GALA 2024-11-06T20:00:00.000Z dir 1 N 4 | pnl/target 22.87
+14 drop best 10 | A | full | TRI | cagr 469.15% | fall 54.14% | trades 3793
+14 drop best 10 | A | full | R100 | cagr 426.96% | fall 47.60% | trades 3793 | vs TRI: fall only
+14 drop best 10 | A | full | R105 | cagr 457.38% | fall 49.48% | trades 3793 | vs TRI: fall only
+14 drop best 10 | A | full | R111 | cagr 494.70% | fall 51.68% | trades 3793 | vs TRI: both better
+14 drop best 10 | A | 24-26 | TRI | cagr 478.56% | fall 52.96% | trades 1939
+14 drop best 10 | A | 24-26 | R100 | cagr 439.37% | fall 46.08% | trades 1939 | vs TRI: fall only
+14 drop best 10 | A | 24-26 | R105 | cagr 470.70% | fall 47.46% | trades 1939 | vs TRI: fall only
+14 drop best 10 | A | 24-26 | R111 | cagr 509.00% | fall 49.07% | trades 1939 | vs TRI: both better
+14 drop best 10 | B | full | TRI | cagr 171.25% | fall 43.72% | trades 3795
+14 drop best 10 | B | full | R100 | cagr 167.32% | fall 40.85% | trades 3793 | vs TRI: fall only
+14 drop best 10 | B | full | R105 | cagr 169.01% | fall 40.54% | trades 3793 | vs TRI: fall only
+14 drop best 10 | B | full | R111 | cagr 170.99% | fall 41.89% | trades 3793 | vs TRI: fall only
+14 drop best 10 | B | 24-26 | TRI | cagr 295.11% | fall 49.12% | trades 1936
+14 drop best 10 | B | 24-26 | R100 | cagr 280.43% | fall 37.05% | trades 1939 | vs TRI: fall only
+14 drop best 10 | B | 24-26 | R105 | cagr 300.35% | fall 38.45% | trades 1939 | vs TRI: both better
+14 drop best 10 | B | 24-26 | R111 | cagr 313.01% | fall 39.71% | trades 1939 | vs TRI: both better
+14 drop best 10: keys matched in the reruns 10/10
+14 drop best 25 | A | full | TRI | cagr 411.21% | fall 54.14% | trades 3793
+14 drop best 25 | A | full | R100 | cagr 376.25% | fall 47.60% | trades 3793 | vs TRI: fall only
+14 drop best 25 | A | full | R105 | cagr 402.19% | fall 49.48% | trades 3793 | vs TRI: fall only
+14 drop best 25 | A | full | R111 | cagr 433.91% | fall 51.68% | trades 3793 | vs TRI: both better
+14 drop best 25 | A | 24-26 | TRI | cagr 431.45% | fall 53.00% | trades 1939
+14 drop best 25 | A | 24-26 | R100 | cagr 402.02% | fall 46.13% | trades 1939 | vs TRI: fall only
+14 drop best 25 | A | 24-26 | R105 | cagr 430.08% | fall 47.51% | trades 1939 | vs TRI: fall only
+14 drop best 25 | A | 24-26 | R111 | cagr 464.33% | fall 49.12% | trades 1939 | vs TRI: both better
+14 drop best 25 | B | full | TRI | cagr 165.60% | fall 43.70% | trades 3796
+14 drop best 25 | B | full | R100 | cagr 161.85% | fall 40.84% | trades 3793 | vs TRI: fall only
+14 drop best 25 | B | full | R105 | cagr 163.81% | fall 42.22% | trades 3793 | vs TRI: fall only
+14 drop best 25 | B | full | R111 | cagr 165.57% | fall 41.43% | trades 3793 | vs TRI: fall only
+14 drop best 25 | B | 24-26 | TRI | cagr 265.11% | fall 48.96% | trades 1936
+14 drop best 25 | B | 24-26 | R100 | cagr 255.36% | fall 37.02% | trades 1939 | vs TRI: fall only
+14 drop best 25 | B | 24-26 | R105 | cagr 271.33% | fall 38.48% | trades 1939 | vs TRI: both better
+14 drop best 25 | B | 24-26 | R111 | cagr 293.83% | fall 39.71% | trades 1939 | vs TRI: both better
+14 drop best 25: keys matched in the reruns 25/25
+14 check sizeFn parity | A | rule route cagr 586.62% fall 51.68% | sizeFn route cagr 586.62% fall 51.68%
+14 check sizeFn parity | B | rule route cagr 182.81% fall 41.89% | sizeFn route cagr 182.81% fall 41.89%
+# 14 drop best done in 23.4 s
+15 actual monthly path | TRI | cagr 560.89% | monthly worst fall 39.40%
+15 actual monthly path | R105 | cagr 541.94% | monthly worst fall 33.50%
+15 actual monthly path | R111 | cagr 586.62% | monthly worst fall 34.91%
+15 bootstrap | R105 | months 83 | both 32.20% | higher end 32.20% | smaller fall 100.00% | neither 0.00% | median cagr diff -16.35% | median fall diff -8.27% | median end ratio 0.841
+15 bootstrap | R111 | months 83 | both 80.60% | higher end 80.70% | smaller fall 99.90% | neither 0.00% | median cagr diff 27.50% | median fall diff -6.46% | median end ratio 1.344
+# 15 bootstrap done in 2.3 s
+16 data | SOL | last 1h close 2026-11-25T07:00:00.000Z | last 4h close 2026-11-25T04:00:00.000Z | 1h bars in window 30 | 4h bars in window 7
+16 data | ZEC | last 1h close 2026-11-25T07:00:00.000Z | last 4h close 2026-11-25T04:00:00.000Z | 1h bars in window 30 | 4h bars in window 7
+16 data | NEAR | last 1h close 2026-11-25T07:00:00.000Z | last 4h close 2026-11-25T04:00:00.000Z | 1h bars in window 30 | 4h bars in window 7
+16 data | ADA | last 1h close 2026-11-25T07:00:00.000Z | last 4h close 2026-11-25T04:00:00.000Z | 1h bars in window 30 | 4h bars in window 7
+16 data | GALA | last 1h close 2026-11-25T07:00:00.000Z | last 4h close 2026-11-25T04:00:00.000Z | 1h bars in window 30 | 4h bars in window 7
+16 data | ARB | last 1h close 2026-11-25T07:00:00.000Z | last 4h close 2026-11-25T04:00:00.000Z | 1h bars in window 30 | 4h bars in window 7
+16 data | ETH | last 1h close 2026-11-25T07:00:00.000Z | last 4h close 2026-11-25T04:00:00.000Z | 1h bars in window 30 | 4h bars in window 7
+16 data | SUI | last 1h close 2026-11-25T07:00:00.000Z | last 4h close 2026-11-25T04:00:00.000Z | 1h bars in window 30 | 4h bars in window 7
+16 window 2026-11-24T00:00:00.000Z -> 2026-11-25T06:00:00.000Z = 30 h; hours with any 1h data: 30
+16 TRI | B | closed trades 0 | open 2 | stat {"signals":2,"orders":2,"skipMin":0,"skipMargin":0,"skipBad":0,"missed":0} | end 597.6294566757631 | fall 0.66%
+16 TRI event | 2026-11-24T16:00:00.000Z O bb ZEC 1795536000 -1 7.875 0 1
+16 TRI event | 2026-11-24T17:00:00.000Z F bb ZEC 1795536000 712.237524 0.11 781.8534999999999
+16 TRI event | 2026-11-24T20:00:00.000Z O bb ARB 1795550400 -1 3.9316899206561824 1 1
+16 TRI event | 2026-11-24T21:00:00.000Z F bb ARB 1795550400 0.109938008 1067 0.11362400000000002
+16 TRI open | {"bot":"bb","coin":"ZEC","dir":-1,"t":1795536000,"sigT":1795521600,"i0":14906,"entry":712.237524,"stop0":781.8534999999999,"stop":781.8534999999999,"dist":0.09774264013643844,"ext":704.29,"qty":0.11,"margin":19.58653191,"feeIn":0.03917306382,"fund":0.0018569556720000001,"fundRate":-0.00002283,"risk":7.657757359999993,"target":7.875,"N":0,"mult":1,"w":1}
+16 TRI open | {"bot":"bb","coin":"ARB","dir":-1,"t":1795550400,"sigT":1795536000,"i0":8054,"entry":0.109938008,"stop0":0.11362400000000002,"stop":0.11362400000000002,"dist":0.03352791329455426,"ext":0.10836,"qty":1067,"margin":9.023373425846154,"feeIn":0.058651927268,"fund":0.0029035534770000004,"fundRate":-0.00002466,"risk":3.932953464000014,"target":3.9316899206561824,"N":1,"mult":1,"w":0.5}
+16 R111 | B | closed trades 0 | open 2 | stat {"signals":2,"orders":2,"skipMin":0,"skipMargin":0,"skipBad":0,"missed":0} | end 597.1938043307241 | fall 0.77%
+16 R111 event | 2026-11-24T16:00:00.000Z O bb ZEC 1795536000 -1 8.74125 0 1
+16 R111 event | 2026-11-24T17:00:00.000Z F bb ZEC 1795536000 712.237524 0.13 781.8534999999999
+16 R111 event | 2026-11-24T20:00:00.000Z O bb ARB 1795550400 -1 4.363003232278973 1 1
+16 R111 event | 2026-11-24T21:00:00.000Z F bb ARB 1795550400 0.109938008 1184 0.11362400000000002
+16 R111 open | {"bot":"bb","coin":"ZEC","dir":-1,"t":1795536000,"sigT":1795521600,"i0":14906,"entry":712.237524,"stop0":781.8534999999999,"stop":781.8534999999999,"dist":0.09774264013643844,"ext":704.29,"qty":0.13,"margin":23.14771953,"feeIn":0.046295439060000006,"fund":0.0021945839760000004,"fundRate":-0.00002283,"risk":9.050076879999992,"target":8.74125,"N":0,"mult":1,"w":1}
+16 R111 open | {"bot":"bb","coin":"ARB","dir":-1,"t":1795550400,"sigT":1795536000,"i0":8054,"entry":0.109938008,"stop0":0.11362400000000002,"stop":0.11362400000000002,"dist":0.03352791329455426,"ext":0.10836,"qty":1184,"margin":10.012815497846153,"feeIn":0.065083300736,"fund":0.0032219375040000004,"fundRate":-0.00002466,"risk":4.364214528000016,"target":4.363003232278973,"N":1,"mult":1,"w":0.5}
+# 16 unseen done in 1.7 s
+
+# SUMMARY (verdict vs TRI)
+SUM | 01 baseline | A | full | R100: fall only | R105: fall only | R111: both better
+SUM | 01 baseline | A | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 01 baseline | B | full | R100: fall only | R105: fall only | R111: fall only
+SUM | 01 baseline | B | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 02 cost x2 | A | full | R100: fall only | R105: fall only | R111: both better
+SUM | 02 cost x2 | A | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 02 cost x2 | B | full | R100: fall only | R105: fall only | R111: fall only
+SUM | 02 cost x2 | B | 24-26 | R100: fall only | R105: both better | R111: both better
+SUM | 03 cost x3 | A | full | R100: fall only | R105: both better | R111: both better
+SUM | 03 cost x3 | A | 24-26 | R100: fall only | R105: both better | R111: both better
+SUM | 03 cost x3 | B | full | R100: fall only | R105: neither | R111: return only
+SUM | 03 cost x3 | B | 24-26 | R100: fall only | R105: both better | R111: both better
+SUM | 04 extraSlip 0.001 | A | full | R100: fall only | R105: fall only | R111: both better
+SUM | 04 extraSlip 0.001 | A | 24-26 | R100: fall only | R105: both better | R111: both better
+SUM | 04 extraSlip 0.001 | B | full | R100: fall only | R105: neither | R111: both better
+SUM | 04 extraSlip 0.001 | B | 24-26 | R100: fall only | R105: both better | R111: both better
+SUM | 05 delayH 1 | A | full | R100: fall only | R105: fall only | R111: both better
+SUM | 05 delayH 1 | A | 24-26 | R100: fall only | R105: both better | R111: both better
+SUM | 05 delayH 1 | B | full | R100: fall only | R105: neither | R111: neither
+SUM | 05 delayH 1 | B | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 06 delayH 2 | A | full | R100: fall only | R105: fall only | R111: both better
+SUM | 06 delayH 2 | A | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 06 delayH 2 | B | full | R100: fall only | R105: neither | R111: neither
+SUM | 06 delayH 2 | B | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 08 order reverse | A | full | R100: fall only | R105: fall only | R111: both better
+SUM | 08 order reverse | A | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 08 order reverse | B | full | R100: fall only | R105: fall only | R111: fall only
+SUM | 08 order reverse | B | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 09 order alpha | A | full | R100: fall only | R105: fall only | R111: both better
+SUM | 09 order alpha | A | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 09 order alpha | B | full | R100: fall only | R105: fall only | R111: both better
+SUM | 09 order alpha | B | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 10 countClosing | A | full | R100: fall only | R105: fall only | R111: both better
+SUM | 10 countClosing | A | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 10 countClosing | B | full | R100: fall only | R105: fall only | R111: fall only
+SUM | 10 countClosing | B | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 11 research conventions | A | full | R100: fall only | R105: fall only | R111: both better
+SUM | 11 research conventions | A | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 11 research conventions | B | full | R100: fall only | R105: fall only | R111: both better
+SUM | 11 research conventions | B | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 07 miss 0.1 median | A | full | R100: fall only | R105: fall only | R111: both better
+SUM | 07 miss 0.1 median | A | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 07 miss 0.1 median | B | full | R100: fall only | R105: fall only | R111: both better
+SUM | 07 miss 0.1 median | B | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 07b miss 0.1 paired median | A | full | R100: fall only | R105: fall only | R111: both better
+SUM | 07b miss 0.1 paired median | A | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 07b miss 0.1 paired median | B | full | R100: fall only | R105: fall only | R111: fall only
+SUM | 07b miss 0.1 paired median | B | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 13 drop SOL | A | full | R105: fall only | R111: both better
+SUM | 13 drop SOL | B | full | R105: fall only | R111: return only
+SUM | 13 drop ZEC | A | full | R105: fall only | R111: both better
+SUM | 13 drop ZEC | B | full | R105: neither | R111: neither
+SUM | 13 drop NEAR | A | full | R105: both better | R111: both better
+SUM | 13 drop NEAR | B | full | R105: fall only | R111: return only
+SUM | 13 drop ADA | A | full | R105: fall only | R111: both better
+SUM | 13 drop ADA | B | full | R105: neither | R111: return only
+SUM | 13 drop GALA | A | full | R105: both better | R111: return only
+SUM | 13 drop GALA | B | full | R105: fall only | R111: both better
+SUM | 13 drop ARB | A | full | R105: fall only | R111: both better
+SUM | 13 drop ARB | B | full | R105: fall only | R111: both better
+SUM | 13 drop ETH | A | full | R105: fall only | R111: both better
+SUM | 13 drop ETH | B | full | R105: neither | R111: return only
+SUM | 13 drop SUI | A | full | R105: fall only | R111: both better
+SUM | 13 drop SUI | B | full | R105: fall only | R111: fall only
+SUM | 14 drop best 10 | A | full | R100: fall only | R105: fall only | R111: both better
+SUM | 14 drop best 10 | A | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 14 drop best 10 | B | full | R100: fall only | R105: fall only | R111: fall only
+SUM | 14 drop best 10 | B | 24-26 | R100: fall only | R105: both better | R111: both better
+SUM | 14 drop best 25 | A | full | R100: fall only | R105: fall only | R111: both better
+SUM | 14 drop best 25 | A | 24-26 | R100: fall only | R105: fall only | R111: both better
+SUM | 14 drop best 25 | B | full | R100: fall only | R105: fall only | R111: fall only
+SUM | 14 drop best 25 | B | 24-26 | R100: fall only | R105: both better | R111: both better
+errors: 0

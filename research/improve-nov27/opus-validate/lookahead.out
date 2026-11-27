@@ -1,0 +1,162 @@
+A TRI live PHP1000 events in full run 26871 checks so far 3146726 mismatches 0
+A rule x1.11 live PHP1000 events in full run 26759 checks so far 7552298 mismatches 0
+A rule x1.00 flat events in full run 26714 checks so far 11402632 mismatches 0
+B cut 2025-09-17T19:18:26.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":1703,"improve-nov27 engine.js live account equity (rule)":1703}
+B cut 2025-09-17T19:18:26.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":1706,"improve-nov27 engine.js live account equity (rule)":1706}
+B cut 2021-07-31T00:14:48.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":3446,"improve-nov27 engine.js live account equity (rule)":3446}
+B cut 2021-07-31T00:14:48.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":3446,"improve-nov27 engine.js live account equity (rule)":3446}
+B cut 2024-04-09T06:28:57.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":4240,"improve-nov27 engine.js live account equity (rule)":4240}
+B cut 2024-04-09T06:28:57.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":4240,"improve-nov27 engine.js live account equity (rule)":4240}
+B cut 2024-05-23T12:56:20.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":5432,"improve-nov27 engine.js live account equity (rule)":5432}
+B cut 2024-05-23T12:56:20.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":5433,"improve-nov27 engine.js live account equity (rule)":5433}
+B cut 2023-11-23T09:29:27.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":6346,"improve-nov27 engine.js live account equity (rule)":6346}
+B cut 2023-11-23T09:29:27.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":6348,"improve-nov27 engine.js live account equity (rule)":6348}
+B cut 2021-03-27T17:30:09.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":8501,"improve-nov27 engine.js live account equity (rule)":8501}
+B cut 2021-03-27T17:30:09.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":8501,"improve-nov27 engine.js live account equity (rule)":8501}
+B cut 2025-06-13T00:50:35.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":9361,"improve-nov27 engine.js live account equity (rule)":9361}
+B cut 2025-06-13T00:50:35.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":9361,"improve-nov27 engine.js live account equity (rule)":9361}
+B cut 2025-08-26T01:53:43.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":10518,"improve-nov27 engine.js live account equity (rule)":10518}
+B cut 2025-08-26T01:53:43.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":10518,"improve-nov27 engine.js live account equity (rule)":10518}
+B cut 2021-07-24T12:42:16.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":12102,"improve-nov27 engine.js live account equity (rule)":12102}
+B cut 2021-07-24T12:42:16.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":12102,"improve-nov27 engine.js live account equity (rule)":12102}
+B cut 2020-07-03T10:40:57.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":13804,"improve-nov27 engine.js live account equity (rule)":13804}
+B cut 2020-07-03T10:40:57.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":13804,"improve-nov27 engine.js live account equity (rule)":13804}
+B cut 2022-09-29T16:10:41.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":14804,"improve-nov27 engine.js live account equity (rule)":14804}
+B cut 2022-09-29T16:10:41.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":14804,"improve-nov27 engine.js live account equity (rule)":14804}
+B cut 2020-09-25T14:43:51.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":15354,"improve-nov27 engine.js live account equity (rule)":15354}
+B cut 2020-09-25T14:43:51.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":15354,"improve-nov27 engine.js live account equity (rule)":15354}
+B cut 2021-11-07T18:58:33.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":16016,"improve-nov27 engine.js live account equity (rule)":16016}
+B cut 2021-11-07T18:58:33.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":16016,"improve-nov27 engine.js live account equity (rule)":16016}
+B cut 2021-11-05T16:55:23.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":16628,"improve-nov27 engine.js live account equity (rule)":16628}
+B cut 2021-11-05T16:55:23.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":16628,"improve-nov27 engine.js live account equity (rule)":16628}
+B cut 2020-06-21T17:44:04.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":18221,"improve-nov27 engine.js live account equity (rule)":18221}
+B cut 2020-06-21T17:44:04.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":18221,"improve-nov27 engine.js live account equity (rule)":18221}
+B cut 2023-05-06T00:07:58.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":18569,"improve-nov27 engine.js live account equity (rule)":18569}
+B cut 2023-05-06T00:07:58.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":18569,"improve-nov27 engine.js live account equity (rule)":18569}
+B cut 2022-03-13T05:13:00.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":20354,"improve-nov27 engine.js live account equity (rule)":20354}
+B cut 2022-03-13T05:13:00.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":20354,"improve-nov27 engine.js live account equity (rule)":20354}
+B cut 2026-05-17T07:43:14.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":21485,"improve-nov27 engine.js live account equity (rule)":21485}
+B cut 2026-05-17T07:43:14.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":21485,"improve-nov27 engine.js live account equity (rule)":21485}
+B cut 2022-06-06T04:39:30.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":22949,"improve-nov27 engine.js live account equity (rule)":22949}
+B cut 2022-06-06T04:39:30.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":22949,"improve-nov27 engine.js live account equity (rule)":22949}
+B cut 2023-02-16T10:47:23.000Z truncate {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":23999,"improve-nov27 engine.js live account equity (rule)":23999}
+B cut 2023-02-16T10:47:23.000Z corrupt {"sim.js signals":0,"sim.js coinTrades (closed by the cut)":0,"sim.js account equity":0,"improve-nov27 engine.js live account equity (tri)":24001,"improve-nov27 engine.js live account equity (rule)":24001}
+{
+ "A": {
+  "checks": 11402632,
+  "mismatches": 0,
+  "runs": 240,
+  "examples": []
+ },
+ "B": {
+  "sim.js signals": {
+   "checks": 310338,
+   "mismatches": 0,
+   "examples": []
+  },
+  "sim.js coinTrades (closed by the cut)": {
+   "checks": 53230,
+   "mismatches": 0,
+   "examples": []
+  },
+  "sim.js account equity": {
+   "checks": 260246,
+   "mismatches": 0,
+   "examples": []
+  },
+  "improve-nov27 engine.js live account equity (tri)": {
+   "checks": 1041026,
+   "mismatches": 24001,
+   "examples": [
+    {
+     "c": 1758136706,
+     "mode": "truncate",
+     "firstDiff": "2025-07-08T21:00:00.000Z"
+    },
+    {
+     "c": 1758136706,
+     "mode": "corrupt",
+     "firstDiff": "2025-09-17T17:00:00.000Z"
+    },
+    {
+     "c": 1627690488,
+     "mode": "truncate",
+     "firstDiff": "2021-05-19T13:00:00.000Z"
+    }
+   ],
+   "firstDiffHoursBeforeCut": [
+    1702,
+    2,
+    1739,
+    793,
+    1192,
+    1,
+    912,
+    1,
+    2153,
+    860,
+    1157,
+    1584,
+    1702,
+    999,
+    550,
+    662,
+    612,
+    1593,
+    347,
+    1784,
+    1131,
+    1464,
+    1050,
+    2
+   ]
+  },
+  "improve-nov27 engine.js live account equity (rule)": {
+   "checks": 1041026,
+   "mismatches": 24001,
+   "examples": [
+    {
+     "c": 1758136706,
+     "mode": "truncate",
+     "firstDiff": "2025-07-08T21:00:00.000Z"
+    },
+    {
+     "c": 1758136706,
+     "mode": "corrupt",
+     "firstDiff": "2025-09-17T17:00:00.000Z"
+    },
+    {
+     "c": 1627690488,
+     "mode": "truncate",
+     "firstDiff": "2021-05-19T13:00:00.000Z"
+    }
+   ],
+   "firstDiffHoursBeforeCut": [
+    1702,
+    2,
+    1739,
+    793,
+    1192,
+    1,
+    912,
+    1,
+    2153,
+    860,
+    1157,
+    1584,
+    1702,
+    999,
+    550,
+    662,
+    612,
+    1593,
+    347,
+    1784,
+    1131,
+    1464,
+    1050,
+    2
+   ]
+  }
+ }
+}
